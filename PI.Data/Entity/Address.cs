@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,11 @@ namespace PI.Data.Entity
 {
     public class Address:BaseEntity
     {
-        public string Country { get; set; } // TODO: Need to check enum or db entry - Hint: Localization
+        public Country Country { get; set; } 
+        public string ZipCode { get; set; }
         public string State { get; set; }
+        public string City { get; set; }
+        public string StreetAddress1 { get; set; }
+        public string StreetAddress2 { get; set; }
     }
 }

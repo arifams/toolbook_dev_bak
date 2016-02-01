@@ -34,6 +34,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PI.Web(1)", "PI.Web\", "{4F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Contract", "PI.Contract\PI.Contract.csproj", "{0BCEC1ED-5806-497E-A887-421B18F8D24A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Common", "PI.Common\PI.Common.csproj", "{3B127EC2-7A08-48BA-A78A-3FB148806A6D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +66,10 @@ Global
 		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B127EC2-7A08-48BA-A78A-3FB148806A6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B127EC2-7A08-48BA-A78A-3FB148806A6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B127EC2-7A08-48BA-A78A-3FB148806A6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B127EC2-7A08-48BA-A78A-3FB148806A6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
