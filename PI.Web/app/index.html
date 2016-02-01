@@ -101,14 +101,51 @@
                     </div>
                     <ul class="nav nav-sidebar">
                         <li ng-class="{ active  : isActive('/')}"><a href="#/"><i class="icon-home"></i><span>Dashboard</span></a></li>
-                        <li class="nav-parent" >
+                        <!--<li class="nav-parent" >
                             <a href="#"><i class="icon-bulb"></i><span>Mailbox</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Inbox</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Send Email</a></li>
                             </ul>
-                        </li>
+                        </li>-->
+
                         <li class="nav-parent">
+                            <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse">
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Add Shipment</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Print Label</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Track & Trace</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> View Overview</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Print Manifest</a></li>
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-parent">
+                            <a href="#"><i class="icon-bulb"></i><span>Billing & Invoicing</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse">
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Invoice</a></li>                                
+
+                            </ul>
+                        </li>
+
+                        <li class="nav-parent">
+                            <a href="#"><i class="icon-picture"></i><span>Manage Profile</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse">
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Profile Information</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> User Mnagement</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Division Management</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Cost Center Management</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Address Book</a></li>
+
+                            </ul>
+                        </li>
+                        <li ng-class="{ active  : isActive('/layout-api')}"><a href="#layout-api"><i class="icon-home"></i><span>Reports</span></a></li>
+
+
+
+
+                        <!--<li class="nav-parent">
                             <a href=""><i class="icon-screen-desktop"></i><span>UI Elements</span><span class="fa arrow"></span></a>
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/ui-buttons')}"><a href="#ui-buttons"> Buttons</a></li>
@@ -124,8 +161,11 @@
                                 <li ng-class="{ active  : isActive('/ui-typography')}"><a href="#ui-typography"> Typography</a></li>
                                 <li ng-class="{ active  : isActive('/ui-helperClasses')}"><a href="#ui-helperClasses"> Helper Classes</a></li>
                             </ul>
-                        </li>
-                        <li ng-class="{ active  : isActive('/layout-api')}"><a href="#layout-api"><i class="icon-layers"></i><span>Layouts</span></a></li>
+                        </li>-->
+                        <!--<li ng-class="{ active  : isActive('/layout-api')}"><a href="#layout-api"><i class="icon-layers"></i><span>Layouts</span></a></li>
+                        
+                        
+                        
                         <li class="nav-parent">
                             <a href=""><i class="icon-note"></i><span>Forms </span><span class="fa arrow"></span></a>
                             <ul class="children collapse">
@@ -195,7 +235,7 @@
                                 <li ng-class="{ active  : isActive('/extra-google')}"><a href="#extra-google"> Google Maps</a></li>
                                 <li ng-class="{ active  : isActive('/extra-vector')}"><a href="#extra-vector"> Vector Maps</a></li>
                             </ul>
-                        </li>
+                        </li>-->
                     </ul>
                     <!-- SIDEBAR WIDGET FOLDERS -->
                     <div class="sidebar-widgets">
@@ -239,10 +279,10 @@
                         <div class="topnav">
                             <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
                             <ul class="nav nav-icons">
-                                <li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
+                                <!--<li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
                                 <li><a href="mailbox.html"><span class="octicon octicon-mail-read"></span></a></li>
                                 <li><a href="#"><span class="octicon octicon-flame"></span></a></li>
-                                <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li>
+                                <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li>-->
                             </ul>
                         </div>
                     </div>
@@ -268,7 +308,7 @@
                             </li>
                             <!-- END USER DROPDOWN -->
                             <!-- BEGIN NOTIFICATION DROPDOWN -->
-                            <li class="dropdown" id="notifications-header">
+                            <!--<li class="dropdown" id="notifications-header">
                                 <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <i class="icon-bell"></i>
                                 <span class="badge badge-danger badge-header">6</span>
@@ -344,10 +384,10 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <!-- END NOTIFICATION DROPDOWN -->
                             <!-- BEGIN MESSAGES DROPDOWN -->
-                            <li class="dropdown" id="messages-header">
+                            <!--<li class="dropdown" id="messages-header">
                                 <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <i class="icon-paper-plane"></i>
                                 <span class="badge badge-primary badge-header">
@@ -427,7 +467,7 @@
                                         </a>
                                     </li>
                                 </ul>
-                            </li>
+                            </li>-->
                             <!-- END MESSAGES DROPDOWN -->
                             <!-- BEGIN USER DROPDOWN -->
                             <li class="dropdown" id="user-header">
@@ -443,7 +483,7 @@
                                         <a data-target="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
                                     </li>
                                     <li>
-                                        <a data-target="#"><i class="icon-settings"></i><span>Account Settings</span></a>
+                                        <a data-target="#"><i class="icon-settings"></i><span>Account Settings</span></a> 
                                     </li>
                                     <li>
                                         <a data-target="#"><i class="icon-logout"></i><span>Logout</span></a>
