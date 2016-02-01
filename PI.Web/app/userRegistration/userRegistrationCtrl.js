@@ -1,6 +1,15 @@
-﻿'user strict';
+﻿'use strict';
 
-(angular.module('newApp')
-  .controller('userRegistrationCtrl', function ($scope) {
-     
-  }))();
+
+(function(app){
+
+    app.controller('userRegistrationCtrl', ['$http',function () {
+        var vm = this;
+        vm.register = function (user) {
+
+            window.alert("test");
+        };
+    }]);
+
+})(angular.module('userRegistration', []));
+

@@ -1,11 +1,286 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title></title>
+    <title>
+        Registartion Page - Parcel International
+    </title>
 	<meta charset="utf-8" />
+    
+    <link href="../../global/css/style.css" rel="stylesheet">   
+    <link href="../../global/css/ui.css" rel="stylesheet">
+    <!-- BEGIN ANGULARJS STYLE -->
+   
+    <link href="../../css/angular-theme.css" rel="stylesheet" />
+    <!-- END ANGULARJS STYLE -->    
 
+   
+
+   
 </head>
-<body>
+<body ng-app="userRegistration" ng-controller="userRegistrationCtrl as userReg">
+    <div class="row">           
+        
+            <div class="col-sm-10">
+                <div class="panel">
+                    <div class="panel-content">
+                        <div class="col-md-6">
+                            <div class="panel panel-default no-bd">
+                                <div class="panel-header bg-dark">
+                                    <h2 class="panel-title">Welcome to <strong>Parcel International</strong> </h2>
+                                </div>
+                                <div class="panel-body bg-white">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+
+
+                                            <form role="form" novalidate class="form-validation" name="newUserRegisterForm" ng-submit="userReg.register(user)">
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Salutation *</label>
+                                                            <div class="option-group">
+                                                                <select id="salutation" name="salutation" class="salutation" required ng-model="user.salutation">
+                                                                    <option value="">Salutation</option>
+                                                                    <option value="MR">Mr</option>
+                                                                    <option value="MRS">Mrs</option>
+                                                                    <option value="MS">Ms</option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Firstname *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="firstname" class="form-control" minlength="3" placeholder="First Name" required ng-model="user.firstname">
+                                                                <i class="icon-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Middle Name *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="middlename" class="form-control" minlength="4" placeholder="Middle Name*" required ng-model="user.middlename">
+                                                                <i class="icon-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Lastname *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Last Name*" required ng-model="user.lastname">
+                                                                <i class="icon-user"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Email Address *</label>
+                                                            <div class="append-icon">
+                                                                <input type="email" name="email" class="form-control" placeholder="Email addrerss*" required ng-model="user.email">
+                                                                <i class="icon-envelope"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-3">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Phone *</label>
+                                                            <div class="option-group">
+                                                                <select id="salutation" name="salutation" class="salutation" required ng-model="user.contacttype">
+                                                                    <option value="">Phone</option>
+                                                                    <option value="Mobile">Mobile</option>
+                                                                    <option value="Landline">Land Line</option>                                                                   
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-9">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Contact Number *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile Number..." minlength="3" required ng-model="user.contact">
+                                                                <i class="icon-screen-smartphone"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Password</label>
+                                                            <div class="append-icon">
+                                                                <input type="password" name="password" id="Password *" class="form-control" placeholder="Between 4 and 16 characters" minlength="4" maxlength="16" required ng-model="user.password">
+                                                                <i class="icon-lock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Confirm Password *</label>
+                                                            <div class="append-icon">
+                                                                <input type="password" name="password2" id="password2" class="form-control" placeholder="Must be equal to your first password..." minlength="4" maxlength="16" required ng-model="user.confirmpassword">
+                                                                <i class="icon-lock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="icheck-inline">
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.individualtype"> Individual Account</label>
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.corporatetype"> Corporate Account</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Company Name *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company Name" minlength="4" maxlength="16" required ng-model="user.companyname">
+                                                                <i class="icon-lock"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Country *</label>
+                                                            <div class="option-group">
+                                                                <select id="country" name="country" class="country" required ng-model="user.country">
+                                                                    <option value="">Select Your Country</option>
+                                                                    <option value="con1">con1</option>
+                                                                    <option value="con2">con2</option>
+                                                                    <option value="con3">con3</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Postal/Zip Code *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="postalcode" id="postalcode" class="form-control" placeholder="Postal Code" minlength="4" required ng-model="user.postalcode">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Number *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="number" id="number" class="form-control" placeholder="Number" minlength="4" required ng-model="user.number">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Number *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="additionaldetails" id="additionalDetails" class="form-control" placeholder="Additiona Details" minlength="4" required ng-model="user.additionaldetails">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Street *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="street" id="street" class="form-control" placeholder="Street" minlength="4" maxlength="16" required ng-model="user.street">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">City *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="city" id="city" class="form-control" placeholder="City" minlength="4" maxlength="16" required ng-model="user.city">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">State *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="state" id="state" class="form-control" placeholder="State" minlength="4" maxlength="16" required ng-model="user.state">
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-6">
+                                                        <div class="form-group">
+
+                                                            <div class="option-group">
+                                                                <label for="terms" class="m-t-10">
+                                                                    <input type="checkbox" name="terms" id="terms" data-checkbox="icheckbox_square-blue" required ng-model="user.toc"/>
+                                                                    I accept the <a href="#">Terms and conditions</a>
+                                                                </label>
+                                                                <label><a href="#">Already a member try logging in</a></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="text-center  m-t-20">
+                                                    <input type="submit" class="btn btn-embossed btn-primary" ng-disabled="newUserRegisterForm.$invalid" value="Register"/>                                                    
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <script src="../../plugins/angular/angular.js"></script>
+    <script src="userRegistrationCtrl.js"></script>
 
 </body>
 </html>
