@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Service", "PI.Service\PI.Service.csproj", "{94950D65-91E5-42B4-A329-1F295DECA7FB}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Business.Test", "PI.Busi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Data", "PI.Data\PI.Data.csproj", "{B7D11311-92A2-407A-9000-2D63E1077D46}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PI.Web", "PI.Web\", "{4FEE0830-87BD-44E8-A826-97E159C6ED3C}"
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PI.Web(1)", "PI.Web\", "{4FEE0830-87BD-44E8-A826-97E159C6ED3C}"
 	ProjectSection(WebsiteProperties) = preProject
 		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
 		Debug.AspNetCompiler.VirtualPath = "/localhost_63874"
@@ -31,6 +31,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "PI.Web", "PI.Web\", "{4FEE0
 		VWDPort = "63874"
 		SlnRelativePath = "PI.Web\"
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Contract", "PI.Contract\PI.Contract.csproj", "{0BCEC1ED-5806-497E-A887-421B18F8D24A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,10 @@ Global
 		{4FEE0830-87BD-44E8-A826-97E159C6ED3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FEE0830-87BD-44E8-A826-97E159C6ED3C}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{4FEE0830-87BD-44E8-A826-97E159C6ED3C}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0BCEC1ED-5806-497E-A887-421B18F8D24A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
