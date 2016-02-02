@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using PI.Contract;
 using PI.Contract.DTOs.Customer;
+using PI.Business;
 
 namespace PI.Service.Controllers.User
 {
@@ -14,8 +15,8 @@ namespace PI.Service.Controllers.User
         [HttpPost]
         public IHttpActionResult CreateUser([FromBody]CustomerDto customer)
         {
-            //IHttpActionResult responce;
-
+            CustomerManagement customerManagement = new CustomerManagement();
+            customerManagement.SaveCustomer(customer);
             return null;
         }
         

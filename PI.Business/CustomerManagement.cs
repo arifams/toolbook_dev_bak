@@ -27,6 +27,7 @@ namespace PI.Business
                 if (customer.Id == 0)
                 {
                     Customer newCustomer = new Customer();
+                    newCustomer.FirstName = customer.FirstName;
                     newCustomer.CreatedDate = DateTime.Now;
                     newCustomer.CreatedBy = 1;//sessionHelper.Get<User>().LoginName; 
                     context.Customers.Add(newCustomer);
