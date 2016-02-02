@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\PI.Data\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +49,20 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PI.Common\PI.Common.csproj">
+      <Project>{3b127ec2-7a08-48ba-a78a-3fb148806a6d}</Project>
+      <Name>PI.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PI.Contract\PI.Contract.csproj">
+      <Project>{0bcec1ed-5806-497e-a887-421b18f8d24a}</Project>
+      <Name>PI.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PI.Data\PI.Data.csproj">
+      <Project>{b7d11311-92a2-407a-9000-2d63e1077d46}</Project>
+      <Name>PI.Data</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\OctoPack.3.0.53\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.53\tools\OctoPack.targets')" />
