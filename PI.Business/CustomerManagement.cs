@@ -28,6 +28,20 @@ namespace PI.Business
                 {
                     Customer newCustomer = new Customer();
                     newCustomer.FirstName = customer.FirstName;
+                    newCustomer.MiddleName = customer.MiddleName;
+                    newCustomer.LastName = customer.LastName;
+                    newCustomer.Salutation = customer.Salutation;
+                    newCustomer.Email = customer.Email;
+                    newCustomer.PhoneNumber = customer.PhoneNumber;
+                    newCustomer.MobileNumber = customer.MobileNumber;
+
+                    newCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
+                    newCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
+                    newCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
+                    newCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
+                    newCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
+                    newCustomer.CustomerAddress.City = customer.CustomerAddress.City;
+                    newCustomer.CustomerAddress.State = customer.CustomerAddress.State;
                     newCustomer.CreatedDate = DateTime.Now;
                     newCustomer.CreatedBy = 1;//sessionHelper.Get<User>().LoginName; 
                     context.Customers.Add(newCustomer);
@@ -43,16 +57,17 @@ namespace PI.Business
                     existingCustomer.Salutation = customer.Salutation;
                     existingCustomer.Email = customer.Email;
                     existingCustomer.PhoneNumber = customer.PhoneNumber;
-                    existingCustomer.MobileNumber = customer.PhoneNumber;
+                    existingCustomer.MobileNumber = customer.MobileNumber;
+                    existingCustomer.CreatedDate = DateTime.Now;
+                    existingCustomer.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
 
-                    // existingCustomer.CustomerAddress.Country = 
-                    // existingCustomer.CustomerAddress.Country =
-                    //existingCustomer.CustomerAddress.ZipCode =
-                    //existingCustomer.CustomerAddress.Number =
-                    //existingCustomer.CustomerAddress.StreetAddress1 =
-                    //existingCustomer.CustomerAddress.StreetAddress2 =
-                    //existingCustomer.CustomerAddress.City =
-                    //existingCustomer.CustomerAddress.State =
+                    existingCustomer.CustomerAddress.Country =  customer.CustomerAddress.Country;
+                    existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
+                    existingCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
+                    existingCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
+                    existingCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
+                    existingCustomer.CustomerAddress.City = customer.CustomerAddress.City;
+                    existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
                 }
                 context.SaveChanges();
             }
