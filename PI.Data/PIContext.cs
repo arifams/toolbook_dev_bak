@@ -10,11 +10,49 @@ namespace PI.Data
 {
     public class PIContext : DbContext
     {
+
+        /// <summary>
+        /// database context for the current thread
+        /// </summary>
+        [ThreadStatic]
+        private static PIContext context = null;
+
+        public DbSet<Customer> Customers { get; set; }
+        
+        
         public PIContext() : base("name=PIBookingConnectionString") 
         {
             
         }
 
-        public DbSet<Customer> Customers { get; set; }
+        public static PIContext Get()
+        {
+            if (context == null)
+            {
+                context = new PIContext();
+            }
+
+            return context;
+        }
+
+
+        public override int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
+
+        /// <summary>
+        /// Ensure that the context doesn't get disposed
+        /// if it is being reused by an inner method
+        /// </summary>
+        /// <param name="disposing"></param>
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+               base.Dispose(disposing);                
+            }
+
+        }
     }
 }
