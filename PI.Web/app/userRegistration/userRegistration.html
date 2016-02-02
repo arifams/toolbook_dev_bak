@@ -101,7 +101,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Phone *</label>
                                                             <div class="option-group">
-                                                                <select id="salutation" name="salutation" class="salutation" required ng-model="user.contacttype">
+                                                                <select id="contacttype" name="contacttype" class="contacttype" required ng-model="user.contacttype">
                                                                     <option value="">Phone</option>
                                                                     <option value="Mobile">Mobile</option>
                                                                     <option value="Landline">Land Line</option>                                                                   
@@ -149,8 +149,8 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="icheck-inline">
-                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.individualtype"> Individual Account</label>
-                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.corporatetype"> Corporate Account</label>
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.iscorporate" value="False"> Individual Account</label>
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.iscorporate" value="True"> Corporate Account</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -186,7 +186,7 @@
                                                 </div>
 
                                                 <div class="row">
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label class="control-label">Postal/Zip Code *</label>
                                                             <div class="append-icon">
@@ -194,8 +194,10 @@
 
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div>                                                    
+                                                </div>                                              
 
+                                                <div class="row">
                                                     <div class="col-sm-6">
                                                         <div class="form-group">
                                                             <label class="control-label">Number *</label>
@@ -205,25 +207,23 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
                                                     <div class="col-sm-6">
-                                                        <div class="form-group">
-                                                            <label class="control-label">Number *</label>
-                                                            <div class="append-icon">
-                                                                <input type="text" name="additionaldetails" id="additionalDetails" class="form-control" placeholder="Additiona Details" minlength="4" required ng-model="user.additionaldetails">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-sm-12">
                                                         <div class="form-group">
                                                             <label class="control-label">Street *</label>
                                                             <div class="append-icon">
                                                                 <input type="text" name="street" id="street" class="form-control" placeholder="Street" minlength="4" maxlength="16" required ng-model="user.street">
 
+                                                            </div>
+                                                        </div>
+                                                    </div>                                                    
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Additional Details *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="additionaldetails" id="additionalDetails" class="form-control" placeholder="Additiona Details" minlength="4" required ng-model="user.additionaldetails">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -266,7 +266,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="text-center  m-t-20">
-                                                    <input type="submit" class="btn btn-embossed btn-primary" ng-disabled="newUserRegisterForm.$invalid" value="Register"/>                                                    
+                                                    <input type="submit" class="btn btn-embossed btn-primary"  value="Register"/>                                                    
                                                 </div>
                                             </form>
                                         </div>
@@ -284,3 +284,5 @@
 
 </body>
 </html>
+
+

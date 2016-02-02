@@ -2,12 +2,48 @@
 
 
 (function(app){
+    
+    app.factory('registerUserService', function ($http) {            
+         
+        return{
+            createUser : function (newuser) {
+            return $http.post('http://localhost:5555/api/User/CreateUser',newuser);
+        }
+        };
+      
+        });
 
-    app.controller('userRegistrationCtrl', [function ($q,registerUserService) {
+    app.controller('userRegistrationCtrl', ['registerUserService', function (registerUserService) {
         var vm = this;
-        vm.register = function (user) {
-            //window.alert("test");
-            registerUserService.createUser(user)
+        vm.iscorporate={
+            name:'False'
+        }
+
+
+        vm.register = function (user) {          
+
+            var newUser = {               
+                Salutation:user.salutation,
+                FirstName: user.firstname,
+                LastName: user.lastname,
+                MiddleName: user.middlename,
+                Email: user.email,
+                PhoneNumber: user.contact,
+                Password: user.password,
+                ConfirmPassword: user.confirmpassword,
+                IsCorporateAccount: user.iscorporate,
+                CompanyName: user.companyname,
+                CustomerAddress:
+                {
+                   Country : user.country,
+                   ZipCode :user.postalcode,
+                   StreetAddress1 :user.street,
+                   StreetAddress2 :user.additionaldetails,
+                   City :user.city,
+                   State:user.state
+                }
+            }
+          registerUserService.createUser(newUser)
             .then(function (result)
             {
                 console.log("success");
@@ -18,17 +54,7 @@
             );
         };
     }]);
-
-    app.factory('registerUserService', function ($http, $q) {
-
-        var deferred = $q.defer();
-
-        this.createUser = function (user)
-        {
-             return $http.post('api/createConttroller', user);             
-
-        }
-    });
+        
 
 })(angular.module('userRegistration', []));
 

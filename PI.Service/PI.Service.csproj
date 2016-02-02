@@ -112,6 +112,10 @@
       <Project>{3b127ec2-7a08-48ba-a78a-3fb148806a6d}</Project>
       <Name>PI.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PI.Contract\PI.Contract.csproj">
+      <Project>{0bcec1ed-5806-497e-a887-421b18f8d24a}</Project>
+      <Name>PI.Contract</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -128,7 +132,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>63279</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:63279/</IISUrl>
+          <IISUrl>http://localhost:5555/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
