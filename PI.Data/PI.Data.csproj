@@ -54,6 +54,7 @@
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Customer.cs" />
     <Compile Include="Entity\Tenant.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
