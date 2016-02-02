@@ -15,5 +15,8 @@ namespace PI.Data.Entity
         public string City { get; set; }
         public string StreetAddress1 { get; set; }
         public string StreetAddress2 { get; set; }
+
+        // Navigation property
+        public IList<Customer> Customers { get; set; }
     }
 }
