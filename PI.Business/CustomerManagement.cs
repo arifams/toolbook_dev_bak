@@ -42,7 +42,7 @@ namespace PI.Business
                     existingCustomer.Salutation = customer.Salutation;
                     existingCustomer.Email = customer.Email;
                     existingCustomer.PhoneNumber = customer.PhoneNumber;
-                    //existingCustomer.MobileNumber = customer.PhoneNumber;
+                    existingCustomer.MobileNumber = customer.PhoneNumber;
 
                     // existingCustomer.CustomerAddress.Country = 
                     // existingCustomer.CustomerAddress.Country =
