@@ -15,7 +15,8 @@
 
     app.controller('userRegistrationCtrl', ['registerUserService', function (registerUserService) {
         var vm = this;      
-        vm.contacttype= 'Phone';
+        vm.contacttype = 'Phone';
+        // vm.user.isCorporateAccount.value = 'False';
 
         vm.register = function (user) {         
 
