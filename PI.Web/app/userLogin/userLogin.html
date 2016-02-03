@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Themes Lab - Creative Laborator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="" name="description" />
+    <meta content="themes-lab" name="author" />
+    <link rel="shortcut icon" href="../assets/global/images/favicon.png">
+    <link href="../../global/css/style.css" rel="stylesheet">
+    <link href="../../global/css/ui.css" rel="stylesheet">
+    <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
+</head>
+<body class="account separate-inputs" data-page="login" ng-app="userLogin" ng-controller="userLoginCtrl as userLog">
+    <!-- BEGIN LOGIN BOX -->
+    <div class="container" id="login-block">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="account-wall">
+                    <i class="user-img icons-faces-users-03"></i>
+                    <form class="form-signin" action="dashboard.html" role="form" ng-submit="userLog.login(user)">
+                        <div class="append-icon">
+                            <input type="text" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
+                            <i class="icon-user"></i>
+                        </div>
+                        <div class="append-icon m-b-20">
+                            <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password">
+                            <i class="icon-lock"></i>
+                        </div>
+                        <input type="submit" id="submit-form" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left" value="SignIn"/>                        
+                        <div class="clearfix">
+                            <p class="pull-left m-t-20"><a id="password" href="#">Forgot password?</a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
+                        </div>
+                    </form>
+                    
+                </div>
+            </div>
+        </div>
+        <p class="account-copyright">
+            <span>Copyright © 2015 </span><span>Parcel International</span>.<span>All rights reserved.</span>
+        </p>
+        
+    </div>
+    <script src="../../global/plugins/jquery/jquery-1.11.1.min.js"></script>
+    <script src="../../global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../global/plugins/gsap/main-gsap.min.js"></script>
+    <script src="../../global/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../global/plugins/backstretch/backstretch.min.js"></script>
+    <script src="../../global/plugins/bootstrap-loading/lada.min.js"></script>
+    <script src="../../global/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="../../global/js/pages/login-v1.js"></script>
+    <script src="../../plugins/angular/angular.js"></script>
+    <script src="userLoginCtrl.js"></script>
+</body>
+</html>
