@@ -9,5 +9,11 @@ namespace PI.Data.Entity
     public class Tenant : BaseEntity
     {
         public string TenancyName { get; set; }
+
+        #region Navigation Property
+
+        public Company Company { get; set; } 
+
+        #endregion
     }
 }
