@@ -14,36 +14,12 @@
         });
 
     app.controller('userRegistrationCtrl', ['registerUserService', function (registerUserService) {
-        var vm = this;
-        vm.iscorporate={
-            name:'False'
-        }
+        var vm = this;      
+        vm.contacttype= 'Phone';
 
+        vm.register = function (user) {         
 
-        vm.register = function (user) {          
-
-            var newUser = {               
-                Salutation:user.salutation,
-                FirstName: user.firstname,
-                LastName: user.lastname,
-                MiddleName: user.middlename,
-                Email: user.email,
-                PhoneNumber: user.contact,
-                Password: user.password,
-                ConfirmPassword: user.confirmpassword,
-                IsCorporateAccount: user.iscorporate,
-                CompanyName: user.companyname,
-                CustomerAddress:
-                {
-                   Country : user.country,
-                   ZipCode :user.postalcode,
-                   StreetAddress1 :user.street,
-                   StreetAddress2 :user.additionaldetails,
-                   City :user.city,
-                   State:user.state
-                }
-            }
-          registerUserService.createUser(newUser)
+            registerUserService.createUser(user)
             .then(function (result)
             {
                 console.log("success");
