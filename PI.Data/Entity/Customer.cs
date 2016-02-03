@@ -1,6 +1,7 @@
 ﻿using PI.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,13 @@ namespace PI.Data.Entity
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
 
+        public long AddressId { get; set; }
+
+        #region Navigation property
+
+        [ForeignKey("AddressId")]
         public Address CustomerAddress { get; set; }
+
+        #endregion
     }
 }
