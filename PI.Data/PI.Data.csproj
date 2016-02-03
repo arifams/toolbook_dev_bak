@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="Entity\Address.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\Customer.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Migrations\Configuration.cs" />
