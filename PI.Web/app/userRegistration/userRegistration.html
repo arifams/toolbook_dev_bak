@@ -13,9 +13,6 @@
     <link href="../../css/angular-theme.css" rel="stylesheet" />
     <!-- END ANGULARJS STYLE -->    
 
-   
-
-   
 </head>
 <body ng-app="userRegistration" ng-controller="userRegistrationCtrl as userReg">
     <div class="row">           
@@ -33,28 +30,30 @@
                                         <div class="col-md-12 col-sm-12 col-xs-12">
 
 
-                                            <form role="form" novalidate class="form-validation" name="newUserRegisterForm" ng-submit="userReg.register(user)">
+                                            <form role="form" novalidate  name="newUserRegisterForm" ng-submit="userReg.register(user)">
                                                 <div class="row">
                                                     <div class="col-sm-3">
                                                         <div class="form-group">
                                                             <label class="control-label">Salutation *</label>
                                                             <div class="option-group">
-                                                                <select id="salutation" name="salutation" class="salutation" required ng-model="user.salutation">
+                                                                <select id="salutation" name="salutation" class="salutation" required ng-model="user.Salutation">
                                                                     <option value="">Salutation</option>
                                                                     <option value="MR">Mr</option>
                                                                     <option value="MRS">Mrs</option>
                                                                     <option value="MS">Ms</option>
 
                                                                 </select>
+                                                             
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-9">
-                                                        <div class="form-group">
+                                                        <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.firstname.$invalid && !newUserRegisterForm.firstname.$pristine }">
                                                             <label class="control-label">Firstname *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="firstname" class="form-control" minlength="3" placeholder="First Name" required ng-model="user.firstname">
+                                                                <input type="text" name="firstname" class="form-control" minlength="3"  placeholder="First Name" required ng-model="user.FirstName">
                                                                 <i class="icon-user"></i>
+                                                                <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>                                                           
                                                             </div>
                                                         </div>
                                                     </div>
@@ -63,11 +62,12 @@
 
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div class="form-group">
+                                                        <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.middlename.$invalid && !newUserRegisterForm.middlename.$pristine }">
                                                             <label class="control-label">Middle Name *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="middlename" class="form-control" minlength="4" placeholder="Middle Name*" required ng-model="user.middlename">
+                                                                <input type="text" name="middlename" class="form-control" minlength="4" placeholder="Middle Name*" required ng-model="user.MiddleName">
                                                                 <i class="icon-user"></i>
+                                                                <p ng-show="userForm.middlename.$invalid && !userForm.middlename.$pristine" class="help-block">Middle Name is required.</p>   
                                                             </div>
                                                         </div>
                                                     </div>
@@ -75,23 +75,26 @@
 
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div class="form-group">
+                                                        <div class="form-group"  ng-class="{ 'has-error' : newUserRegisterForm.lastname.$invalid && !newUserRegisterForm.lastname.$pristine }">
                                                             <label class="control-label">Lastname *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Last Name*" required ng-model="user.lastname">
+                                                                <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Last Name*" required ng-model="user.LastName">
                                                                 <i class="icon-user"></i>
+                                                                <p ng-show="userForm.lastname.$invalid" class="help-block">Middle Name is required.</p>   
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-sm-12">
-                                                        <div class="form-group">
+                                                        <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine }">
                                                             <label class="control-label">Email Address *</label>
                                                             <div class="append-icon">
-                                                                <input type="email" name="email" class="form-control" placeholder="Email addrerss*" required ng-model="user.email">
+                                                                <input type="email" name="email" class="form-control" placeholder="Email addrerss*" required ng-model="user.Email">
                                                                 <i class="icon-envelope"></i>
+                                                                <p ng-show="newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine" class="help-block">Enter a valid email.</p>
                                                             </div>
+
                                                         </div>
                                                     </div>
 
@@ -101,21 +104,30 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Phone *</label>
                                                             <div class="option-group">
-                                                                <select id="contacttype" name="contacttype" class="contacttype" required ng-model="user.contacttype">
-                                                                    <option value="">Phone</option>
-                                                                    <option value="Mobile">Mobile</option>
-                                                                    <option value="Landline">Land Line</option>                                                                   
+                                                                <select id="contacttype" name="contacttype" class="contacttype" required ng-model="userReg.contacttype" >    
+                                                                                                                           
+                                                                    <option value="Mobile" >Mobile</option>
+                                                                    <option value="Phone">Phone</option>                                                                   
 
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div class="col-sm-9">
+                                                    <div class="col-sm-9" ng-if="userReg.contacttype=='Phone'">
                                                         <div class="form-group">
                                                             <label class="control-label">Contact Number *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile Number..." minlength="3" required ng-model="user.contact">
+                                                                <input type="text" name="mobile" class="form-control" placeholder="Phone Number..." minlength="3" required ng-model="user.PhoneNumber">
+                                                                <i class="icon-screen-smartphone"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9" ng-if="userReg.contacttype=='Mobile'">
+                                                        <div class="form-group">
+                                                            <label class="control-label">Contact Number *</label>
+                                                            <div class="append-icon">
+                                                                <input type="text" name="mobile" class="form-control" placeholder="Mobile Number..." minlength="3" required ng-model="user.MobileNumber">
                                                                 <i class="icon-screen-smartphone"></i>
                                                             </div>
                                                         </div>
@@ -126,7 +138,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Password</label>
                                                             <div class="append-icon">
-                                                                <input type="password" name="password" id="Password *" class="form-control" placeholder="Between 4 and 16 characters" minlength="4" maxlength="16" required ng-model="user.password">
+                                                                <input type="password" name="password" id="Password *" class="form-control" placeholder="Between 4 and 16 characters" minlength="4" maxlength="16" required ng-model="user.Password">
                                                                 <i class="icon-lock"></i>
                                                             </div>
                                                         </div>
@@ -137,7 +149,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Confirm Password *</label>
                                                             <div class="append-icon">
-                                                                <input type="password" name="password2" id="password2" class="form-control" placeholder="Must be equal to your first password..." minlength="4" maxlength="16" required ng-model="user.confirmpassword">
+                                                                <input type="password" name="password2" id="password2" class="form-control" placeholder="Must be equal to your first password..." minlength="4" maxlength="16" required ng-model="user.ConfirmPassword">
                                                                 <i class="icon-lock"></i>
                                                             </div>
                                                         </div>
@@ -149,8 +161,8 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="icheck-inline">
-                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.iscorporate" value="False"> Individual Account</label>
-                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.iscorporate" value="True"> Corporate Account</label>
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" value="False"> Individual Account</label>
+                                                                    <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" value="True"> Corporate Account</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -162,7 +174,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Company Name *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company Name" minlength="4" maxlength="16" required ng-model="user.companyname">
+                                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company Name" minlength="4" maxlength="16" required ng-model="user.CompanyName">
                                                                 <i class="icon-lock"></i>
                                                             </div>
                                                         </div>
@@ -174,7 +186,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Country *</label>
                                                             <div class="option-group">
-                                                                <select id="country" name="country" class="country" required ng-model="user.country">
+                                                                <select id="country" name="country" class="country" required ng-model="user.CustomerAddress.Country">
                                                                     <option value="">Select Your Country</option>
                                                                     <option value="con1">con1</option>
                                                                     <option value="con2">con2</option>
@@ -190,7 +202,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Postal/Zip Code *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="postalcode" id="postalcode" class="form-control" placeholder="Postal Code" minlength="4" required ng-model="user.postalcode">
+                                                                <input type="text" name="postalcode" id="postalcode" class="form-control" placeholder="Postal Code" minlength="4" required ng-model="user.CustomerAddress.ZipCode">
 
                                                             </div>
                                                         </div>
@@ -202,7 +214,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Number *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="number" id="number" class="form-control" placeholder="Number" minlength="4" required ng-model="user.number">
+                                                                <input type="text" name="number" id="number" class="form-control" placeholder="Number" minlength="4" required ng-model="user.CustomerAddress.Number">
 
                                                             </div>
                                                         </div>
@@ -211,7 +223,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Street *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="street" id="street" class="form-control" placeholder="Street" minlength="4" maxlength="16" required ng-model="user.street">
+                                                                <input type="text" name="street" id="street" class="form-control" placeholder="Street" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.StreetAddress1">
 
                                                             </div>
                                                         </div>
@@ -223,7 +235,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">Additional Details *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="additionaldetails" id="additionalDetails" class="form-control" placeholder="Additiona Details" minlength="4" required ng-model="user.additionaldetails">
+                                                                <input type="text" name="additionaldetails" id="additionalDetails" class="form-control" placeholder="Additiona Details" minlength="4" required ng-model="user.CustomerAddress.StreetAddress2">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -233,7 +245,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">City *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="city" id="city" class="form-control" placeholder="City" minlength="4" maxlength="16" required ng-model="user.city">
+                                                                <input type="text" name="city" id="city" class="form-control" placeholder="City" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.City">
 
                                                             </div>
                                                         </div>
@@ -244,7 +256,7 @@
                                                         <div class="form-group">
                                                             <label class="control-label">State *</label>
                                                             <div class="append-icon">
-                                                                <input type="text" name="state" id="state" class="form-control" placeholder="State" minlength="4" maxlength="16" required ng-model="user.state">
+                                                                <input type="text" name="state" id="state" class="form-control" placeholder="State" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.State">
 
                                                             </div>
                                                         </div>
