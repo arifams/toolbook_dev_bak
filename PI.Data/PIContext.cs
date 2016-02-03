@@ -18,7 +18,7 @@ namespace PI.Data
         private static PIContext context = null;
 
         public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<webpages_Membership> UserProfiles { get; set; }
+        public DbSet<webpages_Membership> Membership { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Company> Companies { get; set; }

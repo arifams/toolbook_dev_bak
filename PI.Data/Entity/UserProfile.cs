@@ -23,7 +23,6 @@ namespace PI.Data.Entity
         public long UserId { get; set; }
         public DateTime CreateDate { get; set; }
         public string ConfirmationToken { get; set; }
-        public string ConfirmationToken { get; set; }
 
         public bool IsConfirmed { get; set; }
         public DateTime LastPasswordFailureDate { get; set; }
