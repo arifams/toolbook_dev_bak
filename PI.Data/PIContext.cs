@@ -17,6 +17,8 @@ namespace PI.Data
         [ThreadStatic]
         private static PIContext context = null;
 
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<webpages_Membership> UserProfiles { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
 

@@ -57,6 +57,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Entity\UserProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
