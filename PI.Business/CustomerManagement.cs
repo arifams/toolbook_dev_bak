@@ -26,24 +26,30 @@ namespace PI.Business
             {
                 if (customer.Id == 0)
                 {
-                    Customer newCustomer = new Customer();
-                    newCustomer.FirstName = customer.FirstName;
-                    newCustomer.MiddleName = customer.MiddleName;
-                    newCustomer.LastName = customer.LastName;
-                    newCustomer.Salutation = customer.Salutation;
-                    newCustomer.Email = customer.Email;
-                    newCustomer.PhoneNumber = customer.PhoneNumber;
-                    newCustomer.MobileNumber = customer.MobileNumber;
-
-                    newCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
-                    newCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
-                    newCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
-                    newCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
-                    newCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
-                    newCustomer.CustomerAddress.City = customer.CustomerAddress.City;
-                    newCustomer.CustomerAddress.State = customer.CustomerAddress.State;
-                    newCustomer.CreatedDate = DateTime.Now;
-                    newCustomer.CreatedBy = 1;//sessionHelper.Get<User>().LoginName; 
+                    Customer newCustomer = new Customer()
+                    {
+                        FirstName = customer.FirstName,
+                        MiddleName = customer.MiddleName,
+                        LastName = customer.LastName,
+                        Salutation = customer.Salutation,
+                        Email = customer.Email,
+                        PhoneNumber = customer.PhoneNumber, 
+                        MobileNumber = customer.MobileNumber,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                        CustomerAddress = new Address()
+                        {
+                            Country = customer.CustomerAddress.Country,
+                            ZipCode = customer.CustomerAddress.ZipCode,
+                            Number = customer.CustomerAddress.Number,
+                            StreetAddress1 = customer.CustomerAddress.StreetAddress1,
+                            StreetAddress2 = customer.CustomerAddress.StreetAddress2,
+                            City = customer.CustomerAddress.City,
+                            State = customer.CustomerAddress.State,
+                            CreatedDate = DateTime.Now,
+                            CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                        }
+                    };
                     context.Customers.Add(newCustomer);
                 }
                 else
