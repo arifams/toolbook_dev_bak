@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebMatrix.WebData;
 
 namespace PI.Business
 {
@@ -51,6 +52,13 @@ namespace PI.Business
                         }
                     };
                     context.Customers.Add(newCustomer);
+
+
+                    // TODO : temp code.
+
+                    WebSecurity.CreateUserAndAccount("uname", "pwd");
+
+                    //
                 }
                 else
                 {

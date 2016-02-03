@@ -14,6 +14,7 @@ namespace PI.Service.Controllers.User
     {
         [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
         [HttpPost]
+        [InitializeSimpleMembershipAttribute]
         public IHttpActionResult CreateUser([FromBody]CustomerDto customer)
         {
             CustomerManagement customerManagement = new CustomerManagement();

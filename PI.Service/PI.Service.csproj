@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\PI.Data\bin\Debug\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
@@ -76,7 +80,9 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="WebMatrix.WebData, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>C:\Users\Harshan\AppData\Roaming\Skype\My Skype Received Files\WebMatrix.WebData.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">
@@ -99,6 +105,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -131,6 +138,10 @@
     <ProjectReference Include="..\PI.Contract\PI.Contract.csproj">
       <Project>{0bcec1ed-5806-497e-a887-421b18f8d24a}</Project>
       <Name>PI.Contract</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PI.Data\PI.Data.csproj">
+      <Project>{b7d11311-92a2-407a-9000-2d63e1077d46}</Project>
+      <Name>PI.Data</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
