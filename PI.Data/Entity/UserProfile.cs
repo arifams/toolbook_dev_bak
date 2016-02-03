@@ -18,7 +18,6 @@ namespace PI.Data.Entity
 
     public class webpages_Membership
     {
-
         [Key]
         public long UserId { get; set; }
         public DateTime CreateDate { get; set; }
@@ -33,5 +32,25 @@ namespace PI.Data.Entity
         public string PasswordVerificationToken { get; set; }
         public DateTime PasswordVerificationTokenExpirationDate { get; set; }
     }
+
+    public class webpages_Roles
+    {
+        [Key]
+        public long RoleId { get; set; }
+        public string RoleName { get; set; }
+    }
+
+    public class webpages_UsersInRoles
+    {
+        [Key]
+        public long UserId { get; set; }
+        [Key]
+        public long RoleId { get; set; }
+
+        public webpages_Roles webpages_Roles { get; set; }
+        public UserProfile UserProfile { get; set; }
+    }
+
+
 
 }
