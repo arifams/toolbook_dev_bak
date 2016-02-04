@@ -24,7 +24,7 @@
                     <form role="form" novalidate name="newUserRegisterForm" ng-submit="userReg.register(user)">
                         
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group">
                                     <label class="control-label">Salutation *</label>
                                     <div class="option-group">
@@ -38,13 +38,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-9">
-                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.firstname.$invalid && !newUserRegisterForm.firstname.$pristine }">
+                            <div class="col-sm-8">
+                                <div class="form-group" ng-class="{ 'has-error' :newUserRegisterForm.firstname.$error.required && newUserRegisterForm.firstname.$dirty}">
                                     <label class="control-label">Firstname *</label>
                                     <div class="append-icon">
-                                        <input type="text" name="firstname"  class="form-control form-white" minlength="3" placeholder="First Name" required ng-model="user.FirstName" required autofocus>
+                                        <input type="text" name="firstname"  class="form-control form-white" minlength="3" placeholder="First Name" required ng-model="user.FirstName" autofocus>
                                         <i class="icon-user"></i>
-                                        <p ng-show="userForm.name.$invalid && !userForm.name.$pristine" class="help-block">You name is required.</p>
+                                        <p ng-show="newUserRegisterForm.firstname.$error.required && newUserRegisterForm.firstname.$dirty" class="help-block">First name is required.</p>
                                     </div>
                                 </div>
                             </div>
@@ -53,12 +53,12 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.middlename.$invalid && !newUserRegisterForm.middlename.$pristine }">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.middlename.$error.required && newUserRegisterForm.middlename.$dirty }">
                                     <label class="control-label">Middle Name *</label>
                                     <div class="append-icon">
                                         <input type="text" name="middlename" class="form-control form-white" minlength="4" placeholder="Middle Name*" required ng-model="user.MiddleName">
                                         <i class="icon-user"></i>
-                                        <p ng-show="userForm.middlename.$invalid && !userForm.middlename.$pristine" class="help-block">Middle Name is required.</p>
+                                        <p ng-show="newUserRegisterForm.middlename.$error.required && newUserRegisterForm.middlename.$dirty " class="help-block">Middle Name is required.</p>
                                     </div>
                                 </div>
                             </div>
@@ -66,24 +66,25 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.lastname.$invalid && !newUserRegisterForm.lastname.$pristine }">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.lastname.$error.required && newUserRegisterForm.lastname.$dirty }">
                                     <label class="control-label">Lastname *</label>
                                     <div class="append-icon">
                                         <input type="text" name="lastname" class="form-control form-white" minlength="4" placeholder="Last Name*" required ng-model="user.LastName">
                                         <i class="icon-user"></i>
-                                        <p ng-show="userForm.lastname.$invalid" class="help-block">Middle Name is required.</p>
+                                        <p ng-show="newUserRegisterForm.lastname.$error.required && newUserRegisterForm.lastname.$dirty" class="help-block">Last Name is required.</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine }">
+                                <div class="form-group" ng-class="{ 'has-error' : (newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine) || (newUserRegisterForm.email.$error.required && newUserRegisterForm.email.$dirty)}">
                                     <label class="control-label">Email Address *</label>
                                     <div class="append-icon">
                                         <input type="email" name="email" class="form-control form-white" placeholder="Email addrerss*" required ng-model="user.Email">
                                         <i class="icon-envelope"></i>
-                                        <p ng-show="newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                                        <p ng-show="newUserRegisterForm.email.$invalid && !newUserRegisterForm.email.$pristine && !newUserRegisterForm.email.$error.required" class="help-block">Enter a valid email.</p>
+                                        <p ng-show="newUserRegisterForm.email.$error.required && newUserRegisterForm.email.$dirty" class="help-block">Email is required</p>
                                     </div>
 
                                 </div>
@@ -105,43 +106,50 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-9" ng-show="userReg.contacttype=='Phone'">
+                            <div class="col-sm-9" ng-show="userReg.contacttype=='Phone'" ng-class="{ 'has-error' : newUserRegisterForm.phone.$error.required && newUserRegisterForm.phone.$dirty }">
                                 <div class="form-group">
                                     <label class="control-label">Contact Number *</label>
                                     <div class="append-icon">
-                                        <input type="text" name="mobile" class="form-control form-white" placeholder="Phone Number..." minlength="3" required ng-model="user.PhoneNumber">
+                                        <input type="text" name="phone" class="form-control form-white" placeholder="Phone Number..." minlength="3" required ng-model="user.PhoneNumber">
                                         <i class="icon-screen-smartphone"></i>
+                                        <p ng-show="newUserRegisterForm.phone.$error.required && newUserRegisterForm.phone.$dirty" class="help-block">Phone Number is required</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-9" ng-show="userReg.contacttype=='Mobile'">
+                            <div class="col-sm-9" ng-show="userReg.contacttype=='Mobile'" ng-class="{ 'has-error' : newUserRegisterForm.mobile.$error.required && newUserRegisterForm.mobile.$dirty }">
                                 <div class="form-group">
                                     <label class="control-label">Contact Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="mobile" class="form-control form-white" placeholder="Mobile Number..." minlength="3" required ng-model="user.MobileNumber">
                                         <i class="icon-screen-smartphone"></i>
+                                        <p ng-show="newUserRegisterForm.mobile.$error.required && newUserRegisterForm.mobile.$dirty" class="help-block">Mobile Number is required</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : (newUserRegisterForm.password.$error.required && newUserRegisterForm.password.$dirty) || ((newUserRegisterForm.password.$error.minlength || newUserRegisterForm.password.$error.maxlength)&& newUserRegisterForm.password.$dirty) || (!newUserRegisterForm.password.$error.required && !newUserRegisterForm.password.$error.minlength && !newUserRegisterForm.password.$error.maxlength && newUserRegisterForm.password.$error.pattern && newUserRegisterForm.password.$dirty) }" >
                                     <label class="control-label">Password</label>
                                     <div class="append-icon">
-                                        <input type="password" name="password" id="Password *" class="form-control form-white" placeholder="Between 4 and 16 characters" minlength="4" maxlength="16" required ng-model="user.Password">
+                                        <input type="password" name="password" id="Password" class="form-control form-white" placeholder="Between 4 and 16 characters" ng-minlength="8" ng-maxlength="20" maxlength="20" required ng-model="user.Password"  ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
                                         <i class="icon-lock"></i>
+                                        <p ng-show="newUserRegisterForm.password.$error.required && newUserRegisterForm.password.$dirty" class="help-block">Password is required</p>
+                                        <p ng-show="!newUserRegisterForm.password.$error.required && (newUserRegisterForm.password.$error.minlength||newUserRegisterForm.password.$error.maxlength) && newUserRegisterForm.password.$dirty" class="help-block">Passwords must be between 8 and 20 characters.</p>
+                                        <p ng-show="!newUserRegisterForm.password.$error.required && !newUserRegisterForm.password.$error.minlength && !newUserRegisterForm.password.$error.maxlength && newUserRegisterForm.password.$error.pattern && newUserRegisterForm.password.$dirty" class="help-block">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{'has-error': (!newUserRegisterForm.password_c.$error.required && newUserRegisterForm.password_c.$error.noMatch && newUserRegisterForm.password_c.$dirty) || (newUserRegisterForm.password_c.$error.required && newUserRegisterForm.password_c.$dirty)}">
                                     <label class="control-label">Confirm Password *</label>
                                     <div class="append-icon">
-                                        <input type="password" name="password2" id="password2" class="form-control form-white" placeholder="Must be equal to your first password..." minlength="4" maxlength="16" required ng-model="user.ConfirmPassword">
+                                        <input type="password" name="password_c" id="password_c" class="form-control form-white" placeholder="Must be equal to your first password..." minlength="4" maxlength="16" required ng-model="user.ConfirmPassword" valid-password-c>
                                         <i class="icon-lock"></i>
+                                        <p ng-show="newUserRegisterForm.password_c.$error.required && newUserRegisterForm.password_c.$dirty" class="help-block">Please confirm your password.</p>
+                                        <p ng-show="!newUserRegisterForm.password_c.$error.required && newUserRegisterForm.password_c.$error.noMatch && newUserRegisterForm.password_c.$dirty" class="help-block">Passwords do not match.</p>
                                     </div>
                                 </div>
                             </div>
@@ -152,17 +160,18 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="icheck-inline">
-                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" value="False" > Individual Account</label>
-                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" value="True"> Corporate Account</label>
-                                        </div>
+                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" ng-value="False"  > Individual Account</label>                                            
+                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" ng-value="True"> Corporate Account</label>
+                                          </div>
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-12" ng-show="user.isCorporateAccount">
-                                <div class="form-group">
+                            <div class="col-sm-12" ng-if="user.isCorporateAccount">
+                                <div class="form-group"  >
                                     <label class="control-label">Company Name *</label>
                                     <div class="append-icon">
                                         <input type="text" name="companyname" id="companyname" class="form-control form-white" placeholder="Company Name" minlength="4" maxlength="16" required ng-model="user.CompanyName">
@@ -174,7 +183,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group"  >
                                     <label class="control-label">Country *</label>
                                     <div class="option-group">
                                         <select id="country" name="country" class="country" required ng-model="user.CustomerAddress.Country">
@@ -190,11 +199,12 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.postalcode.$error.required && newUserRegisterForm.postalcode.$dirty }">
                                     <label class="control-label">Postal/Zip Code *</label>
                                     <div class="append-icon">
                                         <input type="text" name="postalcode" id="postalcode" class="form-control form-white" placeholder="Postal Code" minlength="4" required ng-model="user.CustomerAddress.ZipCode">
-
+                                       
+                                         <p ng-show="newUserRegisterForm.postalcode.$error.required && newUserRegisterForm.postalcode.$dirty" class="help-block">Postal is required</p>
                                     </div>
                                 </div>
                             </div>
@@ -202,20 +212,20 @@
 
                         <div class="row">
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.number.$error.required && newUserRegisterForm.number.$dirty }">
                                     <label class="control-label">Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="number" id="number" class="form-control form-white" placeholder="Number" minlength="4" required ng-model="user.CustomerAddress.Number">
-
+                                        <p ng-show="newUserRegisterForm.number.$error.required && newUserRegisterForm.number.$dirty" class="help-block">Number is required</p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.street.$error.required && newUserRegisterForm.street.$dirty }" >
                                     <label class="control-label">Street *</label>
                                     <div class="append-icon">
                                         <input type="text" name="street" id="street" class="form-control form-white" placeholder="Street" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.StreetAddress1">
-
+                                        <p ng-show="newUserRegisterForm.street.$error.required && newUserRegisterForm.street.$dirty" class="help-block">Number is required</p>
                                     </div>
                                 </div>
                             </div>
@@ -224,31 +234,31 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="control-label">Additional Details *</label>
+                                    <label class="control-label">Additional Details </label>
                                     <div class="append-icon">
-                                        <input type="text" name="additionaldetails" id="additionalDetails" class="form-control form-white" placeholder="Additiona Details" minlength="4" required ng-model="user.CustomerAddress.StreetAddress2">
+                                        <input type="text" name="additionaldetails" id="additionalDetails" class="form-control form-white" placeholder="Additiona Details" minlength="4"  ng-model="user.CustomerAddress.StreetAddress2">
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.city.$error.required && newUserRegisterForm.city.$dirty }">
                                     <label class="control-label">City *</label>
                                     <div class="append-icon">
                                         <input type="text" name="city" id="city" class="form-control form-white" placeholder="City" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.City">
-
+                                        <p ng-show="newUserRegisterForm.city.$error.required && newUserRegisterForm.city.$dirty" class="help-block">Number is required</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <div class="form-group">
+                                <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.state.$error.required && newUserRegisterForm.state.$dirty }">
                                     <label class="control-label">State *</label>
                                     <div class="append-icon">
                                         <input type="text" name="state" id="state" class="form-control form-white" placeholder="State" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.State">
-
+                                        <p ng-show="newUserRegisterForm.state.$error.required && newUserRegisterForm.state.$dirty" class="help-block">Number is required</p>
                                     </div>
                                 </div>
                             </div>
