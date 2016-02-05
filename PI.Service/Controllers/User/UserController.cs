@@ -21,6 +21,16 @@ namespace PI.Service.Controllers.User
             customerManagement.SaveCustomer(customer);
             return null;
         }
+
+
+        [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
+        [HttpPost]
+        //[InitializeSimpleMembershipAttribute]
+        public string LoginUser([FromBody]CustomerDto customer)
+        {
+            CustomerManagement customerManagement = new CustomerManagement();
+            return customerManagement.VerifyUserLogin(customer);
+        }
         
     }
 }
