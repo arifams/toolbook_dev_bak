@@ -80,7 +80,7 @@ $(function() {
                 window.location.href = "dashboard.html";
             }, 2000);
         });
-        $.backstretch(["../assets/global/images/gallery/login.jpg"], {
+        $.backstretch(["../../global/images/gallery/login.jpg"], {
             fade: 600,
             duration: 4000
         });
@@ -150,7 +150,7 @@ $(function() {
         /* Hide / Show Background Image */
         $('#image-cb').change(function() {
             if ($(this).is(":checked")) {
-                $.backstretch(["../assets/global/images/gallery/login.jpg"], {
+                $.backstretch(["../../global/images/gallery/login.jpg"], {
                     fade: 600,
                     duration: 4000
                 });
@@ -160,7 +160,7 @@ $(function() {
         /* Add / Remove Slide Image */
         $('#slide-cb').change(function() {
             if ($(this).is(":checked")) {
-                $.backstretch(["../assets/global/images/gallery/login4.jpg", "../assets/global/images/gallery/login3.jpg", "../assets/global/images/gallery/login2.jpg", "../assets/global/images/gallery/login.jpg"], {
+                $.backstretch(["../assets/global/images/gallery/login4.jpg", "../assets/global/images/gallery/login3.jpg", "../assets/global/images/gallery/login2.jpg", "../../global/images/gallery/login.jpg"], {
                     fade: 600,
                     duration: 4000
                 });
@@ -230,7 +230,7 @@ $(function() {
     if ($('body').data('page') == 'signup') {
 
         var form = $(".form-signup");
-        $.backstretch(["../assets/global/images/gallery/login.jpg"], {
+        $.backstretch(["../../global/images/gallery/login.jpg"], {
             fade: 600,
             duration: 4000
         });
@@ -297,7 +297,7 @@ $(function() {
         /* Hide / Show Background Image */
         $('#image-cb').change(function() {
             if ($(this).is(":checked")) {
-                $.backstretch(["../assets/global/images/gallery/login.jpg"], {
+                $.backstretch(["../../global/images/gallery/login.jpg"], {
                     fade: 600,
                     duration: 4000
                 });
@@ -307,7 +307,7 @@ $(function() {
         /* Add / Remove Slide Image */
         $('#slide-cb').change(function() {
             if ($(this).is(":checked")) {
-                $.backstretch(["../assets/global/images/gallery/login4.jpg", "../assets/global/images/gallery/login3.jpg", "../assets/global/images/gallery/login2.jpg", "../assets/global/images/gallery/login.jpg"], {
+                $.backstretch(["../assets/global/images/gallery/login4.jpg", "../assets/global/images/gallery/login3.jpg", "../assets/global/images/gallery/login2.jpg", "../../global/images/gallery/login.jpg"], {
                     fade: 600,
                     duration: 4000
                 });
