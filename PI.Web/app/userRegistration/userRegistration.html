@@ -297,6 +297,13 @@
                         <div class="text-center  m-t-20">
                             <input type="submit" class="btn btn-embossed btn-primary" value="Register" ng-disabled="newUserRegisterForm.$invalid" />                            
                         </div>
+
+                        <div class="form-group" ng-show="userLog.loginInvalid">
+                            <div class="alert alert-warning">
+                                Please use different email address
+                            </div>
+                        </div>
+
                     </form>
 
                 </div>
