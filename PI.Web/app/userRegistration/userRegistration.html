@@ -107,7 +107,7 @@
 
                             <div class="col-sm-9" ng-show="userReg.contacttype=='Phone'" ng-class="{ 'has-error' : newUserRegisterForm.phone.$error.required && newUserRegisterForm.phone.$dirty }">
                                 <div class="form-group">
-                                    <label class="control-label">Contact Number *</label>
+                                    <label class="control-label">Phone Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="phone" class="form-control form-white" placeholder="Phone Number..."
                                                minlength="3" required ng-model="user.PhoneNumber" ng-pattern="/^[0-9()+-]*$/">
@@ -122,7 +122,7 @@
                             </div>
                             <div class="col-sm-9" ng-show="userReg.contacttype=='Mobile'" ng-class="{ 'has-error' : newUserRegisterForm.mobile.$error.required && newUserRegisterForm.mobile.$dirty }">
                                 <div class="form-group">
-                                    <label class="control-label">Contact Number *</label>
+                                    <label class="control-label">Mobile Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="mobile" class="form-control form-white"
                                                placeholder="Mobile Number..." minlength="3" required ng-model="user.MobileNumber"
