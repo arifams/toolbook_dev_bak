@@ -36,6 +36,7 @@
             .then(function (result)
             {
                 console.log("success");
+                window.location = "http://localhost:63874/app/index.html";
             },
             function (error) {
                 console.log("failed");

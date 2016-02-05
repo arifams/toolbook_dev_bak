@@ -15,18 +15,17 @@ namespace PI.Service.Controllers.User
         [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
         [HttpPost]
         //[InitializeSimpleMembershipAttribute]
-        public IHttpActionResult CreateUser([FromBody]CustomerDto customer)
+        public int CreateUser([FromBody]CustomerDto customer)
         {
             CustomerManagement customerManagement = new CustomerManagement();
-            customerManagement.SaveCustomer(customer);
-            return null;
+            return customerManagement.SaveCustomer(customer);
         }
 
 
         [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
         [HttpPost]
         //[InitializeSimpleMembershipAttribute]
-        public string LoginUser([FromBody]CustomerDto customer)
+        public int LoginUser([FromBody]CustomerDto customer)
         {
             CustomerManagement customerManagement = new CustomerManagement();
             return customerManagement.VerifyUserLogin(customer);
