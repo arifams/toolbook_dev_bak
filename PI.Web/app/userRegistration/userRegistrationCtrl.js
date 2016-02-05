@@ -42,8 +42,8 @@
             .then(function (result)
             {
                 console.log("success");
-                //window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
-                window.location = "http://localhost:63874/app/index.html";
+                window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
+                //window.location = "http://localhost:63874/app/index.html";
 
             },
             function (error) {
