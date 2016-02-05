@@ -28,8 +28,7 @@
                                 <div class="form-group">
                                     <label class="control-label">Salutation *</label>
                                     <div class="option-group">
-                                        <select id="salutation" name="salutation" class="salutation" required ng-model="user.Salutation">
-                                            <option value="">Salutation</option>
+                                        <select id="salutation" name="salutation" class="salutation" required ng-model="userReg.user.Salutation">
                                             <option value="MR">Mr</option>
                                             <option value="MRS">Mrs</option>
                                             <option value="MS">Ms</option>
@@ -160,8 +159,8 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="icheck-inline">
-                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" ng-value="False"  > Individual Account</label>                                            
-                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="user.isCorporateAccount" ng-value="True"> Corporate Account</label>
+                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="userReg.user.isCorporateAccount" value="False"> Individual Account</label>                                            
+                                            <label><input type="radio" name="radio2" data-radio="iradio_square-blue" ng-model="userReg.user.isCorporateAccount" value="True"> Corporate Account</label>
                                           </div>
                                        
                                     </div>
@@ -170,7 +169,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-12" ng-if="user.isCorporateAccount">
+                            <div class="col-sm-12" ng-if="userReg.user.isCorporateAccount">
                                 <div class="form-group"  >
                                     <label class="control-label">Company Name *</label>
                                     <div class="append-icon">
@@ -286,13 +285,13 @@
                 </div>
             </div>
         </div>
-        <p class="account-copyright">
+        <!--<p class="account-copyright">
             <span>Copyright © 2016 </span><span>Parcel International</span>.<span>All rights reserved.</span>
-        </p>
+        </p>-->
         
     </div>
     <!-- END LOCKSCREEN BOX -->
-    <script src="../../global/plugins/jquery/jquery-1.11.1.min.js"></script>    
+    <!--<script src="../../global/plugins/jquery/jquery-1.11.1.min.js"></script>    
     <script src="../../global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
     <script src="../../global/plugins/gsap/main-gsap.min.js"></script>
     <script src="../../global/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -302,7 +301,7 @@
     <script src="../../global/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
     <script src="../../global/js/plugins.js"></script>
-    <script src="../../global/js/pages/login-v1.js"></script>
+    <script src="../../global/js/pages/login-v1.js"></script>-->
     <script src="../../plugins/angular/angular.js"></script>
     <script src="userRegistrationCtrl.js"></script>
 </body>
