@@ -110,7 +110,7 @@
                                     <label class="control-label">Phone Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="phone" class="form-control form-white" placeholder="Phone Number..."
-                                               minlength="3" required ng-model="user.PhoneNumber" ng-pattern="/^[0-9()+-]*$/">
+                                               minlength="3" ng-model="user.PhoneNumber" ng-pattern="/^[0-9()+-]*$/">
                                         <i class="icon-screen-smartphone"></i>
                                         <p ng-show="newUserRegisterForm.phone.$error.required && 
                                            newUserRegisterForm.phone.$dirty" class="help-block">Phone Number is required</p>
@@ -125,7 +125,7 @@
                                     <label class="control-label">Mobile Number *</label>
                                     <div class="append-icon">
                                         <input type="text" name="mobile" class="form-control form-white"
-                                               placeholder="Mobile Number..." minlength="3" required ng-model="user.MobileNumber"
+                                               placeholder="Mobile Number..." minlength="3" ng-model="user.MobileNumber"
                                                ng-pattern ="/^[0-9()+-]*$/">
                                         <i class="icon-screen-smartphone"></i>
                                         <p ng-show="newUserRegisterForm.mobile.$error.required && newUserRegisterForm.mobile.$dirty" 
@@ -185,7 +185,8 @@
                                 <div class="form-group"  >
                                     <label class="control-label">Company Name *</label>
                                     <div class="append-icon">
-                                        <input type="text" name="companyname" id="companyname" class="form-control form-white" placeholder="Company Name" minlength="4" maxlength="16" required ng-model="user.CompanyName">
+                                        <input type="text" name="companyname" id="companyname" class="form-control form-white" placeholder="Company Name" minlength="4"
+                                               maxlength="16" ng-model="user.CompanyName" ng-required="userReg.user.isCorporateAccount == 'True'">
                                         <i class="icon-lock"></i>
                                     </div>
                                 </div>
@@ -284,7 +285,8 @@
 
                                     <div class="option-group">
                                         <label for="terms" class="m-t-10">
-                                            <input type="checkbox" name="terms" id="terms" data-checkbox="icheckbox_square-blue" required ng-model="user.toc" />
+                                            <input type="checkbox" name="terms" id="terms" data-checkbox="icheckbox_square-blue" 
+                                                   required ng-model="user.toc" />
                                             I accept the <a href="#">Terms and conditions</a>
                                         </label>
                                         <label><a href="../userLogin/userLogin.html">Already a member try logging in</a></label>
@@ -293,7 +295,7 @@
                             </div>
                         </div>
                         <div class="text-center  m-t-20">
-                            <input type="submit" class="btn btn-embossed btn-primary" value="Register" />                            
+                            <input type="submit" class="btn btn-embossed btn-primary" value="Register" ng-disabled="newUserRegisterForm.$invalid" />                            
                         </div>
                     </form>
 

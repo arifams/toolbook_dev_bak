@@ -31,7 +31,9 @@
         ['registerUserService' ,function (registerUserService) {
         var vm = this;      
         vm.contacttype = 'Phone';
-        // vm.user.isCorporateAccount.value = 'False';
+        vm.user = {};
+        vm.user.Salutation = "MR";
+        vm.user.isCorporateAccount = "True";
 
         vm.register = function (user) {         
 
