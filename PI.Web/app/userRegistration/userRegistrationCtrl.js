@@ -31,10 +31,7 @@
         ['registerUserService' ,function (registerUserService) {
         var vm = this;      
         vm.contacttype = 'Phone';
-
-        vm.user = {};
-        vm.user.Salutation = "MR";
-        vm.user.isCorporateAccount = "True";
+        // vm.user.isCorporateAccount.value = 'False';
 
         vm.register = function (user) {         
 
@@ -43,7 +40,7 @@
             {
                 console.log("success");
                 window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
-                //window.location = "http://localhost:63874/app/index.html";
+               // window.location = "http://localhost:63874/app/index.html";
 
             },
             function (error) {
