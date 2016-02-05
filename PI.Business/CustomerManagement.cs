@@ -93,7 +93,7 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
-                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserName == customer.Email && 
+                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserName == customer.UserName && 
                     c.Password == customer.Password);
 
                 if(existingCustomer != null)
