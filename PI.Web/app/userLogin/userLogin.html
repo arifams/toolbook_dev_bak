@@ -18,21 +18,28 @@
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="account-wall">
                     <i class="user-img icons-faces-users-03"></i>
-                    <form class="form-signin" action="dashboard.html" role="form" ng-submit="userLog.login(user)">
-                        <div class="append-icon">
-                            <input type="text" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
-                            <i class="icon-user"></i>
+                    <form class="form-signin"  role="form" ng-submit="userLog.login(user)" name="loginForm">
+                        <div class="form-group"  ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
+                            <div class="append-icon">
+                                <input type="text" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
+                                <i class="icon-user"></i>
+                                <p ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="help-block">UserName is required.</p>
+                            </div>
                         </div>
-                        <div class="append-icon m-b-20">
-                            <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password">
-                            <i class="icon-lock"></i>
-                        </div>
-                        <input type="submit" id="submit-form" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left" value="SignIn"/>                        
-                        <div class="clearfix">
-                            <p class="pull-left m-t-20"><a id="password" href="#">Forgot password?</a></p>
-                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
-                        </div>
-                    </form>
+
+                           <div class="form-group" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
+                            <div class="append-icon m-b-20">
+                                <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password">
+                                <i class="icon-lock"></i>
+                                <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block">Password is required.</p>
+                            </div>
+                            </div>
+                            <input type="submit" id="submit-form" class="btn btn-lg btn-danger " data-style="expand-left" value="login" />
+                            <div class="clearfix">
+                                <p class="pull-left m-t-20"><a id="password" href="#">Forgot password?</a></p>
+                                <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
+                            </div>
+</form>
                     
                 </div>
             </div>
