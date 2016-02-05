@@ -24,6 +24,16 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
+                var existingCustomer = context.Customers.FirstOrDefault(c => c.UserName == customer.Email);
+
+                if (existingCustomer != null)
+                {
+                    return -1;
+                }
+            }
+
+            using (var context = PIContext.Get())
+            {
                 if (customer.Id == 0)
                 {
                     Customer newCustomer = new Customer()
@@ -37,7 +47,7 @@ namespace PI.Business
                         MobileNumber = customer.MobileNumber,
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                        UserName = customer.UserName,
+                        UserName = customer.Email,
                         Password = customer.Password,
                         CustomerAddress = new Address()
                         {

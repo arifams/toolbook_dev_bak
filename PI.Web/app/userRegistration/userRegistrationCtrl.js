@@ -7,7 +7,9 @@
          
         return{
             createUser : function (newuser) {
-            return $http.post('http://localhost:5555/api/User/CreateUser',newuser);
+                return $http.post('http://pibooking.azurewebsites.net/api/User/CreateUser', newuser);
+               // return $http.post('http://localhost:5555/api/User/CreateUser', newuser);
+
         }
         };
       
@@ -25,18 +27,31 @@
         }
     })
 
-    app.controller('userRegistrationCtrl', ['registerUserService', function (registerUserService) {
+    app.controller('userRegistrationCtrl', 
+        ['registerUserService' ,function (registerUserService) {
         var vm = this;      
         vm.contacttype = 'Phone';
-        // vm.user.isCorporateAccount.value = 'False';
+        vm.user = {};
+        vm.user.Salutation = "MR";
+        vm.user.isCorporateAccount = "True";
+        vm.showEmailError = false;
 
         vm.register = function (user) {         
 
             registerUserService.createUser(user)
             .then(function (result)
             {
+                debugger;
+                if (result.data == "-1") {
+                    vm.showEmailError = true;
+                }
+                else {
+                     window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
+                    //window.location = "http://localhost:63874/app/index.html";
+                }
                 console.log("success");
-                window.location = "http://localhost:63874/app/index.html";
+               
+
             },
             function (error) {
                 console.log("failed");
