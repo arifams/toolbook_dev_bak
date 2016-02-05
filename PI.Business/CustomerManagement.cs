@@ -24,7 +24,7 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
-                var existingCustomer = context.Customers.FirstOrDefault(c => c.UserName == customer.UserName);
+                var existingCustomer = context.Customers.FirstOrDefault(c => c.UserName == customer.Email);
 
                 if (existingCustomer != null)
                 {
