@@ -37,7 +37,7 @@ namespace PI.Business
                         MobileNumber = customer.MobileNumber,
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                        UserName = customer.UserName,
+                        UserName = customer.Email,
                         Password = customer.Password,
                         CustomerAddress = new Address()
                         {

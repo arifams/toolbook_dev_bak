@@ -8,6 +8,8 @@
         return{
             createUser : function (newuser) {
                 return $http.post('http://pibooking.azurewebsites.net/api/User/CreateUser', newuser);
+                //return $http.post('http://localhost:5555/api/User/CreateUser', newuser);
+
         }
         };
       
@@ -38,6 +40,8 @@
             {
                 console.log("success");
                 window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
+                //window.location = "http://localhost:63874/app/index.html";
+
             },
             function (error) {
                 console.log("failed");
