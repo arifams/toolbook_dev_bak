@@ -12,7 +12,7 @@ namespace PI.Service.Controllers.User
 {
     public class UserController : ApiController
     {
-        [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         //[InitializeSimpleMembershipAttribute]
         public int CreateUser([FromBody]CustomerDto customer)
@@ -22,7 +22,7 @@ namespace PI.Service.Controllers.User
         }
 
 
-        [EnableCors(origins: "http://localhost:63874", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         //[InitializeSimpleMembershipAttribute]
         public int LoginUser([FromBody]CustomerDto customer)
@@ -30,6 +30,13 @@ namespace PI.Service.Controllers.User
             CustomerManagement customerManagement = new CustomerManagement();
             return customerManagement.VerifyUserLogin(customer);
         }
-        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        //[InitializeSimpleMembershipAttribute]
+        public int TestApi()
+        {
+            return 1;
+        }
     }
 }

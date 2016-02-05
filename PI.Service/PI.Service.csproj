@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+    <None Include="Properties\PublishProfiles\PIBooking.pubxml" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
