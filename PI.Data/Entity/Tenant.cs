@@ -12,7 +12,7 @@ namespace PI.Data.Entity
 
         #region Navigation Property
 
-        public Company Company { get; set; } 
+        //public Company Company { get; set; } 
 
         #endregion
     }

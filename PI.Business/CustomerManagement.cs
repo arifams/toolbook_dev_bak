@@ -38,6 +38,8 @@ namespace PI.Business
                         MobileNumber = customer.MobileNumber,
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                        UserName = customer.UserName,
+                        Password = customer.Password,
                         CustomerAddress = new Address()
                         {
                             Country = customer.CustomerAddress.Country,
@@ -56,7 +58,7 @@ namespace PI.Business
 
                     // TODO : temp code.
 
-                    WebSecurity.CreateUserAndAccount("uname", "pwd");
+                   // WebSecurity.CreateUserAndAccount("uname", "pwd");
 
                     //
                 }
@@ -84,6 +86,21 @@ namespace PI.Business
                     existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
                 }
                 context.SaveChanges();
+            }
+        }
+
+        public string VerifyUserLogin(CustomerDto customer)
+        {
+            using (var context = PIContext.Get())
+            {
+                var existingCustomer = context.Customers.Single(c => c.UserName == customer.UserName && 
+                    c.Password == customer.Password);
+
+                if(existingCustomer != null)
+                {
+                    return "Success";
+                }
+                return "Incorrect UserName/Password";
             }
         }
     }

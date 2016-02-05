@@ -21,6 +21,9 @@ namespace PI.Data.Entity
 
         public long AddressId { get; set; }
 
+        public string UserName { get; set; } // TODO: To be removed
+        public string Password { get; set; } // TODO: To be removed
+
         #region Navigation property
 
         [ForeignKey("AddressId")]
