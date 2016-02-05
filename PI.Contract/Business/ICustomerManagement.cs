@@ -9,7 +9,7 @@ namespace PI.Contract.Business
 {
     public interface ICustomerManagement
     {
-        string VerifyUserLogin(CustomerDto customer);
+        int VerifyUserLogin(CustomerDto customer);
 
        // PI.Contract.DTOs.Customer GetCustomerById(long id);
 

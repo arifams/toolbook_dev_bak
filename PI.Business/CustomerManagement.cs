@@ -21,7 +21,7 @@ namespace PI.Business
             }
         }
 
-        public void SaveCustomer(CustomerDto customer)
+        public int SaveCustomer(CustomerDto customer)
         {
             using (var context = PIContext.Get())
             {
@@ -55,7 +55,6 @@ namespace PI.Business
                     };
                     context.Customers.Add(newCustomer);
 
-
                     // TODO : temp code.
 
                    // WebSecurity.CreateUserAndAccount("uname", "pwd");
@@ -87,20 +86,22 @@ namespace PI.Business
                 }
                 context.SaveChanges();
             }
+
+            return 1;
         }
 
-        public string VerifyUserLogin(CustomerDto customer)
+        public int VerifyUserLogin(CustomerDto customer)
         {
             using (var context = PIContext.Get())
             {
-                var existingCustomer = context.Customers.Single(c => c.UserName == customer.UserName && 
+                var existingCustomer = context.Customers.Single(c => c.UserName == customer.Email && 
                     c.Password == customer.Password);
 
                 if(existingCustomer != null)
                 {
-                    return "Success";
+                    return 1;
                 }
-                return "Incorrect UserName/Password";
+                return 0;
             }
         }
     }
