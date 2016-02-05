@@ -42,9 +42,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WebMatrix.WebData">
-      <HintPath>C:\Users\Harshan\AppData\Roaming\Skype\My Skype Received Files\WebMatrix.WebData.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomerManagement.cs" />
