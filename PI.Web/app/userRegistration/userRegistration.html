@@ -227,7 +227,7 @@
                                 <div class="form-group" ng-class="{ 'has-error' : newUserRegisterForm.number.$error.required && newUserRegisterForm.number.$dirty }">
                                     <label class="control-label">Number *</label>
                                     <div class="append-icon">
-                                        <input type="text" name="number" id="number" class="form-control form-white" placeholder="Number" minlength="4" required ng-model="user.CustomerAddress.Number">
+                                        <input type="number" name="number" id="number" class="form-control form-white" placeholder="Number" minlength="4" required ng-model="user.CustomerAddress.Number">
                                         <p ng-show="newUserRegisterForm.number.$error.required && newUserRegisterForm.number.$dirty" class="help-block">Number is required</p>
                                     </div>
                                 </div>
@@ -238,7 +238,8 @@
                                     <div class="append-icon">
                                         <input type="text" name="street" id="street" class="form-control form-white"
                                                placeholder="Street Address 1" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.StreetAddress1">
-                                        <p ng-show="newUserRegisterForm.street.$error.required && newUserRegisterForm.street.$dirty" class="help-block">Number is required</p>
+                                        <p ng-show="newUserRegisterForm.street.$error.required && 
+                                           newUserRegisterForm.street.$dirty" class="help-block">Street Address 1 is required</p>
                                     </div>
                                 </div>
                             </div>
@@ -262,7 +263,8 @@
                                     <label class="control-label">City *</label>
                                     <div class="append-icon">
                                         <input type="text" name="city" id="city" class="form-control form-white" placeholder="City" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.City">
-                                        <p ng-show="newUserRegisterForm.city.$error.required && newUserRegisterForm.city.$dirty" class="help-block">Number is required</p>
+                                        <p ng-show="newUserRegisterForm.city.$error.required && 
+                                           newUserRegisterForm.city.$dirty" class="help-block">City is required</p>
                                     </div>
                                 </div>
                             </div>
@@ -273,7 +275,8 @@
                                     <label class="control-label">State *</label>
                                     <div class="append-icon">
                                         <input type="text" name="state" id="state" class="form-control form-white" placeholder="State" minlength="4" maxlength="16" required ng-model="user.CustomerAddress.State">
-                                        <p ng-show="newUserRegisterForm.state.$error.required && newUserRegisterForm.state.$dirty" class="help-block">Number is required</p>
+                                        <p ng-show="newUserRegisterForm.state.$error.required && 
+                                           newUserRegisterForm.state.$dirty" class="help-block">State is required</p>
                                     </div>
                                 </div>
                             </div>
