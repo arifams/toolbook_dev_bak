@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
+using PI.Data;
 using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PI.Data
+namespace PI.Business
 {
     public class ApplicationUserManager : UserManager<ApplicationUser>
     {
