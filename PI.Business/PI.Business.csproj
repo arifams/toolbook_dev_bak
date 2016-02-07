@@ -106,6 +106,10 @@
       <Project>{b7d11311-92a2-407a-9000-2d63e1077d46}</Project>
       <Name>PI.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\PI.Notifications\PI.Notifications.csproj">
+      <Project>{005de140-7f51-4a1f-8860-374bad17b020}</Project>
+      <Name>PI.Notifications</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\OctoPack.3.0.53\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.53\tools\OctoPack.targets')" />

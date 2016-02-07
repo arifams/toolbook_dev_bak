@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using PI.Data;
 using PI.Data.Entity.Identity;
+using PI.Service.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,21 @@ namespace PI.Business
         {
             var appDbContext = context.Get<ApplicationDbContext>();
             var appUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(appDbContext));
+
+            #region For Confirmation email
+
+            appUserManager.EmailService = new EmailService();
+
+            var dataProtectionProvider = options.DataProtectionProvider;
+            if (dataProtectionProvider != null)
+            {
+                appUserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
+                {
+                    //Code for email confirmation and reset password life time
+                    TokenLifespan = TimeSpan.FromDays(7)
+                };
+            }
+            #endregion
 
             return appUserManager;
         }
