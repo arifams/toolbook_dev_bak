@@ -500,7 +500,7 @@ $(function() {
                     },
                     number: {
                         required: 'Enter Number',
-                        number:'Enteter valid Number'
+                        number:'Enter valid Number'
                        
                     },
                     street: {
