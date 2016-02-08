@@ -20,10 +20,8 @@ Copyright (C) Microsoft Corporation. All rights reserved.
     <SourceWebPhysicalPath>$(MSBuildThisFileDirectory)</SourceWebPhysicalPath>
     <SourceWebVirtualPath>/PI.Web</SourceWebVirtualPath>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <SourceWebProject>
-    </SourceWebProject>
-    <SourceWebMetabasePath>
-    </SourceWebMetabasePath>
+    <SourceWebProject>F:\GitWorkspaces\PI\PI_BookingTool\PI.Web</SourceWebProject>
+    <SourceWebMetabasePath>/IISExpress/7.5/LM/W3SVC/14/ROOT</SourceWebMetabasePath>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
