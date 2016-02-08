@@ -342,85 +342,170 @@ $(function() {
                 });
             }
         });
-        //$('#submit-form').click(function(e) {
-        //    form.validate({
-        //        rules: {
-        //            firstname: {
-        //                required: true,
-        //                minlength: 3,
-        //            },
-        //            lastname: {
-        //                required: true,
-        //                minlength: 4,
-        //            },
-        //            email: {
-        //                required: true,
-        //                email: true
-        //            },
-        //            password: {
-        //                required: true,
-        //                minlength: 6,
-        //                maxlength: 16
-        //            },
-        //            password2: {
-        //                required: true,
-        //                minlength: 6,
-        //                maxlength: 16,
-        //                equalTo: '#password'
-        //            },
-        //            terms: {
-        //                required: true
-        //            }
-        //        },
-        //        messages: {
-        //            firstname: {
-        //                required: 'Enter your first name',
-        //                minlength: 'Enter at least 3 characters or more'
-        //            },
-        //            lastname: {
-        //                required: 'Enter your last name',
-        //                minlength: 'Enter at least 3 characters or more'
-        //            },
-        //            email: {
-        //                required: 'Enter email address',
-        //                email: 'Enter a valid email address'
-        //            },
-        //            password: {
-        //                required: 'Write your password',
-        //                minlength: 'Minimum 6 characters',
-        //                maxlength: 'Maximum 16 characters'
-        //            },
-        //            password2: {
-        //                required: 'Write your password',
-        //                minlength: 'Minimum 6 characters',
-        //                maxlength: 'Maximum 16 characters',
-        //                equalTo: '2 passwords must be the same'
-        //            },
-        //            terms: {
-        //                required: 'You must agree with terms'
-        //            }
-        //        },
-        //        errorPlacement: function(error, element) {
-        //            if (element.is(":radio") || element.is(":checkbox")) {
-        //                element.closest('.option-group').after(error);
-        //            } else {
-        //                error.insertAfter(element);
-        //            }
-        //        }
-        //    });
-        //    e.preventDefault();
-        //    if (form.valid()) {
-        //        $(this).addClass('ladda-button');
-        //        alert('valide');
-        //        var l = Ladda.create(this);
-        //        l.start();
-        //        setTimeout(function() {
-        //            window.location.href = "dashboard.html";
-        //        }, 2000);
-        //    } else {
-        //        // alert('not valid');
-        //    }
-        //});
+          
+        //change contact type according to the drop down value
+            $("#contacttype").change(function () {
+                $(this).find("option:selected").each(function () {
+                   
+                    if ($(this).attr("value") == "Phone") {
+                        $("#phonenumberdiv").show();
+                        $("#mobilenumberdiv").hide();
+                    }
+                    else if ($(this).attr("value") == "Mobile") {
+                        $("#phonenumberdiv").hide();
+                        $("#mobilenumberdiv").show();
+                    }                    
+                });
+            }).change();
+        
+
+        $('#submit-form').click(function(e) {
+            form.validate({
+                rules: {
+                    firstname: {
+                        required: true,
+                        minlength: 3,
+                    },
+                    lastname: {
+                        required: true,
+                        minlength: 4,
+                    },
+                    email: {
+                        required: true,
+                        email: true
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 16
+                    },
+                    password_c: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 16,
+                        equalTo: '#password'
+                    },
+                    mobilenumber: {
+                        required: true,
+                        number:true
+                    },
+                    phonenumber: {
+                        required: true,
+                        number: true
+                    },
+                    companyname: {
+                        required: true
+                       
+                    },
+                    postalcode: {
+                        required: true
+                       
+                    },
+                    number: {
+                        required: true,
+                        number:true
+                      
+                    },
+                    street: {
+                        required: true
+                       
+                    },
+                    city: {
+                        required: true
+                       
+                    },
+                    state: {
+                        required: true
+                       
+                    },
+                    terms: {
+                        required: true
+                    }
+                },
+                messages: {
+                    firstname: {
+                        required: 'Enter your first name',
+                        minlength: 'Enter at least 3 characters or more'
+                    },
+                    lastname: {
+                        required: 'Enter your last name',
+                        minlength: 'Enter at least 3 characters or more'
+                    },
+                    email: {
+                        required: 'Enter email address',
+                        email: 'Enter a valid email address'
+                    },
+                    password: {
+                        required: 'Write your password',
+                        minlength: 'Minimum 8 characters',
+                        maxlength: 'Maximum 20 characters'
+                    },
+                    password_c: {
+                        required: 'Rewrite your password',
+                        minlength: 'Minimum 8 characters',
+                        maxlength: 'Maximum 20 characters',
+                        equalTo: '2 passwords must be the same'
+                    },
+                    phonenumber: {
+                        required: 'Entetr Phone Number',
+                        number: 'Enter Valid Phone Number',
+                    },
+                    
+                    mobilenumber: {
+                        required: 'Entetr Mobile Number',
+                        number: 'Enter Valid Mobile Number',
+                    },
+
+                    companyname: {
+                        required: 'Enter Company name',
+                        
+                    },
+                    postalcode: {
+                        required: 'Enter Postal Code',
+                       
+                    },
+                    number: {
+                        required: 'Enter number',
+                        number:'Enteter valid Number'
+                       
+                    },
+                    street: {
+                        required: 'Enter Street',
+                        
+                    },
+                    city: {
+                        required: 'Enter City',
+                       
+                    },
+                    state: {
+                        required: 'Enter State' ,
+                       
+                    },
+                    terms: {
+                        required: 'You must agree with terms'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    if (element.is(":radio") || element.is(":checkbox")) {
+                        element.closest('.option-group').after(error);
+                    } else {
+                        error.insertAfter(element);
+                    }
+                }
+            });
+            e.preventDefault();
+            if (form.valid()) {
+                $(this).addClass('ladda-button');
+                alert('valide');
+                var l = Ladda.create(this);
+                l.start();
+                setTimeout(function() {
+                    window.location.href = "dashboard.html";
+                }, 2000);
+            } else {
+                // alert('not valid');
+            }
+        });
 
     }
 });
