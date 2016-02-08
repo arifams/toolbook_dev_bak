@@ -367,7 +367,7 @@ $(function() {
 
       //validate the phone number
          jQuery.validator.addMethod("ValidPhoneNumber", function (value, element) {
-             return this.optional(element) || /^[2-9]\d{2}-\d{3}-\d{4}$/.test(value);
+             return this.optional(element) || /^[0-9()+-]*$/.test(value);
          }, "Please enter valid phone Number");
 
         //hide the error message and company name on page load
@@ -470,23 +470,23 @@ $(function() {
                     },
                     password: {
                        
-                        required: 'Write your password',
+                        required: 'Enter your password',
                         minlength: 'Minimum 8 characters',
                         maxlength: 'Maximum 20 characters'
                     },
                     password_c: {
-                        required: 'Rewrite your password',
+                        required: 'ReEnter your password',
                         minlength: 'Minimum 8 characters',
                         maxlength: 'Maximum 20 characters',
                         equalTo: '2 passwords must be the same'
                     },
                     phonenumber: {
-                        required: 'Entetr Phone Number',
+                        required: 'Enter Phone Number',
                         number: 'Enter Valid Phone Number',
                     },
                     
                     mobilenumber: {
-                        required: 'Entetr Mobile Number',
+                        required: 'Enter Mobile Number',
                         number: 'Enter Valid Mobile Number',
                     },
 
@@ -499,7 +499,7 @@ $(function() {
                        
                     },
                     number: {
-                        required: 'Enter number',
+                        required: 'Enter Number',
                         number:'Enteter valid Number'
                        
                     },
