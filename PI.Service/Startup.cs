@@ -34,6 +34,9 @@ namespace PI.Service
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
 
+            // Configure the role manager to use a single instance per request
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+
             // Plugin the OAuth bearer JSON Web Token tokens generation and Consumption will be here
 
         }
@@ -45,5 +48,7 @@ namespace PI.Service
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
         }
+
+
     }
 }
