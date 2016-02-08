@@ -11,7 +11,7 @@ namespace PI.Contract.DTOs.Customer
     public class CustomerDto
     {
         public long Id { get; set; }
-        public Salutation Salutation { get; set; } /// TODO: Convert to Enum.
+        public string Salutation { get; set; } /// TODO: Convert to Enum.
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string MiddleName { get; set; }
@@ -20,6 +20,7 @@ namespace PI.Contract.DTOs.Customer
         public string MobileNumber { get; set; }
         public bool IsCorporateAccount { get; set; }
         public AddressDto CustomerAddress { get; set; }
+        public string CompanyName { get; set; }
 
         public string UserName { get; set; } // TODO: To be removed
         public string Password { get; set; } // TODO: To be removed

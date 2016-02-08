@@ -358,10 +358,26 @@ $(function() {
                 });
             }).change();
         
+        //validate the password
+         jQuery.validator.addMethod("ValidPassword", function (value, element) {
+            return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(value);
+         }, "Please enter valid password");
+
+         
+
+      //validate the phone number
+         jQuery.validator.addMethod("ValidPhoneNumber", function (value, element) {
+             return this.optional(element) || /^[2-9]\d{2}-\d{3}-\d{4}$/.test(value);
+         }, "Please enter valid phone Number");
+
+         $('#error-message').hide();
 
         $('#submit-form').click(function(e) {
             form.validate({
                 rules: {
+                    salutation: {
+                        required:true
+                    },
                     firstname: {
                         required: true,
                         minlength: 3,
@@ -375,6 +391,7 @@ $(function() {
                         email: true
                     },
                     password: {
+                        ValidPassword: true,
                         required: true,
                         minlength: 6,
                         maxlength: 16
@@ -386,12 +403,14 @@ $(function() {
                         equalTo: '#password'
                     },
                     mobilenumber: {
+                        ValidPhoneNumber:true,
                         required: true,
-                        number:true
+                        
                     },
                     phonenumber: {
+                        ValidPhoneNumber: true,
                         required: true,
-                        number: true
+                       
                     },
                     companyname: {
                         required: true
@@ -423,6 +442,9 @@ $(function() {
                     }
                 },
                 messages: {
+                    salutation:{
+                    required:'Please select the Salutation'
+                    },
                     firstname: {
                         required: 'Enter your first name',
                         minlength: 'Enter at least 3 characters or more'
@@ -436,6 +458,7 @@ $(function() {
                         email: 'Enter a valid email address'
                     },
                     password: {
+                       
                         required: 'Write your password',
                         minlength: 'Minimum 8 characters',
                         maxlength: 'Maximum 20 characters'
@@ -494,14 +517,58 @@ $(function() {
                 }
             });
             e.preventDefault();
-            if (form.valid()) {
-                $(this).addClass('ladda-button');
-                alert('valide');
-                var l = Ladda.create(this);
-                l.start();
-                setTimeout(function() {
-                    window.location.href = "dashboard.html";
-                }, 2000);
+            if (form.valid()) {            
+
+                var result = {};
+                $.each($('#form-signup').serializeArray(), function () {
+                    result[this.name] = this.value;
+                });              
+
+                var newUser = {            
+                    Salutation: result.salutation,
+                    FirstName: result.firstname,
+                    LastName: result.lastname,
+                    MiddleName: result.middlename,
+                    Email: result.email,
+                    PhoneNumber: result.phonenumber,
+                    MobileNumber: result.mobilenumber,
+                    IsCorporateAccount: result.iscorporate,
+                    CompanyName: result.companyname,
+                    CustomerAddress: {
+                        Country: result.country,
+                        ZipCode: result.postalcode,
+                        State: result.state,
+                        City: result.city,
+                        Number: result.number,
+                        StreetAddress1: result.street,
+                        StreetAddress2: result.additionadetails
+                    },
+                    Password: result.password
+                }
+                var jqxhr = $.post('http://localhost:5555/api/User/createuser', newUser)
+             .success(function () {
+                 var loc = jqxhr.getResponseHeader('Location');
+                 var responce = jqxhr.responseJSON;
+
+                 if (responce==1) {
+                     setTimeout(function () {
+                         window.location.href = "../../app/index.html";
+                     }, 2000);
+                 }
+                 else if (responce == -1) {
+                     $('#error-message').show();
+                 }
+                
+             })
+             .error(function () {
+                 $('#message').html("Error posting the update.");
+             });
+                
+                //$(this).addClass('ladda-button');
+                //alert('valide');
+                //var l = Ladda.create(this);
+                //l.start();
+               
             } else {
                 // alert('not valid');
             }

@@ -9,7 +9,7 @@ namespace PI.Data.Entity
 {
     public class Address:BaseEntity
     {
-        public Country Country { get; set; } 
+        public string Country { get; set; } 
         public string ZipCode { get; set; }
         public string Number { get; set; }
         public string StreetAddress1 { get; set; }
