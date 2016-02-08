@@ -504,7 +504,7 @@ $(function() {
                        
                     },
                     street: {
-                        required: 'Enter Street Address1',
+                        required: 'Enter Street',
                         
                     },
                     city: {
@@ -556,7 +556,8 @@ $(function() {
                     },
                     Password: result.password
                 }
-                var jqxhr = $.post('https://pibooking.azurewebsites.net/api/User/createuser', newUser)
+               // var jqxhr = $.post('http://localhost:5555/api/User/createuser', newUser)
+               var jqxhr = $.post('https://pibooking.azurewebsites.net/api/User/createuser', newUser)
              .success(function () {
                  var loc = jqxhr.getResponseHeader('Location');
                  var responce = jqxhr.responseJSON;
