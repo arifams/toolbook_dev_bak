@@ -372,6 +372,14 @@ $(function() {
 
          $('#error-message').hide();
 
+         $('input[name=iscorporate]:radio').on('ifChecked', function (event) {
+             if (event.target.value == 'True')
+                 $('#companynamediv').hide();
+             else if (event.target.value == 'False')
+                 $('#companynamediv').show();
+
+         });
+
         $('#submit-form').click(function(e) {
             form.validate({
                 rules: {
