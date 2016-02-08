@@ -51,6 +51,7 @@ namespace PI.Service.Controllers
 
         }
 
+        [AllowAnonymous]
         [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
@@ -91,7 +92,7 @@ namespace PI.Service.Controllers
             return Created(locationHeader, TheModelFactory.Create(user));
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
@@ -113,8 +114,8 @@ namespace PI.Service.Controllers
                 return GetErrorResult(result);
             }
         }
-
-
+        
+        [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
