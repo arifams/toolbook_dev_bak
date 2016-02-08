@@ -1,5 +1,8 @@
 namespace PI.Data.Migrations
 {
+    using Entity.Identity;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -26,6 +29,23 @@ namespace PI.Data.Migrations
             //      new Person { FullName = "Rowan Miller" }
             //    );
             //
+
+            //  This method will be called after migrating to the latest version.
+
+            var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
+
+            var user = new ApplicationUser()
+            {
+                UserName = "Admin",
+                Email = "admin@pi.com",
+                EmailConfirmed = true,
+                FirstName = "Admin",
+                LastName = "User",
+                Level = 1,
+                JoinDate = DateTime.Now.AddYears(-3)
+            };
+
+            manager.Create(user, "1qaz2wsx@");
         }
     }
 }
