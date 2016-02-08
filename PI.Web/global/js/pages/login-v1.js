@@ -504,7 +504,7 @@ $(function() {
                        
                     },
                     street: {
-                        required: 'Enter Street',
+                        required: 'Enter Street Address 1',
                         
                     },
                     city: {
