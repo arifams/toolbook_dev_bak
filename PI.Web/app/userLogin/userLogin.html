@@ -21,7 +21,7 @@
                     <form class="form-signin"  role="form" ng-submit="userLog.login(user)" name="loginForm">
                         <div class="form-group"  ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
                             <div class="append-icon">
-                                <input type="text" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
+                                <input type="email" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
                                 <i class="icon-user"></i>
                                 <p ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="help-block">UserName is required.</p>
                             </div>
@@ -48,7 +48,17 @@
                             </div>
                         </div>
 </form>
-                   
+                    <form class="form-password" role="form">
+                        <div class="append-icon m-b-20">
+                            <input type="email" name="passwordResetEmail" class="form-control form-white username" placeholder="Username" required>
+                            <i class="icon-lock"></i>
+                        </div>
+                        <button type="submit" id="submit-password" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left">Send Password Reset Link</button>
+                        <div class="clearfix">
+                            <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html">Already a member try logging in</a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
+                        </div>
+                    </form>          
                     
                     
                     

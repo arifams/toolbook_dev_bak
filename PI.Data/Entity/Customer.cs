@@ -11,7 +11,7 @@ namespace PI.Data.Entity
 {
     public class Customer : BaseEntity
     {
-        public Salutation Salutation { get; set; } // TODO: Convert to Enum.
+        public string Salutation { get; set; } // TODO: Convert to Enum.
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string LastName { get; set; }

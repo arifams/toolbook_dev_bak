@@ -1,7 +1,7 @@
 ﻿<html>
 <head>
     <meta charset="utf-8">
-    <title>Themes Lab - Creative Laborator</title>
+    <title>Parcel InterNaational- Register New User</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="" name="description" />
     <meta content="themes-lab" name="author" />
@@ -18,11 +18,11 @@
             <div class="col-sm-6 col-md-6 col-md-offset-3">
                 <div class="account-wall">
                     <i class="user-img icons-faces-users-03"></i>
-                    <form class="form-signup" action="dashboard.html" role="form">
+                    <form class="form-signup" action="dashboard.html" role="form" id="form-signup">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <select class="form-control form-white" data-style="white" data-placeholder="Salutation" required>
+                                    <select class="form-control form-white" data-style="white" data-placeholder="Salutation" required name="salutation">
                                         <option value="" disabled selected>Salutation</option>
                                         <option value="Mr">Mr</option>
                                         <option value="Mrs">Mrs</option>
@@ -74,7 +74,7 @@
                             <div class="col-sm-8" id="mobilenumberdiv">
                                 <div class="append-icon">
                                     <div class="form-group">
-                                        <input type="text" name="mobilenumber" id="mobilenumber" class="form-control form-white number" required placeholder="Enter Mobile Number *">
+                                        <input type="text" name="mobilenumber" id="mobilenumber" class="form-control form-white " required placeholder="Enter Mobile Number *">
 
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@
                             <div class="col-sm-8" id="phonenumberdiv">
                                 <div class="append-icon">
                                     <div class="form-group">
-                                        <input type="text" name="phonenumber" id="phonenumber" class="form-control form-white number" required placeholder="Enter Phone Number *">
+                                        <input type="text" name="phonenumber" id="phonenumber" class="form-control form-white " required placeholder="Enter Phone Number *">
                                         <i class="icon-user"></i>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <div class="icheck-inline">
-                                    <label><input type="radio" name="iscorporate" id="individual" data-radio="iradio_square-blue" value="True"> Individual account</label>
+                                    <label><input type="radio" name="iscorporate" id="individual" data-radio="iradio_square-blue" value="True" checked="checked"> Individual account</label>
                                     <label><input type="radio" name="iscorporate" id="corporate" data-radio="iradio_square-blue" value="False"> Corporate account</label>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                                 <div class="form-group">
                                     <label>Select with search</label>
                                     <select class="form-control form-white" data-search="true" data-style="white" name="country" id="country" required>
-                                        <option value="United States">United States</option>
+                                        <option value="United States" selected>United States</option>
                                         <option value="United Kingdom">United Kingdom</option>
                                         <option value="Afghanistan">Afghanistan</option>
                                         <option value="Albania">Albania</option>
@@ -431,15 +431,22 @@
                         </div>
                         <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20" data-style="expand-left">Register</button>
 
+                        <br>
                         <div class="clearfix">
-                            <p class="pull-right m-t-20"><a href="user-login-v1.html">Already have an account? Sign In</a></p>
+                            <p class="pull-right m-t-20"><a href="../../app/userLogin/userLogin.html">Already have an account? Sign In</a></p>
                         </div>
                     </form>
+                    
+                    <div class="alert alert-warning" id="error-message">
+                        Email address is already in use.
+                    </div>  
                 </div>
+
+                
             </div>
         </div>
         <p class="account-copyright">
-            <span>Copyright © 2015 </span><span>THEMES LAB</span>.<span>All rights reserved.</span>
+            <span>Parcel International</span>.<span>All rights reserved.</span>
         </p>
 
     </div>
