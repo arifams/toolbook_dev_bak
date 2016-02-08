@@ -370,7 +370,10 @@ $(function() {
              return this.optional(element) || /^[2-9]\d{2}-\d{3}-\d{4}$/.test(value);
          }, "Please enter valid phone Number");
 
+        //hide the error message and company name on page load
          $('#error-message').hide();
+         $('#companynamediv').hide();
+
 
          $('input[name=iscorporate]:radio').on('ifChecked', function (event) {
              if (event.target.value == 'True')
