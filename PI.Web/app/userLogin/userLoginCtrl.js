@@ -29,14 +29,14 @@
                 // Check userid valid and token isn't expired
 
             }
-            
+
         };
 
         vm.login = function (user) {
             userRegister.loginUser(user, 'api/User/LoginUser')
            .then(function (result) {
                console.log("success" + result);
-               debugger;
+               
                if (result.data == "1") {
                    //window.location = "http://localhost:63874/app/index.html";
                    window.location = "http://pibookingservice.azurewebsites.net/app/index.html";

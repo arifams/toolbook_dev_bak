@@ -8,6 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
@@ -51,7 +52,10 @@ namespace PI.Service.Controllers
 
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
         [Route("create")]
+        [HttpPost]        
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
             if (!ModelState.IsValid)
@@ -61,7 +65,7 @@ namespace PI.Service.Controllers
 
             var user = new ApplicationUser()
             {
-                UserName = createUserModel.Username,
+                UserName = createUserModel.Email,
                 Email = createUserModel.Email,
                 FirstName = createUserModel.FirstName,
                 LastName = createUserModel.LastName,
@@ -82,7 +86,8 @@ namespace PI.Service.Controllers
 
             var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
 
-            await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
+                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
             #endregion
             
@@ -91,7 +96,7 @@ namespace PI.Service.Controllers
             return Created(locationHeader, TheModelFactory.Create(user));
         }
 
-
+        [AllowAnonymous]
         [HttpGet]
         [Route("ConfirmEmail", Name = "ConfirmEmailRoute")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
@@ -113,8 +118,8 @@ namespace PI.Service.Controllers
                 return GetErrorResult(result);
             }
         }
-
-
+        
+        [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
