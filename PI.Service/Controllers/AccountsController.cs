@@ -54,8 +54,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
-        [Route("create")]
-        [HttpPost]        
+        [Route("create")]                
         public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
         {
             if (!ModelState.IsValid)
@@ -83,9 +82,9 @@ namespace PI.Service.Controllers
             #region For Email Confirmaion
 
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-
-            var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-
+            Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+            var callbackUrl = new Uri(Url.Content(baseUri + "/app/userLogin/userlogin.html?userId="+user.Id+ "&code=" + code ));
+            
             await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
                 "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 

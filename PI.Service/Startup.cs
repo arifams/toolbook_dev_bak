@@ -25,7 +25,7 @@ namespace PI.Service
         {
             HttpConfiguration httpConfig = new HttpConfiguration();
 
-          //  ConfigureOAuthTokenGeneration(app);
+            ConfigureOAuthTokenGeneration(app);
 
           //  ConfigureOAuthTokenConsumption(app);
 
