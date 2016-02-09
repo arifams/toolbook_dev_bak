@@ -3,6 +3,7 @@ using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -77,13 +78,13 @@ namespace PI.Service.Controllers
             if (!addUserResult.Succeeded)
             {
                 return GetErrorResult(addUserResult);
-            }
+            } 
 
             #region For Email Confirmaion
 
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            Uri baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
-            var callbackUrl = new Uri(Url.Content(baseUri + "/app/userLogin/userlogin.html?userId="+user.Id+ "&code=" + code ));
+            //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+            var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
             
             await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
                 "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
