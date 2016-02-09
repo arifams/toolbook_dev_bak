@@ -21,7 +21,7 @@
                     <i class="user-img icons-faces-users-03"></i>
 
                     <div class="clearfix login-top-message" ng-show="userLog.isEmailConfirm">
-                        <p class="pull-left m-t-20">To confirm email address, please login using your username and password</p>
+                        <p class="pull-left m-t-20">{{userLog.emailConfirmationMessage}}</p>
                     </div>
 
                     <form class="form-signin"  role="form" ng-submit="userLog.login(user)" name="loginForm">
@@ -88,5 +88,6 @@
     <script src="../../global/js/pages/login-v1.js"></script>
     <script src="../../plugins/angular/angular.js"></script>
     <script src="userLoginCtrl.js"></script>
+    <script src="../../global/js/custom.js"></script>
 </body>
 </html>
