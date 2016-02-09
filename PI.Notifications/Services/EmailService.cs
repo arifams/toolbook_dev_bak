@@ -28,8 +28,8 @@ namespace PI.Service.Services
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
 
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["emailService:parcelinternational"],
-                                                    ConfigurationManager.AppSettings["emailService:1qaz2wsx@"]);
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["AccountUserName"],
+                                                    ConfigurationManager.AppSettings["AccountPassword"]);
 
             // Create a Web transport for sending email.
             var transportWeb = new Web(credentials);

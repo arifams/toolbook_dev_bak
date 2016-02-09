@@ -34,6 +34,9 @@ namespace PI.Service.Models
         [Display(Name = "Password")]
         public string Password { get; set; }
 
+
+        public string BaseURL { get; set; }
+
         //[Required]
         //[DataType(DataType.Password)]
         //[Display(Name = "Confirm password")]
