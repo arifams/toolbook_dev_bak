@@ -3,24 +3,37 @@
 
 (function (app) {    
 
-    app.factory('loginRegisteredUser', function ($http) {
+    app.factory('userRegister', function ($http) {
         return {
-            loginUser: function (newuser) {
+            loginUser: function (newuser, url) {
                 //return $http.post('http://localhost:5555/api/User/LoginUser', newuser);
-                return $http.post('http://pibooking.azurewebsites.net/api/User/LoginUser', newuser);
+                return $http.post(window.location.host + '/' + url, newuser);
             }
         };
 
     });
 
-
-    app.controller('userLoginCtrl', ['loginRegisteredUser', function (loginRegisteredUser) {
+    app.controller('userLoginCtrl', ['userRegister', function (userRegister) {
         var vm = this;     
 
         vm.loginInvalid = false;
+        vm.isEmailConfirm = false;
+
+        vm.isConfirmEmail = function () {
+
+            if (window.location.search != "") {
+                // Show email confirm message.
+                vm.isEmailConfirm = true;
+                var splittedValues = window.location.search.replace("?", "").split('&');
+
+                // Check userid valid and token isn't expired
+
+            }
+            
+        };
 
         vm.login = function (user) {
-            loginRegisteredUser.loginUser(user)
+            userRegister.loginUser(user, 'api/User/LoginUser')
            .then(function (result) {
                console.log("success" + result);
                debugger;
@@ -39,6 +52,9 @@
            );
            
         };
+
+        vm.isConfirmEmail();
+
     }]);
 
 
