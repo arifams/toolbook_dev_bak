@@ -10,6 +10,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -81,7 +82,7 @@ namespace PI.Service.Controllers
             if (!addUserResult.Succeeded)
             {
                 return GetErrorResult(addUserResult);
-            }
+            } 
 
             // Save in customer table.
             CustomerManagement customerManagement = new CustomerManagement();
@@ -92,9 +93,12 @@ namespace PI.Service.Controllers
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
-            //var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-            await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
-                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            
+            StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName)
+                                        .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+
+            await this.AppUserManager.SendEmailAsync(user.Id, "Your account has been provisioned!", emailbody.ToString());
 
             #endregion
             
@@ -115,7 +119,7 @@ namespace PI.Service.Controllers
             }
 
             IdentityResult result = await this.AppUserManager.ConfirmEmailAsync(userId, code);
-            
+
             if (result.Succeeded)
             {
                 return Ok();
