@@ -3,6 +3,25 @@
 
 (function (app) {
 
+    app.factory('updateProfilefactory', function ($http) {
+
+        return {
+
+            updateProfileInfo: function (updatedProfile) {
+
+                    $http.post('api/Profile/updateProfile', updatedProfile).then(function successCallback(response) {
+                    if (response.data != null) {
+                        return response;
+                    }
+
+                }, function errorCallback(response) {
+                    return null;
+                })
+            }
+        }
+
+    })
+
   
     app.factory('loadProfilefactory', function ($http) {
 
@@ -41,7 +60,7 @@
     //})
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', function (loadProfilefactory) {
+        ['loadProfilefactory', 'updateProfilefactory', function (loadProfilefactory, updateProfilefactory) {
             var vm = this;
 
             vm.loadProfile = function () {
@@ -58,7 +77,22 @@
                         }
 
                     });
-            }              
+            }
+
+
+            vm.updateProfile = function () {
+
+                updateProfilefactory.updateProfileInfo()
+                .then(function (result) {
+                    if (result.data != null) {
+
+                        //TO DO
+                    }
+                    else {
+                        console.log('Update Failed');
+                    }
+                });
+            }
         }]);
 
 

@@ -87,12 +87,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationDbContext.cs" />
+    <Compile Include="Entity\AccountSettings.cs" />
     <Compile Include="Entity\Address.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Company.cs" />
+    <Compile Include="Entity\Currency.cs" />
     <Compile Include="Entity\Customer.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
+    <Compile Include="Entity\Language.cs" />
+    <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\Tenant.cs" />
+    <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>

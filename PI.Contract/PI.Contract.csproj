@@ -42,6 +42,7 @@
     <Compile Include="Business\ICustomerManagement.cs" />
     <Compile Include="DTOs\Address\AddressDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
+    <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
