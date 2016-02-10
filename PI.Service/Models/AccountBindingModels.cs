@@ -35,7 +35,7 @@ namespace PI.Service.Models
         public string Password { get; set; }
 
 
-        public string BaseURL { get; set; }
+        public string TemplateLink { get; set; }
 
         //[Required]
         //[DataType(DataType.Password)]
