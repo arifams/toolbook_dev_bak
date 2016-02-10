@@ -62,14 +62,12 @@
                 user.code = codeKeyValue[1];
                 user.isConfirmEmail = true;
             }
-            debugger;
+
             userManager.loginUser(user, 'api/accounts/LoginUser')
             .then(function (result) {
-                console.log("success" + result);
 
                 if (result.data == "1" || result.data == "2") {
-                    //window.location = "http://localhost:63874/app/index.html";
-                    window.location = window.location.host + "/app/index.html";
+                    window.location = webBaseUrl + "/app/index.html"; 
                 }
                 else if (result.data == "-1") {
                     vm.loginInvalid = true;
