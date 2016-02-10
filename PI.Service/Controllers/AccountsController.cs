@@ -60,7 +60,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("create")]                
-        public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)//(CreateUserBindingModel createUserModel)
+        public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)
         {
             if (!ModelState.IsValid)
             {
