@@ -6,6 +6,10 @@
     app.factory('userManager', function ($http) {
         return {
             loginUser: function (newuser, url) {
+                
+                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
+                debugger;
                 return $http.post(serverBaseUrl + '/' + url, newuser);
             }
         };
@@ -16,6 +20,7 @@
         var vm = this;     
 
         vm.loginInvalid = false;
+        vm.invalidToken = false;
         vm.isEmailConfirm = false;
        
         vm.isConfirmEmail = function () {
@@ -57,17 +62,20 @@
                 user.code = codeKeyValue[1];
                 user.isConfirmEmail = true;
             }
-
-            userManager.loginUser(user, 'api/User/LoginUser')
+            debugger;
+            userManager.loginUser(user, 'api/accounts/LoginUser')
             .then(function (result) {
                 console.log("success" + result);
 
-                if (result.data == "1") {
+                if (result.data == "1" || result.data == "2") {
                     //window.location = "http://localhost:63874/app/index.html";
                     window.location = window.location.host + "/app/index.html";
                 }
-                else {
+                else if (result.data == "-1") {
                     vm.loginInvalid = true;
+                }
+                else if (result.data == "-2") {
+                    vm.invalidToken = true;
                 }
             },
             function (error) {

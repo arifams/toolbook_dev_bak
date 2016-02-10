@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
+using PI.Business;
+using PI.Contract.DTOs.Customer;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
@@ -56,7 +59,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("create")]                
-        public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
+        public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)//(CreateUserBindingModel createUserModel)
         {
             if (!ModelState.IsValid)
             {
@@ -78,14 +81,18 @@ namespace PI.Service.Controllers
             if (!addUserResult.Succeeded)
             {
                 return GetErrorResult(addUserResult);
-            } 
+            }
+
+            // Save in customer table.
+            CustomerManagement customerManagement = new CustomerManagement();
+            customerManagement.SaveCustomer(createUserModel);
 
             #region For Email Confirmaion
 
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
-            
+            //var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
             await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
                 "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
@@ -108,7 +115,7 @@ namespace PI.Service.Controllers
             }
 
             IdentityResult result = await this.AppUserManager.ConfirmEmailAsync(userId, code);
-
+            
             if (result.Succeeded)
             {
                 return Ok();
@@ -207,6 +214,102 @@ namespace PI.Service.Controllers
 
             return Ok();
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LoginUser")]
+        public int LoginUser(JObject customerJObject)
+        {
+            string username, password, userId, code, isConfirmEmail;
+
+
+            string o = customerJObject.ToString();
+
+            string p = o.Replace("{", "");
+            p = p.Replace("\"", "");
+
+            p = p.Replace("\r\n", string.Empty);
+            p = p.Replace("\\", string.Empty);
+            p = p.Replace("}:", string.Empty);
+            p = p.Replace("}", string.Empty);
+
+            string[] splitAsObject = p.Split(',');
+
+            // username 
+            string[] splituserName = splitAsObject[0].Split(':');
+            username = splituserName[1];
+
+            // password 
+            string[] splitPassword = splitAsObject[1].Split(':');
+            password = splitPassword[1];
+
+            // userId 
+            string[] splitUserId = splitAsObject[2].Split(':');
+            userId = splitUserId[1];
+
+            //code
+            string[] splitCode = splitAsObject[3].Split(':');
+            code = splitCode[1];
+            code = code.Replace(" ", "+");
+
+            //isConfirmEmail
+            string[] splitIsConfirmEmail = splitAsObject[4].Split(':');
+            isConfirmEmail = splitIsConfirmEmail[1];
+            
+            var user = AppUserManager.Find(username, password);
+
+            if (user == null)
+                return -1;
+            else if (isConfirmEmail == "False")
+                return 1;
+            else
+            {
+                IdentityResult result = this.AppUserManager.ConfirmEmail(userId, code);
+                if (result.Succeeded)
+                    return 2;
+                else
+                    return -2;
+            }
+
+            //dynamic json = customerJObject;
+            //JObject jalbum = json.Test1;
+
+            //var album = jalbum.ToObject<CustomerDto>();
+
+            //string a = album.Code;
+
+            //string ss = customerJObject.ChildrenTokens[0].ToString();
+
+            //string ss = customerJObject.selec
+
+            //JObject jalbum1 = json[0] as JObject;
+
+            //JToken token = customerJObject;
+
+            //string page = token.SelectToken("username").ToString();
+            //string totalPages = token.SelectToken("code").ToString();
+
+            //string g = (string)customerJObject["First"][0]["username"];
+
+
+
+
+
+        }
+
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[Route("LoginUser")]
+        //public int LoginUser(JObject customer)
+        //{
+        //    //var user = AppUserManager.Find(customer.UserName, customer.Password);
+
+        //    //CustomerManagement customerManagement = new CustomerManagement();
+        //    //return customerManagement.VerifyUserLogin(customer);
+        //    return 1;
+        //}
 
     }
 }

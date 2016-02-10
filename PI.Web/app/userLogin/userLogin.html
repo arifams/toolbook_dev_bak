@@ -53,6 +53,11 @@
                 Incorrect UserName/Password
             </div>
         </div>
+        <div class="form-group" ng-show="userLog.invalidToken">
+            <div class="alert alert-warning">
+                Invalid token.
+            </div>
+        </div>
         </form>
         <form class="form-password" role="form">
             <div class="append-icon m-b-20">
