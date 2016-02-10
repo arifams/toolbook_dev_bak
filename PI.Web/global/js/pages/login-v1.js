@@ -556,8 +556,8 @@ $(function() {
                     },
                     Password: result.password
                 }
-               // var jqxhr = $.post('http://localhost:5555/api/User/createuser', newUser)
-               var jqxhr = $.post('https://pibooking.azurewebsites.net/api/User/createuser', newUser)
+                var jqxhr = $.post('http://localhost:5555/api/Accounts/create', newUser)
+               //var jqxhr = $.post('https://pibooking.azurewebsites.net/api/User/createuser', newUser)
              .success(function () {
                  var loc = jqxhr.getResponseHeader('Location');
                  var responce = jqxhr.responseJSON;

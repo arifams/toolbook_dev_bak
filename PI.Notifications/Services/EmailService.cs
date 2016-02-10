@@ -23,13 +23,13 @@ namespace PI.Service.Services
             var myMessage = new SendGridMessage();
 
             myMessage.AddTo(message.Destination);
-            myMessage.From = new System.Net.Mail.MailAddress("taiseer@bitoftech.net", "Taiseer Joudeh");
+            myMessage.From = new System.Net.Mail.MailAddress("sriparcel@outlook.com", "Parcel International");
             myMessage.Subject = message.Subject;
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
 
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["emailService:Account"],
-                                                    ConfigurationManager.AppSettings["emailService:Password"]);
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["AccountUserName"],
+                                                    ConfigurationManager.AppSettings["AccountPassword"]);
 
             // Create a Web transport for sending email.
             var transportWeb = new Web(credentials);
