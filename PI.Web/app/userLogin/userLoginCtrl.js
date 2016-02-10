@@ -7,9 +7,6 @@
         return {
             loginUser: function (newuser, url) {
                 
-                $http.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-
-                debugger;
                 return $http.post(serverBaseUrl + '/' + url, newuser);
             }
         };

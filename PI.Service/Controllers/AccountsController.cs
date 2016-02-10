@@ -223,97 +223,23 @@ namespace PI.Service.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("LoginUser")]
-        public int LoginUser(JObject customerJObject)
+        public int LoginUser(CustomerDto customer)
         {
-            string username, password, userId, code, isConfirmEmail;
-
-
-            string o = customerJObject.ToString();
-
-            string p = o.Replace("{", "");
-            p = p.Replace("\"", "");
-
-            p = p.Replace("\r\n", string.Empty);
-            p = p.Replace("\\", string.Empty);
-            p = p.Replace("}:", string.Empty);
-            p = p.Replace("}", string.Empty);
-
-            string[] splitAsObject = p.Split(',');
-
-            // username 
-            string[] splituserName = splitAsObject[0].Split(':');
-            username = splituserName[1];
-
-            // password 
-            string[] splitPassword = splitAsObject[1].Split(':');
-            password = splitPassword[1];
-
-            // userId 
-            string[] splitUserId = splitAsObject[2].Split(':');
-            userId = splitUserId[1];
-
-            //code
-            string[] splitCode = splitAsObject[3].Split(':');
-            code = splitCode[1];
-            code = code.Replace(" ", "+");
-
-            //isConfirmEmail
-            string[] splitIsConfirmEmail = splitAsObject[4].Split(':');
-            isConfirmEmail = splitIsConfirmEmail[1];
-            
-            var user = AppUserManager.Find(username, password);
+            var user = AppUserManager.Find(customer.UserName, customer.Password);
 
             if (user == null)
                 return -1;
-            else if (isConfirmEmail == "False")
+            else if (!customer.IsConfirmEmail)
                 return 1;
             else
             {
-                IdentityResult result = this.AppUserManager.ConfirmEmail(userId, code);
+                IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
                 if (result.Succeeded)
                     return 2;
                 else
                     return -2;
             }
-
-            //dynamic json = customerJObject;
-            //JObject jalbum = json.Test1;
-
-            //var album = jalbum.ToObject<CustomerDto>();
-
-            //string a = album.Code;
-
-            //string ss = customerJObject.ChildrenTokens[0].ToString();
-
-            //string ss = customerJObject.selec
-
-            //JObject jalbum1 = json[0] as JObject;
-
-            //JToken token = customerJObject;
-
-            //string page = token.SelectToken("username").ToString();
-            //string totalPages = token.SelectToken("code").ToString();
-
-            //string g = (string)customerJObject["First"][0]["username"];
-
-
-
-
-
         }
-
-        //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[Route("LoginUser")]
-        //public int LoginUser(JObject customer)
-        //{
-        //    //var user = AppUserManager.Find(customer.UserName, customer.Password);
-
-        //    //CustomerManagement customerManagement = new CustomerManagement();
-        //    //return customerManagement.VerifyUserLogin(customer);
-        //    return 1;
-        //}
 
     }
 }
