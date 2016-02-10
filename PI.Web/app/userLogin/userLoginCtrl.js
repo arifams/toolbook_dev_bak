@@ -3,7 +3,7 @@
 
 (function (app) {    
 
-    app.factory('userRegister', function ($http) {
+    app.factory('userManager', function ($http) {
         return {
             loginUser: function (newuser, url) {
                 return $http.post(serverBaseUrl + '/' + url, newuser);
@@ -12,7 +12,7 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userRegister', function (userRegister) {
+    app.controller('userLoginCtrl', ['userManager', function (userManager) {
         var vm = this;     
 
         vm.loginInvalid = false;
@@ -55,9 +55,10 @@
 
                 user.userId = userIdKeyValue[1];
                 user.code = codeKeyValue[1];
+                user.isConfirmEmail = true;
             }
 
-            userRegister.loginUser(user, 'api/User/LoginUser')
+            userManager.loginUser(user, 'api/User/LoginUser')
             .then(function (result) {
                 console.log("success" + result);
 
