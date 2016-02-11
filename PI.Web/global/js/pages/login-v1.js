@@ -532,12 +532,9 @@ $(function() {
                         errorStr = errorStr + "<span style='color:#994F4F'>" + errorList[j].message + "</span><br/>";
                     }
 
-                    $("#summary").html("<p style='color:#994F4F;font-weight:bold;'>Your form contains "
+                    $("#errorSummaryList").html("<p style='color:#994F4F;font-weight:bold;'>Your form contains "
                       + this.numberOfInvalids()
                       + " errors, see details below.</p>" + errorStr);
-
-                        
-
                     this.defaultShowErrors();
                 }
             });
