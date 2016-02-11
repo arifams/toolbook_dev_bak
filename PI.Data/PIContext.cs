@@ -22,6 +22,7 @@ namespace PI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<Division> Divisions { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")

@@ -91,6 +91,7 @@
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\Customer.cs" />
+    <Compile Include="Entity\Division.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.cs" />
