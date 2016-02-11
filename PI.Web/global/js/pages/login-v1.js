@@ -525,6 +525,20 @@ $(function() {
                     } else {
                         error.insertAfter(element);
                     }
+                },
+                showErrors: function (errorMap, errorList) {
+                    var errorStr = "";
+                    for (var j = 0; j < errorList.length; j++) {
+                        errorStr = errorStr + "<span style='color:#994F4F'>" + errorList[j].message + "</span><br/>";
+                    }
+
+                    $("#summary").html("<p style='color:#994F4F;font-weight:bold;'>Your form contains "
+                      + this.numberOfInvalids()
+                      + " errors, see details below.</p>" + errorStr);
+
+                        
+
+                    this.defaultShowErrors();
                 }
             });
             e.preventDefault();
