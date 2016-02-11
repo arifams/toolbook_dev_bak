@@ -90,6 +90,7 @@
     <Compile Include="Entity\Address.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Company.cs" />
+    <Compile Include="Entity\CostCenter.cs" />
     <Compile Include="Entity\Customer.cs" />
     <Compile Include="Entity\Division.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
