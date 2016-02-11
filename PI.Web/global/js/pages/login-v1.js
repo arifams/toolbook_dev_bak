@@ -361,14 +361,14 @@ $(function() {
         //validate the password
          jQuery.validator.addMethod("ValidPassword", function (value, element) {
             return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(value);
-         }, "Please enter valid password");
+         }, "Enter valid password");
 
          
 
       //validate the phone number
          jQuery.validator.addMethod("ValidPhoneNumber", function (value, element) {
              return this.optional(element) || /^[0-9()+-]*$/.test(value);
-         }, "Please enter valid phone Number");
+         }, "Enter valid phone Number");
 
         //hide the error message and company name on page load
          $('#error-message').hide();
@@ -454,7 +454,7 @@ $(function() {
                 },
                 messages: {
                     salutation:{
-                    required:'Please select the Salutation'
+                    required:'Select the Salutation'
                     },
                     firstname: {
                         required: 'Enter your first name',
