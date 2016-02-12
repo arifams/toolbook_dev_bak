@@ -31,7 +31,7 @@ namespace PI.Service
 
             ConfigureWebApi(httpConfig);
 
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
             app.UseWebApi(httpConfig);
 

@@ -10,15 +10,16 @@
     <link href="../../global/css/ui.css" rel="stylesheet">
     <link href="../../global/plugins/icheck/skins/all.css" rel="stylesheet" />
     <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet" />
 </head>
-<body class="account separate-inputs boxed" data-page="signup">
+<body class="account separate-inputs boxed" data-page="signup" ng-app="userRegistration" ng-controller="userRegistrationCtrl as regCtrl">
     <!-- BEGIN LOGIN BOX -->
     <div class="container" id="login-block">
         <div class="row">
             <div class="col-sm-6 col-md-6 col-md-offset-3">
                 <div class="account-wall">
                     <i class="user-img icons-faces-users-03"></i>
-                    <form class="form-signup" action="dashboard.html" role="form" id="form-signup">
+                    <form class="form-signup" action="dashboard.html" role="form" id="form-signup" name="urForm" ng-submit="regCtrl.register();">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -31,9 +32,14 @@
                                 </div>
                             </div>
                             <div class="col-sm-6">
-                                <div class="append-icon">
-                                    <input type="text" name="firstname" id="firstname" class="form-control form-white firstname" placeholder="First Name*" required autofocus>
+                                <div class="append-icon form-group" ng-class="{ 'has-error': urForm.firstname.$dirty && urForm.firstname.$error.required }">
+                                    <input type="text" name="firstname" id="firstname" ng-class="{ 'error': urForm.firstname.$dirty && ( urForm.firstname.$error.required || urForm.firstname.$error.minlength) }" class="form-control form-white firstname" placeholder="First Name*" required autofocus ng-model="user.firstname" ng-minlength="3">
                                     <i class="icon-user"></i>
+                                    
+                                    <label id="firstname-error" ng-show="(urForm.firstname.$dirty || ctrl2.isClickOnSubmit ) && urForm.firstname.$error.required" class="error" for="firstname">Enter your first name</label>
+                                    <label id="firstname-error" ng-show="urForm.firstname.$dirty && urForm.firstname.$error.minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
+                                    <!--<span ng-show="urForm.firstname.$dirty && urForm.firstname.$error.required" class="help-block has-warning">Enter your first name</span>
+                                    <span ng-show="urForm.firstname.$dirty && urForm.firstname.$error.minlength" class="help-block">Enter at least 3 characters or more</span>-->
                                 </div>
                             </div>
                         </div>
@@ -431,12 +437,18 @@
                         </div>
                         <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20" data-style="expand-left">Register</button>
 
+                        <div id="errorSummaryList"></div>
+
                         <br>
                         <div class="clearfix">
                             <p class="pull-right m-t-20"><a href="../../app/userLogin/userLogin.html">Already have an account? Sign In</a></p>
                         </div>
                     </form>
                     
+                    <div id="confirmationMailSend" class="alert alert-success confirmationMailSend">
+                        Confirmation mail sent. Please check the mail box, to activate the account.
+                    </div>
+
                     <div class="alert alert-warning" id="error-message">
                         Email address is already in use.
                     </div>  
@@ -461,7 +473,9 @@
     <script src="../../global/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
     <script src="../../global/js/plugins.js"></script>
+    <script src="../../global/js/custom.js"></script>
+    <script src="../../plugins/angular/angular.js"></script>
     <script src="../../global/js/pages/login-v1.js"></script>
-
+    <script src="userRegistrationCtrl.js"></script>
 </body>
 </html>

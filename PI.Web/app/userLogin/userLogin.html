@@ -53,6 +53,11 @@
                 Incorrect UserName/Password
             </div>
         </div>
+        <div class="form-group" ng-show="userLog.invalidToken">
+            <div class="alert alert-warning">
+                Invalid token.
+            </div>
+        </div>
         </form>
         <form class="form-password" role="form">
             <div class="append-icon m-b-20">
@@ -87,7 +92,7 @@
     <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>  
     <script src="../../global/js/pages/login-v1.js"></script>
     <script src="../../plugins/angular/angular.js"></script>
-    <script src="userLoginCtrl.js"></script>
     <script src="../../global/js/custom.js"></script>
+    <script src="userLoginCtrl.js"></script>
 </body>
 </html>

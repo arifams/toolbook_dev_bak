@@ -7,9 +7,7 @@
          
         return{
             createUser : function (newuser) {
-                return $http.post('http://pibooking.azurewebsites.net/api/User/CreateUser', newuser);
-               // return $http.post('http://localhost:5555/api/User/CreateUser', newuser);
-
+                return $http.post(serverBaseUrl + '/api/User/CreateUser', newuser);
         }
         };
       
@@ -46,8 +44,7 @@
                     vm.showEmailError = true;
                 }
                 else {
-                     window.location = "http://pibookingservice.azurewebsites.net/app/index.html";
-                    //window.location = "http://localhost:63874/app/index.html";
+                    window.location = webBaseUrl + "/app/index.html";
                 }
                 console.log("success");
                

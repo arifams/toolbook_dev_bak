@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Linq;
+using PI.Business;
+using PI.Contract.DTOs.Customer;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
@@ -7,6 +10,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -56,7 +60,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("create")]                
-        public async Task<IHttpActionResult> CreateUser(CreateUserBindingModel createUserModel)
+        public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)
         {
             if (!ModelState.IsValid)
             {
@@ -80,14 +84,21 @@ namespace PI.Service.Controllers
                 return GetErrorResult(addUserResult);
             } 
 
+            // Save in customer table.
+            CustomerManagement customerManagement = new CustomerManagement();
+            customerManagement.SaveCustomer(createUserModel);
+
             #region For Email Confirmaion
 
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
             
-            await this.AppUserManager.SendEmailAsync(user.Id, "Confirm your account", 
-                "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+            StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName)
+                                        .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+
+            await this.AppUserManager.SendEmailAsync(user.Id, "Your account has been provisioned!", emailbody.ToString());
 
             #endregion
             
@@ -206,6 +217,28 @@ namespace PI.Service.Controllers
             }
 
             return Ok();
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LoginUser")]
+        public int LoginUser(CustomerDto customer)
+        {
+            var user = AppUserManager.Find(customer.UserName, customer.Password);
+
+            if (user == null)
+                return -1;
+            else if (!customer.IsConfirmEmail)
+                return 1;
+            else
+            {
+                IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
+                if (result.Succeeded)
+                    return 2;
+                else
+                    return -2;
+            }
         }
 
     }
