@@ -1,0 +1,585 @@
+﻿<div  ng-init="profile.loadProfile()">
+    <div class="header">
+        <h2><strong>General</strong>Information</h2>        
+    </div>    
+        <div class="col-lg-12" style="height:auto">
+
+
+            <div class="row">
+
+                <div class="col-lg-12 portlets">
+                    <div class="panel">
+                        <form role="form" name="updateProfile" ng-submit="profile.updateProfile()">
+                            <div class="panel-header panel-controls">
+                               
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Account Type *</label>
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="skin skin-minimal">
+                                            <div class="form-body">
+                                                <div class="form-group">                                                    
+                                                    <div class="input-group">
+                                                        <div class="icheck-inline">
+                                                            <label><input type="radio" name="iscorporate" data-radio="iradio_minimal-blue" value="False" ng-model="profile.individual"> Individual Account</label>
+                                                            <label><input type="radio" name="iscorporate" checked data-radio="iradio_minimal-blue" value="True" ng-model="profile.corporate"> Corporate Account</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>                        
+                                    </div>
+                                </div>
+                            </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Company Name *</label>
+                                    </div>
+                                    <div class="col-md-4">                                     
+                                            <div class="form-group" >                                                   
+                                                    <div class="append-icon">
+                                                        <input type="text" name="companyname" class="form-control form-white" minlength="4"  required ng-model="profile.companyname" >
+                                                        <i class="icon-user"></i>                                                        
+                                                    </div>
+                                                </div>                                         
+                                   </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Salutation *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                                           
+                                            <div class="option-group">
+                                                <select id="salutation" name="salutation" class="salutation" required ng-model="profile.salutation">
+                                                    <option value="MR">Mr</option>
+                                                    <option value="MRS">Mrs</option>
+                                                    <option value="MS">Ms</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">First Name *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                                           
+                                            <div class="append-icon">
+                                                <input type="text" name="firstname" class="form-control form-white" minlength="4" required ng-model="profile.firstname">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div> 
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <label class="control-label">Middle Name </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">                                           
+                                            <div class="append-icon">
+                                                <input type="text" name="middlename" class="form-control form-white" minlength="4" ng-model="profile.middlename" >
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Last Name *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            
+                                            <div class="append-icon">
+                                                <input type="text" name="lastname" class="form-control form-white" minlength="4" required ng-model="profile.lastname">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+
+                                <h3><strong>Corporate Address</strong></h3>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Country *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="option-group">
+                                                <select id="country" name="country" class="country" required ng-model="profile.country">
+                                                    <option value="1">country1</option>
+                                                    <option value="2">con2</option>
+                                                    <option value="3">con3</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Postal/Zip Code *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="postalcode" class="form-control form-white" minlength="4" required ng-model="profile.postalcode">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Street Name *</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="number" class="form-control form-white" required ng-model="profile.number">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="streetaddress1" class="form-control form-white"  required ng-model="profile.streetaddress1">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="streetaddress2" class="form-control form-white"  required ng-model="profile.streetaddress2">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">City *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="city" class="form-control form-white" required ng-model="profile.city">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">State *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="state" class="form-control form-white" required ng-model="profile.state">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Phone Number </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="phonenumber" class="form-control form-white" ng-model="profile.phonenumber">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Mobile Number </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="mobilenumber" class="form-control form-white" ng-model="profile.mobilenumber">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">VAT Number </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="vatnumber" class="form-control form-white" placeholder="Enter VAT Number" ng-model="profile.vatnumber">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label"> Chamber of Commerce Number</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="ccnumber" class="form-control form-white" placeholder="Enter Chamber of Commerce Number" ng-model="profile.ccnumber">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                            </div>
+                                        </div>
+                                </div>
+
+                                <br/><br/>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h3><strong>Billing Address</strong></h3>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="icheck-inline">
+                                            <label>
+                                                <input type="checkbox" data-checkbox="icheckbox_square-blue" name="corpaddressasbilling" ng-model="profile.corpaddressasbilling"> Use corporate address as billing address
+                                            </label>
+                                            </div>
+                                    </div>
+                                </div>
+                                
+
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Country *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="option-group">
+                                                <select id="billing_country" name="billing_country" class="country" required ng-model="profile.billing_country">
+                                                    <option value="1">country1</option>
+                                                    <option value="2">con2</option>
+                                                    <option value="3">con3</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Postal/Zip Code *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_postalcode" class="form-control form-white" minlength="4" required ng-model="profile.billing_postalcode">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Street Name *</label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_number" class="form-control form-white" required ng-model="profile.billing_number">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_streetaddress1" class="form-control form-white" required ng-model="profile.billing_streetaddress1">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+
+                                    </div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_streetaddress2" class="form-control form-white" required ng-model="profile.billing_streetaddress2">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">City *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_city" class="form-control form-white" required ng-model="profile.billing_city">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">State *</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_state" class="form-control form-white" required ng-model="profile.billing_state">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Primary Email* </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="primaryemail" class="form-control form-white" ng-model="profile.primaryemail">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Secondary Email </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="secondaryemail" class="form-control form-white" ng-model="profile.secondaryemail">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Phone Number </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="billing_phonenumber" class="form-control form-white" ng-model="profile.billing_phonenumber">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+
+                                <br/>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h3><strong>Login Details</strong></h3>
+                                    </div>                                   
+                               </div>
+                                <hr />
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Corporate ID </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="primaryemail" class="form-control form-white"  ng-model="profile.primaryemail">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Create New Password </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="password" name="newpassword" class="form-control form-white" placeholder="Enter new password" ng-model="profile.newpassword">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label class="control-label">Email Address </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="text" name="emailaddress" class="form-control form-white" ng-model="profile.emailaddress">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Confirm Password </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="password" name="newpassword_c" class="form-control form-white" placeholder="Re-enter new password" ng-model="profile.newpassword_c">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">                                   
+                                    <div class="col-md-6">                                        
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="control-label">Enter Old Password </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="append-icon">
+                                                <input type="password" name="oldpassword" class="form-control form-white" placeholder="Enter Old Password" ng-model="profile.oldpassword">
+                                                <i class="icon-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <br />
+                                <br />
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <h3><strong>Account Settings</strong></h3>
+                                    </div>
+                                   
+                                </div>
+                                <hr />
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label class="control-label">Default Language</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="option-group">                                                       
+                                                        
+                                                        <select id="defaultlanguage"  ng-options="language as language.languageCode for language in profile.languages track by language.id" name="defaultlanguage" class="defaultlanguage" required ng-model="profile.defaultlanguage">                                                            
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label class="control-label">Default Currency</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="option-group">
+                                                        <select id="defaultcurrency"  ng-options="currency as currency.currencyCode for currency in profile.currencies track by currency.id" name="defaultcurrency" class="defaultcurrency" required ng-model="profile.defaultcurrency">
+                                                                                                                      
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label class="control-label">Default Time Zone</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <div class="option-group">
+                                                        <select id="defaulttimezone" ng-options="timeZone as timeZone.timeZoneCode for timeZone in profile.timezones track by timeZone.id" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.defaulttimezone">
+                                                           
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <p>
+                                                <strong>Notify me on status changes:</strong>
+                                            </p>
+                                            <div class="input-group">
+                                                <div class="icheck-list">
+                                                    <label>
+                                                        <input type="checkbox" name="booking_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.booking_confirmation"> Booking Confirmation
+                                                    </label>
+                                                    <label>
+                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.pickup_confirmation"> Pickup Confirmation
+                                                    </label>
+                                                    <label>
+                                                        <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" ng-model="profile.shipment_delays"> Shipment delays
+                                                    </label>
+                                                    <label>
+                                                        <input type="checkbox" name="shipment_exceptions" data-checkbox="icheckbox_square-blue" ng-model="profile.shipment_exceptions"> Shipment exceptions
+                                                    </label>
+                                                  
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <p>
+                                                <strong>Subscibe to Offers,Deals & Promotions </strong>
+                                            </p>
+                                            <div class="input-group">
+                                                <div class="icheck-list">
+                                                    <label>
+                                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" ng-model="profile.notenewsolution"> I would like to receive notofied on new solutions
+                                                    </label>
+                                                    <label>
+                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount" ng-model="profile.notediscount"> I would like to be notified of discounts & offers
+                                                    </label>                                                  
+                                                 </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+                                </div>      
+                                <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-4">
+                                        <button type="submit" id="submit-form" class="btn btn-lg btn-primary " data-style="expand-right">Update</button>
+                                    </div>
+                                </div>                      
+                                   
+                                </div>                            
+                        </form>
+                </div>
+            </div>
+
+
+          
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <p class="pull-left sm-pull-reset">                
+                <span>Parcel International</span>            
+            </p>
+            
+        </div>
+    </div>
+</div>

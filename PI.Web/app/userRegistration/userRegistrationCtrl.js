@@ -39,6 +39,7 @@
             registerUserService.createUser(user)
             .then(function (result)
             {
+               
                 if (result.data == "-1") {
                     vm.showEmailError = true;
                 }

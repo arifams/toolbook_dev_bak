@@ -17,7 +17,7 @@ var MakeApp = angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-     'ngCookies',
+    
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -135,6 +135,12 @@ var MakeApp = angular
         .when('/pages-blank', {
             templateUrl: 'pages/blank/blank.html',
             controller: 'blankCtrl'
+        })
+          //profile Information Page
+        .when('/profileInformation-profileInformation', {
+            templateUrl: 'profileInformation/profileInformation.html',
+            controller: 'profileInformationCtrl',
+            controllerAs: 'profile'
         })
         .when('/pages-contact', {
             templateUrl: 'pages/contact/contact.html',

@@ -24,6 +24,11 @@ namespace PI.Data
         public DbSet<Company> Companies { get; set; }
         public DbSet<Division> Divisions { get; set; }
         public DbSet<CostCenter> CostCenters { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Entity.TimeZone> TimeZones { get; set; }
+        public DbSet<AccountSettings> AccountSettings { get; set; }
+        public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")
