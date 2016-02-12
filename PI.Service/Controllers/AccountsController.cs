@@ -59,7 +59,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
-        [Route("create")]                
+        [Route("create")]
         public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)
         {
             if (!ModelState.IsValid)
@@ -77,12 +77,15 @@ namespace PI.Service.Controllers
                 JoinDate = DateTime.Now.Date,
             };
 
-            IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, createUserModel.Password);
-
-            if (!addUserResult.Succeeded)
+            ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
+            if (existingUser == null)
+            { 
+               IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, createUserModel.Password);
+            }
+            else
             {
-                return GetErrorResult(addUserResult);
-            } 
+                return GetErrorResult(IdentityResult.Failed("Email already exists!"));
+            }
 
             // Save in customer table.
             CustomerManagement customerManagement = new CustomerManagement();
@@ -93,7 +96,7 @@ namespace PI.Service.Controllers
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
-            
+
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
             emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName)
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
@@ -101,7 +104,7 @@ namespace PI.Service.Controllers
             await this.AppUserManager.SendEmailAsync(user.Id, "Your account has been provisioned!", emailbody.ToString());
 
             #endregion
-            
+
             Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
             return Created(locationHeader, TheModelFactory.Create(user));
@@ -129,7 +132,7 @@ namespace PI.Service.Controllers
                 return GetErrorResult(result);
             }
         }
-        
+
         [Authorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
@@ -223,22 +226,55 @@ namespace PI.Service.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("LoginUser")]
-        public int LoginUser(CustomerDto customer)
+        public IHttpActionResult LoginUser(CustomerDto customer)
         {
             var user = AppUserManager.Find(customer.UserName, customer.Password);
 
             if (user == null)
-                return -1;
+                return Ok(new
+                {
+                    User = user,
+                    Result = -1
+                });
             else if (!customer.IsConfirmEmail)
-                return 1;
+                return Ok(new
+                 {
+                  User = user,
+                  Result = 1
+                });
             else
             {
                 IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
                 if (result.Succeeded)
-                    return 2;
+                {
+                   return Ok(new
+                   {
+                       User = user,
+                       Result = 2
+                   });
+                }
                 else
-                    return -2;
+                {
+                    return Ok(new
+                    {
+                        User = user,
+                        Result = 2
+                    });
+                }
             }
+
+            //if (user == null)
+            //    return -1;
+            //else if (!customer.IsConfirmEmail)
+            //    return 1;
+            //else
+            //{
+            //    IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
+            //    if (result.Succeeded)
+            //        return 2;
+            //    else
+            //        return -2;
+            //}
         }
 
     }

@@ -13,7 +13,7 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', function (userManager) {
+    app.controller('userLoginCtrl', ['userManager', '$cookies', function (userManager, $cookies) {
         var vm = this;     
 
         vm.loginInvalid = false;
@@ -33,6 +33,7 @@
 
         vm.login = function (user) {
 
+            // end test cookies
             debugger;
             if (window.location.search != "") {
 
@@ -61,18 +62,39 @@
             }
 
             userManager.loginUser(user, 'api/accounts/LoginUser')
-            .then(function (result) {
+             .then(function (returnedResult) {
+                 debugger;
+                 if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
 
-                if (result.data == "1" || result.data == "2") {
-                    window.location = webBaseUrl + "/app/index.html"; 
-                }
-                else if (result.data == "-1") {
-                    vm.loginInvalid = true;
-                }
-                else if (result.data == "-2") {
-                    vm.invalidToken = true;
-                }
-            },
+                     // TODO: To be coverted to a token.
+                      $cookies.userGuid = returnedResult.data.user.id;
+                      console.debug("blass" + $cookies.userGuid);
+
+                     window.location = webBaseUrl + "/app/index.html";
+                 }
+                 else if (returnedResult.data.result == "-1") {
+                     vm.loginInvalid = true;
+                 }
+                 else if (returnedResult.data.result == "-2") {
+                     vm.invalidToken = true;
+                 }
+             },
+            //.then(function (result) {
+
+            //    if (result.data == "1" || result.data == "2") {
+
+            //        // TODO: To be coverted to a token.
+
+
+            //        window.location = webBaseUrl + "/app/index.html"; 
+            //    }
+            //    else if (result.data == "-1") {
+            //        vm.loginInvalid = true;
+            //    }
+            //    else if (result.data == "-2") {
+            //        vm.invalidToken = true;
+            //    }
+            //},
             function (error) {
 
                 console.log("failed");
@@ -85,5 +107,5 @@
     }]);
 
 
-})(angular.module('userLogin', []));
+})(angular.module('userLogin', ['ngCookies']));
 

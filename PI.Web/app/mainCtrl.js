@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location',
-        function ($scope, applicationService, quickViewService, builderService, pluginsService, $location) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$cookies',
+function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$cookies) {
             $(document).ready(function () {
                 applicationService.init();
                 quickViewService.init();
@@ -36,5 +36,7 @@
             $scope.isActive = function (viewLocation) {
                 return viewLocation === $location.path();
             };
+
+            console.log($cookies.userGuid);
 
         }]);

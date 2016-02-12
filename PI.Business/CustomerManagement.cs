@@ -22,79 +22,67 @@ namespace PI.Business
 
         public int SaveCustomer(CustomerDto customer)
         {
-            using (var context = PIContext.Get())
+            try
             {
-                var existingCustomer = context.Customers.FirstOrDefault(c => c.UserName == customer.Email);
-
-                if (existingCustomer != null)
+                using (var context = PIContext.Get())
                 {
-                    return -1;
-                }
-            }
-
-            using (var context = PIContext.Get())
-            {
-                if (customer.Id == 0)
-                {
-                    Customer newCustomer = new Customer()
+                    if (customer.Id == 0)
                     {
-                        FirstName = customer.FirstName,
-                        MiddleName = customer.MiddleName,
-                        LastName = customer.LastName,
-                        Salutation = customer.Salutation,
-                        Email = customer.Email,
-                        PhoneNumber = customer.PhoneNumber, 
-                        MobileNumber = customer.MobileNumber,
-                        CreatedDate = DateTime.Now,
-                        CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                        UserName = customer.Email,
-                        Password = customer.Password,
-                        CustomerAddress = new Address()
+                        Customer newCustomer = new Customer()
                         {
-                            Country = customer.CustomerAddress.Country,
-                            ZipCode = customer.CustomerAddress.ZipCode,
-                            Number = customer.CustomerAddress.Number,
-                            StreetAddress1 = customer.CustomerAddress.StreetAddress1,
-                            StreetAddress2 = customer.CustomerAddress.StreetAddress2,
-                            City = customer.CustomerAddress.City,
-                            State = customer.CustomerAddress.State,
+                            FirstName = customer.FirstName,
+                            MiddleName = customer.MiddleName,
+                            LastName = customer.LastName,
+                            Salutation = customer.Salutation,
+                            Email = customer.Email,
+                            PhoneNumber = customer.PhoneNumber,
+                            MobileNumber = customer.MobileNumber,
                             CreatedDate = DateTime.Now,
                             CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                        }
-                    };
-                    context.Customers.Add(newCustomer);
+                            UserName = customer.Email,
+                            Password = customer.Password,
+                            CustomerAddress = new Address()
+                            {
+                                Country = customer.CustomerAddress.Country,
+                                ZipCode = customer.CustomerAddress.ZipCode,
+                                Number = customer.CustomerAddress.Number,
+                                StreetAddress1 = customer.CustomerAddress.StreetAddress1,
+                                StreetAddress2 = customer.CustomerAddress.StreetAddress2,
+                                City = customer.CustomerAddress.City,
+                                State = customer.CustomerAddress.State,
+                                CreatedDate = DateTime.Now,
+                                CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                            }
+                        };
+                        context.Customers.Add(newCustomer);
+                    }
+                    else
+                    {
+                        var existingCustomer = context.Customers.Single(c => c.Id == customer.Id);
+                        //Never use context.Customers.Find(id) method to retrieve tenant entities
+                        //If we do, that will enable malicious users to modify data belongs to another tenant
+                        existingCustomer.FirstName = customer.FirstName;
+                        existingCustomer.MiddleName = customer.MiddleName;
+                        existingCustomer.LastName = customer.LastName;
+                        existingCustomer.Salutation = customer.Salutation;
+                        existingCustomer.Email = customer.Email;
+                        existingCustomer.PhoneNumber = customer.PhoneNumber;
+                        existingCustomer.MobileNumber = customer.MobileNumber;
+                        existingCustomer.CreatedDate = DateTime.Now;
+                        existingCustomer.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
 
-                    // TODO : temp code.
-
-                   // WebSecurity.CreateUserAndAccount("uname", "pwd");
-
-                    //
+                        existingCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
+                        existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
+                        existingCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
+                        existingCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
+                        existingCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
+                        existingCustomer.CustomerAddress.City = customer.CustomerAddress.City;
+                        existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
+                    }
+                    context.SaveChanges();
                 }
-                else
-                {
-                    var existingCustomer = context.Customers.Single(c => c.Id == customer.Id);
-                    //Never use context.Customers.Find(id) method to retrieve tenant entities
-                    //If we do, that will enable malicious users to modify data belongs to another tenant
-                    existingCustomer.FirstName = customer.FirstName;
-                    existingCustomer.MiddleName = customer.MiddleName;
-                    existingCustomer.LastName = customer.LastName;
-                    existingCustomer.Salutation = customer.Salutation;
-                    existingCustomer.Email = customer.Email;
-                    existingCustomer.PhoneNumber = customer.PhoneNumber;
-                    existingCustomer.MobileNumber = customer.MobileNumber;
-                    existingCustomer.CreatedDate = DateTime.Now;
-                    existingCustomer.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
-
-                    existingCustomer.CustomerAddress.Country =  customer.CustomerAddress.Country;
-                    existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
-                    existingCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
-                    existingCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
-                    existingCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
-                    existingCustomer.CustomerAddress.City = customer.CustomerAddress.City;
-                    existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
-                }
-                context.SaveChanges();
             }
+            catch (Exception ex) { throw ex; }
 
             return 1;
         }

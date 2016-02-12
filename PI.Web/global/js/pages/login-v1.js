@@ -569,11 +569,11 @@ $(function() {
                     TemplateLink: '<html><head>	<title></title></head><body><p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div><h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;"><span style="font-family:verdana,geneva,sans-serif;"><span style="color:#0000CD;"><span style="font-size:28px;">Account Activation</span></span></span></div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;"><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;">Dear <strong>FirstName &nbsp;LastName, &nbsp;</strong></span></span></h4><h4 style="text-align: justify;"><br /><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;"><strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong></span></span></h4><h4 style="text-align: justify;"><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;"><strong>Thank you for registering. To activate your account, please click &nbsp;ActivationURL</strong></span></span></h4><h4 style="text-align: justify;"><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span></span></h4><h4 style="text-align: justify;"><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;"><strong>Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;</strong></span></span></h4><h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;"><strong><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;">Thank You, </span></span></strong></h4><h4 style="text-align: justify;"><strong><span style="font-size:12px;"><span style="font-family:verdana,geneva,sans-serif;">Parcel International Team</span></span></strong></h4></div></body></html>'
                 }
                 var jqxhr = $.post(serverBaseUrl + '/api/Accounts/create', newUser)
-               //var jqxhr = $.post('https://pibooking.azurewebsites.net/api/User/createuser', newUser)
+              
              .success(function () {
                  var loc = jqxhr.getResponseHeader('Location');
                  var responce = jqxhr.responseJSON;
-                 
+                
                  $('#form-signup').hide();
                  $('#confirmationMailSend').show();
 
@@ -587,7 +587,8 @@ $(function() {
                  }
                 
              })
-             .error(function () {
+             .error(function (result) {                 
+                 $('#error-message').show();
                  $('#message').html("Error posting the update.");
              });
                 
