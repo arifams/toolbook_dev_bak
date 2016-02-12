@@ -1,4 +1,4 @@
-﻿<div ng-app="userProfile"  ng-controller="profileinformationCtrl as profile" ng-init="profile.loadProfile()">
+﻿<div  ng-init="profile.loadProfile()">
     <div class="header">
         <h2><strong>General</strong>Information</h2>        
     </div>    
@@ -6,6 +6,7 @@
 
 
             <div class="row">
+
                 <div class="col-lg-12 portlets">
                     <div class="panel">
                         <form role="form" name="updateProfile" ng-submit="profile.updateProfile()">

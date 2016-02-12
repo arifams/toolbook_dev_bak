@@ -22,9 +22,9 @@ namespace PI.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Company> Companies { get; set; }
-        public DbSet<Language> Language { get; set; }
-        public DbSet<Currency> Currency { get; set; }
-        public DbSet<Entity.TimeZone> TimeZone { get; set; }
+        public DbSet<Language> Languages { get; set; }
+        public DbSet<Currency> Currencies { get; set; }
+        public DbSet<Entity.TimeZone> TimeZones { get; set; }
         public DbSet<AccountSettings> AccountSettings { get; set; }
         public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
 

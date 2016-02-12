@@ -16,7 +16,8 @@ var MakeApp = angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -138,7 +139,8 @@ var MakeApp = angular
           //profile Information Page
         .when('/profileInformation-profileInformation', {
             templateUrl: 'profileInformation/profileInformation.html',
-            controller: 'profileInformationCtrl'
+            controller: 'profileInformationCtrl',
+            controllerAs: 'profile'
         })
         .when('/pages-contact', {
             templateUrl: 'pages/contact/contact.html',

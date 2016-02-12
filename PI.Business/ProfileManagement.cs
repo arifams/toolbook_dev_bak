@@ -1,4 +1,6 @@
-﻿using PI.Contract.DTOs.Profile;
+﻿using PI.Contract.DTOs.AccountSettings;
+using PI.Contract.DTOs.Customer;
+using PI.Contract.DTOs.Profile;
 using PI.Data;
 using PI.Data.Entity;
 using System;
@@ -11,11 +13,14 @@ namespace PI.Business
 {
     public class ProfileManagement
     {
-        PIContext context = PIContext.Get();
+       
         //get the profile details
         public ProfileDto getProfileByUserName(string username)
         {
             ProfileDto currentProfile=new ProfileDto();
+            currentProfile.CustomerDetails = new CustomerDto();
+            currentProfile.CustomerDetails.CustomerAddress = new Contract.DTOs.Address.AddressDto();
+
             Address currentAddress;
             AccountSettings currentAccountSettings;
             NotificationCriteria currentnotificationCriteria;
@@ -78,10 +83,96 @@ namespace PI.Business
 
         }
 
+        public int updateProfileData(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer;
+            Address currentAddress;
+            AccountSettings currentAccountSettings;
+            NotificationCriteria currentNotificationCriteria;
+
+
+            if (updatedProfile == null)
+            {
+                return 0;
+            }
+            currentCustomer = this.GetCustomerByUserName(updatedProfile.CustomerDetails.Email);
+
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                //updating basic customer details
+                currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
+                currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
+                currentCustomer.MiddleName = updatedProfile.CustomerDetails.MiddleName;
+                currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
+                currentCustomer.Email = updatedProfile.CustomerDetails.Email;
+                currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
+                currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
+                currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
+                currentCustomer.Password = updatedProfile.CustomerDetails.Password;
+                //set customer entity state as modified
+                context.Customers.Attach(currentCustomer);
+                context.Entry(currentCustomer).State = System.Data.Entity.EntityState.Modified;
+
+                currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
+                currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
+                currentNotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
+
+                if (currentAddress != null)
+                {
+                    currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
+                    currentAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
+                    currentAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
+                    currentAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
+                    currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
+                    currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
+                    currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+                    //set address entity state as modified
+                    context.Addresses.Attach(currentAddress);
+                    context.Entry(currentAddress).State = System.Data.Entity.EntityState.Modified;
+                }
+                //Assign Account setting values to the Profile Dto
+                if (currentAccountSettings != null)
+                {
+                    currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultCurrencyId;
+                    //set account settings entity as modidied
+                    context.AccountSettings.Attach(currentAccountSettings);
+                    context.Entry(currentAccountSettings).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                //Assign Notofication criteria to the Profile Dto
+                if (currentNotificationCriteria != null)
+                {
+                    currentNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    currentNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    currentNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    currentNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    currentNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    currentNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    //set notification criteria entity as modified
+                    context.NotificationCriterias.Attach(currentNotificationCriteria);
+                    context.Entry(currentNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                //saving changes of updated profile
+                context.SaveChanges();
+            }
+            return 1;
+
+
+
+        }
+
         //get the customer details by username(email)
         public Customer GetCustomerByUserName(string username)
         {
-            using (context)
+            using (PIContext context = PIContext.Get())
             {
                 return context.Customers.Single(c => c.Email == username);
             }
@@ -90,27 +181,73 @@ namespace PI.Business
         //get address details by Id
         public Address GetAddressbyId(long addressId)
         {
-            using (context)
+            using (PIContext context = PIContext.Get())
             {
-                return context.Addresses.Single(a => a.Id == addressId);
+                return context.Addresses.SingleOrDefault(a => a.Id == addressId);
             }
         }
 
         //get Account Settings by customer Id
         public AccountSettings GetAccountSettingByCustomerId(long customerId)
         {
-            using (context)
+            using (PIContext context = PIContext.Get())
             {
-                return context.AccountSettings.Single(s => s.CustomerId == customerId);
+                return context.AccountSettings.SingleOrDefault(s => s.CustomerId == customerId);
             }
         }
 
         //get the notofication criterias bt customer Id
         public NotificationCriteria GetNotificationCriteriaByCustomerId(long customerId)
         {
-            using (context)
+            using (PIContext context = PIContext.Get())
             {
-                return context.NotificationCriterias.Single(n => n.CustomerId == customerId);
+                return context.NotificationCriterias.SingleOrDefault(n => n.CustomerId == customerId);
+            }
+        }
+
+        //Get Account Setting Details
+        //retrieve all languages
+        public IQueryable<LanguageDto> GetAllLanguage()
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                var languages = from l in context.Languages
+                                select new LanguageDto()
+                                {
+                                    LanguageCode = l.LanguageCode,
+                                    LanguageName = l.LanguageName
+                                };
+                return languages;
+            }           
+        }
+
+        //retrieve all currencies
+        public IQueryable<CurrencyDto> GetAllCurrencies()
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                var currencies = from c in context.Currencies
+                                 select new CurrencyDto()
+                                 {
+                                     CurrencyCode=c.CurrencyCode,
+                                     CurrencyName=c.CurrencyName
+                                 };
+                return currencies;
+            }
+        }
+        
+        //retrieve all TimeZones
+        public IQueryable<TimeZoneDto> GetAllTimeZones()
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                var timeZones = from t in context.TimeZones
+                                select new TimeZoneDto()
+                                {
+                                    TimeZoneCode=t.TimeZoneCode,
+                                    CountryName=t.CountryName
+                                };
+                return timeZones;
             }
         }
 

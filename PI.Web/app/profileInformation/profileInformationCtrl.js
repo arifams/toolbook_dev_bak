@@ -4,12 +4,10 @@
 (function (app) {
 
     app.factory('updateProfilefactory', function ($http) {
-
         return {
+                updateProfileInfo: function (updatedProfile) {
 
-            updateProfileInfo: function (updatedProfile) {
-
-                    $http.post('api/Profile/updateProfile', updatedProfile).then(function successCallback(response) {
+                $http.post('api/profile/UpdateProfile', updatedProfile).then(function successCallback(response) {
                     if (response.data != null) {
                         return response;
                     }
@@ -24,24 +22,13 @@
 
   
     app.factory('loadProfilefactory', function ($http) {
-
         return {           
             loadProfileinfo: function () {
-                $http.get('/api/Profile/getProfile', {
-                    params: {                        
-                        username: 'test@test.com'
+                $http.get('http://localhost:5555/api/profile/GetProfile', {
+                    params: {
+                        username: 'dilshan@amarasinghe'
                     }
-                }).
-                    then(function successCallback(response)
-                    {
-                        if (response.data!=null) {
-                            return response;
-                        }
-                    
-                    }, function errorCallback(response)
-                    {                   
-                        return null;
-                   });
+                });
             }
         }
 
@@ -70,31 +57,28 @@
                         if (result.data != null) {
 
                             var profile = result.data;
-                        }
-                        else
-                        {
-                            console.log('Profile load failed');
-                        }
+                            return profile;
+                        }                       
 
+                    }, function (error) {
+                        console.log("failed");
                     });
             }
 
-
             vm.updateProfile = function () {
-
                 updateProfilefactory.updateProfileInfo()
                 .then(function (result) {
                     if (result.data != null) {
 
                         //TO DO
                     }
-                    else {
-                        console.log('Update Failed');
-                    }
+                    
+                }, function (error) {
+                    console.log("failed");
                 });
             }
         }]);
 
 
-})(angular.module('userProfile', []));
+})(angular.module('newApp'));
 
