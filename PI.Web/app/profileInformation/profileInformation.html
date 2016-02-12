@@ -474,12 +474,9 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <div class="option-group">
-                                                        <select id="defaultlanguage" name="defaultlanguage" class="defaultlanguage" required ng-model="profile.defaultlanguage">
-                                                            <option value="EN">English</option>
-                                                            <option value="DTH">Dutch</option>
-                                                            <option value="CH">Chienese</option>
-                                                            <option value="GER">German</option>
+                                                    <div class="option-group">                                                       
+                                                        
+                                                        <select id="defaultlanguage"  ng-options="language as language.languageCode for language in profile.languages track by language.id" name="defaultlanguage" class="defaultlanguage" required ng-model="profile.defaultlanguage">                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -493,9 +490,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">
-                                                        <select id="defaultcurrency" name="defaultcurrency" class="defaultcurrency" required ng-model="profile.defaultcurrency">
-                                                            <option value="USD">US-Dollars</option>
-                                                            <option value="EU">Euro</option>                                                           
+                                                        <select id="defaultcurrency"  ng-options="currency as currency.currencyCode for currency in profile.currencies track by currency.id" name="defaultcurrency" class="defaultcurrency" required ng-model="profile.defaultcurrency">
+                                                                                                                      
                                                         </select>
                                                     </div>
                                                 </div>
@@ -508,9 +504,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">
-                                                        <select id="defaulttimezone" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.defaulttimezone">
-                                                            <option value="1">UTC-04.00</option>
-                                                            <option value="2">UTC-05.00</option>
+                                                        <select id="defaulttimezone" ng-options="timeZone as timeZone.timeZoneCode for timeZone in profile.timezones track by timeZone.id" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.defaulttimezone">
+                                                           
                                                         </select>
                                                     </div>
                                                 </div>
@@ -529,7 +524,7 @@
                                                         <input type="checkbox" name="booking_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.booking_confirmation"> Booking Confirmation
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" name="pickup_confirmation" checked data-checkbox="icheckbox_square-blue" ng-model="profile.pickup_confirmation"> Pickup Confirmation
+                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.pickup_confirmation"> Pickup Confirmation
                                                     </label>
                                                     <label>
                                                         <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" ng-model="profile.shipment_delays"> Shipment delays
@@ -553,7 +548,7 @@
                                                         <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" ng-model="profile.notenewsolution"> I would like to receive notofied on new solutions
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" checked data-checkbox="icheckbox_square-blue" name="notediscount" ng-model="profile.notediscount"> I would like to be notified of discounts & offers
+                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount" ng-model="profile.notediscount"> I would like to be notified of discounts & offers
                                                     </label>                                                  
                                                  </div>
                                             </div>

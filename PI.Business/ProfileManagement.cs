@@ -165,8 +165,6 @@ namespace PI.Business
             }
             return 1;
 
-
-
         }
 
         //get the customer details by username(email)
@@ -207,13 +205,14 @@ namespace PI.Business
 
         //Get Account Setting Details
         //retrieve all languages
-        public IQueryable<LanguageDto> GetAllLanguage()
+        public IQueryable<LanguageDto> GetAllLanguages()
         {
             using (PIContext context = PIContext.Get())
             {
                 var languages = from l in context.Languages
                                 select new LanguageDto()
                                 {
+                                    Id=l.Id,
                                     LanguageCode = l.LanguageCode,
                                     LanguageName = l.LanguageName
                                 };
@@ -229,6 +228,7 @@ namespace PI.Business
                 var currencies = from c in context.Currencies
                                  select new CurrencyDto()
                                  {
+                                     Id=c.Id,
                                      CurrencyCode=c.CurrencyCode,
                                      CurrencyName=c.CurrencyName
                                  };
@@ -244,6 +244,7 @@ namespace PI.Business
                 var timeZones = from t in context.TimeZones
                                 select new TimeZoneDto()
                                 {
+                                    Id=t.Id,
                                     TimeZoneCode=t.TimeZoneCode,
                                     CountryName=t.CountryName
                                 };

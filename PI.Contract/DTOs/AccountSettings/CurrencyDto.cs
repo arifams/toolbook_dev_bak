@@ -8,6 +8,7 @@ namespace PI.Contract.DTOs.AccountSettings
 {
    public class CurrencyDto
     {
+        public long Id { get; set; }
         public string CurrencyCode { get; set; }
         public string CurrencyName { get; set; }
     }

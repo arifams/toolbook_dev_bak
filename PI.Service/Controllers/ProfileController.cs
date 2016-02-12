@@ -1,4 +1,5 @@
 ﻿using PI.Business;
+using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Profile;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,32 @@ namespace PI.Service.Controllers
             return userprofile.getProfileByUserName(username);
         }
 
+        [HttpGet]
+        [Route("GetAllLanguages")]
+        public IQueryable<LanguageDto> GetAllLanguages()
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+            IQueryable<LanguageDto> languaes = userprofile.GetAllLanguages();
+            return languaes;
+        }
+
+        [HttpGet]
+        [Route("GetAllCurrencies")]
+        public IQueryable<CurrencyDto> GetAllCurrencies()
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+            IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
+            return currencies;
+        }
+
+        [HttpGet]
+        [Route("GetAllTimezones")]
+        public IQueryable<TimeZoneDto> GetAllTimezones()
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+            IQueryable<TimeZoneDto> timeZones = userprofile.GetAllTimeZones();
+            return timeZones;
+        }
 
         [EnableCors(origins:"*",headers:"*",methods:"*")]
         [Authorize]
