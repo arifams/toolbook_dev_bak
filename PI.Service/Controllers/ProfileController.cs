@@ -1,11 +1,14 @@
-﻿using PI.Business;
+﻿using Microsoft.AspNet.Identity;
+using PI.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Profile;
+using PI.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -53,18 +56,24 @@ namespace PI.Service.Controllers
             return timeZones;
         }
 
-        [EnableCors(origins:"*",headers:"*",methods:"*")]
-        [Authorize]
+        [EnableCors(origins:"*",headers:"*",methods:"*")]      
         [HttpPost]
         [Route("UpdateProfile")]
-        public int UpdateProfile([FromBody] ProfileDto profile)
+        public async Task<IHttpActionResult> UpdateProfile([FromBody] ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
-            return userprofile.updateProfileData(profile);
+            ProfileManagement userprofile = new ProfileManagement();           
+
+            IdentityResult result = await this.AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), profile.OldPassword, profile.NewPassword);
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            var updatedStatus=userprofile.updateProfileData(profile);
+
+            return Ok();
         }
-
-
-
+                
 
     }
 }

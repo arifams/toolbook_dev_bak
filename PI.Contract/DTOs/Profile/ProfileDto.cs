@@ -21,6 +21,14 @@ namespace PI.Contract.DTOs.Profile
         public long DefaultCurrencyId { get; set; }
         public long DefaultTimeZoneId { get; set; }
 
+        /// user settings
+        public string NewPassword { get; set; }       
+        public string OldPassword { get; set; }
+
+        public string COCNumber { get; set; }
+        public string VATNumber { get; set; }
+
+
         public CustomerDto CustomerDetails { get; set; }
 
     }

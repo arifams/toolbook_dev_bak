@@ -12,6 +12,8 @@ namespace PI.Data.Entity
         public string Name { get; set; }
 
         public long TenantId { get; set; }
+        public string COCNumber { get; set; }
+        public string VATNumber { get; set; }
 
         #region Navigation Property
 

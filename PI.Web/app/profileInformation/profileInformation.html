@@ -36,7 +36,7 @@
                                         <label class="control-label">Company Name *</label>
                                     </div>
                                     <div class="col-md-4">                                     
-                                            <div class="form-group" >                                                   
+                                            <div class="form-group" ng-show="profile.individual">                                                   
                                                     <div class="append-icon">
                                                         <input type="text" name="companyname" class="form-control form-white" minlength="4"  required ng-model="profile.companyname" >
                                                         <i class="icon-user"></i>                                                        
@@ -230,7 +230,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="ccnumber" class="form-control form-white" placeholder="Enter Chamber of Commerce Number" ng-model="profile.ccnumber">
+                                                <input type="text" name="ccnumber" class="form-control form-white" placeholder="Enter Chamber of Commerce Number" ng-model="profile.cocnumber">
                                                 <i class="icon-user"></i>
                                             </div>
                                             </div>
@@ -476,7 +476,7 @@
                                                 <div class="form-group">
                                                     <div class="option-group">                                                       
                                                         
-                                                        <select id="defaultlanguage"  ng-options="language as language.languageCode for language in profile.languages track by language.id" name="defaultlanguage" class="defaultlanguage" required ng-model="profile.defaultlanguage">                                                            
+                                                        <select id="defaultlanguage"  ng-options="language.id as language.languageCode for language in profile.languages" name="defaultlanguage" class="defaultlanguage" required ng-model="profile.defaultlanguage">                                                            
                                                         </select>
                                                     </div>
                                                 </div>
@@ -490,8 +490,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">
-                                                        <select id="defaultcurrency"  ng-options="currency as currency.currencyCode for currency in profile.currencies track by currency.id" name="defaultcurrency" class="defaultcurrency" required ng-model="profile.defaultcurrency">
-                                                                                                                      
+                                                       
+                                                        <select id="defaultcurrency" convert-to-number ng-options="currency.id as currency.currencyCode for currency in profile.currencies" name="defaultcurrency" class="defaultcurrency" required ng-model="profile.defaultcurrency">
+                                                                                                                  
                                                         </select>
                                                     </div>
                                                 </div>
@@ -504,7 +505,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">
-                                                        <select id="defaulttimezone" ng-options="timeZone as timeZone.timeZoneCode for timeZone in profile.timezones track by timeZone.id" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.defaulttimezone">
+                                                        
+                                                        <select id="defaulttimezone" ng-options="timeZone.id as timeZone.timeZoneCode for timeZone in profile.timezones" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.defaulttimezone" >
                                                            
                                                         </select>
                                                     </div>
@@ -520,18 +522,23 @@
                                             </p>
                                             <div class="input-group">
                                                 <div class="icheck-list">
+                                                    {{profile.booking_confirmation}}                                                    
+                                                        <label>
+                                                            <input type="checkbox" name="booking_confirmation"    ng-checekd="checked"> Booking Confirmation
+                                                        </label>                                                   
                                                     <label>
-                                                        <input type="checkbox" name="booking_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.booking_confirmation"> Booking Confirmation
+                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue"  ng-model="profile.pickup_confirmation" > Pickup Confirmation
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue" ng-model="profile.pickup_confirmation"> Pickup Confirmation
+                                                        <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" ng-checked="profile.shipment_delays=='true'" > Shipment delays
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" ng-model="profile.shipment_delays"> Shipment delays
+                                                        <input type="checkbox" name="shipment_exceptions" data-checkbox="icheckbox_square-blue" ng-checked="profile.shipment_exceptions=='true'" > Shipment exceptions
                                                     </label>
-                                                    <label>
-                                                        <input type="checkbox" name="shipment_exceptions" data-checkbox="icheckbox_square-blue" ng-model="profile.shipment_exceptions"> Shipment exceptions
-                                                    </label>
+
+                                                    <div ng-init="profile.booking_confirmation=true">
+                                                        <label><input type="checkbox" ng-model="profile.booking_confirmation" />Option 2</label>
+                                                    </div>
                                                   
                                                 </div>
                                             </div>
@@ -544,11 +551,12 @@
                                             </p>
                                             <div class="input-group">
                                                 <div class="icheck-list">
+                                                    {{profile.notenewsolution}}
                                                     <label>
-                                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" ng-model="profile.notenewsolution"> I would like to receive notofied on new solutions
+                                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" ng-model="true" > I would like to receive notofied on new solutions
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount" ng-model="profile.notediscount"> I would like to be notified of discounts & offers
+                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount"     ng-checked="profile.notediscount=='true'"> I would like to be notified of discounts & offers
                                                     </label>                                                  
                                                  </div>
                                             </div>

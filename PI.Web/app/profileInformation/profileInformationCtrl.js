@@ -3,7 +3,7 @@
 
 (function (app) {
 
-    app.factory('updateProfilefactory', function ($http,$q) {
+    app.factory('updateProfilefactory', function ($http) {
         return {
                 updateProfileInfo: function (updatedProfile) {
 
@@ -82,6 +82,9 @@
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory,loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
             var vm = this;
+            var t_currencies;
+            var t_languages;
+            var t_timezones;
 
             vm.loadProfile = function () {
 
@@ -89,19 +92,20 @@
                 loadAllLanguages.loadLanguages()
                     .then(function successCallback(responce) {
 
-                        vm.languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
+                        t_languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
                         //JSON.stringify(responce.data);
                        
 
                     }, function errorCallback(response) {
                        //todo
                     });
-
+                
                 //loading currencies to dropdown
                 loadAllCurrencies.loadCurrencies()
                 .then(function successCallback(responce) {
 
-                    vm.currencies = responce.data;
+                    // vm.currencies = responce.data;
+                    t_currencies = responce.data;
                 }, function errorCallback(response) {
                     //todo
                 });
@@ -109,7 +113,7 @@
                 //loading timezones to dropdown
                 loadAllTimeZones.loadTimeZones()
                 .then(function successCallback(responce) {
-                    vm.timezones = responce.data;
+                    t_timezones = responce.data;
 
                 }, function errorCallback(response) {
                     //todo
@@ -119,6 +123,14 @@
                  loadProfilefactory.loadProfileinfo().
                     then(function successCallback(response) {
                         if (response.data != null) {
+
+                            //setting the account type
+                            if (customerDetails.isCorporateAccount) {
+                                vm.corporate = true;
+                            }
+                            else {
+                                vm.individual = true;
+                            }                          
 
                             vm.firstname = response.data.customerDetails.firstName;
                             vm.salutation = response.data.customerDetails.salutation;                           
@@ -134,11 +146,19 @@
                             vm.phonenumber = response.data.customerDetails.phoneNumber;
                             vm.mobilenumber = response.data.customerDetails.mobileNumber;
                             vm.emailaddress = response.data.customerDetails.email;
+                            vm.cocnumber
+                            vm.vatnumber
                             //return response.data;                             
+                            
+                        
+                            vm.currencies = t_currencies
+                            vm.languages = t_languages;
+                            vm.timezones = t_timezones;
                             vm.defaultlanguage = response.data.defaultLanguageId;
                             vm.defaultcurrency = response.data.defaultCurrencyId;
                             vm.defaulttimezone = response.data.defaultTimeZoneId;
-                            vm.booking_confirmation = response.data.bookingConfirmation;
+
+                            vm.booking_confirmation= response.data.bookingConfirmation;                           
                             vm.pickup_confirmation = response.data.pickupConfirmation;
                             vm.shipment_delays = response.data.shipmentDelay;
                             vm.shipment_exceptions = response.data.shipmentException;
@@ -156,11 +176,50 @@
             }
 
             vm.updateProfile = function () {
-                updateProfilefactory.updateProfileInfo()
+
+                var UpdatedProfile = {
+
+                    BookingConfirmation: vm.booking_confirmation,
+                    PickupConfirmation : vm.pickup_confirmation,
+                    ShipmentDelay :vm.shipment_delays,
+                    ShipmentException: vm.shipment_exceptions ,
+                    NotifyNewSolution :vm.notenewsolution,
+                    NotifyDiscountOffer:vm.notediscount ,                   
+                  
+                    DefaultLanguageId :vm.defaultlanguage,
+                    DefaultCurrencyId :vm.defaultcurrency,
+                    DefaultTimeZoneId :vm.defaulttimezone,                   
+                
+                    NewPassword : vm.newpassword,
+                    OldPassword :vm.oldpassword,                   
+                    
+                    CustomerDetails: {
+                        Salutation: vm.salutation,
+                        FirstName: vm.firstname,
+                        LastName: vm.lastname,
+                        MiddleName: vm.middlename,
+                        Email: vm.email,
+                        PhoneNumber: vm.contact,                       
+                        ConfirmPassword: vm.confirmpassword,
+                        IsCorporateAccount: vm.iscorporate,
+                        CompanyName: vm.companyname,
+                        CustomerAddress:
+                          {
+                             Country: user.country,
+                             ZipCode: user.postalcode,
+                             StreetAddress1: user.street,
+                             StreetAddress2: user.additionaldetails,
+                             City: user.city,
+                             State: user.state
+                          },
+                    }
+                }
+
+                updateProfilefactory.updateProfileInfo(UpdatedProfile)
                 .then(function (result) {
                     if (result.data != null) {
 
-                        //TO DO
+                        //
                     }
                     
                 }, function (error) {
