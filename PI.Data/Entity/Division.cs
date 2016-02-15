@@ -13,7 +13,7 @@ namespace PI.Data.Entity
 
         public string Description { get; set; }
 
-        public int  DefaultCostCenterId { get; set; }
+        public long  DefaultCostCenterId { get; set; }
 
         public int Status { get; set; }
 
@@ -25,6 +25,9 @@ namespace PI.Data.Entity
 
         [ForeignKey("CompanyId")]
         public Company Company { get; set; }
+
+        [ForeignKey("DefaultCostCenterId")]
+        public CostCenter CostCenter { get; set; }
 
         #endregion
     }

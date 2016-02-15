@@ -41,6 +41,7 @@ namespace PI.Business
                             CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                             UserName = customer.Email,
                             Password = customer.Password,
+                            UserId = customer.UserId,
                             CustomerAddress = new Address()
                             {
                                 Country = customer.CustomerAddress.Country,
@@ -70,6 +71,7 @@ namespace PI.Business
                         existingCustomer.MobileNumber = customer.MobileNumber;
                         existingCustomer.CreatedDate = DateTime.Now;
                         existingCustomer.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
+                        existingCustomer.UserId = customer.UserId;
 
                         existingCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
                         existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;

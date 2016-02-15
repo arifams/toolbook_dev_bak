@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using PI.Business;
+using PI.Contract.DTOs.Company;
+using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
+using PI.Contract.DTOs.Division;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
@@ -79,8 +82,9 @@ namespace PI.Service.Controllers
 
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
             if (existingUser == null)
-            { 
-               IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, createUserModel.Password);
+            {
+                IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, createUserModel.Password);
+                createUserModel.UserId = user.Id;
             }
             else
             {
@@ -91,6 +95,11 @@ namespace PI.Service.Controllers
             CustomerManagement customerManagement = new CustomerManagement();
             customerManagement.SaveCustomer(createUserModel);
 
+            //Create Tenant, Default Company, Division & CostCenter 
+            CompanyController companyManagement = new CompanyController();
+            companyManagement.CreateCompanyDetails(createUserModel);
+
+            
             #region For Email Confirmaion
 
             string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -239,19 +248,19 @@ namespace PI.Service.Controllers
             else if (!customer.IsConfirmEmail)
                 return Ok(new
                  {
-                  User = user,
-                  Result = 1
-                });
+                     User = user,
+                     Result = 1
+                 });
             else
             {
                 IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
                 if (result.Succeeded)
                 {
-                   return Ok(new
-                   {
-                       User = user,
-                       Result = 2
-                   });
+                    return Ok(new
+                    {
+                        User = user,
+                        Result = 2
+                    });
                 }
                 else
                 {

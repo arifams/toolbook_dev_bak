@@ -47,6 +47,7 @@
     <Compile Include="DTOs\AccountSettings\LanguageDto.cs" />
     <Compile Include="DTOs\AccountSettings\TimeZoneDto.cs" />
     <Compile Include="DTOs\Address\AddressDto.cs" />
+    <Compile Include="DTOs\Company\CompanyDto.cs" />
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />

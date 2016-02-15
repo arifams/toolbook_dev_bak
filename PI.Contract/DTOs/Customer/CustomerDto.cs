@@ -30,5 +30,7 @@ namespace PI.Contract.DTOs.Customer
         public bool IsConfirmEmail { get; set; }    // Explicitly set this, if user going to confirm his email address, rather than depend on the userid and code.
 
         public string TemplateLink { get; set; }
+
+        public string CompanyCode { get; set; }
     }
 }

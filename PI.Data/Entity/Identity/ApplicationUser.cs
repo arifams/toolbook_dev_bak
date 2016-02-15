@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -12,6 +13,9 @@ namespace PI.Data.Entity.Identity
 {
     public class ApplicationUser : IdentityUser
     {
+        [Required]
+        public long TenantId { get; set; }
+
         [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
@@ -26,6 +30,12 @@ namespace PI.Data.Entity.Identity
         [Required]
         public DateTime JoinDate { get; set; }
 
+        #region Navigation property
+
+        //[ForeignKey("TenantId")]
+        //public Tenant Tenant { get; set; }
+        
+        #endregion
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

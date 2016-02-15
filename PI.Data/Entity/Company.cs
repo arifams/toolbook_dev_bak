@@ -18,7 +18,11 @@ namespace PI.Data.Entity
         #region Navigation Property
 
         [ForeignKey("TenantId")]
-        public Tenant Tenant { get; set; } 
+        public Tenant Tenant { get; set; }
+
+        //public Division Division { get; set; }
+
+        //public CostCenter CostCenter { get; set; }
 
         #endregion
     }

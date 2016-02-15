@@ -15,6 +15,85 @@ namespace PI.Business
 {
     public class CompanyManagement : ICompanyManagement
     {
+        #region Create Comapny Details with default settings
+
+        public long CreateCompanyDetails(CustomerDto customerCompany)
+        {            
+            using (var context = PIContext.Get())
+            {
+                //Add Tenant
+                Tenant tenant = new Tenant
+                {
+                    TenancyName = customerCompany.CompanyCode,
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true,
+                    IsDelete = false,
+                    IsCorporateAccount = customerCompany.IsCorporateAccount                    
+                };
+                context.Tenants.Add(tenant);
+                context.SaveChanges();
+
+                //Add Company
+                Company company = new Company
+                {
+                    Name = customerCompany.CompanyName,
+                    TenantId = tenant.Id,                    
+                    IsActive = true,
+                    IsDelete = false,
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now,
+                };
+                context.Companies.Add(company);
+                context.SaveChanges();
+
+                //Add Default CostCenter
+                CostCenter costCenter = new CostCenter
+                {
+                    CompanyId = company.Id,
+                    Type = "SYSTEM",
+                    Status = 1,
+                    IsActive = true,
+                    IsDelete = false,
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now,
+                    BillingAddress = new Address
+                    {
+                        Country = customerCompany.CustomerAddress.Country,
+                        ZipCode = customerCompany.CustomerAddress.ZipCode,
+                        Number = customerCompany.CustomerAddress.Number,
+                        StreetAddress1 = customerCompany.CustomerAddress.StreetAddress1,
+                        StreetAddress2 = customerCompany.CustomerAddress.StreetAddress2,
+                        City = customerCompany.CustomerAddress.City,
+                        State = customerCompany.CustomerAddress.State,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                    },
+                };
+                context.CostCenters.Add(costCenter);
+                context.SaveChanges();
+
+                //Add Default Division
+                Division division = new Division
+                {
+                    CompanyId = company.Id,
+                    Type = "SYSTEM",
+                    DefaultCostCenterId = costCenter.Id,
+                    Status = 1,                    
+                    IsActive = true,
+                    IsDelete = false,
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now,
+                };
+                context.Divisions.Add(division);
+                context.SaveChanges();
+
+                return company.Id;
+            }
+
+        }
+
+        #endregion
 
         #region Cost Center Managment
 
@@ -26,8 +105,9 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
-                var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
-                return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
+                //var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
+                //return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
+                return null;
             }
         }
 

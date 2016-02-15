@@ -1,4 +1,5 @@
 ﻿using PI.Common;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,7 @@ namespace PI.Data.Entity
 
         public long AddressId { get; set; }
         public long CompanyId{get; set;}
+        public String UserId { get; set; }
 
         public string UserName { get; set; } // TODO: To be removed
         public string Password { get; set; } // TODO: To be removed
@@ -30,8 +32,11 @@ namespace PI.Data.Entity
         [ForeignKey("AddressId")]
         public Address CustomerAddress { get; set; }
 
-        [ForeignKey("CompanyId")]
-        public Company CustomerCompany { get; set; }
+        //[ForeignKey("CompanyId")]
+        //public Company CustomerCompany { get; set; }
+
+        //[ForeignKey("UserId")]
+        //public virtual ApplicationUser User { get; set; }
 
         #endregion
     }
