@@ -25,7 +25,7 @@ namespace PI.Business
             AccountSettings currentAccountSettings;
             NotificationCriteria currentnotificationCriteria;
 
-           Customer currentCustomer = this.GetCustomerByUserName(username);
+           Customer currentCustomer = this.GetCustomerByUserId(username);
            
 
             if (currentCustomer==null)
@@ -218,11 +218,11 @@ namespace PI.Business
        
 
         //get the customer details by username(email)
-        public Customer GetCustomerByUserName(string username)
+        public Customer GetCustomerByUserId(string userId)
         {
             using (PIContext context = PIContext.Get())
             {
-                return context.Customers.Single(c => c.Email == username);
+                return context.Customers.SingleOrDefault(c => c.UserId == userId);
             }
         }
 

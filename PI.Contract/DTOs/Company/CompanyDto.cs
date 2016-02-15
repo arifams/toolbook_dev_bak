@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.DTOs.Address;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace PI.Contract.DTOs.Company
         public long TenantId { get; set; }
         public string COCNumber { get; set; }
         public string VATNumber { get; set; }
+
+        
 
     }
 }

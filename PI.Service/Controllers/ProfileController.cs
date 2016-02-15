@@ -59,19 +59,19 @@ namespace PI.Service.Controllers
         [EnableCors(origins:"*",headers:"*",methods:"*")]      
         [HttpPost]
         [Route("UpdateProfile")]
-        public async Task<IHttpActionResult> UpdateProfile([FromBody] ProfileDto profile)
+        public int UpdateProfile([FromBody] ProfileDto profile)
         {
             ProfileManagement userprofile = new ProfileManagement();           
 
-            IdentityResult result = await this.AppUserManager.ChangePasswordAsync(User.Identity.GetUserId(), profile.OldPassword, profile.NewPassword);
-            if (!result.Succeeded)
+            IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(), profile.OldPassword, profile.NewPassword);
+            var updatedStatus = userprofile.updateProfileData(profile);
+
+            if (!result.Succeeded && updatedStatus==1)
             {
-                return GetErrorResult(result);
-            }
+                return 1;
+            }                    
 
-            var updatedStatus=userprofile.updateProfileData(profile);
-
-            return Ok();
+            return -1;
         }
                 
 

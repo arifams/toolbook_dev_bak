@@ -13,6 +13,7 @@
       
     });
 
+    //password validation
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
@@ -23,7 +24,12 @@
                 })
             }
         }
-    })
+    });
+
+
+ 
+
+
 
     app.controller('userRegistrationCtrl', 
         ['registerUserService' ,function (registerUserService) {
