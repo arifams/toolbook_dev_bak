@@ -30,7 +30,7 @@ namespace PI.Contract.DTOs.Profile
 
         public CustomerDto CustomerDetails { get; set; }
         public CompanyDto CompanyDetails { get; set; }
-        public CostCenterDto CostCenterDetails { get; set; }
+       
 
 
 
