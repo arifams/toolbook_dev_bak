@@ -215,6 +215,10 @@ var MakeApp = angular
             templateUrl: 'layout/api.html',
             controller: 'apiCtrl'
         })
+        .when('/save-division', {
+            templateUrl: 'divisions/saveDivision.html',
+            controller: 'saveDivisionCtrl',
+        })
         .otherwise({
             redirectTo: '/'
         });
