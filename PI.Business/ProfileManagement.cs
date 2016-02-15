@@ -56,7 +56,7 @@ namespace PI.Business
             if (currentCompany!=null)
             {
                 currentProfile.COCNumber = currentCompany.COCNumber;
-                currentProfile.VATNumber = currentProfile.VATNumber;
+                currentProfile.VATNumber = currentCompany.VATNumber;
             }
             if (currentTenant!=null)
             {
@@ -166,6 +166,19 @@ namespace PI.Business
                     context.Entry(currentAccountSettings).State = System.Data.Entity.EntityState.Modified;
                 }
 
+                else
+                {
+                    AccountSettings newAccountSettings = new AccountSettings();
+                    newAccountSettings.CustomerId = currentCustomer.Id;
+                    newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    //set account settings entity as modidied
+                    context.AccountSettings.Attach(newAccountSettings);
+                    context.Entry(newAccountSettings).State = System.Data.Entity.EntityState.Modified;
+
+                }
+
                 //Assign Notofication criteria to the Profile Dto
                 if (currentNotificationCriteria != null)
                 {
@@ -178,6 +191,21 @@ namespace PI.Business
                     //set notification criteria entity as modified
                     context.NotificationCriterias.Attach(currentNotificationCriteria);
                     context.Entry(currentNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+                }
+                else
+                {
+                    NotificationCriteria newNotificationCriteria = new NotificationCriteria();
+                    newNotificationCriteria.CustomerId= currentCustomer.Id;
+                    newNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    newNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    newNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    //set notification criteria entity as modified
+                    context.NotificationCriterias.Attach(newNotificationCriteria);
+                    context.Entry(newNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+
                 }
 
                 //saving changes of updated profile

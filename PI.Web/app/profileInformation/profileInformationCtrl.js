@@ -7,14 +7,7 @@
         return {
                 updateProfileInfo: function (updatedProfile) {
 
-                $http.post('api/profile/UpdateProfile', updatedProfile).then(function successCallback(response) {
-                    if (response.data != null) {                        
-                        return  response.data;
-                    }
-
-                }, function errorCallback(response) {
-                    return null;
-                })
+                    $http.post('http://localhost:5555/api/profile/UpdateProfile', updatedProfile)
             }
         }
 
@@ -26,7 +19,7 @@
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        username: 'dilshan@amarasinghe'
+                        username: 'admin@pi.com'
                     }
                 });
             }
@@ -125,7 +118,7 @@
                         if (response.data != null) {
 
                             //setting the account type
-                            if (customerDetails.isCorporateAccount) {
+                            if (response.data.customerDetails.isCorporateAccount) {
                                 vm.corporate = true;
                             }
                             else {
@@ -146,8 +139,8 @@
                             vm.phonenumber = response.data.customerDetails.phoneNumber;
                             vm.mobilenumber = response.data.customerDetails.mobileNumber;
                             vm.emailaddress = response.data.customerDetails.email;
-                            vm.cocnumber
-                            vm.vatnumber
+                            vm.cocnumber = response.data.cocNumber;
+                            vm.vatnumber=response.data.vatNumber;
                             //return response.data;                             
                             
                         
@@ -176,6 +169,7 @@
             }
 
             vm.updateProfile = function () {
+               
 
                 var UpdatedProfile = {
 
@@ -191,7 +185,9 @@
                     DefaultTimeZoneId :vm.defaulttimezone,                   
                 
                     NewPassword : vm.newpassword,
-                    OldPassword :vm.oldpassword,                   
+                    OldPassword: vm.oldpassword,
+                    COCNumber: vm.cocnumber,
+                    VATNumber: vm.vatnumber,
                     
                     CustomerDetails: {
                         Salutation: vm.salutation,
@@ -201,29 +197,29 @@
                         Email: vm.email,
                         PhoneNumber: vm.contact,                       
                         ConfirmPassword: vm.confirmpassword,
-                        IsCorporateAccount: vm.iscorporate,
+                        IsCorporateAccount: vm.corporate,
                         CompanyName: vm.companyname,
                         CustomerAddress:
                           {
-                             Country: user.country,
-                             ZipCode: user.postalcode,
-                             StreetAddress1: user.street,
-                             StreetAddress2: user.additionaldetails,
-                             City: user.city,
-                             State: user.state
+                              Country: vm.country,
+                              ZipCode: vm.postalcode,
+                              StreetAddress1: vm.street,
+                              StreetAddress2: vm.additionaldetails,
+                              City: vm.city,
+                              State: vm.state
                           },
                     }
                 }
 
                 updateProfilefactory.updateProfileInfo(UpdatedProfile)
-                .then(function (result) {
-                    if (result.data != null) {
+                .then(function successCallback(responce) {
+                    if (responce.data != null) {
 
                         //
                     }
                     
-                }, function (error) {
-                    console.log("failed");
+                }, function errorCallback(error) {
+                    console.log("failed" + error);
                 });
             }
         }]);
