@@ -20,6 +20,7 @@ namespace PI.Data.Entity
         public string MobileNumber { get; set; }
 
         public long AddressId { get; set; }
+        public long CompanyId{get; set;}
 
         public string UserName { get; set; } // TODO: To be removed
         public string Password { get; set; } // TODO: To be removed
@@ -28,6 +29,9 @@ namespace PI.Data.Entity
 
         [ForeignKey("AddressId")]
         public Address CustomerAddress { get; set; }
+
+        [ForeignKey("CompanyId")]
+        public Company CustomerCompany { get; set; }
 
         #endregion
     }

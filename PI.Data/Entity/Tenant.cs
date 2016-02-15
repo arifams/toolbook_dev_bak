@@ -10,6 +10,8 @@ namespace PI.Data.Entity
     {
         public string TenancyName { get; set; }
 
+        public bool IsCorporateAccount { get; set; }
+
         #region Navigation Property
 
         //public Company Company { get; set; } 

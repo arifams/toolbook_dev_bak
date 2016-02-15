@@ -26,12 +26,22 @@ namespace PI.Business
             NotificationCriteria currentnotificationCriteria;
 
            Customer currentCustomer = this.GetCustomerByUserName(username);
+           
 
             if (currentCustomer==null)
             {
                 return null;
             }
 
+            Company currentCompany = this.GetCompanyById(currentCustomer.CompanyId);
+            Tenant currentTenant = null;
+
+            if (currentCompany != null)
+            {
+                currentTenant = this.GetTenantById(currentCompany.TenantId);
+
+            }
+            
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
             currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;
@@ -43,7 +53,15 @@ namespace PI.Business
             currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             currentProfile.CustomerDetails.Password = currentCustomer.Password;
 
-
+            if (currentCompany!=null)
+            {
+                currentProfile.COCNumber = currentCompany.COCNumber;
+                currentProfile.VATNumber = currentCompany.VATNumber;
+            }
+            if (currentTenant!=null)
+            {
+                currentProfile.CustomerDetails.IsCorporateAccount = currentTenant.IsCorporateAccount;
+            }            
             currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
             currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
             currentnotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
@@ -64,7 +82,7 @@ namespace PI.Business
             {
                 currentProfile.DefaultLanguageId = currentAccountSettings.DefaultLanguageId;
                 currentProfile.DefaultCurrencyId = currentAccountSettings.DefaultCurrencyId;
-                currentProfile.DefaultTimeZoneId = currentAccountSettings.DefaultCurrencyId;
+                currentProfile.DefaultTimeZoneId = currentAccountSettings.DefaultTimeZoneId;
             }
 
             //Assign Notofication criteria to the Profile Dto
@@ -89,6 +107,8 @@ namespace PI.Business
             Address currentAddress;
             AccountSettings currentAccountSettings;
             NotificationCriteria currentNotificationCriteria;
+            Company curentCompany;
+            Tenant currentTenant;
 
 
             if (updatedProfile == null)
@@ -140,10 +160,23 @@ namespace PI.Business
                 {
                     currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
-                    currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultCurrencyId;
+                    currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
                     //set account settings entity as modidied
                     context.AccountSettings.Attach(currentAccountSettings);
                     context.Entry(currentAccountSettings).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                else
+                {
+                    AccountSettings newAccountSettings = new AccountSettings();
+                    newAccountSettings.CustomerId = currentCustomer.Id;
+                    newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    //set account settings entity as modidied
+                    context.AccountSettings.Attach(newAccountSettings);
+                    context.Entry(newAccountSettings).State = System.Data.Entity.EntityState.Modified;
+
                 }
 
                 //Assign Notofication criteria to the Profile Dto
@@ -159,6 +192,21 @@ namespace PI.Business
                     context.NotificationCriterias.Attach(currentNotificationCriteria);
                     context.Entry(currentNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
                 }
+                else
+                {
+                    NotificationCriteria newNotificationCriteria = new NotificationCriteria();
+                    newNotificationCriteria.CustomerId= currentCustomer.Id;
+                    newNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    newNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    newNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    //set notification criteria entity as modified
+                    context.NotificationCriterias.Attach(newNotificationCriteria);
+                    context.Entry(newNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+
+                }
 
                 //saving changes of updated profile
                 context.SaveChanges();
@@ -166,6 +214,8 @@ namespace PI.Business
             return 1;
 
         }
+
+       
 
         //get the customer details by username(email)
         public Customer GetCustomerByUserName(string username)
@@ -202,6 +252,27 @@ namespace PI.Business
                 return context.NotificationCriterias.SingleOrDefault(n => n.CustomerId == customerId);
             }
         }
+
+        public Company GetCompanyById(long CustomerId)
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                return context.Companies.SingleOrDefault(n => n.Id == CustomerId);
+            }
+
+        }
+
+        public Tenant GetTenantById(long TenantId)
+        {
+            using (PIContext context= PIContext.Get())
+            {
+                return context.Tenants.SingleOrDefault(n => n.Id == TenantId);
+            }
+        }
+
+       
+
+
 
         //Get Account Setting Details
         //retrieve all languages

@@ -29,6 +29,7 @@ namespace PI.Data
         public DbSet<Entity.TimeZone> TimeZones { get; set; }
         public DbSet<AccountSettings> AccountSettings { get; set; }
         public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
+        public DbSet<Tenant> Tenants{ get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")
