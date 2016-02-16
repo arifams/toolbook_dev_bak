@@ -13,8 +13,8 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$cookies', '$cookieStore', 
-    function (userManager, $cookies, $cookieStore) {
+    app.controller('userLoginCtrl', ['userManager', '$localStorage',
+    function (userManager, $localStorage) {
         var vm = this;     
 
         vm.loginInvalid = false;
@@ -34,10 +34,6 @@
 
         vm.login = function (user) {
 
-
-           $cookieStore.put("KEY", "asasasa");
-            console.log($cookieStore.get("KEY"));
-            // end test cookies
             debugger;
             if (window.location.search != "") {
 
@@ -75,7 +71,7 @@
                      //console.debug("blass" + $cookies.userGuid);
                      //$cookieStore.put("KEY", "asasasa");
                      //console.log($cookieStore.get("KEY"));
-
+                     $localStorage.userGuid = returnedResult.data.user.id;
                      window.location = webBaseUrl + "/app/index.html";
                  }
                  else if (returnedResult.data.result == "-1") {
@@ -113,5 +109,5 @@
     }]);
 
 
-})(angular.module('userLogin', ['ngCookies']));
+})(angular.module('userLogin', ['ngStorage']));
 
