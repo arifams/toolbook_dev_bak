@@ -962,9 +962,9 @@
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
             var vm = this;
-            var t_currencies;
-            var t_languages;
-            var t_timezones;
+            vm.t_currencies;
+            vm.t_languages;
+            vm.t_timezones;
 
             vm.model = {};
 
@@ -982,7 +982,7 @@
                 loadAllLanguages.loadLanguages()
                     .then(function successCallback(responce) {
 
-                        t_languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
+                        vm.t_languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
                         //JSON.stringify(responce.data);
 
 
@@ -993,9 +993,9 @@
                 //loading currencies to dropdown
                 loadAllCurrencies.loadCurrencies()
                 .then(function successCallback(responce) {
-
+                   
                     // vm.currencies = responce.data;
-                    t_currencies = responce.data;
+                    vm.t_currencies = responce.data;
                 }, function errorCallback(response) {
                     //todo
                 });
@@ -1003,7 +1003,7 @@
                 //loading timezones to dropdown
                 loadAllTimeZones.loadTimeZones()
                 .then(function successCallback(responce) {
-                    t_timezones = responce.data;
+                    vm.t_timezones = responce.data;
 
                 }, function errorCallback(response) {
                     //todo
