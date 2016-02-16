@@ -1048,10 +1048,10 @@
             vm.updateProfile = function () {
 
                 updateProfilefactory.updateProfileInfo(vm.model)
-                .then(function successCallback(responce) {
-                    if (responce.data != null) {
+                .success(function successCallback(responce) {
+                    if (responce != null) {
 
-                        if (responce.data == 1) {
+                        if (responce == 1) {
                             vm.model.success = "true";
                         }
                         else {
@@ -1060,8 +1060,8 @@
                         }
                     }
 
-                }, function errorCallback(error) {
-                   // console.log("failed" + error);
+                }).error(function errorCallback(error) {
+                    // console.log("failed" + error);
                     vm.model.isServerError = "true";
                 });
             }
