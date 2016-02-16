@@ -343,21 +343,7 @@ $(function() {
             }
         });
           
-        //change contact type according to the drop down value
-            $("#contacttype").change(function () {
-                $(this).find("option:selected").each(function () {
-                   
-                    if ($(this).attr("value") == "Phone") {
-                        $("#phonenumberdiv").show();
-                        $("#mobilenumberdiv").hide();
-                    }
-                    else if ($(this).attr("value") == "Mobile") {
-                        $("#phonenumberdiv").hide();
-                        $("#mobilenumberdiv").show();
-                    }                    
-                });
-            }).change();
-        
+
         //validate the password
          jQuery.validator.addMethod("ValidPassword", function (value, element) {
             return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(value);
@@ -375,15 +361,9 @@ $(function() {
          $('#companynamediv').hide();
 
 
-         $('input[name=iscorporate]:radio').on('ifChecked', function (event) {
-             if (event.target.value == 'True')
-                 $('#companynamediv').hide();
-             else if (event.target.value == 'False')
-                 $('#companynamediv').show();
+         
 
-         });
-
-        $('#submit-form').click(function(e) {
+        $('#submit-form-removed').click(function(e) {
             form.validate({
                 rules: {
                     salutation: {
@@ -591,14 +571,9 @@ $(function() {
                  $('#error-message').show();
                  $('#message').html("Error posting the update.");
              });
-                
-                //$(this).addClass('ladda-button');
-                //alert('valide');
-                //var l = Ladda.create(this);
-                //l.start();
                
             } else {
-                // alert('not valid');
+                
             }
         });
     }

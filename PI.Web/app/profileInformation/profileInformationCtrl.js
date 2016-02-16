@@ -19,7 +19,7 @@
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        userId: 1//$cookies.userGuid
+                        username: '1'
                     }
                 });
             }
@@ -1030,7 +1030,7 @@
                  loadProfilefactory.loadProfileinfo().
                     then(function successCallback(response) {
                         if (response.data != null) {
-
+                        
                             if (response.data.customerDetails != null) {
                                 //setting the account type
                                 if (response.data.customerDetails.isCorporateAccount) {
@@ -1054,9 +1054,18 @@
                                 vm.phonenumber = response.data.customerDetails.phoneNumber;
                                 vm.mobilenumber = response.data.customerDetails.mobileNumber;
                                 vm.emailaddress = response.data.customerDetails.email;
-                                vm.cocnumber = response.data.cocNumber;
-                                vm.vatnumber = response.data.vatNumber;
+                                vm.cocnumber = response.data.companyDetails.cocNumber;
+                                vm.vatnumber = response.data.companyDetails.vatNumber;
+                                vm.companyname = response.data.companyDetails.Name;
 
+                                vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
+                                vm.billing_country = response.data.companyDetails.costCenter.BillingAddress.country;
+                                vm.billing_postalcode = response.data.companyDetails.costCenter.BillingAddress.zipCode;
+                                vm.billing_number = response.data.companyDetails.costCenter.BillingAddress.number;
+                                vm.billing_streetaddress1 = response.data.companyDetails.costCenter.BillingAddress.streetAddress1;
+                                vm.billing_streetaddress2 = response.data.companyDetails.costCenter.BillingAddress.streetAddress2;
+                                vm.billing_city.response.data.companyDetails.costCenter.BillingAddress.city;
+                                vm.billing_state = response.data.companyDetails.costCenter.BillingAddress.state;
                                 vm.primaryemail = response.data.customerDetails.email;
                                 //return response.data;                          
 
@@ -1072,7 +1081,6 @@
                                 vm.shipment_delays = response.data.shipmentDelay;
                                 vm.shipment_exceptions = response.data.shipmentException;
                                 vm.notenewsolution = response.data.notifyNewSolution;
-
                                 vm.notediscount = response.data.notifyDiscountOffer;
                             }
                         }
@@ -1104,8 +1112,7 @@
                 
                     NewPassword : vm.newpassword,
                     OldPassword: vm.oldpassword,
-                    COCNumber: vm.cocnumber,
-                    VATNumber: vm.vatnumber,
+                    IsCorpAddressUseAsBusinessAddress: vm.corpaddressasbilling,
                     
                     CustomerDetails: {
                         Salutation: vm.salutation,
@@ -1121,11 +1128,35 @@
                           {
                               Country: vm.country,
                               ZipCode: vm.postalcode,
+                              Number:vm.number,
                               StreetAddress1: vm.street,
                               StreetAddress2: vm.additionaldetails,
                               City: vm.city,
                               State: vm.state
                           },
+                    },
+
+                    CompanyDetails:
+                        {
+                            COCNumber :vm.cocnumber,
+                            VATNumber: vm.vatnumber,
+                            Name: vm.companyname,
+
+                            CostCenter:
+                                {
+                                    BillingAddress:
+                                        {
+                                            Country: vm.billing_country,
+                                            ZipCode: vm.billing_postalcode,
+                                            Number: vm.billing_number,
+                                            StreetAddress1: vm.billing_streetaddress1,
+                                            StreetAddress2: vm.billing_streetaddress2,
+                                            City: vm.billing_city,
+                                            State: vm.billing_state
+
+                                        }
+                                
+                                }
                     }
                 }
 
