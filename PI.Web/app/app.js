@@ -219,6 +219,10 @@ var MakeApp = angular
             templateUrl: 'divisions/saveDivision.html',
             controller: 'saveDivisionCtrl',
         })
+     .when('/save-costcenter', {
+         templateUrl: 'costcenter/saveCostCenter.html',
+         controller: 'saveCostCenterCtrl',
+     })
         .otherwise({
             redirectTo: '/'
         });

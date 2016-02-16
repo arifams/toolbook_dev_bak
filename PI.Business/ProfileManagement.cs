@@ -3,6 +3,7 @@ using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Profile;
 using PI.Data;
 using PI.Data.Entity;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace PI.Business
     {
        
         //get the profile details
-        public ProfileDto getProfileByUserName(string username)
+        public ProfileDto getProfileByUserName(string userId)
         {
             ProfileDto currentProfile=new ProfileDto();
             currentProfile.CustomerDetails = new CustomerDto();
@@ -25,7 +26,7 @@ namespace PI.Business
             AccountSettings currentAccountSettings;
             NotificationCriteria currentnotificationCriteria;
 
-           Customer currentCustomer = this.GetCustomerByUserId(username);
+            Customer currentCustomer = this.GetCustomerByUserId(userId);
            
 
             if (currentCustomer==null)
@@ -50,14 +51,15 @@ namespace PI.Business
             currentProfile.CustomerDetails.Email = currentCustomer.Email;
             currentProfile.CustomerDetails.PhoneNumber =currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
-            currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
-            currentProfile.CustomerDetails.Password = currentCustomer.Password;
 
-            if (currentCompany!=null)
-            {
-                currentProfile.COCNumber = currentCompany.COCNumber;
-                currentProfile.VATNumber = currentCompany.VATNumber;
-            }
+            currentProfile.CustomerDetails.UserName = currentCustomer.Email;
+            //currentProfile.CustomerDetails.Password = currentCustomer.Password;
+
+            //if (currentCompany!=null)
+            //{
+            //    currentProfile.COCNumber = currentCompany.COCNumber;
+            //    currentProfile.VATNumber = currentCompany.VATNumber;
+            //}
             if (currentTenant!=null)
             {
                 currentProfile.CustomerDetails.IsCorporateAccount = currentTenant.IsCorporateAccount;
@@ -115,7 +117,7 @@ namespace PI.Business
             {
                 return 0;
             }
-            currentCustomer = this.GetCustomerByUserName(updatedProfile.CustomerDetails.Email);
+            currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
 
             if (currentCustomer == null)
             {
@@ -123,7 +125,7 @@ namespace PI.Business
             }
 
             using (PIContext context = PIContext.Get())
-            {
+            {                
                 //updating basic customer details
                 currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
                 currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
@@ -132,8 +134,8 @@ namespace PI.Business
                 currentCustomer.Email = updatedProfile.CustomerDetails.Email;
                 currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
                 currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
-                currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
-                currentCustomer.Password = updatedProfile.CustomerDetails.Password;
+              
+
                 //set customer entity state as modified
                 context.Customers.Attach(currentCustomer);
                 context.Entry(currentCustomer).State = System.Data.Entity.EntityState.Modified;
@@ -211,6 +213,16 @@ namespace PI.Business
                 //saving changes of updated profile
                 context.SaveChanges();
             }
+
+            //using (ApplicationDbContext userContext = ApplicationDbContext.Get())
+            //{
+            //    ApplicationUser existingUser = userContext.Users.SingleOrDefault(x => x.Id == updatedProfile.CustomerDetails.UserId);
+            //    existingUser.PasswordHash = updatedProfile.NewPassword;
+              
+            //    //userContext.Users.Add(existingUser);
+            //    userContext.SaveChanges();
+            //}
+
             return 1;
 
         }

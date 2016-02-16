@@ -14,19 +14,19 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-   
+
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {
         //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-       
+
         [HttpGet]
         [Route("GetProfile")]
-        public ProfileDto GetProfile([FromUri]string username)
+        public ProfileDto GetProfile([FromUri]string userId)
         {
-            ProfileManagement userprofile = new ProfileManagement();            
-            return userprofile.getProfileByUserName(username);
+            ProfileManagement userprofile = new ProfileManagement();
+            return userprofile.getProfileByUserName(userId);
         }
 
         [HttpGet]
@@ -56,24 +56,27 @@ namespace PI.Service.Controllers
             return timeZones;
         }
 
-        [EnableCors(origins:"*",headers:"*",methods:"*")]      
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();           
+            ProfileManagement userprofile = new ProfileManagement();
 
-            IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(), profile.OldPassword, profile.NewPassword);
+            IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(),
+                                                        profile.OldPassword,
+                                                        profile.NewPassword);
+
             var updatedStatus = userprofile.updateProfileData(profile);
 
-            if (!result.Succeeded && updatedStatus==1)
+            if (!result.Succeeded && updatedStatus == 1)
             {
                 return 1;
-            }                    
+            }
 
             return -1;
         }
-                
+
 
     }
 }
