@@ -45,17 +45,18 @@
                                    </div>
                                     <div class="col-md-2">
                                         <label class="control-label">Salutation *</label>
-                                    </div>
+                                    </div> {{profile.model.customerDetails.salutation}}
                                     <div class="col-md-4">
                                         <div class="form-group">                                           
                                             <div class="option-group">
-                                                <select id="salutation" name="salutation" class="salutation" required
+                                                <select id="salutation" name="salutation" required
                                                         ng-model="profile.model.customerDetails.salutation">
                                                     <option value="Mr">Mr</option>
                                                     <option value="Mrs">Mrs</option>
                                                     <option value="Ms">Ms</option>
                                                 </select>
-                                            </div>
+                                                <select name="salutation" class="form-control" ng-model="profile.model.customerDetails.salutation"
+                                                        convert-to-number ng-options="sal.id as sal.name for sal in salutations" ng-required="true"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -270,7 +271,7 @@
                                     </div>
                                     <div class="col-md-8">
                                         <div class="icheck-inline">
-                                            <label>
+                                            <label> {{profile.model.customerDetails.isCorpAddressUseAsBusinessAddress}}
                                                 <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="corpaddressasbilling"
                                                        ng-model="profile.model.customerDetails.isCorpAddressUseAsBusinessAddress"
                                                        ng-change="profile.useCorpAddressAsBilling()"> Use corporate address as billing address
@@ -287,7 +288,7 @@
                                         <div class="form-group">
                                             <div class="option-group">                                               
                                                 <country-select id="billing_country" name="billing_country"
-                                                                ng-model="profile.model.companyDetails.costCenter.country"
+                                                                ng-model="profile.model.companyDetails.costCenter.billingAddress.country"
                                                                 class="form-control"></country-select>
                                             </div>
                                         </div>
@@ -299,7 +300,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_postalcode" class="form-control form-white" minlength="4"
-                                                       ng-model="profile.model.companyDetails.costCenter.zipCode">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.zipCode">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -313,7 +314,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_number" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.number">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.number">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -322,7 +323,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_streetaddress1" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress1">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.streetAddress1">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -336,7 +337,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_streetaddress2" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress2">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.streetAddress2">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -350,7 +351,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_city" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.city">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.city">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -362,7 +363,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_state" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.state">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.state">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -404,7 +405,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_phonenumber" class="form-control form-white"
-                                                        ng-model="profile.model.billing_phonenumber">
+                                                       ng-model="profile.model.customerDetails.phoneNumber">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>

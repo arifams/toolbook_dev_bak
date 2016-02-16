@@ -969,31 +969,12 @@
             vm.model = {};
 
             vm.useCorpAddressAsBilling = function () {
-
-                if (vm.corpaddressasbilling) {
-                    vm.billing_country = vm.country;
-                    vm.billing_postalcode = vm.postalcode;
-                    vm.billing_number = vm.number;
-                    vm.billing_streetaddress1 = vm.streetaddress1;
-                    vm.billing_streetaddress2 = vm.streetaddress2;
-                    vm.billing_city = vm.city;
-                    vm.billing_state = vm.state;
-                    vm.billing_phonenumber = vm.phonenumber;
+                debugger;
+                if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
+                    vm.model.companyDetails.costCenter = {};
+                    vm.model.companyDetails.costCenter.billingAddress = vm.model.customerDetails.customerAddress;
                 }
-                else {
-
-                    vm.billing_country = null;
-                    vm.billing_postalcode = null;
-                    vm.billing_number = null;
-                    vm.billing_streetaddress1 = null;
-                    vm.billing_streetaddress2 = null;
-                    vm.billing_city = null;
-                    vm.billing_state = null;
-                    vm.billing_phonenumber = null;
-                }
-
             };
-
 
             vm.loadProfile = function () {
 
@@ -1033,10 +1014,11 @@
                 .success(function (response) {
                     debugger;
                     if (response != null) {
+                        vm.model = response;
 
                         if (response.customerDetails != null) {
                             //setting the account type
-                            // vm.iscorporate = response.data.customerDetails.isCorporateAccount;
+                            // vm.iscorporate = response.data.customerDetails.isCorporateAccount;                            
                             vm.model.customerDetails = response.customerDetails;
                             vm.model.customerDetails.customerAddress = response.customerDetails.customerAddress;
                             vm.model.companyDetails = response.companyDetails;
@@ -1053,6 +1035,7 @@
                             else {
                                 vm.model.customerDetails.isCorporateAccount = "false";
                             }
+                            vm.model.customerDetails.salutation = "Mr";
                         }
                     }
                 })
@@ -1062,72 +1045,6 @@
 
 
             vm.updateProfile = function () {
-
-
-                //var UpdatedProfile = {
-
-                //    BookingConfirmation: vm.booking_confirmation,
-                //    PickupConfirmation: vm.pickup_confirmation,
-                //    ShipmentDelay: vm.shipment_delays,
-                //    ShipmentException: vm.shipment_exceptions,
-                //    NotifyNewSolution: vm.notenewsolution,
-                //    NotifyDiscountOffer: vm.notediscount,
-
-                //    DefaultLanguageId: vm.defaultlanguage,
-                //    DefaultCurrencyId: vm.defaultcurrency,
-                //    DefaultTimeZoneId: vm.defaulttimezone,
-
-                //    NewPassword: vm.newpassword,
-                //    OldPassword: vm.oldpassword,
-                //    IsCorpAddressUseAsBusinessAddress: vm.corpaddressasbilling,
-
-                //    CustomerDetails: {
-                //        Salutation: vm.salutation,
-                //        FirstName: vm.firstname,
-                //        LastName: vm.lastname,
-                //        MiddleName: vm.middlename,
-                //        Email: vm.email,
-                //        PhoneNumber: vm.contact,
-                //        ConfirmPassword: vm.confirmpassword,
-                //        IsCorporateAccount: vm.iscorporate,
-                //        CompanyName: vm.companyname,
-                //        CustomerAddress:
-                //          {
-                //              Id: 1,
-                //              Country: vm.country,
-                //              ZipCode: vm.postalcode,
-                //              Number: vm.number,
-                //              StreetAddress1: vm.street,
-                //              StreetAddress2: vm.additionaldetails,
-                //              City: vm.city,
-                //              State: vm.state
-                //          },
-                //    },
-
-                //    CompanyDetails:
-                //        {
-                //            Id: 1,
-                //            COCNumber: vm.cocnumber,
-                //            VATNumber: vm.vatnumber,
-                //            Name: vm.companyname,
-
-                //            CostCenter:
-                //                {
-                //                    BillingAddress:
-                //                        {
-                //                            Country: vm.billing_country,
-                //                            ZipCode: vm.billing_postalcode,
-                //                            Number: vm.billing_number,
-                //                            StreetAddress1: vm.billing_streetaddress1,
-                //                            StreetAddress2: vm.billing_streetaddress2,
-                //                            City: vm.billing_city,
-                //                            State: vm.billing_state
-
-                //                        }
-
-                //                }
-                //        }
-                //}
 
                 updateProfilefactory.updateProfileInfo(vm.model)
                 .then(function successCallback(responce) {
