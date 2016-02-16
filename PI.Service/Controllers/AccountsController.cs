@@ -63,11 +63,12 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("create")]
-        public async Task<IHttpActionResult> CreateUser(CustomerDto createUserModel)
+        public int CreateUser(CustomerDto createUserModel)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+               // return BadRequest(ModelState);
+                return -1;
             }
 
             var user = new ApplicationUser()
@@ -83,12 +84,13 @@ namespace PI.Service.Controllers
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
             if (existingUser == null)
             {
-                IdentityResult addUserResult = await this.AppUserManager.CreateAsync(user, createUserModel.Password);
+                IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
                 createUserModel.UserId = user.Id;
             }
             else
             {
-                return GetErrorResult(IdentityResult.Failed("Email already exists!"));
+                  return -2;
+                //return GetErrorResult(IdentityResult.Failed("Email already exists!"));
             }
 
             // Save in customer table.
@@ -105,7 +107,7 @@ namespace PI.Service.Controllers
             
             #region For Email Confirmaion
 
-            string code = await this.AppUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            string code =  AppUserManager.GenerateEmailConfirmationToken(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
@@ -113,13 +115,14 @@ namespace PI.Service.Controllers
             emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName)
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
-            await this.AppUserManager.SendEmailAsync(user.Id, "Your account has been provisioned!", emailbody.ToString());
+            AppUserManager.SendEmail(user.Id, "Your account has been provisioned!", emailbody.ToString());
 
             #endregion
 
             Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
-            return Created(locationHeader, TheModelFactory.Create(user));
+            //return Created(locationHeader, TheModelFactory.Create(user));
+            return 1;
         }
 
         [AllowAnonymous]
