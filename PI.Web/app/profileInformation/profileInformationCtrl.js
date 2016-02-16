@@ -1029,13 +1029,13 @@
                                 vm.model.companyDetails.costCenter.billingAddress = response.companyDetails.costCenter.billingAddress;
                             }
 
-                            if (response.data.customerDetails.isCorporateAccount) {
+                            if (response.customerDetails.isCorporateAccount) {
                                 vm.model.customerDetails.isCorporateAccount = "true";
                             }
                             else {
                                 vm.model.customerDetails.isCorporateAccount = "false";
                             }
-                            vm.model.customerDetails.salutation = "Mr";
+                           
                         }
                     }
                 })
