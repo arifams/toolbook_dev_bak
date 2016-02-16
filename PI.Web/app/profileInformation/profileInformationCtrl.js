@@ -1040,6 +1040,7 @@
                     }
                 })
                .error(function () {
+                   vm.model.isServerError = "true";
                })
             }
 
@@ -1050,11 +1051,18 @@
                 .then(function successCallback(responce) {
                     if (responce.data != null) {
 
-                        //
+                        if (responce.data == 1) {
+                            vm.model.success = "true";
+                        }
+                        else {
+
+                            vm.model.unsuccess = "true";
+                        }
                     }
 
                 }, function errorCallback(error) {
-                    console.log("failed" + error);
+                   // console.log("failed" + error);
+                    vm.model.isServerError = "true";
                 });
             }
         }]);

@@ -645,9 +645,16 @@
                         </form>
                 </div>
             </div>
+                <div class="alert alert-success confirmationMailSend" ng-show="profile.model.success">
+                    Profile is updated successfully
+                </div>
+                <div class="alert alert-warning" ng-show="profile.model.unsuccess">
+                    Profile update failed
+                </div>            
 
-
-          
+                <div class="alert alert-warning" ng-show="profile.model.isServerError ">
+                    Error occured while connecting the server
+                </div>          
         </div>
     </div>
     <div class="footer">
