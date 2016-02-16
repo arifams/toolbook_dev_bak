@@ -17,11 +17,11 @@ namespace PI.Business
 {
     public class ProfileManagement
     {
-       
+
         //get the profile details
         public ProfileDto getProfileByUserName(string username)
         {
-            ProfileDto currentProfile=new ProfileDto();
+            ProfileDto currentProfile = new ProfileDto();
             currentProfile.CustomerDetails = new CustomerDto();
             currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
 
@@ -29,8 +29,8 @@ namespace PI.Business
             AccountSettings currentAccountSettings;
             NotificationCriteria currentnotificationCriteria;
 
-           Customer currentCustomer = this.GetCustomerByUserId(username);
-           ApplicationUser applicationUser = this.GetUserById(username);
+            Customer currentCustomer = this.GetCustomerByUserId(username);
+            ApplicationUser applicationUser = this.GetUserById(username);
 
             Tenant currentTenant = null;
             Company currentCompany = null;
@@ -41,32 +41,34 @@ namespace PI.Business
                 currentTenant = this.GetTenantById(applicationUser.TenantId);
             }
 
-            if (currentTenant!=null)
+            if (currentTenant != null)
             {
                 currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
             }
 
-            if (currentCompany!=null)
+            if (currentCompany != null)
             {
                 currentCostCenter = this.GetCostCenterByCompanyId(currentCompany.Id);
             }
 
-                  
             //assigning basic customer details to Dto
+            currentProfile.CustomerDetails.Id = currentCustomer.Id;
             currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
             currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;
             currentProfile.CustomerDetails.MiddleName = currentCustomer.MiddleName;
             currentProfile.CustomerDetails.LastName = currentCustomer.LastName;
             currentProfile.CustomerDetails.Email = currentCustomer.Email;
-            currentProfile.CustomerDetails.PhoneNumber =currentCustomer.PhoneNumber;
+            currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
-            
-            if (currentCompany!=null)
+
+            if (currentCompany != null)
             {
                 currentProfile.CompanyDetails = new CompanyDto();
+                currentProfile.CompanyDetails.Id = currentCompany.Id;
+                currentProfile.CompanyDetails.TenantId = currentCompany.TenantId;
                 currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
@@ -74,30 +76,34 @@ namespace PI.Business
 
             }
 
-            if (currentTenant!=null)
+            if (currentTenant != null)
             {
                 currentProfile.CustomerDetails.IsCorporateAccount = currentTenant.IsCorporateAccount;
-            }            
+            }
             currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
             currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
             currentnotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
 
-            if (currentCostCenter!=null && currentCustomer.IsCorpAddressUseAsBusinessAddress)
+            if (currentCostCenter != null && currentCustomer.IsCorpAddressUseAsBusinessAddress)
             {
                 currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
-                currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto(); 
-
+                currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
+                currentProfile.CompanyDetails.CostCenter.BillingAddressId = currentCostCenter.BillingAddressId;
+               
+                currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto();
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Id = currentCostCenter.BillingAddress.Id;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.Number = currentCostCenter.BillingAddress.Number;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode = currentCostCenter.BillingAddress.ZipCode;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;                
-                
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;
+
             }
             //assign address values to the  Profile Dto
-            if (currentAddress!=null)
+            if (currentAddress != null)
             {
+                currentProfile.CustomerDetails.CustomerAddress.Id = currentAddress.Id;
                 currentProfile.CustomerDetails.CustomerAddress.Country = currentAddress.Country;
                 currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentAddress.ZipCode;
                 currentProfile.CustomerDetails.CustomerAddress.Number = currentAddress.Number;
@@ -107,7 +113,7 @@ namespace PI.Business
                 currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
             }
             //Assign Account setting values to the Profile Dto
-            if (currentAccountSettings!=null)
+            if (currentAccountSettings != null)
             {
                 currentProfile.DefaultLanguageId = currentAccountSettings.DefaultLanguageId;
                 currentProfile.DefaultCurrencyId = currentAccountSettings.DefaultCurrencyId;
@@ -122,11 +128,11 @@ namespace PI.Business
                 currentProfile.ShipmentDelay = currentnotificationCriteria.ShipmentDelay;
                 currentProfile.ShipmentException = currentnotificationCriteria.ShipmentException;
                 currentProfile.NotifyNewSolution = currentnotificationCriteria.NotifyNewSolution;
-                currentProfile.NotifyDiscountOffer= currentnotificationCriteria.NotifyDiscountOffer;
-             }                   
+                currentProfile.NotifyDiscountOffer = currentnotificationCriteria.NotifyDiscountOffer;
+            }
             return currentProfile;
         }
-        
+
 
         //Update user profile detils
         public int updateProfileData(ProfileDto updatedProfile)
@@ -147,7 +153,7 @@ namespace PI.Business
                 return 0;
             }
 
-            currentCustomer = this.GetCustomerByUserEmail(updatedProfile.CustomerDetails.UserId);          
+            currentCustomer = this.GetCustomerByUserEmail(updatedProfile.CustomerDetails.UserId);
 
 
             if (currentCustomer == null)
@@ -157,21 +163,21 @@ namespace PI.Business
 
             currntUser = this.GetUserById(currentCustomer.UserId);
 
-            if (currntUser==null)
+            if (currntUser == null)
             {
                 return 0;
             }
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
-            if (currentTenant==null)
+            if (currentTenant == null)
             {
                 return 0;
             }
 
             curentCompany = this.GetCompanyByTenantId(currentTenant.Id);
 
-            if (curentCompany==null)
+            if (curentCompany == null)
             {
                 return 0;
             }
@@ -195,7 +201,7 @@ namespace PI.Business
                 context.Customers.Attach(currentCustomer);
                 context.Entry(currentCustomer).State = System.Data.Entity.EntityState.Modified;
 
-                if (currentTenant!=null)
+                if (currentTenant != null)
                 {
                     currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
 
@@ -203,7 +209,7 @@ namespace PI.Business
                     context.Entry(currentTenant).State = System.Data.Entity.EntityState.Modified;
                 }
 
-                if (curentCompany!=null)
+                if (curentCompany != null)
                 {
                     curentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
                     curentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
@@ -214,10 +220,10 @@ namespace PI.Business
                     context.Entry(curentCompany).State = System.Data.Entity.EntityState.Modified;
                 }
 
-                if (currentCostCenter!=null)
+                if (currentCostCenter != null)
                 {
                     BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
-                    if (BusinessAddress!=null)
+                    if (BusinessAddress != null)
                     {
                         BusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
                         BusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
@@ -312,7 +318,7 @@ namespace PI.Business
                 else
                 {
                     NotificationCriteria newNotificationCriteria = new NotificationCriteria();
-                    newNotificationCriteria.CustomerId= currentCustomer.Id;
+                    newNotificationCriteria.CustomerId = currentCustomer.Id;
                     newNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
                     newNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
                     newNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
@@ -332,7 +338,7 @@ namespace PI.Business
 
         }
 
-       
+
 
         //get the customer details by userId
         public Customer GetCustomerByUserId(string userId)
@@ -400,7 +406,7 @@ namespace PI.Business
 
         public Tenant GetTenantById(long TenantId)
         {
-            using (PIContext context= PIContext.Get())
+            using (PIContext context = PIContext.Get())
             {
                 return context.Tenants.SingleOrDefault(n => n.Id == TenantId);
             }
@@ -427,12 +433,12 @@ namespace PI.Business
                 var languages = from l in context.Languages
                                 select new LanguageDto()
                                 {
-                                    Id=l.Id,
+                                    Id = l.Id,
                                     LanguageCode = l.LanguageCode,
                                     LanguageName = l.LanguageName
                                 };
                 return languages;
-            }           
+            }
         }
 
         //retrieve all currencies
@@ -443,14 +449,14 @@ namespace PI.Business
                 var currencies = from c in context.Currencies
                                  select new CurrencyDto()
                                  {
-                                     Id=c.Id,
-                                     CurrencyCode=c.CurrencyCode,
-                                     CurrencyName=c.CurrencyName
+                                     Id = c.Id,
+                                     CurrencyCode = c.CurrencyCode,
+                                     CurrencyName = c.CurrencyName
                                  };
                 return currencies;
             }
         }
-        
+
         //retrieve all TimeZones
         public IQueryable<TimeZoneDto> GetAllTimeZones()
         {
@@ -459,9 +465,9 @@ namespace PI.Business
                 var timeZones = from t in context.TimeZones
                                 select new TimeZoneDto()
                                 {
-                                    Id=t.Id,
-                                    TimeZoneCode=t.TimeZoneCode,
-                                    CountryName=t.CountryName
+                                    Id = t.Id,
+                                    TimeZoneCode = t.TimeZoneCode,
+                                    CountryName = t.CountryName
                                 };
                 return timeZones;
             }

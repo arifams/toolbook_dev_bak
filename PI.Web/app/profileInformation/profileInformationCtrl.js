@@ -966,6 +966,8 @@
             var t_languages;
             var t_timezones;
 
+            vm.model = {};
+
             vm.useCorpAddressAsBilling = function () {
               
                 if (vm.corpaddressasbilling) {
@@ -1126,6 +1128,7 @@
                         CompanyName: vm.companyname,
                         CustomerAddress:
                           {
+                              Id:1,
                               Country: vm.country,
                               ZipCode: vm.postalcode,
                               Number:vm.number,
@@ -1138,6 +1141,7 @@
 
                     CompanyDetails:
                         {
+                            Id : 1,
                             COCNumber :vm.cocnumber,
                             VATNumber: vm.vatnumber,
                             Name: vm.companyname,
