@@ -21,10 +21,9 @@
                                             <div class="form-body">
                                                 <div class="form-group">                                                    
                                                     <div class="input-group">
-                                                        <div class="icheck-inline">
-                                                          
-                                                            <label><input type="radio" name="iscorporate" data-radio="iradio_minimal-blue"  ng-model="profile.individual"> Individual Account  {{profile.individual}}</label>
-                                                            <label><input type="radio" name="iscorporate" checked data-radio="iradio_minimal-blue"  ng-model="profile.corporate"> Corporate Account {{profile.corporate}}</label>
+                                                        <div class="icheck-inline">                                                          
+                                                            <label><input type="radio" name="iscorporate"  icheck ng-model="profile.iscorporate" value="false"> Individual Account </label>
+                                                            <label><input type="radio" name="iscorporate"  icheck ng-model="profile.iscorporate" value="true"> Corporate Account</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -34,12 +33,12 @@
                             </div>
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <label class="control-label">Company Name *</label>
+                                        <label class="control-label" ng-show="profile.iscorporate">Company Name *</label>
                                     </div>
                                     <div class="col-md-4">                                     
-                                            <div class="form-group" ng-show="profile.corporate=='true'">                                                   
+                                            <div class="form-group" ng-show="profile.iscorporate">                                                   
                                                     <div class="append-icon">
-                                                        <input type="text" name="companyname" class="form-control form-white" minlength="4"  required ng-model="profile.companyname" >
+                                                        <input type="text" name="companyname" class="form-control form-white" minlength="4"   ng-model="profile.companyname" >
                                                         <i class="icon-user"></i>                                                        
                                                     </div>
                                                 </div>                                         
@@ -51,9 +50,9 @@
                                         <div class="form-group">                                           
                                             <div class="option-group">
                                                 <select id="salutation" name="salutation" class="salutation" required ng-model="profile.salutation" >
-                                                    <option value="MR">Mr</option>
-                                                    <option value="MRS">Mrs</option>
-                                                    <option value="MS">Ms</option>
+                                                    <option value="Mr">Mr</option>
+                                                    <option value="Mrs">Mrs</option>
+                                                    <option value="Ms">Ms</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -65,12 +64,11 @@
                                         <label class="control-label">First Name *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.firstname.$error.required && updateProfile.firstname.$dirty && ( updateProfile.firstname.$error.required || updateProfile.firstname.$error.minlength) }">                                           
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.firstname.$error.required && updateProfile.firstname.$dirty }">                                           
                                             <div class="append-icon">
                                                 <input type="text" name="firstname" class="form-control form-white" minlength="3" required ng-model="profile.firstname"  >
                                                 <i class="icon-user"></i>
-                                                <label id="firstname-error" ng-show="updateProfile.firstname.$dirty  && updateProfile.firstname.$error.required" class="error" for="firstname">Enter your first name</label>
-                                                <label id="firstname-minlenghth-error" ng-show="updateProfile.firstname.$dirty && updateProfile.firstname.$error.minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
+                                                <label id="firstname-error" ng-show="updateProfile.firstname.$dirty  && updateProfile.firstname.$error.required" class="error" for="firstname">Enter your first name</label>                                              
 
                                             </div>
                                         </div> 
@@ -93,12 +91,12 @@
                                         <label class="control-label">Last Name *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : profile.lastname.$error.required && profile.lastname.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.lastname.$error.required && updateProfile.lastname.$dirty }">
                                             
                                             <div class="append-icon">
                                                 <input type="text" name="lastname" class="form-control form-white" minlength="4" required ng-model="profile.lastname">
                                                 <i class="icon-user"></i>
-                                                <p ng-show="profile.lastname.$error.required && profile.lastname.$dirty" class="help-block">Last name is required.</p>
+                                                <label ng-show="updateProfile.lastname.$error.required && updateProfile.lastname.$dirty" class="error">Last name is required.</label>
                                             </div>
                                         </div> 
                                     </div>
@@ -112,12 +110,9 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <div class="option-group">
-                                                <select id="country" name="country" class="country" required ng-model="profile.country" >
-                                                    <option value="1">country1</option>
-                                                    <option value="2">con2</option>
-                                                    <option value="3">con3</option>
-                                                </select>
+                                            <div class="option-group">                                             
+
+                                                <country-select id="country" name="country" ng-model="profile.country" class="form-control"></country-select>
                                             </div>
                                         </div>
                                     </div>
@@ -125,11 +120,11 @@
                                         <label class="control-label">Postal/Zip Code *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : profile.postalcode.$error.required && profile.postalcode.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.postalcode.$error.required && profile.postalcode.$dirty }">
                                             <div class="append-icon">
                                                 <input type="text" name="postalcode" class="form-control form-white" required  ng-model="profile.postalcode">
                                                 <i class="icon-user"></i>
-                                                <p ng-show="profile.postalcode.$error.required && profile.postalcode.$dirty" class="help-block">PostalCode is required.</p>
+                                                <label ng-show="updateProfile.postalcode.$error.required && updateProfile.postalcode.$dirty" class="error">PostalCode is required.</label>
                                             </div>
                                         </div>  
                                     </div>
@@ -139,20 +134,20 @@
                                         <label class="control-label">Street Name *</label>
                                     </div>
                                     <div class="col-md-2">
-                                        <div class="form-group" ng-class="{ 'has-error' : profile.number.$error.required && profile.number.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.number.$error.required && updateProfile.number.$dirty }">
                                             <div class="append-icon">
                                                 <input type="text" name="number" class="form-control form-white" required ng-model="profile.number">
                                                 <i class="icon-user"></i>
-                                                <p ng-show="profile.number.$error.required && profile.number.$dirty" class="help-block">Number is required.</p>
+                                                <label ng-show="updateProfile.number.$error.required && updateProfile.number.$dirty" class="error">Number is required.</label>
                                             </div>
                                         </div>  
                                     </div>
                                     <div class="col-md-8">
-                                        <div class="form-group" ng-class="{ 'has-error' : profile.streetaddress1.$error.required && profile.streetaddress1.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.streetaddress1.$error.required && updateProfile.streetaddress1.$dirty }">
                                             <div class="append-icon">
                                                 <input type="text" name="streetaddress1" class="form-control form-white" required   ng-model="profile.streetaddress1">
                                                 <i class="icon-user"></i>
-                                                <p ng-show="profile.streetaddress1.$error.required && profile.streetaddress1.$dirty" class="help-block">Street Address1 is required.</p>
+                                                <label ng-show="updateProfile.streetaddress1.$error.required && updateProfile.streetaddress1.$dirty" class="error">Street Address1 is required.</label>
                                             </div>
                                         </div>  
                                     </div>
@@ -175,11 +170,11 @@
                                         <label class="control-label">City *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : profile.city.$error.required && profile.city.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateProfile.city.$error.required && updateProfile.city.$dirty }">
                                             <div class="append-icon">
                                                 <input type="text" name="city" class="form-control form-white" required ng-model="profile.city">
                                                 <i class="icon-user"></i>
-                                                <p ng-show="profile.city.$error.required && profile.city.$dirty" class="help-block">City is required.</p>
+                                                <label ng-show="updateProfile.city.$error.required && updateProfile.city.$dirty" class="error">City is required.</label>
                                             </div>
                                             </div>
                                         </div>
@@ -254,13 +249,11 @@
                                     <div class="col-md-8">
                                         <div class="icheck-inline">
                                             <label>
-                                                <input type="checkbox" data-checkbox="icheckbox_square-blue" name="corpaddressasbilling" ng-model="profile.corpaddressasbilling"> Use corporate address as billing address
+                                                <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="corpaddressasbilling" ng-model="profile.corpaddressasbilling" ng-change="profile.useCorpAddressAsBilling()"> Use corporate address as billing address
                                             </label>
                                             </div>
                                     </div>
-                                </div>
-                                
-
+                                </div>                              
 
                                 <div class="row">
                                     <div class="col-md-2">
@@ -268,12 +261,8 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <div class="option-group">
-                                                <select id="billing_country" name="billing_country" class="country"  ng-model="profile.billing_country">
-                                                    <option value="1">country1</option>
-                                                    <option value="2">con2</option>
-                                                    <option value="3">con3</option>
-                                                </select>
+                                            <div class="option-group">                                               
+                                                <country-select id="billing_country" name="billing_country" ng-model="profile.billing_country" class="form-control"></country-select>
                                             </div>
                                         </div>
                                     </div>
@@ -355,7 +344,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="primaryemail" class="form-control form-white" ng-model="profile.primaryemail">
+                                                <input type="text" name="primaryemail" class="form-control form-white" ng-model="profile.primaryemail" disabled>
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -414,10 +403,13 @@
                                         <label class="control-label">Create New Password </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{ 'has-error' : ((updateProfile.newpassword.$error.minlength || updateProfile.newpassword.$error.maxlength)&& updateProfile.newpassword.$dirty) || ( !updateProfile.newpassword.$error.minlength && !updateProfile.newpassword.$error.maxlength && updateProfile.newpassword.$error.pattern && updateProfile.newpassword.$dirty) }">
                                             <div class="append-icon">
-                                                <input type="password" name="newpassword" class="form-control form-white" placeholder="Enter new password" ng-model="profile.newpassword">
+                                                <input type="password" name="newpassword" ng-minlength="8" ng-maxlength="20" class="form-control form-white" placeholder="Enter new password" ng-model="profile.newpassword" ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
                                                 <i class="icon-user"></i>
+                                                <label ng-show="(updateProfile.newpassword.$error.minlength||updateProfile.newpassword.$error.maxlength) && updateProfile.newpassword.$dirty" class="error">Passwords must be between 8 and 20 characters.</label>
+                                                <label ng-show="(!updateProfile.newpassword.$error.minlength && !updateProfile.newpassword.$error.maxlength) && updateProfile.newpassword.$error.pattern && updateProfile.newpassword.$dirty" class="error">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</label>
+
                                             </div>
                                         </div>
                                     </div>
@@ -428,10 +420,13 @@
                                         <label class="control-label">Email Address </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{ 'has-error' : (updateProfile.emailaddress.$invalid && !updateProfile.emailaddress.$pristine) || (updateProfile.emailaddress.$error.required && updateProfile.emailaddress.$dirty)}">
                                             <div class="append-icon">
-                                                <input type="text" name="emailaddress" class="form-control form-white" ng-model="profile.emailaddress">
+                                                <input type="email" name="emailaddress" class="form-control form-white" ng-model="profile.emailaddress" required disabled>
                                                 <i class="icon-user"></i>
+                                                <label ng-show="updateProfile.emailaddress.$invalid && !updateProfile.emailaddress.$pristine && !updateProfile.emailaddress.$error.required" class="error">Enter a valid email.</label>
+                                                <label ng-show="updateProfile.emailaddress.$error.required && updateProfile.emailaddress.$dirty" class="error">Email is required</label>
+
                                             </div>
                                         </div>
                                     </div>
@@ -439,11 +434,12 @@
                                         <label class="control-label">Confirm Password </label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group">
+                                        <div class="form-group" ng-class="{'has-error': updateProfile.newpassword_c.$error.noMatch && updateProfile.newpassword_c.$dirty}" >
                                             <div class="append-icon">
-                                                <input type="password" name="newpassword_c" class="form-control form-white" placeholder="Re-enter new password" ng-model="profile.newpassword_c">
-                                                <i class="icon-user"></i>
-                                            </div>
+                                                <input type="password" ng-minlength="8" ng-maxlength="20" name="newpassword_c" class="form-control form-white" placeholder="Re-enter new password" ng-model="profile.newpassword_c"  valid-password-c >
+                                                <i class="icon-user"></i>  
+                                                <label ng-show="updateProfile.newpassword_c.$error.noMatch && updateProfile.newpassword_c.$dirty" class="help-block">Passwords do not match.</label>                                              
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -529,24 +525,19 @@
                                             </p>
                                             <div class="input-group">
                                                 <div class="icheck-list">
-                                                    {{profile.booking_confirmation}}                                                    
+                                                                                                      
                                                         <label>
-                                                            <input type="checkbox" name="booking_confirmation"    ng-checekd="profile.booking_confirmation"> Booking Confirmation
+                                                            <input type="checkbox" name="booking_confirmation"  data-checkbox="icheckbox_square-blue" icheck  ng-model="profile.booking_confirmation"> Booking Confirmation
                                                         </label>                                                   
                                                     <label>
-                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue"  ng-model="profile.pickup_confirmation" > Pickup Confirmation
+                                                        <input type="checkbox" name="pickup_confirmation"  data-checkbox="icheckbox_square-blue" icheck  ng-model="profile.pickup_confirmation" > Pickup Confirmation
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" ng-checked="profile.shipment_delays=='true'" > Shipment delays
+                                                        <input type="checkbox" name="shipment_delays" data-checkbox="icheckbox_square-blue" icheck ng-model="profile.shipment_delays" > Shipment delays
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox" name="shipment_exceptions" data-checkbox="icheckbox_square-blue" ng-checked="profile.shipment_exceptions=='true'" > Shipment exceptions
-                                                    </label>
-
-                                                    <div ng-init="profile.booking_confirmation=true">
-                                                        <label><input type="checkbox" ng-model="profile.booking_confirmation" />Option 2</label>
-                                                    </div>
-                                                  
+                                                        <input type="checkbox" name="shipment_exceptions" data-checkbox="icheckbox_square-blue" icheck ng-model="profile.shipment_exceptions" > Shipment exceptions
+                                                    </label>                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -557,13 +548,13 @@
                                                 <strong>Subscibe to Offers,Deals & Promotions </strong>
                                             </p>
                                             <div class="input-group">
-                                                <div class="icheck-list">
-                                                    {{profile.notenewsolution}}
+                                                <div class="icheck-list">                                                   
                                                     <label>
-                                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" ng-model="profile.notenewsolution" > I would like to receive notofied on new solutions
+                                                        
+                                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" icheck ng-model="profile.notenewsolution" > I would like to receive notofied on new solutions
                                                     </label>
                                                     <label>
-                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount"     ng-checked="profile.notediscount=='true'"> I would like to be notified of discounts & offers
+                                                        <input type="checkbox"  data-checkbox="icheckbox_square-blue" name="notediscount"   icheck ng-model="profile.notediscount"> I would like to be notified of discounts & offers
                                                     </label>                                                  
                                                  </div>
                                             </div>

@@ -19,6 +19,7 @@ namespace PI.Data.Entity
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
+        public bool IsCorpAddressUseAsBusinessAddress { get; set; }
 
         public long AddressId { get; set; }
         public long CompanyId{get; set;}

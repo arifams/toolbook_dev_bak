@@ -3,6 +3,7 @@ using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Profile;
 using PI.Data;
 using PI.Data.Entity;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,23 +26,29 @@ namespace PI.Business
             AccountSettings currentAccountSettings;
             NotificationCriteria currentnotificationCriteria;
 
-           Customer currentCustomer = this.GetCustomerByUserName(username);
-           
+           Customer currentCustomer = this.GetCustomerByUserId(username);
+           ApplicationUser applicationUser = this.GetUserById(username);
 
-            if (currentCustomer==null)
-            {
-                return null;
-            }
-
-            Company currentCompany = this.GetCompanyById(currentCustomer.CompanyId);
             Tenant currentTenant = null;
+            Company currentCompany = null;
+            CostCenter currentCostCenter = null;
 
-            if (currentCompany != null)
+            if (applicationUser != null)
             {
-                currentTenant = this.GetTenantById(currentCompany.TenantId);
-
+                currentTenant = this.GetTenantById(applicationUser.TenantId);
             }
-            
+
+            if (currentTenant!=null)
+            {
+                currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+            }
+
+            if (currentCompany!=null)
+            {
+                currentCostCenter = this.GetCostCenterByCompanyId(currentCompany.Id);
+            }
+
+                  
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
             currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;
@@ -52,12 +59,16 @@ namespace PI.Business
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             currentProfile.CustomerDetails.Password = currentCustomer.Password;
+            currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
 
             if (currentCompany!=null)
             {
-                currentProfile.COCNumber = currentCompany.COCNumber;
-                currentProfile.VATNumber = currentCompany.VATNumber;
+                currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
+                currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
+                currentProfile.CompanyDetails.Name = currentCompany.Name;
+
             }
+
             if (currentTenant!=null)
             {
                 currentProfile.CustomerDetails.IsCorporateAccount = currentTenant.IsCorporateAccount;
@@ -66,6 +77,16 @@ namespace PI.Business
             currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
             currentnotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
 
+            if (currentCostCenter!=null && currentCustomer.IsCorpAddressUseAsBusinessAddress)
+            {
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Number = currentCostCenter.BillingAddress.Number;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode = currentCostCenter.BillingAddress.ZipCode;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;                
+                
+            }
             //assign address values to the  Profile Dto
             if (currentAddress!=null)
             {
@@ -94,33 +115,60 @@ namespace PI.Business
                 currentProfile.ShipmentException = currentnotificationCriteria.ShipmentException;
                 currentProfile.NotifyNewSolution = currentnotificationCriteria.NotifyNewSolution;
                 currentProfile.NotifyDiscountOffer= currentnotificationCriteria.NotifyDiscountOffer;
-             }       
-
-            
+             }                   
             return currentProfile;
-
         }
+        
 
+        //Update user profile detils
         public int updateProfileData(ProfileDto updatedProfile)
         {
             Customer currentCustomer;
             Address currentAddress;
+            Address BusinessAddress;
             AccountSettings currentAccountSettings;
             NotificationCriteria currentNotificationCriteria;
+            ApplicationUser currntUser;
             Company curentCompany;
             Tenant currentTenant;
+            CostCenter currentCostCenter;
 
 
             if (updatedProfile == null)
             {
                 return 0;
             }
-            currentCustomer = this.GetCustomerByUserName(updatedProfile.CustomerDetails.Email);
+
+            currentCustomer = this.GetCustomerByUserEmail(updatedProfile.CustomerDetails.UserId);          
+
 
             if (currentCustomer == null)
             {
                 return 0;
             }
+
+            currntUser = this.GetUserById(currentCustomer.UserId);
+
+            if (currntUser==null)
+            {
+                return 0;
+            }
+
+            currentTenant = this.GetTenantById(currntUser.TenantId);
+
+            if (currentTenant==null)
+            {
+                return 0;
+            }
+
+            curentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+
+            if (curentCompany==null)
+            {
+                return 0;
+            }
+
+            currentCostCenter = this.GetCostCenterByCompanyId(curentCompany.Id);
 
             using (PIContext context = PIContext.Get())
             {
@@ -134,9 +182,68 @@ namespace PI.Business
                 currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
                 currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
                 currentCustomer.Password = updatedProfile.CustomerDetails.Password;
+                currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
                 //set customer entity state as modified
                 context.Customers.Attach(currentCustomer);
                 context.Entry(currentCustomer).State = System.Data.Entity.EntityState.Modified;
+
+                if (currentTenant!=null)
+                {
+                    currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
+
+                    context.Tenants.Attach(currentTenant);
+                    context.Entry(currentTenant).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                if (curentCompany!=null)
+                {
+                    curentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
+                    curentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
+                    curentCompany.Name = updatedProfile.CompanyDetails.Name;
+
+                    context.Companies.Attach(curentCompany);
+                    context.Entry(curentCompany).State = System.Data.Entity.EntityState.Modified;
+                }
+
+                if (currentCostCenter!=null && updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress)
+                {
+                    BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
+                    if (BusinessAddress!=null)
+                    {
+                        BusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        BusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        BusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        BusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        BusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        BusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+
+                        context.Addresses.Attach(BusinessAddress);
+                        context.Entry(BusinessAddress).State = System.Data.Entity.EntityState.Modified;
+
+                    }
+                    else
+                    {
+                        Address newBusinessAddress = new Address();
+                        newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+
+                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+
+                        context.Addresses.Attach(newBusinessAddress);
+                        context.Entry(newBusinessAddress).State = System.Data.Entity.EntityState.Modified;
+
+                        context.CostCenters.Attach(currentCostCenter);
+                        context.Entry(currentCostCenter).State = System.Data.Entity.EntityState.Modified;
+
+
+                    }
+
+
+                }
 
                 currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
                 currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
@@ -151,6 +258,7 @@ namespace PI.Business
                     currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
                     currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
                     currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+
                     //set address entity state as modified
                     context.Addresses.Attach(currentAddress);
                     context.Entry(currentAddress).State = System.Data.Entity.EntityState.Modified;
@@ -217,13 +325,32 @@ namespace PI.Business
 
        
 
-        //get the customer details by username(email)
-        public Customer GetCustomerByUserName(string username)
+        //get the customer details by userId
+        public Customer GetCustomerByUserId(string userId)
         {
             using (PIContext context = PIContext.Get())
             {
-                return context.Customers.Single(c => c.Email == username);
+                return context.Customers.SingleOrDefault(c => c.UserId == userId);
             }
+        }
+
+        //get the customer by user name
+        public Customer GetCustomerByUserEmail(string username)
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                return context.Customers.SingleOrDefault(c => c.Email == username);
+            }
+        }
+
+        //get the user by ID
+        public ApplicationUser GetUserById(string userId)
+        {
+            using (ApplicationDbContext context = ApplicationDbContext.Create())
+            {
+                return context.Users.SingleOrDefault(c => c.Id == userId);
+            }
+
         }
 
         //get address details by Id
@@ -253,11 +380,11 @@ namespace PI.Business
             }
         }
 
-        public Company GetCompanyById(long CustomerId)
+        public Company GetCompanyByTenantId(long TenantId)
         {
             using (PIContext context = PIContext.Get())
             {
-                return context.Companies.SingleOrDefault(n => n.Id == CustomerId);
+                return context.Companies.SingleOrDefault(n => n.TenantId == TenantId);
             }
 
         }
@@ -270,7 +397,15 @@ namespace PI.Business
             }
         }
 
-       
+        //get costcenter by company ID
+        public CostCenter GetCostCenterByCompanyId(long companyId)
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                return context.CostCenters.SingleOrDefault(n => n.CompanyId == companyId);
+            }
+
+        }
 
 
 

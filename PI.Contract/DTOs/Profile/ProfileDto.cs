@@ -1,4 +1,6 @@
-﻿using PI.Contract.DTOs.Customer;
+﻿using PI.Contract.DTOs.Company;
+using PI.Contract.DTOs.CostCenter;
+using PI.Contract.DTOs.Customer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,13 +25,14 @@ namespace PI.Contract.DTOs.Profile
 
         /// user settings
         public string NewPassword { get; set; }       
-        public string OldPassword { get; set; }
-
-        public string COCNumber { get; set; }
-        public string VATNumber { get; set; }
+        public string OldPassword { get; set; }       
 
 
         public CustomerDto CustomerDetails { get; set; }
+        public CompanyDto CompanyDetails { get; set; }
+       
+
+
 
     }
 }
