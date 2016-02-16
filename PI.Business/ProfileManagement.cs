@@ -1,4 +1,7 @@
 ﻿using PI.Contract.DTOs.AccountSettings;
+using PI.Contract.DTOs.Address;
+using PI.Contract.DTOs.Company;
+using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Profile;
 using PI.Data;
@@ -20,7 +23,7 @@ namespace PI.Business
         {
             ProfileDto currentProfile=new ProfileDto();
             currentProfile.CustomerDetails = new CustomerDto();
-            currentProfile.CustomerDetails.CustomerAddress = new Contract.DTOs.Address.AddressDto();
+            currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
 
             Address currentAddress;
             AccountSettings currentAccountSettings;
@@ -63,6 +66,7 @@ namespace PI.Business
             
             if (currentCompany!=null)
             {
+                currentProfile.CompanyDetails = new CompanyDto();
                 currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
@@ -79,6 +83,9 @@ namespace PI.Business
 
             if (currentCostCenter!=null && currentCustomer.IsCorpAddressUseAsBusinessAddress)
             {
+                currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
+                currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto(); 
+
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2;

@@ -20,7 +20,6 @@ namespace PI.Service.Controllers
     {
         //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-
         [HttpGet]
         [Route("GetProfile")]
         public ProfileDto GetProfile([FromUri]string userId)
@@ -65,7 +64,7 @@ namespace PI.Service.Controllers
 
             IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(),
                                                         profile.OldPassword,
-                                                        profile.NewPassword);
+                                                    profile.NewPassword);
 
             var updatedStatus = userprofile.updateProfileData(profile);
 
