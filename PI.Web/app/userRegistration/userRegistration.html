@@ -192,7 +192,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control form-white" data-search="true" data-style="white" name="country" id="country" required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();">
+                                    <!--<select class="form-control form-white" data-search="true" data-style="white" name="country" id="country" required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();">
                                         <option value="United States" selected>United States</option>
                                         <option value="United Kingdom">United Kingdom</option>
                                         <option value="Afghanistan">Afghanistan</option>
@@ -434,7 +434,11 @@
                                         <option value="Yemen">Yemen</option>
                                         <option value="Zambia">Zambia</option>
                                         <option value="Zimbabwe">Zimbabwe</option>
-                                    </select>
+                                    </select>-->
+
+                                    <country-select id="country" name="country"                                                   
+                                                     required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();"
+                                                    class="form-control"></country-select>
                                 </div>
                             </div>
                         </div>
