@@ -64,7 +64,9 @@ namespace PI.Business
             if (currentCompany!=null)
             {
                 currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
-                currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;               
+                currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
+                currentProfile.CompanyDetails.Name = currentCompany.Name;
+
             }
 
             if (currentTenant!=null)
@@ -197,6 +199,7 @@ namespace PI.Business
                 {
                     curentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
                     curentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
+                    curentCompany.Name = updatedProfile.CompanyDetails.Name;
 
                     context.Companies.Attach(curentCompany);
                     context.Entry(curentCompany).State = System.Data.Entity.EntityState.Modified;

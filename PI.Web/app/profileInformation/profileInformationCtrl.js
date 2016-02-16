@@ -1055,6 +1055,7 @@
                             vm.emailaddress = response.data.customerDetails.email;                            
                             vm.cocnumber = response.data.companyDetails.cocNumber;
                             vm.vatnumber = response.data.companyDetails.vatNumber;
+                            vm.companyname = response.data.companyDetails.Name;
                                                       
                             vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
                             vm.billing_country=  response.data.companyDetails.costCenter.BillingAddress.country;
@@ -1064,7 +1065,6 @@
                             vm.billing_streetaddress2=response.data.companyDetails.costCenter.BillingAddress.streetAddress2;
                             vm.billing_city.response.data.companyDetails.costCenter.BillingAddress.city;
                             vm.billing_state=response.data.companyDetails.costCenter.BillingAddress.state;
-
                             vm.primaryemail = response.data.customerDetails.email;
                             //return response.data;                          
                             
@@ -1138,6 +1138,7 @@
                         {
                             COCNumber :vm.cocnumber,
                             VATNumber: vm.vatnumber,
+                            Name: vm.companyname,
 
                             CostCenter:
                                 {
