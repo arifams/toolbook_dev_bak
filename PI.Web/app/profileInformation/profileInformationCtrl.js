@@ -14,12 +14,12 @@
     })
 
   
-    app.factory('loadProfilefactory', function ($http) {
+    app.factory('loadProfilefactory', function ($http, $localStorage) {
         return {           
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        userId: '58bf5704-6a80-443e-9290-8eaf9d27391c'
+                        userId: $localStorage.userGuid //'58bf5704-6a80-443e-9290-8eaf9d27391c'
                     }
                 });
             }
@@ -960,7 +960,7 @@
     });
     
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory,loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
+        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
             var vm = this;
             var t_currencies;
             var t_languages;
@@ -971,14 +971,14 @@
             vm.useCorpAddressAsBilling = function () {
               
                 if (vm.corpaddressasbilling) {
-                    vm.billing_country= vm.country;
-                    vm.billing_postalcode=vm.postalcode;
-                    vm.billing_number=vm.number;
-                    vm.billing_streetaddress1=vm.streetaddress1;
-                    vm.billing_streetaddress2=vm.streetaddress2;
-                    vm.billing_city=vm.city;
-                    vm.billing_state=vm.state;
-                    vm.billing_phonenumber=vm.phonenumber;
+                    vm.billing_country = vm.country;
+                    vm.billing_postalcode = vm.postalcode;
+                    vm.billing_number = vm.number;
+                    vm.billing_streetaddress1 = vm.streetaddress1;
+                    vm.billing_streetaddress2 = vm.streetaddress2;
+                    vm.billing_city = vm.city;
+                    vm.billing_state = vm.state;
+                    vm.billing_phonenumber = vm.phonenumber;
                 }
                 else {
 
@@ -1029,142 +1029,107 @@
                 });
                 
 
-                 loadProfilefactory.loadProfileinfo().
-                    then(function successCallback(response) {
-                        if (response.data != null) {
+                loadProfilefactory.loadProfileinfo()
+                .success(function (response) {
+                    debugger;
+                    if (response != null) {
                         
-                            if (response.data.customerDetails != null) {
+                        if (response.customerDetails != null) {
                                 //setting the account type
+                            // vm.iscorporate = response.data.customerDetails.isCorporateAccount;
+                            vm.model.customerDetails = response.customerDetails;
+                            vm.model.customerDetails.customerAddress = response.customerDetails.customerAddress;
+                            vm.model.companyDetails = response.companyDetails;
+                            vm.model.companyDetails.costCenter = response.companyDetails.costCenter;
+
+                            if (response.companyDetails.costCenter != null &&
+                                response.companyDetails.costCenter.billingAddress != null) {
+                                vm.model.companyDetails.costCenter.billingAddress = response.companyDetails.costCenter.billingAddress;
+                            }
+
                                 if (response.data.customerDetails.isCorporateAccount) {
-                                    vm.iscorporate = "true";
+                                vm.model.customerDetails.isCorporateAccount = "true";
                                 }
                                 else {
-                                    vm.iscorporate = "false";
+                                vm.model.customerDetails.isCorporateAccount = "false";
                                 }
-                                // vm.iscorporate = response.data.customerDetails.isCorporateAccount;
-                                vm.firstname = response.data.customerDetails.firstName;
-                                vm.salutation = response.data.customerDetails.salutation;
-                                vm.middlename = response.data.customerDetails.middleName;
-                                vm.lastname = response.data.customerDetails.lastName;
-                                vm.country = response.data.customerDetails.customerAddress.country;
-                                vm.postalcode = response.data.customerDetails.customerAddress.zipCode;
-                                vm.number = response.data.customerDetails.customerAddress.number;
-                                vm.streetaddress1 = response.data.customerDetails.customerAddress.streetAddress1;
-                                vm.streetaddress2 = response.data.customerDetails.customerAddress.streetAddress2;
-                                vm.city = response.data.customerDetails.customerAddress.city;
-                                vm.state = response.data.customerDetails.customerAddress.state;
-                                vm.phonenumber = response.data.customerDetails.phoneNumber;
-                                vm.mobilenumber = response.data.customerDetails.mobileNumber;
-                                vm.emailaddress = response.data.customerDetails.email;
-                                vm.cocnumber = response.data.companyDetails.cocNumber;
-                                vm.vatnumber = response.data.companyDetails.vatNumber;
-                                vm.companyname = response.data.companyDetails.Name;
-
-                                vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
-                                vm.billing_country = response.data.companyDetails.costCenter.BillingAddress.country;
-                                vm.billing_postalcode = response.data.companyDetails.costCenter.BillingAddress.zipCode;
-                                vm.billing_number = response.data.companyDetails.costCenter.BillingAddress.number;
-                                vm.billing_streetaddress1 = response.data.companyDetails.costCenter.BillingAddress.streetAddress1;
-                                vm.billing_streetaddress2 = response.data.companyDetails.costCenter.BillingAddress.streetAddress2;
-                                vm.billing_city.response.data.companyDetails.costCenter.BillingAddress.city;
-                                vm.billing_state = response.data.companyDetails.costCenter.BillingAddress.state;
-                                vm.primaryemail = response.data.customerDetails.email;
-                                //return response.data;                          
-
-                                vm.currencies = t_currencies
-                                vm.languages = t_languages;
-                                vm.timezones = t_timezones;
-                                vm.defaultlanguage = response.data.defaultLanguageId;
-                                vm.defaultcurrency = response.data.defaultCurrencyId;
-                                vm.defaulttimezone = response.data.defaultTimeZoneId;
-
-                                vm.booking_confirmation = response.data.bookingConfirmation;
-                                vm.pickup_confirmation = response.data.pickupConfirmation;
-                                vm.shipment_delays = response.data.shipmentDelay;
-                                vm.shipment_exceptions = response.data.shipmentException;
-                                vm.notenewsolution = response.data.notifyNewSolution;
-                                vm.notediscount = response.data.notifyDiscountOffer;
                             }
                         }
-
-                    }, function errorCallback(response) {
-                        return null;
-                    });
-               
-                
-                
-                  
+                })
+               .error(function () {
+               })
             }
+
 
             vm.updateProfile = function () {
                
 
-                var UpdatedProfile = {
+                //var UpdatedProfile = {
 
-                    BookingConfirmation: vm.booking_confirmation,
-                    PickupConfirmation : vm.pickup_confirmation,
-                    ShipmentDelay :vm.shipment_delays,
-                    ShipmentException: vm.shipment_exceptions ,
-                    NotifyNewSolution :vm.notenewsolution,
-                    NotifyDiscountOffer:vm.notediscount ,                   
+                //    BookingConfirmation: vm.booking_confirmation,
+                //    PickupConfirmation: vm.pickup_confirmation,
+                //    ShipmentDelay: vm.shipment_delays,
+                //    ShipmentException: vm.shipment_exceptions,
+                //    NotifyNewSolution: vm.notenewsolution,
+                //    NotifyDiscountOffer: vm.notediscount,
                   
-                    DefaultLanguageId :vm.defaultlanguage,
-                    DefaultCurrencyId :vm.defaultcurrency,
-                    DefaultTimeZoneId :vm.defaulttimezone,                   
+                //    DefaultLanguageId: vm.defaultlanguage,
+                //    DefaultCurrencyId: vm.defaultcurrency,
+                //    DefaultTimeZoneId: vm.defaulttimezone,
                 
-                    NewPassword : vm.newpassword,
-                    OldPassword: vm.oldpassword,
-                    IsCorpAddressUseAsBusinessAddress: vm.corpaddressasbilling,
+                //    NewPassword: vm.newpassword,
+                //    OldPassword: vm.oldpassword,
+                //    IsCorpAddressUseAsBusinessAddress: vm.corpaddressasbilling,
                     
-                    CustomerDetails: {
-                        Salutation: vm.salutation,
-                        FirstName: vm.firstname,
-                        LastName: vm.lastname,
-                        MiddleName: vm.middlename,
-                        Email: vm.email,
-                        PhoneNumber: vm.contact,                       
-                        ConfirmPassword: vm.confirmpassword,
-                        IsCorporateAccount: vm.iscorporate,
-                        CompanyName: vm.companyname,
-                        CustomerAddress:
-                          {
-                              Id:1,
-                              Country: vm.country,
-                              ZipCode: vm.postalcode,
-                              Number:vm.number,
-                              StreetAddress1: vm.street,
-                              StreetAddress2: vm.additionaldetails,
-                              City: vm.city,
-                              State: vm.state
-                          },
-                    },
+                //    CustomerDetails: {
+                //        Salutation: vm.salutation,
+                //        FirstName: vm.firstname,
+                //        LastName: vm.lastname,
+                //        MiddleName: vm.middlename,
+                //        Email: vm.email,
+                //        PhoneNumber: vm.contact,
+                //        ConfirmPassword: vm.confirmpassword,
+                //        IsCorporateAccount: vm.iscorporate,
+                //        CompanyName: vm.companyname,
+                //        CustomerAddress:
+                //          {
+                //              Id: 1,
+                //              Country: vm.country,
+                //              ZipCode: vm.postalcode,
+                //              Number: vm.number,
+                //              StreetAddress1: vm.street,
+                //              StreetAddress2: vm.additionaldetails,
+                //              City: vm.city,
+                //              State: vm.state
+                //          },
+                //    },
 
-                    CompanyDetails:
-                        {
-                            Id : 1,
-                            COCNumber :vm.cocnumber,
-                            VATNumber: vm.vatnumber,
-                            Name: vm.companyname,
+                //    CompanyDetails:
+                //        {
+                //            Id: 1,
+                //            COCNumber: vm.cocnumber,
+                //            VATNumber: vm.vatnumber,
+                //            Name: vm.companyname,
 
-                            CostCenter:
-                                {
-                                    BillingAddress:
-                                        {
-                                            Country: vm.billing_country,
-                                            ZipCode: vm.billing_postalcode,
-                                            Number: vm.billing_number,
-                                            StreetAddress1: vm.billing_streetaddress1,
-                                            StreetAddress2: vm.billing_streetaddress2,
-                                            City: vm.billing_city,
-                                            State: vm.billing_state
+                //            CostCenter:
+                //                {
+                //                    BillingAddress:
+                //                        {
+                //                            Country: vm.billing_country,
+                //                            ZipCode: vm.billing_postalcode,
+                //                            Number: vm.billing_number,
+                //                            StreetAddress1: vm.billing_streetaddress1,
+                //                            StreetAddress2: vm.billing_streetaddress2,
+                //                            City: vm.billing_city,
+                //                            State: vm.billing_state
 
-                                        }
+                //                        }
                                 
-                                }
-                    }
-                }
+                //                }
+                //        }
+                //}
 
-                updateProfilefactory.updateProfileInfo(UpdatedProfile)
+                updateProfilefactory.updateProfileInfo(vm.model)
                 .then(function successCallback(responce) {
                     if (responce.data != null) {
 
