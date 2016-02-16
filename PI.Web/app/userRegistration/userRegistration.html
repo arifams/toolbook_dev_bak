@@ -534,7 +534,10 @@
                             </div>
                         </div>
                         
-                        <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20" data-style="expand-left" ng-click="regCtrl.isSubmit = true">Register</button>
+                        <button ng-disabled="regCtrl.isSubmit" type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
+                                data-style="expand-left" ng-click="regCtrl.isSubmit = true">
+                            Register
+                        </button>
 
                         <div ng-show="regCtrl.isSubmit && formSignup.$invalid">
 
