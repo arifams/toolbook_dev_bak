@@ -308,18 +308,20 @@
                                     <div class="col-md-2">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="billing_number" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.number">
+                                                <input type="text" name="billing_number" class="form-control form-white" required 
+                                                       ng-model="profile.model.companyDetails.costCenter.number" ng-class="{ 'error' : updateProfile.billing_number.$error.required && updateProfile.billing_number.$dirty }">
                                                 <i class="icon-user"></i>
+                                                <label ng-show="updateProfile.billing_number.$error.required && updateProfile.billing_number.$dirty" class="error">Number is required.</label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="billing_streetaddress1" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress1">
+                                                <input type="text" name="billing_streetaddress1" class="form-control form-white" required 
+                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress1" ng-class="{ 'error' : updateProfile.billing_streetaddress1.$error.required && updateProfile.billing_streetaddress1.$dirty }">
                                                 <i class="icon-user"></i>
+                                                <label ng-show="updateProfile.billing_streetaddress1.$error.required && updateProfile.billing_streetaddress1.$dirty" class="error">Street address 1 is required.</label>
                                             </div>
                                         </div>
                                     </div>
@@ -345,9 +347,10 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="billing_city" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.city">
+                                                <input type="text" name="billing_city" class="form-control form-white" required 
+                                                       ng-model="profile.model.companyDetails.costCenter.city" ng-class="{ 'error' : updateProfile.billing_city.$error.required && updateProfile.billing_city.$dirty }">
                                                 <i class="icon-user"></i>
+                                                <label ng-show="updateProfile.billing_city.$error.required && updateProfile.billing_city.$dirty" class="error">City is required.</label>
                                             </div>
                                         </div>
                                     </div>
@@ -372,7 +375,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="primaryemail" class="form-control form-white"
+                                                <input type="email" name="primaryemail" class="form-control form-white"
                                                        ng-model="profile.model.customerDetails.email" disabled>
                                                 <i class="icon-user"></i>
                                             </div>
@@ -384,7 +387,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="secondaryemail" class="form-control form-white"
+                                                <input type="email" name="secondaryemail" class="form-control form-white"
                                                        ng-model="profile.model.customerDetails.secondaryEmail">
                                                 <i class="icon-user"></i>
                                             </div>
