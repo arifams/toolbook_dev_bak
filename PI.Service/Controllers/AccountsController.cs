@@ -97,7 +97,10 @@ namespace PI.Service.Controllers
 
             //Create Tenant, Default Company, Division & CostCenter 
             CompanyController companyManagement = new CompanyController();
-            companyManagement.CreateCompanyDetails(createUserModel);
+            long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
+
+            user.TenantId = tenantId;
+            AppUserManager.Update(user);
 
             
             #region For Email Confirmaion

@@ -88,7 +88,7 @@ namespace PI.Business
                 context.Divisions.Add(division);
                 context.SaveChanges();
 
-                return company.Id;
+                return tenant.Id;
             }
 
         }
