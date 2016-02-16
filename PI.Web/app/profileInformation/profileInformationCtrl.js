@@ -7,7 +7,7 @@
         return {
             updateProfileInfo: function (updatedProfile) {
 
-                $http.post('http://localhost:5555/api/profile/UpdateProfile', updatedProfile)
+                $http.post(serverBaseUrl +'/api/profile/UpdateProfile', updatedProfile)
             }
         }
 
@@ -17,7 +17,7 @@
     app.factory('loadProfilefactory', function ($http, $localStorage) {
         return {
             loadProfileinfo: function () {
-                return $http.get('http://localhost:5555/api/profile/GetProfile', {
+                return $http.get(serverBaseUrl +'/api/profile/GetProfile', {
                     params: {
                         userId: $localStorage.userGuid
                     }
@@ -43,7 +43,7 @@
     app.factory('loadAllLanguages', function ($http) {
         return {
             loadLanguages: function () {
-                return $http.get('http://localhost:5555/api/profile/GetAllLanguages');
+                return $http.get(serverBaseUrl + '/api/profile/GetAllLanguages');
 
             }
         }
@@ -54,7 +54,7 @@
     app.factory('loadAllCurrencies', function ($http) {
         return {
             loadCurrencies: function () {
-                return $http.get('http://localhost:5555/api/profile/GetAllCurrencies');
+                return $http.get(serverBaseUrl + '/api/profile/GetAllCurrencies');
 
             }
         }
@@ -65,7 +65,7 @@
     app.factory('loadAllTimeZones', function ($http) {
         return {
             loadTimeZones: function () {
-                return $http.get('http://localhost:5555/api/profile/GetAllTimezones');
+                return $http.get(serverBaseUrl + '/api/profile/GetAllTimezones');
 
             }
         }
