@@ -16,7 +16,7 @@
     app.controller('userLoginCtrl', ['userManager', '$localStorage',
     function (userManager, $localStorage) {
         var vm = this;     
-
+        $localStorage.userGuid = '';
         vm.loginInvalid = false;
         vm.invalidToken = false;
         vm.isEmailConfirm = false;
