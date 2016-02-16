@@ -282,7 +282,7 @@
                                         <div class="form-group">
                                             <div class="option-group">                                               
                                                 <country-select id="billing_country" name="billing_country"
-                                                                ng-model="profile.model.companyDetails.costCenter.country"
+                                                                ng-model="profile.model.companyDetails.costCenter.billingAddress.country"
                                                                 class="form-control"></country-select>
                                             </div>
                                         </div>
@@ -294,7 +294,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_postalcode" class="form-control form-white" minlength="4" required 
-                                                       ng-model="profile.model.companyDetails.costCenter.zipCode" ng-class="{ 'error' : updateProfile.billing_postalcode.$error.required && updateProfile.billing_postalcode.$dirty }">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.zipCode" ng-class="{ 'error' : updateProfile.billing_postalcode.$error.required && updateProfile.billing_postalcode.$dirty }">
                                                 <i class="icon-user"></i>
                                                 <label ng-show="updateProfile.billing_postalcode.$error.required && updateProfile.billing_postalcode.$dirty" class="error">Postal/Zip Code is required.</label>
                                             </div>
@@ -309,7 +309,8 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_number" class="form-control form-white" required 
-                                                       ng-model="profile.model.companyDetails.costCenter.number" ng-class="{ 'error' : updateProfile.billing_number.$error.required && updateProfile.billing_number.$dirty }">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.number" ng-class="{ 'error' : updateProfile.billing_number.$error.required && updateProfile.billing_number.$dirty }">
+                                                
                                                 <i class="icon-user"></i>
                                                 <label ng-show="updateProfile.billing_number.$error.required && updateProfile.billing_number.$dirty" class="error">Number is required.</label>
                                             </div>
@@ -319,7 +320,9 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_streetaddress1" class="form-control form-white" required 
-                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress1" ng-class="{ 'error' : updateProfile.billing_streetaddress1.$error.required && updateProfile.billing_streetaddress1.$dirty }">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-class="{ 'error' : updateProfile.billing_streetaddress1.$error.required && updateProfile.billing_streetaddress1.$dirty }">
+                                                <input type="text" name="billing_streetaddress1" class="form-control form-white"
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.streetAddress1">
                                                 <i class="icon-user"></i>
                                                 <label ng-show="updateProfile.billing_streetaddress1.$error.required && updateProfile.billing_streetaddress1.$dirty" class="error">Street address 1 is required.</label>
                                             </div>
@@ -334,7 +337,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_streetaddress2" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.streetAddress2">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.streetAddress2">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -347,8 +350,10 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <div class="append-icon">
+                                                <input type="text" name="billing_city" class="form-control form-white"
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.city">
                                                 <input type="text" name="billing_city" class="form-control form-white" required 
-                                                       ng-model="profile.model.companyDetails.costCenter.city" ng-class="{ 'error' : updateProfile.billing_city.$error.required && updateProfile.billing_city.$dirty }">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.city" ng-class="{ 'error' : updateProfile.billing_city.$error.required && updateProfile.billing_city.$dirty }">
                                                 <i class="icon-user"></i>
                                                 <label ng-show="updateProfile.billing_city.$error.required && updateProfile.billing_city.$dirty" class="error">City is required.</label>
                                             </div>
@@ -361,7 +366,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_state" class="form-control form-white"
-                                                       ng-model="profile.model.companyDetails.costCenter.state">
+                                                       ng-model="profile.model.companyDetails.costCenter.billingAddress.state">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -422,6 +427,19 @@
                                 <hr />
 
                                 <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="icheck-inline">
+                                            <label>
+                                                <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="changeLogin"
+                                                       ng-model="profile.model.changeLoginData" /> Update Credentials
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
                                     <div class="col-md-2">
                                         <label class="control-label">Corporate ID </label>
                                     </div>
@@ -447,7 +465,7 @@
                                                 <input type="password" name="newpassword" ng-minlength="8" ng-maxlength="20"
                                                        class="form-control form-white" placeholder="Enter new password"
                                                        ng-model="profile.model.newPassword" 
-                                                       ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/">
+                                                       ng-pattern="/(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/" ng-disabled="!profile.model.changeLoginData" ng-required="profile.model.changeLoginData">
                                                 <i class="icon-user"></i>
                                                 <label ng-show="(updateprofile.model.newPassword.$error.minlength||updateprofile.model.newPassword.$error.maxlength) && updateprofile.model.newPassword.$dirty" class="error">Passwords must be between 8 and 20 characters.</label>
                                                 <label ng-show="(!updateprofile.model.newPassword.$error.minlength && !updateprofile.model.newPassword.$error.maxlength) && updateprofile.model.newPassword.$error.pattern && updateprofile.model.newPassword.$dirty" class="error">Must contain one lower &amp; uppercase letter, and one non-alpha character (a number or a symbol.)</label>
@@ -482,7 +500,7 @@
                                                 <input type="password" ng-minlength="8" ng-maxlength="20" 
                                                        name="newpassword_c" class="form-control form-white" 
                                                        placeholder="Re-enter new password" 
-                                                       ng-model="profile.model.confirmPassword"  valid-password-c >
+                                                       ng-model="profile.model.confirmPassword"  valid-password-c ng-disabled="!profile.model.changeLoginData" ng-required="profile.model.changeLoginData">
                                                 <i class="icon-user"></i>  
                                                 <label ng-show="updateprofile.model.newpassword_c.$error.noMatch && updateprofile.model.newpassword_c.$dirty" class="help-block">Passwords do not match.</label>                                              
                                                 </div>
@@ -500,7 +518,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="password" name="oldpassword" class="form-control form-white"
-                                                       placeholder="Enter Old Password" ng-model="profile.model.oldPassword">
+                                                       placeholder="Enter Old Password" ng-model="profile.model.oldPassword" ng-disabled="!profile.model.changeLoginData" ng-required="profile.model.changeLoginData">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>

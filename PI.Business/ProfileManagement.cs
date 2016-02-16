@@ -85,7 +85,7 @@ namespace PI.Business
             currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
             currentnotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
 
-            if (currentCostCenter != null && currentCustomer.IsCorpAddressUseAsBusinessAddress)
+            if (currentCostCenter != null)
             {
                 currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
                 currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
@@ -238,17 +238,18 @@ namespace PI.Business
                     }
                     else
                     {
-                        //Address newBusinessAddress = new Address();
-                        //newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
-                        //newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
-                        //newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
-                        //newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
-                        //newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
-                        //newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        Address newBusinessAddress = new Address();
+                        newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
 
-                        //currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
 
-                        //context.Addresses.Attach(newBusinessAddress);
+                        context.Addresses.Add(newBusinessAddress);
+                        context.SaveChanges();
                         //context.Entry(newBusinessAddress).State = System.Data.Entity.EntityState.Modified;
 
                         //context.CostCenters.Attach(currentCostCenter);
@@ -418,7 +419,7 @@ namespace PI.Business
         {
             using (PIContext context = PIContext.Get())
             {
-                return context.CostCenters.SingleOrDefault(n => n.CompanyId == companyId);
+                return context.CostCenters.Include("BillingAddress").SingleOrDefault(n => n.CompanyId == companyId);
             }
 
         }
