@@ -53,6 +53,7 @@ namespace PI.Business
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
+            currentProfile.CustomerDetails.UserId = currentCustomer.UserId;
             currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
             currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;
             currentProfile.CustomerDetails.MiddleName = currentCustomer.MiddleName;
@@ -89,7 +90,7 @@ namespace PI.Business
                 currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
                 currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
                 currentProfile.CompanyDetails.CostCenter.BillingAddressId = currentCostCenter.BillingAddressId;
-               
+
                 currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto();
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.Id = currentCostCenter.BillingAddress.Id;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
@@ -153,7 +154,7 @@ namespace PI.Business
                 return 0;
             }
 
-            currentCustomer = this.GetCustomerByUserEmail(updatedProfile.CustomerDetails.UserId);
+            currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
 
 
             if (currentCustomer == null)
@@ -198,15 +199,15 @@ namespace PI.Business
                 currentCustomer.Password = updatedProfile.CustomerDetails.Password;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
                 //set customer entity state as modified
-                context.Customers.Attach(currentCustomer);
-                context.Entry(currentCustomer).State = System.Data.Entity.EntityState.Modified;
+                //context.Customers.Add(currentCustomer);
+                context.SaveChanges();
 
                 if (currentTenant != null)
                 {
                     currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
-
-                    context.Tenants.Attach(currentTenant);
-                    context.Entry(currentTenant).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
+                    //context.Tenants.Attach(currentTenant);
+                    //context.Entry(currentTenant).State = System.Data.Entity.EntityState.Modified;
                 }
 
                 if (curentCompany != null)
@@ -216,14 +217,14 @@ namespace PI.Business
                     curentCompany.Name = updatedProfile.CompanyDetails.Name;
                     curentCompany.CompanyCode = updatedProfile.CustomerDetails.CompanyCode;
 
-                    context.Companies.Attach(curentCompany);
-                    context.Entry(curentCompany).State = System.Data.Entity.EntityState.Modified;
+                    context.SaveChanges();
                 }
 
                 if (currentCostCenter != null)
                 {
                     BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
-                    if (BusinessAddress != null)
+                    if (BusinessAddress != null && updatedProfile.CompanyDetails.CostCenter != null &&
+                        updatedProfile.CompanyDetails.CostCenter.BillingAddress != null)
                     {
                         BusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
                         BusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
@@ -232,29 +233,26 @@ namespace PI.Business
                         BusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
                         BusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
 
-                        context.Addresses.Attach(BusinessAddress);
-                        context.Entry(BusinessAddress).State = System.Data.Entity.EntityState.Modified;
+                        context.SaveChanges();
 
                     }
                     else
                     {
-                        Address newBusinessAddress = new Address();
-                        newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
-                        newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
-                        newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
-                        newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
-                        newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
-                        newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        //Address newBusinessAddress = new Address();
+                        //newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        //newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        //newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        //newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        //newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        //newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
 
-                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+                        //currentCostCenter.BillingAddressId = newBusinessAddress.Id;
 
-                        context.Addresses.Attach(newBusinessAddress);
-                        context.Entry(newBusinessAddress).State = System.Data.Entity.EntityState.Modified;
+                        //context.Addresses.Attach(newBusinessAddress);
+                        //context.Entry(newBusinessAddress).State = System.Data.Entity.EntityState.Modified;
 
-                        context.CostCenters.Attach(currentCostCenter);
-                        context.Entry(currentCostCenter).State = System.Data.Entity.EntityState.Modified;
-
-
+                        //context.CostCenters.Attach(currentCostCenter);
+                        //context.Entry(currentCostCenter).State = System.Data.Entity.EntityState.Modified;
                     }
 
 
@@ -274,9 +272,8 @@ namespace PI.Business
                     currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
                     currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
 
-                    //set address entity state as modified
-                    context.Addresses.Attach(currentAddress);
-                    context.Entry(currentAddress).State = System.Data.Entity.EntityState.Modified;
+                    //set address entity state as modified                   
+                    context.SaveChanges();
                 }
                 //Assign Account setting values to the Profile Dto
                 if (currentAccountSettings != null)
@@ -284,9 +281,9 @@ namespace PI.Business
                     currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
-                    //set account settings entity as modidied
-                    context.AccountSettings.Attach(currentAccountSettings);
-                    context.Entry(currentAccountSettings).State = System.Data.Entity.EntityState.Modified;
+
+                    //set account settings entity as modidied                   
+                    context.SaveChanges();
                 }
 
                 else
@@ -296,9 +293,11 @@ namespace PI.Business
                     newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    newAccountSettings.CreatedDate = DateTime.Now;
+
                     //set account settings entity as modidied
-                    context.AccountSettings.Attach(newAccountSettings);
-                    context.Entry(newAccountSettings).State = System.Data.Entity.EntityState.Modified;
+                    //context.AccountSettings.Add(newAccountSettings);
+                    //context.SaveChanges(); TODO:
 
                 }
 
@@ -311,9 +310,10 @@ namespace PI.Business
                     currentNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
                     currentNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
                     currentNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    currentNotificationCriteria.CreatedDate = DateTime.Now;
                     //set notification criteria entity as modified
-                    context.NotificationCriterias.Attach(currentNotificationCriteria);
-                    context.Entry(currentNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+
+                    context.SaveChanges(); 
                 }
                 else
                 {
@@ -325,14 +325,15 @@ namespace PI.Business
                     newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
                     newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
                     newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    newNotificationCriteria.CreatedDate = DateTime.Now;
                     //set notification criteria entity as modified
-                    context.NotificationCriterias.Attach(newNotificationCriteria);
-                    context.Entry(newNotificationCriteria).State = System.Data.Entity.EntityState.Modified;
+                    context.NotificationCriterias.Add(newNotificationCriteria);
+                    context.SaveChanges(); //TODO:
 
                 }
 
                 //saving changes of updated profile
-                context.SaveChanges();
+                //context.SaveChanges();
             }
             return 1;
 

@@ -1,4 +1,4 @@
-﻿<div  ng-init="profile.model.loadProfile()">
+﻿<div ng-init="profile.loadProfile()">
     <div class="header">
         <h2><strong>General</strong>Information</h2>        
     </div>    
@@ -22,8 +22,8 @@
                                                 <div class="form-group">                                                    
                                                     <div class="input-group">
                                                         <div class="icheck-inline">                                                          
-                                                            <label><input type="radio" name="iscorporate"  icheck ng-model="profile.model.model.iscorporate" value="false"> Individual Account </label>
-                                                            <label><input type="radio" name="iscorporate"  icheck ng-model="profile.model.iscorporate" value="true"> Corporate Account</label>
+                                                            <label><input type="radio" name="iscorporate" icheck ng-model="profile.model.customerDetails.isCorporateAccount" value="false"> Individual Account </label>
+                                                            <label><input type="radio" name="iscorporate" icheck ng-model="profile.model.customerDetails.isCorporateAccount" value="true"> Corporate Account</label>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -59,19 +59,19 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                {{profile.model.customerDetails.firstname}}
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label class="control-label">First Name *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : updateprofile.model.customerDetails.firstname.$error.required && updateprofile.model.firstname.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateprofile.firstname.$error.required && updateprofile.firstname.$dirty }">
                                             <div class="append-icon">
                                                 <input type="text" name="firstname" class="form-control form-white" minlength="3"
-                                                       required ng-model="profile.model.customerDetails.firstname">
+                                                       required ng-model="profile.model.customerDetails.firstName">
                                                 <i class="icon-user"></i>
-                                                <label id="firstname-error" ng-show="updateprofile.model.customerDetails.firstname.$dirty  &&
-                                                       updateprofile.model.customerDetails.firstname.$error.required" 
+                                                <label id="firstname-error" ng-show="updateprofile.firstname.$dirty  &&
+                                                       updateprofile.firstname.$error.required" 
                                                        class="error" for="firstname">Enter your first name</label>
 
                                             </div>
@@ -85,7 +85,7 @@
                                         <div class="form-group">                                           
                                             <div class="append-icon">
                                                 <input type="text" name="middlename" class="form-control form-white" minlength="4"
-                                                       ng-model="profile.model.customerDetails.middlename">
+                                                       ng-model="profile.model.customerDetails.middleName">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div> 
@@ -96,12 +96,12 @@
                                         <label class="control-label">Last Name *</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div class="form-group" ng-class="{ 'has-error' : updateprofile.model.lastname.$error.required && 
-                                                                                          updateprofile.model.lastname.$dirty }">
+                                        <div class="form-group" ng-class="{ 'has-error' : updateprofile.model.lastName.$error.required && 
+                                                                                          updateprofile.model.lastName.$dirty }">
                                             
                                             <div class="append-icon">
                                                 <input type="text" name="lastname" class="form-control form-white" minlength="4" required
-                                                       ng-model="profile.model.customerDetails.lastname">
+                                                       ng-model="profile.model.customerDetails.lastName">
                                                 <i class="icon-user"></i>
                                                 <label ng-show="updateprofile.model.lastname.$error.required && 
                                                                 updateprofile.model.lastname.$dirty" class="error">Last name is required.</label>
@@ -272,7 +272,7 @@
                                         <div class="icheck-inline">
                                             <label>
                                                 <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="corpaddressasbilling"
-                                                       ng-model="profile.model.isCorpAddressUseAsBusinessAddress"
+                                                       ng-model="profile.model.customerDetails.isCorpAddressUseAsBusinessAddress"
                                                        ng-change="profile.useCorpAddressAsBilling()"> Use corporate address as billing address
                                             </label>
                                             </div>
@@ -529,9 +529,9 @@
                                                 <div class="form-group">
                                                     <div class="option-group">                                                       
                                                         
-                                                        <select id="defaultlanguage" 
-                                                                ng-options="language.id as language.languageCode for language in profile.model.languages"
-                                                                 name="defaultlanguage" class="defaultlanguage" required ng-model="profile.model.defaultLanguageId"></select>
+                                                        <select id="defaultlanguage"
+                                                                ng-options="language.id as language.languageCode for language in profile.t_languages"
+                                                                name="defaultlanguage" class="defaultlanguage" required ng-model="profile.model.defaultLanguageId"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -544,9 +544,9 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">                                                       
-                                                        <select id="defaultcurrency" 
-                                                                convert-to-number ng-options="currency.id as currency.currencyCode for currency in profile.model.currencies"
-                                                                 name="defaultcurrency" class="defaultcurrency" required ng-model="profile.model.defaultCurrencyId"></select>
+                                                        <select id="defaultcurrency"
+                                                                convert-to-number ng-options="currency.id as currency.currencyCode for currency in profile.t_currencies"
+                                                                name="defaultcurrency" class="defaultcurrency" required ng-model="profile.model.defaultCurrencyId"></select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -558,7 +558,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">                                                        
-                                                        <select id="defaulttimezone" ng-options="timeZone.id as timeZone.timeZoneCode for timeZone in profile.model.timezones" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.model.defaultTimeZoneId"></select>
+                                                        <select id="defaulttimezone" ng-options="timeZone.id as timeZone.timeZoneCode for timeZone in profile.t_timezones" name="defaulttimezone" class="defaulttimezone" required ng-model="profile.model.defaultTimeZoneId"></select>
                                                     </div>
                                                 </div>
                                             </div>
