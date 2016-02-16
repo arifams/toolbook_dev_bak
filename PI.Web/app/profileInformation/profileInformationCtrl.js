@@ -19,7 +19,7 @@
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        username: '1'
+                        userId: '8e0a4525-7a35-4145-8cb9-aa0ce2480f60'
                     }
                 });
             }
@@ -1057,6 +1057,7 @@
                                 vm.cocnumber = response.data.companyDetails.cocNumber;
                                 vm.vatnumber = response.data.companyDetails.vatNumber;
                                 vm.companyname = response.data.companyDetails.Name;
+                                vm.corporateid = response.data.companyDetails.companyCode;
 
                                 vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
                                 vm.billing_country = response.data.companyDetails.costCenter.BillingAddress.country;
@@ -1124,6 +1125,7 @@
                         ConfirmPassword: vm.confirmpassword,
                         IsCorporateAccount: vm.iscorporate,
                         CompanyName: vm.companyname,
+                        CompanyCode:vm.corporateid,
                         CustomerAddress:
                           {
                               Country: vm.country,
