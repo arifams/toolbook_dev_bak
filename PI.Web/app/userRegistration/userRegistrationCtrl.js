@@ -110,13 +110,14 @@
         vm.user.iscorporate = "false";
         vm.user.contactType = 'phone';
         vm.isSubmit = false;
-        vm.user.country = 'United States';
+        vm.user.customeraddress = {};
+        vm.user.customeraddress.country = 'United States';
         vm.isSentMail = false;
         vm.isEmailNotValid = false;
         vm.isServerError = false;
         
         vm.changeCountry = function () {
-            vm.isRequiredState = vm.user.country == 'United States' || vm.user.country == 'Canada' || vm.user.country == 'Puerto Rico';
+            vm.isRequiredState = vm.user.customeraddress.country == 'United States' || vm.user.customeraddress.country == 'Canada' || vm.user.customeraddress.country == 'Puerto Rico';
         };
         vm.changeCountry();
 
