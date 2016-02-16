@@ -7,7 +7,7 @@
          
         return{
             createUser : function (newuser) {
-                return $http.post(serverBaseUrl + '/api/accounts/CreateUser', newuser);
+                return $http.post(serverBaseUrl + '/api/accounts/create', newuser);
         }
         };
       
