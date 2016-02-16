@@ -207,7 +207,7 @@ namespace PI.Business
                     context.Entry(curentCompany).State = System.Data.Entity.EntityState.Modified;
                 }
 
-                if (currentCostCenter!=null && updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress)
+                if (currentCostCenter!=null)
                 {
                     BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
                     if (BusinessAddress!=null)
