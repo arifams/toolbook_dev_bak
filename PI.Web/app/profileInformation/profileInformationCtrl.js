@@ -14,12 +14,12 @@
     })
 
   
-    app.factory('loadProfilefactory', function ($http) {
+    app.factory('loadProfilefactory', function ($http, $localStorage) {
         return {           
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        userId: '58bf5704-6a80-443e-9290-8eaf9d27391c'
+                        userId: $localStorage.userGuid //'58bf5704-6a80-443e-9290-8eaf9d27391c'
                     }
                 });
             }
