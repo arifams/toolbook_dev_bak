@@ -19,7 +19,7 @@
             <div class="col-sm-6 col-md-6 col-md-offset-3">
                 <div class="account-wall">
                     <i class="user-img icons-faces-users-03"></i>
-                    <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-submit="regCtrl.register();" novalidate ng-hide="regCtrl.isSentMail">
+                    <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-submit="formSignup.$valid && regCtrl.register();" novalidate ng-hide="regCtrl.isSentMail">
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -174,11 +174,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row" ng-show="regCtrl.user.iscorporate == 'true'">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="companycode" id="companycode" class="form-control form-white companycode" placeholder="Company Code *" ng-required="regCtrl.user.iscorporate == 'true'" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companycode.$invalid && (formSignup.companycode.$dirty||regCtrl.isSubmit) }" />
+                                        <i class="icon-user"></i>
+                                    </div>
+                                    <div ng-messages="formSignup.companycode.$error" ng-show="formSignup.companycode.$dirty || regCtrl.isSubmit">
+                                        <label ng-message="required" class="error" for="companycode">Enter company code</label>
+                                        <label ng-message="maxlength" class="error" for="companycode">Enter less than 200 characters</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <select class="form-control form-white" data-search="true" data-style="white" name="country" id="country" required ng-model="regCtrl.user.country" ng-change="regCtrl.changeCountry();">
+                                    <select class="form-control form-white" data-search="true" data-style="white" name="country" id="country" required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();">
                                         <option value="United States" selected>United States</option>
                                         <option value="United Kingdom">United Kingdom</option>
                                         <option value="Afghanistan">Afghanistan</option>
@@ -429,7 +443,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="postalcode" id="postalcode" class="form-control form-white postalcode" placeholder="Postal/Zip Code *" required ng-model="regCtrl.user.postalcode" ng-maxlength="100" ng-class="{ 'error': formSignup.postalcode.$invalid && (formSignup.postalcode.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="postalcode" id="postalcode" class="form-control form-white postalcode" placeholder="Postal/Zip Code *" required ng-model="regCtrl.user.customeraddress.zipcode" ng-maxlength="100" ng-class="{ 'error': formSignup.postalcode.$invalid && (formSignup.postalcode.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.postalcode.$error" ng-show="formSignup.postalcode.$dirty || regCtrl.isSubmit">
@@ -443,7 +457,7 @@
                             <div class="col-sm-4">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="number" id="number" class="form-control form-white number" placeholder="Number *" required ng-model="regCtrl.user.number" ng-maxlength="100" ng-class="{ 'error': formSignup.number.$invalid && (formSignup.number.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="number" id="number" class="form-control form-white number" placeholder="Number *" required ng-model="regCtrl.user.customeraddress.number" ng-maxlength="100" ng-class="{ 'error': formSignup.number.$invalid && (formSignup.number.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.number.$error" ng-show="formSignup.number.$dirty || regCtrl.isSubmit">
@@ -455,7 +469,7 @@
                             <div class="col-sm-8">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="street" id="street" class="form-control form-white street" placeholder="Street Address 1 *" required ng-model="regCtrl.user.street" ng-maxlength="100" ng-class="{ 'error': formSignup.street.$invalid && (formSignup.street.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="street" id="street" class="form-control form-white street" placeholder="Street Address 1 *" required ng-model="regCtrl.user.customeraddress.streetaddress1" ng-maxlength="100" ng-class="{ 'error': formSignup.street.$invalid && (formSignup.street.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.street.$error" ng-show="formSignup.street.$dirty || regCtrl.isSubmit">
@@ -469,7 +483,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="additionadetails" id="additionadetails" class="form-control form-white additionaldetails" placeholder="Street Address 2" ng-model="regCtrl.user.additionadetails" ng-maxlength="200" ng-class="{ 'error': formSignup.additionadetails.$invalid && (formSignup.additionadetails.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="additionadetails" id="additionadetails" class="form-control form-white additionaldetails" placeholder="Street Address 2" ng-model="regCtrl.user.customeraddress.streetaddress2" ng-maxlength="200" ng-class="{ 'error': formSignup.additionadetails.$invalid && (formSignup.additionadetails.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.additionadetails.$error" ng-show="formSignup.additionadetails.$dirty || regCtrl.isSubmit">
@@ -482,7 +496,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="city" id="city" class="form-control form-white city" placeholder="City *" required ng-model="regCtrl.user.city" ng-maxlength="100" ng-class="{ 'error': formSignup.city.$invalid && (formSignup.city.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="city" id="city" class="form-control form-white city" placeholder="City *" required ng-model="regCtrl.user.customeraddress.city" ng-maxlength="100" ng-class="{ 'error': formSignup.city.$invalid && (formSignup.city.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.city.$error" ng-show="formSignup.city.$dirty || regCtrl.isSubmit">
@@ -496,7 +510,7 @@
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="state" id="state" class="form-control form-white state" placeholder="State {{regCtrl.isRequiredState?'*':''}}" ng-required="regCtrl.isRequiredState" ng-model="regCtrl.user.state" ng-maxlength="100" ng-class="{ 'error': formSignup.state.$invalid && (formSignup.state.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="state" id="state" class="form-control form-white state" placeholder="State {{regCtrl.isRequiredState?'*':''}}" ng-required="regCtrl.isRequiredState" ng-model="regCtrl.user.customeraddress.state" ng-maxlength="100" ng-class="{ 'error': formSignup.state.$invalid && (formSignup.state.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.state.$error" ng-show="formSignup.state.$dirty || regCtrl.isSubmit">
@@ -522,7 +536,7 @@
                         
                         <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20" data-style="expand-left" ng-click="regCtrl.isSubmit = true">Register</button>
 
-                        <div ng-show="regCtrl.isSubmit && formSignup.terms.$error">
+                        <div ng-show="regCtrl.isSubmit && formSignup.$invalid">
 
                             <p style='color:#994F4F;font-weight:bold;'>Your form contains 
                             {{formSignup.$error.required.length + formSignup.$error.minlength.length +  formSignup.$error.maxlength.length + formSignup.$error.email.length + formSignup.$error.notValidPhoneNo.length+ formSignup.$error.noValidPassword.length+ formSignup.$error.noMatch.length }} 
@@ -565,6 +579,10 @@
                                 <label ng-message="required" class="error" for="companyname">Enter company name</label>
                                 <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
                             </div>
+                            <div ng-messages="formSignup.companycode.$error" ng-show="formSignup.companycode.$dirty || regCtrl.isSubmit">
+                                <label ng-message="required" class="error" for="companycode">Enter company code</label>
+                                <label ng-message="maxlength" class="error" for="companycode">Enter less than 200 characters</label>
+                            </div>
                             <div ng-messages="formSignup.postalcode.$error" ng-show="formSignup.postalcode.$dirty || regCtrl.isSubmit">
                                 <label ng-message="required" class="error" for="postalcode">Enter Postal Code</label>
                                 <label ng-message="maxlength" class="error" for="postalcode">Enter less than 100 characters</label>
@@ -606,6 +624,10 @@
 
                     <div class="alert alert-warning" ng-show="regCtrl.isEmailNotValid">
                         Email address is already in use.
+                    </div>
+                    
+                    <div class="alert alert-warning" ng-show="regCtrl.isServerError ">
+                        Error occured while processing registration
                     </div>  
                 </div>
 

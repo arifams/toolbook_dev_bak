@@ -110,12 +110,14 @@
         vm.user.iscorporate = "false";
         vm.user.contactType = 'phone';
         vm.isSubmit = false;
-        vm.user.country = 'United States';
+        vm.user.customeraddress = {};
+        vm.user.customeraddress.country = 'United States';
         vm.isSentMail = false;
         vm.isEmailNotValid = false;
+        vm.isServerError = false;
         
         vm.changeCountry = function () {
-            vm.isRequiredState = vm.user.country == 'United States' || vm.user.country == 'Canada' || vm.user.country == 'Puerto Rico';
+            vm.isRequiredState = vm.user.customeraddress.country == 'United States' || vm.user.customeraddress.country == 'Canada' || vm.user.customeraddress.country == 'Puerto Rico';
         };
         vm.changeCountry();
 
@@ -124,17 +126,16 @@
             registerUserService.createUser(vm.user)
             .then(function (result)
             {
-               
-                if (result.data == "-1") {
+                if (result.data == "1") {
+                    vm.isSentMail = true;
+                }
+                else if (result.data == "-2") {
                     vm.isEmailNotValid = true;
                 }
-                else {
-                    vm.isSentMail = true;
-                    //window.location = webBaseUrl + "/app/index.html";
+                else { 
+                    // Other issues.
+                    vm.isServerError = true;
                 }
-                console.log("success");
-               
-
             },
             function (error) {
                 console.log("failed");
