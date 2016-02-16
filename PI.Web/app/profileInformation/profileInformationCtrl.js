@@ -7,11 +7,11 @@
         return {
             updateProfileInfo: function (updatedProfile) {
 
-                $http.post(serverBaseUrl +'/api/profile/UpdateProfile', updatedProfile)
+              return  $http.post(serverBaseUrl + '/api/profile/UpdateProfile', updatedProfile);
             }
         }
 
-    })
+    });
 
 
     app.factory('loadProfilefactory', function ($http, $localStorage) {
@@ -1012,7 +1012,7 @@
 
                 loadProfilefactory.loadProfileinfo()
                 .success(function (response) {
-                    debugger;
+                   
                     if (response != null) {
                         vm.model = response;
 
@@ -1048,7 +1048,7 @@
             vm.updateProfile = function () {
 
                 updateProfilefactory.updateProfileInfo(vm.model)
-                .success(function successCallback(responce) {
+                .success(function (responce) {                    
                     if (responce != null) {
 
                         if (responce == 1) {
@@ -1060,7 +1060,7 @@
                         }
                     }
 
-                }).error(function errorCallback(error) {
+                }).error(function (error) {
                     // console.log("failed" + error);
                     vm.model.isServerError = "true";
                 });
