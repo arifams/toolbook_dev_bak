@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace PI.Contract.DTOs.Address
 {
-  public  class AddressDto
+    public class AddressDto
     {
+        public long Id { get; set; }
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string State { get; set; }
