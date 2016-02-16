@@ -13,7 +13,8 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$cookies', function (userManager, $cookies) {
+    app.controller('userLoginCtrl', ['userManager', '$cookies', '$cookieStore', 
+    function (userManager, $cookies, $cookieStore) {
         var vm = this;     
 
         vm.loginInvalid = false;
@@ -33,6 +34,9 @@
 
         vm.login = function (user) {
 
+
+           $cookieStore.put("KEY", "asasasa");
+            console.log($cookieStore.get("KEY"));
             // end test cookies
             debugger;
             if (window.location.search != "") {
@@ -67,8 +71,10 @@
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
 
                      // TODO: To be coverted to a token.
-                      $cookies.userGuid = returnedResult.data.user.id;
-                      console.debug("blass" + $cookies.userGuid);
+                     //$cookies.userGuid = returnedResult.data.user.id;
+                     //console.debug("blass" + $cookies.userGuid);
+                     //$cookieStore.put("KEY", "asasasa");
+                     //console.log($cookieStore.get("KEY"));
 
                      window.location = webBaseUrl + "/app/index.html";
                  }

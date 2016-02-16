@@ -19,7 +19,7 @@
             loadProfileinfo: function () {
                 return $http.get('http://localhost:5555/api/profile/GetProfile', {
                     params: {
-                        username: 'admin@pi.com'
+                        username: '1'
                     }
                 });
             }
@@ -1030,57 +1030,59 @@
                  loadProfilefactory.loadProfileinfo().
                     then(function successCallback(response) {
                         if (response.data != null) {
+                        
+                            if (response.data.customerDetails != null) {
+                                //setting the account type
+                                if (response.data.customerDetails.isCorporateAccount) {
+                                    vm.iscorporate = "true";
+                                }
+                                else {
+                                    vm.iscorporate = "false";
+                                }
+                                // vm.iscorporate = response.data.customerDetails.isCorporateAccount;
+                                vm.firstname = response.data.customerDetails.firstName;
+                                vm.salutation = response.data.customerDetails.salutation;
+                                vm.middlename = response.data.customerDetails.middleName;
+                                vm.lastname = response.data.customerDetails.lastName;
+                                vm.country = response.data.customerDetails.customerAddress.country;
+                                vm.postalcode = response.data.customerDetails.customerAddress.zipCode;
+                                vm.number = response.data.customerDetails.customerAddress.number;
+                                vm.streetaddress1 = response.data.customerDetails.customerAddress.streetAddress1;
+                                vm.streetaddress2 = response.data.customerDetails.customerAddress.streetAddress2;
+                                vm.city = response.data.customerDetails.customerAddress.city;
+                                vm.state = response.data.customerDetails.customerAddress.state;
+                                vm.phonenumber = response.data.customerDetails.phoneNumber;
+                                vm.mobilenumber = response.data.customerDetails.mobileNumber;
+                                vm.emailaddress = response.data.customerDetails.email;
+                                vm.cocnumber = response.data.companyDetails.cocNumber;
+                                vm.vatnumber = response.data.companyDetails.vatNumber;
+                                vm.companyname = response.data.companyDetails.Name;
 
-                            //setting the account type
-                            if (response.data.customerDetails.isCorporateAccount) {
-                                vm.iscorporate = "true";
+                                vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
+                                vm.billing_country = response.data.companyDetails.costCenter.BillingAddress.country;
+                                vm.billing_postalcode = response.data.companyDetails.costCenter.BillingAddress.zipCode;
+                                vm.billing_number = response.data.companyDetails.costCenter.BillingAddress.number;
+                                vm.billing_streetaddress1 = response.data.companyDetails.costCenter.BillingAddress.streetAddress1;
+                                vm.billing_streetaddress2 = response.data.companyDetails.costCenter.BillingAddress.streetAddress2;
+                                vm.billing_city.response.data.companyDetails.costCenter.BillingAddress.city;
+                                vm.billing_state = response.data.companyDetails.costCenter.BillingAddress.state;
+                                vm.primaryemail = response.data.customerDetails.email;
+                                //return response.data;                          
+
+                                vm.currencies = t_currencies
+                                vm.languages = t_languages;
+                                vm.timezones = t_timezones;
+                                vm.defaultlanguage = response.data.defaultLanguageId;
+                                vm.defaultcurrency = response.data.defaultCurrencyId;
+                                vm.defaulttimezone = response.data.defaultTimeZoneId;
+
+                                vm.booking_confirmation = response.data.bookingConfirmation;
+                                vm.pickup_confirmation = response.data.pickupConfirmation;
+                                vm.shipment_delays = response.data.shipmentDelay;
+                                vm.shipment_exceptions = response.data.shipmentException;
+                                vm.notenewsolution = response.data.notifyNewSolution;
+                                vm.notediscount = response.data.notifyDiscountOffer;
                             }
-                            else {
-                                vm.iscorporate = "false";
-                            }                          
-                           // vm.iscorporate = response.data.customerDetails.isCorporateAccount;
-                            vm.firstname = response.data.customerDetails.firstName;
-                            vm.salutation = response.data.customerDetails.salutation;                           
-                            vm.middlename = response.data.customerDetails.middleName;
-                            vm.lastname = response.data.customerDetails.lastName;
-                            vm.country = response.data.customerDetails.customerAddress.country;                            
-                            vm.postalcode = response.data.customerDetails.customerAddress.zipCode;
-                            vm.number = response.data.customerDetails.customerAddress.number;
-                            vm.streetaddress1 = response.data.customerDetails.customerAddress.streetAddress1;
-                            vm.streetaddress2 = response.data.customerDetails.customerAddress.streetAddress2;
-                            vm.city = response.data.customerDetails.customerAddress.city;
-                            vm.state = response.data.customerDetails.customerAddress.state;
-                            vm.phonenumber = response.data.customerDetails.phoneNumber;
-                            vm.mobilenumber = response.data.customerDetails.mobileNumber;
-                            vm.emailaddress = response.data.customerDetails.email;                            
-                            vm.cocnumber = response.data.companyDetails.cocNumber;
-                            vm.vatnumber = response.data.companyDetails.vatNumber;
-                            vm.companyname = response.data.companyDetails.Name;
-                                                      
-                            vm.corpaddressasbilling = response.data.customerDetails.isCorpAddressUseAsBusinessAddress;
-                            vm.billing_country=  response.data.companyDetails.costCenter.BillingAddress.country;
-                            vm.billing_postalcode=response.data.companyDetails.costCenter.BillingAddress.zipCode;
-                            vm.billing_number=response.data.companyDetails.costCenter.BillingAddress.number;
-                            vm.billing_streetaddress1=response.data.companyDetails.costCenter.BillingAddress.streetAddress1;
-                            vm.billing_streetaddress2=response.data.companyDetails.costCenter.BillingAddress.streetAddress2;
-                            vm.billing_city.response.data.companyDetails.costCenter.BillingAddress.city;
-                            vm.billing_state=response.data.companyDetails.costCenter.BillingAddress.state;
-                            vm.primaryemail = response.data.customerDetails.email;
-                            //return response.data;                          
-                            
-                            vm.currencies = t_currencies
-                            vm.languages = t_languages;
-                            vm.timezones = t_timezones;
-                            vm.defaultlanguage = response.data.defaultLanguageId;
-                            vm.defaultcurrency = response.data.defaultCurrencyId;
-                            vm.defaulttimezone = response.data.defaultTimeZoneId;
-
-                            vm.booking_confirmation= response.data.bookingConfirmation;                           
-                            vm.pickup_confirmation = response.data.pickupConfirmation;
-                            vm.shipment_delays = response.data.shipmentDelay;
-                            vm.shipment_exceptions = response.data.shipmentException;
-                            vm.notenewsolution = response.data.notifyNewSolution;                            
-                            vm.notediscount = response.data.notifyDiscountOffer;
                         }
 
                     }, function errorCallback(response) {

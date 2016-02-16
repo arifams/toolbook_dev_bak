@@ -10,6 +10,8 @@ namespace PI.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        private static ApplicationDbContext context = null;
+
         public ApplicationDbContext()
             : base("name=PIBookingConnectionString", throwIfV1Schema: false)
         {
@@ -20,6 +22,16 @@ namespace PI.Data
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        public static ApplicationDbContext Get()
+        {
+            if (context == null)
+            {
+                context = new ApplicationDbContext();
+            }
+
+            return context;
         }
 
     }

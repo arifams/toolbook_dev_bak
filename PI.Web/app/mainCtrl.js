@@ -1,7 +1,10 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$cookies',
-function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$cookies) {
-            $(document).ready(function () {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$cookies','$cookieStore',
+function ($scope, applicationService, quickViewService, builderService, pluginsService, $location,$cookies ,$cookieStore) {
+
+    console.log($cookieStore.get("KEY"));
+    $(document).ready(function () {
+        console.log($cookieStore.get("KEY"));
                 applicationService.init();
                 quickViewService.init();
                 builderService.init();
@@ -33,10 +36,12 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
 
             });
 
+            console.log($cookieStore.get("KEY"));
             $scope.isActive = function (viewLocation) {
                 return viewLocation === $location.path();
             };
 
-            console.log($cookies.userGuid);
+            console.log($cookieStore.get("KEY"));
+            //console.log($cookies.userGuid);
 
         }]);

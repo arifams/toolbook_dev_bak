@@ -57,10 +57,10 @@ namespace PI.Business
             currentProfile.CustomerDetails.Email = currentCustomer.Email;
             currentProfile.CustomerDetails.PhoneNumber =currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
-            currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
-            currentProfile.CustomerDetails.Password = currentCustomer.Password;
+            //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
+            //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
-
+            
             if (currentCompany!=null)
             {
                 currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
