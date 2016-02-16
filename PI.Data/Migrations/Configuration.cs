@@ -32,6 +32,40 @@ namespace PI.Data.Migrations
 
             //  This method will be called after migrating to the latest version.
 
+
+            context.Languages.AddOrUpdate(     
+                x=>x.Id,          
+                new Entity.Language() { Id=1, LanguageCode="ENG", LanguageName="English", CreatedBy=1, CreatedDate=DateTime.Now},
+                new Entity.Language() { Id=2, LanguageCode = "DTH", LanguageName = "DUTCH", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=3, LanguageCode = "CHI", LanguageName = "CHINIES", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=4, LanguageCode = "FH", LanguageName = "FRENCH", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=5, LanguageCode = "MAN", LanguageName = "Mandarin", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=6, LanguageCode = "POl", LanguageName = "Polish", CreatedBy = 1, CreatedDate = DateTime.Now }
+                );
+
+            context.Currencies.AddOrUpdate(
+                x=>x.Id,
+                new Entity.Currency() { Id=1, CurrencyCode = "USD", CurrencyName = "USDollars", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=2, CurrencyCode = "EU", CurrencyName = "EURO", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=3, CurrencyCode = "RS", CurrencyName = "RUPEES", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=4, CurrencyCode = "YN", CurrencyName= "YEN", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=5, CurrencyCode = "PN", CurrencyName = "PRANK", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=6, CurrencyCode = "RL", CurrencyName = "RIYAL", CreatedBy = 1, CreatedDate = DateTime.Now }
+                );
+
+            context.TimeZones.AddOrUpdate(
+                x=>x.Id,
+                new Entity.TimeZone() { Id=1, TimeZoneCode = "UTC-10", CountryName = "Netharlands" , CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.TimeZone() { Id=2, TimeZoneCode = "UTC-20", CountryName = "German", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.TimeZone() { Id=3, TimeZoneCode = "UTC-30", CountryName = "England" , CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.TimeZone() { Id=4, TimeZoneCode = "UTC-40", CountryName= "Poland", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.TimeZone() { Id=5, TimeZoneCode = "UTC-50", CountryName = "Ireland", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.TimeZone() { Id=6, TimeZoneCode = "UTC-60", CountryName = "Switserland", CreatedBy = 1, CreatedDate = DateTime.Now }
+                );
+
+
+
+
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
  
@@ -56,7 +90,6 @@ namespace PI.Data.Migrations
             }
 
             var adminUser = manager.FindByName("SuperPowerUser");
-
             manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });   
         }
     }
