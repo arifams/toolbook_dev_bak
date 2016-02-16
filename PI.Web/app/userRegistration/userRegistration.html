@@ -538,10 +538,13 @@
                             </div>
                         </div>
                         
-                        <button ng-disabled="regCtrl.isSubmit" type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
+                        <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
                                 data-style="expand-left" ng-click="regCtrl.isSubmit = true">
                             Register
                         </button>
+                        <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted">
+                            Please wait ...
+                        </div>
 
                         <div ng-show="regCtrl.isSubmit && formSignup.$invalid">
 

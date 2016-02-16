@@ -974,7 +974,12 @@
         };
         vm.changeCountry();
 
+
+        vm.alreadySubmitted = false;
+
         vm.register = function () {         
+
+            vm.alreadySubmitted = true;
 
             registerUserService.createUser(vm.user)
             .then(function (result)
