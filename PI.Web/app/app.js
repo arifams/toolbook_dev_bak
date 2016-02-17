@@ -18,7 +18,7 @@ var MakeApp = angular
     'ngTouch',
     'ui.bootstrap',
     'ngStorage',
-    'ngMessage'
+    'ngMessages'
   ])
   .config(function ($routeProvider) {
       $routeProvider
