@@ -17,7 +17,6 @@ var MakeApp = angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'ngStorage',
     'ngMessages'
   ])
   .config(function ($routeProvider) {

@@ -14,12 +14,12 @@
     });
 
 
-    app.factory('loadProfilefactory', function ($http, $localStorage) {
+    app.factory('loadProfilefactory', function ($http, $window) {
         return {
             loadProfileinfo: function () {
                 return $http.get(serverBaseUrl +'/api/profile/GetProfile', {
                     params: {
-                        userId: $localStorage.userGuid
+                        userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
                     }
                 });
             }

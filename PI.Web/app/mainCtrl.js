@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$localStorage','$sessionStorage',
-function ($scope, applicationService, quickViewService, builderService, pluginsService, $location, $localStorage, $sessionStorage) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$window',
+function ($scope, applicationService, quickViewService, builderService, pluginsService, $location, $window) {
 
     
     $(document).ready(function () {
@@ -41,11 +41,8 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
         return viewLocation === $location.path();
     };
 
-    //console.log($cookieStore.get("KEY"));
-    //console.log($cookies.userGuid);
-
-    //if ($localStorage.userGuid == '' || $localStorage.userGuid == undefined) {
-    //    window.location = webBaseUrl + "/app/userLogin/userLogin.html";
-    //}
+    if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
+        window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+    }
 
 }]);
