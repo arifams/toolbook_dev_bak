@@ -1,6 +1,6 @@
 ﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$localStorage',
-function ($scope, applicationService, quickViewService, builderService, pluginsService, $location, $localStorage) {
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$localStorage','$sessionStorage',
+function ($scope, applicationService, quickViewService, builderService, pluginsService, $location, $localStorage, $sessionStorage) {
 
     
     $(document).ready(function () {
@@ -43,7 +43,7 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
 
     //console.log($cookieStore.get("KEY"));
     //console.log($cookies.userGuid);
-    
+
     //if ($localStorage.userGuid == '' || $localStorage.userGuid == undefined) {
     //    window.location = webBaseUrl + "/app/userLogin/userLogin.html";
     //}
