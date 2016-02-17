@@ -44,8 +44,8 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
     //console.log($cookieStore.get("KEY"));
     //console.log($cookies.userGuid);
     
-    if ($localStorage.userGuid == '' || $localStorage.userGuid == undefined) {
-        window.location = webBaseUrl + "/app/userLogin/userLogin.html";
-    }
+    //if ($localStorage.userGuid == '' || $localStorage.userGuid == undefined) {
+    //    window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+    //}
 
 }]);
