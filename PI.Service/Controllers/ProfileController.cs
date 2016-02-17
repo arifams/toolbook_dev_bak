@@ -62,9 +62,12 @@ namespace PI.Service.Controllers
         {
             ProfileManagement userprofile = new ProfileManagement();
 
-            //IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(),
-            //                                            profile.OldPassword,
-            //                                            profile.NewPassword);
+            if (!string.IsNullOrWhiteSpace(profile.NewPassword))
+            {
+                IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(),
+                                                            profile.OldPassword,
+                                                            profile.NewPassword);
+            }
 
             var updatedStatus = userprofile.updateProfileData(profile);
 
