@@ -14,19 +14,18 @@
     });
 
 
-    app.factory('loadProfilefactory', function ($http, $localStorage) {
+    app.factory('loadProfilefactory', function ($http, $window) {
         return {
             loadProfileinfo: function () {
                 return $http.get(serverBaseUrl +'/api/profile/GetProfile', {
                     params: {
-                        //userId: $localStorage.userGuid
-                        userId:"5aa86ff4-e16a-47e8-8b51-b71274b7e0d8"
+                        userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
                     }
                 });
             }
         }
 
-    });   
+    });
 
     //loading language dropdown
     app.factory('loadAllLanguages', function ($http) {
