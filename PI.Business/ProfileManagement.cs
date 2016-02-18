@@ -59,6 +59,7 @@ namespace PI.Business
             currentProfile.CustomerDetails.MiddleName = currentCustomer.MiddleName;
             currentProfile.CustomerDetails.LastName = currentCustomer.LastName;
             currentProfile.CustomerDetails.Email = currentCustomer.Email;
+            currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
@@ -193,6 +194,7 @@ namespace PI.Business
                 currentCustomer.MiddleName = updatedProfile.CustomerDetails.MiddleName;
                 currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
                 currentCustomer.Email = updatedProfile.CustomerDetails.Email;
+                currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
                 currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
                 currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
                 currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
@@ -339,8 +341,6 @@ namespace PI.Business
             return 1;
 
         }
-
-
 
         //get the customer details by userId
         public Customer GetCustomerByUserId(string userId)

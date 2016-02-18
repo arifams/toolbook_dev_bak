@@ -14,29 +14,17 @@
     });
 
 
-    app.factory('loadProfilefactory', function ($http, $localStorage) {
+    app.factory('loadProfilefactory', function ($http, $window) {
         return {
             loadProfileinfo: function () {
                 return $http.get(serverBaseUrl +'/api/profile/GetProfile', {
                     params: {
-                        userId: $localStorage.userGuid
+                        userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
                     }
                 });
             }
         }
 
-    });
-
-    app.directive('validPasswordC', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function (viewValue, $scope) {
-                    var noMatch = viewValue != scope.updateProfile.newpassword.$viewValue
-                    ctrl.$setValidity('noMatch', !noMatch)
-                })
-            }
-        }
     });
 
     //loading language dropdown
@@ -71,6 +59,61 @@
         }
 
     });
+
+
+    app.directive('validPasswordC', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue, $scope) {
+                    var noMatch = viewValue != scope.formUpdateProfile.newpassword.$viewValue;
+                    ctrl.$setValidity('noMatch', !noMatch);
+                    return viewValue;
+                })
+            }
+        }
+    });
+
+    app.directive('validPassword', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue, $scope) {
+
+                    // password validate.
+                    var res = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(viewValue);
+                    ctrl.$setValidity('noValidPassword', res);
+
+                    // if change the password when having confirmation password, check match and give error.
+                    if (scope.formUpdateProfile.newpassword_c.$viewValue != '') {
+                        var noMatch = viewValue != scope.formUpdateProfile.newpassword_c.$viewValue;
+                        scope.formUpdateProfile.newpassword_c.$setValidity('noMatch', !noMatch);
+                    }
+
+                    return viewValue;
+                })
+            }
+        }
+    });
+
+    app.directive('validPhoneNo', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue, $scope) {
+
+                    // should have only +,- and digits.
+                    var res1 = /^[0-9()+-]*$/.test(viewValue);
+                    // should have at least 8 digits.
+                    var res2 = /(?=(.*\d){8})/.test(viewValue);
+
+                    ctrl.$setValidity('notValidPhoneNo', res1 && res2);
+                    return viewValue;
+                })
+            }
+        }
+    });
+
 
     app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
 
@@ -968,8 +1011,19 @@
 
             vm.model = {};
 
+            vm.CheckMail = function ()
+            {
+                if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
+                    vm.invalidEmail = true;
+                }
+                else {
+                    vm.invalidEmail = false;
+                }
+
+            }
+
             vm.useCorpAddressAsBilling = function () {
-                debugger;
+             
                 if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
                     vm.model.companyDetails.costCenter = {};
                     vm.model.companyDetails.costCenter.billingAddress = vm.model.customerDetails.customerAddress;

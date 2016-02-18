@@ -13,10 +13,11 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$localStorage',
-    function (userManager, $localStorage) {
+    app.controller('userLoginCtrl', ['userManager', '$window',
+    function (userManager, $window) {
         var vm = this;     
-        $localStorage.userGuid = '';
+        //$localStorage.userGuid = '';
+        $window.localStorage.setItem('userGuid', '');
         vm.loginInvalid = false;
         vm.invalidToken = false;
         vm.isEmailConfirm = false;
@@ -67,11 +68,7 @@
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
 
                      // TODO: To be coverted to a token.
-                     //$cookies.userGuid = returnedResult.data.user.id;
-                     //console.debug("blass" + $cookies.userGuid);
-                     //$cookieStore.put("KEY", "asasasa");
-                     //console.log($cookieStore.get("KEY"));
-                     $localStorage.userGuid = returnedResult.data.user.id;
+                     $window.localStorage.setItem('userGuid', returnedResult.data.user.id);
                      window.location = webBaseUrl + "/app/index.html";
                  }
                  else if (returnedResult.data.result == "-1") {
@@ -109,5 +106,5 @@
     }]);
 
 
-})(angular.module('userLogin', ['ngStorage']));
+})(angular.module('userLogin', []));
 
