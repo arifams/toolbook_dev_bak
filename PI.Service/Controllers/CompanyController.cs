@@ -25,9 +25,9 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
-        [Route("CreateCompanyDetails")]
+        [Route("GetAllDivisionsByFliter")]
         public PagedList GetAllDivisionsByFliter(string searchtext, int page = 1, int pageSize = 10,
-                                      string sortBy = "CustomerID", string sortDirection = "asc")
+                                      string sortBy = "Id", string sortDirection = "asc")
         {
 
             var pagedRecord = new PagedList();

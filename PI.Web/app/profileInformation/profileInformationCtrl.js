@@ -1,6 +1,5 @@
 ﻿'use strict';
 
-
 (function (app) {
 
     app.factory('updateProfilefactory', function ($http) {

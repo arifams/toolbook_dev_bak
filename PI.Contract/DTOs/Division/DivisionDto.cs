@@ -14,10 +14,17 @@ namespace PI.Contract.DTOs.Division
 
         public string Description { get; set; }
 
-        public int DefaultCostCenterId { get; set; }
+        public long DefaultCostCenterId { get; set; }
 
         public int Status { get; set; }
 
         public long CompanyId { get; set; }
+
+        public string Type { get; set; }
+
+        public string EditLink { get; set; }
+
+        public string DeleteLink { get; set; }
+
     }
 }

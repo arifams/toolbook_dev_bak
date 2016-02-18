@@ -20,7 +20,7 @@ namespace PI.Business
         #region Create Comapny Details with default settings
 
         public long CreateCompanyDetails(CustomerDto customerCompany)
-        {            
+        {
             using (var context = PIContext.Get())
             {
                 //Add Tenant
@@ -31,7 +31,7 @@ namespace PI.Business
                     CreatedDate = DateTime.Now,
                     IsActive = true,
                     IsDelete = false,
-                    IsCorporateAccount = customerCompany.IsCorporateAccount                    
+                    IsCorporateAccount = customerCompany.IsCorporateAccount
                 };
                 context.Tenants.Add(tenant);
                 context.SaveChanges();
@@ -40,7 +40,7 @@ namespace PI.Business
                 Company company = new Company
                 {
                     Name = customerCompany.CompanyName,
-                    TenantId = tenant.Id,                    
+                    TenantId = tenant.Id,
                     IsActive = true,
                     IsDelete = false,
                     CreatedBy = 1,
@@ -81,7 +81,7 @@ namespace PI.Business
                     CompanyId = company.Id,
                     Type = "SYSTEM",
                     DefaultCostCenterId = costCenter.Id,
-                    Status = 1,                    
+                    Status = 1,
                     IsActive = true,
                     IsDelete = false,
                     CreatedBy = 1,
@@ -226,15 +226,30 @@ namespace PI.Business
                                          string sortBy = "CustomerID", string sortDirection = "asc")
         {
             var pagedRecord = new PagedList();
+            pagedRecord.Content = new List<DivisionDto>();
 
             using (var context = PIContext.Get())
             {
-                pagedRecord.Content = context.Divisions
+                var content = context.Divisions
                                         .Where(x => searchtext == null || x.Name.Contains(searchtext) && x.Type == "USER")
                                         .OrderBy(sortBy + " " + sortDirection)
                                         .Skip((page - 1) * pageSize)
                                         .Take(pageSize)
                                         .ToList();
+
+                foreach (var item in content)
+                {
+                    pagedRecord.Content.Add(new DivisionDto { 
+                    Id = item.Id,
+                    Name = item.Name,
+                    CompanyId = item.CompanyId,
+                    DefaultCostCenterId = item.DefaultCostCenterId,
+                    Description = item.Description,
+                    Status = item.Status,
+                    Type = item.Type,
+                    EditLink = "<a href='#/getDivision/" + item.Id + "'  class='edit btn btn-sm btn-default'> <i class='icon-note'></i></a>"
+                    });
+                }
 
                 // Count
                 pagedRecord.TotalRecords = context.Divisions
@@ -256,8 +271,9 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
-                var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
-                return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
+                //var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
+                //return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
+                return null;
             }
         }
 

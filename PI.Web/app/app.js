@@ -17,7 +17,9 @@ var MakeApp = angular
     'ngSanitize',
     'ngTouch',
     'ui.bootstrap',
-    'ngMessages'
+    'ngStorage',
+    'ngMessages',
+    'ngGrid',
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -215,11 +217,19 @@ var MakeApp = angular
             templateUrl: 'layout/api.html',
             controller: 'apiCtrl'
         })
-        .when('/save-division', {
-            templateUrl: 'divisions/saveDivision.html',
-            controller: 'saveDivisionCtrl',
+        .when('/getDivision/:id', {
+               templateUrl: 'divisions/saveDivision.html',
+               controller: 'saveDivisionCtrl',
+           })
+        .when('/loadDivisions', {
+            templateUrl: 'divisions/loadDivisions.html',
+            controller: 'loadDivisionsCtrl',
         })
-     .when('/save-costcenter', {
+        .when('/saveDivision', {
+               templateUrl: 'divisions/saveDivision.html?',
+               controller: 'saveDivisionCtrl',
+         })
+     .when('/saveCostcenter', {
          templateUrl: 'costcenter/saveCostCenter.html',
          controller: 'saveCostCenterCtrl',
      })
