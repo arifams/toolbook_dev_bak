@@ -62,6 +62,7 @@ namespace PI.Business
             currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
+          
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -91,6 +92,7 @@ namespace PI.Business
                 currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
                 currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
                 currentProfile.CompanyDetails.CostCenter.BillingAddressId = currentCostCenter.BillingAddressId;
+                currentProfile.CompanyDetails.CostCenter.PhoneNumber = currentCostCenter.PhoneNumber;
 
                 currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto();
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.Id = currentCostCenter.BillingAddress.Id;
@@ -163,12 +165,32 @@ namespace PI.Business
                 return 0;
             }
 
-            currntUser = this.GetUserById(currentCustomer.UserId);
-
-            if (currntUser == null)
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                return 0;
-            }
+                currntUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currntUser == null)
+                {
+                    return 0;
+                }
+                //check if there any users who has same email
+                if (currntUser.UserName != updatedProfile.CustomerDetails.Email)
+                {                    
+                        ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
+                        ApplicationUser updatedUser = new ApplicationUser();
+                        if (existingUser != null)
+                        {
+                            return -2;
+                        }
+                        else
+                        {
+                            var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                            user.UserName = updatedProfile.CustomerDetails.Email;
+                        }
+                        context.SaveChanges();                 
+
+                }
+
+            }            
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
@@ -224,6 +246,9 @@ namespace PI.Business
 
                 if (currentCostCenter != null)
                 {
+                    currentCostCenter.PhoneNumber = updatedProfile.CompanyDetails.CostCenter.PhoneNumber;
+                    context.SaveChanges();
+
                     BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
                     if (BusinessAddress != null && updatedProfile.CompanyDetails.CostCenter != null &&
                         updatedProfile.CompanyDetails.CostCenter.BillingAddress != null)
@@ -299,8 +324,8 @@ namespace PI.Business
                     newAccountSettings.CreatedDate = DateTime.Now;
 
                     //set account settings entity as modidied
-                    //context.AccountSettings.Add(newAccountSettings);
-                    //context.SaveChanges(); TODO:
+                    context.AccountSettings.Add(newAccountSettings);
+                    context.SaveChanges(); 
 
                 }
 
@@ -340,6 +365,15 @@ namespace PI.Business
             }
             return 1;
 
+        }
+
+        //check wheteher the updated user name is using by another user
+        public ApplicationUser GetUserbyUserName(string UserName)
+        {
+            using (ApplicationDbContext context = ApplicationDbContext.Get())
+            {
+                return context.Users.SingleOrDefault(c => c.UserName == UserName);
+            }
         }
 
         //get the customer details by userId
