@@ -21,7 +21,7 @@ namespace PI.Service.Controllers
     {
         CompanyManagement companyManagement = new CompanyManagement();
 
-        
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
@@ -31,7 +31,7 @@ namespace PI.Service.Controllers
         {
 
             var pagedRecord = new PagedList();
-            return pagedRecord = companyManagement.GetAllDivisions(searchtext, page,pageSize,sortBy,sortDirection);
+            return pagedRecord = companyManagement.GetAllDivisions(searchtext, page, pageSize, sortBy, sortDirection);
         }
 
 
@@ -42,7 +42,7 @@ namespace PI.Service.Controllers
         [Route("CreateCompanyDetails")]
         public long CreateCompanyDetails([FromBody] CustomerDto customerCompany)
         {
-             return companyManagement.CreateCompanyDetails(customerCompany);
+            return companyManagement.CreateCompanyDetails(customerCompany);
         }
 
 
@@ -53,6 +53,16 @@ namespace PI.Service.Controllers
         public int SaveDivision([FromBody] DivisionDto division)
         {
             return companyManagement.SaveDivision(division);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("DeleteDivision")]
+        public int DeleteDivision([FromBody] DivisionDto division)
+        {
+            return companyManagement.DeleteDivision(division.Id);           
         }
 
 

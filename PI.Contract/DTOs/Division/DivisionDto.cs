@@ -24,7 +24,7 @@ namespace PI.Contract.DTOs.Division
 
         public string EditLink { get; set; }
 
-        public string DeleteLink { get; set; }
+        public string DeleteLink { get; set; } 
 
     }
 }

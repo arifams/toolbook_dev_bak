@@ -231,7 +231,8 @@ namespace PI.Business
             using (var context = PIContext.Get())
             {
                 var content = context.Divisions
-                                        .Where(x => searchtext == null || x.Name.Contains(searchtext) && x.Type == "USER")
+                                        .Where(x => x.Type == "USER" && x.IsDelete == false && 
+                                            (searchtext == null || x.Name.Contains(searchtext)))
                                         .OrderBy(sortBy + " " + sortDirection)
                                         .Skip((page - 1) * pageSize)
                                         .Take(pageSize)
@@ -246,14 +247,14 @@ namespace PI.Business
                     DefaultCostCenterId = item.DefaultCostCenterId,
                     Description = item.Description,
                     Status = item.Status,
-                    Type = item.Type,
-                    EditLink = "<a href='#/getDivision/" + item.Id + "'  class='edit btn btn-sm btn-default'> <i class='icon-note'></i></a>"
+                    Type = item.Type,   
                     });
                 }
 
                 // Count
                 pagedRecord.TotalRecords = context.Divisions
-                                          .Where(x => searchtext == null || x.Name.Contains(searchtext)).Count();
+                                           .Where(x => x.Type == "USER" && x.IsDelete == false && 
+                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
@@ -353,6 +354,28 @@ namespace PI.Business
             }
 
             return 1;
+        }
+
+        public int DeleteDivision(long id)
+        {
+            using (var context = PIContext.Get())
+            {
+                var division = context.Divisions.SingleOrDefault(d => d.Id == id);
+
+                if (division == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    division.IsActive = false;
+                    division.IsDelete = true;
+                    context.SaveChanges();
+
+                    return 1;
+                }
+            }
+
         }
 
         #endregion
