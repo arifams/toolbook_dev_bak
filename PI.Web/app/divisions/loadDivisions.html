@@ -1,10 +1,31 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-	<meta charset="utf-8" />
-</head>
-<body>
+﻿<div ng-controller="loadDivisionsCtrl as loDivCtrl">
+    <h2 class="box-title"> Manage Divisions</h2>
+   
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="saveDivisionForm">
+            <!-- /.box-header -->
 
-</body>
-</html>
+            <div class="panel-header">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-xs-12">
+                        <div class="box-body">                            
+                            <div class="form-group">                                
+                                <div class="col-sm-12">
+                                    <input ng-model="loDivCtrl.filterOptions.filterText" name="searchText" type="text" class="form-control"
+                                           placeholder="Search by Division Name" />
+                                </div>                               
+                            </div>
+                            <br />
+                            <div class="gridStyle" ng-grid="gridOptions"></div>                      
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>

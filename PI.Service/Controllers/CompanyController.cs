@@ -10,6 +10,8 @@ using System.Web.Http.Cors;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.Customer;
+using PI.Service.Models;
+using PI.Contract.DTOs.Common;
 
 namespace PI.Service.Controllers
 {
@@ -17,6 +19,22 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
+        CompanyManagement companyManagement = new CompanyManagement();
+
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("CreateCompanyDetails")]
+        public PagedList GetAllDivisionsByFliter(string searchtext, int page = 1, int pageSize = 10,
+                                      string sortBy = "CustomerID", string sortDirection = "asc")
+        {
+
+            var pagedRecord = new PagedList();
+            return pagedRecord = companyManagement.GetAllDivisions(searchtext, page,pageSize,sortBy,sortDirection);
+        }
+
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
@@ -24,19 +42,17 @@ namespace PI.Service.Controllers
         [Route("CreateCompanyDetails")]
         public long CreateCompanyDetails([FromBody] CustomerDto customerCompany)
         {
-            CompanyManagement companyManagement = new CompanyManagement();
-            return companyManagement.CreateCompanyDetails(customerCompany);
+             return companyManagement.CreateCompanyDetails(customerCompany);
         }
 
 
-        [EnableCors(origins:"*",headers:"*",methods:"*")]
-       // [Authorize]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
         [HttpPost]
         [Route("SaveDivision")]
         public int SaveDivision([FromBody] DivisionDto division)
         {
-            CompanyManagement company = new CompanyManagement();
-            return company.SaveDivision(division);
+            return companyManagement.SaveDivision(division);
         }
 
 
@@ -46,10 +62,9 @@ namespace PI.Service.Controllers
         [Route("SaveCostCenter")]
         public int SaveCostCenter([FromBody] CostCenterDto costCenter)
         {
-            CompanyManagement company = new CompanyManagement();
-            return company.SaveCostCenter(costCenter);
+            return companyManagement.SaveCostCenter(costCenter);
         }
 
-        
+
     }
 }

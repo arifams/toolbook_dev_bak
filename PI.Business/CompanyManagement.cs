@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using PI.Contract.Business;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
@@ -8,6 +9,7 @@ using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Dynamic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -209,6 +211,42 @@ namespace PI.Business
         #endregion
 
         #region Division Managment
+
+
+        /// <summary>
+        /// Get all divisions by given filter criteria
+        /// </summary>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public PagedList GetAllDivisions(string searchtext, int page = 1, int pageSize = 10,
+                                         string sortBy = "CustomerID", string sortDirection = "asc")
+        {
+            var pagedRecord = new PagedList();
+
+            using (var context = PIContext.Get())
+            {
+                pagedRecord.Content = context.Divisions
+                                        .Where(x => searchtext == null || x.Name.Contains(searchtext) && x.Type == "USER")
+                                        .OrderBy(sortBy + " " + sortDirection)
+                                        .Skip((page - 1) * pageSize)
+                                        .Take(pageSize)
+                                        .ToList();
+
+                // Count
+                pagedRecord.TotalRecords = context.Divisions
+                                          .Where(x => searchtext == null || x.Name.Contains(searchtext)).Count();
+
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+            }
+        }
+
 
         /// <summary>
         /// Get all divisions for the tenant coampny
