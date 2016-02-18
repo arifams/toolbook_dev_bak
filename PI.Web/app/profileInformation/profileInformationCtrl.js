@@ -105,15 +105,17 @@
                     var res1 = /^[0-9()+-]*$/.test(viewValue);
                     // should have at least 8 digits.
                     var res2 = /(?=(.*\d){8})/.test(viewValue);
-
-                    ctrl.$setValidity('notValidPhoneNo', res1 && res2);
+                    if (viewValue!='') 
+                        ctrl.$setValidity('notValidPhoneNo', res1 && res2 );
+                    else
+                     ctrl.$setValidity('notValidPhoneNo', true);
+                  
                     return viewValue;
                 })
             }
         }
     });
-
-
+   
     app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
 
         return {
@@ -1021,6 +1023,8 @@
 
             }
 
+           
+
             vm.useCorpAddressAsBilling = function () {
              
                 if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
@@ -1030,6 +1034,8 @@
             };
 
             vm.loadProfile = function () {
+
+               
 
                 //loading languages to dropdown
                 loadAllLanguages.loadLanguages()
@@ -1107,8 +1113,10 @@
                         if (responce == 1) {
                             vm.model.success = "true";
                         }
+                        else if (responce==-2) {
+                            vm.model.emailExist = "true";
+                        }
                         else {
-
                             vm.model.unsuccess = "true";
                         }
                     }

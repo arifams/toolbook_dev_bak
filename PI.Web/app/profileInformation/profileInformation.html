@@ -3,15 +3,14 @@
         <h2><strong>General</strong>Information</h2>        
     </div>    
         <div class="col-lg-12" style="height:auto">
-
+                    
 
             <div class="row">
 
-                <div class="col-lg-12 portlets">
+                <div class="col-lg-12 portlets">                    
                     <div class="panel">
-                        <form role="form" name="formUpdateProfile"  ng-submit="profileCtrl.updateProfile()" novalidate>
-                            <div class="panel-header panel-controls">
-                               
+                        <form role="form" name="formUpdateProfile"    ng-submit="formUpdateProfile.$valid && profileCtrl.updateProfile()" novalidate>
+                            <div class="panel-header panel-controls">                              
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label class="control-label">Account Type *</label>
@@ -31,15 +30,15 @@
                                     </div>
                                 </div>
                             </div>
-
+                               
                                 <div class="row">
-                                    <div class="col-md-2" ng-show="profileCtrl.model.customerDetails.isCorporateAccount">
+                                    <div class="col-md-2" ng-show="profileCtrl.model.customerDetails.isCorporateAccount=='true'">
                                         <label class="control-label">Company Name *</label>
                                     </div>
-                                    <div class="col-md-4" ng-show="profileCtrl.model.customerDetails.isCorporateAccount">                                     
+                                    <div class="col-md-4" ng-show="profileCtrl.model.customerDetails.isCorporateAccount=='true'">                                     
                                         <div class="form-group" >                                                   
                                             <div class="append-icon">
-                                                <input type="text" name="companyname" class="form-control form-white" minlength="4" ng-model="profileCtrl.model.companyname" ng-required="profileCtrl.model.customerDetails.isCorporateAccount" />
+                                                <input type="text" name="companyname" class="form-control form-white" minlength="4" ng-model="profileCtrl.model.companyname" ng-required="profileCtrl.model.customerDetails.isCorporateAccount=='true'" />
                                                 <i class="icon-user"></i>    
                                                 <label ng-show="updateProfile.companyname.$dirty && updateProfile.companyname.$error.required" class="error" for="companyname">Enter company name</label>                                                    
                                             </div>
@@ -232,6 +231,7 @@
                                             </div>
                                         </div>
                                 </div>
+                                    </div>
 
                                 <div class="row">
                                     <div class="col-md-2">
@@ -241,7 +241,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="phonenumber" class="form-control form-white"
-                                                       ng-model="profileCtrl.model.customerDetails.phoneNumber" ng-maxlength="15" ng-required="!formUpdateProfile.mobilenumber.$dirty" valid-phone-no ng-class="{ 'error': formUpdateProfile.phonenumber.$invalid && (formUpdateProfile.phonenumber.$dirty||profileCtrl.isSubmit) }">
+                                                       ng-model="profileCtrl.model.customerDetails.phoneNumber"  ng-maxlength="15" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfile.phonenumber.$invalid && (formUpdateProfile.phonenumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.phonenumber.$error" ng-show="formUpdateProfile.phonenumber.$dirty || profileCtrl.isSubmit">  
                                                     <label ng-message="required" class="error" for="phonenumber">Enter Phone Number</label>                                                 
@@ -254,12 +254,12 @@
                                         </div>
                                     <div class="col-md-1">
                                         <label class="control-label">Mobile Number </label>
-                                    </div>
+                                    </div>                                   
                                     <div class="col-md-5">
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="mobilenumber" class="form-control form-white"
-                                                       ng-model="profileCtrl.model.customerDetails.mobileNumber" ng-maxlength="15" ng-required="!formUpdateProfile.phonenumber.$dirty" valid-phone-no ng-class="{ 'error': formUpdateProfile.mobilenumber.$invalid && (formUpdateProfile.mobilenumber.$dirty||profileCtrl.isSubmit) }">
+                                                       ng-model="profileCtrl.model.customerDetails.mobileNumber" ng-required="profileCtrl.model.customerDetails.phoneNumber==null" ng-maxlength="15"  valid-phone-no  ng-class="{ 'error': formUpdateProfile.mobilenumber.$invalid && (formUpdateProfile.mobilenumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.mobilenumber.$error" ng-show="formUpdateProfile.mobilenumber.$dirty || profileCtrl.isSubmit">
                                                     <label ng-message="required" class="error" for="mobilenumber">Enter Mobile Number</label>
@@ -279,7 +279,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="vatnumber" class="form-control form-white" placeholder="Enter VAT Number"
-                                                       ng-model="profileCtrl.model.companyDetails.vatnumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.vatnumber.$invalid && (formUpdateProfile.vatnumber.$dirty||profileCtrl.isSubmit) }">
+                                                       ng-model="profileCtrl.model.companyDetails.vatNumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.vatnumber.$invalid && (formUpdateProfile.vatnumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.vatnumber.$error" ng-show="formUpdateProfile.vatnumber.$dirty || profileCtrl.isSubmit">                                                   
                                                     
@@ -295,7 +295,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="cocnumber" class="form-control form-white"
-                                                       placeholder="Enter Chamber of Commerce Number" ng-model="profileCtrl.model.companyDetails.cocnumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.cocnumber.$invalid && (formUpdateProfile.cocnumber.$dirty||profileCtrl.isSubmit) }">
+                                                       placeholder="Enter Chamber of Commerce Number" ng-model="profileCtrl.model.companyDetails.cocNumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.cocnumber.$invalid && (formUpdateProfile.cocnumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.cocnumber.$error" ng-show="formUpdateProfile.cocnumber.$dirty || profileCtrl.isSubmit">
                                                     <label ng-message="maxlength" class="error" for="cocnumber">Enter less than 100 characters</label>
@@ -485,10 +485,10 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="billing_phonenumber" class="form-control form-white"
-                                                        ng-model="profileCtrl.model.billing_phonenumber" ng-maxlength="100" valid-phone-no required ng-class="{ 'error': formUpdateProfile.billing_phonenumber.$invalid && (formUpdateProfile.billing_phonenumber.$dirty||profileCtrl.isSubmit) }">
+                                                        ng-model="profileCtrl.model.companyDetails.costCenter.phoneNumber" ng-maxlength="100" valid-phone-no required ng-class="{ 'error': formUpdateProfile.billing_phonenumber.$invalid && (formUpdateProfile.billing_phonenumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
-                                                <div ng-messages="formUpdateProfile.billing_phonenumber.$error" ng-show="formUpdateProfile.billing_phonenumber.$dirty || regCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="mobilenumber">Enter your mobile number</label>
+                                                <div ng-messages="formUpdateProfile.billing_phonenumber.$error" ng-show="formUpdateProfile.billing_phonenumber.$dirty || profileCtrl.isSubmit">
+                                                    <label ng-message="required" class="error" for="mobilenumber">Enter your billing phone number</label>
                                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
                                                 </div>
                                             </div>
@@ -528,7 +528,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="primaryemail" class="form-control form-white" 
-                                                       required disabled ng-model="profileCtrl.model.corporateid">
+                                                        disabled ng-model="profileCtrl.model.customerDetails.companyCode">
                                                 <i class="icon-user"></i>
                                             </div>
                                         </div>
@@ -599,8 +599,12 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="password" name="oldpassword" class="form-control form-white"
-                                                       placeholder="Enter Old Password" ng-model="profileCtrl.model.oldPassword" ng-disabled="!profileCtrl.model.changeLoginData" ng-required="profileCtrl.model.changeLoginData">
+                                                       placeholder="Enter Old Password" ng-model="profileCtrl.model.oldPassword" ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfile.oldpassword.$invalid && (formUpdateProfile.oldpassword.$dirty||profileCtrl.isSubmit) }"  >
                                                 <i class="icon-user"></i>
+                                                <div ng-messages="formUpdateProfile.oldpassword.$error" ng-show="formUpdateProfile.oldpassword.$dirty || profileCtrl.isSubmit">
+                                                    <label ng-message="required" class="error" for="newpassword_c">ReEnter your password</label>
+                                                    <label ng-message="noMatch" class="error" for="newpassword_c">2 passwords must be the same</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -731,7 +735,11 @@
                 </div>
                 <div class="alert alert-warning" ng-show="profileCtrl.model.unsuccess">
                     Profile update failed
-                </div>            
+                </div>   
+                
+                <div class="alert alert-warning" ng-show="profileCtrl.model.emailExist">
+                    Email You Entered is already exist
+                </div>          
 
                 <div class="alert alert-warning" ng-show="profileCtrl.model.isServerError ">
                     Error occured while connecting the server

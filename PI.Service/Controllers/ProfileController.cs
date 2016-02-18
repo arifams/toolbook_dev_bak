@@ -2,6 +2,7 @@
 using PI.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Profile;
+using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace PI.Service.Controllers
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+             ProfileManagement userprofile = new ProfileManagement();            
 
             if (!string.IsNullOrWhiteSpace(profile.NewPassword))
             {
@@ -71,10 +72,10 @@ namespace PI.Service.Controllers
 
             var updatedStatus = userprofile.updateProfileData(profile);
 
-            if (updatedStatus == 1)
+            if (updatedStatus == 1 || updatedStatus == -2)
             {
-                return 1;
-            }
+              return  updatedStatus;
+            }           
 
             return -1;
         }
