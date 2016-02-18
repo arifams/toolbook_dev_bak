@@ -231,6 +231,7 @@
                                             </div>
                                         </div>
                                 </div>
+                                    </div>
 
                                 <div class="row">
                                     <div class="col-md-2">
@@ -487,7 +488,7 @@
                                                         ng-model="profileCtrl.model.companyDetails.costCenter.phoneNumber" ng-maxlength="100" valid-phone-no required ng-class="{ 'error': formUpdateProfile.billing_phonenumber.$invalid && (formUpdateProfile.billing_phonenumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.billing_phonenumber.$error" ng-show="formUpdateProfile.billing_phonenumber.$dirty || profileCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="mobilenumber">Enter your mobile number</label>
+                                                    <label ng-message="required" class="error" for="mobilenumber">Enter your billing phone number</label>
                                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
                                                 </div>
                                             </div>
