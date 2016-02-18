@@ -102,6 +102,7 @@ namespace PI.Business
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.Number = currentCostCenter.BillingAddress.Number;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode = currentCostCenter.BillingAddress.ZipCode;
                 currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Country = currentCostCenter.BillingAddress.Country;
 
             }
             //assign address values to the  Profile Dto
@@ -259,6 +260,7 @@ namespace PI.Business
                         BusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
                         BusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
                         BusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        BusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
 
                         context.SaveChanges();
 
@@ -272,7 +274,7 @@ namespace PI.Business
                         newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
                         newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
                         newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
-
+                        newBusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
                         currentCostCenter.BillingAddressId = newBusinessAddress.Id;
 
                         context.Addresses.Add(newBusinessAddress);

@@ -278,7 +278,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="vatnumber" class="form-control form-white" placeholder="Enter VAT Number"
-                                                       ng-model="profileCtrl.model.companyDetails.vatnumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.vatnumber.$invalid && (formUpdateProfile.vatnumber.$dirty||profileCtrl.isSubmit) }">
+                                                       ng-model="profileCtrl.model.companyDetails.vatNumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.vatnumber.$invalid && (formUpdateProfile.vatnumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.vatnumber.$error" ng-show="formUpdateProfile.vatnumber.$dirty || profileCtrl.isSubmit">                                                   
                                                     
@@ -294,7 +294,7 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="cocnumber" class="form-control form-white"
-                                                       placeholder="Enter Chamber of Commerce Number" ng-model="profileCtrl.model.companyDetails.cocnumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.cocnumber.$invalid && (formUpdateProfile.cocnumber.$dirty||profileCtrl.isSubmit) }">
+                                                       placeholder="Enter Chamber of Commerce Number" ng-model="profileCtrl.model.companyDetails.cocNumber" maxlength="100" ng-class="{ 'error': formUpdateProfile.cocnumber.$invalid && (formUpdateProfile.cocnumber.$dirty||profileCtrl.isSubmit) }">
                                                 <i class="icon-user"></i>
                                                 <div ng-messages="formUpdateProfile.cocnumber.$error" ng-show="formUpdateProfile.cocnumber.$dirty || profileCtrl.isSubmit">
                                                     <label ng-message="maxlength" class="error" for="cocnumber">Enter less than 100 characters</label>
