@@ -26,17 +26,17 @@
                     </div>
 
                     <form class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
-                        <div class="form-group" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
+                        <div class="form-group" >
                             <div class="append-icon">
-                                <input type="email" name="username" id="username" class="form-control form-white username" placeholder="Username" required ng-model="user.username">
+                                <input type="email" name="username" id="username" class="form-control form-white username" placeholder="Email" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
                                 <i class="icon-user"></i>
                                 <p ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="help-block">UserName is required.</p>
                             </div>
                         </div>
 
-                        <div class="form-group" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
+                        <div class="form-group" >
                             <div class="append-icon m-b-20">
-                                <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password">
+                                <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
                                 <i class="icon-lock"></i>
                                 <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block">Password is required.</p>
                             </div>
@@ -60,21 +60,22 @@
                             </div>
                         </div>
                     </form>
-                    <form class="form-password" role="form">
+                                     
+                    <form class="form-password" role="form" name="forgotPasswordForm" ng-submit="forgotPasswordForm.$valid && userLog.forgotPassword(user)" novalidate>
                         <div class="append-icon m-b-20">
-                            <input type="email" name="passwordResetEmail" class="form-control form-white username" placeholder="Username" required>
+                            <input type="email" name="passwordResetEmail" class="form-control form-white username" placeholder="Email" required ng-model="user.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
                             <i class="icon-lock"></i>
+                            <div ng-messages="forgotPasswordForm.passwordResetEmail.$error" ng-show="forgotPasswordForm.passwordResetEmail.$dirty || userLog.isSubmit">
+                                <label ng-show="" ng-message="required" class="error" for="email">Enter your email address</label>
+                                <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                            </div>
                         </div>
                         <button type="submit" id="submit-password" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left">Send Password Reset Link</button>
-                        <div class="clearfix">
+                        <div class="clearfix" ng-click="userLog.isSubmit=true">
                             <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html">Already a member try logging in</a></p>
                             <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
                         </div>
                     </form>
-
-
-
-
                 </div>
             </div>
         </div>
@@ -92,9 +93,10 @@
     <script src="../../global/plugins/jquery-validation/jquery.validate.min.js"></script>
     <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
     <script src="../../global/js/pages/login-v1.js"></script>
-    <script src="../../plugins/angular/angular.min.js"></script>
+    <!--<script src="../../plugins/angular/angular.min.js"></script>-->
     
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-messages.min.js"></script>
     <script src="../../global/js/custom.js"></script>
    
 

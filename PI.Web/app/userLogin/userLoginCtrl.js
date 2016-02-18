@@ -103,8 +103,13 @@
 
         vm.isConfirmEmail();
 
+        vm.forgotPassword = function (user) {
+
+            
+        };
+
     }]);
 
 
-})(angular.module('userLogin', []));
+})(angular.module('userLogin', ['ngMessages']));
 

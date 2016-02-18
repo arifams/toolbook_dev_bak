@@ -30,6 +30,7 @@ namespace PI.Data
         public DbSet<AccountSettings> AccountSettings { get; set; }
         public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")
@@ -43,6 +44,16 @@ namespace PI.Data
 
 
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<DivisionCostCenter>()
+            .HasRequired(c => c.Divisions)
+            .WithMany()
+            .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<DivisionCostCenter>()
+            .HasRequired(s => s.CostCenters)
+            .WithMany()
+            .WillCascadeOnDelete(false);
         }
 
 
