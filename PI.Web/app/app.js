@@ -23,10 +23,10 @@ var MakeApp = angular
   ])
   .config(function ($routeProvider) {
       $routeProvider
-        .when('/', {
-            templateUrl: 'dashboard/dashboard.html',
-            controller: 'dashboardCtrl'
-        })
+        //.when('/', {
+        //    templateUrl: 'dashboard/dashboard.html',
+        //    controller: 'dashboardCtrl'
+        //})
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
             controller: 'frontendCtrl'
