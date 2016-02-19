@@ -63,7 +63,7 @@
     });
 
 
-    app.controller('loadDivisionsCtrl', function ($scope, loadDivisionService, divisionManagmentService, $routeParams, $log) {
+    app.controller('loadDivisionsCtrl', function ($scope, $location, loadDivisionService, divisionManagmentService, $routeParams, $log) {
     $scope.data = loadDivisionService.data;
 
     $scope.$watch('data.sortOptions', function (newVal, oldVal) {
