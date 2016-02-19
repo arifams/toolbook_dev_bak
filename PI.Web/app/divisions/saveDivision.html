@@ -5,7 +5,7 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal" name="saveDivisionForm">
+        <form class="form-horizontal" name="saveDivisionForm" novalidate>
             <!-- /.box-header -->
 
             <div class="panel-header">
@@ -26,7 +26,7 @@
                                                                         (saveDivisionForm.divisionName.$dirty|| divCtrl.isSubmit) }" />
                                     <div ng-messages="saveDivisionForm.divisionName.$error"
                                          ng-show="saveDivisionForm.divisionName.$dirty || divCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="divisionName">Division name is required</label>
+                                        <label ng-message="required" class="error" for="divisionName">Division Name is required</label>
                                         <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
                                     </div>
                                  </div>
@@ -52,7 +52,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <p>{{divCtrl.model.assosiatedCostCenters}}</p>
+                        <!--<p>{{divCtrl.model.assosiatedCostCenters}}</p>-->
                            <div class="form-group">
                                 <label class="col-sm-2 control-label">Status</label>
                                 <div class="col-sm-10">
@@ -67,7 +67,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <button ng-click="closeDivision()" class="btn btn-app pull-right">
+                                <button ng-click="divCtrl.close()" class="btn btn-app pull-right">
                                     <i class="fa fa-close"></i> Close
                                 </button>
                                 <button type="submit" ng-click="saveDivisionForm.$valid && divCtrl.saveDivision()" class="btn btn-app pull-right">
