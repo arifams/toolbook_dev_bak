@@ -252,11 +252,20 @@ namespace PI.Service.Controllers
                     Result = -1
                 });
             else if (!customer.IsConfirmEmail)
-                return Ok(new
-                 {
-                     User = user,
-                     Result = 1
-                 });
+            {
+                if(AppUserManager.IsEmailConfirmed(user.Id))
+                    return Ok(new
+                     {
+                         User = user,
+                         Result = 1
+                     });
+                else
+                    return Ok(new
+                    {
+                        User = user,
+                        Result = -11 //You must have a confirmed email to log in
+                    });
+            }
             else
             {
                 IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
@@ -301,6 +310,14 @@ namespace PI.Service.Controllers
             if (existingUser == null)
             {
                 return -1; // No account find by this email.
+            }
+            else
+            {
+                if (!AppUserManager.IsEmailConfirmed(existingUser.Id))
+                {
+                    // user hasn't confirm his email yet. So user can't reset password.
+                    return -11;
+                }
             }
 
             var passwordResetToken = AppUserManager.GeneratePasswordResetToken(existingUser.Id);

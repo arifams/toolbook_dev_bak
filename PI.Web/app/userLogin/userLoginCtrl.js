@@ -76,9 +76,14 @@
                  }
                  else if (returnedResult.data.result == "-1") {
                      vm.loginInvalid = true;
+                     vm.loginInvalidMessage = "Incorrect UserName/Password";
                  }
                  else if (returnedResult.data.result == "-2") {
                      vm.invalidToken = true;
+                 }
+                 else if (returnedResult.data.result == "-11") {
+                     vm.loginInvalid = true;
+                     vm.loginInvalidMessage = "You must have a confirmed email to log in";
                  }
              },
             //.then(function (result) {
@@ -122,6 +127,11 @@
                      //No account find by this email.
                      vm.passwordResetError = true;
                      vm.passwordResetErrorMsg = "No account found by this email. Please enter registered Email";
+                 }
+                 else if (returnedResult.data == "-11") {
+                     //No account find by this email.
+                     vm.passwordResetError = true;
+                     vm.passwordResetErrorMsg = "You must have a confirmed email to log in.";
                  }
              },
             function (error) {
