@@ -2,19 +2,19 @@
 
 (function (app) {
 
-    app.factory('divisionManagmentService', function ($http) {
+    app.factory('costCenterManagmentService', function ($http) {
         return {
             deleteDivision: function (division) {
-                return $http.post(serverBaseUrl + '/api/Company/DeleteDivision', division);
+                return $http.post(serverBaseUrl + '/api/Company/DeleteCostCenter', division);
             }
         };
     });
 
-    //get all costSenters for the given user
-    app.factory('loadAllCostCenters', function ($http, $window) {
+    //get all divisions for the given user
+    app.factory('loadAllDivisions', function ($http, $window) {
         return {
-            loadCostCenters: function () {
-                return $http.get(serverBaseUrl + '/api/Company/GetAllCostCenters', {
+            loadAllDivisions: function () {
+                return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
                     params: {
                         userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
                     }
@@ -24,7 +24,7 @@
 
     });
 
-    app.factory('loadDivisionService', function ($http, $q, $log, $rootScope) {
+    app.factory('loadCostCenterService', function ($http, $q, $log, $rootScope) {
 
         var baseUrl = serverBaseUrl + '/api/Company/GetAllDivisionsByFliter';
 
@@ -50,7 +50,7 @@
                     currentPage: 1
                 },
                 searchTypes: {
-                    costCenter: 0,
+                    division: 0,
                     type: ''
                 },
                 user: {
@@ -60,7 +60,7 @@
 
             find: function () {
                 var params = {
-                    costCenter: service.data.searchTypes.costCenter,
+                    costCenter: service.data.searchTypes.division,
                     type: service.data.searchTypes.type,
                     userId: service.data.user.userId,
                     searchtext: service.data.filterOptions.filterText,
@@ -88,12 +88,13 @@
     });
 
 
-    app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
-        $scope.data = loadDivisionService.data;
+    app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,
+                                        costCenterManagmentService, $routeParams, $log, $window) {
+        $scope.data = loadCostCenterService.data;
         $scope.data.user.userId = $window.localStorage.getItem('userGuid')
 
 
-        loadAllCostCenters.loadCostCenters()
+        loadAllDivisions.loadAllDivisions()
                .then(function successCallback(responce) {
 
                    $scope.costCenters = responce.data;
@@ -107,7 +108,7 @@
             $log.log("sortOptions changed: " + newVal);
             if (newVal !== oldVal) {
                 $scope.data.pagingOptions.currentPage = 1;
-                loadDivisionService.find();
+                loadCostCenterService.find();
             }
         }, true);
 
@@ -115,14 +116,14 @@
         //    $log.log("filters changed: " + newVal);
         //    if (newVal !== oldVal) {
         //        $scope.data.pagingOptions.currentPage = 1;
-        //        loadDivisionService.find();
+        //        loadCostCenterService.find();
         //    }
         //}, true);
 
         $scope.$watch('data.pagingOptions', function (newVal, oldVal) {
             $log.log("page changed: " + newVal);
             if (newVal !== oldVal) {
-                loadDivisionService.find();
+                loadCostCenterService.find();
             }
         }, true);
 
@@ -141,16 +142,18 @@
             sortInfo: $scope.data.sortOptions,
             plugins: [new ngGridFlexibleHeightPlugin()],
             columnDefs: [
-                        { field: 'name', displayName: 'Division Name' },
-                        { field: 'id', displayName: 'Division Name' },
+                        { field: 'id', displayName: 'CostCenterId', visible: false },
+                        { field: 'name', displayName: 'Cost Center' },
+                        { field: '', displayName: 'Assigned Divisions' },
+                        { field: '', displayName: 'Billing Address' },
                         { field: 'status', displayName: 'Status' },
                         {
                             field: 'editLink', displayName: 'Edit', enableCellEdit: false,
-                            cellTemplate: '<a href="#/getDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
+                            cellTemplate: '<a href="#/saveDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>', sortable: false
                         },
                         {
                             field: 'deleteLink', displayName: 'Delete', enableCellEdit: false,
-                            cellTemplate: '<a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a>'
+                            cellTemplate: '<a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a>', sortable: false
                         }
             ],
             afterSelectionChange: function (selection, event) {
@@ -162,8 +165,8 @@
         $scope.searchDivisions = function () {
 
             $scope.data.filterOptions.filterText = $scope.searchText;
-            loadDivisionService.find();
-            //loadDivisionService.find($scope.filterOptions.filterText);
+            loadCostCenterService.find();
+            //loadCostCenterService.find($scope.filterOptions.filterText);
         };
 
         $scope.selectActiveDivisions = function () {
@@ -174,41 +177,44 @@
             } else {
                 $scope.data.searchTypes.type = $scope.status;
             }
-            loadDivisionService.find();
+            loadCostCenterService.find();
         };
 
+
         $scope.selectDivisionforCostCenter = function () {
-            if (angular.isUndefined($scope.costcenter)) {
-
-                $scope.data.searchTypes.costCenter = 0;
+            debugger;
+            if (angular.isUndefined($scope.divisionList)) {
+                $scope.data.searchTypes.division = 0;
             } else {
-
-                $scope.data.searchTypes.costCenter = $scope.costcenter;
+                $scope.data.searchTypes.division = $scope.divisionList;
             }
 
-            loadDivisionService.find();
+            loadCostCenterService.find();
         }
 
 
         $scope.deleteById = function (row) {
-            divisionManagmentService.deleteDivision({ Id: row.entity.id })
-                .success(function (response) {
-                    debugger;
-                    if (response == 1) {
-                        debugger;
-                        // remove($scope.gridOptions.data, 'id', row.entity.id);
 
-                        angular.forEach($scope.data.divisions.content, function (index, result) {
-                            if (result['id'] == row.entity.id) {
-                                $scope.data.divisions.content.splice(index, 1);
-                            }
-                        })
+            var r = confirm("Do you want to delete the record?");
+            if (r == true) {
+                costCenterManagmentService.deleteCostCenter({ Id: row.entity.id })
+                            .success(function (response) {
+                                debugger;
+                                if (response == 1) {
+                                    debugger;
+                                    // remove($scope.gridOptions.data, 'id', row.entity.id);
 
-                    }
-                })
-               .error(function () {
-               })
+                                    angular.forEach($scope.data.divisions.content, function (index, result) {
+                                        if (result['id'] == row.entity.id) {
+                                            $scope.data.divisions.content.splice(index, 1);
+                                        }
+                                    })
 
+                                }
+                            })
+                           .error(function () {
+                           })
+            }
         };
 
         // parse the gridData array to find the object with Id
