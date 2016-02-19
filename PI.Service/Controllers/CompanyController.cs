@@ -86,6 +86,16 @@ namespace PI.Service.Controllers
             return companyManagement.SaveCostCenter(costCenter);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllCostCenters")]
+        public IList<CostCenterDto> GetAllCostCenters([FromUri]string userId)
+        {
+            IList <CostCenterDto> t = companyManagement.GetAllCostCentersForCompany(userId);
+            return t;
+        }
 
+             
     }
 }
