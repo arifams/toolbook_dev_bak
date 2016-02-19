@@ -91,7 +91,7 @@
     app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
     $scope.data = loadDivisionService.data;
     $scope.data.user.userId = $window.localStorage.getItem('userGuid')
-    
+
 
         loadAllCostCenters.loadCostCenters()
                .then(function successCallback(responce) {
@@ -193,7 +193,7 @@
 
 
     $scope.deleteById = function (row) {
-
+       
         var r = confirm("Do you want to delete the record?");
         if (r == true) {
             divisionManagmentService.deleteDivision({ Id: row.entity.id })
@@ -204,7 +204,7 @@
                                 // remove($scope.gridOptions.data, 'id', row.entity.id);
 
                                 angular.forEach($scope.data.divisions.content, function (index, result) {
-                                    if (result['id'] == row.entity.id) {
+                                    if (index.id == row.entity.id) {
                                         $scope.data.divisions.content.splice(index, 1);
                                     }
                                 })
