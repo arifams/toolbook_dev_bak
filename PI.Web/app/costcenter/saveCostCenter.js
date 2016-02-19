@@ -3,21 +3,22 @@
 
 (function (app) {
 
-    app.factory('divisionManagmentService', function ($http) {
+    app.factory('costCenterManagmentService', function ($http) {
         return {
-            saveDivision: function (divisionDetail) {
-                return $http.post(serverBaseUrl + '/api/Company/SaveDivision', divisionDetail);
+            saveCostCenter: function (costCenterDetail) {
+                return $http.post(serverBaseUrl + '/api/Company/SaveCostCenter', costCenterDetail);
             }
         };
     })
+
     app.controller('saveCostCenterCtrl',
-       ['divisionManagmentService', function (divisionManagmentService) {
+       ['costCenterManagmentService', function (costCenterManagmentService) {
            var vm = this;
 
-           vm.saveDivision = function () {
+           vm.saveCostCenter = function () {
                debugger;
 
-               divisionManagmentService.saveDivision(vm.model)
+               costCenterManagmentService.saveCostCenter(vm.model)
                  .success(function (result) {
                  })
                .error(function () {
