@@ -104,15 +104,15 @@ namespace PI.Business
         /// Get all costCenters for the tenant coampny
         /// </summary>
         /// <returns></returns>
-        public IList<CostCenterDto> GetAllCostCentersForCompany()
-        {
-            using (var context = PIContext.Get())
-            {
-                //var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
-                //return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
-                return null;
-            }
-        }
+        //public IList<CostCenterDto> GetAllCostCentersForCompany()
+        //{
+        //    using (var context = PIContext.Get())
+        //    {
+        //        //var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
+        //        //return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
+        //        return null;
+        //    }
+        //}
 
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace PI.Business
             {
                 var content = context.Divisions
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"                                                   
-                                                    && x.IsDelete == false && 
+                                                    && x.IsDelete == false &&
                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
                                                     (costCenterId==0|| x.DefaultCostCenterId==costCenterId)&&
                                                     (type==null|| x.IsActive.ToString()== type)
@@ -261,6 +261,7 @@ namespace PI.Business
                         Description = item.Description,
                         Status = item.Status,
                         Type = item.Type,
+                       // AssosiatedCostCenters = 
                     });
                 }
 
@@ -292,6 +293,30 @@ namespace PI.Business
         }
 
 
+        private IList<CostCenterDto> GetAllCostCentersForCompany()
+        {
+            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+
+            using (var context = PIContext.Get())
+            {
+                var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 && // TODO: get the company id of the logged in user.
+                                                                 c.Type == "USER" && c.IsDelete == false).ToList();
+
+
+                foreach (var item in costcenters)
+                {
+                    costCenterList.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return costCenterList;
+        }
+
+
         /// <summary>
         /// Get a particular division by Id
         /// </summary>
@@ -299,11 +324,50 @@ namespace PI.Business
         /// <returns></returns>
         public DivisionDto GetDivisionById(long id)
         {
-            using (var context = PIContext.Get())
+            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+
+            using (var context = new  PIContext())
             {
+                var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
+                                                                 c.Type == "USER" && c.IsDelete == false).ToList();
+
+                foreach (var item in costcenters)
+	            {
+		                costCenterList.Add(new CostCenterDto{
+                                    Id = item.Id,
+                                    Name = item.Name                     
+                                    });
+	            }
+
+                if (id == 0)
+            {
+                    return new DivisionDto
+                   {
+                       Id = 0,
+                       AssosiatedCostCenters = costCenterList
+                   };
+                }
+
                 var division = context.Divisions.SingleOrDefault(d => d.Id == id);
-                return Mapper.Map<Division, DivisionDto>(division);
+
+                if(division != null)
+                {
+                    return new DivisionDto
+                    {
+                        Id = division.Id,
+                        Name = division.Name,
+                        Type = division.Type,
+                        Description = division.Description,
+                        Status = division.Status,
+                        DefaultCostCenterId = division.DefaultCostCenterId,
+                        CompanyId = division.CompanyId,
+                        AssosiatedCostCenters = costCenterList
+                    };
+                    
+                }
             }
+
+            return null;
         }
 
 
@@ -323,19 +387,30 @@ namespace PI.Business
                 // If no cost centers are currently setup, assign the default cost center for the division.
                 if (division.DefaultCostCenterId == 0)
                 {
-                    division.DefaultCostCenterId = context.CostCenters.Where(c => c.CompanyId == 1
-                                                                                 && c.Type == "SYSTEM").SingleOrDefault().Id;
+                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == 1
+                                                                                 && c.Type == "SYSTEM").SingleOrDefault();
+
+                    division.DefaultCostCenterId = (defaultCostCntr != null) ? defaultCostCntr.Id : 0;
                 }
                 
+
                 if (division.Id == 0 && sysDivision == null)
                 {
+                    var isSameDiviName = context.Divisions.Where(d => d.CompanyId == 1
+                                                        && d.Type == "USER" && d.Name == division.Name).SingleOrDefault();
+
+                    if (isSameDiviName != null)
+                    {
+                        return -1;
+                    }
+
                     Division newDivision = new Division()
                     {
                         Name = division.Name,
                         Description = division.Description,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         Status = division.Status,
-                        CompanyId = division.CompanyId,
+                        CompanyId = 1,
                         Type = "USER",
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,// TODO : Get created user.                       
@@ -359,7 +434,7 @@ namespace PI.Business
                     existingDivision.Description = division.Description;
                     existingDivision.DefaultCostCenterId = division.DefaultCostCenterId;
                     existingDivision.Status = division.Status;
-                    existingDivision.CompanyId = division.CompanyId;
+                    existingDivision.CompanyId = 1;
                     existingDivision.Type = "USER";
                     existingDivision.CreatedDate = DateTime.Now;
                     existingDivision.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
@@ -405,7 +480,7 @@ namespace PI.Business
                     return context.Companies.SingleOrDefault(n => n.TenantId == tenantId);
                 }        
          
-        }
+            }
 
         public long GettenantIdByUserId(string userid)
         {

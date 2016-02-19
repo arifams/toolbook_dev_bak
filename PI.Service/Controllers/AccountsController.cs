@@ -252,11 +252,20 @@ namespace PI.Service.Controllers
                     Result = -1
                 });
             else if (!customer.IsConfirmEmail)
-                return Ok(new
-                 {
-                     User = user,
-                     Result = 1
-                 });
+            {
+                if(AppUserManager.IsEmailConfirmed(user.Id))
+                    return Ok(new
+                     {
+                         User = user,
+                         Result = 1
+                     });
+                else
+                    return Ok(new
+                    {
+                        User = user,
+                        Result = -11 //You must have a confirmed email to log in
+                    });
+            }
             else
             {
                 IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
@@ -292,5 +301,60 @@ namespace PI.Service.Controllers
             //}
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [Route("resetForgetPassword")]
+        public int ResetForgetPassword(CustomerDto userModel)
+        {
+            ApplicationUser existingUser = AppUserManager.FindByName(userModel.Email);
+            if (existingUser == null)
+            {
+                return -1; // No account find by this email.
+            }
+            else
+            {
+                if (!AppUserManager.IsEmailConfirmed(existingUser.Id))
+                {
+                    // user hasn't confirm his email yet. So user can't reset password.
+                    return -11;
+                }
+            }
+
+            var passwordResetToken = AppUserManager.GeneratePasswordResetToken(existingUser.Id);
+
+            var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/resetPassword/resetPassword.html?userId=" + existingUser.Id + "&code=" + passwordResetToken));
+
+            StringBuilder emailbody = new StringBuilder(userModel.TemplateLink);
+            emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName)
+                                        .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+
+            AppUserManager.SendEmail(existingUser.Id, "Reset your account password", emailbody.ToString());
+
+            return 1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("resetForgetPasswordConfirm")]
+        public int ResetForgetPasswordConfirm(CustomerDto customer)
+        {
+            if (string.IsNullOrWhiteSpace(customer.UserId) || string.IsNullOrWhiteSpace(customer.Code) || string.IsNullOrWhiteSpace(customer.Password))
+            {
+                ModelState.AddModelError("", "User Id, Code and Password are required");
+                return -1;
+            }
+
+            IdentityResult result = this.AppUserManager.ResetPassword(customer.UserId, customer.Code, customer.Password);
+            
+            if (result.Succeeded)
+            {
+                return 1;
+            }
+            else
+            {
+                return -2;
+            }
+        }
     }
 }

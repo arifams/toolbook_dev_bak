@@ -23,10 +23,10 @@ var MakeApp = angular
   ])
   .config(function ($routeProvider) {
       $routeProvider
-        .when('/', {
-            templateUrl: 'dashboard/dashboard.html',
-            controller: 'dashboardCtrl'
-        })
+        //.when('/', {
+        //    templateUrl: 'dashboard/dashboard.html',
+        //    controller: 'dashboardCtrl'
+        //})
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
             controller: 'frontendCtrl'
@@ -225,8 +225,8 @@ var MakeApp = angular
             templateUrl: 'divisions/loadDivisions.html',
             controller: 'loadDivisionsCtrl',
         })
-        .when('/saveDivision', {
-               templateUrl: 'divisions/saveDivision.html?',
+        .when('/saveDivision/:id', {
+               templateUrl: 'divisions/saveDivision.html',
                controller: 'saveDivisionCtrl',
          })
      .when('/saveCostcenter', {
