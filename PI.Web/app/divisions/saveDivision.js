@@ -74,10 +74,7 @@
            var vm = this;
 
            vm.saveDivision = function () {
-               //debugger;
-
-               $location.path('/contacts/');
-
+                        
                divisionManagmentFactory.saveDivision(vm.model)
                .success(function (result) {
                    debugger;
@@ -110,6 +107,10 @@
                })
                .error(function () {
                })
+           }
+
+           vm.close = function () {
+               $location.path('/loadDivisions');
            }
 
            var loadDivision = function () {
