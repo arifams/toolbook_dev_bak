@@ -231,29 +231,32 @@ namespace PI.Business
             using (var context = PIContext.Get())
             {
                 var content = context.Divisions
-                                        .Where(x => searchtext == null || x.Name.Contains(searchtext) && x.Type == "USER")
-                                        .OrderBy(sortBy + " " + sortDirection)
-                                        .Skip((page - 1) * pageSize)
-                                        .Take(pageSize)
-                                        .ToList();
+                                        .Where(x => x.CompanyId == 1 && x.Type == "USER"
+                                                    && x.IsDelete == false &&
+                                                    (searchtext == null || x.Name.Contains(searchtext)))
+                                            .OrderBy(sortBy + " " + sortDirection)
+                                            .Skip((page - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
 
                 foreach (var item in content)
                 {
-                    pagedRecord.Content.Add(new DivisionDto { 
-                    Id = item.Id,
-                    Name = item.Name,
-                    CompanyId = item.CompanyId,
-                    DefaultCostCenterId = item.DefaultCostCenterId,
-                    Description = item.Description,
-                    Status = item.Status,
-                    Type = item.Type,
-                    EditLink = "<a href='#/getDivision/" + item.Id + "'  class='edit btn btn-sm btn-default'> <i class='icon-note'></i></a>"
+                    pagedRecord.Content.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        CompanyId = item.CompanyId,
+                        DefaultCostCenterId = item.DefaultCostCenterId,
+                        Description = item.Description,
+                        Status = item.Status,
+                        Type = item.Type,
                     });
                 }
 
                 // Count
                 pagedRecord.TotalRecords = context.Divisions
-                                          .Where(x => searchtext == null || x.Name.Contains(searchtext)).Count();
+                                           .Where(x => x.CompanyId == 1 && x.Type == "USER" && x.IsDelete == false &&
+                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
@@ -305,6 +308,14 @@ namespace PI.Business
             {
                 var sysDivision = context.Divisions.Where(d => d.CompanyId == 1
                                                                && d.Type == "SYSTEM").SingleOrDefault(); //TODO: get the comanyId of the tenant.
+
+                // If no cost centers are currently setup, assign the default cost center for the division.
+                if (division.DefaultCostCenterId == 0)
+                {
+                    division.DefaultCostCenterId = context.CostCenters.Where(c => c.CompanyId == 1
+                                                                                 && c.Type == "SYSTEM").SingleOrDefault().Id;
+                }
+                
                 if (division.Id == 0 && sysDivision == null)
                 {
                     Division newDivision = new Division()
@@ -331,13 +342,7 @@ namespace PI.Business
                     else
                     {
                         existingDivision = context.Divisions.SingleOrDefault(d => d.Id == division.Id);
-                    }
-
-                    if (division.DefaultCostCenterId == 0)
-                    {
-                        //division.DefaultCostCenterId = context.CostCenter.Where(c => c.CompanyId == 1
-                        //                                                             && c.Type == "SYSTEM").SingleOrDefault().Id;
-                    }
+                    }                   
 
                     existingDivision.Name = division.Name;
                     existingDivision.Description = division.Description;
@@ -353,6 +358,28 @@ namespace PI.Business
             }
 
             return 1;
+        }
+
+        public int DeleteDivision(long id)
+        {
+            using (var context = PIContext.Get())
+            {
+                var division = context.Divisions.SingleOrDefault(d => d.Id == id);
+
+                if (division == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    division.IsActive = false;
+                    division.IsDelete = true;
+                    context.SaveChanges();
+
+                    return 1;
+                }
+            }
+
         }
 
         #endregion
