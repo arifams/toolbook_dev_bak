@@ -104,16 +104,36 @@ namespace PI.Business
         /// <summary>
         /// Get all costCenters for the tenant coampny
         /// </summary>
-        /// <returns></returns>
-        //public IList<CostCenterDto> GetAllCostCentersForCompany()
-        //{
-        //    using (var context = PIContext.Get())
-        //    {
-        //        //var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
-        //        //return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
-        //        return null;
-        //    }
-        //}
+        /// <returns></returns>        
+        public IList<CostCenterDto> GetAllCostCentersForCompany(string userId)
+        {
+            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var costcenters = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id &&
+                                                                 c.Type == "USER"
+                    // TODO: get the company id of the logged in user.
+                                                                  && c.IsDelete == false).ToList();
+
+
+                foreach (var item in costcenters)
+                {
+                    costCenterList.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return costCenterList;
+        }
 
 
         /// <summary>
@@ -266,7 +286,46 @@ namespace PI.Business
 
         #endregion
 
+
         #region Division Managment
+
+
+        /// <summary>
+        /// Get all costCenters for the tenant coampny
+        /// </summary>
+        /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IList<DivisionDto> GetAllDivisionsForCompany(string userId)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
+                                                             c.Type == "USER" && c.IsDelete == false).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
+
 
 
         /// <summary>
@@ -347,30 +406,7 @@ namespace PI.Business
             }
         }
 
-
-        private IList<CostCenterDto> GetAllCostCentersForCompany()
-        {
-            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
-
-            using (var context = PIContext.Get())
-            {
-                var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 && // TODO: get the company id of the logged in user.
-                                                                 c.Type == "USER" && c.IsDelete == false).ToList();
-
-                foreach (var item in costcenters)
-                {
-                    costCenterList.Add(new CostCenterDto
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    });
-                }
-            }
-
-            return costCenterList;
-        }
-
-
+     
         /// <summary>
         /// Get a particular division by Id
         /// </summary>
@@ -551,6 +587,8 @@ namespace PI.Business
 
             return currentuser.TenantId;
         }
+
+       
 
         #endregion
 

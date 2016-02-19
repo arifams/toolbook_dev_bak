@@ -8,7 +8,21 @@
                 return $http.post(serverBaseUrl + '/api/Company/DeleteDivision', division);
             }
         };
-    })
+    });
+
+    //get all costSenters for the given user
+    app.factory('loadAllCostCenters', function ($http, $window) {
+        return {
+            loadCostCenters: function () {
+                return $http.get(serverBaseUrl + '/api/Company/GetAllCostCenters', {
+                    params: {
+                        userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
+                    }
+                });
+            }
+        }
+
+    });
 
     app.factory('loadDivisionService', function ($http, $q, $log, $rootScope) {        
               
@@ -74,10 +88,20 @@
     });
 
 
-    app.controller('loadDivisionsCtrl', function ($scope, $location, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
+    app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
     $scope.data = loadDivisionService.data;
     $scope.data.user.userId = $window.localStorage.getItem('userGuid')
     
+
+        loadAllCostCenters.loadCostCenters()
+               .then(function successCallback(responce) {
+                  
+                   $scope.costCenters = responce.data;                   
+
+               }, function errorCallback(response) {
+                   //todo
+               });
+
 
     $scope.$watch('data.sortOptions', function (newVal, oldVal) {
         $log.log("sortOptions changed: " + newVal);
@@ -87,13 +111,13 @@
         }
     }, true);
 
-    $scope.$watch('data.filterOptions', function (newVal, oldVal) {
-        $log.log("filters changed: " + newVal);
-        if (newVal !== oldVal) {
-            $scope.data.pagingOptions.currentPage = 1;
-            loadDivisionService.find();
-        }
-    }, true);
+    //$scope.$watch('data.filterOptions', function (newVal, oldVal) {
+    //    $log.log("filters changed: " + newVal);
+    //    if (newVal !== oldVal) {
+    //        $scope.data.pagingOptions.currentPage = 1;
+    //        loadDivisionService.find();
+    //    }
+    //}, true);
 
     $scope.$watch('data.pagingOptions', function (newVal, oldVal) {
         $log.log("page changed: " + newVal);
@@ -122,7 +146,7 @@
                     { field: 'status', displayName: 'Status' },
                     {
                         field: 'editLink', displayName: 'Edit', enableCellEdit: false,
-                        cellTemplate: '<a href="#/saveDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
+                        cellTemplate: '<a href="#/getDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
                     },
                     {
                         field: 'deleteLink', displayName: 'Delete', enableCellEdit: false,
@@ -136,13 +160,35 @@
     };
 
     $scope.searchDivisions = function () {
-               
-        
-        $scope.data.filterOptions.filterText = $scope.searchText;                     
+
+        $scope.data.filterOptions.filterText = $scope.searchText;
         loadDivisionService.find();
         //loadDivisionService.find($scope.filterOptions.filterText);
+    };
 
+    $scope.selectActiveDivisions = function () {
+
+        if (angular.isUndefined($scope.status)) {
+
+            $scope.data.searchTypes.type = '';
+        }else {
+            $scope.data.searchTypes.type = $scope.status;
+        }       
+        loadDivisionService.find();
+    };
+
+    $scope.selectDivisionforCostCenter = function () {
+        if (angular.isUndefined($scope.costcenter)) {
+
+            $scope.data.searchTypes.costCenter = 0;
+        } else {
+                
+            $scope.data.searchTypes.costCenter = $scope.costcenter;
+        }
+      
+        loadDivisionService.find();
     }
+
 
     $scope.deleteById = function (row) {
         divisionManagmentService.deleteDivision({ Id: row.entity.id })

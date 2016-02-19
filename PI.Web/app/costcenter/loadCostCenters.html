@@ -34,7 +34,7 @@
                                 <div class="option-group">
                                     <select id="defaultcurrency"
                                             convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                            name="defaultcurrency" class="defaultcurrency" required ng-model="costcenter"></select>
+                                            name="costcenters" ng-model="costcenter"></select>
                                 </div>
                             </div>
                         </div>
@@ -54,12 +54,7 @@
 
                 </div>
                 <div class="gridStyle" ng-grid="gridOptions"></div>
-
-
-
             </div>
         </form>
-    </div>
-
-
+    </div>    
 </div>
