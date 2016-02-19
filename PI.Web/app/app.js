@@ -217,10 +217,6 @@ var MakeApp = angular
             templateUrl: 'layout/api.html',
             controller: 'apiCtrl'
         })
-        .when('/getDivision/:id', {
-               templateUrl: 'divisions/saveDivision.html',
-               controller: 'saveDivisionCtrl',
-           })
         .when('/loadDivisions', {
             templateUrl: 'divisions/loadDivisions.html',
             controller: 'loadDivisionsCtrl',
