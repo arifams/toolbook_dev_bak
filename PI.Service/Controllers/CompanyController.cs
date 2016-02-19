@@ -26,12 +26,12 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllDivisionsByFliter")]
-        public PagedList GetAllDivisionsByFliter(string searchtext, int page = 1, int pageSize = 10,
+        public PagedList GetAllDivisionsByFliter(long costCenter, string type,string userId, string searchtext, int page = 1, int pageSize = 10,
                                       string sortBy = "Id", string sortDirection = "asc")
         {
 
             var pagedRecord = new PagedList();
-            return pagedRecord = companyManagement.GetAllDivisions(searchtext, page, pageSize, sortBy, sortDirection);
+            return pagedRecord = companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
         }
 
 
