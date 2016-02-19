@@ -1,4 +1,4 @@
-﻿<div ng-controller="loadDivisionsCtrl as loDivCtrl">
+﻿<div ng-controller="loadDivisionsCtrl">
     <h2 class="box-title"> Manage Divisions</h2>
    
     <div class="panel">
@@ -7,25 +7,59 @@
         <form class="form-horizontal" name="saveDivisionForm">
             <!-- /.box-header -->
 
-            <div class="panel-header">
-                <div class="row">
+            <div class="panel-header">              
                     <!-- left column -->
-                    <div class="col-xs-12">
-                        <div class="box-body">                            
-                            <div class="form-group">                                
-                                <div class="col-sm-12">
-                                    <input ng-model="loDivCtrl.filterOptions.filterText" name="searchText" type="text" class="form-control"
-                                           placeholder="Search by Division Name" />
-                                </div>                               
-                            </div>
-                            <br />
-                            <div class="gridStyle" ng-grid="gridOptions"></div>                      
-                        </div>
-                    </div>
-                </div>
+                 
+                        <div class="box-body">  
+                             <div class="row">                   
+                               
+                                     <div class="col-md-4">
+                                         <div class="form-group">
+                                             <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                                    placeholder="Search by Division Name" />
+                                         </div>
+                                     </div>
+                                     <div class="col-md-2">
+                                         <div class="form-group">
+                                             <button type="button" class="btn btn-large btn-primary"><i class="fa fa-search" ng-click="searchDivisions()"></i></button>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-1">
+                                         <div class="form-group">
+                                             <label class="control-label">Filter by  </label>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-3">
+                                         <div class="form-group">
+                                             <div class="option-group">
+                                                 <select id="defaultcurrency"
+                                                         convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
+                                                         name="defaultcurrency" class="defaultcurrency" required ng-model="costcenter"></select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="col-md-2">
+                                         <div class="form-group">
+                                             <div class="option-group">
+                                                 <select id="costcenters" name="costcenters" class="costcenters" required ng-model="status">
+                                                     <option value="Mr">Active</option>
+                                                     <option value="Mrs">Inactive</option>                                                   
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
 
-            </div>
+                                 </div>     
+                            <br />
+
+                          </div>
+                        <div class="gridStyle" ng-grid="gridOptions"></div>                  
+                       
+                  
+               
+            </div>       
         </form>
     </div>
+
 
 </div>

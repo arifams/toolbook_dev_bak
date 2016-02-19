@@ -6,6 +6,7 @@ using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
 using PI.Data;
 using PI.Data.Entity;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -222,18 +223,28 @@ namespace PI.Business
         /// <param name="sortBy"></param>
         /// <param name="sortDirection"></param>
         /// <returns></returns>
-        public PagedList GetAllDivisions(string searchtext, int page = 1, int pageSize = 10,
-                                         string sortBy = "", string sortDirection = "asc")
+        public PagedList GetAllDivisions(long costCenterId, string type, string userId,string searchtext, int page = 1, int pageSize = 10,
+                                         string sortBy = "CustomerID", string sortDirection = "asc")
         {
             var pagedRecord = new PagedList();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany==null)
+            {
+                return pagedRecord;
+            }
+
             pagedRecord.Content = new List<DivisionDto>();
 
             using (var context = PIContext.Get())
             {
                 var content = context.Divisions
-                                        .Where(x => x.CompanyId == 1 && x.Type == "USER"
+                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"                                                   
                                                     && x.IsDelete == false &&
-                                                    (searchtext == null || x.Name.Contains(searchtext)))
+                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (costCenterId==0|| x.DefaultCostCenterId==costCenterId)&&
+                                                    (type==null|| x.IsActive.ToString()== type)
+                                                    )
+                                                  
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .Skip((page - 1) * pageSize)
                                             .Take(pageSize)
@@ -329,7 +340,7 @@ namespace PI.Business
 	            }
 
                 if (id == 0)
-                {
+            {
                     return new DivisionDto
                    {
                        Id = 0,
@@ -381,7 +392,7 @@ namespace PI.Business
 
                     division.DefaultCostCenterId = (defaultCostCntr != null) ? defaultCostCntr.Id : 0;
                 }
-
+                
 
                 if (division.Id == 0 && sysDivision == null)
                 {
@@ -417,7 +428,7 @@ namespace PI.Business
                     else
                     {
                         existingDivision = context.Divisions.SingleOrDefault(d => d.Id == division.Id);
-                    }
+                    }                   
 
                     existingDivision.Name = division.Name;
                     existingDivision.Description = division.Description;
@@ -455,6 +466,35 @@ namespace PI.Business
                 }
             }
 
+        }
+
+        public Company GetCompanyByUserId(string userId)
+        {
+                long tenantId = this.GettenantIdByUserId(userId);
+                if (tenantId==0)
+                {
+                    return null;
+                }           
+                using (PIContext context = PIContext.Get())
+                {
+                    return context.Companies.SingleOrDefault(n => n.TenantId == tenantId);
+                }        
+         
+            }
+
+        public long GettenantIdByUserId(string userid)
+        {
+            ApplicationUser currentuser = null;
+            using (ApplicationDbContext context =new  ApplicationDbContext())
+            {
+                currentuser= context.Users.SingleOrDefault(u => u.Id == userid);
+            }
+            if (currentuser==null)
+            {
+                return 0;
+            }
+
+            return currentuser.TenantId;
         }
 
         #endregion

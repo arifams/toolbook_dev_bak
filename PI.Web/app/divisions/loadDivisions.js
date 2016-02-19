@@ -10,10 +10,10 @@
         };
     })
 
-    app.factory('loadDivisionService', function ($http, $q, $log, $rootScope) {
-        debugger;
+    app.factory('loadDivisionService', function ($http, $q, $log, $rootScope) {        
+              
         var baseUrl = serverBaseUrl + '/api/Company/GetAllDivisionsByFliter';
-
+        
         var service = {
             data: {
                 currentDivision: {},
@@ -34,16 +34,27 @@
                     pageSizes: [10, 20, 50, 100],
                     pageSize: 10,
                     currentPage: 1
+                },
+                searchTypes: {
+                    costCenter: 0,
+                    type:''
+                },
+                user: {
+                    userId:''
                 }
             },
 
             find: function () {
                 var params = {
-                    searchtext: service.data.filterOptions.filterText,
+                    costCenter: service.data.searchTypes.costCenter,
+                    type: service.data.searchTypes.type,
+                    userId:service.data.user.userId,
+                    searchtext: service.data.filterOptions.filterText,                    
                     page: service.data.pagingOptions.currentPage,
                     pageSize: service.data.pagingOptions.pageSize,
                     sortBy: service.data.sortOptions.fields[0],
                     sortDirection: service.data.sortOptions.directions[0]
+                    
                 };
 
                 var deferred = $q.defer();
@@ -63,8 +74,10 @@
     });
 
 
-    app.controller('loadDivisionsCtrl', function ($scope, $location, loadDivisionService, divisionManagmentService, $routeParams, $log) {
+    app.controller('loadDivisionsCtrl', function ($scope, $location, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
     $scope.data = loadDivisionService.data;
+    $scope.data.user.userId = $window.localStorage.getItem('userGuid')
+    
 
     $scope.$watch('data.sortOptions', function (newVal, oldVal) {
         $log.log("sortOptions changed: " + newVal);
@@ -88,6 +101,7 @@
             loadDivisionService.find();
         }
     }, true);
+   
 
     $scope.gridOptions = {
         data: 'data.divisions.content',
@@ -120,6 +134,15 @@
             // $location.path("comments/" + selection.entity.commentId);
         }
     };
+
+    $scope.searchDivisions = function () {
+               
+        
+        $scope.data.filterOptions.filterText = $scope.searchText;                     
+        loadDivisionService.find();
+        //loadDivisionService.find($scope.filterOptions.filterText);
+
+    }
 
     $scope.deleteById = function (row) {
         divisionManagmentService.deleteDivision({ Id: row.entity.id })
