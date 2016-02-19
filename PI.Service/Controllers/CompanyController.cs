@@ -87,5 +87,29 @@ namespace PI.Service.Controllers
         }
 
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllDivisionsByFliter")]
+        public PagedList GetAllCostCentersByFliter(long costCenter, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
+                                      string sortBy = "Id", string sortDirection = "asc")
+        {
+
+            var pagedRecord = new PagedList();
+            return pagedRecord = companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetCostCentersById")]
+        public CostCenterDto GetCostCentersById([FromUri] long id)
+        {
+            return companyManagement.GetCostCentersById(id);
+        }
+
+
+
     }
 }
