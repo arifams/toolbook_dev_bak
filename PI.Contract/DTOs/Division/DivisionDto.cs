@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.DTOs.CostCenter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace PI.Contract.DTOs.Division
         public long CompanyId { get; set; }
 
         public string Type { get; set; }
+
+        public IList<CostCenterDto> AssosiatedCostCenters { get; set; } 
 
         public string EditLink { get; set; }
 

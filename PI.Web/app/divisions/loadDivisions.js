@@ -108,7 +108,7 @@
                     { field: 'status', displayName: 'Status' },
                     {
                         field: 'editLink', displayName: 'Edit', enableCellEdit: false,
-                        cellTemplate: '<a href="#/getDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
+                        cellTemplate: '<a href="#/saveDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
                     },
                     {
                         field: 'deleteLink', displayName: 'Delete', enableCellEdit: false,

@@ -225,8 +225,8 @@ var MakeApp = angular
             templateUrl: 'divisions/loadDivisions.html',
             controller: 'loadDivisionsCtrl',
         })
-        .when('/saveDivision', {
-               templateUrl: 'divisions/saveDivision.html?',
+        .when('/saveDivision/:id', {
+               templateUrl: 'divisions/saveDivision.html',
                controller: 'saveDivisionCtrl',
          })
      .when('/saveCostcenter', {

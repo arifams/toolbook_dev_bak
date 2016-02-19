@@ -48,6 +48,17 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
+        [HttpGet]
+        [Route("GetDivisionById")]
+        public DivisionDto GetDivisionById([FromUri] long id)
+        {
+            return companyManagement.GetDivisionById(id);
+        }
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
         [HttpPost]
         [Route("SaveDivision")]
         public int SaveDivision([FromBody] DivisionDto division)
