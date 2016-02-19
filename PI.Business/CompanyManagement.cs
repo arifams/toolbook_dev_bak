@@ -386,6 +386,7 @@ namespace PI.Business
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
             }
