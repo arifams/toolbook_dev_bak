@@ -1,4 +1,4 @@
-﻿angular.module('customDirective')
+﻿angular.module('customDirective',[])
 .directive('countrySelect', function () {
     var allCountries;
     allCountries = [
