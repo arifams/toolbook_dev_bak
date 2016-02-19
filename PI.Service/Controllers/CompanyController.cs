@@ -133,6 +133,16 @@ namespace PI.Service.Controllers
             return companyManagement.GetCostCentersById(id);
         }
 
-             
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("DeleteCostCenter")]
+        public int DeleteCostCenter([FromBody] CostCenterDto costCenter)
+        {
+            return companyManagement.DeleteCostCenter(costCenter.Id);
+        }
+
+
     }
 }

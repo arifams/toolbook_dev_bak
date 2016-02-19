@@ -137,6 +137,73 @@ namespace PI.Business
 
 
         /// <summary>
+        /// Get all divisions by given filter criteria
+        /// </summary>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public PagedList GetAllCostCenters(long divisionId, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
+                                         string sortBy = "Id", string sortDirection = "asc")
+        {
+            var pagedRecord = new PagedList();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return pagedRecord;
+            }
+
+            pagedRecord.Content = new List<CostCenterDto>();
+
+            using (var context = PIContext.Get())
+            {
+                var content = context.CostCenters
+                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
+                                                    && x.IsDelete == false &&
+                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                   // (divisionId == 0 || x.DefaultCostCenterId == divisionId) &&
+                                                    (type == null || x.IsActive.ToString() == type)
+                                                    )
+
+                                            .OrderBy(sortBy + " " + sortDirection)
+                                            .Skip((page - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
+
+                foreach (var item in content)
+                {
+                    pagedRecord.Content.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        CompanyId = item.CompanyId,
+                        //DefaultCostCenterId = item.DefaultCostCenterId,
+                        Description = item.Description,
+                        Status = item.Status,
+                        Type = item.Type,
+                        FullBillingAddress = item.BillingAddress.Number+ " "+ item.BillingAddress.StreetAddress1 + " "+
+                        item.BillingAddress.StreetAddress2 + " "+ item.BillingAddress.City+ " "+ item.BillingAddress.State+" "+ item.BillingAddress.Country
+
+                    });
+                }
+
+                // Count
+                pagedRecord.TotalRecords = context.Divisions
+                                           .Where(x => x.CompanyId == 1 && x.Type == "USER" && x.IsDelete == false &&
+                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
+
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+            }
+        }
+
+
+
+        /// <summary>
         /// Get a particular cost center by Id
         /// </summary>
         /// <param name="id"></param>
@@ -284,6 +351,31 @@ namespace PI.Business
             return 1;
         }
 
+
+        public int DeleteCostCenter(long id)
+        {
+            using (var context = PIContext.Get())
+            {
+                var costCenter = context.CostCenters.SingleOrDefault(d => d.Id == id);
+
+                if (costCenter == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    costCenter.IsActive = false;
+                    costCenter.IsDelete = true;
+                    context.SaveChanges();
+
+                    return 1;
+                }
+            }
+
+        }
+
+
+
         #endregion
 
 
@@ -397,15 +489,15 @@ namespace PI.Business
         /// Get all divisions for the tenant coampny
         /// </summary>
         /// <returns></returns>
-        public IList<DivisionDto> GetAllDivisionsForCompany()
-        {
-            using (var context = PIContext.Get())
-            {
-                //var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
-                //return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
-                return null;
-            }
-        }
+        //public IList<DivisionDto> GetAllDivisionsForCompany()
+        //{
+        //    using (var context = PIContext.Get())
+        //    {
+        //        //var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
+        //        //return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
+        //        return null;
+        //    }
+        //}
 
      
         /// <summary>

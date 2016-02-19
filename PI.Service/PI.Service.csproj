@@ -161,8 +161,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ng-grid.css" />
-    <Content Include="Content\ng-grid.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>

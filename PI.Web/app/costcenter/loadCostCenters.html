@@ -1,10 +1,10 @@
-﻿<div ng-controller="loadDivisionsCtrl">
-    <h2 class="box-title"> Manage Divisions</h2>
+﻿<div>
+    <h2 class="box-title"> Manage Cost Centers</h2> <a href="#saveCostcenter/0"> Add Cost Center</a>
 
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal" name="saveDivisionForm">
+        <form class="form-horizontal" name="loadCostCenterForm">
             <!-- /.box-header -->
 
             <div class="panel-header">
@@ -16,12 +16,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                       placeholder="Search by Cost Center" />
+                                       placeholder="Search by Cost Center Name" />
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary"><i class="fa fa-search" ng-click="searchCostCenters()"></i></button>
+                                <button type="button" class="btn btn-large btn-primary"><i class="fa fa-search" 
+                                                                                           ng-click="searchCostCenter()"></i></button>
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -32,16 +33,20 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="defaultcurrency"
-                                            convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                            name="costcenters" ng-model="costcenter"></select>
+                                    <select id="costcenter"
+                                            convert-to-number ng-options="divi.id as divi.name for divi in divisions"
+                                            name="divisions" ng-model="division" ng-change="selectDivisionforCostCenter()">
+                                        <option value="">All</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="costcenters" name="costcenters" class="costcenters" required ng-model="status">
+                                    <select id="costcentersStatus" name="costcentersStatus" 
+                                            ng-model="status" ng-change="selectActiveDivisions()">
+                                        <option value="">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
                                     </select>
@@ -54,7 +59,12 @@
 
                 </div>
                 <div class="gridStyle" ng-grid="gridOptions"></div>
+
+
+
             </div>
         </form>
-    </div>    
+    </div>
+
+
 </div>
