@@ -112,7 +112,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
-        [Route("GetAllDivisionsByFliter")]
+        [Route("GetAllCostCentersByFliter")]
         public PagedList GetAllCostCentersByFliter(long costCenter, string type, string userId, string searchtext, 
                                                    int page = 1, int pageSize = 10, string sortBy = "Id", 
                                                    string sortDirection = "asc")
