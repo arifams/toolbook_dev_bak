@@ -63,16 +63,20 @@ namespace PI.Service.Controllers
         {
              ProfileManagement userprofile = new ProfileManagement();            
 
-            if (!string.IsNullOrWhiteSpace(profile.NewPassword))
+            if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
-                IdentityResult result = this.AppUserManager.ChangePassword(User.Identity.GetUserId(),
+                IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
                                                             profile.OldPassword,
-                                                            profile.NewPassword);
+                                                           profile.NewPassword);
+                if (result.Errors!=null)
+                {
+                    return -3;
+                } 
             }
 
             var updatedStatus = userprofile.updateProfileData(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 1 || updatedStatus == -2 )
             {
               return  updatedStatus;
             }           

@@ -746,7 +746,11 @@
                 
                 <div class="alert alert-warning" ng-show="profileCtrl.model.emailExist">
                     Email You Entered is already exist
-                </div>          
+                </div> 
+            
+            <div class="alert alert-warning" ng-show="profileCtrl.model.oldPasswordWrong">
+               Password Information you enterd is invalid
+            </div>          
 
                 <div class="alert alert-warning" ng-show="profileCtrl.model.isServerError ">
                     Error occured while connecting the server
