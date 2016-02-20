@@ -4,7 +4,7 @@
 
     app.factory('costCenterManagmentService', function ($http) {
         return {
-            deleteDivision: function (division) {
+            deleteCostCenter: function (division) {
                 return $http.post(serverBaseUrl + '/api/Company/DeleteCostCenter', division);
             }
         };
@@ -26,12 +26,12 @@
 
     app.factory('loadCostCenterService', function ($http, $q, $log, $rootScope) {
 
-        var baseUrl = serverBaseUrl + '/api/Company/GetAllDivisionsByFliter';
+        var baseUrl = serverBaseUrl + '/api/Company/GetAllCostCentersByFliter';
 
         var service = {
             data: {
-                currentDivision: {},
-                divisions: [],
+                currentCostCenter: {},
+                costcenters: [],
                 selected: [],
                 totalPages: 0,
 
@@ -60,7 +60,7 @@
 
             find: function () {
                 var params = {
-                    costCenter: service.data.searchTypes.division,
+                    division: service.data.searchTypes.division,
                     type: service.data.searchTypes.type,
                     userId: service.data.user.userId,
                     searchtext: service.data.filterOptions.filterText,
@@ -74,7 +74,7 @@
                 var deferred = $q.defer();
                 $http.get(baseUrl, { params: params })
                 .success(function (data) {
-                    service.data.divisions = data;
+                    service.data.costcenters = data;
                     deferred.resolve(data);
                 }).error(function () {
                     deferred.reject();
@@ -97,7 +97,7 @@
         loadAllDivisions.loadAllDivisions()
                .then(function successCallback(responce) {
 
-                   $scope.costCenters = responce.data;
+                   $scope.divisionList = responce.data;
 
                }, function errorCallback(response) {
                    //todo
@@ -129,13 +129,13 @@
 
 
         $scope.gridOptions = {
-            data: 'data.divisions.content',
+            data: 'data.costcenters.content',
             showFilter: false,
             multiSelect: false,
             selectedItems: $scope.data.selected,
             enablePaging: true,
             showFooter: true,
-            totalServerItems: 'data.divisions.totalRecords',
+            totalServerItems: 'data.costcenters.totalRecords',
             pagingOptions: $scope.data.pagingOptions,
             filterOptions: $scope.data.filterOptions,
             useExternalSorting: true,
@@ -144,15 +144,15 @@
             columnDefs: [
                         { field: 'id', displayName: 'CostCenterId', visible: false },
                         { field: 'name', displayName: 'Cost Center' },
-                        { field: '', displayName: 'Assigned Divisions' },
-                        { field: '', displayName: 'Billing Address' },
+                        { field: 'assignedDivisions', displayName: 'Assigned Divisions', sortable: false },
+                        { field: 'fullBillingAddress', displayName: 'Billing Address', sortable: false },
                         { field: 'status', displayName: 'Status' },
                         {
-                            field: 'editLink', displayName: 'Edit', enableCellEdit: false,
-                            cellTemplate: '<a href="#/saveDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>', sortable: false
+                            field: '', displayName: 'Edit', enableCellEdit: false,
+                            cellTemplate: '<a href="#/saveCostcenter/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>', sortable: false
                         },
                         {
-                            field: 'deleteLink', displayName: 'Delete', enableCellEdit: false,
+                            field: '', displayName: 'Delete', enableCellEdit: false,
                             cellTemplate: '<a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a>', sortable: false
                         }
             ],
@@ -162,14 +162,13 @@
             }
         };
 
-        $scope.searchDivisions = function () {
-
+        $scope.searchCostCenters = function () {
             $scope.data.filterOptions.filterText = $scope.searchText;
             loadCostCenterService.find();
             //loadCostCenterService.find($scope.filterOptions.filterText);
         };
 
-        $scope.selectActiveDivisions = function () {
+        $scope.selectActiveCostCenters = function () {
 
             if (angular.isUndefined($scope.status)) {
 
@@ -183,10 +182,10 @@
 
         $scope.selectDivisionforCostCenter = function () {
             debugger;
-            if (angular.isUndefined($scope.divisionList)) {
+            if (angular.isUndefined($scope.selectedDivision)) {
                 $scope.data.searchTypes.division = 0;
             } else {
-                $scope.data.searchTypes.division = $scope.divisionList;
+                $scope.data.searchTypes.division = $scope.selectedDivision;
             }
 
             loadCostCenterService.find();
@@ -204,12 +203,11 @@
                                     debugger;
                                     // remove($scope.gridOptions.data, 'id', row.entity.id);
 
-                                    angular.forEach($scope.data.divisions.content, function (index, result) {
-                                        if (result['id'] == row.entity.id) {
-                                            $scope.data.divisions.content.splice(index, 1);
+                                    angular.forEach($scope.data.costcenters.content, function (index, result) {
+                                        if (index.id  == row.entity.id) {
+                                            $scope.data.costcenters.content.splice(index, 1);
                                         }
                                     })
-
                                 }
                             })
                            .error(function () {

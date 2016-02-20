@@ -159,14 +159,13 @@ namespace PI.Business
 
             using (var context = PIContext.Get())
             {
-                var content = context.CostCenters
+                var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
-                                                   // (divisionId == 0 || x.DefaultCostCenterId == divisionId) &&
-                                                    (type == null || x.IsActive.ToString() == type)
+                                                    (type == null || x.IsActive.ToString() == type) &&
+                                                    (divisionId == 0 || x.DivisionCostCenters.Any(C=> C.DivisionId == divisionId)) 
                                                     )
-
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .Skip((page - 1) * pageSize)
                                             .Take(pageSize)
@@ -183,16 +182,18 @@ namespace PI.Business
                         Description = item.Description,
                         Status = item.Status,
                         Type = item.Type,
-                        FullBillingAddress = item.BillingAddress.Number+ " "+ item.BillingAddress.StreetAddress1 + " "+
-                        item.BillingAddress.StreetAddress2 + " "+ item.BillingAddress.City+ " "+ item.BillingAddress.State+" "+ item.BillingAddress.Country
+                        FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
+                        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country
 
                     });
                 }
 
                 // Count
-                pagedRecord.TotalRecords = context.Divisions
-                                           .Where(x => x.CompanyId == 1 && x.Type == "USER" && x.IsDelete == false &&
-                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
+                pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
+                                                                      x.Type == "USER" && x.IsDelete == false &&
+                                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
+                                                                     (type == null || x.IsActive.ToString() == type)).Count();
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
@@ -467,14 +468,18 @@ namespace PI.Business
                         Description = item.Description,
                         Status = item.Status,
                         Type = item.Type,
+                        NumberOfUsers = 0,
+                        AssignedCostCenters = ""
                         // AssosiatedCostCenters = 
                     });
                 }
 
                 // Count
                 pagedRecord.TotalRecords = context.Divisions
-                                           .Where(x => x.CompanyId == 1 && x.Type == "USER" && x.IsDelete == false &&
-                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
+                                           .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER" && x.IsDelete == false &&
+                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
+                                                    (type == null || x.IsActive.ToString() == type)).Count();
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
@@ -499,7 +504,7 @@ namespace PI.Business
         //    }
         //}
 
-     
+
         /// <summary>
         /// Get a particular division by Id
         /// </summary>
@@ -681,7 +686,7 @@ namespace PI.Business
             return currentuser.TenantId;
         }
 
-       
+
 
         #endregion
 

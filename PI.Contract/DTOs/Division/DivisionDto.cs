@@ -23,7 +23,11 @@ namespace PI.Contract.DTOs.Division
 
         public string Type { get; set; }
 
-        public IList<CostCenterDto> AssosiatedCostCenters { get; set; } 
+        public IList<CostCenterDto> AssosiatedCostCenters { get; set; }
+
+        public int NumberOfUsers { get; set; }
+
+        public string AssignedCostCenters { get; set; }
 
         public string EditLink { get; set; }
 

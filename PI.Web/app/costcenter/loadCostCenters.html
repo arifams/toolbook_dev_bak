@@ -1,5 +1,6 @@
 ﻿<div>
-    <h2 class="box-title"> Manage Cost Centers</h2> <a href="#saveCostcenter/0"> Add Cost Center</a>
+    <h2 class="box-title"> Manage Cost Centers &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveCostcenter/0"
+   class="btn btn-primary active pull-right" role="button">Add  Cost Center</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -21,8 +22,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary"><i class="fa fa-search" 
-                                                                                           ng-click="searchCostCenter()"></i></button>
+                                <button type="button" class="btn btn-large btn-primary">
+                                    <i class="fa fa-search" ng-click="searchCostCenters()"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -34,8 +36,8 @@
                             <div class="form-group">
                                 <div class="option-group">
                                     <select id="costcenter"
-                                            convert-to-number ng-options="divi.id as divi.name for divi in divisions"
-                                            name="divisions" ng-model="division" ng-change="selectDivisionforCostCenter()">
+                                            convert-to-number ng-options="divi.id as divi.name for divi in divisionList"
+                                            name="divisions" ng-model="selectedDivision" ng-change="selectDivisionforCostCenter()">
                                         <option value="">All</option>
                                     </select>
                                 </div>
@@ -44,8 +46,8 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="costcentersStatus" name="costcentersStatus" 
-                                            ng-model="status" ng-change="selectActiveDivisions()">
+                                    <select id="costcentersStatus" name="costcentersStatus"
+                                            ng-model="status" ng-change="selectActiveCostCenters()">
                                         <option value="">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
@@ -56,12 +58,8 @@
 
                     </div>
                     <br />
-
+                    <div class="gridStyle" ng-grid="gridOptions"></div>
                 </div>
-                <div class="gridStyle" ng-grid="gridOptions"></div>
-
-
-
             </div>
         </form>
     </div>

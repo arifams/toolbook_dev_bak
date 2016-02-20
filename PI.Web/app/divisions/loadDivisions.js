@@ -143,8 +143,8 @@
         columnDefs: [
                     { field: 'id', displayName: 'DivisionId', visible: false },
                     { field: 'name', displayName: 'Division' },
-                    { field: '', displayName: 'Assigned Cost Center' },
-                    { field: '', displayName: 'Number Users' },
+                    { field: 'assignedCostCenters', displayName: 'Assigned Cost Centers',sortable: false },
+                    { field: 'numberOfUsers', displayName: 'Number Users', sortable: false },
                     { field: 'status', displayName: 'Status' },
                     {
                         field: 'editLink', displayName: 'Edit', enableCellEdit: false,
