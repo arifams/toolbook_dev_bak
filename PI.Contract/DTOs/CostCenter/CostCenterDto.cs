@@ -33,6 +33,10 @@ namespace PI.Contract.DTOs.CostCenter
         public AddressDto BillingAddress { get; set; }
 
         public String FullBillingAddress { get; set; }
+
+        public IList<long> AssignedDivisionIdList { get; set; }
+
+        public string UserId { get; set; }
     }
 
 }

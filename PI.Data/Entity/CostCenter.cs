@@ -33,7 +33,7 @@ namespace PI.Data.Entity
         [ForeignKey("BillingAddressId")]
         public Address BillingAddress { get; set; }
 
-        public IList<DivisionCostCenter> DivisionCostCenters { get; set; }
+        public virtual IList<DivisionCostCenter> DivisionCostCenters { get; set; }
 
         #endregion
     }

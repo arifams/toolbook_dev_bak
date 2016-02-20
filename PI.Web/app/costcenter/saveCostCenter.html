@@ -73,6 +73,7 @@
                                 <label class="col-sm-2 control-label">Street Name * </label>
 
                                 <div class="col-sm-10">
+
                                     <input ng-model="vm.model.billingAddress.number" type="text" class="form-control" name="number"
                                            ng-required="true" placeholder="Number *" />
                                     <div ng-messages="saveCostCenterForm.number.$error"
@@ -80,8 +81,8 @@
                                         <label ng-message="required" class="error" for="number">Number is required</label>
                                         <label ng-message="maxlength" class="error" for="number">Max length should be 20 characters</label>
                                     </div>
-
-                                    <div class="col-sm-10">
+                                    
+                                    <div class="col-sm-10" style="margin-top:5px;">
                                         <input ng-model="vm.model.billingAddress.streetAddress1" type="text" class="form-control" name="streetAddress1"
                                                ng-required="true" placeholder="Street Address 1 *" />
 
@@ -91,8 +92,8 @@
                                             <label ng-message="maxlength" class="error" for="streetAddress1">Max length should be 500 characters</label>
                                         </div>
                                     </div>
-
-                                    <div class="col-sm-10">
+                                    
+                                    <div class="col-sm-10" style="margin-top:5px;">
                                         <input ng-model="vm.model.billingAddress.streetAddress2" type="text" class="form-control"
                                                placeholder="Street Address 2" />
                                     </div>
@@ -117,6 +118,18 @@
                                          ng-show="saveCostCenterForm.stateCost.$dirty">
                                         <label ng-message="required" class="error" for="stateCost">State is required</label>
                                         <label ng-message="maxlength" class="error" for="stateCost">Max length should be 200 characters</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Assigned Division / 's </label>
+
+                                <div class="col-sm-10">
+                                    <div ng-repeat="division in vm.model.allDivisions">
+                                        <input type="checkbox" id="{{division.id}}" ng-model="division.isSelected" 
+                                               ng-click="vm.toggleDivisionSelection(division)" />
+                                        <label for="{{division.name}}}">{{division.name}}</label>
                                     </div>
                                 </div>
                             </div>

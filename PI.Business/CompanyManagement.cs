@@ -209,34 +209,43 @@ namespace PI.Business
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public CostCenterDto GetCostCentersById(long id)
+        public CostCenterDto GetCostCentersById(long id, string userId)
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
 
             using (var context = new PIContext())
             {
-                var divisions = context.Divisions.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
-                                                             c.Type == "USER" && c.IsDelete == false).ToList();
+                //var divisions = context.Divisions.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
+                //                                             c.Type == "USER" && c.IsDelete == false).ToList();
 
-                foreach (var item in divisions)
-                {
-                    divisionList.Add(new DivisionDto
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    });
-                }
+                //foreach (var item in divisions)
+                //{
+                //    divisionList.Add(new DivisionDto
+                //    {
+                //        Id = item.Id,
+                //        Name = item.Name
+                //    });
+                //}
 
+                divisionList = GetAllDivisionsForCompany(userId);
+                
                 if (id == 0)
                 {
                     return new CostCenterDto
                     {
                         Id = 0,
-                        AllDivisions = divisionList
+                        AllDivisions = divisionList,
+                        AssignedDivisionIdList = new List<long>()
                     };
                 }
 
                 var costCenter = context.CostCenters.SingleOrDefault(c => c.Id == id);
+
+                // find and mark assigned div and cost
+                foreach (DivisionDto div in divisionList)
+                {
+                    div.isAssignedToCurrentCostCenter = costCenter.DivisionCostCenters.Any(e => e.DivisionId == div.Id);
+                }
 
                 if (costCenter != null)
                 {
@@ -259,7 +268,9 @@ namespace PI.Business
                             ZipCode = costCenter.BillingAddress.ZipCode,
                             Country = costCenter.BillingAddress.Country
                         },
-                        AllDivisions = divisionList
+                        AllDivisions = divisionList,
+                        //AssignedDivisions = costCenter.DivisionCostCenters.
+                         AssignedDivisionIdList = costCenter.DivisionCostCenters.Select(e=>e.DivisionId).ToList()
                     };
 
                 }
@@ -288,13 +299,21 @@ namespace PI.Business
                         return -1;
                     }
 
+                    IList<DivisionCostCenter> divcostList = new List<DivisionCostCenter>();
+                    foreach (var divcost in costCenter.AssignedDivisionIdList)
+                    {
+                        divcostList.Add(new DivisionCostCenter() { DivisionId = divcost, IsActive = true, CreatedBy = 1, CreatedDate = DateTime.Now });
+                    }
+
+                    Company comp = GetCompanyByUserId(costCenter.UserId);
+
                     CostCenter newCostCenter = new CostCenter()
                     {
                         Name = costCenter.Name,
                         Description = costCenter.Description,
                         PhoneNumber = costCenter.PhoneNumber,
                         Status = costCenter.Status,
-                        CompanyId = costCenter.CompanyId,
+                        CompanyId = comp == null ? 0:comp.Id, //costCenter.CompanyId, TODO H - why?
                         Type = "USER",
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,// TODO : Get created user.       
@@ -310,10 +329,11 @@ namespace PI.Business
                             CreatedDate = DateTime.Now,
                             CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         },
+                        IsActive = true,
+                        DivisionCostCenters = divcostList 
                     };
                     context.CostCenters.Add(newCostCenter);
-
-                    // TODO: Add Assigned Devisions
+                    
                 }
                 else
                 {
@@ -345,7 +365,9 @@ namespace PI.Business
                     existingCostCenter.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
 
                     // TODO: Add Assigned Devisions
+                    // TODO: Need to handle prevent remove default cost center in div.
                 }
+
                 context.SaveChanges();
             }
 

@@ -73,7 +73,7 @@
 
                 var deferred = $q.defer();
                 $http.get(baseUrl, { params: params })
-                .success(function (data) {
+                .success(function (data) {                 
                     service.data.costcenters = data;
                     deferred.resolve(data);
                 }).error(function () {
@@ -90,8 +90,9 @@
 
     app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,
                                         costCenterManagmentService, $routeParams, $log, $window) {
+
         $scope.data = loadCostCenterService.data;
-        $scope.data.user.userId = $window.localStorage.getItem('userGuid')
+        $scope.data.user.userId = $window.localStorage.getItem('userGuid');
 
 
         loadAllDivisions.loadAllDivisions()

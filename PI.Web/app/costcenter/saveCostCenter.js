@@ -10,13 +10,14 @@
             }
         };
     })
-
-    app.factory('costCentrMngtFactory', function ($http, $routeParams) {
+    
+    app.factory('costCentrMngtFactory', function ($http, $routeParams, $window) {
         return {
             loadCostcenterInfo: function () {
-                return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {
+                return $http.get(serverBaseUrl + '/api/Company/GetCostCentersById', {
                     params: {
-                        id: $routeParams.id
+                        id: $routeParams.id,
+                        userId:$window.localStorage.getItem('userGuid')
                     }
                 });
             }
@@ -61,11 +62,12 @@
 
 
     app.controller('saveCostCenterCtrl',
-       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', function (costCentrMngtFactory, costCenterSaveFactory, $location) {
+       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window', function (costCentrMngtFactory, costCenterSaveFactory, $location, $window) {
            var vm = this;
 
            vm.saveCostCenter = function () {
-
+               vm.model.userId = $window.localStorage.getItem('userGuid')
+               
                costCenterSaveFactory.saveCostCenter(vm.model)
                .success(function (result) {
                    if (result == -1) {
@@ -113,6 +115,28 @@
            }
 
            loadCostcenter();
+           
+           //    [
+           //    { id: 1, name: 'Div1', isSelected: false },
+           //    { id: 2, name: 'Div2', isSelected: true },
+           //    { id: 3, name: 'Div3', isSelected: false },
+           //    { id: 4, name: 'Div4', isSelected: true }
+           //]; // vm.model.AllDivisions;
+
+           
+           
+           vm.toggleDivisionSelection = function (division) {
+               var idx = vm.model.assignedDivisionIdList.indexOf(division.id);
+               // is currently selected
+               if (idx > -1) {
+                   vm.model.assignedDivisionIdList.splice(idx, 1);
+               }
+                   // is newly selected
+               else {
+                   vm.model.assignedDivisionIdList.push(division.id);
+               }
+           }
+
        }]);
 
 

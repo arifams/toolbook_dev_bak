@@ -129,9 +129,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetCostCentersById")]
-        public CostCenterDto GetCostCentersById([FromUri] long id)
+        public CostCenterDto GetCostCentersById([FromUri] long id, [FromUri] string userId)
         {
-            return companyManagement.GetCostCentersById(id);
+            return companyManagement.GetCostCentersById(id, userId);
         }
 
 
