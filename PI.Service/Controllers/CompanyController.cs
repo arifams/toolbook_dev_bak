@@ -86,16 +86,64 @@ namespace PI.Service.Controllers
             return companyManagement.SaveCostCenter(costCenter);
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetAllCostCenters")]
         public IList<CostCenterDto> GetAllCostCenters([FromUri]string userId)
         {
-            IList <CostCenterDto> t = companyManagement.GetAllCostCentersForCompany(userId);
-            return t;
+            IList <CostCenterDto> costCenterList = companyManagement.GetAllCostCentersForCompany(userId);
+            return costCenterList;
         }
 
-             
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllDivisions")]
+        public IList<DivisionDto> GetAllDivisions([FromUri]string userId)
+        {
+            IList<DivisionDto> divisionList = companyManagement.GetAllDivisionsForCompany(userId);
+            return divisionList;
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllCostCentersByFliter")]
+        public PagedList GetAllCostCentersByFliter(long division, string type, string userId, string searchtext, 
+                                                   int page = 1, int pageSize = 10, string sortBy = "Id", 
+                                                   string sortDirection = "asc")
+        {
+
+            var pagedRecord = new PagedList();
+            return pagedRecord = companyManagement.GetAllCostCenters(division, type, userId, searchtext, page, pageSize, sortBy, 
+                                                                     sortDirection);
+        }
+        
+
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetCostCentersById")]
+        public CostCenterDto GetCostCentersById([FromUri] long id)
+        {
+            return companyManagement.GetCostCentersById(id);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("DeleteCostCenter")]
+        public int DeleteCostCenter([FromBody] CostCenterDto costCenter)
+        {
+            return companyManagement.DeleteCostCenter(costCenter.Id);
+        }
+
+
     }
 }

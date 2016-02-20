@@ -11,16 +11,7 @@
         };
     })
 
-    //app.factory('divisionManagmentService', function ($http) {
-    //    return {
-    //        loadDivisioninfo1: function (x) {
-    //            return 1;
-    //        }
-    //    }
-    //})
-
-
-    app.factory('divisionService', function ($http, $routeParams) {
+     app.factory('divisionService', function ($http, $routeParams) {
         return {
             loadDivisioninfo: function () {
                 return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {
@@ -77,7 +68,6 @@
                         
                divisionManagmentFactory.saveDivision(vm.model)
                .success(function (result) {
-                   debugger;
                    if (result == -1) {
 
                        $('#panel-notif').noty({
@@ -114,10 +104,8 @@
            }
 
            var loadDivision = function () {
-               debugger;
                divisionService.loadDivisioninfo()
                .success(function (data) {
-                   debugger;
                    vm.model = data
                })
                .error(function () {

@@ -91,7 +91,7 @@
     app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
     $scope.data = loadDivisionService.data;
     $scope.data.user.userId = $window.localStorage.getItem('userGuid')
-    
+
 
         loadAllCostCenters.loadCostCenters()
                .then(function successCallback(responce) {
@@ -141,16 +141,18 @@
         sortInfo: $scope.data.sortOptions,
         plugins: [new ngGridFlexibleHeightPlugin()],
         columnDefs: [
-                    { field: 'name', displayName: 'Division Name' },
-                    { field: 'id', displayName: 'Division Name' },
+                    { field: 'id', displayName: 'DivisionId', visible: false },
+                    { field: 'name', displayName: 'Division' },
+                    { field: 'assignedCostCenters', displayName: 'Assigned Cost Centers',sortable: false },
+                    { field: 'numberOfUsers', displayName: 'Number Users', sortable: false },
                     { field: 'status', displayName: 'Status' },
                     {
                         field: 'editLink', displayName: 'Edit', enableCellEdit: false,
-                        cellTemplate: '<a href="#/getDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>'
+                        cellTemplate: '<a href="#/saveDivision/{{row.entity.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a>', sortable: false
                     },
                     {
                         field: 'deleteLink', displayName: 'Delete', enableCellEdit: false,
-                        cellTemplate: '<a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a>'
+                        cellTemplate: '<a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a>', sortable: false
                     }
         ],
         afterSelectionChange: function (selection, event) {
@@ -191,24 +193,27 @@
 
 
     $scope.deleteById = function (row) {
-        divisionManagmentService.deleteDivision({ Id: row.entity.id })
-            .success(function (response) {
-                debugger;
-                if (response == 1) {
-                    debugger;
-                    // remove($scope.gridOptions.data, 'id', row.entity.id);
+       
+        var r = confirm("Do you want to delete the record?");
+        if (r == true) {
+            divisionManagmentService.deleteDivision({ Id: row.entity.id })
+                        .success(function (response) {
+                            debugger;
+                            if (response == 1) {
+                                debugger;
+                                // remove($scope.gridOptions.data, 'id', row.entity.id);
 
-                    angular.forEach($scope.data.divisions.content, function (index, result) {
-                        if (result['id'] == row.entity.id) {
-                            $scope.data.divisions.content.splice(index, 1);
-                        }
-                    })
-                    
-                }
-            })
-           .error(function () {
-           })
+                                angular.forEach($scope.data.divisions.content, function (index, result) {
+                                    if (index.id == row.entity.id) {
+                                        $scope.data.divisions.content.splice(index, 1);
+                                    }
+                                })
 
+                            }
+                        })
+                       .error(function () {
+                       })
+        }
     };
 
     // parse the gridData array to find the object with Id

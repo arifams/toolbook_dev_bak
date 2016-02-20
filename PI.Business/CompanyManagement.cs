@@ -98,35 +98,174 @@ namespace PI.Business
 
         #endregion
 
+
         #region Cost Center Managment
 
         /// <summary>
         /// Get all costCenters for the tenant coampny
         /// </summary>
-        /// <returns></returns>
-        //public IList<CostCenterDto> GetAllCostCentersForCompany()
-        //{
-        //    using (var context = PIContext.Get())
-        //    {
-        //        //var costCenterList = context.CostCenters.Where(x => x.Company.TenantId == 1).ToList();
-        //        //return Mapper.Map<List<CostCenter>, List<CostCenterDto>>(costCenterList);
-        //        return null;
-        //    }
-        //}
+        /// <returns></returns>        
+        public IList<CostCenterDto> GetAllCostCentersForCompany(string userId)
+        {
+            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var costcenters = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id &&
+                                                                 c.Type == "USER"
+                    // TODO: get the company id of the logged in user.
+                                                                  && c.IsDelete == false).ToList();
+
+
+                foreach (var item in costcenters)
+                {
+                    costCenterList.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return costCenterList;
+        }
 
 
         /// <summary>
-        /// Get a particular costCenter by Id
+        /// Get all divisions by given filter criteria
+        /// </summary>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public PagedList GetAllCostCenters(long divisionId, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
+                                         string sortBy = "Id", string sortDirection = "asc")
+        {
+            var pagedRecord = new PagedList();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return pagedRecord;
+            }
+
+            pagedRecord.Content = new List<CostCenterDto>();
+
+            using (var context = PIContext.Get())
+            {
+                var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
+                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
+                                                    && x.IsDelete == false &&
+                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (type == null || x.IsActive.ToString() == type) &&
+                                                    (divisionId == 0 || x.DivisionCostCenters.Any(C=> C.DivisionId == divisionId)) 
+                                                    )
+                                            .OrderBy(sortBy + " " + sortDirection)
+                                            .Skip((page - 1) * pageSize)
+                                            .Take(pageSize)
+                                            .ToList();
+
+                foreach (var item in content)
+                {
+                    pagedRecord.Content.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name,
+                        CompanyId = item.CompanyId,
+                        //DefaultCostCenterId = item.DefaultCostCenterId,
+                        Description = item.Description,
+                        Status = item.Status,
+                        Type = item.Type,
+                        FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
+                        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country
+
+                    });
+                }
+
+                // Count
+                pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
+                                                                      x.Type == "USER" && x.IsDelete == false &&
+                                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
+                                                                     (type == null || x.IsActive.ToString() == type)).Count();
+
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Get a particular cost center by Id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public CostCenterDto GetCostCenterById(long id)
+        public CostCenterDto GetCostCentersById(long id)
         {
-            using (var context = PIContext.Get())
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+
+            using (var context = new PIContext())
             {
+                var divisions = context.Divisions.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
+                                                             c.Type == "USER" && c.IsDelete == false).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+
+                if (id == 0)
+                {
+                    return new CostCenterDto
+                    {
+                        Id = 0,
+                        AllDivisions = divisionList
+                    };
+                }
+
                 var costCenter = context.CostCenters.SingleOrDefault(c => c.Id == id);
-                return Mapper.Map<CostCenter, CostCenterDto>(costCenter);
+
+                if (costCenter != null)
+                {
+                    return new CostCenterDto
+                    {
+                        Id = costCenter.Id,
+                        Name = costCenter.Name,
+                        Type = costCenter.Type,
+                        PhoneNumber = costCenter.PhoneNumber,
+                        Description = costCenter.Description,
+                        Status = costCenter.Status,
+                        CompanyId = costCenter.CompanyId,
+                        BillingAddress = new Contract.DTOs.Address.AddressDto
+                        {
+                            Number = costCenter.BillingAddress.Number,
+                            StreetAddress1 = costCenter.BillingAddress.StreetAddress1,
+                            StreetAddress2 = costCenter.BillingAddress.StreetAddress2,
+                            City = costCenter.BillingAddress.City,
+                            State = costCenter.BillingAddress.State,
+                            ZipCode = costCenter.BillingAddress.ZipCode,
+                            Country = costCenter.BillingAddress.Country
+                        },
+                        AllDivisions = divisionList
+                    };
+
+                }
             }
+
+            return null;
         }
 
 
@@ -137,13 +276,18 @@ namespace PI.Business
         /// <returns></returns>
         public int SaveCostCenter(CostCenterDto costCenter)
         {
-
             using (var context = PIContext.Get())
             {
-                var sysCostCenter = context.CostCenters.Where(c => c.CompanyId == 1
-                                                               && c.Type == "SYSTEM").SingleOrDefault(); //TODO: get the comanyId of the tenant.
-                if (costCenter.Id == 0 && sysCostCenter == null)
+                if (costCenter.Id == 0)
                 {
+                    var isSameCostName = context.CostCenters.Where(d => d.CompanyId == 1
+                                                                  && d.Type == "USER" && d.Name == costCenter.Name).SingleOrDefault();
+
+                    if (isSameCostName != null)
+                    {
+                        return -1;
+                    }
+
                     CostCenter newCostCenter = new CostCenter()
                     {
                         Name = costCenter.Name,
@@ -174,15 +318,8 @@ namespace PI.Business
                 else
                 {
                     CostCenter existingCostCenter = new CostCenter();
+                    existingCostCenter = context.CostCenters.SingleOrDefault(d => d.Id == costCenter.Id);
 
-                    if (sysCostCenter != null)
-                    {
-                        existingCostCenter = sysCostCenter;
-                    }
-                    else
-                    {
-                        existingCostCenter = context.CostCenters.SingleOrDefault(d => d.Id == costCenter.Id);
-                    }
 
                     if (costCenter.AssignedDivisions.Count() == 0)
                     { // Add the default division of the company if user defined divisions are not available.
@@ -198,6 +335,12 @@ namespace PI.Business
                     existingCostCenter.Status = costCenter.Status;
                     existingCostCenter.CompanyId = costCenter.CompanyId;
                     existingCostCenter.Type = "USER";
+                    existingCostCenter.BillingAddress.Number = costCenter.BillingAddress.Number;
+                    existingCostCenter.BillingAddress.StreetAddress1 = costCenter.BillingAddress.StreetAddress1;
+                    existingCostCenter.BillingAddress.StreetAddress2 = costCenter.BillingAddress.StreetAddress2;
+                    existingCostCenter.BillingAddress.City = costCenter.BillingAddress.City;
+                    existingCostCenter.BillingAddress.ZipCode = costCenter.BillingAddress.ZipCode;
+                    existingCostCenter.BillingAddress.State = costCenter.BillingAddress.State;
                     existingCostCenter.CreatedDate = DateTime.Now;
                     existingCostCenter.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
 
@@ -209,9 +352,73 @@ namespace PI.Business
             return 1;
         }
 
+
+        public int DeleteCostCenter(long id)
+        {
+            using (var context = PIContext.Get())
+            {
+                var costCenter = context.CostCenters.SingleOrDefault(d => d.Id == id);
+
+                if (costCenter == null)
+                {
+                    return -1;
+                }
+                else
+                {
+                    costCenter.IsActive = false;
+                    costCenter.IsDelete = true;
+                    context.SaveChanges();
+
+                    return 1;
+                }
+            }
+
+        }
+
+
+
         #endregion
 
+
         #region Division Managment
+
+
+        /// <summary>
+        /// Get all costCenters for the tenant coampny
+        /// </summary>
+        /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IList<DivisionDto> GetAllDivisionsForCompany(string userId)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
+                                                             c.Type == "USER" && c.IsDelete == false).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
+
 
 
         /// <summary>
@@ -223,12 +430,12 @@ namespace PI.Business
         /// <param name="sortBy"></param>
         /// <param name="sortDirection"></param>
         /// <returns></returns>
-        public PagedList GetAllDivisions(long costCenterId, string type, string userId,string searchtext, int page = 1, int pageSize = 10,
+        public PagedList GetAllDivisions(long costCenterId, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
                                          string sortBy = "CustomerID", string sortDirection = "asc")
         {
             var pagedRecord = new PagedList();
             Company currentcompany = this.GetCompanyByUserId(userId);
-            if (currentcompany==null)
+            if (currentcompany == null)
             {
                 return pagedRecord;
             }
@@ -238,13 +445,13 @@ namespace PI.Business
             using (var context = PIContext.Get())
             {
                 var content = context.Divisions
-                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"                                                   
+                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
-                                                    (costCenterId==0|| x.DefaultCostCenterId==costCenterId)&&
-                                                    (type==null|| x.IsActive.ToString()== type)
+                                                    (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
+                                                    (type == null || x.IsActive.ToString() == type)
                                                     )
-                                                  
+
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .Skip((page - 1) * pageSize)
                                             .Take(pageSize)
@@ -261,17 +468,22 @@ namespace PI.Business
                         Description = item.Description,
                         Status = item.Status,
                         Type = item.Type,
-                       // AssosiatedCostCenters = 
+                        NumberOfUsers = 0,
+                        AssignedCostCenters = ""
+                        // AssosiatedCostCenters = 
                     });
                 }
 
                 // Count
                 pagedRecord.TotalRecords = context.Divisions
-                                           .Where(x => x.CompanyId == 1 && x.Type == "USER" && x.IsDelete == false &&
-                                               (searchtext == null || x.Name.Contains(searchtext))).Count();
+                                           .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER" && x.IsDelete == false &&
+                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
+                                                    (type == null || x.IsActive.ToString() == type)).Count();
 
                 pagedRecord.CurrentPage = page;
                 pagedRecord.PageSize = pageSize;
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
             }
@@ -282,39 +494,15 @@ namespace PI.Business
         /// Get all divisions for the tenant coampny
         /// </summary>
         /// <returns></returns>
-        public IList<DivisionDto> GetAllDivisionsForCompany()
-        {
-            using (var context = PIContext.Get())
-            {
-                //var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
-                //return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
-                return null;
-            }
-        }
-
-
-        private IList<CostCenterDto> GetAllCostCentersForCompany()
-        {
-            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
-
-            using (var context = PIContext.Get())
-            {
-                var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 && // TODO: get the company id of the logged in user.
-                                                                 c.Type == "USER" && c.IsDelete == false).ToList();
-
-
-                foreach (var item in costcenters)
-                {
-                    costCenterList.Add(new CostCenterDto
-                    {
-                        Id = item.Id,
-                        Name = item.Name
-                    });
-                }
-            }
-
-            return costCenterList;
-        }
+        //public IList<DivisionDto> GetAllDivisionsForCompany()
+        //{
+        //    using (var context = PIContext.Get())
+        //    {
+        //        //var divisionList = context.Divisions.Where(x => x.Company.TenantId == 1).ToList();
+        //        //return Mapper.Map<List<Division>, List<DivisionDto>>(divisionList);
+        //        return null;
+        //    }
+        //}
 
 
         /// <summary>
@@ -326,21 +514,22 @@ namespace PI.Business
         {
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
 
-            using (var context = new  PIContext())
+            using (var context = new PIContext())
             {
                 var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
                                                                  c.Type == "USER" && c.IsDelete == false).ToList();
 
                 foreach (var item in costcenters)
-	            {
-		                costCenterList.Add(new CostCenterDto{
-                                    Id = item.Id,
-                                    Name = item.Name                     
-                                    });
-	            }
+                {
+                    costCenterList.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
 
                 if (id == 0)
-            {
+                {
                     return new DivisionDto
                    {
                        Id = 0,
@@ -350,7 +539,7 @@ namespace PI.Business
 
                 var division = context.Divisions.SingleOrDefault(d => d.Id == id);
 
-                if(division != null)
+                if (division != null)
                 {
                     return new DivisionDto
                     {
@@ -363,7 +552,7 @@ namespace PI.Business
                         CompanyId = division.CompanyId,
                         AssosiatedCostCenters = costCenterList
                     };
-                    
+
                 }
             }
 
@@ -392,7 +581,7 @@ namespace PI.Business
 
                     division.DefaultCostCenterId = (defaultCostCntr != null) ? defaultCostCntr.Id : 0;
                 }
-                
+
 
                 if (division.Id == 0 && sysDivision == null)
                 {
@@ -428,7 +617,7 @@ namespace PI.Business
                     else
                     {
                         existingDivision = context.Divisions.SingleOrDefault(d => d.Id == division.Id);
-                    }                   
+                    }
 
                     existingDivision.Name = division.Name;
                     existingDivision.Description = division.Description;
@@ -470,32 +659,34 @@ namespace PI.Business
 
         public Company GetCompanyByUserId(string userId)
         {
-                long tenantId = this.GettenantIdByUserId(userId);
-                if (tenantId==0)
-                {
-                    return null;
-                }           
-                using (PIContext context = PIContext.Get())
-                {
-                    return context.Companies.SingleOrDefault(n => n.TenantId == tenantId);
-                }        
-         
+            long tenantId = this.GettenantIdByUserId(userId);
+            if (tenantId == 0)
+            {
+                return null;
             }
+            using (PIContext context = PIContext.Get())
+            {
+                return context.Companies.SingleOrDefault(n => n.TenantId == tenantId);
+            }
+
+        }
 
         public long GettenantIdByUserId(string userid)
         {
             ApplicationUser currentuser = null;
-            using (ApplicationDbContext context =new  ApplicationDbContext())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                currentuser= context.Users.SingleOrDefault(u => u.Id == userid);
+                currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
             }
-            if (currentuser==null)
+            if (currentuser == null)
             {
                 return 0;
             }
 
             return currentuser.TenantId;
         }
+
+
 
         #endregion
 
