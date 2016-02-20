@@ -1118,6 +1118,9 @@
                         else if (responce==-2) {
                             vm.model.emailExist = "true";
                         }
+                        else if (responce==-3) {
+                            vm.model.oldPasswordWrong = "true";
+                        }
                         else {
                             vm.model.unsuccess = "true";
                         }
