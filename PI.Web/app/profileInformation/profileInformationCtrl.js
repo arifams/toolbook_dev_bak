@@ -1,5 +1,6 @@
 ﻿'use strict';
 
+
 (function (app) {
 
     app.factory('updateProfilefactory', function ($http) {
@@ -1004,21 +1005,14 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', '$window', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones, $window) {
-            
-            // return if user not logged. -- Need to move this to global service.
-            if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
-                window.location = webBaseUrl + "/app/userLogin/userLogin.html";
-                return;
-            }
-
+        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
             var vm = this;
             vm.t_currencies;
             vm.t_languages;
             vm.t_timezones;
 
             vm.model = {};
-            
+
             vm.CheckMail = function ()
             {
                 if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
@@ -1042,7 +1036,7 @@
 
             vm.loadProfile = function () {
 
-                debugger;
+               
 
                 //loading languages to dropdown
                 loadAllLanguages.loadLanguages()
@@ -1113,6 +1107,7 @@
 
             vm.updateProfile = function () {
 
+                vm.model.CustomerDetails.UserId = $window.localStorage.getItem('userGuid');
                 updateProfilefactory.updateProfileInfo(vm.model)
                 .success(function (responce) {                    
                     if (responce != null) {
