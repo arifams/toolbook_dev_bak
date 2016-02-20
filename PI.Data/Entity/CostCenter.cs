@@ -31,7 +31,7 @@ namespace PI.Data.Entity
         //public Company Company { get; set; }
 
         [ForeignKey("BillingAddressId")]
-        public Address BillingAddress { get; set; }
+        public virtual Address BillingAddress { get; set; }
 
         public virtual IList<DivisionCostCenter> DivisionCostCenters { get; set; }
 
