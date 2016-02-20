@@ -35,5 +35,7 @@ namespace PI.Contract.DTOs.Division
 
         public bool isAssignedToCurrentCostCenter { get; set; }
 
+        public string UserId { get; set; }
+
     }
 }

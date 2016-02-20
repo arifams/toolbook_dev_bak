@@ -164,7 +164,7 @@ namespace PI.Business
                                                     && x.IsDelete == false &&
                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
                                                     (type == null || x.IsActive.ToString() == type) &&
-                                                    (divisionId == 0 || x.DivisionCostCenters.Any(C=> C.DivisionId == divisionId)) 
+                                                    (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId))
                                                     )
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .Skip((page - 1) * pageSize)
@@ -228,7 +228,7 @@ namespace PI.Business
                 //}
 
                 divisionList = GetAllDivisionsForCompany(userId);
-                
+
                 if (id == 0)
                 {
                     return new CostCenterDto
@@ -270,7 +270,7 @@ namespace PI.Business
                         },
                         AllDivisions = divisionList,
                         //AssignedDivisions = costCenter.DivisionCostCenters.
-                         AssignedDivisionIdList = costCenter.DivisionCostCenters.Select(e=>e.DivisionId).ToList()
+                        AssignedDivisionIdList = costCenter.DivisionCostCenters.Select(e => e.DivisionId).ToList()
                     };
 
                 }
@@ -287,11 +287,13 @@ namespace PI.Business
         /// <returns></returns>
         public int SaveCostCenter(CostCenterDto costCenter)
         {
+            long comapnyId = this.GetCompanyByUserId(costCenter.UserId).Id;
+
             using (var context = PIContext.Get())
             {
                 if (costCenter.Id == 0)
                 {
-                    var isSameCostName = context.CostCenters.Where(d => d.CompanyId == 1
+                    var isSameCostName = context.CostCenters.Where(d => d.CompanyId == comapnyId
                                                                   && d.Type == "USER" && d.Name == costCenter.Name).SingleOrDefault();
 
                     if (isSameCostName != null)
@@ -313,11 +315,11 @@ namespace PI.Business
                         Description = costCenter.Description,
                         PhoneNumber = costCenter.PhoneNumber,
                         Status = costCenter.Status,
-                        CompanyId = comp == null ? 0:comp.Id, //costCenter.CompanyId, TODO H - why?
+                        CompanyId = comp == null ? 0 : comp.Id, //costCenter.CompanyId, TODO H - why?
                         Type = "USER",
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,// TODO : Get created user.       
-                        BillingAddress = new Address
+                        BillingAddress = (costCenter.BillingAddress == null) ? null : new Address
                         {
                             Country = costCenter.BillingAddress.Country,
                             ZipCode = costCenter.BillingAddress.ZipCode,
@@ -330,10 +332,10 @@ namespace PI.Business
                             CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         },
                         IsActive = true,
-                        DivisionCostCenters = divcostList 
+                        DivisionCostCenters = divcostList
                     };
                     context.CostCenters.Add(newCostCenter);
-                    
+
                 }
                 else
                 {
@@ -343,7 +345,7 @@ namespace PI.Business
 
                     if (costCenter.AssignedDivisions.Count() == 0)
                     { // Add the default division of the company if user defined divisions are not available.
-                        var defaultDivision = context.Divisions.Where(c => c.CompanyId == 1
+                        var defaultDivision = context.Divisions.Where(c => c.CompanyId == comapnyId
                                                                              && c.Type == "SYSTEM").SingleOrDefault();
 
                         costCenter.AssignedDivisions.Add(Mapper.Map<Division, DivisionDto>(defaultDivision));
@@ -532,13 +534,14 @@ namespace PI.Business
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public DivisionDto GetDivisionById(long id)
+        public DivisionDto GetDivisionById(long id, string userId)
         {
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+            long companyId = GetCompanyByUserId(userId).Id;
 
             using (var context = new PIContext())
             {
-                var costcenters = context.CostCenters.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
+                var costcenters = context.CostCenters.Where(c => c.CompanyId == companyId &&  // TODO: get comapnyId from Tenanant
                                                                  c.Type == "USER" && c.IsDelete == false).ToList();
 
                 foreach (var item in costcenters)
@@ -589,16 +592,16 @@ namespace PI.Business
         /// <returns></returns>
         public int SaveDivision(DivisionDto division)
         {
-
+            long comapnyId = GetCompanyByUserId(division.UserId).Id;
             using (var context = PIContext.Get())
             {
-                var sysDivision = context.Divisions.Where(d => d.CompanyId == 1
+                var sysDivision = context.Divisions.Where(d => d.CompanyId == comapnyId
                                                                && d.Type == "SYSTEM").SingleOrDefault(); //TODO: get the comanyId of the tenant.
 
                 // If no cost centers are currently setup, assign the default cost center for the division.
                 if (division.DefaultCostCenterId == 0)
                 {
-                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == 1
+                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == comapnyId
                                                                                  && c.Type == "SYSTEM").SingleOrDefault();
 
                     division.DefaultCostCenterId = (defaultCostCntr != null) ? defaultCostCntr.Id : 0;
@@ -607,7 +610,7 @@ namespace PI.Business
 
                 if (division.Id == 0 && sysDivision == null)
                 {
-                    var isSameDiviName = context.Divisions.Where(d => d.CompanyId == 1
+                    var isSameDiviName = context.Divisions.Where(d => d.CompanyId == comapnyId
                                                         && d.Type == "USER" && d.Name == division.Name).SingleOrDefault();
 
                     if (isSameDiviName != null)
@@ -621,7 +624,7 @@ namespace PI.Business
                         Description = division.Description,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         Status = division.Status,
-                        CompanyId = 1,
+                        CompanyId = comapnyId,
                         Type = "USER",
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,// TODO : Get created user.                       
@@ -645,7 +648,7 @@ namespace PI.Business
                     existingDivision.Description = division.Description;
                     existingDivision.DefaultCostCenterId = division.DefaultCostCenterId;
                     existingDivision.Status = division.Status;
-                    existingDivision.CompanyId = 1;
+                    existingDivision.CompanyId = comapnyId;
                     existingDivision.Type = "USER";
                     existingDivision.CreatedDate = DateTime.Now;
                     existingDivision.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 

@@ -62,7 +62,8 @@
 
 
     app.controller('saveCostCenterCtrl',
-       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window', function (costCentrMngtFactory, costCenterSaveFactory, $location, $window) {
+       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window',
+           function (costCentrMngtFactory, costCenterSaveFactory, $location, $window) {
            var vm = this;
 
            vm.saveCostCenter = function () {
