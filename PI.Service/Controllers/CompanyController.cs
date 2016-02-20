@@ -50,9 +50,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetDivisionById")]
-        public DivisionDto GetDivisionById([FromUri] long id)
+        public DivisionDto GetDivisionById([FromUri] long id, string userId)
         {
-            return companyManagement.GetDivisionById(id);
+            return companyManagement.GetDivisionById(id,userId);
         }
 
 

@@ -92,7 +92,7 @@
                                         costCenterManagmentService, $routeParams, $log, $window) {
 
         $scope.data = loadCostCenterService.data;
-        $scope.data.user.userId = $window.localStorage.getItem('userGuid');
+        $scope.data.userId = $window.localStorage.getItem('userGuid');
 
 
         loadAllDivisions.loadAllDivisions()
