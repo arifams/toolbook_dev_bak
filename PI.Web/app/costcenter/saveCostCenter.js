@@ -60,7 +60,7 @@
 
     }]);
 
-    app.directive('countrySelect', function () {
+    app.directive('countrySelect1', function () {
         var allCountries;
         allCountries = [
           {
