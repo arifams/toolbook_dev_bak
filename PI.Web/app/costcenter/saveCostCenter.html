@@ -22,7 +22,7 @@
                                 <div class="col-sm-10">
                                     <input ng-model="vm.model.name" type="text" class="form-control" name="costcenterName" ng-required="true" />
                                     <div ng-messages="saveCostCenterForm.costcenterName.$error"
-                                         ng-show="saveCostCenterForm.costcenterName.$dirty">
+                                         ng-show="saveCostCenterForm.costcenterName.$dirty || vm.isSubmit">
                                         <label ng-message="required" class="error" for="costcenterName">Cost Center Name is required</label>
                                         <label ng-message="maxlength" class="error" for="costcenterName">Max length should be 200 characters</label>
                                     </div>
@@ -37,9 +37,9 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Phone Number *</label>
                                 <div class="col-sm-10">
-                                    <input ng-model="vm.model.phoneNumber" type="text" class="form-control" name="phoneNumber" />
+                                    <input ng-model="vm.model.phoneNumber" type="text" class="form-control" name="phoneNumber" ng-required="true" />
                                     <div ng-messages="saveCostCenterForm.phoneNumber.$error"
-                                         ng-show="saveCostCenterForm.phoneNumber.$dirty">
+                                         ng-show="saveCostCenterForm.phoneNumber.$dirty || vm.isSubmit" >
                                         <label ng-message="required" class="error" for="phoneNumber">Phone Number is required</label>
                                         <!--<label ng-message="maxlength" class="error" for="phoneNumber">Max length should be 200 characters</label>-->
                                     </div>
@@ -55,6 +55,9 @@
                                 <div class="col-sm-10">
                                     <input ng-model="vm.model.billingAddress.country" type="text" class="form-control" ng-required="true"
                                            name="countyCost" />
+                                    <country-select id="country" name="country" required
+                                                    ng-model="vm.model.billingAddress.country" ng-change="vm.changeCountry();"
+                                                    class="form-control"></country-select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -63,8 +66,8 @@
                                     <input ng-model="vm.model.billingAddress.zipCode" type="text" class="form-control" ng-required="true"
                                            name="zipCode" />
                                     <div ng-messages="saveCostCenterForm.zipCode.$error"
-                                         ng-show="saveCostCenterForm.zipCode.$dirty">
-                                        <label ng-message="required" class="error" for="zipCode">Zip Code Name is required</label>
+                                         ng-show="saveCostCenterForm.zipCode.$dirty || vm.isSubmit">
+                                        <label ng-message="required" class="error" for="zipCode">Zip Code is required</label>
                                         <label ng-message="maxlength" class="error" for="zipCode">Max length should be 10 characters</label>
                                     </div>
                                 </div>
@@ -77,7 +80,7 @@
                                     <input ng-model="vm.model.billingAddress.number" type="text" class="form-control" name="number"
                                            ng-required="true" placeholder="Number *" />
                                     <div ng-messages="saveCostCenterForm.number.$error"
-                                         ng-show="saveCostCenterForm.number.$dirty">
+                                         ng-show="saveCostCenterForm.number.$dirty || vm.isSubmit">
                                         <label ng-message="required" class="error" for="number">Number is required</label>
                                         <label ng-message="maxlength" class="error" for="number">Max length should be 20 characters</label>
                                     </div>
@@ -87,7 +90,7 @@
                                                ng-required="true" placeholder="Street Address 1 *" />
 
                                         <div ng-messages="saveCostCenterForm.streetAddress1.$error"
-                                             ng-show="saveCostCenterForm.streetAddress1.$dirty">
+                                             ng-show="saveCostCenterForm.streetAddress1.$dirty  || vm.isSubmit">
                                             <label ng-message="required" class="error" for="streetAddress1">Street Address 1 is required</label>
                                             <label ng-message="maxlength" class="error" for="streetAddress1">Max length should be 500 characters</label>
                                         </div>
@@ -102,20 +105,21 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">City * </label>
                                 <div class="col-sm-10">
-                                    <input ng-model="vm.model.city" type="text" class="form-control" ng-required="true" name="cityCost" />
+                                    <input ng-model="vm.model.billingAddress.city" type="text" class="form-control" ng-required="true" name="cityCost" />
                                     <div ng-messages="saveCostCenterForm.cityCost.$error"
-                                         ng-show="saveCostCenterForm.cityCost.$dirty">
+                                         ng-show="saveCostCenterForm.cityCost.$dirty  || vm.isSubmit">
                                         <label ng-message="required" class="error" for="cityCost">City is required</label>
                                         <label ng-message="maxlength" class="error" for="cityCost">Max length should be 200 characters</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">State * </label>
+                                <label class="col-sm-2 control-label">State {{vm.isRequiredState?'*':''}}" </label>
                                 <div class="col-sm-10">
-                                    <input ng-model="vm.model.state" type="text" class="form-control" ng-required="true" />
+                                    <input ng-model="vm.model.billingAddress.state" name="stateCost" type="text" class="form-control"
+                                           ng-required="vm.isRequiredState" />
                                     <div ng-messages="saveCostCenterForm.stateCost.$error"
-                                         ng-show="saveCostCenterForm.stateCost.$dirty">
+                                         ng-show="saveCostCenterForm.stateCost.$dirty  || vm.isSubmit">
                                         <label ng-message="required" class="error" for="stateCost">State is required</label>
                                         <label ng-message="maxlength" class="error" for="stateCost">Max length should be 200 characters</label>
                                     </div>
@@ -123,7 +127,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Assigned Division / 's </label>
+                                <label class="col-sm-2 control-label">Assigned Divisions </label>
 
                                 <div class="col-sm-10">
                                     <div ng-repeat="division in vm.model.allDivisions">
@@ -150,10 +154,12 @@
                                 <button ng-click="vm.close()" class="btn btn-app pull-right">
                                     <i class="fa fa-close"></i> Close
                                 </button>
-                                <button type="submit" ng-click="saveCostCenterForm.$valid && vm.saveCostCenter()" class="btn btn-app pull-right">
+                                <button type="submit" ng-click="(saveCostCenterForm.$valid ? vm.saveCostCenter() : vm.isSubmit = true)"
+                                        class="btn btn-app pull-right">
                                     <i class="fa fa-save"></i> Save
                                 </button>
                             </div>
+                            <div id="panel-notif"></div>
                         </div>
                     </div>
                 </div>

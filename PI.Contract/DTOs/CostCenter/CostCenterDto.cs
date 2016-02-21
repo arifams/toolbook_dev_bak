@@ -37,6 +37,8 @@ namespace PI.Contract.DTOs.CostCenter
         public IList<long> AssignedDivisionIdList { get; set; }
 
         public string UserId { get; set; }
+
+        public bool IsActive { get; set; }
     }
 
 }

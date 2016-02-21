@@ -43,10 +43,9 @@
                                 <label class="col-sm-2 control-label">Default Cost Center * </label>
                                 <div class="col-sm-10">
                                     <div ng-repeat="costCent in divCtrl.model.assosiatedCostCenters">
-                                        <input name="{{costCent.id}}" id="{{costCent.id}}" type="radio"
-                                               ng-model="costCent.selected"
-                                               ng-checked="costCent.selected"
-                                               ng-click="checkSelectedRoles(role)">
+                                        <input name="{{costCent.id}}" type="radio"
+                                               ng-model="divCtrl.model.defaultCostCenterId" value="{{costCent.id}}"
+                                               icheck>
                                         <label for="{{costCent.id}}}"></label>
                                         {{costCent.name}}
                                     </div>

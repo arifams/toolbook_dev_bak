@@ -291,22 +291,30 @@ namespace PI.Business
 
             using (var context = PIContext.Get())
             {
-                if (costCenter.Id == 0)
+                var isSameCostName = context.CostCenters.Where(c => c.CompanyId == comapnyId &&
+                                                                  c.Type == "USER" && 
+                                                                  c.Id != costCenter.Id &&
+                                                                  c.Name == costCenter.Name).SingleOrDefault();
+                if (isSameCostName != null)
                 {
-                    var isSameCostName = context.CostCenters.Where(d => d.CompanyId == comapnyId
-                                                                  && d.Type == "USER" && d.Name == costCenter.Name).SingleOrDefault();
+                    return -1;
+                }
 
-                    if (isSameCostName != null)
+                IList<DivisionCostCenter> divcostList = new List<DivisionCostCenter>();
+                foreach (var divcost in costCenter.AssignedDivisionIdList)
+                {
+                    divcostList.Add(new DivisionCostCenter()
                     {
-                        return -1;
-                    }
+                        CostCenterId = costCenter.Id,
+                        DivisionId = divcost,
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    });
+                }
 
-                    IList<DivisionCostCenter> divcostList = new List<DivisionCostCenter>();
-                    foreach (var divcost in costCenter.AssignedDivisionIdList)
-                    {
-                        divcostList.Add(new DivisionCostCenter() { DivisionId = divcost, IsActive = true, CreatedBy = 1, CreatedDate = DateTime.Now });
-                    }
-
+                if (costCenter.Id == 0)
+                {                   
                     Company comp = GetCompanyByUserId(costCenter.UserId);
 
                     CostCenter newCostCenter = new CostCenter()
@@ -342,19 +350,29 @@ namespace PI.Business
                     CostCenter existingCostCenter = new CostCenter();
                     existingCostCenter = context.CostCenters.SingleOrDefault(d => d.Id == costCenter.Id);
 
+                    //Remove the existing list
+                   var existingAssignedList =  context.DivisionCostCenters.Where(x => x.CostCenterId == existingCostCenter.Id).ToList();
+                   context.DivisionCostCenters.RemoveRange(existingAssignedList);
 
-                    if (costCenter.AssignedDivisions.Count() == 0)
-                    { // Add the default division of the company if user defined divisions are not available.
-                        var defaultDivision = context.Divisions.Where(c => c.CompanyId == comapnyId
-                                                                             && c.Type == "SYSTEM").SingleOrDefault();
+                    //if (costCenter.AssignedDivisions == null || costCenter.AssignedDivisions.Count() == 0)
+                    //{ // Add the default division of the company if user defined divisions are not available.
+                    //    var defaultDivision = context.Divisions.Where(c => c.CompanyId == comapnyId
+                    //                                                        && c.Type == "SYSTEM").SingleOrDefault();
 
-                        costCenter.AssignedDivisions.Add(Mapper.Map<Division, DivisionDto>(defaultDivision));
-                    }
+                    //    existingCostCenter.DivisionCostCenters.Add(new DivisionCostCenter()
+                    //    {
+                    //        DivisionId = defaultDivision.Id,
+                    //        IsActive = true,
+                    //        CreatedBy = 1,
+                    //        CreatedDate = DateTime.Now
+                    //    });
+                    //}
 
                     existingCostCenter.Name = costCenter.Name;
                     existingCostCenter.Description = costCenter.Description;
                     existingCostCenter.PhoneNumber = costCenter.PhoneNumber;
                     existingCostCenter.Status = costCenter.Status;
+                    existingCostCenter.IsActive = costCenter.Status == 1? true : false;
                     existingCostCenter.CompanyId = costCenter.CompanyId;
                     existingCostCenter.Type = "USER";
                     existingCostCenter.BillingAddress.Number = costCenter.BillingAddress.Number;
@@ -365,9 +383,10 @@ namespace PI.Business
                     existingCostCenter.BillingAddress.State = costCenter.BillingAddress.State;
                     existingCostCenter.CreatedDate = DateTime.Now;
                     existingCostCenter.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
-
+                    existingCostCenter.DivisionCostCenters = divcostList;
                     // TODO: Add Assigned Devisions
                     // TODO: Need to handle prevent remove default cost center in div.
+                  
                 }
 
                 context.SaveChanges();
@@ -389,8 +408,13 @@ namespace PI.Business
                 }
                 else
                 {
+                    //Remove the Assigned division list
+                    var existingAssignedList = context.DivisionCostCenters.Where(x => x.CostCenterId == id).ToList();
+                    context.DivisionCostCenters.RemoveRange(existingAssignedList);
+
                     costCenter.IsActive = false;
                     costCenter.IsDelete = true;
+
                     context.SaveChanges();
 
                     return 1;

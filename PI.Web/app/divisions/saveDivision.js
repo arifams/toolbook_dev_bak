@@ -86,7 +86,7 @@
                         } else {
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>"Division added successfully"</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>"Division saved successfully"</p></div>',
                                 layout: 'bottom-right',
                                 theme: 'made',
                                 animation: {
@@ -110,7 +110,11 @@
     var loadDivision = function () {
         divisionService.loadDivisioninfo()
         .success(function (data) {
-            vm.model = data
+            vm.model = data;
+
+            if (vm.model.id == 0) {
+                vm.model.status = 1;
+            }
         })
         .error(function () {
         })
