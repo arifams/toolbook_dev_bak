@@ -38,7 +38,7 @@
                                     <div class="col-md-4" ng-show="profileCtrl.model.customerDetails.isCorporateAccount=='true'">                                     
                                         <div class="form-group" >                                                   
                                             <div class="append-icon">
-                                                <input type="text" name="companyname" class="form-control form-white" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.companyname" ng-required="profileCtrl.model.customerDetails.isCorporateAccount=='true'" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.companyname.$invalid && (formUpdateProfile.companyname.$dirty||profileCtrl.isSubmit) }" />
+                                                <input type="text" name="companyname" class="form-control form-white" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.companyDetails.name" ng-required="profileCtrl.model.customerDetails.isCorporateAccount=='true'" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.companyname.$invalid && (formUpdateProfile.companyname.$dirty||profileCtrl.isSubmit) }" />
                                                 <i class="icon-user"></i>    
                                                 <div ng-messages="formUpdateProfile.companyname.$error" ng-show="formUpdateProfile.companyname.$dirty || profileCtrl.isSubmit">
                                                     <label ng-message="required" class="error" for="firstname">Enter Company Name</label>

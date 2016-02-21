@@ -1005,7 +1005,7 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones) {
+        ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', '$window', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones, $window) {
             var vm = this;
             vm.t_currencies;
             vm.t_languages;
@@ -1041,7 +1041,7 @@
                 //loading languages to dropdown
                 loadAllLanguages.loadLanguages()
                     .then(function successCallback(responce) {
-
+                        
                         vm.t_languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
                         //JSON.stringify(responce.data);
 
@@ -1072,7 +1072,7 @@
 
                 loadProfilefactory.loadProfileinfo()
                 .success(function (response) {
-                   
+                    
                     if (response != null) {
                         vm.model = response;
 
@@ -1107,7 +1107,7 @@
 
             vm.updateProfile = function () {
 
-                vm.model.CustomerDetails.UserId = $window.localStorage.getItem('userGuid');
+                vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
                 updateProfilefactory.updateProfileInfo(vm.model)
                 .success(function (responce) {                    
                     if (responce != null) {

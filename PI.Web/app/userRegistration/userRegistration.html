@@ -153,18 +153,18 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <div class="icheck-inline">
-                                            <label><input type="radio" name="iscorporate" id="individual" value="false" ng-model="regCtrl.user.iscorporate" icheck /> Individual account</label>
-                                            <label><input type="radio" name="iscorporate" id="corporate" value="true" ng-model="regCtrl.user.iscorporate" icheck /> Corporate account</label>
+                                            <label><input type="radio" name="iscorporate" id="individual" value="false" ng-model="regCtrl.user.isCorporateAccount" icheck /> Individual account</label>
+                                            <label><input type="radio" name="iscorporate" id="corporate" value="true" ng-model="regCtrl.user.isCorporateAccount" icheck /> Corporate account</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="regCtrl.user.iscorporate == 'true'">
+                        <div class="row" ng-show="regCtrl.user.isCorporateAccount == 'true'">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="companyname" id="companyname" class="form-control form-white companyname" placeholder="Company Name *" ng-required="regCtrl.user.iscorporate == 'true'" ng-model="regCtrl.user.companyname" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="companyname" id="companyname" class="form-control form-white companyname" placeholder="Company Name *" ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companyname" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.companyname.$error" ng-show="formSignup.companyname.$dirty || regCtrl.isSubmit">
@@ -174,11 +174,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="regCtrl.user.iscorporate == 'true'">
+                        <div class="row" ng-show="regCtrl.user.isCorporateAccount == 'true'">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="companycode" id="companycode" class="form-control form-white companycode" placeholder="Company Code *" ng-required="regCtrl.user.iscorporate == 'true'" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companycode.$invalid && (formSignup.companycode.$dirty||regCtrl.isSubmit) }" />
+                                        <input type="text" name="companycode" id="companycode" class="form-control form-white companycode" placeholder="Company Code *" ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companycode.$invalid && (formSignup.companycode.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
                                     </div>
                                     <div ng-messages="formSignup.companycode.$error" ng-show="formSignup.companycode.$dirty || regCtrl.isSubmit">

@@ -959,7 +959,7 @@
         var vm = this;
         vm.user = {};
         vm.user.salutation = "Mr";
-        vm.user.iscorporate = "false";
+        vm.user.isCorporateAccount = "false"; //IsCorporateAccount
         vm.user.contactType = 'phone';
         vm.isSubmit = false;
         vm.user.customeraddress = {};
@@ -980,7 +980,7 @@
         vm.register = function () {         
 
             vm.alreadySubmitted = true;
-
+            debugger;
             registerUserService.createUser(vm.user)
             .then(function (result)
             {
