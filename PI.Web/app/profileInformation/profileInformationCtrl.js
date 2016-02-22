@@ -1043,7 +1043,7 @@
                     .then(function successCallback(responce) {
                         
                         vm.languageList = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }, { id: 6, languageCode: "Nl", languageName: "Neth" }];                            
-
+                        
                         vm.defaultLanguage = responce.data[0]; //{ id: 5, languageCode: "ENG", languageName: "English" }; 
                         
                     }, function errorCallback(response) {
@@ -1081,9 +1081,12 @@
                     
                     if (response != null) {
                         vm.model = response;
-                        vm.defaultCurrency = { id: response.defaultCurrencyId };
-                        vm.defaultLanguage = { id: response.defaultLanguageId };
-                        vm.defaultTimezone = { id: response.defaultTimeZoneId };
+                        if (response.defaultCurrencyId != 0)
+                            vm.defaultCurrency = { id: response.defaultCurrencyId };
+                        if (response.defaultLanguageId != 0)
+                            vm.defaultLanguage = { id: response.defaultLanguageId };
+                        if (response.defaultTimeZoneId != 0)
+                            vm.defaultTimezone = { id: response.defaultTimeZoneId };
                        
                         if (response.customerDetails != null) {
                             //setting the account type
