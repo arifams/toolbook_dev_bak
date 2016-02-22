@@ -1007,8 +1007,8 @@
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', '$window', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones, $window) {
             var vm = this;
-            vm.t_currencies;
-            vm.t_languages;
+            //vm.t_currencies;
+            //vm.t_languages;
             vm.t_timezones;
 
             vm.model = {};
@@ -1042,10 +1042,10 @@
                 loadAllLanguages.loadLanguages()
                     .then(function successCallback(responce) {
                         
-                        vm.t_languages = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }];
-                        //JSON.stringify(responce.data);
+                        vm.languageList = responce.data;  //[{ id: 5, languageCode: "ENG", languageName: "English" }, { id: 6, languageCode: "Nl", languageName: "Neth" }];                            
 
-
+                        vm.defaultLanguage = responce.data[0]; //{ id: 5, languageCode: "ENG", languageName: "English" }; 
+                        
                     }, function errorCallback(response) {
                         //todo
                     });
@@ -1055,7 +1055,11 @@
                 .then(function successCallback(responce) {
                    
                     // vm.currencies = responce.data;
-                    vm.t_currencies = responce.data;
+                    //vm.t_currencies = responce.data;
+
+                    vm.currencyList = responce.data;
+                    vm.defaultCurrency = responce.data[0];
+
                 }, function errorCallback(response) {
                     //todo
                 });
@@ -1063,7 +1067,9 @@
                 //loading timezones to dropdown
                 loadAllTimeZones.loadTimeZones()
                 .then(function successCallback(responce) {
-                    vm.t_timezones = responce.data;
+                    //vm.t_timezones = responce.data;
+                    vm.timezoneList = responce.data;
+                    vm.defaultTimezone = responce.data[0];
 
                 }, function errorCallback(response) {
                     //todo
@@ -1075,7 +1081,10 @@
                     
                     if (response != null) {
                         vm.model = response;
-
+                        vm.defaultCurrency = { id: response.defaultCurrencyId };
+                        vm.defaultLanguage = { id: response.defaultLanguageId };
+                        vm.defaultTimezone = { id: response.defaultTimeZoneId };
+                       
                         if (response.customerDetails != null) {
                             //setting the account type
                             // vm.iscorporate = response.data.customerDetails.isCorporateAccount;                            
@@ -1106,8 +1115,12 @@
 
 
             vm.updateProfile = function () {
-
+                
                 vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+                vm.model.defaultLanguageId = vm.defaultLanguage.id;
+                vm.model.defaultCurrencyId = vm.defaultCurrency.id;
+                vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
+
                 updateProfilefactory.updateProfileInfo(vm.model)
                 .success(function (responce) {                    
                     if (responce != null) {

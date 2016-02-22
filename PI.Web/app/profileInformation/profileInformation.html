@@ -639,9 +639,15 @@
                                                 <div class="form-group">
                                                     <div class="option-group">                                                       
                                                         
-                                                        <select id="defaultlanguage"
-                                                                ng-options="language.id as language.languageCode for language in profileCtrl.t_languages"
-                                                                name="defaultlanguage" class="defaultlanguage" required ng-model="profileCtrl.model.defaultLanguageId"></select>
+                                                        <!--<select id="defaultlanguage" name="defaultlanguage" class="defaultlanguage" required ng-model="profileCtrl.model.defaultLanguageId"
+                                                                convert-to-number ng-options="language.id as language.languageName for language in profileCtrl.t_languages">
+                                                            <option value=""></option>
+                                                        </select>-->
+          
+                                                        <select name="mySelect" id="mySelect"
+                                                                ng-options="option.languageName for option in  profileCtrl.languageList track by option.id"
+                                                                ng-model="profileCtrl.defaultLanguage" required>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -654,9 +660,13 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="option-group">                                                       
-                                                        <select id="defaultcurrency"
+                                                        <!--<select id="defaultcurrency"
                                                                 convert-to-number ng-options="currency.id as currency.currencyCode for currency in profileCtrl.t_currencies"
-                                                                name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>
+                                                                name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>-->
+                                                        <select name="defaultcurrency" id="defaultcurrency"
+                                                                ng-options="option.currencyName for option in  profileCtrl.currencyList track by option.id"
+                                                                ng-model="profileCtrl.defaultCurrency" required>
+                                                        </select>
                                                     </div>
                                                 </div>
                                             </div>
@@ -667,8 +677,11 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <div class="option-group">                                                        
-                                                        <select id="defaulttimezone" ng-options="timeZone.id as timeZone.timeZoneCode for timeZone in profileCtrl.t_timezones" name="defaulttimezone" class="defaulttimezone" required ng-model="profileCtrl.model.defaultTimeZoneId"></select>
+                                                    <div class="option-group">                                            
+                                                        <!--<select id="defaulttimezone" ng-options="timeZone.id as timeZone.timeZoneCode for timeZone in profileCtrl.t_timezones" name="defaulttimezone" class="defaulttimezone" required ng-model="profileCtrl.model.defaultTimeZoneId"></select>-->
+                                                        <select name="defaulttimezone" id="defaulttimezone"
+                                                                ng-options="option.timeZoneCode for option in  profileCtrl.timezoneList track by option.id"
+                                                                ng-model="profileCtrl.defaultTimezone" required></select>
                                                     </div>
                                                 </div>
                                             </div>
