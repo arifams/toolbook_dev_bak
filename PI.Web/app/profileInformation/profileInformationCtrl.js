@@ -1030,7 +1030,16 @@
                     vm.invalidEmail = false;
                 }
 
-            }           
+            }
+
+            vm.changeCountry = function () {
+                vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
+            };
+
+            vm.changeBillingCountry = function () {
+                vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR'|| vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
+            };
+          //vm.changeCountry();
 
             vm.useCorpAddressAsBilling = function () {
              
