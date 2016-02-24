@@ -1006,10 +1006,18 @@
 
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'loadAllLanguages', 'loadAllCurrencies', 'loadAllTimeZones', '$window', function (loadProfilefactory, updateProfilefactory, loadAllLanguages, loadAllCurrencies, loadAllTimeZones, $window) {
+
+            // return if user not logged. -- Need to move this to global service.
+            if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
+                window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                return;
+            }
+
             var vm = this;
             //vm.t_currencies;
             //vm.t_languages;
             vm.t_timezones;
+
 
             vm.model = {};
 
@@ -1022,9 +1030,7 @@
                     vm.invalidEmail = false;
                 }
 
-            }
-
-           
+            }           
 
             vm.useCorpAddressAsBilling = function () {
              
@@ -1103,6 +1109,7 @@
 
                             if (response.customerDetails.isCorporateAccount) {
                                 vm.model.customerDetails.isCorporateAccount = "true";
+                                vm.corpAccount = "true";
                             }
                             else {
                                 vm.model.customerDetails.isCorporateAccount = "false";
@@ -1117,6 +1124,8 @@
             }
 
 
+           
+
             vm.updateProfile = function () {
                 
                 vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
@@ -1128,23 +1137,97 @@
                 .success(function (responce) {                    
                     if (responce != null) {
 
-                        if (responce == 1) {
-                            vm.model.success = "true";
+                        if (responce == 1) {                                                  
+
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {                                
+                            });
+
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 5000,
+                            });                     
+                           
                         }
                         else if (responce==-2) {
-                            vm.model.emailExist = "true";
+                           // vm.model.emailExist = "true";
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                            });
+
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 5000,
+                            });
                         }
                         else if (responce==-3) {
-                            vm.model.oldPasswordWrong = "true";
+                            //vm.model.oldPasswordWrong = "true";
+
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                            });
+
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 5000,
+                            });
                         }
                         else {
-                            vm.model.unsuccess = "true";
+                            //vm.model.unsuccess = "true";
+
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                            });
+
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 5000,
+                            });
                         }
                     }
 
                 }).error(function (error) {
                     // console.log("failed" + error);
-                    vm.model.isServerError = "true";
+                   // vm.model.isServerError = "true";
+
+                    var body = $("html, body");
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 5000,
+                    });
                 });
             }
         }]);

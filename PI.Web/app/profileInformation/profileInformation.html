@@ -10,7 +10,7 @@
                 <div class="col-lg-12 portlets">                    
                     <div class="panel">
                         <form role="form" name="formUpdateProfile"    ng-submit="formUpdateProfile.$valid && profileCtrl.updateProfile()" novalidate>
-                            <div class="panel-header panel-controls">                              
+                            <div class="panel-header">                              
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label class="control-label">Account Type *</label>
@@ -21,7 +21,7 @@
                                                 <div class="form-group">                                                    
                                                     <div class="input-group">
                                                         <div class="icheck-inline">                                                          
-                                                            <label><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="false"> Individual Account </label>
+                                                            <label><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="false" ng-disabled="profileCtrl.corpAccount"> Individual Account </label>
                                                             <label><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="true"> Corporate Account</label>
                                                         </div>
                                                     </div>
@@ -746,13 +746,11 @@
                                     </div>
                                 </div>                      
                                    </div>
-                                </div>                            
+                                                          
                         </form>
                 </div>
             </div>
-                <div class="alert alert-success confirmationMailSend" ng-show="profileCtrl.model.success">
-                    Profile is updated successfully
-                </div>
+                
                 <div class="alert alert-warning" ng-show="profileCtrl.model.unsuccess">
                     Profile update failed
                 </div>   
@@ -767,7 +765,10 @@
 
                 <div class="alert alert-warning" ng-show="profileCtrl.model.isServerError ">
                     Error occured while connecting the server
-                </div>          
+                </div> 
+                  
+                <div id="panel-notif"></div>
+                       
         </div>
     </div>
     <div class="footer">
@@ -778,4 +779,3 @@
             
         </div>
     </div>
-</div>

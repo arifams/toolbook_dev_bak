@@ -68,7 +68,7 @@ namespace PI.Service.Controllers
                 IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
                                                             profile.OldPassword,
                                                            profile.NewPassword);
-                if (result.Errors!=null)
+                if (result.Errors.Count()> 0)
                 {
                     return -3;
                 } 
