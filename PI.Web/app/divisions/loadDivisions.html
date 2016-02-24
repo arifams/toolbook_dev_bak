@@ -1,69 +1,68 @@
 ﻿<div ng-controller="loadDivisionsCtrl">
-    <h2 class="box-title"> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2> 
-   
+    <h2 class="box-title"> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2>
+
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
         <form class="form-horizontal" name="loadDivisionForm">
             <!-- /.box-header -->
 
-            <div class="panel-header">              
-                    <!-- left column -->
-                 
-                        <div class="box-body">  
-                             <div class="row">                   
-                               
-                                     <div class="col-md-4">
-                                         <div class="form-group">
-                                             <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                                    placeholder="Search by Division Name" />
-                                         </div>
-                                     </div>
-                                     <div class="col-md-2">
-                                         <div class="form-group">
-                                             <button type="button" class="btn btn-large btn-primary">
-                                             <i class="fa fa-search" ng-click="searchDivisions()"></i></button>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-1">
-                                         <div class="form-group">
-                                             <label class="control-label">Filter by  </label>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-3">
-                                         <div class="form-group">
-                                             <div class="option-group">                                                
-                                                 <select id="costcenter"
-                                                         convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                                         name="costcenter" class="defaultcurrency"  ng-model="costcenter" 
-                                                         ng-change="selectDivisionforCostCenter()">
-                                                      <option value="">All</option>
-                                                 </select>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="col-md-2">
-                                         <div class="form-group">
-                                             <div class="option-group">
-                                                 <select id="costcenters" name="costcenters" class="costcenters"  
-                                                         ng-model="status" ng-change="selectActiveDivisions()">
-                                                     <option value="">All</option>
-                                                     <option value="True">Active</option>
-                                                     <option value="False">Inactive</option>                                                   
-                                                 </select>
-                                             </div>
-                                         </div>
-                                     </div>
+            <div class="panel-header">
+                <!-- left column -->
 
-                                 </div>     
-                            <br />
+                <div class="box-body">
+                    <div class="row">
 
-                          </div>
-                        <div class="gridStyle" ng-grid="gridOptions"></div>                  
-                       
-                  
-               
-            </div>       
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                       placeholder="Search by Division Name" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-large btn-primary">
+                                    <i class="fa fa-search" ng-click="searchDivisions()"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">Filter by  </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select id="costcenter"
+                                            convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
+                                            name="costcenter" class="defaultcurrency" ng-model="costcenter"
+                                            ng-change="selectDivisionforCostCenter()">
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select id="costcenters" name="costcenters" class="costcenters"
+                                            ng-model="status" ng-change="selectActiveDivisions()">
+                                        <option value="">All</option>
+                                        <option value="True">Active</option>
+                                        <option value="False">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="gridStyle" ng-grid="gridOptions"></div>
+
+
+
+            </div>
         </form>
     </div>
 
