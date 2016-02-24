@@ -1133,13 +1133,33 @@
                 vm.model.defaultCurrencyId = vm.defaultCurrency.id;
                 vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
 
+                var body = $("html, body");
+
+                if ( (vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword) {
+                   
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 5000,
+                    });
+
+                    return;
+                }
                 updateProfilefactory.updateProfileInfo(vm.model)
                 .success(function (responce) {                    
                     if (responce != null) {
 
                         if (responce == 1) {                                                  
 
-                            var body = $("html, body");
+                           // var body = $("html, body");
                             body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {                                
                             });
 
@@ -1157,7 +1177,7 @@
                         }
                         else if (responce==-2) {
                            // vm.model.emailExist = "true";
-                            var body = $("html, body");
+                          //  var body = $("html, body");
                             body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                             });
 
@@ -1175,7 +1195,7 @@
                         else if (responce==-3) {
                             //vm.model.oldPasswordWrong = "true";
 
-                            var body = $("html, body");
+                           // var body = $("html, body");
                             body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                             });
 
@@ -1193,7 +1213,7 @@
                         else {
                             //vm.model.unsuccess = "true";
 
-                            var body = $("html, body");
+                          //  var body = $("html, body");
                             body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                             });
 
@@ -1214,7 +1234,7 @@
                     // console.log("failed" + error);
                    // vm.model.isServerError = "true";
 
-                    var body = $("html, body");
+                   // var body = $("html, body");
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                     });
 
