@@ -372,7 +372,7 @@ namespace PI.Business
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {
-            using (ApplicationDbContext context = ApplicationDbContext.Get())
+            using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 return context.Users.SingleOrDefault(c => c.UserName == UserName);
             }
