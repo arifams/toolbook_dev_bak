@@ -1,0 +1,86 @@
+﻿<div ng-controller="saveDivisionCtrl as divCtrl">
+    <h2 class="box-title" ng-hide="divCtrl.model.id > 0"> Add Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" role="button"> Manage Division</a></h2>
+    <h2 class="box-title" ng-show="divCtrl.model.id > 0"> Edit Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" role="button"> Manage Division</a></h2>
+    
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="saveDivisionForm" novalidate>
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <div class="row">
+                    <!-- left column -->
+                    <div class="col-xs-12">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <span style="font-style:italic">  * Indicates mandatory fields.</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Division Name *</label>
+                                <div class="col-sm-10">
+                                    <input ng-model="divCtrl.model.name" type="text" name="divisionName" class="form-control" ng-required="true"
+                                           ng-maxlength="200" ng-class="{ 'error': saveDivisionForm.divisionName.$invalid &&
+                                                                        (saveDivisionForm.divisionName.$dirty|| divCtrl.isSubmit) }" />
+                                    <div ng-messages="saveDivisionForm.divisionName.$error"
+                                         ng-show="saveDivisionForm.divisionName.$dirty || divCtrl.isSubmit">
+                                        <label ng-message="required" class="error" for="divisionName">Division Name is required</label>
+                                        <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                    </div>
+                                 </div>
+                               
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Division Description</label>
+                                <div class="col-sm-10">
+                                    <input ng-model="divCtrl.model.description" type="text" class="form-control" />
+                                </div>
+                            </div>                            
+                           
+                            <div class="form-group" ng-show="divCtrl.model.assosiatedCostCenters.length > 0">
+                                <label class="col-sm-2 control-label">Default Cost Center * </label>
+                                <div class="col-sm-10">
+                                    <div ng-repeat="costCent in divCtrl.model.assosiatedCostCenters">
+                                        <input name="{{costCent.id}}" type="radio"
+                                               ng-model="divCtrl.model.defaultCostCenterId" value="{{costCent.id}}"
+                                               icheck>
+                                        <label for="{{costCent.id}}}"></label>
+                                        {{costCent.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        <!--<p>{{divCtrl.model.assosiatedCostCenters}}</p>-->
+                           <div class="form-group">
+                                <label class="col-sm-2 control-label">Status</label>
+                                <div class="col-sm-10">
+                                    <label>
+                                        <input name="activeRadio" type="radio" value="1" ng-model="divCtrl.model.status" icheck />
+                                        &nbsp; Active
+                                    </label> <br />
+                                    <label>
+                                        <input name="inactiveRadio" type="radio" value="2" ng-model="divCtrl.model.status" icheck />
+                                        &nbsp; Inactive
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button ng-click="divCtrl.close()" class="btn btn-app pull-right">
+                                    <i class="fa fa-close"></i> Close
+                                </button>
+                                <button type="submit" ng-click="saveDivisionForm.$valid && divCtrl.saveDivision()" class="btn btn-app pull-right">
+                                    <i class="fa fa-save"></i> Save
+                                </button>
+                            </div>
+
+                            <div id="panel-notif"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>

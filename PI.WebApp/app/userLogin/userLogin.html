@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Themes Lab - Creative Laborator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="" name="description" />
+    <meta content="themes-lab" name="author" />
+    <link rel="shortcut icon" href="../assets/global/images/favicon.png">
+    <link href="../../global/css/style.css" rel="stylesheet">
+    <link href="../../global/css/ui.css" rel="stylesheet">
+    <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
+    <link href="../../css/custom.css" rel="stylesheet" />
+
+</head>
+<body class="account separate-inputs" data-page="login" ng-app="userLogin" ng-controller="userLoginCtrl as userLog">
+    <!-- BEGIN LOGIN BOX -->
+    <div class="container" id="login-block">
+        <div class="row">
+            <div class="col-sm-6 col-md-4 col-md-offset-4">
+                <div class="account-wall">
+                    <i class="user-img icons-faces-users-03"></i>
+
+                    <div class="clearfix login-top-message" ng-show="userLog.isEmailConfirm">
+                        <p class="pull-left m-t-20">{{userLog.emailConfirmationMessage}}</p>
+                    </div>
+
+                    <form class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
+                        <div class="form-group" >
+                            <div class="append-icon">
+                                <input type="email" name="username" id="username" class="form-control form-white username" placeholder="Email" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
+                                <i class="icon-user"></i>
+                                <p ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="help-block">Email is required.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group" >
+                            <div class="append-icon m-b-20">
+                                <input type="password" name="password" class="form-control form-white password" placeholder="Password" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
+                                <i class="icon-lock"></i>
+                                <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block">Password is required.</p>
+                            </div>
+                        </div>
+                        <input type="submit" id="submit-form" class="btn btn-lg btn-danger " data-style="expand-left" value="login" />
+                        <div class="clearfix">
+                            <p class="pull-left m-t-20"><a id="password" href="#">Forgot password?</a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
+                        </div>
+
+
+
+                        <div class="form-group" ng-show="userLog.loginInvalid">
+                            <div class="alert alert-warning">
+                                {{userLog.loginInvalidMessage}}
+                            </div>
+                        </div>
+                        <div class="form-group" ng-show="userLog.invalidToken">
+                            <div class="alert alert-warning">
+                                Invalid token.
+                            </div>
+                        </div>
+                    </form>
+                                     
+                    <form class="form-password" role="form" name="forgotPasswordForm" ng-submit="forgotPasswordForm.$valid && userLog.resetForgetPassword()" novalidate>
+                        <div class="append-icon m-b-20" ng-hide="userLog.isSentPasswordResetMail">
+                            <input type="email" name="passwordResetEmail" class="form-control form-white username" placeholder="Email" required ng-model="userLog.pwdReset.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
+                            <i class="icon-lock"></i>
+                            <div ng-messages="forgotPasswordForm.passwordResetEmail.$error" ng-show="forgotPasswordForm.passwordResetEmail.$dirty || userLog.isSubmit">
+                                <label ng-show="" ng-message="required" class="error" for="email">Enter your email address</label>
+                                <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                            </div>
+                        </div>
+                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit" ng-click="userLog.isSubmit=true" id="submit-password" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left">Send Password Reset Link</button>
+                        <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">
+                            <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html">Back to login</a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html">New here? Sign up</a></p>
+                        </div>
+                        <div class="alert alert-success" ng-show="userLog.isSentPasswordResetMail">
+                            Password reset message was sent to your email.
+                            Please check the mail box, to reset password.
+                        </div>
+                        <div class="alert alert-success" ng-show="userLog.passwordResetError">
+                            {{userLog.passwordResetErrorMsg}}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p class="account-copyright">
+            <span>Copyright © 2016 </span><span>Parcel International</span>.<span>All rights reserved.</span>
+        </p>
+
+    </div>
+    <script src="../../global/plugins/jquery/jquery-1.11.1.min.js"></script>
+    <script src="../../global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../global/plugins/gsap/main-gsap.min.js"></script>
+    <script src="../../global/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../global/plugins/backstretch/backstretch.min.js"></script>
+    <script src="../../global/plugins/bootstrap-loading/lada.min.js"></script>
+    <script src="../../global/plugins/jquery-validation/jquery.validate.min.js"></script>
+    <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
+    <script src="../../global/js/pages/login-v1.js"></script>
+    <!--<script src="../../plugins/angular/angular.min.js"></script>-->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-messages.min.js"></script>
+    <script src="../../global/js/custom.js"></script>
+   
+
+    <script src="userLoginCtrl.js"></script>
+</body>
+</html>
