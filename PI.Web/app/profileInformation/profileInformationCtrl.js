@@ -1037,6 +1037,20 @@
                 if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
                     vm.model.companyDetails.costCenter = {};
                     vm.model.companyDetails.costCenter.billingAddress = vm.model.customerDetails.customerAddress;
+                    if (vm.model.customerDetails.phoneNumber) {
+
+                       vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.phoneNumber;
+
+                    } else if (vm.model.customerDetails.mobileNumber) {
+
+                        vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.mobileNumber;
+                    }
+                }
+
+                if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == false) {
+                    vm.model.companyDetails.costCenter = {};
+                    vm.model.companyDetails.costCenter.billingAddress = {};
+                    vm.model.companyDetails.costCenter.phoneNumber = "";
                 }
             };
 
@@ -1153,102 +1167,135 @@
 
                     return;
                 }
-                updateProfilefactory.updateProfileInfo(vm.model)
-                .success(function (responce) {                    
-                    if (responce != null) {
 
-                        if (responce == 1) {                                                  
-
-                           // var body = $("html, body");
-                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {                                
-                            });
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 5000,
-                            });                     
-                           
-                        }
-                        else if (responce==-2) {
-                           // vm.model.emailExist = "true";
-                          //  var body = $("html, body");
-                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                            });
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 5000,
-                            });
-                        }
-                        else if (responce==-3) {
-                            //vm.model.oldPasswordWrong = "true";
-
-                           // var body = $("html, body");
-                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                            });
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 5000,
-                            });
-                        }
-                        else {
-                            //vm.model.unsuccess = "true";
-
-                          //  var body = $("html, body");
-                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                            });
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 5000,
-                            });
-                        }
-                    }
-
-                }).error(function (error) {
-                    // console.log("failed" + error);
-                   // vm.model.isServerError = "true";
-
-                   // var body = $("html, body");
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 5000,
-                    });
+              
+                body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                 });
+
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile</p></div>',
+                    buttons: [
+                            {addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+
+                                $noty.close();
+                                updateProfilefactory.updateProfileInfo(vm.model)
+                                                .success(function (responce) {
+                                                    if (responce != null) {
+
+                                                        if (responce == 1) {
+
+                                                            // var body = $("html, body");
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                  open: 'animated bounceInLeft',
+                                                                   close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 5000,
+                                                            });
+
+                                                        }
+                                                        else if (responce == -2) {
+                                                            // vm.model.emailExist = "true";
+                                                            //  var body = $("html, body");
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                
+                                                            });
+                                                        }
+                                                        else if (responce == -3) {
+                                                            //vm.model.oldPasswordWrong = "true";
+
+                                                            // var body = $("html, body");
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 5000,
+                                                            });
+                                                        }
+                                                        else {
+                                                            //vm.model.unsuccess = "true";
+
+                                                            //  var body = $("html, body");
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 5000,
+                                                            });
+                                                        }
+                                                    }
+
+                                                }).error(function (error) {
+                                                    // console.log("failed" + error);
+                                                    // vm.model.isServerError = "true";
+
+                                                    // var body = $("html, body");
+                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                    });
+
+                                                    $('#panel-notif').noty({
+                                                        text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                        layout: 'bottom-right',
+                                                        theme: 'made',
+                                                        animation: {
+                                                            open: 'animated bounceInLeft',
+                                                            close: 'animated bounceOutLeft'
+                                                        },
+                                                        timeout: 5000,
+                                                    });
+                                                });
+                               
+                             
+                            }
+                            },
+                            {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
+                                
+                                updateProfile = false;
+                                $noty.close();
+                                return;
+                               // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                            }
+                            }
+                    ],
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 5000,
+                });            
+                
             }
         }]);
 
