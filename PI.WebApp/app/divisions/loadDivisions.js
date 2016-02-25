@@ -38,14 +38,7 @@
         .then(function successCallback(responce) {
                   
             $scope.rowCollection = responce.data.content;
-
-            //scope.rowCollection = [
-            //        { firstName: 'Laurent', lastName: 'Renard', birthDate: new Date('1987-05-21'), balance: 102, email: 'whatever@gmail.com' },
-            //        { firstName: 'Blandine', lastName: 'Faivre', birthDate: new Date('1987-04-25'), balance: -2323.22, email: 'oufblandou@gmail.com' },
-            //        { firstName: 'Francoise', lastName: 'Frere', birthDate: new Date('1955-08-27'), balance: 42343, email: 'raymondef@gmail.com' }
-            //];
-
-            debugger;
+           
         }, function errorCallback(response) {
             //todo
         });
@@ -114,29 +107,25 @@
     //    //loadDivisionService.find();
     //}
 
-    //$scope.deleteById = function (row) {
+    $scope.deleteById = function (row) {
        
-    //    var r = confirm("Do you want to delete the record?");
-    //    if (r == true) {
-    //        divisionManagmentService.deleteDivision({ Id: row.entity.id })
-    //                    .success(function (response) {
-    //                        debugger;
-    //                        if (response == 1) {
-    //                            debugger;
-    //                            // remove($scope.gridOptions.data, 'id', row.entity.id);
+        var r = confirm("Do you want to delete the record?");
+        if (r == true) {
+            divisionManagmentService.deleteDivision({ Id: row.id })
+            .success(function (response) {
 
-    //                            angular.forEach($scope.data.divisions.content, function (index, result) {
-    //                                if (index.id == row.entity.id) {
-    //                                    $scope.data.divisions.content.splice(index, 1);
-    //                                }
-    //                            })
-
-    //                        }
-    //                    })
-    //                   .error(function () {
-    //                   })
-    //    }
-    //};
+                if (response == 1) {
+                    var index = $scope.rowCollection.indexOf(row);
+                    if (index !== -1) {
+                        $scope.rowCollection.splice(index, 1);
+                    }
+                }
+            })
+            .error(function () {
+                debugger;
+            });
+        }
+    };
 
 
 });
