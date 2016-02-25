@@ -35,7 +35,7 @@ namespace PI.Business
                 appUserManager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"))
                 {
                     //Code for email confirmation and reset password life time
-                    TokenLifespan = TimeSpan.FromDays(7)
+                    TokenLifespan = TimeSpan.FromHours(24)
                 };
             }
             #endregion
