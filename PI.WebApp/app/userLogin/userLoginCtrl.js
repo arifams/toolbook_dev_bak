@@ -13,8 +13,8 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window',
-    function (userManager, $window) {
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore','$scope',
+    function (userManager, $window, $cookieStore,$scope) {
         var vm = this;     
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -24,6 +24,15 @@
        
         vm.isSentPasswordResetMail = false;
         vm.passwordResetError = false;
+
+        var loggedusername = $cookieStore.get('username');
+        var loggedpassword = $cookieStore.get('password');
+        $scope.user = {};
+        // restore credentials for logged user
+        if (loggedusername && loggedpassword) {
+            $scope.user.username = loggedusername;
+            $scope.user.password = loggedpassword;
+       }
 
         vm.isConfirmEmail = function () {
 
@@ -39,6 +48,12 @@
         vm.login = function (user) {
 
             debugger;
+            if (vm.rememberme==true) {
+                $cookieStore.put('username', user.username);
+                $cookieStore.put('password', user.password);
+            }
+         
+
             if (window.location.search != "") {
 
                 var splittedValues = window.location.search.replace("?", "").split('&');
@@ -77,13 +92,19 @@
                  else if (returnedResult.data.result == "-1") {
                      vm.loginInvalid = true;
                      vm.loginInvalidMessage = "Incorrect UserName/Password";
+                     $cookieStore.remove('username');
+                     $cookieStore.remove('password');
                  }
                  else if (returnedResult.data.result == "-2") {
                      vm.invalidToken = true;
+                     $cookieStore.remove('username');
+                     $cookieStore.remove('password');
                  }
                  else if (returnedResult.data.result == "-11") {
                      vm.loginInvalid = true;
                      vm.loginInvalidMessage = "You must have a confirmed email to log in";
+                    $cookieStore.remove('username');
+                     $cookieStore.remove('password');
                  }
              },
             //.then(function (result) {
@@ -143,5 +164,5 @@
     }]);
 
 
-})(angular.module('userLogin', ['ngMessages']));
+})(angular.module('userLogin', ['ngMessages','ngCookies']));
 
