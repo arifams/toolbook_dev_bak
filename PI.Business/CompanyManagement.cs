@@ -173,18 +173,21 @@ namespace PI.Business
 
                 foreach (var item in content)
                 {
+                    StringBuilder str = new StringBuilder();
+                    item.DivisionCostCenters.ToList().ForEach(e=> str.Append(e.Divisions.Name + "</br>"));
+
+
                     pagedRecord.Content.Add(new CostCenterDto
                     {
                         Id = item.Id,
                         Name = item.Name,
                         CompanyId = item.CompanyId,
-                        //DefaultCostCenterId = item.DefaultCostCenterId,
                         Description = item.Description,
                         Status = item.Status,
                         Type = item.Type,
                         FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
-                        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country
-
+                        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country ,
+                        AssignedDivisionsForGrid =str.ToString()
                     });
                 }
 
@@ -227,7 +230,7 @@ namespace PI.Business
                 //    });
                 //}
 
-                divisionList = GetAllDivisionsForCompany(userId);
+                divisionList = GetAllActiveDivisionsForCompany(userId);
 
                 if (id == 0)
                 {
@@ -269,7 +272,6 @@ namespace PI.Business
                             Country = costCenter.BillingAddress.Country
                         },
                         AllDivisions = divisionList,
-                        //AssignedDivisions = costCenter.DivisionCostCenters.
                         AssignedDivisionIdList = costCenter.DivisionCostCenters.Select(e => e.DivisionId).ToList()
                     };
 
@@ -430,6 +432,41 @@ namespace PI.Business
 
         #region Division Managment
 
+        /// <summary>
+        /// Get all costCenters for the tenant coampny
+        /// </summary>
+        /// <returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public IList<DivisionDto> GetAllActiveDivisionsForCompany(string userId)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
+                                                             c.Type == "USER" && c.IsActive == true).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
 
         /// <summary>
         /// Get all costCenters for the tenant coampny
@@ -566,7 +603,7 @@ namespace PI.Business
             using (var context = new PIContext())
             {
                 var costcenters = context.CostCenters.Where(c => c.CompanyId == companyId &&  // TODO: get comapnyId from Tenanant
-                                                                 c.Type == "USER" && c.IsDelete == false).ToList();
+                                                                 c.Type == "USER" && c.IsActive == true).ToList();
 
                 foreach (var item in costcenters)
                 {
@@ -586,10 +623,12 @@ namespace PI.Business
                    };
                 }
 
-                var division = context.Divisions.SingleOrDefault(d => d.Id == id);
+                var division = context.Divisions.Include("DivisionCostCenter").SingleOrDefault(d => d.Id == id);
 
+               
                 if (division != null)
                 {
+                    StringBuilder strResut  = new StringBuilder();
                     return new DivisionDto
                     {
                         Id = division.Id,
@@ -599,7 +638,9 @@ namespace PI.Business
                         Status = division.Status,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         CompanyId = division.CompanyId,
-                        AssosiatedCostCenters = costCenterList
+                        //AssosiatedCostCentersForGrid = division.DivisionCostCenters.ToList().ForEach(e => strResute.CostCenters.Name)
+
+                        //   item.DivisionCostCenters.ToList().ForEach(e=> str.Append(e.Divisions.Name + "</br>"));
                     };
 
                 }
@@ -619,6 +660,16 @@ namespace PI.Business
             long comapnyId = GetCompanyByUserId(division.UserId).Id;
             using (var context = PIContext.Get())
             {
+                var isSameDiviName = context.Divisions.Where(d => d.Id != division.Id
+                                                                && d.CompanyId == comapnyId
+                                                                && d.Type == "USER" &&
+                                                                (d.Name == division.Name || d.Description == division.Description)).SingleOrDefault();
+
+                if (isSameDiviName != null)
+                {
+                    return -1;
+                }
+
                 var sysDivision = context.Divisions.Where(d => d.CompanyId == comapnyId
                                                                && d.Type == "SYSTEM").SingleOrDefault(); //TODO: get the comanyId of the tenant.
 
@@ -633,14 +684,7 @@ namespace PI.Business
 
 
                 if (division.Id == 0 && sysDivision == null)
-                {
-                    var isSameDiviName = context.Divisions.Where(d => d.CompanyId == comapnyId
-                                                        && d.Type == "USER" && d.Name == division.Name).SingleOrDefault();
-
-                    if (isSameDiviName != null)
-                    {
-                        return -1;
-                    }
+                {                  
 
                     Division newDivision = new Division()
                     {

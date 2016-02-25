@@ -74,7 +74,7 @@
                         if (result == -1) {
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>A division with the same name already exists!</p></div>',
+                                text: '<div class="alert alert-warning media fade in"><p>A division with the same name/description already exists!</p></div>',
                                 layout: 'bottom-right',
                                 theme: 'made',
                                 animation: {

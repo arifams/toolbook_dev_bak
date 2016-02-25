@@ -28,7 +28,7 @@ namespace PI.Contract.DTOs.CostCenter
 
         public IList<DivisionDto> AllDivisions { get; set; }
 
-        public IList<DivisionDto> AssignedDivisions { get; set; } 
+        public string AssignedDivisionsForGrid { get; set; } 
 
         public AddressDto BillingAddress { get; set; }
 
