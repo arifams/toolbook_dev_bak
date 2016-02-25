@@ -525,7 +525,7 @@
                                     <div class="append-icon">
                                         <input type="text" name="state" id="state" class="form-control form-white state" placeholder="State {{regCtrl.isRequiredState?'*':''}}" ng-required="regCtrl.isRequiredState" ng-model="regCtrl.user.customeraddress.state" ng-maxlength="100" ng-class="{ 'error': formSignup.state.$invalid && (formSignup.state.$dirty||regCtrl.isSubmit) }" />
                                         <i class="icon-user"></i>
-                                    </div>
+                                    </div> 
                                     <div ng-messages="formSignup.state.$error" ng-show="formSignup.state.$dirty || regCtrl.isSubmit">
                                         <label ng-message="required" class="error" for="state">Enter State</label>
                                         <label ng-message="maxlength" class="error" for="state">Enter less than 100 characters</label>
