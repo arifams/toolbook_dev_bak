@@ -183,21 +183,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row" ng-show="regCtrl.user.isCorporateAccount == 'true'">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="companycode" id="companycode" class="form-control form-white companycode" placeholder="Company Code *" ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companycode.$invalid && (formSignup.companycode.$dirty||regCtrl.isSubmit) }" />
-                                        <i class="icon-user"></i>
-                                    </div>
-                                    <div ng-messages="formSignup.companycode.$error" ng-show="formSignup.companycode.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="companycode">Enter company code</label>
-                                        <label ng-message="maxlength" class="error" for="companycode">Enter less than 200 characters</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
@@ -599,10 +584,6 @@
                             <div ng-messages="formSignup.companyname.$error" ng-show="formSignup.companyname.$dirty || regCtrl.isSubmit">
                                 <label ng-message="required" class="error" for="companyname">Enter company name</label>
                                 <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
-                            </div>
-                            <div ng-messages="formSignup.companycode.$error" ng-show="formSignup.companycode.$dirty || regCtrl.isSubmit">
-                                <label ng-message="required" class="error" for="companycode">Enter company code</label>
-                                <label ng-message="maxlength" class="error" for="companycode">Enter less than 200 characters</label>
                             </div>
                             <div ng-messages="formSignup.postalcode.$error" ng-show="formSignup.postalcode.$dirty || regCtrl.isSubmit">
                                 <label ng-message="required" class="error" for="postalcode">Enter Postal Code</label>
