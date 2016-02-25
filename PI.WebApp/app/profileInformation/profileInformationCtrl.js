@@ -1125,10 +1125,21 @@
                             vm.model.companyDetails = response.companyDetails;
                             vm.model.companyDetails.costCenter = response.companyDetails.costCenter;
 
+                            if (response.companyDetails.costCenter != null) {
+                                vm.multipleCostCenters = false;
+                            }
+                            else {
+                                vm.multipleCostCenters = true;
+                            }
+
+
                             if (response.companyDetails.costCenter != null &&
                                 response.companyDetails.costCenter.billingAddress != null) {
+                               
                                 vm.model.companyDetails.costCenter.billingAddress = response.companyDetails.costCenter.billingAddress;
                             }
+
+                            
 
                             if (response.customerDetails.isCorporateAccount) {
                                 vm.model.customerDetails.isCorporateAccount = "true";

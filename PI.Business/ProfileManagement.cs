@@ -34,6 +34,7 @@ namespace PI.Business
 
             Tenant currentTenant = null;
             Company currentCompany = null;
+            IQueryable<CostCenter> currentCostCenters = null;
             CostCenter currentCostCenter = null;
 
             if (applicationUser != null)
@@ -48,7 +49,12 @@ namespace PI.Business
 
             if (currentCompany != null)
             {
-                currentCostCenter = this.GetCostCenterByCompanyId(currentCompany.Id);
+                currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
+
+                if (currentCostCenters != null && currentCostCenters.Count()==1)
+                {
+                    currentCostCenter = currentCostCenters.FirstOrDefault();
+                }
             }
 
             //assigning basic customer details to Dto
@@ -150,7 +156,8 @@ namespace PI.Business
             ApplicationUser currntUser;
             Company curentCompany;
             Tenant currentTenant;
-            CostCenter currentCostCenter;
+            CostCenter currentCostCenter=null;
+            IQueryable<CostCenter> currentCostCenters=null;
 
 
             if (updatedProfile == null)
@@ -207,7 +214,12 @@ namespace PI.Business
                 return 0;
             }
 
-            currentCostCenter = this.GetCostCenterByCompanyId(curentCompany.Id);
+            currentCostCenters = this.GetCostCenterByCompanyId(curentCompany.Id);
+
+            if (currentCostCenters!=null && currentCostCenters.Count()==1)
+            {
+                currentCostCenter = currentCostCenters.FirstOrDefault();
+            }
 
             using (PIContext context = PIContext.Get())
             {
@@ -451,11 +463,17 @@ namespace PI.Business
         }
 
         //get costcenter by company ID
-        public CostCenter GetCostCenterByCompanyId(long companyId)
+        public IQueryable<CostCenter> GetCostCenterByCompanyId(long companyId)
         {
-            using (PIContext context = PIContext.Get())
+            using (PIContext context =new PIContext())
             {
-                return context.CostCenters.Include("BillingAddress").SingleOrDefault(n => n.CompanyId == companyId);
+                // return context.CostCenters.Include("BillingAddress").(n => n.CompanyId == companyId);
+
+                var costCenters = from c in context.CostCenters
+                                  where c.CompanyId == companyId
+                                  select c;
+                                  
+                return costCenters;
             }
 
         }
