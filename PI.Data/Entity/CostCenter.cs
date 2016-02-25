@@ -23,8 +23,6 @@ namespace PI.Data.Entity
 
         public string Type { get; set; }
 
-        //public List<Division> AssignedDivisions { get; set; }
-
         #region Navigation Property
 
        // [ForeignKey("CompanyId")]

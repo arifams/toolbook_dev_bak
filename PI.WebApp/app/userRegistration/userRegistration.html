@@ -14,7 +14,7 @@
 </head>
 <body class="account separate-inputs boxed" data-page="signup" ng-app="userRegistration" ng-controller="userRegistrationCtrl as regCtrl">
     <!-- BEGIN LOGIN BOX -->
-    <div class="container" id="login-block">
+    <div class="container" id="login-block" ng-cloak>
         <div class="row">
             <div class="col-sm-6 col-md-6 col-md-offset-3">
                 <div class="account-wall">
@@ -126,7 +126,7 @@
                                     <div class="append-icon">
                                         <input type="password" name="password" id="password" class="form-control form-white password" placeholder="Password *" required ng-model="regCtrl.user.password" ng-class="{ 'error': formSignup.password.$invalid && (formSignup.password.$dirty||regCtrl.isSubmit) }" valid-password />
                                         <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
-                                           data-placement="top" 
+                                           data-placement="top"
                                            data-html="true"
                                            data-content="- At least 8 characters long. <br>
                                            - Should atleast contain;
@@ -445,8 +445,8 @@
                                         <option value="Zimbabwe">Zimbabwe</option>
                                     </select>-->
 
-                                    <country-select id="country" name="country"                                                   
-                                                     required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();"
+                                    <country-select id="country" name="country"
+                                                    required ng-model="regCtrl.user.customeraddress.country" ng-change="regCtrl.changeCountry();"
                                                     class="form-control"></country-select>
                                 </div>
                             </div>
@@ -546,7 +546,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                         <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
                                 data-style="expand-left" ng-click="regCtrl.isSubmit = true">
                             Register
@@ -557,10 +557,12 @@
 
                         <div ng-show="regCtrl.isSubmit && formSignup.$invalid">
 
-                            <p style='color:#994F4F;font-weight:bold;'>Your form contains 
-                            {{formSignup.$error.required.length + formSignup.$error.minlength.length +  formSignup.$error.maxlength.length + formSignup.$error.email.length + formSignup.$error.notValidPhoneNo.length+ formSignup.$error.noValidPassword.length+ formSignup.$error.noMatch.length }} 
-                            errors, see details below</p>
-                            
+                            <p style='color:#994F4F;font-weight:bold;'>
+                                Your form contains
+                                {{formSignup.$error.required.length + formSignup.$error.minlength.length +  formSignup.$error.maxlength.length + formSignup.$error.email.length + formSignup.$error.notValidPhoneNo.length+ formSignup.$error.noValidPassword.length+ formSignup.$error.noMatch.length }}
+                                errors, see details below
+                            </p>
+
                             <div ng-messages="formSignup.firstname.$error" ng-show="formSignup.firstname.$dirty || regCtrl.isSubmit">
                                 <label ng-message="required" class="error" for="firstname">Enter your first name</label>
                                 <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
@@ -636,22 +638,22 @@
                             <p class="pull-right m-t-20"><a href="../../app/userLogin/userLogin.html">Already have an account? Sign In</a></p>
                         </div>
                     </form>
-                    
+
                     <div class="alert alert-success confirmationMailSend" ng-show="regCtrl.isSentMail">
-                        Thank you for registrating with us! A Confirmation message sent was sent to your email. 
+                        Thank you for registrating with us! A Confirmation message sent was sent to your email.
                         Please check the mail box, to activate the account.
                     </div>
 
                     <div class="alert alert-warning" ng-show="regCtrl.isEmailNotValid">
                         Email address is already in use.
                     </div>
-                    
+
                     <div class="alert alert-warning" ng-show="regCtrl.isServerError ">
                         Error occured while processing registration
-                    </div>  
+                    </div>
                 </div>
 
-                
+
             </div>
         </div>
         <p class="account-copyright">
