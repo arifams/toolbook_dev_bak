@@ -125,7 +125,16 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="password" name="password" id="password" class="form-control form-white password" placeholder="Password *" required ng-model="regCtrl.user.password" ng-class="{ 'error': formSignup.password.$invalid && (formSignup.password.$dirty||regCtrl.isSubmit) }" valid-password />
-                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover" data-placement="top" data-content="-At least 8 characters long ,Contains lowercase letter, Contains Uppercase letters, Contains Number" data-original-title="Password should contain"></i>
+                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                           data-placement="top" 
+                                           data-html="true"
+                                           data-content="- At least 8 characters long. <br>
+                                           - Should atleast contain;
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One special charactor.
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
+                                           data-original-title="Your Password should be:"></i>
                                     </div>
                                     <div ng-messages="formSignup.password.$error" ng-show="formSignup.password.$dirty || regCtrl.isSubmit">
                                         <label ng-message="required" class="error" for="password">Enter your password</label>
