@@ -538,7 +538,7 @@
                                 <div class="terms option-group">
                                     <label for="terms" class="m-t-10">
                                         <input type="checkbox" name="terms" id="terms" required ng-model="regCtrl.user.terms" ng-class="{ 'error': formSignup.terms.$invalid && (formSignup.terms.$dirty||regCtrl.isSubmit) }" icheck />
-                                        I agree with terms and conditions
+                                        I agree with <a href="termsAndConditions.html"> Terms and Conditions</a>
                                     </label>
                                     <div ng-messages="formSignup.terms.$error" ng-show="formSignup.terms.$dirty || regCtrl.isSubmit">
                                         <label ng-message="required" class="error" for="terms">You must agree with terms</label>
