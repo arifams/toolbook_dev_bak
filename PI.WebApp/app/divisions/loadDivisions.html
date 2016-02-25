@@ -59,8 +59,30 @@
                             <br />
 
                           </div>
-                        <div class="gridStyle" ng-grid="gridOptions"></div>                  
                        
+                <div class="divTable">
+                    <table st-table="rowCollection" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Division</th>
+                                <th>Assigned Cost Centers</th>
+                                <th>Number Users</th>
+                                <th>Status</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in rowCollection">
+                                <td>{{row.firstName}}</td>
+                                <td>{{row.lastName}}</td>
+                                <td>{{row.birthDate}}</td>
+                                <td>{{row.balance}}</td>
+                                <td>{{row.email}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>      
                   
                
             </div>       
