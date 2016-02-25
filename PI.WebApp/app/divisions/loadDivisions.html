@@ -37,7 +37,7 @@
                                                          convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
                                                          name="costcenter" class="defaultcurrency"  ng-model="costcenter" 
                                                          ng-change="selectDivisionforCostCenter()">
-                                                      <option value="">All</option>
+                                                      <option value="0">All</option>
                                                  </select>
                                              </div>
                                          </div>
@@ -74,11 +74,12 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in rowCollection">
-                                <td>{{row.firstName}}</td>
-                                <td>{{row.lastName}}</td>
-                                <td>{{row.birthDate}}</td>
-                                <td>{{row.balance}}</td>
-                                <td>{{row.email}}</td>
+                                <td>{{row.Name}}</td>
+                                <td>{{row.AssignedCostCenters}}</td>
+                                <td>{{row.NumberOfUsers}}</td>
+                                <td>{{row.Status}}</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                         </tbody>
                     </table>

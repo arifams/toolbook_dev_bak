@@ -532,9 +532,9 @@ namespace PI.Business
                 var content = context.Divisions
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
-                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
                                                     (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
-                                                    (type == null || x.IsActive.ToString() == type)
+                                                    (type == "0" || x.IsActive.ToString() == type)
                                                     )
 
                                             .OrderBy(sortBy + " " + sortDirection)
