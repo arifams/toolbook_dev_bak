@@ -533,9 +533,9 @@ namespace PI.Business
                 var content = context.Divisions.Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
-                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
+                                                    (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
                                                     (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
-                                                    (type == null || x.IsActive.ToString() == type)
+                                                    (type == "0" || x.IsActive.ToString() == type)
                                                     )
 
                                             .OrderBy(sortBy + " " + sortDirection)
@@ -626,7 +626,7 @@ namespace PI.Business
                    };
                 }
 
-                var division = context.Divisions.Include("DivisionCostCenter").SingleOrDefault(d => d.Id == id);
+                var division = context.Divisions.Include("DivisionCostCenters").SingleOrDefault(d => d.Id == id);
 
                 division.DivisionCostCenters.Where(cd=> cd.CostCenters.IsActive).ToList().ForEach(c => costCenterList.Add(new CostCenterDto
                                                                 {
