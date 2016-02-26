@@ -14,7 +14,7 @@ namespace PI.Data.Entity
         public bool IsAssigned { get; set; }
 
         [ForeignKey("DivisionId")]
-        public Division Divisions { get; set; }
+        public virtual Division Divisions { get; set; }
         [ForeignKey("CostCenterId")]
         public CostCenter CostCenters { get; set; }
     }
