@@ -537,6 +537,7 @@
     <Content Include="plugins\json3\README.md" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
+    <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
