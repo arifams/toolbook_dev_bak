@@ -113,7 +113,7 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllCostCentersByFliter")]
-        public PagedList GetAllCostCentersByFliter(long division, string type, string userId, string searchtext, 
+        public PagedList GetAllCostCentersByFliter(long division, string type, string userId, string searchtext="", 
                                                    int page = 1, int pageSize = 10, string sortBy = "Id", 
                                                    string sortDirection = "asc")
         {
