@@ -35,7 +35,7 @@ namespace PI.Data
         public PIContext()
             : base("name=PIBookingConnectionString")
         {
-
+            Configuration.LazyLoadingEnabled = true;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

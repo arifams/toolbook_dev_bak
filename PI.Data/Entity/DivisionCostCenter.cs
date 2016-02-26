@@ -15,7 +15,8 @@ namespace PI.Data.Entity
 
         [ForeignKey("DivisionId")]
         public virtual Division Divisions { get; set; }
+
         [ForeignKey("CostCenterId")]
-        public CostCenter CostCenters { get; set; }
+        public virtual CostCenter CostCenters { get; set; }
     }
 }
