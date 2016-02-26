@@ -1016,7 +1016,7 @@
             var vm = this;
             //vm.t_currencies;
             //vm.t_languages;
-            vm.t_timezones;
+            vm.t_timezones;          
 
 
             vm.model = {};
@@ -1039,6 +1039,7 @@
             vm.changeBillingCountry = function () {
                 vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR'|| vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
             };
+
           //vm.changeCountry();
 
             vm.useCorpAddressAsBilling = function () {
@@ -1124,6 +1125,7 @@
                             vm.model.customerDetails.customerAddress = response.customerDetails.customerAddress;
                             vm.model.companyDetails = response.companyDetails;
                             vm.model.companyDetails.costCenter = response.companyDetails.costCenter;
+                            vm.changeCountry();
 
                             if (response.companyDetails.costCenter != null) {
                                 vm.multipleCostCenters = false;
@@ -1137,6 +1139,7 @@
                                 response.companyDetails.costCenter.billingAddress != null) {
                                
                                 vm.model.companyDetails.costCenter.billingAddress = response.companyDetails.costCenter.billingAddress;
+                                vm.changeBillingCountry();
                             }
 
                             
@@ -1300,7 +1303,7 @@
                             },
                             {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
                                 
-                                updateProfile = false;
+                               // updateProfile = false;
                                 $noty.close();
                                 return;
                                // noty({text: 'You clicked "Cancel" button', type: 'error'});
