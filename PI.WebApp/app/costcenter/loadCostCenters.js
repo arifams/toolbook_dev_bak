@@ -71,7 +71,7 @@
                 .then(function successCallback(responce) {
 
                     $scope.rowCollection = responce.data.content;
-
+                    debugger;
                 }, function errorCallback(response) {
                     //todo
                 });
