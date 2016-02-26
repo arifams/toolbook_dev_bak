@@ -954,7 +954,7 @@
     }]);
 
     app.controller('userRegistrationCtrl', 
-        ['registerUserService' ,function (registerUserService) {
+        ['registerUserService', '$window', function (registerUserService, $window) {
 
         var vm = this;
         vm.user = {};
@@ -974,6 +974,9 @@
         };
         vm.changeCountry();
 
+        vm.OpenNewWindow = function () {
+            $window.open("termsandconditions.html", "", "width=640, height=480");
+        }
 
         vm.alreadySubmitted = false;
 
