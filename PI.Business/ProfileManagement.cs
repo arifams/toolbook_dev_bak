@@ -158,6 +158,7 @@ namespace PI.Business
             Tenant currentTenant;
             CostCenter currentCostCenter=null;
             IQueryable<CostCenter> currentCostCenters=null;
+            bool updateUserName = false;
 
 
             if (updatedProfile == null)
@@ -193,8 +194,11 @@ namespace PI.Business
                         {
                             var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
                             user.UserName = updatedProfile.CustomerDetails.Email;
+                            user.Email= updatedProfile.CustomerDetails.Email;
+                            user.EmailConfirmed = false;
                         }
-                        context.SaveChanges();                 
+                        context.SaveChanges();
+                    updateUserName = true;
 
                 }
 
@@ -379,7 +383,15 @@ namespace PI.Business
                 //saving changes of updated profile
                 //context.SaveChanges();
             }
-            return 1;
+            if (updateUserName)
+            {
+                return 3;
+            }
+            else
+            {
+                return 1;
+            }
+           
 
         }
 
