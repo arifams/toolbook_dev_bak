@@ -259,7 +259,9 @@ namespace PI.Business
 
                 if (currentCostCenter != null)
                 {
-                    currentCostCenter.PhoneNumber = updatedProfile.CompanyDetails.CostCenter.PhoneNumber;
+                    //  context.CostCenters.Attach(currentCostCenter);
+                    var costCentercurrent = GetCostCenterById(currentCostCenter.Id);
+                    costCentercurrent.PhoneNumber = updatedProfile.CompanyDetails.CostCenter.PhoneNumber;
                     context.SaveChanges();
 
                     BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
@@ -479,6 +481,13 @@ namespace PI.Business
 
         }
 
+        public CostCenter GetCostCenterById(long CostCenterId)
+        {
+            using (PIContext context = PIContext.Get())
+            {
+                return context.CostCenters.SingleOrDefault(n => n.Id == CostCenterId);
+            }
+        }
 
 
         //Get Account Setting Details
