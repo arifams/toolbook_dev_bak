@@ -169,8 +169,6 @@ namespace PI.Business
                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId))
                                                     )
                                             .OrderBy(sortBy + " " + sortDirection)
-                                            .Skip((page - 1) * pageSize)
-                                            .Take(pageSize)
                                             .ToList();
 
                 foreach (var item in content)
@@ -540,8 +538,6 @@ namespace PI.Business
                                                     )
 
                                             .OrderBy(sortBy + " " + sortDirection)
-                                            .Skip((page - 1) * pageSize)
-                                            .Take(pageSize)
                                             .ToList();
 
                 foreach (var item in content)
