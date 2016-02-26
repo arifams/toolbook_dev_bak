@@ -6,9 +6,11 @@ using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -61,14 +63,15 @@ namespace PI.Service.Controllers
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
         {
-             ProfileManagement userprofile = new ProfileManagement();            
+             ProfileManagement userprofile = new ProfileManagement();
+            
 
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
                 IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
                                                             profile.OldPassword,
                                                            profile.NewPassword);
-                if (result.Errors.Count()> 0)
+                if (result.Errors!=null && result.Errors.Count()> 0)
                 {
                     return -3;
                 } 
@@ -76,7 +79,26 @@ namespace PI.Service.Controllers
 
             var updatedStatus = userprofile.updateProfileData(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2 )
+            if (updatedStatus==3)
+            {
+                ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
+
+                #region For Email Confirmaion
+
+                string code = AppUserManager.GenerateEmailConfirmationToken(existingUser.Id);
+                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + existingUser.Id + "&code=" + code));
+
+              StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
+              emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
+                                           .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+              AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
+
+                #endregion
+              
+            }
+
+            if (updatedStatus == 1 || updatedStatus == -2 || updatedStatus == 3)
             {
               return  updatedStatus;
             }           
