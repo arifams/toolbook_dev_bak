@@ -187,7 +187,8 @@ namespace PI.Business
                         Type = item.Type,
                         FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
                         item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country,
-                        AssignedDivisionsForGrid = str.ToString()
+                        AssignedDivisionsForGrid = str.ToString(),
+                        StatusString = item.Status == 1 ? "Active" : "InActive"
                     });
                 }
 
@@ -556,6 +557,7 @@ namespace PI.Business
                         DefaultCostCenterId = item.DefaultCostCenterId,
                         Description = item.Description,
                         Status = item.Status,
+                        StatusString = item.Status == 1 ? "Active" : "InActive",
                         Type = item.Type,
                         NumberOfUsers = 0,
                         AssosiatedCostCentersForGrid = stringResult.ToString()

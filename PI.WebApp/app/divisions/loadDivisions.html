@@ -80,9 +80,9 @@
                         <tbody>
                             <tr ng-repeat="row in displayedCollection">
                                 <td>{{row.name}}</td>
-                                <td>{{row.assignedCostCenters}}</td>
+                                <td>{{row.assosiatedCostCentersForGrid}}</td>
                                 <td>{{row.numberOfUsers}}</td>
-                                <td>{{row.status}}</td>
+                                <td>{{row.statusString}}</td>
                                 <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
                                 <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
                             </tr>
@@ -90,7 +90,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="5" class="text-center">
-                                    <div st-pagination="" st-items-by-page="itemsByPage" st-displayed-pages="7"></div>
+                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
                                 </td>
                             </tr>
                         </tfoot>

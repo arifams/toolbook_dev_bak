@@ -39,6 +39,8 @@ namespace PI.Contract.DTOs.CostCenter
         public string UserId { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string StatusString { get; set; }
     }
 
 }

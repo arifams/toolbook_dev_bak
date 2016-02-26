@@ -37,5 +37,7 @@ namespace PI.Contract.DTOs.Division
 
         public string UserId { get; set; }
 
+        public string StatusString { get; set; }
+
     }
 }
