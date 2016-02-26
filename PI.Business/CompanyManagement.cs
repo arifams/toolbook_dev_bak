@@ -172,7 +172,7 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
-                    item.DivisionCostCenters.ToList().ForEach(e => str.Append(e.Divisions.Name + "</br>"));
+                    item.DivisionCostCenters.ToList().ForEach(e => str.Append(e.Divisions.Name + " ,"));
 
                     pagedRecord.Content.Add(new CostCenterDto
                     {
@@ -544,7 +544,7 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder stringResult = new StringBuilder();
-                    item.DivisionCostCenters.ToList().ForEach(e => stringResult.Append(e.Divisions.Name + "</br>"));
+                    item.DivisionCostCenters.ToList().ForEach(e => stringResult.Append(e.Divisions.Name + " ,"));
 
                     pagedRecord.Content.Add(new DivisionDto
                     {
