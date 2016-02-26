@@ -1031,6 +1031,16 @@
                 }
 
             }
+            //clear password data 
+            vm.clearPassword = function () {
+
+                if (vm.model.changeLoginData == false) {
+
+                    vm.model.newPassword = "";
+                    vm.model.confirmPassword = "";
+                    vm.model.oldPassword = "";
+                }
+            };
 
             vm.changeCountry = function () {
                 vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
@@ -1172,20 +1182,20 @@
 
                 var body = $("html, body");
 
-                if ( (vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword) {
+                if ( (vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData==true) {
                    
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                        text: '<div class="alert alert-warning media fade in"><p>New Password Cannot be same as old Password</p></div>',
                         layout: 'bottom-right',
                         theme: 'made',
                         animation: {
                             open: 'animated bounceInLeft',
                             close: 'animated bounceOutLeft'
                         },
-                        timeout: 5000,
+                        timeout: 3000,
                     });
 
                     return;
@@ -1219,7 +1229,7 @@
                                                                   open: 'animated bounceInLeft',
                                                                    close: 'animated bounceOutLeft'
                                                                 },
-                                                                timeout: 5000,
+                                                                timeout: 3000,
                                                             });
 
                                                         }
@@ -1255,7 +1265,7 @@
                                                                     open: 'animated bounceInLeft',
                                                                     close: 'animated bounceOutLeft'
                                                                 },
-                                                                timeout: 5000,
+                                                                timeout: 3000,
                                                             });
                                                         }
                                                         else {
@@ -1273,7 +1283,7 @@
                                                                     open: 'animated bounceInLeft',
                                                                     close: 'animated bounceOutLeft'
                                                                 },
-                                                                timeout: 5000,
+                                                                timeout: 3000,
                                                             });
                                                         }
                                                     }
@@ -1294,7 +1304,7 @@
                                                             open: 'animated bounceInLeft',
                                                             close: 'animated bounceOutLeft'
                                                         },
-                                                        timeout: 5000,
+                                                        timeout: 3000,
                                                     });
                                                 });
                                
@@ -1316,7 +1326,7 @@
                         open: 'animated bounceInLeft',
                         close: 'animated bounceOutLeft'
                     },
-                    timeout: 5000,
+                    timeout: 3000,
                 });            
                 
             }

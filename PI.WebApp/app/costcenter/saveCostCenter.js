@@ -64,10 +64,10 @@
        ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window',
            function (costCentrMngtFactory, costCenterSaveFactory, $location, $window) {
                var vm = this;
-
+               
                vm.saveCostCenter = function () {
                    vm.model.userId = $window.localStorage.getItem('userGuid')
-
+                   
                    costCenterSaveFactory.saveCostCenter(vm.model)
                    .success(function (result) {
                        debugger;
@@ -120,18 +120,14 @@
                var loadCostcenter = function () {
                    costCentrMngtFactory.loadCostcenterInfo()
                    .success(function (data) {
+                       
                        vm.model = data;
-                       debugger;
+                       
                        if (vm.model.id == 0) {
                            vm.model.status = 1;
-
-                           vm.model = {
-
-                               billingAddress: {
-                                   country: 'US'
-                               }
-
-                           };
+                           vm.model.billingAddress = {
+                                       country: 'US'
+                                   };
                            vm.isRequiredState = true;
                        }
                        else {
@@ -139,6 +135,7 @@
                        }
                    })
                    .error(function () {
+                       debugger;
                    })
                }
 
