@@ -90,7 +90,7 @@
 
                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                            $('#panel-notif').noty({
-                               text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully</p></div>',
+                               text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully!</p></div>',
                                layout: 'bottom-right',
                                theme: 'made',
                                animation: {
@@ -126,7 +126,7 @@
                    .success(function (data) {
                        
                        vm.model = data;
-                       
+                       vm.model.assignedDivisionIdList = [];
                        if (vm.model.id == 0) {
                            vm.model.status = 1;
                            vm.model.billingAddress = {
@@ -136,6 +136,13 @@
                        }
                        else {
                            vm.changeCountry();
+                           debugger;
+                           //Add selected sites
+                           angular.forEach(vm.model.allDivisions, function (availableDivision) {
+                               if (availableDivision.isAssignedToCurrentCostCenter) {
+                                   vm.model.assignedDivisionIdList.push(availableDivision.id);
+                               }
+                           })
                        }
                    })
                    .error(function () {
