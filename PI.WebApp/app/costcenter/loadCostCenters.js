@@ -54,7 +54,7 @@
                 //todo
             });
 
-        $scope.itemsByPage = 2; // Set page size    // 25
+        $scope.itemsByPage = 25;
         $scope.rowCollection = [];
         // Add dumy record, since data loading is async.
         $scope.rowCollection.push(1);
@@ -71,7 +71,7 @@
                 .then(function successCallback(responce) {
 
                     $scope.rowCollection = responce.data.content;
-
+                    debugger;
                 }, function errorCallback(response) {
                     //todo
                 });

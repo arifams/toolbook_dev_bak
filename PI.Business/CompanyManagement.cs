@@ -169,8 +169,6 @@ namespace PI.Business
                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId))
                                                     )
                                             .OrderBy(sortBy + " " + sortDirection)
-                                            .Skip((page - 1) * pageSize)
-                                            .Take(pageSize)
                                             .ToList();
 
                 foreach (var item in content)
@@ -188,7 +186,7 @@ namespace PI.Business
                         FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
                         item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country,
                         AssignedDivisionsForGrid = str.ToString(),
-                        StatusString = item.Status == 1 ? "Active" : "InActive"
+                        StatusString = item.IsActive ? "Active" : "InActive"
                     });
                 }
 
@@ -342,7 +340,7 @@ namespace PI.Business
                             CreatedDate = DateTime.Now,
                             CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         },
-                        IsActive = true,
+                        IsActive = costCenter.Status == 1 ? true : false,
                         DivisionCostCenters = divcostList
                     };
                     context.CostCenters.Add(newCostCenter);
@@ -540,8 +538,6 @@ namespace PI.Business
                                                     )
 
                                             .OrderBy(sortBy + " " + sortDirection)
-                                            .Skip((page - 1) * pageSize)
-                                            .Take(pageSize)
                                             .ToList();
 
                 foreach (var item in content)
@@ -557,7 +553,7 @@ namespace PI.Business
                         DefaultCostCenterId = item.DefaultCostCenterId,
                         Description = item.Description,
                         Status = item.Status,
-                        StatusString = item.Status == 1 ? "Active" : "InActive",
+                        StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
                         NumberOfUsers = 0,
                         AssosiatedCostCentersForGrid = stringResult.ToString()
@@ -701,6 +697,7 @@ namespace PI.Business
                         Status = division.Status,
                         CompanyId = comapnyId,
                         Type = "USER",
+                        IsActive = division.Status == 1 ? true : false,
                         CreatedDate = DateTime.Now,
                         CreatedBy = 1,// TODO : Get created user.                       
                     };
@@ -725,6 +722,7 @@ namespace PI.Business
                     existingDivision.Status = division.Status;
                     existingDivision.CompanyId = comapnyId;
                     existingDivision.Type = "USER";
+                    existingDivision.IsActive = division.Status == 1 ? true : false;
                     existingDivision.CreatedDate = DateTime.Now;
                     existingDivision.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
 

@@ -5,7 +5,7 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal" name="saveDivisionForm" novalidate>
+        <form class="form-horizontal" name="saveDivisionForm" >
             <!-- /.box-header -->
 
             <div class="panel-header">
@@ -69,7 +69,8 @@
                                 <button ng-click="divCtrl.close()" class="btn btn-app pull-right">
                                     <i class="fa fa-close"></i> Close
                                 </button>
-                                <button type="submit" ng-click="saveDivisionForm.$valid && divCtrl.saveDivision()" class="btn btn-app pull-right">
+                                <button type="submit" ng-click="(saveDivisionForm.$valid ? divCtrl.saveDivision() : divCtrl.isSubmit = true)"
+                                        class="btn btn-app pull-right">
                                     <i class="fa fa-save"></i> Save
                                 </button>
                             </div>

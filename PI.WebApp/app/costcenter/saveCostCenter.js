@@ -64,14 +64,17 @@
        ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window',
            function (costCentrMngtFactory, costCenterSaveFactory, $location, $window) {
                var vm = this;
-
+               
                vm.saveCostCenter = function () {
                    vm.model.userId = $window.localStorage.getItem('userGuid')
+                   var body = $("html, body");
 
                    costCenterSaveFactory.saveCostCenter(vm.model)
                    .success(function (result) {
                        debugger;
                        if (result == -1) {
+
+                           body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {});
 
                            $('#panel-notif').noty({
                                text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
@@ -85,8 +88,9 @@
                            });
                        } else {
 
+                           body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                            $('#panel-notif').noty({
-                               text: '<div class="alert alert-success media fade in"><p>"Cost center saved successfully"</p></div>',
+                               text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully</p></div>',
                                layout: 'bottom-right',
                                theme: 'made',
                                animation: {
@@ -120,18 +124,14 @@
                var loadCostcenter = function () {
                    costCentrMngtFactory.loadCostcenterInfo()
                    .success(function (data) {
+                       
                        vm.model = data;
-                       debugger;
+                       
                        if (vm.model.id == 0) {
                            vm.model.status = 1;
-
-                           vm.model = {
-
-                               billingAddress: {
-                                   country: 'US'
-                               }
-
-                           };
+                           vm.model.billingAddress = {
+                                       country: 'US'
+                                   };
                            vm.isRequiredState = true;
                        }
                        else {
@@ -139,6 +139,7 @@
                        }
                    })
                    .error(function () {
+                       debugger;
                    })
                }
 
