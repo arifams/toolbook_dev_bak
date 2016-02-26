@@ -172,7 +172,7 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
-                    item.DivisionCostCenters.ToList().ForEach(e => str.Append(e.Divisions.Name + "</br>"));
+                    item.DivisionCostCenters.ToList().ForEach(e => str.Append(e.Divisions.Name + " ,"));
 
                     pagedRecord.Content.Add(new CostCenterDto
                     {
@@ -534,8 +534,9 @@ namespace PI.Business
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
-                                                    (costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
-                                                    (type == "0" || x.IsActive.ToString() == type)
+                                                    //(costCenterId == 0 || x.DefaultCostCenterId == costCenterId) &&
+                                                    (type == "0" || x.IsActive.ToString() == type) &&
+                                                    (costCenterId == 0 || x.DivisionCostCenters.Any(C => C.CostCenterId == costCenterId))
                                                     )
 
                                             .OrderBy(sortBy + " " + sortDirection)
@@ -544,7 +545,9 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder stringResult = new StringBuilder();
-                    item.DivisionCostCenters.ToList().ForEach(e => stringResult.Append(e.Divisions.Name + "</br>"));
+                    context.DivisionCostCenters.Include("CostCenters").Where(c => c.DivisionId == item.Id).ToList().
+                                                    ForEach(e => stringResult.Append(e.CostCenters.Name + " ,"));
+                   // item.DivisionCostCenters.ToList().ForEach(e => stringResult.Append(e.Divisions.Name + "</br>"));
 
                     pagedRecord.Content.Add(new DivisionDto
                     {
