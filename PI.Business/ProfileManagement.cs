@@ -471,6 +471,7 @@ namespace PI.Business
 
                 var costCenters = from c in context.CostCenters
                                   where c.CompanyId == companyId
+                                  && c.IsDelete!=true
                                   select c;
                                   
                 return costCenters;

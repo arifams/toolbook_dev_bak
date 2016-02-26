@@ -58,7 +58,43 @@
 
                     </div>
                     <br />
-                    <div class="gridStyle" ng-grid="gridOptions"></div>
+                    <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
+
+                    <div class="costCenterTable">
+
+                        <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name">Cost Center</th>
+                                    <th>Assigned Divisions</th>
+                                    <th>Billing Address</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in displayedCollection">
+                                    <td>{{row.name}}</td>
+                                    <td>{{row.assignedDivisions}}</td>
+                                    <td>{{row.fullBillingAddress}}</td>
+                                    <td>{{row.statusString}}</td>
+                                    <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
                 </div>
             </div>
         </form>

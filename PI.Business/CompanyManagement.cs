@@ -164,8 +164,8 @@ namespace PI.Business
                 var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
                                                     && x.IsDelete == false &&
-                                                    (searchtext == null || x.Name.Contains(searchtext)) &&
-                                                    (type == null || x.IsActive.ToString() == type) &&
+                                                    (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
+                                                    (type == "0" || x.IsActive.ToString() == type) &&
                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId))
                                                     )
                                             .OrderBy(sortBy + " " + sortDirection)
