@@ -19,7 +19,7 @@ var MakeApp = angular
     'ui.bootstrap',
     'ngStorage',
     'ngMessages',
-    'ngGrid',
+    //'ngGrid',
     'smart-table'
   ])
   .config(function ($routeProvider) {
