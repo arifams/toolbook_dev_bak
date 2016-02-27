@@ -27,12 +27,12 @@
     app.factory('loadCostCenterService', function ($http, $q, $log, $rootScope) {
 
         return {
-            find: function (userId, searchText, costCenter, type) {
+            find: function (userId, searchText, division, type) {
                 return $http.get(serverBaseUrl + '/api/Company/GetAllCostCentersByFliter', {
                     params: {
                         userId: userId,
                         searchtext: searchText,
-                        division: costCenter,
+                        division: division,
                         type: type
                     }
                 });
@@ -63,11 +63,11 @@
             
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
-            var costCenter = ($scope.costcenter == undefined || $scope.costcenter == "") ? 0 : $scope.costcenter;
+            var division = ($scope.selectedDivision == undefined || $scope.selectedDivision == "") ? 0 : $scope.selectedDivision;
             var type = ($scope.status == undefined || $scope.status == "") ? 0 : $scope.status;
             var searchText = $scope.searchText;
-
-            loadCostCenterService.find(userId, searchText, costCenter, type)
+            
+            loadCostCenterService.find(userId, searchText, division, type)
                 .then(function successCallback(responce) {
 
                     $scope.rowCollection = responce.data.content;
