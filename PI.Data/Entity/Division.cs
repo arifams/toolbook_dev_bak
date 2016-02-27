@@ -29,7 +29,7 @@ namespace PI.Data.Entity
         [ForeignKey("DefaultCostCenterId")]
         public CostCenter CostCenter { get; set; }
 
-        public virtual IList<DivisionCostCenter> DivisionCostCenters { get; set; }
+        public virtual ICollection<CostCenter> CostCenters { get; set; }
 
         #endregion
     }

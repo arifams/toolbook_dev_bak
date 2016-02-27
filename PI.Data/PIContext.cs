@@ -30,7 +30,7 @@ namespace PI.Data
         public DbSet<AccountSettings> AccountSettings { get; set; }
         public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
+        //public DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")
@@ -42,16 +42,25 @@ namespace PI.Data
         {
             //Configure domain classes using modelBuilder here
 
-
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<DivisionCostCenter>()
-            .HasRequired(c => c.Divisions)
-            .WithMany()
-            .WillCascadeOnDelete(false);
+            modelBuilder.Entity<Division>()
+                .HasMany<CostCenter>(d => d.CostCenters)
+                .WithMany(c => c.Divisions)
+                .Map(cs =>
+                {
+                    cs.MapLeftKey("DivisionId");
+                    cs.MapRightKey("CostCenterId");
+                    cs.ToTable("DivisionCostCenter");
+                });
 
-            modelBuilder.Entity<DivisionCostCenter>()
-            .HasRequired(s => s.CostCenters)
+            //modelBuilder.Entity<CostCenter>()
+            // .HasRequired(c => c.Divisions)
+            // .WithMany()
+            // .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Division>()
+            .HasRequired(s => s.CostCenter)
             .WithMany()
             .WillCascadeOnDelete(false);
         }
