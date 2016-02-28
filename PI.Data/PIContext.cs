@@ -45,13 +45,18 @@ namespace PI.Data
 
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<DivisionCostCenter>()
-            .HasRequired(c => c.Divisions)
-            .WithMany()
-            .WillCascadeOnDelete(false);
+            //modelBuilder.Entity<DivisionCostCenter>()
+            //.HasRequired(c => c.Divisions)
+            //.WithMany()
+            //.WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<DivisionCostCenter>()
-            .HasRequired(s => s.CostCenters)
+            //modelBuilder.Entity<DivisionCostCenter>()
+            //.HasRequired(s => s.CostCenters)
+            //.WithMany()
+            //.WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Division>()
+            .HasRequired(s => s.CostCenter)
             .WithMany()
             .WillCascadeOnDelete(false);
         }
