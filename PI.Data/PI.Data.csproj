@@ -95,6 +95,7 @@
     <Compile Include="Entity\Currency.cs" />
     <Compile Include="Entity\Customer.cs" />
     <Compile Include="Entity\Division.cs" />
+    <Compile Include="Entity\DivisionCostCenter.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
