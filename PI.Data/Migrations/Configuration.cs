@@ -35,22 +35,18 @@ namespace PI.Data.Migrations
 
             context.Languages.AddOrUpdate(     
                 x=>x.Id,          
-                new Entity.Language() { Id=1, LanguageCode="ENG", LanguageName="English", CreatedBy=1, CreatedDate=DateTime.Now},
-                new Entity.Language() { Id=2, LanguageCode = "DTH", LanguageName = "DUTCH", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Language() { Id=3, LanguageCode = "CHI", LanguageName = "CHINIES", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Language() { Id=4, LanguageCode = "FH", LanguageName = "FRENCH", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Language() { Id=5, LanguageCode = "MAN", LanguageName = "Mandarin", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Language() { Id=6, LanguageCode = "POl", LanguageName = "Polish", CreatedBy = 1, CreatedDate = DateTime.Now }
+                new Entity.Language() { Id=1, LanguageCode="EN", LanguageName="ENGLISH", CreatedBy=1, CreatedDate=DateTime.Now},
+                new Entity.Language() { Id=2, LanguageCode = "NL", LanguageName = "DUTCH", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=3, LanguageCode = "ZH", LanguageName = "CHINESE", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Language() { Id=4, LanguageCode = "DE", LanguageName = "GERMAN", CreatedBy = 1, CreatedDate = DateTime.Now }
                 );
 
             context.Currencies.AddOrUpdate(
                 x=>x.Id,
-                new Entity.Currency() { Id=1, CurrencyCode = "USD", CurrencyName = "USDollars", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id=1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = 1, CreatedDate = DateTime.Now },
                 new Entity.Currency() { Id=2, CurrencyCode = "EU", CurrencyName = "EURO", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Currency() { Id=3, CurrencyCode = "RS", CurrencyName = "RUPEES", CreatedBy = 1, CreatedDate = DateTime.Now },
                 new Entity.Currency() { Id=4, CurrencyCode = "YN", CurrencyName= "YEN", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Currency() { Id=5, CurrencyCode = "PN", CurrencyName = "PRANK", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Currency() { Id=6, CurrencyCode = "RL", CurrencyName = "RIYAL", CreatedBy = 1, CreatedDate = DateTime.Now }
+                new Entity.Currency() { Id=5, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = 1, CreatedDate = DateTime.Now }
                 );
 
             context.TimeZones.AddOrUpdate(
