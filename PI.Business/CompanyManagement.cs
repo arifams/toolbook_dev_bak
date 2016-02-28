@@ -157,7 +157,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<CostCenterDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = context.CostCenters.Include("BillingAddress")//.Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
@@ -532,7 +532,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<DivisionDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = context.Divisions
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
