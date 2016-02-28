@@ -170,10 +170,19 @@ namespace PI.Business
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .ToList();
 
+                string assignedDivForGrid = string.Empty;
+                int lastIndexOfBrTag;
+
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
-                    item.DivisionCostCenters.Where(x=> x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + " ,"));
+                    item.DivisionCostCenters.Where(x=> x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+
+                    // Remove last <br/> tag.
+                    assignedDivForGrid = str.ToString();
+                    lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
+                    if(lastIndexOfBrTag != -1)
+                        assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new CostCenterDto
                     {
@@ -185,7 +194,7 @@ namespace PI.Business
                         Type = item.Type,
                         FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
                         item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country,
-                        AssignedDivisionsForGrid = str.ToString(),
+                        AssignedDivisionsForGrid = assignedDivForGrid,
                         StatusString = item.IsActive ? "Active" : "InActive"
                     });
                 }
@@ -543,12 +552,21 @@ namespace PI.Business
                                             .OrderBy(sortBy + " " + sortDirection)
                                             .ToList();
 
+                string assosiatedCostCentersForGrid = string.Empty;
+                int lastIndexOfBrTag;
+
                 foreach (var item in content)
                 {
                     StringBuilder stringResult = new StringBuilder();
                     context.DivisionCostCenters.Include("CostCenters").Where(c => c.DivisionId == item.Id && c.IsDelete == false).ToList().
-                                                    ForEach(e => stringResult.Append(e.CostCenters.Name + " ,"));
+                                                    ForEach(e => stringResult.Append(e.CostCenters.Name + "<br/>"));
                     // item.DivisionCostCenters.ToList().ForEach(e => stringResult.Append(e.Divisions.Name + "</br>"));
+
+                    // Remove last <br/> tag.
+                    assosiatedCostCentersForGrid = stringResult.ToString();
+                    lastIndexOfBrTag = assosiatedCostCentersForGrid.LastIndexOf("<br/>");
+                    if(lastIndexOfBrTag != -1)
+                        assosiatedCostCentersForGrid = assosiatedCostCentersForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new DivisionDto
                     {
@@ -561,7 +579,7 @@ namespace PI.Business
                         StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
                         NumberOfUsers = 0,
-                        AssosiatedCostCentersForGrid = stringResult.ToString()
+                        AssosiatedCostCentersForGrid = assosiatedCostCentersForGrid
                     });
                 }
 

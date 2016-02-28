@@ -78,7 +78,7 @@
                         <tbody>
                             <tr ng-repeat="row in displayedCollection">
                                 <td>{{row.name}}</td>
-                                <td>{{row.assosiatedCostCentersForGrid}}</td>
+                                <td><span ng-bind-html="renderHtml(row.assosiatedCostCentersForGrid)"></span></td>   
                                 <td>{{row.numberOfUsers}}</td>
                                 <td>{{row.statusString}}</td>
                                 <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>

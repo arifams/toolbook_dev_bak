@@ -43,7 +43,7 @@
 
 
     app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,
-                                        costCenterManagmentService, $routeParams, $log, $window) {
+                                        costCenterManagmentService, $routeParams, $log, $window, $sce) {
 
         loadAllDivisions.loadAllDivisions()
             .then(function successCallback(responce) {
@@ -104,6 +104,10 @@
                     .error(function () {
                     })
             }
+        };
+
+        $scope.renderHtml = function (html_code) {
+            return $sce.trustAsHtml(html_code);
         };
 
     });

@@ -43,7 +43,7 @@
     });
 
 
-    app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window) {
+    app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window, $sce) {
         
         // Load all cost centers
         loadAllCostCenters.loadCostCenters()
@@ -110,6 +110,10 @@
                     debugger;
                 });
             }
+        };
+
+        $scope.renderHtml = function (html_code) {
+            return $sce.trustAsHtml(html_code);
         };
 
     });
