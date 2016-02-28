@@ -380,7 +380,6 @@ namespace PI.Business
                     // Get division list to assign.
                     IList<Division> divListToAssign = new List<Division>();
                     costCenter.AssignedDivisionIdList.ToList().ForEach(e => divListToAssign.Add(context.Divisions.Where(di => di.Id == e).FirstOrDefault()));
-                    context.SaveChanges();
                     existingCostCenter.Divisions = divListToAssign;
                 }
 
