@@ -70,6 +70,7 @@ namespace PI.Data.Migrations
                 UserName = "SuperPowerUser",
                 Email = "admin@pi.com",
                 EmailConfirmed = true,
+                Salutation = "Mr",
                 FirstName = "Admin",
                 LastName = "User",
                 Level = 1,

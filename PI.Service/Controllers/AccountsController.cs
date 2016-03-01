@@ -75,6 +75,7 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
+                Salutation = createUserModel.Salutation,
                 FirstName = createUserModel.FirstName,
                 LastName = createUserModel.LastName,
                 Level = 3,
@@ -112,7 +113,7 @@ namespace PI.Service.Controllers
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation +".")
+            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation +".")
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(user.Id, "Your account has been provisioned!", emailbody.ToString());

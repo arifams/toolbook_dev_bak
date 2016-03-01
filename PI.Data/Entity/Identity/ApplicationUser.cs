@@ -17,6 +17,10 @@ namespace PI.Data.Entity.Identity
         public long TenantId { get; set; }
 
         [Required]
+        [MaxLength(10)]
+        public string Salutation { get; set; }
+
+        [Required]
         [MaxLength(100)]
         public string FirstName { get; set; }
 
