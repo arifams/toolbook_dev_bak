@@ -22,8 +22,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary">
-                                    <i class="fa fa-search" ng-click="searchCostCenters()"></i>
+                                <button type="button" class="btn btn-large btn-primary" ng-click="searchCostCenters()">
+                                    <i class="fa fa-search"></i>
                                 </button>
                             </div>
                         </div>
@@ -77,7 +77,7 @@
                             <tbody>
                                 <tr ng-repeat="row in displayedCollection">
                                     <td>{{row.name}}</td>
-                                    <td>{{row.assignedDivisionsForGrid}}</td>
+                                    <td><span ng-bind-html="renderHtml(row.assignedDivisionsForGrid)"></span></td>
                                     <td>{{row.fullBillingAddress}}</td>
                                     <td>{{row.statusString}}</td>
                                     <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
