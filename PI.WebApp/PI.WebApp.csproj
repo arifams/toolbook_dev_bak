@@ -66,6 +66,10 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\addressBook\loadAddresses.html" />
+    <Content Include="app\addressBook\loadAddressesCtrl.js" />
+    <Content Include="app\addressBook\saveAddress.html" />
+    <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />
     <Content Include="app\userManagement\loadUserManagement.js" />
     <Content Include="app\userManagement\saveUserManagement.html" />
