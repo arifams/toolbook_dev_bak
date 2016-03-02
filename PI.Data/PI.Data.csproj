@@ -89,6 +89,7 @@
     <Compile Include="ApplicationDbContext.cs" />
     <Compile Include="Entity\AccountSettings.cs" />
     <Compile Include="Entity\Address.cs" />
+    <Compile Include="Entity\AddressBook.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\CostCenter.cs" />

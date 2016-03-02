@@ -1,0 +1,96 @@
+﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
+    <h2 class="box-title">
+        Manage Address Book &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveAddress/0"
+                                                       class="btn btn-primary active pull-right" role="button">Add Address</a>
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="loadCostCenterForm">
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <!-- left column -->
+
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
+                                       placeholder="Search by Cost Center Name" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-large btn-primary" ng-click="addressCtrl.searchAddresses()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">Filter by  </label>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select id="addressStatus" name="addressStatus"
+                                            ng-model="addressCtrl.status" ng-change="addressCtrl.searchActiveAddresses()">
+                                        <option value="">All</option>
+                                        <option value="True">Active</option>
+                                        <option value="False">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
+
+                    <div class="costCenterTable">
+
+                        <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name">Name</th>
+                                    <th>Company</th>
+                                    <th>Billing Address</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in displayedCollection">
+                                    <td>{{row.name}}</td>
+                                    <td><span ng-bind-html="renderHtml(row.assignedDivisionsForGrid)"></span></td>
+                                    <td>{{row.fullBillingAddress}}</td>
+                                    <td>{{row.statusString}}</td>
+                                    <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>

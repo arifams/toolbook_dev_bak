@@ -145,6 +145,14 @@ var MakeApp = angular
             controller: 'profileInformationCtrl',
             controllerAs: 'profileCtrl'
         })
+         .when('/saveAddress/:id', {
+             templateUrl: 'addressBook/saveAddress.html',
+             controller: 'saveAddressCtrl',
+         })
+        .when('/loadAddresses', {
+            templateUrl: 'addressBook/loadAddresses.html',
+            controller: 'loadAddressesCtrl',
+        })
         .when('/pages-contact', {
             templateUrl: 'pages/contact/contact.html',
             controller: 'contactCtrl'

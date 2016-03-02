@@ -41,11 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\IAddressBookManagement.cs" />
     <Compile Include="Business\ICompanyManagement.cs" />
     <Compile Include="Business\ICustomerManagement.cs" />
     <Compile Include="DTOs\AccountSettings\CurrencyDto.cs" />
     <Compile Include="DTOs\AccountSettings\LanguageDto.cs" />
     <Compile Include="DTOs\AccountSettings\TimeZoneDto.cs" />
+    <Compile Include="DTOs\AddressBook\AddressBookDto.cs" />
     <Compile Include="DTOs\Address\AddressDto.cs" />
     <Compile Include="DTOs\Company\CompanyDto.cs" />
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
