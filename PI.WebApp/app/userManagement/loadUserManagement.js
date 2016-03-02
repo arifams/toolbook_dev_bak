@@ -7,7 +7,7 @@
         return {
             getAllDivisionsByCompany: getAllDivisionsByCompany(),
             deleteUser: deleteUser(user),
-            getAllRoles: getAllRoles(),
+            getAllRolesByUser: getAllRolesByUser(),
             getUsersByFilter: getUsersByFilter(userId, searchText, division, type,status)
         }
 
@@ -25,12 +25,16 @@
             return $http.post(serverBaseUrl + '/api/accounts/DeleteUser', user);
         }
 
-        function getAllRoles() {
-            return $http.get(serverBaseUrl + '/api/accounts/GetAllRoles');
+        function getAllRolesByUser() {
+            return $http.get(serverBaseUrl + '/api/accounts/GetAllRolesByUser', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid')
+                }
+            });
         }
 
         function getUsersByFilter(userId, searchText, division, type, status) {
-            return $http.get(serverBaseUrl + '/api/accounts/getUsersByFilter', {
+            return $http.get(serverBaseUrl + '/api/accounts/GetUsersByFilter', {
                 params: {
                     userId: userId,
                     searchtext: searchText,
@@ -50,7 +54,7 @@
         userManagementFactory.getAllDivisionsByCompany()
             .then(function successCallback(response) {
 
-                //vm.divisionList = response.data;
+                vm.divisionList = response.data;
 
             }, function errorCallback(response) {
                 //todo

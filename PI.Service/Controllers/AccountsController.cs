@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using PI.Business;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.User;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
 using System;
@@ -356,6 +358,59 @@ namespace PI.Service.Controllers
             {
                 return -2;
             }
+        }
+
+        // User Management
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("DeleteUser")]
+        public int DeleteUser([FromBody] CustomerDto customerDto)
+        {
+            return 1;
+            //return companyManagement.DeleteDivision(division.Id);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllRolesByUser")]
+        public string GetAllRolesByUser(string userId)    // TODO : Change the string to RoleDto
+        {
+            //IList<DivisionDto> divisionList = companyManagement.GetAllDivisionsForCompany(userId);
+            //return divisionList;
+            return null;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetUsersByFilter")]
+        public PagedList GetUsersByFilter(long division, string type, string userId, string status, string searchtext = "")
+        {
+            //var pagedRecord = new PagedList();
+            //return companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
+            return null;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("SaveUser")]
+        public int SaveUser([FromBody] UserDto user)
+        {
+            return 1;
+            //return companyManagement.SaveDivision(division);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("GetUserByUserId")]
+        public UserDto GetUserByUserId(string userId)
+        {
+            return null;
         }
     }
 }

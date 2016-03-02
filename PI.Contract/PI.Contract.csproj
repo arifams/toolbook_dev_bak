@@ -55,6 +55,7 @@
     <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="DTOs\Division\DivisionDto.cs" />
     <Compile Include="DTOs\Common\PagedList.cs" />
+    <Compile Include="DTOs\User\UserDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
