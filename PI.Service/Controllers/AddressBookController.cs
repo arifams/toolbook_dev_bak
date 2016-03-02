@@ -22,7 +22,7 @@ namespace PI.Service.Controllers
         [Route("GetAllAddressBookDetailsByFilter")]
         public PagedList GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",
                                                    int page = 1, int pageSize = 10)
-        {
+            {
             var pagedRecord = new PagedList();
             return pagedRecord = addressBookManagement.GetAllAddresses(type, userId, searchtext, page, pageSize);
         }

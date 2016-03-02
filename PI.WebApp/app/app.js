@@ -20,7 +20,8 @@ var MakeApp = angular
     'ngStorage',
     'ngMessages',
     //'ngGrid',
-    'smart-table'
+    'smart-table',
+    'ngCsv'
   ])
   .config(function ($routeProvider) {
       $routeProvider
