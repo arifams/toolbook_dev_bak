@@ -146,7 +146,7 @@
                             <a href="#"><i class="icon-picture"></i><span>Manage Profile</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> Profile Information</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> User Management</a></li>
+                                <li ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> User Management</a></li>
                                 <li ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions"> Division Management</a></li>
                                 <li ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters"> Cost Center Management</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Address Book</a></li>
@@ -1278,6 +1278,8 @@
         <script src="divisions/loadDivisions.js"></script>
         <script src="costcenter/saveCostCenter.js"></script>
         <script src="costcenter/loadCostCenters.js"></script>
+        <script src="userManagement/saveUserManagement.js"></script>
+        <script src="userManagement/loadUserManagement.js"></script>
         <!--<script src="directive/customDirective.js"></script>-->
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
     </body>

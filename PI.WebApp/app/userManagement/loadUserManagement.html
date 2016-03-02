@@ -1,0 +1,116 @@
+﻿<div>
+    <h2 class="box-title">
+        Manage Users &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveUserManagement/0"
+                                                       class="btn btn-primary active pull-right" role="button">Add User</a>
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="formLoadUser">
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <!-- left column -->
+
+                <div class="box-body">
+                    <div class="row">
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <input ng-model="loadUMCtrl.searchText" name="searchText" type="text" class="form-control" placeholder="Search by user Name or Role" />
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <button type="button" class="btn btn-large btn-primary" ng-click="loadUMCtrl.searchUsers()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <label class="control-label">Filter by  </label>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select name="type" ng-model="loadUMCtrl.type" ng-change="loadUMCtrl.selectType()">
+                                        <option value="">All</option>
+                                        <option value="role">Role</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select id="costcenter"
+                                            convert-to-number ng-options="divi.id as divi.name for divi in vm.divisionList"
+                                            name="divisions" ng-model="selectedDivision" ng-change="vm.selectDivision()">
+                                        <option value="">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select id="costcentersStatus" name="costcentersStatus"
+                                            ng-model="status" ng-change="vm.selectActiveCostCenters()">
+                                        <option value="">All</option>
+                                        <option value="True">Active</option>
+                                        <option value="False">Inactive</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br />
+                    <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
+
+                    <div class="costCenterTable">
+
+                        <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name">Cost Center</th>
+                                    <th>Assigned Divisions</th>
+                                    <th>Billing Address</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in displayedCollection">
+                                    <td>{{row.name}}</td>
+                                    <td><span ng-bind-html="renderHtml(row.assignedDivisionsForGrid)"></span></td>
+                                    <td>{{row.fullBillingAddress}}</td>
+                                    <td>{{row.statusString}}</td>
+                                    <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>

@@ -234,6 +234,18 @@ var MakeApp = angular
             templateUrl: 'costcenter/loadCostCenters.html',
             controller: 'loadCostCentersCtrl',
         })
+
+        .when('/saveUserManagement/:id', {
+            templateUrl: 'userManagement/saveUserManagement.html',
+            controller: 'saveUserManagementCtrl',
+            controllerAs:'saveUMCtrl'
+        })
+        .when('/loadUserManagement', {
+            templateUrl: 'userManagement/loadUserManagement.html',
+            controller: 'loadUserManagementCtrl',
+            controllerAs: 'loadUMCtrl'
+        })
+
         .otherwise({
                 redirectTo: '/'
         });
