@@ -26,7 +26,7 @@ namespace PI.Business
                               where a.IsDelete == false &&
                               a.UserId==userId &&
                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
-                              (type == "0" || a.IsActive.ToString() == type)  
+                              (type == null || a.IsActive.ToString() == type)  
                               orderby a.CreatedDate ascending                             
                               select a)                            
                               .ToList();              
@@ -37,9 +37,9 @@ namespace PI.Business
                     {
                         Id = item.Id,
                         CompanyName = item.CompanyName,
-                        FullAddress = item.Number + " " + item.StreetAddress1 + " " + item.StreetAddress2,
+                        FullAddress = item.Number + ", " + item.StreetAddress1 + ", " + item.StreetAddress2,
                         FullName = item.FirstName+ " "+ item.LastName,
-                        Status = item.Status                      
+                        IsActive = item.IsActive                      
                         
                     });
                 }
@@ -83,7 +83,11 @@ namespace PI.Business
             AddressBook currentAddress = null;
             using (PIContext context=new PIContext())
             {
-                currentAddress = GetAddressBookById(addressDetail.Id);
+                if (addressDetail!=null)
+                {
+                    currentAddress = context.AddressBooks.SingleOrDefault(n => n.Id == addressDetail.Id); 
+                }
+             
                 if (currentAddress!=null)
                 {
                     currentAddress.CompanyName = addressDetail.CompanyName;
@@ -95,8 +99,7 @@ namespace PI.Business
                     currentAddress.PhoneNumber = addressDetail.PhoneNumber;
                     currentAddress.AccountNumber = addressDetail.AccountNumber;
 
-                    //Address Status      
-                    currentAddress.Status = addressDetail.Status;
+                    //Address Status
                     currentAddress.Country = addressDetail.Country;
                     currentAddress.ZipCode = addressDetail.ZipCode;
                     currentAddress.Number = addressDetail.Number;
@@ -104,7 +107,8 @@ namespace PI.Business
                     currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
                     currentAddress.City = addressDetail.City;
                     currentAddress.State = addressDetail.State;
-                    context.AddressBooks.Attach(currentAddress);
+                    currentAddress.IsActive = addressDetail.IsActive;
+                   // context.AddressBooks.Add(currentAddress);
                     context.SaveChanges();
                  }
                 else
@@ -119,8 +123,7 @@ namespace PI.Business
                     currentAddress.PhoneNumber = addressDetail.PhoneNumber;
                     currentAddress.AccountNumber = addressDetail.AccountNumber;
 
-                    //Address Status      
-                    currentAddress.Status = addressDetail.Status;
+                    //Address Status                    
                     currentAddress.Country = addressDetail.Country;
                     currentAddress.ZipCode = addressDetail.ZipCode;
                     currentAddress.Number = addressDetail.Number;
@@ -128,6 +131,7 @@ namespace PI.Business
                     currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
                     currentAddress.City = addressDetail.City;
                     currentAddress.State = addressDetail.State;
+                    currentAddress.IsActive = addressDetail.IsActive;
                     currentAddress.CreatedDate = DateTime.Now;
                     context.AddressBooks.Add(currentAddress);
                     context.SaveChanges();
@@ -166,7 +170,7 @@ namespace PI.Business
                 resultAddress.AccountNumber = currentAddress.AccountNumber;
 
                 //Address Status      
-                resultAddress.Status=currentAddress.Status;
+               
                 resultAddress.Country = currentAddress.Country;
                 resultAddress.ZipCode = currentAddress.ZipCode;
                 resultAddress.Number = currentAddress.Number;
@@ -174,6 +178,7 @@ namespace PI.Business
                 resultAddress.StreetAddress2 = currentAddress.StreetAddress2;
                 resultAddress.City = currentAddress.City;
                 resultAddress.State = currentAddress.State;
+                resultAddress.IsActive = currentAddress.IsActive;
 
             }
             return resultAddress;

@@ -18,8 +18,7 @@ namespace PI.Data.Entity
         public string AccountNumber { get; set; }
 
 
-        //Address Status      
-        public int? Status { get; set; }
+        //Address Status    
         public string Country { get; set; }
         public string ZipCode { get; set; }
         public string Number { get; set; }
@@ -27,6 +26,7 @@ namespace PI.Data.Entity
         public string StreetAddress2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
+       
 
     }
 }

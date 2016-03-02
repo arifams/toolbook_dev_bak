@@ -7,7 +7,7 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal" name="loadCostCenterForm">
+        <form class="form-horizontal" name="loadAddressForm">
             <!-- /.box-header -->
 
             <div class="panel-header">
@@ -39,7 +39,7 @@
                             <div class="form-group">
                                 <div class="option-group">
                                     <select id="addressStatus" name="addressStatus"
-                                            ng-model="addressCtrl.status" ng-change="addressCtrl.searchActiveAddresses()">
+                                            ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
                                         <option value="">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
@@ -51,16 +51,17 @@
                     </div>
                     <br />
                     <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
-
+                 
                     <div class="costCenterTable">
-
+                      
                         <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
                             <thead>
-                                <tr>
-                                    <th st-sort="name">Name</th>
-                                    <th>Company</th>
+                                <tr>                                   
+                                    <th st-sort="name">Company</th>
+                                    <th>Name</th>
                                     <th>Billing Address</th>
                                     <th>Status</th>
+                                   
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
@@ -68,12 +69,13 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in displayedCollection">
-                                    <td>{{row.name}}</td>
-                                    <td><span ng-bind-html="renderHtml(row.assignedDivisionsForGrid)"></span></td>
-                                    <td>{{row.fullBillingAddress}}</td>
-                                    <td>{{row.statusString}}</td>
-                                    <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
-                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                    <td>{{row.companyName}}</td> 
+                                    <td>{{row.fullName}}</td>                                  
+                                    <td>{{row.fullAddress}}</td>
+                                    <td>{{row.isActive==true ?'Active':'Inactive'}}</td>
+                                    
+                                    <td><a href="#/saveAddress/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a ng-click="addressCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
                                 </tr>
                             </tbody>
                             <tfoot>
