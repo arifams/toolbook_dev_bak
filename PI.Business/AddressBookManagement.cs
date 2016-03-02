@@ -39,8 +39,23 @@ namespace PI.Business
                         CompanyName = item.CompanyName,
                         FullAddress = item.Number + ", " + item.StreetAddress1 + ", " + item.StreetAddress2,
                         FullName = item.FirstName+ " "+ item.LastName,
-                        IsActive = item.IsActive                      
-                        
+                        IsActive = item.IsActive,
+                        FirstName=item.FirstName,
+                        LastName=item.LastName,
+                        UserId =item.UserId,
+                        Salutation =item.Salutation,                    
+                        EmailAddress=item.EmailAddress,
+                        PhoneNumber=item.PhoneNumber,
+                        AccountNumber=item.AccountNumber,
+
+                        Country=item.Country,
+                        ZipCode=item.ZipCode,                        
+                        Number =item.Number,
+                        StreetAddress1=item.StreetAddress1,
+                        StreetAddress2=item.StreetAddress2,
+                        City =item.City,                           
+                        State=item.State                                 
+ 
                     });
                 }
 

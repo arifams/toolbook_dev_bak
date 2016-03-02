@@ -43,11 +43,28 @@
                 }, function errorCallback(response) {
                     //todo
                 });
-        };       
+        };
+
+
+        vm.searchAddressesfor = function () {
+
+            // Get values from view.
+            var userId = $window.localStorage.getItem('userGuid');
+            var type = (vm.state == undefined) ? "" : vm.state;
+            var searchText = vm.searchText;
+
+            loadAddressService.find(userId, searchText, type)
+                .then(function successCallback(responce) {
+
+                    vm.rowCollection = responce.data.content;
+                }, function errorCallback(response) {
+                    //todo
+                });
+        };
 
         // Call search function in page load.
-        vm.searchAddresses();
-
+        vm.searchAddresses();     
+  
         //detete address detail
         vm.deleteById = function (row) {
 
