@@ -12,11 +12,11 @@
 
         // Implement the functions.
         function saveUser(userManagmentDetails) {
-            return $http.post(serverBaseUrl + '/api/UserManagement/SaveUserManagment', userManagmentDetails);
+            return $http.post(serverBaseUrl + '/api/accounts/SaveUserManagment', userManagmentDetails);
         }
 
         function getUser() {
-            return $http.get(serverBaseUrl + '/api/UserManagement/GetUserManagmentById', {
+            return $http.get(serverBaseUrl + '/api/accounts/GetUserManagmentById', {
                 params: {
                     id: $routeParams.id,
                     userId: $window.localStorage.getItem('userGuid')

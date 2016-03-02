@@ -22,15 +22,15 @@
         }
 
         function deleteUser(user) {
-            return $http.post(serverBaseUrl + '/api/UserManagement/DeleteUser', user);
+            return $http.post(serverBaseUrl + '/api/accounts/DeleteUser', user);
         }
 
         function getAllRoles() {
-            return $http.get(serverBaseUrl + '/api/Account/GetAllRoles');
+            return $http.get(serverBaseUrl + '/api/accounts/GetAllRoles');
         }
 
         function getUsersByFilter(userId, searchText, division, type, status) {
-            return $http.get(serverBaseUrl + '/api/UserManagement/getUsersByFilter', {
+            return $http.get(serverBaseUrl + '/api/accounts/getUsersByFilter', {
                 params: {
                     userId: userId,
                     searchtext: searchText,
