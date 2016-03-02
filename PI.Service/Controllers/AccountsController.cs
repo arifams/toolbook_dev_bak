@@ -406,7 +406,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("GetUserByUserId")]
         public UserDto GetUserByUserId(string userId)
         {
