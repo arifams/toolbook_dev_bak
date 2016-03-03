@@ -812,18 +812,39 @@ namespace PI.Business
 
         #region User Management
 
-        private List<RolesDto> GetAllActiveRoles()
+
+        /// <summary>
+        /// Get all roles under the current user role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<RolesDto> GetAllActiveChildRoles(string userId)
         {
             List<RolesDto> roles = new List<RolesDto>();
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                context.Roles.ToList().ForEach(r => roles.Add(new RolesDto { Id = r.Id, RoleName = r.Name }));
+                ApplicationUser user =  context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+                if (user != null)
+                {
+                    Guid userRoleId = Guid.Parse(user.Id);
+
+                    var allRoles = context.Roles.ToList();
+
+                    foreach (var role in allRoles)
+                    {
+                        if (userRoleId.CompareTo(Guid.Parse(role.Id)) > 1)
+                        {
+                            roles.Add(new RolesDto { Id = role.Id, RoleName = role.Name });
+                        }
+                    }
+                }
 
                 return roles;
             }
         }
-   
+
         #endregion
     }
 }
