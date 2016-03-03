@@ -52,6 +52,7 @@
     <Compile Include="DTOs\Company\CompanyDto.cs" />
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
+    <Compile Include="DTOs\ImportAddress\ImportAddressDto.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="DTOs\Division\DivisionDto.cs" />
     <Compile Include="DTOs\Common\PagedList.cs" />

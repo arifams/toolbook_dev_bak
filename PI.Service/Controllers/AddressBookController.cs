@@ -1,6 +1,7 @@
 ﻿using PI.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.ImportAddress;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +44,15 @@ namespace PI.Service.Controllers
         public int SaveAddress([FromBody] AddressBookDto address)
         {
             return addressBookManagement.SaveAddressDetail(address);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ImportAddresses")]
+        public int ImportAddresses([FromBody]IList<ImportAddressDto> addresses, string userId)
+        {
+            return addressBookManagement.ImportAddressBook(addresses, userId);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

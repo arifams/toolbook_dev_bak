@@ -1,6 +1,7 @@
 ﻿using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.ImportAddress;
 using PI.Data;
 using PI.Data.Entity;
 using System;
@@ -91,6 +92,66 @@ namespace PI.Business
                 }
             }
 
+        }
+
+        public int ImportAddressBook(IList<ImportAddressDto> addressDetails,string userId)
+        {
+           // IList<AddressBook> currentAddress =null;
+            AddressBook currentAddress = new AddressBook();
+            int addressCount = 0;
+
+            var headerContent = addressDetails[0].CsvContent.ToString();
+            string[] headerArray = headerContent.Split(',');
+
+            //remove the header details
+            addressDetails.Remove(addressDetails[0]);
+            //var list = new Dictionary<KeyValuePair<string, string>>();
+            Dictionary<string, string> list =new Dictionary<string, string>();
+
+            foreach (var address in addressDetails)
+            {
+                string[] dataArray = address.CsvContent.ToString().Split(',');
+                for (int i = 0; i < dataArray.Length; i++)
+                {
+                    list.Add(headerArray[i], dataArray[i]);                 
+                }
+                using (PIContext context=new PIContext())
+                {
+                    if (list.ContainsKey("companyName") && list.ContainsKey("salutation") && list.ContainsKey("firstName") && list.ContainsKey("lastName") && list.ContainsKey("emailAddress") && list.ContainsKey("phoneNumber") && list.ContainsKey("accountNumber") &&
+                        list.ContainsKey("country") && list.ContainsKey("zipCode") && list.ContainsKey("number") && list.ContainsKey("streetAddress1") && list.ContainsKey("streetAddress2") && list.ContainsKey("city") &&
+                        list.ContainsKey("state") && list.ContainsKey("isActive")  &&
+                        list["companyName"]!= string.Empty&& list["salutation"]!=string.Empty && list["firstName"]!=string.Empty && list["lastName"] != string.Empty && list["emailAddress"] != string.Empty && list["phoneNumber"] != string.Empty && list["accountNumber"] != string.Empty 
+                        && list["country"] != string.Empty && list["zipCode"] != string.Empty && list["number"] != string.Empty && list["streetAddress1"] != string.Empty && list["streetAddress2"] != string.Empty && list["city"] != string.Empty && list["state"] != string.Empty && list["isActive"] != string.Empty)
+                    {
+                        currentAddress.CompanyName = list["companyName"];
+                        currentAddress.UserId = userId;
+                        currentAddress.Salutation = list["salutation"];
+                        currentAddress.FirstName = list["firstName"];
+                        currentAddress.LastName = list["lastName"];
+                        currentAddress.EmailAddress = list["emailAddress"];
+                        currentAddress.PhoneNumber = list["phoneNumber"];
+                        currentAddress.AccountNumber = list["accountNumber"];
+                        currentAddress.Country = list["country"];
+                        currentAddress.ZipCode = list["zipCode"];
+                        currentAddress.Number = list["number"];
+                        currentAddress.StreetAddress1 = list["streetAddress1"];
+                        currentAddress.StreetAddress2 = list["streetAddress2"];
+                        currentAddress.City = list["city"];
+                        currentAddress.State = list["state"];
+                        currentAddress.IsActive = Convert.ToBoolean(list["isActive"]);
+                        currentAddress.CreatedDate = DateTime.Now;
+
+
+                        context.AddressBooks.Add(currentAddress);
+                        context.SaveChanges();
+                        addressCount++;
+                    }
+                }
+               
+                list.Clear();
+            }           
+            
+            return addressCount;
         }
 
         public int SaveAddressDetail(AddressBookDto addressDetail)
