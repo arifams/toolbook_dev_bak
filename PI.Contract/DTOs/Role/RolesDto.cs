@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PI.Contract.DTOs.User
+namespace PI.Contract.DTOs.Role
 {
-    public class UserDto
+    public class RolesDto
     {
         public string Id { get; set; }
 
-        public List<Role.RolesDto> Roles { get; set; }
+        public string RoleName { get; set; }
     }
 }

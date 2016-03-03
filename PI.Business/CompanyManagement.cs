@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Role;
+using PI.Contract.DTOs.User;
 using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
@@ -160,7 +163,7 @@ namespace PI.Business
             using (var context = new PIContext())
             {
                 var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
-                                        .Where(x =>  x.CompanyId == currentcompany.Id && 
+                                        .Where(x => x.CompanyId == currentcompany.Id &&
                                                      x.Type == "USER" &&
                                                      x.IsDelete == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
@@ -176,12 +179,12 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
-                    item.DivisionCostCenters.Where(x=> x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+                    item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
 
                     // Remove last <br/> tag.
                     assignedDivForGrid = str.ToString();
                     lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-                    if(lastIndexOfBrTag != -1)
+                    if (lastIndexOfBrTag != -1)
                         assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new CostCenterDto
@@ -255,7 +258,7 @@ namespace PI.Business
                 // find and mark assigned div and cost
                 foreach (DivisionDto div in divisionList)
                 {
-                    div.isAssignedToCurrentCostCenter = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id 
+                    div.isAssignedToCurrentCostCenter = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id
                                                                                             && cd.IsDelete == false).ToList().Count() > 0;
                 }
 
@@ -363,7 +366,7 @@ namespace PI.Business
                     existingCostCenter = context.CostCenters.SingleOrDefault(d => d.Id == costCenter.Id);
 
                     //Remove the existing active connection list
-                    context.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id 
+                    context.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id
                                                                                     && x.CostCenters.IsActive).ToList().ForEach
                                                                     (dc => { dc.IsActive = false; dc.IsDelete = true; });
 
@@ -565,7 +568,7 @@ namespace PI.Business
                     // Remove last <br/> tag.
                     assosiatedCostCentersForGrid = stringResult.ToString();
                     lastIndexOfBrTag = assosiatedCostCentersForGrid.LastIndexOf("<br/>");
-                    if(lastIndexOfBrTag != -1)
+                    if (lastIndexOfBrTag != -1)
                         assosiatedCostCentersForGrid = assosiatedCostCentersForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new DivisionDto
@@ -628,11 +631,11 @@ namespace PI.Business
             {
                 if (id == 0)
                 {
-                   return new DivisionDto
-                   {
-                       Id = 0,
-                       //AssosiatedCostCenters = costCenterList
-                   };
+                    return new DivisionDto
+                    {
+                        Id = 0,
+                        //AssosiatedCostCenters = costCenterList
+                    };
                 }
 
 
@@ -807,5 +810,20 @@ namespace PI.Business
 
         #endregion
 
+        #region User Management
+
+        private List<RolesDto> GetAllActiveRoles()
+        {
+            List<RolesDto> roles = new List<RolesDto>();
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                context.Roles.ToList().ForEach(r => roles.Add(new RolesDto { Id = r.Id, RoleName = r.Name }));
+
+                return roles;
+            }
+        }
+   
+        #endregion
     }
 }
