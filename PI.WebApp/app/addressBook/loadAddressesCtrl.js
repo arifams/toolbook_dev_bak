@@ -77,18 +77,15 @@
 
                     vm.exportcollection.push(headers);
                    
-                    $.each(responce.data.content, function (index, value) {
-                        debugger;
-                        var t = responce.data.content[index].fullName;
-                        debugger;
-                        if (!responce.data.content[index].fullName || !responce.data.content[index].fullAddress)
+                    $.each(responce.data.content, function (index, value) {                   
+                      
                             vm.exportcollection.push(value);
                     });
                     //loop through the address collection to remove the fullname and fulladdress properties
-                    //$.each(vm.exportcollection, function (index, value) {
-                    //    delete vm.exportcollection[index].fullName;
-                    //    delete vm.exportcollection[index].fullAddress;
-                    //});
+                    $.each(vm.exportcollection, function (index, value) {
+                         vm.exportcollection[index].pop("fullName");
+                         vm.exportcollection[index].pop("fullAddress");
+                    });
                     
                 }, function errorCallback(response) {
                     //todo
