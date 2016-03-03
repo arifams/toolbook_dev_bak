@@ -13,8 +13,18 @@
 
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore','$scope',
-    function (userManager, $window, $cookieStore,$scope) {
+    app.factory('validateUserToken', function ($http) {
+        return {
+            validateUserToken: function (user, url) {
+
+                return $http.post(serverBaseUrl + '/' + url, user);
+            }
+        };
+
+    });
+
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore','$scope','validateUserToken',
+    function (userManager, $window, $cookieStore, $scope, validateUserToken) {
         var vm = this;     
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -34,25 +44,9 @@
             $scope.user.password = loggedpassword;
        }
 
+        var userId = '', code = '', isConfirmEmail = false;
+
         vm.isConfirmEmail = function () {
-
-            if (window.location.search != "") {
-                // Show email confirm message.
-                vm.emailConfirmationMessage = "To confirm email address, please login using your username and password";
-                vm.isEmailConfirm = true;
-                
-            }
-
-        };
-
-        vm.login = function (user) {
-
-            debugger;
-            if (vm.rememberme==true) {
-                $cookieStore.put('username', user.username);
-                $cookieStore.put('password', user.password);
-            }
-         
 
             if (window.location.search != "") {
 
@@ -66,7 +60,7 @@
                 var userIdKeyValue = splittedValues[0].split('=');
                 var codeKeyValue = splittedValues[1].split('=');
 
-                if (userIdKeyValue[0] != 'userId'){
+                if (userIdKeyValue[0] != 'userId') {
                     vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
                     return;
                 }
@@ -75,10 +69,75 @@
                     return;
                 }
 
-                user.userId = userIdKeyValue[1];
-                user.code = codeKeyValue[1];
-                user.isConfirmEmail = true;
+                userId = userIdKeyValue[1];
+                code = codeKeyValue[1];
+
+                var userToken = {
+                    userId: userId,
+                    code: code
+                };
+
+                // Check token is valid.
+                validateUserToken.validateUserToken(userToken, 'api/accounts/ValidateUserToken')
+                    .then(function (returnedResult) {
+                        
+                        if (returnedResult.data) {
+                            isConfirmEmail = true;
+
+                            // Show email confirm message.
+                            vm.emailConfirmationMessage = "To confirm email address, please login using your username and password";
+                            vm.isEmailConfirm = true;
+                        }
+                        else {
+                            vm.emailConfirmationMessage = "Token is Expired";
+                            vm.isEmailConfirm = true;
+                            return;
+                        }
+                });
+
+                
+
             }
+
+        };
+
+        vm.login = function (user) {
+
+            if (vm.rememberme==true) {
+                $cookieStore.put('username', user.username);
+                $cookieStore.put('password', user.password);
+            }
+         
+            // window location search...........................
+            //if (window.location.search != "") {
+
+            //    var splittedValues = window.location.search.replace("?", "").split('&');
+
+            //    if (splittedValues.length != 2 || splittedValues[0].split('=').length != 2 || splittedValues[1].split('=').length != 2) {
+            //        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+            //        return;
+            //    }
+
+            //    var userIdKeyValue = splittedValues[0].split('=');
+            //    var codeKeyValue = splittedValues[1].split('=');
+
+            //    if (userIdKeyValue[0] != 'userId'){
+            //        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+            //        return;
+            //    }
+            //    if (codeKeyValue[0] != 'code') {
+            //        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+            //        return;
+            //    }
+
+            //    user.userId = userIdKeyValue[1];
+            //    user.code = codeKeyValue[1];
+            //    user.isConfirmEmail = true;
+            //}
+
+            user.userId = userId;
+            user.code = code;
+            user.isConfirmEmail = isConfirmEmail;
 
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
