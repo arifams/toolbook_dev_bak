@@ -83,9 +83,11 @@ namespace PI.Data.Migrations
 
             if (roleManager.Roles.Count() == 0)
             {
-                roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
                 roleManager.Create(new IdentityRole { Name = "Admin" });
-                roleManager.Create(new IdentityRole { Name = "User" });
+                roleManager.Create(new IdentityRole { Name = "BusinessOwner" });
+                roleManager.Create(new IdentityRole { Name = "Manager" });
+                roleManager.Create(new IdentityRole { Name = "Supervisor" });
+                roleManager.Create(new IdentityRole { Name = "Operator" });
             }
 
             var adminUser = manager.FindByName("SuperPowerUser");
