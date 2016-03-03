@@ -808,8 +808,6 @@ namespace PI.Business
 
 
 
-        #endregion
-
         #region User Management
 
 
@@ -824,11 +822,11 @@ namespace PI.Business
 
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
-                ApplicationUser user =  context.Users.Where(u => u.Id == userId).SingleOrDefault();
+                ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
                 if (user != null)
                 {
-                    Guid userRoleId = Guid.Parse(user.Id);
+                    Guid userRoleId = Guid.Parse(user.Roles.FirstOrDefault().RoleId);
 
                     var allRoles = context.Roles.ToList();
 
@@ -846,5 +844,9 @@ namespace PI.Business
         }
 
         #endregion
+
+
+        #endregion
+        
     }
 }
