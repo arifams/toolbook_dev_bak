@@ -2,51 +2,6 @@
 
 (function (app) {
 
-    app.factory('userManagementFactory', function ($http, $routeParams, $window) {
-
-        return {
-            getAllDivisionsByCompany: getAllDivisionsByCompany(),
-            deleteUser: deleteUser(user),
-            getAllRolesByUser: getAllRolesByUser(),
-            getUsersByFilter: getUsersByFilter(userId, searchText, division, type,status)
-        }
-
-        // Implement the functions.
-
-        function getAllDivisionsByCompany() {
-            return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
-                params: {
-                    userId: $window.localStorage.getItem('userGuid')
-                }
-            });
-        }
-
-        function deleteUser(user) {
-            return $http.post(serverBaseUrl + '/api/accounts/DeleteUser', user);
-        }
-
-        function getAllRolesByUser() {
-            return $http.get(serverBaseUrl + '/api/accounts/GetAllRolesByUser', {
-                params: {
-                    userId: $window.localStorage.getItem('userGuid')
-                }
-            });
-        }
-
-        function getUsersByFilter(userId, searchText, division, type, status) {
-            return $http.get(serverBaseUrl + '/api/accounts/GetUsersByFilter', {
-                params: {
-                    userId: userId,
-                    searchtext: searchText,
-                    division: division,
-                    type: type,
-                    status: status
-                }
-            });
-        }
-
-    });
-
     app.controller('loadUserManagementCtrl', function (userManagementFactory, $scope, $location, $routeParams, $log, $window, $sce) {
 
         var vm = this;
@@ -60,6 +15,15 @@
                 //todo
             });
 
+        userManagementFactory.getAllRolesByUser()
+                    .then(function successCallback(response) {
+
+                        vm.roleList = response.data;
+
+                    }, function errorCallback(response) {
+                        //todo
+                    });
+
         vm.itemsByPage = 25;
         vm.rowCollection = [];
         // Add dumy record, since data loading is async.
@@ -70,11 +34,11 @@
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
             var division = (vm.selectedDivision == undefined || vm.selectedDivision == "") ? 0 : vm.selectedDivision;
-            var type = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
+            var role = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
             var searchText = vm.searchText;
             var status = vm.status;
 
-            userManagementFactory.getUsersByFilter(userId, searchText, division, type, status)
+            userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)
                 .then(function successCallback(responce) {
 
                     vm.rowCollection = responce.data.content;
@@ -95,7 +59,7 @@
             vm.searchUsers();
         }
 
-        vm.selectType = function () {
+        vm.selectRole = function () {
             vm.searchUsers();
         };
 

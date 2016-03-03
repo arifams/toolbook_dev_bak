@@ -16,7 +16,7 @@ namespace PI.Data
             : base("name=PIBookingConnectionString", throwIfV1Schema: false)
         {
             Configuration.ProxyCreationEnabled = true;
-            Configuration.LazyLoadingEnabled = false;
+            Configuration.LazyLoadingEnabled = true;
         }
 
         public static ApplicationDbContext Create()

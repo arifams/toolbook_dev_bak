@@ -1,29 +1,6 @@
 ﻿'use strict';
 
-
 (function (app) {
-
-    app.factory('userManagementFactory', function ($http, $routeParams, $window) {
-
-        return {
-            getUser: getUser(),
-            saveUser: saveUser(userManagmentDetails)
-        }
-
-        // Implement the functions.
-        function saveUser(userManagmentDetails) {
-            return $http.post(serverBaseUrl + '/api/accounts/SaveUser', userManagmentDetails);
-        }
-
-        function getUser() {
-            return $http.get(serverBaseUrl + '/api/accounts/GetUserByUserId', {
-                params: {
-                    id: $routeParams.id,
-                    userId: $window.localStorage.getItem('userGuid')
-                }
-            });
-        }
-    });
 
     //app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
 
@@ -61,110 +38,95 @@
     //}]);
 
     app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', function ($location, $window, userManagementFactory) {
-               var vm = this;
+        var vm = this;
+        vm.user = {};
 
-               //vm.saveCostCenter = function () {
-               //    vm.model.userId = $window.localStorage.getItem('userGuid')
-               //    var body = $("html, body");
+        var loadUser = function () {
+            userManagementFactory.getUser()
+            .success(function (data) {
 
-               //    costCenterSaveFactory.saveCostCenter(vm.model)
-               //    .success(function (result) {
-               //        debugger;
-               //        if (result == -1) {
-
-               //            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
-               //            $('#panel-notif').noty({
-               //                text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
-               //                layout: 'bottom-right',
-               //                theme: 'made',
-               //                animation: {
-               //                    open: 'animated bounceInLeft',
-               //                    close: 'animated bounceOutLeft'
-               //                },
-               //                timeout: 3000,
-               //            });
-               //        } else {
-
-               //            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-               //            $('#panel-notif').noty({
-               //                text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully!</p></div>',
-               //                layout: 'bottom-right',
-               //                theme: 'made',
-               //                animation: {
-               //                    open: 'animated bounceInLeft',
-               //                    close: 'animated bounceOutLeft'
-               //                },
-               //                timeout: 3000,
-               //            });
-               //        }
-
-               //    })
-               //    .error(function () {
-               //    })
-               //}
-
-               //vm.close = function () {
-               //    $location.path('/loadCostcenters');
-               //}
-
-               //vm.changeCountry = function () {
-               //    if (vm.model.billingAddress == null) {
-               //        vm.model.billingAddress = {};
-               //    }
-               //    vm.isRequiredState = vm.model.billingAddress.country == 'US' ||
-               //                         vm.model.billingAddress.country == 'CA' ||
-               //                         vm.model.billingAddress.country == 'PR';
+                vm.user = data;
+                vm.user.assignedDivisionIdList = [];
+                if (vm.user.id == 0) {
+                    // New user.
+                    vm.user.status = 1;
+                }
+                else {
+                    // Exisiting user.
+                    //Add selected divisions
+                    angular.forEach(vm.user.allDivisions, function (division) {
+                        if (division.isAssigned) {
+                            vm.user.assignedDivisionIdList.push(division.id);
+                        }
+                    })
+                }
+            })
+            .error(function () {
+                debugger;
+            })
+        }
 
 
-               //};
+        //vm.saveUser = function () {
+        //    vm.user.userId = $window.localStorage.getItem('userGuid');
+        //    var body = $("html, body");
 
-               //var loadCostcenter = function () {
-               //    costCentrMngtFactory.loadCostcenterInfo()
-               //    .success(function (data) {
+        //    userManagementFactory.saveUser(vm.user)
+        //    .success(function (result) {
+        //        debugger;
+        //        //if (result == -1) {
 
-               //        vm.model = data;
-               //        vm.model.assignedDivisionIdList = [];
-               //        if (vm.model.id == 0) {
-               //            vm.model.status = 1;
-               //            vm.model.billingAddress = {
-               //                country: 'US'
-               //            };
-               //            vm.isRequiredState = true;
-               //        }
-               //        else {
-               //            vm.changeCountry();
-               //            debugger;
-               //            //Add selected sites
-               //            angular.forEach(vm.model.allDivisions, function (availableDivision) {
-               //                if (availableDivision.isAssignedToCurrentCostCenter) {
-               //                    vm.model.assignedDivisionIdList.push(availableDivision.id);
-               //                }
-               //            })
-               //        }
-               //    })
-               //    .error(function () {
-               //        debugger;
-               //    })
-               //}
+        //        //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
-               //loadCostcenter();
+        //        //    $('#panel-notif').noty({
+        //        //        text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
+        //        //        layout: 'bottom-right',
+        //        //        theme: 'made',
+        //        //        animation: {
+        //        //            open: 'animated bounceInLeft',
+        //        //            close: 'animated bounceOutLeft'
+        //        //        },
+        //        //        timeout: 3000,
+        //        //    });
+        //        //} else {
 
+        //        //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+        //        //    $('#panel-notif').noty({
+        //        //        text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully!</p></div>',
+        //        //        layout: 'bottom-right',
+        //        //        theme: 'made',
+        //        //        animation: {
+        //        //            open: 'animated bounceInLeft',
+        //        //            close: 'animated bounceOutLeft'
+        //        //        },
+        //        //        timeout: 3000,
+        //        //    });
+        //        //}
 
+        //    })
+        //    .error(function () {
+        //    })
+        //}
 
-               //vm.toggleDivisionSelection = function (division) {
-               //    var idx = vm.model.assignedDivisionIdList.indexOf(division.id);
-               //    // is currently selected
-               //    if (idx > -1) {
-               //        vm.model.assignedDivisionIdList.splice(idx, 1);
-               //    }
-               //        // is newly selected
-               //    else {
-               //        vm.model.assignedDivisionIdList.push(division.id);
-               //    }
-               //}
+        //vm.close = function () {
+        //    $location.path('/loadUserManagement');
+        //}
 
-           }]);
+        loadUser();
+
+        //vm.toggleDivisionSelection = function (division) {
+        //    var idx = vm.user.assignedDivisionIdList.indexOf(division.id);
+        //    // is currently selected
+        //    if (idx > -1) {
+        //        vm.user.assignedDivisionIdList.splice(idx, 1);
+        //    }
+        //        // is newly selected
+        //    else {
+        //        vm.user.assignedDivisionIdList.push(division.id);
+        //    }
+        //}
+
+    }]);
 
 
 })(angular.module('newApp'));

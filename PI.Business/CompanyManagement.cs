@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Role;
+using PI.Contract.DTOs.User;
 using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
@@ -160,7 +163,7 @@ namespace PI.Business
             using (var context = new PIContext())
             {
                 var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
-                                        .Where(x =>  x.CompanyId == currentcompany.Id && 
+                                        .Where(x => x.CompanyId == currentcompany.Id &&
                                                      x.Type == "USER" &&
                                                      x.IsDelete == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
@@ -176,12 +179,12 @@ namespace PI.Business
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
-                    item.DivisionCostCenters.Where(x=> x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+                    item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
 
                     // Remove last <br/> tag.
                     assignedDivForGrid = str.ToString();
                     lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-                    if(lastIndexOfBrTag != -1)
+                    if (lastIndexOfBrTag != -1)
                         assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new CostCenterDto
@@ -255,7 +258,7 @@ namespace PI.Business
                 // find and mark assigned div and cost
                 foreach (DivisionDto div in divisionList)
                 {
-                    div.isAssignedToCurrentCostCenter = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id 
+                    div.IsAssigned = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id
                                                                                             && cd.IsDelete == false).ToList().Count() > 0;
                 }
 
@@ -363,7 +366,7 @@ namespace PI.Business
                     existingCostCenter = context.CostCenters.SingleOrDefault(d => d.Id == costCenter.Id);
 
                     //Remove the existing active connection list
-                    context.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id 
+                    context.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id
                                                                                     && x.CostCenters.IsActive).ToList().ForEach
                                                                     (dc => { dc.IsActive = false; dc.IsDelete = true; });
 
@@ -565,7 +568,7 @@ namespace PI.Business
                     // Remove last <br/> tag.
                     assosiatedCostCentersForGrid = stringResult.ToString();
                     lastIndexOfBrTag = assosiatedCostCentersForGrid.LastIndexOf("<br/>");
-                    if(lastIndexOfBrTag != -1)
+                    if (lastIndexOfBrTag != -1)
                         assosiatedCostCentersForGrid = assosiatedCostCentersForGrid.Remove(lastIndexOfBrTag);
 
                     pagedRecord.Content.Add(new DivisionDto
@@ -628,11 +631,11 @@ namespace PI.Business
             {
                 if (id == 0)
                 {
-                   return new DivisionDto
-                   {
-                       Id = 0,
-                       //AssosiatedCostCenters = costCenterList
-                   };
+                    return new DivisionDto
+                    {
+                        Id = 0,
+                        //AssosiatedCostCenters = costCenterList
+                    };
                 }
 
 
@@ -748,6 +751,12 @@ namespace PI.Business
             return 1;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int DeleteDivision(long id)
         {
             using (var context = new PIContext())
@@ -804,8 +813,194 @@ namespace PI.Business
         }
 
 
+        #endregion
+
+
+        #region User Management
+
+
+        /// <summary>
+        /// Get all roles under the current user role
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<RolesDto> GetAllActiveChildRoles(string userId)
+        {
+            List<RolesDto> roles = new List<RolesDto>();
+
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+                if (user != null)
+                {
+                    Guid userRoleId = Guid.Parse(user.Roles.FirstOrDefault().RoleId);
+
+                    var allRoles = context.Roles.ToList();
+
+                    foreach (var role in allRoles)
+                    {
+                        if (userRoleId.CompareTo(Guid.Parse(role.Id)) == 1)
+                        {
+                            roles.Add(new RolesDto { Id = role.Id, RoleName = role.Name });
+                        }
+                    }
+                }
+
+                return roles;
+            }
+        }
+
+
+        /// <summary>
+        /// Get User By Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public UserDto GetUserById(string userId, string loggedInUser)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            IList<RolesDto> roleList = new List<RolesDto>();
+            ApplicationUser user = new ApplicationUser();
+
+            using (var context = new PIContext())
+            {
+                divisionList = GetAllActiveDivisionsForCompany(loggedInUser);
+                roleList = GetAllActiveChildRoles(loggedInUser);
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return new UserDto
+                    {
+                        Divisions = divisionList,
+                        Roles = roleList,
+                    };
+                }
+
+                using (var userContext = new ApplicationDbContext())
+                {
+                    user = userContext.Users.SingleOrDefault(c => c.Id == userId);
+
+                    // find and mark assigned divisisons for the specific in user
+                    foreach (DivisionDto div in divisionList)
+                    {
+                        div.IsAssigned = context.UsersInDivisions.Where(ud => ud.DivisionId == div.Id
+                                                                              && ud.UserId == userId
+                                                                              && ud.IsDelete == false).ToList().Count() > 0;
+                    }
+
+
+                    // find and mark assigned role for the specific user
+                    foreach (var role in roleList)
+                    {
+                        role.IsSelected = user.Roles.Where(r => r.RoleId == role.Id).ToList().Count() > 0;
+                    }
+                }
+
+                if (user != null)
+                {
+                    return new UserDto
+                    {
+                        Id = user.Id,
+                        Salutation = user.Salutation,
+                        FirstName = user.FirstName,
+                        MiddleName = user.MiddleName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        IsActive = user.IsActive,
+                        Divisions = divisionList,
+                        Roles = roleList
+                    };
+
+                }
+            }
+
+            return null;
+
+        }
+
+
+        /// <summary>
+        /// Add/update specific user
+        /// </summary>
+        /// <param name="costCenter"></param>
+        /// <returns></returns>
+        public int SaveUser(UserDto userDto)
+        {
+            long comapnyId = this.GetCompanyByUserId(userDto.LoggedInUserId).Id;
+
+            using (var userContext = ApplicationDbContext.Get())
+            {
+                var isSameName = userContext.Users.Where(u => u.TenantId == comapnyId &&
+                                                                  u.Id != userDto.Id &&
+                                                                  u.FirstName == userDto.FirstName &&
+                                                                  u.LastName == userDto.LastName).SingleOrDefault();
+                if (isSameName != null)
+                {
+                    return -1;
+                }
+
+                IList<UserInDivision> userDivisionList = new List<UserInDivision>();
+
+                foreach (var division in userDto.Divisions)
+                {
+                    userDivisionList.Add(new UserInDivision()
+                    {
+                        UserId = userDto.Id,
+                        DivisionId = division.Id,
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    });
+                }
+
+                if (string.IsNullOrEmpty(userDto.Id))
+                {
+                    ApplicationUser newUser = new ApplicationUser
+                    {
+                        Id = userDto.Id,
+                        Salutation = userDto.Salutation,
+                        FirstName = userDto.FirstName,
+                        MiddleName = userDto.MiddleName,
+                        LastName = userDto.LastName,
+                        Email = userDto.Email,
+                        IsActive = userDto.IsActive,
+                        JoinDate = DateTime.Now                        
+                    };
+
+                    userContext.Users.Add(newUser);
+                }
+                else
+                {
+                    ApplicationUser existingUser = new ApplicationUser();
+                    existingUser = userContext.Users.SingleOrDefault(u => u.Id == userDto.Id);
+
+                    //Remove the existing active connection list
+                    //userContext.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id
+                    //                                                                && x.CostCenters.IsActive).ToList().ForEach
+                    //                                                (dc => { dc.IsActive = false; dc.IsDelete = true; });
+
+                    existingUser.Salutation = userDto.Salutation;
+                    existingUser.FirstName = userDto.FirstName;
+                    existingUser.MiddleName = userDto.MiddleName;
+                    existingUser.LastName = userDto.LastName;
+                    existingUser.Email = userDto.Email;
+                    existingUser.IsActive = userDto.IsActive;
+                    //existingUser.JoinDate = DateTime.Now;
+                    //existingUser.CreatedBy = 1; //TODO: sessionHelper.Get<User>().LoginName; 
+
+                    //context.DivisionCostCenters.AddRange(divcostList);
+                }
+
+                userContext.SaveChanges();
+            }
+
+            return 1;
+        }
+
 
         #endregion
+
 
     }
 }

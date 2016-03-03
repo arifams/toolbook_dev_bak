@@ -31,6 +31,7 @@ namespace PI.Data
         public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
+        public DbSet<UserInDivision> UsersInDivisions { get; set; }
         public DbSet<AddressBook> AddressBooks { get; set; }
 
         public PIContext()

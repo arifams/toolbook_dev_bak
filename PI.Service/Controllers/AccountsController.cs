@@ -6,6 +6,7 @@ using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
@@ -25,6 +26,8 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
+        CompanyManagement companyManagement = new CompanyManagement();
+
         [Authorize(Roles = "Admin")]
         [Route("users")]
         public IHttpActionResult GetUsers()
@@ -104,8 +107,14 @@ namespace PI.Service.Controllers
             CompanyController companyManagement = new CompanyController();
             long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
+            // Add tenant Id to user
             user.TenantId = tenantId;
+
+            // Add Business Owner Role to user
+            AppUserManager.AddToRole(user.Id, "BusinessOwner");
+
             AppUserManager.Update(user);
+
 
             
             #region For Email Confirmaion
@@ -257,11 +266,14 @@ namespace PI.Service.Controllers
             else if (!customer.IsConfirmEmail)
             {
                 if(AppUserManager.IsEmailConfirmed(user.Id))
+                {
                     return Ok(new
-                     {
-                         User = user,
-                         Result = 1
-                     });
+                    {
+                        User = user,
+                        Result = 1
+                    });
+                }
+                
                 else
                     return Ok(new
                     {
@@ -360,6 +372,16 @@ namespace PI.Service.Controllers
             }
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ValidateUserToken")]
+        public bool ValidateUserToken(CustomerDto customer)
+        {
+            bool isValid = this.AppUserManager.VerifyUserToken(customer.UserId, "ValidateUserToken", customer.Code);
+            return isValid;
+        }
+
         // User Management
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -376,18 +398,16 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllRolesByUser")]
-        public string GetAllRolesByUser(string userId)    // TODO : Change the string to RoleDto
+        public List<RolesDto> GetAllRolesByUser(string userId)    // TODO : Change the string to RoleDto
         {
-            //IList<DivisionDto> divisionList = companyManagement.GetAllDivisionsForCompany(userId);
-            //return divisionList;
-            return null;
+            return companyManagement.GetAllActiveChildRoles(userId);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetUsersByFilter")]
-        public PagedList GetUsersByFilter(long division, string type, string userId, string status, string searchtext = "")
+        public PagedList GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
         {
             //var pagedRecord = new PagedList();
             //return companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
@@ -406,7 +426,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
-        [HttpPost]
+        [HttpGet]
         [Route("GetUserByUserId")]
         public UserDto GetUserByUserId(string userId)
         {
