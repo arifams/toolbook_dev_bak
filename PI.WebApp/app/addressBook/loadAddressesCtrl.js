@@ -3,19 +3,19 @@
 
     app.factory('addressManagmentService', function ($http) {
         return {
-            deleteAddress: function (division) {
-                return $http.post(serverBaseUrl + '/api/AddressBook/DeleteAddress', division);
+            deleteAddress: function (address) {
+                return $http.post(serverBaseUrl + '/api/AddressBook/DeleteAddress', address);
             }
         };
     });
 
     app.factory('loadAddressService', function ($http, $q, $log, $rootScope) {
 
-        var baseUrl = serverBaseUrl + '/api/AddressBook/GetAllAddressesByFliter';
+        var baseUrl = serverBaseUrl + '/api/AddressBook/GetAllAddressBookDetailsByFilter';
 
         return {
             find: function (userId, searchText, type) {
-                return $http.get(serverBaseUrl + '/api/AddressBook/GetAllAddressesByFliter', {
+                return $http.get(serverBaseUrl + '/api/AddressBook/GetAllAddressBookDetailsByFilter', {
                     params: {
                         userId: userId,
                         searchtext: searchText,                        
@@ -26,14 +26,14 @@
         }
     });
       
-    app.controller('loadAddressesCtrl', ['$location','loadAllAddresses','$routeParams','$log','$window','$sce', function ($location, loadAllCostCenters, $routeParams, $log, $window, $sce) {
-        var vm = this;
+    app.controller('loadAddressesCtrl', ['$scope','$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', function ($scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce) {
+       var vm = this;
         
         vm.searchAddresses = function () {
 
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');            
-            var type = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
+            var type = (vm.state == undefined) ? "" : vm.state;
             var searchText = vm.searchText;
 
             loadAddressService.find(userId,searchText,type)
@@ -43,11 +43,28 @@
                 }, function errorCallback(response) {
                     //todo
                 });
-        };       
+        };
+
+
+        vm.searchAddressesfor = function () {
+
+            // Get values from view.
+            var userId = $window.localStorage.getItem('userGuid');
+            var type = (vm.state == undefined) ? "" : vm.state;
+            var searchText = vm.searchText;
+
+            loadAddressService.find(userId, searchText, type)
+                .then(function successCallback(responce) {
+
+                    vm.rowCollection = responce.data.content;
+                }, function errorCallback(response) {
+                    //todo
+                });
+        };
 
         // Call search function in page load.
-        vm.searchAddresses
-
+        vm.searchAddresses();     
+  
         //detete address detail
         vm.deleteById = function (row) {
 

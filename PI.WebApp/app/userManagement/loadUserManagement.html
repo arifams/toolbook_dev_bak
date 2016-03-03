@@ -18,12 +18,12 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input ng-model="loadUMCtrl.searchText" name="searchText" type="text" class="form-control" placeholder="Search by user Name or Role" />
+                                <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control" placeholder="Search by user Name or Role" />
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary" ng-click="loadUMCtrl.searchUsers()">
+                                <button type="button" class="btn btn-large btn-primary" ng-click="loadUserCtrl.searchUsers()">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-1">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select name="type" ng-model="loadUMCtrl.type" ng-change="loadUMCtrl.selectType()">
+                                    <select name="type" ng-model="loadUserCtrl.type" ng-change="loadUserCtrl.selectType()">
                                         <option value="">All</option>
                                         <option value="role">Role</option>
                                     </select>

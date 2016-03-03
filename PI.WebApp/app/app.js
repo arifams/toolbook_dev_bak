@@ -20,7 +20,8 @@ var MakeApp = angular
     'ngStorage',
     'ngMessages',
     //'ngGrid',
-    'smart-table'
+    'smart-table',
+    'ngCsv'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -246,12 +247,12 @@ var MakeApp = angular
         .when('/saveUserManagement/:id', {
             templateUrl: 'userManagement/saveUserManagement.html',
             controller: 'saveUserManagementCtrl',
-            controllerAs:'saveUMCtrl'
+            controllerAs: 'saveUserCtrl'
         })
         .when('/loadUserManagement', {
             templateUrl: 'userManagement/loadUserManagement.html',
             controller: 'loadUserManagementCtrl',
-            controllerAs: 'loadUMCtrl'
+            controllerAs: 'loadUserCtrl'
         })
 
         .otherwise({
