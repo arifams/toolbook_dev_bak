@@ -26,5 +26,8 @@ namespace PI.Contract.DTOs.User
         public IList<DivisionDto> Divisions { get; set; }
 
         public bool IsActive { get; set; }
+
+        public string LoggedInUserId { get; set; }
+
     }
 }

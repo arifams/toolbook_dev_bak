@@ -751,6 +751,12 @@ namespace PI.Business
             return 1;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int DeleteDivision(long id)
         {
             using (var context = new PIContext())
@@ -912,6 +918,86 @@ namespace PI.Business
             return null;
 
         }
+
+
+        /// <summary>
+        /// Add/update specific user
+        /// </summary>
+        /// <param name="costCenter"></param>
+        /// <returns></returns>
+        public int SaveUser(UserDto userDto)
+        {
+            long comapnyId = this.GetCompanyByUserId(userDto.LoggedInUserId).Id;
+
+            using (var userContext = ApplicationDbContext.Get())
+            {
+                var isSameName = userContext.Users.Where(u => u.TenantId == comapnyId &&
+                                                                  u.Id != userDto.Id &&
+                                                                  u.FirstName == userDto.FirstName &&
+                                                                  u.LastName == userDto.LastName).SingleOrDefault();
+                if (isSameName != null)
+                {
+                    return -1;
+                }
+
+                IList<UserInDivision> userDivisionList = new List<UserInDivision>();
+
+                foreach (var division in userDto.Divisions)
+                {
+                    userDivisionList.Add(new UserInDivision()
+                    {
+                        UserId = userDto.Id,
+                        DivisionId = division.Id,
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    });
+                }
+
+                if (string.IsNullOrEmpty(userDto.Id))
+                {
+                    ApplicationUser newUser = new ApplicationUser
+                    {
+                        Id = userDto.Id,
+                        Salutation = userDto.Salutation,
+                        FirstName = userDto.FirstName,
+                        MiddleName = userDto.MiddleName,
+                        LastName = userDto.LastName,
+                        Email = userDto.Email,
+                        IsActive = userDto.IsActive,
+                        JoinDate = DateTime.Now                        
+                    };
+
+                    userContext.Users.Add(newUser);
+                }
+                else
+                {
+                    ApplicationUser existingUser = new ApplicationUser();
+                    existingUser = userContext.Users.SingleOrDefault(u => u.Id == userDto.Id);
+
+                    //Remove the existing active connection list
+                    //userContext.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id
+                    //                                                                && x.CostCenters.IsActive).ToList().ForEach
+                    //                                                (dc => { dc.IsActive = false; dc.IsDelete = true; });
+
+                    existingUser.Salutation = userDto.Salutation;
+                    existingUser.FirstName = userDto.FirstName;
+                    existingUser.MiddleName = userDto.MiddleName;
+                    existingUser.LastName = userDto.LastName;
+                    existingUser.Email = userDto.Email;
+                    existingUser.IsActive = userDto.IsActive;
+                    //existingUser.JoinDate = DateTime.Now;
+                    //existingUser.CreatedBy = 1; //TODO: sessionHelper.Get<User>().LoginName; 
+
+                    //context.DivisionCostCenters.AddRange(divcostList);
+                }
+
+                userContext.SaveChanges();
+            }
+
+            return 1;
+        }
+
 
         #endregion
 
