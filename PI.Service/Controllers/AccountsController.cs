@@ -111,7 +111,7 @@ namespace PI.Service.Controllers
             user.TenantId = tenantId;
 
             // Add Business Owner Role to user
-            AppUserManager.AddToRole(user.Id, "SuperAdmin");
+            AppUserManager.AddToRole(user.Id, "BusinessOwner");
 
             AppUserManager.Update(user);
 
