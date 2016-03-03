@@ -104,8 +104,14 @@ namespace PI.Service.Controllers
             CompanyController companyManagement = new CompanyController();
             long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
+            // Add tenant Id to user
             user.TenantId = tenantId;
+
+            // Add Business Owner Role to user
+            AppUserManager.AddToRole(user.Id, "SuperAdmin");
+
             AppUserManager.Update(user);
+
 
             
             #region For Email Confirmaion
