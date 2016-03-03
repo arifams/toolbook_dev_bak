@@ -181,6 +181,13 @@ namespace PI.Business
                 {
                     return 0;
                 }
+
+                currntUser.Salutation = updatedProfile.CustomerDetails.Salutation;
+                currntUser.FirstName = updatedProfile.CustomerDetails.FirstName;
+                currntUser.MiddleName = updatedProfile.CustomerDetails.MiddleName;
+                currntUser.LastName = updatedProfile.CustomerDetails.LastName;
+                context.SaveChanges();
+
                 //check if there any users who has same email
                 if (currntUser.UserName != updatedProfile.CustomerDetails.Email)
                 {                    

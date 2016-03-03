@@ -566,16 +566,16 @@
                                                        class="form-control form-white" placeholder="Enter new password" ng-maxlenght="100"
                                                        ng-model="profileCtrl.model.newPassword" 
                                                    ng-required="profileCtrl.model.changeLoginData" ng-enable="profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfile.newpassword.$invalid && (formUpdateProfile.newpassword.$dirty||profileCtrl.isSubmit) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData">
-                                            <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
-                                               data-placement="top"
-                                               data-html="true"
-                                               data-content="- At least 8 characters long. <br>
-                                                               - Should atleast contain;
+                                                <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                                   data-placement="top"
+                                                   data-html="true"
+                                                   data-content="- At least 8 characters long. <br>
+                                                               - Should at least  contain;
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
-                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One special charactor.
+                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
-                                                                   data-original-title="Your Password should be:"></i>
+                                                   data-original-title="Your Password should be:"></i>
 
                                                 <div ng-messages="formUpdateProfile.newpassword.$error" ng-show="formUpdateProfile.newpassword.$dirty || profileCtrl.isSubmit">
                                                     <label ng-message="required" class="error" for="password">Enter your password</label>
