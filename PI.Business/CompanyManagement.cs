@@ -806,6 +806,8 @@ namespace PI.Business
             return currentuser.TenantId;
         }
 
+        
+        #endregion
 
 
         #region User Management
@@ -845,8 +847,6 @@ namespace PI.Business
 
         #endregion
 
-
-        #endregion
         
     }
 }
