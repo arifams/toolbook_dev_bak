@@ -36,9 +36,9 @@
                         <div class="col-md-1">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select name="type" ng-model="loadUserCtrl.type" ng-change="loadUserCtrl.selectType()">
+                                    <select convert-to-number ng-options="role.id as role.name for role in vm.roleList" 
+                                            name="role" ng-model="loadUserCtrl.role" ng-change="loadUserCtrl.selectRole()">
                                         <option value="">All</option>
-                                        <option value="role">Role</option>
                                     </select>
                                 </div>
                             </div>
@@ -47,8 +47,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="costcenter"
-                                            convert-to-number ng-options="divi.id as divi.name for divi in vm.divisionList"
+                                    <select convert-to-number ng-options="divi.id as divi.name for divi in vm.divisionList"
                                             name="divisions" ng-model="selectedDivision" ng-change="vm.selectDivision()">
                                         <option value="">All</option>
                                     </select>

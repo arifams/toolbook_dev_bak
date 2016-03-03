@@ -15,6 +15,15 @@
                 //todo
             });
 
+        userManagementFactory.getAllRolesByUser()
+                    .then(function successCallback(response) {
+
+                        vm.roleList = response.data;
+
+                    }, function errorCallback(response) {
+                        //todo
+                    });
+
         vm.itemsByPage = 25;
         vm.rowCollection = [];
         // Add dumy record, since data loading is async.
@@ -25,11 +34,11 @@
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
             var division = (vm.selectedDivision == undefined || vm.selectedDivision == "") ? 0 : vm.selectedDivision;
-            var type = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
+            var role = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
             var searchText = vm.searchText;
             var status = vm.status;
 
-            userManagementFactory.getUsersByFilter(userId, searchText, division, type, status)
+            userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)
                 .then(function successCallback(responce) {
 
                     vm.rowCollection = responce.data.content;
@@ -50,7 +59,7 @@
             vm.searchUsers();
         }
 
-        vm.selectType = function () {
+        vm.selectRole = function () {
             vm.searchUsers();
         };
 
