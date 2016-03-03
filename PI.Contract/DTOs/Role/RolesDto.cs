@@ -11,5 +11,7 @@ namespace PI.Contract.DTOs.Role
         public string Id { get; set; }
 
         public string RoleName { get; set; }
+
+        public bool IsSelected { get; set; }
     }
 }

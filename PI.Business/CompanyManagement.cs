@@ -258,7 +258,7 @@ namespace PI.Business
                 // find and mark assigned div and cost
                 foreach (DivisionDto div in divisionList)
                 {
-                    div.isAssignedToCurrentCostCenter = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id
+                    div.IsAssigned = costCenter.DivisionCostCenters.Where(cd => cd.DivisionId == div.Id
                                                                                             && cd.IsDelete == false).ToList().Count() > 0;
                 }
 
@@ -806,7 +806,7 @@ namespace PI.Business
             return currentuser.TenantId;
         }
 
-        
+
         #endregion
 
 
@@ -834,7 +834,7 @@ namespace PI.Business
 
                     foreach (var role in allRoles)
                     {
-                        if (userRoleId.CompareTo(Guid.Parse(role.Id)) > 1)
+                        if (userRoleId.CompareTo(Guid.Parse(role.Id)) == 1)
                         {
                             roles.Add(new RolesDto { Id = role.Id, RoleName = role.Name });
                         }
@@ -845,8 +845,76 @@ namespace PI.Business
             }
         }
 
+
+        /// <summary>
+        /// Get User By Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public UserDto GetUserById(string userId, string loggedInUser)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            IList<RolesDto> roleList = new List<RolesDto>();
+            ApplicationUser user = new ApplicationUser();
+
+            using (var context = new PIContext())
+            {
+                divisionList = GetAllActiveDivisionsForCompany(loggedInUser);
+                roleList = GetAllActiveChildRoles(loggedInUser);
+
+                if (string.IsNullOrEmpty(userId))
+                {
+                    return new UserDto
+                    {
+                        Divisions = divisionList,
+                        Roles = roleList,
+                    };
+                }
+
+                using (var userContext = new ApplicationDbContext())
+                {
+                    user = userContext.Users.SingleOrDefault(c => c.Id == userId);
+
+                    // find and mark assigned divisisons for the specific in user
+                    foreach (DivisionDto div in divisionList)
+                    {
+                        div.IsAssigned = context.UsersInDivisions.Where(ud => ud.DivisionId == div.Id
+                                                                              && ud.UserId == userId
+                                                                              && ud.IsDelete == false).ToList().Count() > 0;
+                    }
+
+
+                    // find and mark assigned role for the specific user
+                    foreach (var role in roleList)
+                    {
+                        role.IsSelected = user.Roles.Where(r => r.RoleId == role.Id).ToList().Count() > 0;
+                    }
+                }
+
+                if (user != null)
+                {
+                    return new UserDto
+                    {
+                        Id = user.Id,
+                        Salutation = user.Salutation,
+                        FirstName = user.FirstName,
+                        MiddleName = user.MiddleName,
+                        LastName = user.LastName,
+                        Email = user.Email,
+                        IsActive = user.IsActive,
+                        Divisions = divisionList,
+                        Roles = roleList
+                    };
+
+                }
+            }
+
+            return null;
+
+        }
+
         #endregion
 
-        
+
     }
 }

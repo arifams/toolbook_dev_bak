@@ -139,7 +139,7 @@
                            debugger;
                            //Add selected sites
                            angular.forEach(vm.model.allDivisions, function (availableDivision) {
-                               if (availableDivision.isAssignedToCurrentCostCenter) {
+                               if (availableDivision.isAssigned) {
                                    vm.model.assignedDivisionIdList.push(availableDivision.id);
                                }
                            })

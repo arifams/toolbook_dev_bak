@@ -24,6 +24,11 @@ namespace PI.Data.Entity.Identity
         [MaxLength(100)]
         public string FirstName { get; set; }
 
+
+        [MaxLength(100)]
+        public string MiddleName { get; set; }
+
+
         [Required]
         [MaxLength(100)]
         public string LastName { get; set; }
@@ -34,11 +39,18 @@ namespace PI.Data.Entity.Identity
         [Required]
         public DateTime JoinDate { get; set; }
 
+        [Required]
+        public bool IsActive { get; set; }
+
+        [Required]
+        public bool IsDeleted { get; set; }
+
+
         #region Navigation property
 
         //[ForeignKey("TenantId")]
         //public Tenant Tenant { get; set; }
-        
+
         #endregion
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
