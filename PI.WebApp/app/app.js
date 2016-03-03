@@ -21,7 +21,8 @@ var MakeApp = angular
     'ngMessages',
     //'ngGrid',
     'smart-table',
-    'ngCsv'
+    'ngCsv',
+    'ngCsvImport'
   ])
   .config(function ($routeProvider) {
       $routeProvider

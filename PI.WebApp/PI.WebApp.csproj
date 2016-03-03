@@ -447,6 +447,7 @@
     <Content Include="global\plugins\visible\bower.json" />
     <Content Include="global\plugins\visible\df-visible.jquery.json" />
     <Content Include="global\plugins\visible\README.markdown" />
+    <Content Include="plugins\angular-csv-import\angular-csv-import.js" />
     <Content Include="plugins\angular\.bower.json" />
     <Content Include="plugins\angular\angular.min.js.gzip" />
     <Content Include="plugins\angular\angular.min.js.map" />
