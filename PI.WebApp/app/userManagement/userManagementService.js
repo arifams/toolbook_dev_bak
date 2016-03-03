@@ -35,13 +35,13 @@
             });
         }
 
-        function getUsersByFilter(userId, searchText, division, type, status) {
+        function getUsersByFilter(userId, searchText, division, role, status) {
             return $http.get(serverBaseUrl + '/api/accounts/GetUsersByFilter', {
                 params: {
                     userId: userId,
                     searchtext: searchText,
                     division: division,
-                    type: type,
+                    role: role,
                     status: status
                 }
             });
