@@ -74,7 +74,9 @@ namespace PI.Data.Migrations
                 FirstName = "Admin",
                 LastName = "User",
                 Level = 1,
-                JoinDate = DateTime.Now.AddYears(-3)
+                JoinDate = DateTime.Now.AddYears(-3),
+                IsActive = true,
+                IsDeleted =  false
             };
 
             manager.Create(user, "1qaz2wsx@");

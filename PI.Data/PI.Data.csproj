@@ -102,6 +102,7 @@
     <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
+    <Compile Include="Entity\UserInDivision.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>

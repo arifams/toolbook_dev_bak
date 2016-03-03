@@ -33,7 +33,7 @@ namespace PI.Contract.DTOs.Division
 
         public string DeleteLink { get; set; }
 
-        public bool isAssignedToCurrentCostCenter { get; set; }
+        public bool IsAssigned { get; set; }
 
         public string UserId { get; set; }
 

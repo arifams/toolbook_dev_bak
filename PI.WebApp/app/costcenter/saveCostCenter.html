@@ -134,7 +134,7 @@
 
                                 <div class="col-sm-10">
                                     <div ng-repeat="division in vm.model.allDivisions">
-                                        <input type="checkbox" id="{{division.id}}" ng-model="division.isAssignedToCurrentCostCenter"
+                                        <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
                                                ng-click="vm.toggleDivisionSelection(division)" />
                                         <label for="{{division.name}}}">{{division.name}}</label>
                                     </div>
