@@ -91,7 +91,7 @@ namespace PI.Data.Migrations
             }
 
             var adminUser = manager.FindByName("SuperPowerUser");
-            manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });   
+            manager.AddToRoles(adminUser.Id, new string[] {"Admin" });   
         }
     }
 }
