@@ -249,6 +249,7 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]
@@ -257,10 +258,17 @@ namespace PI.Service.Controllers
         {
             var user = AppUserManager.Find(customer.UserName, customer.Password);
 
+            //var currentRoles = await this.AppUserManager.GetRolesAsync(user.Id);
+            string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
+
+            bool isCorporateAccount = companyManagement.GetAccountType(user.Id);
+
+
             if (user == null)
                 return Ok(new
                 {
                     User = user,
+                    Role = roleName,
                     Result = -1
                 });
             else if (!customer.IsConfirmEmail)
@@ -270,7 +278,9 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         User = user,
-                        Result = 1
+                        Role = roleName,
+                        Result = 1,
+                        IsCorporateAccount = isCorporateAccount
                     });
                 }
                 
@@ -278,6 +288,7 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         User = user,
+                        Role = roleName,
                         Result = -11 //You must have a confirmed email to log in
                     });
             }
@@ -289,7 +300,9 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         User = user,
-                        Result = 2
+                        Role = roleName,
+                        Result = 2,
+                        IsCorporateAccount = isCorporateAccount
                     });
                 }
                 else
@@ -297,6 +310,7 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         User = user,
+                        Role = roleName,
                         Result = -2
                     });
                 }
