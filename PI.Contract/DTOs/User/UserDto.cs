@@ -31,5 +31,7 @@ namespace PI.Contract.DTOs.User
 
         public string Status { get; set; }
 
+        public string RoleName { get; set; }        
+
     }
 }

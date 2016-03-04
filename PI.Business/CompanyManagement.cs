@@ -1049,51 +1049,57 @@ namespace PI.Business
         public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-            Company currentcompany = this.GetCompanyByUserId(userId);
-            if (currentcompany == null)
-            {
-                return pagedRecord;
-            }
+            long tenantId = this.GettenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 
             using (var context = new ApplicationDbContext())
             {
-                var content = context.Users.Where(x => //x.CompanyId == currentcompany.Id &&
-                                                    x.IsActive == false &&
+                var content = context.Users.Where(x => x.TenantId == tenantId &&
+                                                    x.IsDeleted == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
-                                                    (status == "0" || x.IsActive.ToString() == status))
-                                            .ToList();
+                                                    (status == "" || x.IsActive.ToString() == status) &&
+                                                    (role == "" || x.Roles.Any(r => r.RoleId == role))).ToList();
 
                 string assignedDivForGrid = string.Empty;
-                int lastIndexOfBrTag;
 
                 foreach (var item in content)
                 {
                     StringBuilder str = new StringBuilder();
                     //item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
 
-                    //// Remove last <br/> tag.
-                    //assignedDivForGrid = str.ToString();
-                    //lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-                    //if (lastIndexOfBrTag != -1)
-                    //    assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
-
                     pagedRecord.Content.Add(new UserDto
                     {
                         Id = item.Id,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
-                        //La = item.
+                        RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive"
                     });
                 }
-
-
-                return pagedRecord;
             }
+
+            if (division > 0)
+            {
+                using (var contextPI = new PIContext())
+                {
+                    var content = contextPI.UsersInDivisions.Include("Divisions.Company").Where(x => x.DivisionId == division
+                                                                                    && x.Divisions.Company.TenantId == tenantId);
+
+                      //pagedRecord.Content.Remove(x=> x.)
+                }
+            }
+
+            return pagedRecord;
+
         }
 
+
+        /// <summary>
+        /// Get role name by Id
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
         public string GetRoleName(string roleId)
         {
             using (var userContext = new ApplicationDbContext())
