@@ -93,9 +93,9 @@
                                 <label class="col-sm-2 control-label">User Role *</label>
                                 <div class="col-sm-10">
                                     <div class="option-group">
-                                        <select name="mySelect" id="mySelect"
-                                                ng-options="option.roleName for option in saveUserCtrl.user.roles track by option.id"
-                                                ng-model="saveUserCtrl.user.assignedRole"></select>
+                                        <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
+                                                convert-to-number ng-options="option.roleName as option.roleName for option in saveUserCtrl.user.roles" ng-required="true"></select>
+
                                     </div>
                                 </div>
                             </div>
@@ -119,6 +119,7 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <div class="icheck-inline">
+                                                        {{saveUserCtrl.user.isActive}}
                                                         <label><input type="radio" name="status" icheck ng-model="saveUserCtrl.user.isActive" value="true"> Active </label>
                                                         <label><input type="radio" name="status" icheck ng-model="saveUserCtrl.user.isActive" value="false"> Inactive</label>
                                                     </div>

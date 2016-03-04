@@ -2,6 +2,40 @@
 
 (function (app) {
 
+    app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
+
+        return {
+            require: 'ngModel',
+            link: function ($scope, element, $attrs, ngModel) {
+                return $timeout(function () {
+                    var value;
+                    value = $attrs['value'];
+
+                    $scope.$watch($attrs['ngModel'], function (newValue) {
+                        $(element).iCheck('update');
+                    })
+
+                    return $(element).iCheck({
+                        checkboxClass: 'icheckbox_square-blue', //'icheckbox_flat-aero',
+                        radioClass: 'iradio_square-blue'
+
+                    }).on('ifChanged', function (event) {
+                        if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                            $scope.$apply(function () {
+                                return ngModel.$setViewValue(event.target.checked);
+                            });
+                        }
+                        if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                            return $scope.$apply(function () {
+                                return ngModel.$setViewValue(value);
+                            });
+                        }
+                    });
+                });
+            }
+        };
+    }]);
+
     app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', function ($location, $window, userManagementFactory) {
         var vm = this;
         vm.user = {};
@@ -11,6 +45,7 @@
             .success(function (data) {
                 
                 vm.user = data;
+                
                 debugger;
                 vm.user.assignedDivisionIdList = [];
                 if (vm.user.id == 0) {
@@ -35,11 +70,12 @@
         loadUser();
 
         vm.saveUser = function () {
-            vm.user.userId = $window.localStorage.getItem('userGuid');
+            vm.user.loggedInUserId = $window.localStorage.getItem('userGuid');
+
             var body = $("html, body");
 
             //vm.user.assignedRole
-
+            //vm.user.assignedRoleName = vm.user.assignedRole.roleName;
             userManagementFactory.saveUser(vm.user)
             .success(function (result) {
                 debugger;
