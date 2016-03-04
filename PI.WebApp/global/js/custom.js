@@ -6,4 +6,4 @@ var serverBaseUrl = 'http://pibooking.azurewebsites.net';
 
 // Web base url
 //var webBaseUrl = 'http://localhost:49995';
-var webBaseUrl = 'http://piwebapp.azurewebsites.net';
+var webBaseUrl = 'http://pibookingservice.azurewebsites.net';
