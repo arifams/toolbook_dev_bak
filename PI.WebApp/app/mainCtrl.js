@@ -45,4 +45,7 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
         window.location = webBaseUrl + "/app/userLogin/userLogin.html";
     }
 
+    $scope.currentRole = $window.localStorage.getItem('userRole');
+    $scope.isCorporate = $window.localStorage.getItem('isCorporateAccount');
+
 }]);

@@ -856,7 +856,7 @@ namespace PI.Business
                 //return roles;
             }
 
-             
+
             using (PIContext context = new PIContext())
             {
                 RoleHierarchy roleHierarchy = context.RoleHierarchies.Where(rh => rh.ParentName == userRoleName).FirstOrDefault();
@@ -985,7 +985,7 @@ namespace PI.Business
                         LastName = userDto.LastName,
                         Email = userDto.Email,
                         IsActive = userDto.IsActive,
-                        JoinDate = DateTime.Now                        
+                        JoinDate = DateTime.Now
                     };
 
                     userContext.Users.Add(newUser);
@@ -1018,6 +1018,40 @@ namespace PI.Business
             return 1;
         }
 
+
+        public string GetRoleName(string roleId)
+        {
+            using (var userContext = new ApplicationDbContext())
+            {
+                string userRoleName = userContext.Roles.Where(r => r.Id == roleId).Select(e => e.Name).FirstOrDefault();
+
+                return userRoleName;
+
+            }
+        }
+
+
+
+        public bool GetAccountType(string userId)
+        {
+            ApplicationUser currentuser = null;
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
+
+                if (currentuser == null)
+                {
+                    return false;
+                }
+
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                Tenant tenant = context.Tenants.SingleOrDefault(t => t.Id == currentuser.TenantId);
+                return tenant.IsCorporateAccount;
+            }
+        }
 
         #endregion
 
