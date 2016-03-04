@@ -83,9 +83,7 @@
 
         vm.changeCountry = function () {
             vm.isRequiredState = vm.model.country == 'US' || vm.model.country == 'CA' || vm.model.country == 'PR' || vm.model.country == 'AU';
-        };
-
-
+        };      
 
         vm.saveAddressDetail = function () {
             vm.model.userId = $window.localStorage.getItem('userGuid');
