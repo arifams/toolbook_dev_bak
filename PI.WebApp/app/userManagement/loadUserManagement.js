@@ -8,22 +8,22 @@
 
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
-                debugger;
+               
                 vm.divisionList = response.data.divisions;
-                //vm.roleList = response.data.roles;
-
+                vm.roleList = response.data.roles;
+                debugger;
             }, function errorCallback(response) {
                 //todo
             });
 
-        userManagementFactory.getAllDivisionsByCompany()
-            .then(function successCallback(response) {
+        //userManagementFactory.getAllDivisionsByCompany()
+        //    .then(function successCallback(response) {
 
-                vm.divisionList = response.data;
+        //        vm.divisionList = response.data;
 
-            }, function errorCallback(response) {
-                //todo
-            });
+        //    }, function errorCallback(response) {
+        //        //todo
+        //    });
 
         //userManagementFactory.getAllRolesByUser()
         //            .then(function successCallback(response) {
@@ -44,10 +44,11 @@
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
             var division = (vm.selectedDivision == undefined || vm.selectedDivision == "") ? 0 : vm.selectedDivision;
-            var role = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
+            var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
             var searchText = vm.searchText;
-            var status = vm.status;
+            var status = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
 
+            debugger;
             userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)
                 .then(function successCallback(responce) {
 

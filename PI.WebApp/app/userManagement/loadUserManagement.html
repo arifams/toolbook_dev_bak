@@ -36,7 +36,7 @@
                         <div class="col-md-1">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select convert-to-number ng-options="role.id as role.name for role in vm.roleList" 
+                                    <select convert-to-number ng-options="role.id as role.roleName for role in loadUserCtrl.roleList" 
                                             name="role" ng-model="loadUserCtrl.role" ng-change="loadUserCtrl.selectRole()">
                                         <option value="">All</option>
                                     </select>
@@ -47,8 +47,8 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select convert-to-number ng-options="divi.id as divi.name for divi in vm.divisionList"
-                                            name="divisions" ng-model="selectedDivision" ng-change="vm.selectDivision()">
+                                    <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
+                                            name="divisions" ng-model="selectedDivision" ng-change="loadUserCtrl.selectDivision()">
                                         <option value="">All</option>
                                     </select>
                                 </div>
@@ -57,8 +57,8 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="costcentersStatus" name="costcentersStatus"
-                                            ng-model="status" ng-change="vm.selectActiveCostCenters()">
+                                    <select name="status"
+                                            ng-model="status" ng-change="loadUserCtrl.selectActiveUsers()">
                                         <option value="">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>

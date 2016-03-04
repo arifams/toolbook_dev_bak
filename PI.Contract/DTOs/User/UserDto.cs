@@ -31,6 +31,9 @@ namespace PI.Contract.DTOs.User
 
         public string Status { get; set; }
 
+        public IList<long> AssignedDivisionIdList { get; set; }
+
+        public string AssignedRoleName { get; set; }
         public string RoleName { get; set; }        
 
     }

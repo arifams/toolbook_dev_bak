@@ -209,17 +209,17 @@ namespace PI.Service.Controllers
         [Authorize(Roles = "Admin")]
         [Route("user/{id:guid}/roles")]
         [HttpPut]
-        public async Task<IHttpActionResult> AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
+        public IHttpActionResult AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
         {
 
-            var appUser = await this.AppUserManager.FindByIdAsync(id);
+            var appUser = this.AppUserManager.FindById(id);
 
             if (appUser == null)
             {
                 return NotFound();
             }
 
-            var currentRoles = await this.AppUserManager.GetRolesAsync(appUser.Id);
+            var currentRoles = this.AppUserManager.GetRoles(appUser.Id);
 
             var rolesNotExists = rolesToAssign.Except(this.AppRoleManager.Roles.Select(x => x.Name)).ToArray();
 
@@ -230,7 +230,7 @@ namespace PI.Service.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult removeResult = await this.AppUserManager.RemoveFromRolesAsync(appUser.Id, currentRoles.ToArray());
+            IdentityResult removeResult = this.AppUserManager.RemoveFromRoles(appUser.Id, currentRoles.ToArray());
 
             if (!removeResult.Succeeded)
             {
@@ -238,7 +238,7 @@ namespace PI.Service.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult addResult = await this.AppUserManager.AddToRolesAsync(appUser.Id, rolesToAssign);
+            IdentityResult addResult = this.AppUserManager.AddToRoles(appUser.Id, rolesToAssign);
 
             if (!addResult.Succeeded)
             {
@@ -432,8 +432,12 @@ namespace PI.Service.Controllers
         [Route("SaveUser")]
         public int SaveUser([FromBody] UserDto user)
         {
+            string userId = companyManagement.SaveUser(user);
+            string[] rolList = AppUserManager.GetRoles(userId).ToArray();
+            //AppUserManager.RemoveFromRoles(userId, rolList);
+            AssignRolesToUser(userId, new string[1] { user.AssignedRoleName });
+
             return 1;
-            //return companyManagement.SaveDivision(division);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
