@@ -84,11 +84,11 @@
                             vm.exportcollection.push(value);
                     });
                     //loop through the address collection to remove the fullname and fulladdress properties
-                    $.each(vm.exportcollection, function (index, value) {
+                    //$.each(vm.exportcollection, function (index, value) {
 
-                         vm.exportcollection[index].pop("fullName");
-                         vm.exportcollection[index].pop("fullAddress");
-                    });
+                    //     vm.exportcollection[index].pop("fullName");
+                    //     vm.exportcollection[index].pop("fullAddress");
+                    //});
                     
                 }, function errorCallback(response) {
                     //todo
@@ -140,7 +140,28 @@
                     //todo
                 });;
             } else {
-                alert("No file uploaded");
+              //  alert("No file uploaded");
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-warning media fade in"><p>No File uploaded for import</p></div>',
+                    buttons: [
+                            {
+                                addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    
+                                    $noty.close();
+
+
+                                }
+                            }
+
+                    ],
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
             }
             
 
@@ -167,22 +188,51 @@
         vm.searchAddresses();     
   
         //detete address detail
-        vm.deleteById = function (row) {
+        vm.deleteById = function (row) {            
 
-            var r = confirm("Do you want to delete the record?");
-            if (r == true) {
-                addressManagmentService.deleteAddress({ Id: row.id })
-                    .success(function (response) {
-                        if (response == 1) {
-                            var index = vm.rowCollection.indexOf(row);
-                            if (index !== -1) {
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                addressManagmentService.deleteAddress({ Id: row.id })
+                                .success(function (response) {
+                                if (response == 1) {
+                                var index = vm.rowCollection.indexOf(row);
+                                if (index !== -1) {
                                 vm.rowCollection.splice(index, 1);
-                            }
+                               }
                         }
                     })
                     .error(function () {
                     })
-            }
+
+                                $noty.close();                              
+
+
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+
+                                // updateProfile = false;
+                                $noty.close();
+                                return;
+                                // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+
+
         };
 
         $scope.renderHtml = function (html_code) {

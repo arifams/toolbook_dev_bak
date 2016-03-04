@@ -222,7 +222,7 @@ namespace PI.Business
         //get addressbook detail by id
         public AddressBook GetAddressBookById(long Id)
         {           
-            using (PIContext context = PIContext.Get())
+            using (PIContext context = new PIContext())
             {
                 return context.AddressBooks.SingleOrDefault(n => n.Id == Id);
             }
