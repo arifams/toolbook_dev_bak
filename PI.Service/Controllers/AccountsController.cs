@@ -297,7 +297,7 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         User = user,
-                        Result = 2
+                        Result = -2
                     });
                 }
             }
@@ -428,9 +428,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetUserByUserId")]
-        public UserDto GetUserByUserId(string userId)
+        public UserDto GetUserByUserId(string userId,string loggedInUser)
         {
-            return null;
+            return companyManagement.GetUserById(userId, loggedInUser);
         }
     }
 }
