@@ -113,7 +113,15 @@ namespace PI.Business
                 string[] dataArray = address.CsvContent.ToString().Split(',');
                 for (int i = 0; i < dataArray.Length; i++)
                 {
-                    list.Add(headerArray[i], dataArray[i]);                 
+                    try
+                    {
+                        list.Add(headerArray[i], dataArray[i]);
+                    }
+                    catch (Exception)
+                    {
+                        return -1;
+                    }
+                               
                 }
                 using (PIContext context=new PIContext())
                 {

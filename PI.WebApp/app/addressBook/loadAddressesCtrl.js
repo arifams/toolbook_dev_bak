@@ -107,12 +107,9 @@
              
                 importAddressBookFactory.importAddressBook(importCollection).then(function successCallback(responce) {
                     var body = $("html, body");
-                    if (responce) {
-
+                    if (responce.data!=-1) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });                     
-
-
+                        });                  
 
                         $('#panel-notif').noty({
                             text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' Address records added successfully.' + '</p></div>',
@@ -135,6 +132,28 @@
                             timeout: 3000,
                         });
 
+                    } else {
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p> Invalid data import format.</p></div>',
+                            buttons: [
+                                    {
+                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                          
+                                            $noty.close();
+
+
+                                        }
+                                    }
+
+                            ],
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
                     }
                 }, function errorCallback(response) {
                     //todo
