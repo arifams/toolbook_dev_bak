@@ -38,7 +38,7 @@ namespace PI.Business
                     {
                         Id = item.Id,
                         CompanyName = item.CompanyName,
-                        FullAddress = item.Number + ", " + item.StreetAddress1 + ", " + item.StreetAddress2,
+                        FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
                         FullName = item.FirstName+ " "+ item.LastName,
                         IsActive = item.IsActive,
                         FirstName=item.FirstName,
