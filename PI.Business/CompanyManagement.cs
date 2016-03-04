@@ -1018,6 +1018,90 @@ namespace PI.Business
             return 1;
         }
 
+        public UserDto LoadUserManagement(string loggedInUser)
+        {
+            IList<DivisionDto> assignedDivisionList;
+            IList<RolesDto> roleList;
+
+            using (var context = new PIContext())
+            {
+                assignedDivisionList = GetAllActiveDivisionsForCompany(loggedInUser);
+                roleList = GetAllActiveChildRoles(loggedInUser);
+            }
+
+            return new UserDto
+            {
+                Divisions = assignedDivisionList,
+                Roles = roleList,
+            };
+        }
+
+        public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
+        {
+            var pagedRecord = new PagedList();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return pagedRecord;
+            }
+
+            pagedRecord.Content = new List<CostCenterDto>();
+
+            using (var context = new PIContext())
+            {
+                //var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
+                //                        .Where(x => x.CompanyId == currentcompany.Id &&
+                //                                     x.Type == "USER" &&
+                //                                     x.IsDelete == false &&
+                //                                    (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
+                //                                    (type == "0" || x.IsActive.ToString() == type) &&
+                //                                    (divisionId == 0 || x.DivisionCostCenters.Any(cd => cd.DivisionId == divisionId && cd.IsDelete == false))
+                //                                    )
+                //                            .OrderBy(sortBy + " " + sortDirection)
+                //                            .ToList();
+
+                //string assignedDivForGrid = string.Empty;
+                //int lastIndexOfBrTag;
+
+                //foreach (var item in content)
+                //{
+                //    StringBuilder str = new StringBuilder();
+                //    item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+
+                //    // Remove last <br/> tag.
+                //    assignedDivForGrid = str.ToString();
+                //    lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
+                //    if (lastIndexOfBrTag != -1)
+                //        assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
+
+                //    pagedRecord.Content.Add(new CostCenterDto
+                //    {
+                //        Id = item.Id,
+                //        Name = item.Name,
+                //        CompanyId = item.CompanyId,
+                //        Description = item.Description,
+                //        Status = item.Status,
+                //        Type = item.Type,
+                //        FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
+                //        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country,
+                //        AssignedDivisionsForGrid = assignedDivForGrid,
+                //        StatusString = item.IsActive ? "Active" : "InActive"
+                //    });
+                //}
+
+                //// Count
+                //pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
+                //                                                      x.Type == "USER" && x.IsDelete == false &&
+                //                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
+                //                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
+                //                                                     (type == null || x.IsActive.ToString() == type)).Count();
+
+                //pagedRecord.CurrentPage = page;
+                //pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+            }
+        }
 
         public string GetRoleName(string roleId)
         {

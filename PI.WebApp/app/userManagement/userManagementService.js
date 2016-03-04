@@ -10,7 +10,8 @@
             getAllRolesByUser: getAllRolesByUser,
             getUsersByFilter: getUsersByFilter,
             getUser: getUser,
-            saveUser: saveUser            
+            saveUser: saveUser,
+            loadUserManagement: loadUserManagement
         }
 
         // Implement the functions.
@@ -48,16 +49,27 @@
         }
 
         function getUser() {
+
+            var userId = $routeParams.id == "0" ? "" : $routeParams.id;
+
             return $http.get(serverBaseUrl + '/api/accounts/GetUserByUserId', {
                 params: {
-                    id: $routeParams.id,
-                    userId: $window.localStorage.getItem('userGuid')
+                    userId: userId,
+                    loggedInUser: $window.localStorage.getItem('userGuid')
                 }
             });
         }
 
         function saveUser(user) {
             return $http.post(serverBaseUrl + '/api/accounts/SaveUser', user);
+        }
+
+        function loadUserManagement() {
+            return $http.get(serverBaseUrl + '/api/accounts/LoadUserManagement', {
+                params: {
+                    loggedInUser: $window.localStorage.getItem('userGuid')
+                }
+            });
         }
 
     }]);

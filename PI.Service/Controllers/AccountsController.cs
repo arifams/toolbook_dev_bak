@@ -354,7 +354,7 @@ namespace PI.Service.Controllers
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/resetPassword/resetPassword.html?userId=" + existingUser.Id + "&code=" + passwordResetToken));
 
             StringBuilder emailbody = new StringBuilder(userModel.TemplateLink);
-            emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName)
+            emailbody.Replace("Salutation", existingUser.Salutation).Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName)
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(existingUser.Id, "Reset your account password", emailbody.ToString());
@@ -423,9 +423,7 @@ namespace PI.Service.Controllers
         [Route("GetUsersByFilter")]
         public PagedList GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
         {
-            //var pagedRecord = new PagedList();
-            //return companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
-            return null;
+            return companyManagement.GetAllUsers(division, role, userId, status, searchtext);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -445,6 +443,15 @@ namespace PI.Service.Controllers
         public UserDto GetUserByUserId(string userId,string loggedInUser)
         {
             return companyManagement.GetUserById(userId, loggedInUser);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("LoadUserManagement")]
+        public UserDto LoadUserManagement(string loggedInUser)
+        {
+            return companyManagement.LoadUserManagement(loggedInUser);
         }
     }
 }

@@ -1,6 +1,26 @@
 ﻿'use strict';
 (function (app) {
 
+    app.directive('validPhoneNo', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue, $scope) {
+
+                    // should have only +,- and digits.
+                    var res1 = /^[0-9()+-]*$/.test(viewValue);
+                    // should have at least 8 digits.
+                    var res2 = /(?=(.*\d){8})/.test(viewValue);
+                    if (viewValue != '')
+                        ctrl.$setValidity('notValidPhoneNo', res1 && res2);
+                    else
+                        ctrl.$setValidity('notValidPhoneNo', true);
+
+                    return viewValue;
+                })
+            }
+        }
+    });
     app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
 
         return {
@@ -63,7 +83,7 @@
 
         vm.changeCountry = function () {
             vm.isRequiredState = vm.model.country == 'US' || vm.model.country == 'CA' || vm.model.country == 'PR' || vm.model.country == 'AU';
-        };
+        };      
 
         vm.saveAddressDetail = function () {
             vm.model.userId = $window.localStorage.getItem('userGuid');

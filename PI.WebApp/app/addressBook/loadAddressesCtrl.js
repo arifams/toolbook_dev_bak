@@ -38,7 +38,7 @@
         }
     });
       
-    app.controller('loadAddressesCtrl', ['$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', function ($scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', function ($route,$scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory) {
        var vm = this;
         
         vm.searchAddresses = function () {
@@ -65,6 +65,8 @@
                     headers.emailAddress = "emailAddress";
                     headers.phoneNumber = "phoneNumber";
                     headers.accountNumber = "accountNumber";
+                    headers.fullName = "fullName";
+                    headers.fullAddress = "fullAddress";
                   
                     headers.country = "country";
                     headers.zipCode = "zipCode";
@@ -83,6 +85,7 @@
                     });
                     //loop through the address collection to remove the fullname and fulladdress properties
                     $.each(vm.exportcollection, function (index, value) {
+
                          vm.exportcollection[index].pop("fullName");
                          vm.exportcollection[index].pop("fullAddress");
                     });
@@ -107,9 +110,22 @@
                     if (responce) {
 
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
+                        });                     
+
+
+
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + responce.data+' Address records added.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' Address records added successfully.' + '</p></div>',
+                            buttons: [
+                                    {       addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            $route.reload();
+                                            $noty.close();                                          
+
+
+                                        }
+                                    }
+                                   
+                            ],
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
