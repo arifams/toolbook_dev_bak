@@ -48,28 +48,9 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <button class="btn-success" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
-                            </div>
-                        </div>                   
+                                        
                        
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6"></div>
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <ng-csv-import content="addressCtrl.csv.content"
-                                               header="addressCtrl.csv.header"
-                                               separator="addressCtrl.csv.separator"
-                                               result="addressCtrl.csv.result"
-                                               accept="addressCtrl.csv.accept"></ng-csv-import>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <button class="btn-success" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
-                        </div>
-                    </div>
+                    </div>                  
                     <br />
                     <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
                  
@@ -108,6 +89,27 @@
                             </tfoot>
                         </table>
                         <div id="panel-notif"></div>
+                       
+                        <div class="row">
+                            <div class="col-sm-4"></div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <ng-csv-import content="addressCtrl.csv.content"
+                                                   header="addressCtrl.csv.header"
+                                                   separator="addressCtrl.csv.separator"
+                                                   result="addressCtrl.csv.result"
+                                                   accept="addressCtrl.csv.accept"></ng-csv-import>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
+                            </div>
+                        </div>
                     </div>
 
                 </div>
