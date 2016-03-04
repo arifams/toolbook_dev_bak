@@ -29,5 +29,7 @@ namespace PI.Contract.DTOs.User
 
         public string LoggedInUserId { get; set; }
 
+        public string Status { get; set; }
+
     }
 }
