@@ -90,6 +90,15 @@ namespace PI.Data.Migrations
                 roleManager.Create(new IdentityRole { Name = "Operator" });
             }
 
+            // Set Roles Hierarchies - Add Id column to maintain the order list.
+            context.RoleHierarchies.AddOrUpdate(
+            new Entity.RoleHierarchy() { Name = "Admin", ParentName = "",Order=1 },
+            new Entity.RoleHierarchy() { Name = "BusinessOwner", ParentName = "Admin", Order = 2 },
+            new Entity.RoleHierarchy() { Name = "Manager", ParentName = "BusinessOwner", Order = 3 },
+            new Entity.RoleHierarchy() { Name = "Supervisor", ParentName = "Manager", Order = 4 },
+            new Entity.RoleHierarchy() { Name = "Operator", ParentName = "Supervisor", Order = 5 }
+            );
+
             var adminUser = manager.FindByName("SuperPowerUser");
             manager.AddToRoles(adminUser.Id, new string[] {"Admin" });   
         }

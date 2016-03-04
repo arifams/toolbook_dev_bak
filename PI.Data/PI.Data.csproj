@@ -100,6 +100,7 @@
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
+    <Compile Include="Entity\RoleHierarchy.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Entity\UserInDivision.cs" />

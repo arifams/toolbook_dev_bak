@@ -828,27 +828,47 @@ namespace PI.Business
         {
             List<RolesDto> roles = new List<RolesDto>();
 
+            Guid userRoleId;
+            string stringUserRoleId;
+            string userRoleName = "";
+            List<IdentityRole> allRoles = new List<IdentityRole>();
+
             using (ApplicationDbContext context = new ApplicationDbContext())
             {
                 ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
                 if (user != null)
                 {
-                    Guid userRoleId = Guid.Parse(user.Roles.FirstOrDefault().RoleId);
+                    stringUserRoleId = user.Roles.FirstOrDefault().RoleId;
+                    userRoleId = Guid.Parse(stringUserRoleId);
+                    userRoleName = context.Roles.Where(r => r.Id == stringUserRoleId).Select(e => e.Name).FirstOrDefault();
+                    allRoles = context.Roles.ToList();
 
-                    var allRoles = context.Roles.ToList();
-
-                    foreach (var role in allRoles)
-                    {
-                        if (userRoleId.CompareTo(Guid.Parse(role.Id)) == 1)
-                        {
-                            roles.Add(new RolesDto { Id = role.Id, RoleName = role.Name });
-                        }
-                    }
+                    //foreach (var role in allRoles)
+                    //{
+                    //    if (userRoleId.CompareTo(Guid.Parse(role.Id)) == 1)
+                    //    {
+                    //        roles.Add(new RolesDto { Id = role.Id, RoleName = role.Name });
+                    //    }
+                    //}
                 }
 
-                return roles;
+                //return roles;
             }
+
+             
+            using (PIContext context = new PIContext())
+            {
+                RoleHierarchy roleHierarchy = context.RoleHierarchies.Where(rh => rh.ParentName == userRoleName).FirstOrDefault();
+                if (roleHierarchy != null)
+                {
+                    //short orderId = roleHierarchy.Order;
+                    List<string> roleList = context.RoleHierarchies.Where(rh => roleHierarchy.Order <= rh.Order).Select(e => e.Name).ToList();
+                    roleList.ForEach(rl => roles.Add(new RolesDto { Id = allRoles.Where(e => e.Name == rl).FirstOrDefault().Id, RoleName = rl }));
+                }
+            }
+
+            return roles;
         }
 
 
