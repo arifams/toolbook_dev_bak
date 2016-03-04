@@ -409,9 +409,7 @@ namespace PI.Service.Controllers
         [Route("GetUsersByFilter")]
         public PagedList GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
         {
-            //var pagedRecord = new PagedList();
-            //return companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
-            return null;
+            return companyManagement.GetAllUsers(division, role, userId, status, searchtext);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -431,6 +429,15 @@ namespace PI.Service.Controllers
         public UserDto GetUserByUserId(string userId,string loggedInUser)
         {
             return companyManagement.GetUserById(userId, loggedInUser);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("LoadUserManagement")]
+        public UserDto LoadUserManagement(string loggedInUser)
+        {
+            return companyManagement.LoadUserManagement(loggedInUser);
         }
     }
 }

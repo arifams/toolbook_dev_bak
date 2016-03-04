@@ -44,8 +44,9 @@
         var loadUser = function () {
             userManagementFactory.getUser()
             .success(function (data) {
-
+                
                 vm.user = data;
+                debugger;
                 vm.user.assignedDivisionIdList = [];
                 if (vm.user.id == 0) {
                     // New user.

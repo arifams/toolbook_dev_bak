@@ -6,6 +6,16 @@
 
         var vm = this;
 
+        userManagementFactory.loadUserManagement()
+            .then(function successCallback(response) {
+                debugger;
+                vm.divisionList = response.data.divisions;
+                //vm.roleList = response.data.roles;
+
+            }, function errorCallback(response) {
+                //todo
+            });
+
         userManagementFactory.getAllDivisionsByCompany()
             .then(function successCallback(response) {
 
@@ -15,14 +25,14 @@
                 //todo
             });
 
-        userManagementFactory.getAllRolesByUser()
-                    .then(function successCallback(response) {
+        //userManagementFactory.getAllRolesByUser()
+        //            .then(function successCallback(response) {
 
-                        vm.roleList = response.data;
+        //                vm.roleList = response.data;
 
-                    }, function errorCallback(response) {
-                        //todo
-                    });
+        //            }, function errorCallback(response) {
+        //                //todo
+        //            });
 
         vm.itemsByPage = 25;
         vm.rowCollection = [];
