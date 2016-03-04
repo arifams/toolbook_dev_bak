@@ -1,0 +1,235 @@
+﻿<div ng-controller="saveAddressCtrl as addressCtrl">
+    <h2 class="box-title" ng-hide="addressCtrl.model.id > 0"> Add Address &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadAddresses" class="btn btn-primary active pull-right" role="button">Manage Cost Centers</a></h2>
+    <h2 class="box-title" ng-show="addressCtrl.model.id > 0"> Edit Address &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadAddresses" class="btn btn-primary active pull-right" role="button">Manage Cost Centers</a></h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="saveAddressForm" novalidate>
+            <!-- /.box-header -->
+            <div class="panel-header">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <!-- left column -->                      
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Company Name *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.companyName" type="text" name="companyname" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.companyname.$invalid &&
+                                                                        (saveAddressForm.companyname.$dirty|| addressCtrl.isSubmit) }" />
+                                <div ng-messages="saveAddressForm.companyname.$error"
+                                     ng-show="saveAddressForm.companyname.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="divisionName">Company Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Salutation *</label>
+                            <div class="col-sm-8">                               
+                                    <div class="option-group">
+                                        <select id="salutation" name="salutation" class="salutation" required ng-model="addressCtrl.model.salutation" >
+                                            <option value="Mr" selected="selected">Mr</option>
+                                            <option value="Mrs">Mrs</option>
+                                            <option value="Ms">Ms</option>
+                                        </select>                                 
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">First Name *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.firstName" type="text" name="firstname" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.firstname.$invalid &&
+                                                                        (saveAddressForm.firstname.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter first name" />
+                                <div ng-messages="saveAddressForm.firstname.$error"
+                                     ng-show="saveAddressForm.firstname.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="divisionName">First Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Last Name *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.lastName" type="text" name="lastname" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.lastname.$invalid &&
+                                                                        (saveAddressForm.lastname.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter last name" />
+                                <div ng-messages="saveAddressForm.lastname.$error"
+                                     ng-show="saveAddressForm.lastname.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="divisionName">Last Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Email Address *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.emailAddress" type="email" name="email" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.email.$invalid &&
+                                                                        (saveAddressForm.email.$dirty|| addressCtrl.isSubmit) }"  placeholder="Enter email"/>
+                                <div ng-messages="saveAddressForm.email.$error"
+                                     ng-show="saveAddressForm.email.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                    <label ng-message="required" class="error" for="divisionName">Email is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div>  
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Phone Number *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.phoneNumber" type="text" name="phonenumber" class="form-control" ng-required="true" valid-phone-no
+                                       ng-maxlength="20" ng-class="{ 'error': saveAddressForm.phonenumber.$invalid &&
+                                                                        (saveAddressForm.phonenumber.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter phone number"/>
+                                <div ng-messages="saveAddressForm.phonenumber.$error"
+                                     ng-show="saveAddressForm.phonenumber.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="divisionName">Phone Number is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 20 characters</label>
+                                    <label ng-message="notValidPhoneNo" class="error" for="billing_phonenumber">Enter valid phone number</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Account Number *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.accountNumber" type="text" name="accountnumber" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.accountnumber.$invalid &&
+                                                                        (saveAddressForm.accountnumber.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter account number"/>
+                                <div ng-messages="saveAddressForm.accountnumber.$error"
+                                     ng-show="saveAddressForm.accountnumber.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="divisionName">Account Number is required</label>
+                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><strong>Address Details </strong></label>
+                            <div class="col-sm-10">                                
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Country *</label>
+                            <div class="col-sm-8">
+                                <div class="option-group">
+                                    <country-select id="country" name="country"
+                                                    ng-model="addressCtrl.model.country" ng-change="addressCtrl.changeCountry()"
+                                                    class="form-control"></country-select>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Postal/ Zip Code *</label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.zipCode" type="text" name="postalcode" class="form-control" required
+                                       ng-maxlength="20" ng-class="{ 'error': saveAddressForm.postalcode.$invalid &&
+                                                                        (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="Entetr Zip/Postal Code"/>
+                                <div ng-messages="saveAddressForm.postalcode.$error"
+                                     ng-show="saveAddressForm.postalcode.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="postalcode">Postal Code is required</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 20 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Street Name *</label>
+                            <div class="col-sm-3">
+                                <input ng-model="addressCtrl.model.number" type="text" name="number" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.number.$invalid &&
+                                                                        (saveAddressForm.number.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter number"/>
+                                <div ng-messages="saveAddressForm.number.$error"
+                                     ng-show="saveAddressForm.number.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="postalcode">Number is required</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <input ng-model="addressCtrl.model.streetAddress1" type="text" name="address1" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.address1.$invalid &&
+                                                                        (saveAddressForm.address1.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter address1"/>
+                                <div ng-messages="saveAddressForm.address1.$error"
+                                     ng-show="saveAddressForm.address1.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="postalcode">Address1 is required</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"></label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.streetAddress2" type="text" name="address2" class="form-control" 
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.address2.$invalid &&
+                                                                        (saveAddressForm.address2.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter address2"/>
+                                <div ng-messages="saveAddressForm.address2.$error"
+                                     ng-show="saveAddressForm.address2.$dirty || addressCtrl.isSubmit">                                    
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+                               
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                City*
+                            </label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.city" type="text" name="city" class="form-control" required 
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.city.$invalid &&
+                                                                        (saveAddressForm.city.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter city" />
+                                <div ng-messages="saveAddressForm.city.$error"
+                                     ng-show="saveAddressForm.city.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="postalcode">City is required</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                State
+                            </label>
+                            <div class="col-sm-8">
+                                <input ng-model="addressCtrl.model.state" type="text" name="state" class="form-control" ng-required="addressCtrl.isRequiredState"
+                                       ng-maxlength="200" ng-class="{ 'error': saveAddressForm.state.$invalid &&
+                                                                        (saveAddressForm.state.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter state {{addressCtrl.isRequiredState?'*':''}}" />
+                                <div ng-messages="saveAddressForm.state.$error"
+                                     ng-show="saveAddressForm.state.$dirty || addressCtrl.isSubmit">
+                                    <label ng-message="required" class="error" for="postalcode">State is required</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div> 
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Status</label>
+                            <div class="col-sm-10 radio-inline " >
+                                <div class="icheck-inline">
+                                   
+                                    <label><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="true" > Active </label>
+                                    <label><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="false" > Inactive</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button ng-click="addressCtrl.close()" class="btn btn-app pull-right">
+                                <i class="fa fa-close"></i> Close
+                            </button>
+                            <button type="submit" ng-click="(saveAddressForm.$valid ? addressCtrl.saveAddressDetail() : addressCtrl.isSubmit = true)"
+
+                                    class="btn btn-app pull-right">
+                                <i class="fa fa-save"></i> Save
+                            </button>
+                        </div>
+                        <div id="panel-notif"></div>
+                                       
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

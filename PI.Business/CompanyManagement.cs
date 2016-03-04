@@ -919,9 +919,9 @@ namespace PI.Business
                         {
                             role.IsSelected = true;
                             assignedRole = role.RoleName;
-                        }
-
                     }
+
+                }
 
 
 
@@ -969,7 +969,7 @@ namespace PI.Business
             long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
 
             using (var userContext = new ApplicationDbContext())
-            {             
+            {
                 ApplicationUser appUser = new ApplicationUser();
                 //appUser = userContext.Users.FirstOrDefault();
                 if (string.IsNullOrEmpty(userDto.Id))
@@ -1026,7 +1026,7 @@ namespace PI.Business
                             CreatedBy = 1,
                             CreatedDate = DateTime.Now
                         });
-                    }
+            }
 
                     context.UsersInDivisions.AddRange(userDivisionList);
                     context.SaveChanges();
@@ -1053,6 +1053,16 @@ namespace PI.Business
             };
         }
 
+
+        /// <summary>
+        /// Get all users
+        /// </summary>
+        /// <param name="division"></param>
+        /// <param name="role"></param>
+        /// <param name="userId"></param>
+        /// <param name="status"></param>
+        /// <param name="searchtext"></param>
+        /// <returns></returns>
         public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
@@ -1062,9 +1072,9 @@ namespace PI.Business
                 return pagedRecord;
             }
 
-            pagedRecord.Content = new List<CostCenterDto>();
+            pagedRecord.Content = new List<UserDto>();
 
-            using (var context = new PIContext())
+            using (var context = new ApplicationDbContext())
             {
 
               var userDivisions =  context.UsersInDivisions.Include("Divisions").Where(ud => ud.UserId == userId
@@ -1081,47 +1091,72 @@ namespace PI.Business
                 //                                    )
                 //                            .OrderBy(sortBy + " " + sortDirection)
                 //                            .ToList();
+                var content = context.Users.Where(x => //x.CompanyId == currentcompany.Id &&
+                                                    x.IsActive == false &&
+                                                    (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
+                                                    (status == "0" || x.IsActive.ToString() == status))
+                                            .ToList();
 
-                //string assignedDivForGrid = string.Empty;
-                //int lastIndexOfBrTag;
+                string assignedDivForGrid = string.Empty;
+                int lastIndexOfBrTag;
 
-                //foreach (var item in content)
-                //{
-                //    StringBuilder str = new StringBuilder();
-                //    item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+                foreach (var item in content)
+                {
+                    StringBuilder str = new StringBuilder();
+                    //item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
 
-                //    // Remove last <br/> tag.
-                //    assignedDivForGrid = str.ToString();
-                //    lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-                //    if (lastIndexOfBrTag != -1)
-                //        assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
+                    //// Remove last <br/> tag.
+                    //assignedDivForGrid = str.ToString();
+                    //lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
+                    //if (lastIndexOfBrTag != -1)
+                    //    assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
 
-                //    pagedRecord.Content.Add(new CostCenterDto
-                //    {
-                //        Id = item.Id,
-                //        Name = item.Name,
-                //        CompanyId = item.CompanyId,
-                //        Description = item.Description,
-                //        Status = item.Status,
-                //        Type = item.Type,
-                //        FullBillingAddress = (item.BillingAddress == null) ? null : item.BillingAddress.Number + " " + item.BillingAddress.StreetAddress1 + " " +
-                //        item.BillingAddress.StreetAddress2 + " " + item.BillingAddress.City + " " + item.BillingAddress.State + " " + item.BillingAddress.Country,
-                //        AssignedDivisionsForGrid = assignedDivForGrid,
-                //        StatusString = item.IsActive ? "Active" : "InActive"
-                //    });
-                //}
+                    pagedRecord.Content.Add(new UserDto
+                    {
+                        Id = item.Id,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        //La = item.
+                        Status = (item.IsActive) ? "Active" : "Inactive"
+                    });
+                }
 
-                //// Count
-                //pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
-                //                                                      x.Type == "USER" && x.IsDelete == false &&
-                //                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
-                //                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
-                //                                                     (type == null || x.IsActive.ToString() == type)).Count();
-
-                //pagedRecord.CurrentPage = page;
-                //pagedRecord.PageSize = pageSize;
 
                 return pagedRecord;
+            }
+        }
+
+        public string GetRoleName(string roleId)
+        {
+            using (var userContext = new ApplicationDbContext())
+            {
+                string userRoleName = userContext.Roles.Where(r => r.Id == roleId).Select(e => e.Name).FirstOrDefault();
+
+                return userRoleName;
+
+            }
+        }
+
+
+
+        public bool GetAccountType(string userId)
+        {
+            ApplicationUser currentuser = null;
+            using (ApplicationDbContext context = new ApplicationDbContext())
+            {
+                currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
+
+                if (currentuser == null)
+                {
+                    return false;
+                }
+
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                Tenant tenant = context.Tenants.SingleOrDefault(t => t.Id == currentuser.TenantId);
+                return tenant.IsCorporateAccount;
             }
         }
 
