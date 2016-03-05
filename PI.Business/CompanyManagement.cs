@@ -1014,9 +1014,28 @@ namespace PI.Business
 
                 using (PIContext context = new PIContext())
                 {
+                    // -- Get whole userdivision list by userid to prevent multiple service call.
+                    IList<UserInDivision> udList = context.UsersInDivisions.Where(ud => ud.UserId == appUser.Id && ud.IsActive && !ud.IsDelete).ToList();
+
+                    // Removed division list which unselect
+                    // IList<DivisionDto> removedList = userDto.Divisions.Where(div => div.IsAssigned && !userDto.AssignedDivisionIdList.Contains(div.Id)).ToList();
+                    IList<UserInDivision> removedList = udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.Id)).ToList();
+
+                    // Set inactive above list
+                    foreach (var item in removedList)
+                    {
+                        // Set inactive above list.
+                        udList.Where(ud => ud.DivisionId == item.Id).FirstOrDefault().IsActive = false;
+                    }
+
+                    context.SaveChanges();
+
+                    // Get new list need to assign.
+                    var newDivisiosnList = userDto.AssignedDivisionIdList.Where(ad => !udList.Select(ud => ud.DivisionId).ToList().Contains(ad)).ToList();
+
                     IList<UserInDivision> userDivisionList = new List<UserInDivision>();
 
-                    foreach (var divisionId in userDto.AssignedDivisionIdList)
+                    foreach (var divisionId in newDivisiosnList)
                     {
                         userDivisionList.Add(new UserInDivision()
                         {
@@ -1026,7 +1045,7 @@ namespace PI.Business
                             CreatedBy = 1,
                             CreatedDate = DateTime.Now
                         });
-            }
+                    }
 
                     context.UsersInDivisions.AddRange(userDivisionList);
                     context.SaveChanges();
