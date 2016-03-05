@@ -915,13 +915,13 @@ namespace PI.Business
                     // find and mark assigned role for the specific user
                     foreach (var role in roleList)
                     {
-                        if( user.Roles.Where(r => r.RoleId == role.Id).ToList().Count() > 0)
+                        if (user.Roles.Where(r => r.RoleId == role.Id).ToList().Count() > 0)
                         {
                             role.IsSelected = true;
                             assignedRole = role.RoleName;
-                    }
+                        }
 
-                }
+                    }
 
 
 
@@ -1095,16 +1095,25 @@ namespace PI.Business
                                                     x.IsDeleted == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                     (status == "0" || x.IsActive.ToString() == status) &&
-                                                    (role == "0" || x.Roles.Any(r => r.RoleId == role)) 
-                                                    //(division == 0 || x.UserInDivisions.Any(r => r.DivisionId == division))
+                                                    (role == "0" || x.Roles.Any(r => r.RoleId == role)) &&
+                                                    (division == 0 || x.UserInDivisions.Any(r => r.DivisionId == division))
                                                     ).ToList();
 
                 string assignedDivForGrid = string.Empty;
+                int lastIndexOfBrTag;
 
                 foreach (var item in content)
                 {
-                    StringBuilder divisions = new StringBuilder();
-                   // item.UserInDivisions.Where(x => x.IsDelete == false).ToList().ForEach(e => divisions.Append(e.Divisions.Name + "<br/>"));
+                    StringBuilder divisionsString = new StringBuilder();
+                    item.UserInDivisions.Where(x => x.IsDelete == false).ToList().ForEach(e => divisionsString.Append(e.Divisions.Name + "<br/>"));
+
+
+                    // Remove last <br/> tag.
+                    assignedDivForGrid = divisionsString.ToString();
+                    lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
+
+                    if (lastIndexOfBrTag != -1) { assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag); }
+
 
                     pagedRecord.Content.Add(new UserDto
                     {
@@ -1113,13 +1122,13 @@ namespace PI.Business
                         LastName = item.LastName,
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive",
-                        
+                        AssignedDivisionsForGrid = assignedDivForGrid
                     });
                 }
 
             }
 
-                return pagedRecord;
+            return pagedRecord;
 
         }
 

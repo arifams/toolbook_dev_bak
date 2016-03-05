@@ -46,7 +46,7 @@
             var division = (vm.selectedDivision == undefined || vm.selectedDivision == "") ? 0 : vm.selectedDivision;
             var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
             var searchText = vm.searchText;
-            var status = (vm.status == undefined || vm.status == "") ? 0 : vm.status;
+            var status = (vm.status == undefined || vm.status == "" || vm.status == "All") ? 0 : vm.status;
 
             debugger;
             userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)

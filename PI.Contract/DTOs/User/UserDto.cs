@@ -34,7 +34,10 @@ namespace PI.Contract.DTOs.User
         public IList<long> AssignedDivisionIdList { get; set; }
 
         public string AssignedRoleName { get; set; }
-        public string RoleName { get; set; }        
+
+        public string RoleName { get; set; }
+
+        public string AssignedDivisionsForGrid { get; set; }
 
     }
 }

@@ -18,7 +18,8 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control" placeholder="Search by user Name or Role" />
+                                <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control"
+                                       placeholder="Search by First Name or Last Name" />
                             </div>
                         </div>
                         <div class="col-md-1">
@@ -44,11 +45,12 @@
                             </div>
                         </div>
 
+                        {{selectedDivision}}
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
                                     <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
-                                            name="divisions" ng-model="selectedDivision" ng-change="loadUserCtrl.selectDivision()">
+                                            name="divisions" ng-model="loadUserCtrl.selectedDivision" ng-change="loadUserCtrl.selectDivision()">
                                         <option value="">All</option>
                                     </select>
                                 </div>
@@ -58,7 +60,7 @@
                             <div class="form-group">
                                 <div class="option-group">
                                     <select name="status"
-                                            ng-model="status" ng-change="loadUserCtrl.selectActiveUsers()">
+                                            ng-model="loadUserCtrl.status" ng-change="loadUserCtrl.selectActiveUsers()">
                                         <option value="All">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
@@ -89,7 +91,7 @@
                                     <td>{{row.firstName}}</td>
                                     <td>{{row.lastName}}</td>
                                     <td>{{row.roleName}}</td>
-                                    <td>Need to fill</td>
+                                    <td>{{row.assignedDivisionsForGrid}}</td>
                                     <td>Need to fill</td>
                                     <td>{{row.status}}</td>
                                     <td><a href="#/saveUserManagement/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
