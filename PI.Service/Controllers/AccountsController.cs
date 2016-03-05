@@ -429,6 +429,12 @@ namespace PI.Service.Controllers
         public int SaveUser([FromBody] UserDto user)
         {
             string userId = companyManagement.SaveUser(user);
+
+            if (userId == "Exsiting Email")
+            {
+                return -1;
+            }
+
             string[] rolList = AppUserManager.GetRoles(userId).ToArray();
             //AppUserManager.RemoveFromRoles(userId, rolList);
             AssignRolesToUser(userId, new string[1] { user.AssignedRoleName });
