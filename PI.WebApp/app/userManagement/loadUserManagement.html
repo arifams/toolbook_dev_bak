@@ -44,8 +44,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{selectedDivision}}
+                       
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div class="option-group">
@@ -80,7 +79,7 @@
                                     <th st-sort="name">First Name</th>
                                     <th>Last Name</th>
                                     <th>Role</th>
-                                    <th>Assigned Division</th>
+                                    <th>Assigned Division(s)</th>
                                     <th>Last Visit Date</th>
                                     <th>Status</th>
                                     <th></th>
@@ -92,7 +91,7 @@
                                     <td>{{row.lastName}}</td>
                                     <td>{{row.roleName}}</td>
                                     <td>{{row.assignedDivisionsForGrid}}</td>
-                                    <td>Need to fill</td>
+                                    <td>{{row.lastLoginTime}}</td>
                                     <td>{{row.status}}</td>
                                     <td><a href="#/saveUserManagement/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
                                 </tr>

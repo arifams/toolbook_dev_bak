@@ -266,7 +266,7 @@ namespace PI.Service.Controllers
 
             bool isCorporateAccount = companyManagement.GetAccountType(user.Id);
 
-
+         
             if (user == null)
                 return Ok(new
                 {
@@ -278,6 +278,9 @@ namespace PI.Service.Controllers
             {
                 if(AppUserManager.IsEmailConfirmed(user.Id))
                 {
+                    //set last logon time as current datetime
+                    companyManagement.UpdateLastLoginTime(user.Id);
+
                     return Ok(new
                     {
                         User = user,
@@ -300,6 +303,9 @@ namespace PI.Service.Controllers
                 IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
                 if (result.Succeeded)
                 {
+                    //set last logon time as current datetime
+                    companyManagement.UpdateLastLoginTime(user.Id);
+
                     return Ok(new
                     {
                         User = user,
@@ -317,20 +323,7 @@ namespace PI.Service.Controllers
                         Result = -2
                     });
                 }
-            }
-
-            //if (user == null)
-            //    return -1;
-            //else if (!customer.IsConfirmEmail)
-            //    return 1;
-            //else
-            //{
-            //    IdentityResult result = this.AppUserManager.ConfirmEmail(customer.UserId, customer.Code);
-            //    if (result.Succeeded)
-            //        return 2;
-            //    else
-            //        return -2;
-            //}
+            }       
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

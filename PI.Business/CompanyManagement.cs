@@ -12,6 +12,7 @@ using PI.Data.Entity;
 using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
@@ -820,6 +821,24 @@ namespace PI.Business
 
 
         /// <summary>
+        ///  Update LastLoginTime on every successful login.
+        /// </summary>
+        /// <param name="userId"></param>
+        public void UpdateLastLoginTime(string userId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+                if (user != null)
+                {
+                    user.LastLoginTime = DateTime.Now;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
         /// Get all roles under the current user role
         /// </summary>
         /// <param name="userId"></param>
@@ -1122,7 +1141,8 @@ namespace PI.Business
                         LastName = item.LastName,
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive",
-                        AssignedDivisionsForGrid = assignedDivForGrid
+                        AssignedDivisionsForGrid = assignedDivForGrid,
+                        LastLoginTime = item.LastLoginTime.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                     });
                 }
 
