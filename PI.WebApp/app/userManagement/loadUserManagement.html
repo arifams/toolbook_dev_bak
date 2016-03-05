@@ -59,7 +59,7 @@
                                 <div class="option-group">
                                     <select name="status"
                                             ng-model="status" ng-change="loadUserCtrl.selectActiveUsers()">
-                                        <option value="">All</option>
+                                        <option value="All">All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
                                     </select>
@@ -70,29 +70,29 @@
                     </div>
                     <br />
                     <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
-
                     <div class="costCenterTable">
 
-                        <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                        <table st-table="loadUserCtrl.displayedCollection" st-safe-src="loadUserCtrl.rowCollection" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th st-sort="name">Cost Center</th>
-                                    <th>Assigned Divisions</th>
-                                    <th>Billing Address</th>
+                                    <th st-sort="name">First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Role</th>
+                                    <th>Assigned Division</th>
+                                    <th>Last Visit Date</th>
                                     <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th></th>
                                 </tr>
-
                             </thead>
                             <tbody>
-                                <tr ng-repeat="row in displayedCollection">
-                                    <td>{{row.name}}</td>
-                                    <td><span ng-bind-html="renderHtml(row.assignedDivisionsForGrid)"></span></td>
-                                    <td>{{row.fullBillingAddress}}</td>
-                                    <td>{{row.statusString}}</td>
-                                    <td><a href="#/saveCostcenter/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
-                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                <tr ng-repeat="row in loadUserCtrl.displayedCollection">
+                                    <td>{{row.firstName}}</td>
+                                    <td>{{row.lastName}}</td>
+                                    <td>{{row.roleName}}</td>
+                                    <td>Need to fill</td>
+                                    <td>Need to fill</td>
+                                    <td>{{row.status}}</td>
+                                    <td><a href="#/saveUserManagement/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
                                 </tr>
                             </tbody>
                             <tfoot>

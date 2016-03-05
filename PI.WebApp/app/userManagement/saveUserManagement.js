@@ -40,6 +40,8 @@
         var vm = this;
         vm.user = {};
 
+        
+
         var loadUser = function () {
             userManagementFactory.getUser()
             .success(function (data) {
@@ -48,14 +50,22 @@
                 
                 debugger;
                 vm.user.assignedDivisionIdList = [];
-                if (vm.user.id == 0) {
+                if (vm.user.id == 0 || vm.user.id == null) {
                     // New user.
-                    vm.user.status = 1;
+                    vm.user.assignedRoleName = vm.user.roles[0].roleName;
+                    debugger;
+                    vm.user.isActive = 'true';
+                    vm.user.salutation = 'Mr';
                 }
                 else {
                     // Exisiting user.
+                    if (vm.user.isActive)
+                        vm.user.isActive = 'true';
+                    else
+                        vm.user.isActive = 'false';
+
                     //Add selected divisions
-                    angular.forEach(vm.user.allDivisions, function (division) {
+                    angular.forEach(vm.user.divisions, function (division) {
                         if (division.isAssigned) {
                             vm.user.assignedDivisionIdList.push(division.id);
                         }
@@ -74,39 +84,37 @@
 
             var body = $("html, body");
 
-            //vm.user.assignedRole
-            //vm.user.assignedRoleName = vm.user.assignedRole.roleName;
             userManagementFactory.saveUser(vm.user)
             .success(function (result) {
                 debugger;
-                //if (result == -1) {
+                if (result == -1) {
 
-                //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
-                //    $('#panel-notif').noty({
-                //        text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
-                //        layout: 'bottom-right',
-                //        theme: 'made',
-                //        animation: {
-                //            open: 'animated bounceInLeft',
-                //            close: 'animated bounceOutLeft'
-                //        },
-                //        timeout: 3000,
-                //    });
-                //} else {
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                } else {
 
-                //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-                //    $('#panel-notif').noty({
-                //        text: '<div class="alert alert-success media fade in"><p>Cost center saved successfully!</p></div>',
-                //        layout: 'bottom-right',
-                //        theme: 'made',
-                //        animation: {
-                //            open: 'animated bounceInLeft',
-                //            close: 'animated bounceOutLeft'
-                //        },
-                //        timeout: 3000,
-                //    });
-                //}
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>User saved successfully!</p></div>',
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                }
 
             })
             .error(function () {
@@ -118,6 +126,7 @@
         }
 
         vm.toggleDivisionSelection = function (division) {
+            debugger;
             var idx = vm.user.assignedDivisionIdList.indexOf(division.id);
             // is currently selected
             if (idx > -1) {
