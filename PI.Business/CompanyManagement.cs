@@ -582,7 +582,7 @@ namespace PI.Business
                         Status = item.Status,
                         StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
-                        NumberOfUsers = 0,
+                        NumberOfUsers = item.UserInDivisions.ToList().Count(),
                         AssosiatedCostCentersForGrid = assosiatedCostCentersForGrid
                     });
                 }
@@ -1004,6 +1004,7 @@ namespace PI.Business
                     appUser.JoinDate = DateTime.Now;
                     appUser.Level = 1;
                     appUser.IsDeleted = false;
+                    appUser.LastLoginTime = (DateTime?)null;
 
                     userContext.Users.Add(appUser);
                 }
@@ -1142,7 +1143,7 @@ namespace PI.Business
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive",
                         AssignedDivisionsForGrid = assignedDivForGrid,
-                        LastLoginTime = item.LastLoginTime.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
+                        LastLoginTime = (item.LastLoginTime == null)? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                     });
                 }
 

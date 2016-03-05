@@ -45,7 +45,7 @@ namespace PI.Data.Entity.Identity
         [Required]
         public bool IsDeleted { get; set; }
 
-        public DateTime LastLoginTime { get; set; }
+        public DateTime? LastLoginTime { get; set; }
 
         #region Navigation property
 

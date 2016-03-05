@@ -90,7 +90,7 @@
                                     <td>{{row.firstName}}</td>
                                     <td>{{row.lastName}}</td>
                                     <td>{{row.roleName}}</td>
-                                    <td>{{row.assignedDivisionsForGrid}}</td>
+                                    <td><span ng-bind-html="loadUserCtrl.renderHtml(row.assignedDivisionsForGrid)"></span></td>
                                     <td>{{row.lastLoginTime}}</td>
                                     <td>{{row.status}}</td>
                                     <td><a href="#/saveUserManagement/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
