@@ -174,7 +174,7 @@ namespace PI.Business
                 return 0;
             }
 
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            using (PIContext context = new PIContext())
             {
                 currntUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
                 if (currntUser == null)
@@ -405,7 +405,7 @@ namespace PI.Business
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            using (PIContext context = new PIContext())
             {
                 return context.Users.SingleOrDefault(c => c.UserName == UserName);
             }
@@ -432,7 +432,7 @@ namespace PI.Business
         //get the user by ID
         public ApplicationUser GetUserById(string userId)
         {
-            using (ApplicationDbContext context = ApplicationDbContext.Create())
+            using (PIContext context = PIContext.Create())
             {
                 return context.Users.SingleOrDefault(c => c.Id == userId);
             }

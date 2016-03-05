@@ -31,6 +31,9 @@ namespace PI.Data.Entity
 
         public virtual IList<DivisionCostCenter> DivisionCostCenters { get; set; }
 
+        public virtual IList<UserInDivision> UserInDivisions { get; set; }
+
+
         #endregion
     }
 }

@@ -800,7 +800,7 @@ namespace PI.Business
         public long GettenantIdByUserId(string userid)
         {
             ApplicationUser currentuser = null;
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            using (PIContext context = new PIContext())
             {
                 currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
             }
@@ -833,7 +833,7 @@ namespace PI.Business
             string userRoleName = "";
             List<IdentityRole> allRoles = new List<IdentityRole>();
 
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            using (PIContext context = new PIContext())
             {
                 ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
@@ -899,7 +899,7 @@ namespace PI.Business
                     };
                 }
 
-                using (var userContext = new ApplicationDbContext())
+                using (var userContext = new PIContext())
                 {
                     user = userContext.Users.SingleOrDefault(c => c.Id == userId);
 
@@ -927,7 +927,7 @@ namespace PI.Business
 
                     //string assignedRoleId = user.Roles.FirstOrDefault().RoleId;
 
-                    //using (ApplicationDbContext appContext = new ApplicationDbContext())
+                    //using (PIContext appContext = new PIContext())
                     //{
                     //    assignedRole = appContext.Roles.Where(r => r.Id == assignedRoleId).Select(e => e.Name).FirstOrDefault().ToString();
                     //}
@@ -968,7 +968,7 @@ namespace PI.Business
             //long comapnyId = this.GetCompanyByUserId(userDto.LoggedInUserId).Id;
             long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
 
-            using (var userContext = new ApplicationDbContext())
+            using (var userContext = new PIContext())
             {
                 ApplicationUser appUser = new ApplicationUser();
                 //appUser = userContext.Users.FirstOrDefault();
@@ -1063,27 +1063,29 @@ namespace PI.Business
         /// <param name="status"></param>
         /// <param name="searchtext"></param>
         /// <returns></returns>
-        public PagedList GetAllUsers(string division, string role, string userId, string status, string searchtext)
+        public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
             long tenantId = this.GettenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 
-            using (var context = new ApplicationDbContext())
+            using (var context = new PIContext())
             {
                 var content = context.Users.Where(x => x.TenantId == tenantId &&
                                                     x.IsDeleted == false &&
                                                     (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                     (status == "0" || x.IsActive.ToString() == status) &&
-                                                    (role == "0" || x.Roles.Any(r => r.RoleId == role))).ToList();
+                                                    (role == "0" || x.Roles.Any(r => r.RoleId == role)) 
+                                                    //(division == 0 || x.UserInDivisions.Any(r => r.DivisionId == division))
+                                                    ).ToList();
 
                 string assignedDivForGrid = string.Empty;
 
                 foreach (var item in content)
                 {
-                    StringBuilder str = new StringBuilder();
-                    //item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+                    StringBuilder divisions = new StringBuilder();
+                   // item.UserInDivisions.Where(x => x.IsDelete == false).ToList().ForEach(e => divisions.Append(e.Divisions.Name + "<br/>"));
 
                     pagedRecord.Content.Add(new UserDto
                     {
@@ -1091,20 +1093,11 @@ namespace PI.Business
                         FirstName = item.FirstName,
                         LastName = item.LastName,
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
-                        Status = (item.IsActive) ? "Active" : "Inactive"
+                        Status = (item.IsActive) ? "Active" : "Inactive",
+                        
                     });
                 }
-            }
 
-            if (division != "0" )
-            {
-                using (var contextPI = new PIContext())
-                {
-                    var userDivisions = contextPI.UsersInDivisions.Include("Divisions.Company").Where(x => x.DivisionId == division
-                                                                                    && x.Divisions.Company.TenantId == tenantId).ToList();
-
-                    pagedRecord.Content.Remove()
-                }
             }
 
                 return pagedRecord;
@@ -1119,7 +1112,7 @@ namespace PI.Business
         /// <returns></returns>
         public string GetRoleName(string roleId)
         {
-            using (var userContext = new ApplicationDbContext())
+            using (var userContext = new PIContext())
             {
                 string userRoleName = userContext.Roles.Where(r => r.Id == roleId).Select(e => e.Name).FirstOrDefault();
 
@@ -1133,7 +1126,7 @@ namespace PI.Business
         public bool GetAccountType(string userId)
         {
             ApplicationUser currentuser = null;
-            using (ApplicationDbContext context = new ApplicationDbContext())
+            using (PIContext context = new PIContext())
             {
                 currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
 

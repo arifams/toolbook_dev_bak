@@ -1,4 +1,6 @@
-﻿using PI.Data.Entity;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using PI.Data.Entity;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data
 {
-    public class PIContext : DbContext
+    public class PIContext : IdentityDbContext<ApplicationUser>
     {
 
         /// <summary>
@@ -65,6 +67,10 @@ namespace PI.Data
         }
 
 
+        public static PIContext Create()
+        {
+            return new PIContext();
+        }
 
         public static PIContext Get()
         {

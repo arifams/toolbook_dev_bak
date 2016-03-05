@@ -48,8 +48,10 @@ namespace PI.Data.Entity.Identity
 
         #region Navigation property
 
-        //[ForeignKey("TenantId")]
-        //public Tenant Tenant { get; set; }
+        [ForeignKey("TenantId")]
+        public virtual Tenant Tenant { get; set; }
+
+        public virtual IList<UserInDivision> UserInDivisions { get; set; }
 
         #endregion
 

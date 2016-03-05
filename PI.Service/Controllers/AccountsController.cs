@@ -90,8 +90,20 @@ namespace PI.Service.Controllers
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
             if (existingUser == null)
             {
+              
+                //Create Tenant, Default Company, Division & CostCenter 
+                CompanyController companyManagement = new CompanyController();
+                long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
+
+                // Add tenant Id to user
+                user.TenantId = tenantId;
+
                 IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
                 createUserModel.UserId = user.Id;
+
+                // Save in customer table.
+                CustomerManagement customerManagement = new CustomerManagement();
+                customerManagement.SaveCustomer(createUserModel);
             }
             else
             {
@@ -99,16 +111,7 @@ namespace PI.Service.Controllers
                 //return GetErrorResult(IdentityResult.Failed("Email already exists!"));
             }
 
-            // Save in customer table.
-            CustomerManagement customerManagement = new CustomerManagement();
-            customerManagement.SaveCustomer(createUserModel);
-
-            //Create Tenant, Default Company, Division & CostCenter 
-            CompanyController companyManagement = new CompanyController();
-            long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
-
-            // Add tenant Id to user
-            user.TenantId = tenantId;
+              
 
             // Add Business Owner Role to user
             AppUserManager.AddToRole(user.Id, "BusinessOwner");

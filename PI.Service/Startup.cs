@@ -49,7 +49,7 @@ namespace PI.Service
         private void ConfigureOAuthTokenGeneration(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext(PIContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             // Configure the role manager to use a single instance per request
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
