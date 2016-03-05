@@ -1082,7 +1082,7 @@ namespace PI.Business
         /// <param name="status"></param>
         /// <param name="searchtext"></param>
         /// <returns></returns>
-        public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
+        public PagedList GetAllUsers(string division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
             long tenantId = this.GettenantIdByUserId(userId);
@@ -1115,14 +1115,14 @@ namespace PI.Business
                 }
             }
 
-            if (division > 0)
+            if (division != "0" )
             {
                 using (var contextPI = new PIContext())
                 {
-                    var content = contextPI.UsersInDivisions.Include("Divisions.Company").Where(x => x.DivisionId == division
-                                                                                    && x.Divisions.Company.TenantId == tenantId);
+                    var userDivisions = contextPI.UsersInDivisions.Include("Divisions.Company").Where(x => x.DivisionId == division
+                                                                                    && x.Divisions.Company.TenantId == tenantId).ToList();
 
-                      //pagedRecord.Content.Remove(x=> x.)
+                    pagedRecord.Content.Remove()
                 }
             }
 
