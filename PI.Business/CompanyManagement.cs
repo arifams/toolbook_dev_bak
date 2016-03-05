@@ -882,7 +882,7 @@ namespace PI.Business
                 if (roleHierarchy != null)
                 {
                     //short orderId = roleHierarchy.Order;
-                    List<string> roleList = context.RoleHierarchies.Where(rh => roleHierarchy.Order <= rh.Order).Select(e => e.Name).ToList();
+                    List<string> roleList = context.RoleHierarchies.Where(rh => roleHierarchy.Order <= rh.Order).OrderBy(x => x.Order).Select(e => e.Name).ToList();
 
                     roleList.ForEach(rl => roles.Add(new RolesDto { Id = allRoles.Where(e => e.Name == rl).FirstOrDefault().Id, RoleName = rl }));
                 }
