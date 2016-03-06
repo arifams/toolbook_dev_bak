@@ -85,6 +85,7 @@ namespace PI.Service.Controllers
                 LastName = createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
+                IsActive = true
             };
 
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
