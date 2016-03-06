@@ -21,6 +21,8 @@ namespace PI.Contract.DTOs.User
 
         public string Email { get; set; }
 
+        public string LastLoginTime { get; set; }
+
         public IList<Role.RolesDto> Roles { get; set; }
 
         public IList<DivisionDto> Divisions { get; set; }

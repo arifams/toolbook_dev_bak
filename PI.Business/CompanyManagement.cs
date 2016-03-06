@@ -12,6 +12,7 @@ using PI.Data.Entity;
 using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Dynamic;
 using System.Text;
@@ -305,6 +306,7 @@ namespace PI.Business
 
             using (var context = PIContext.Get())
             {
+               // var isSpaceOrEmpty = String.IsNullOrWhiteSpace(costCenter.Description);
                 var isSameCostName = context.CostCenters.Where(c => c.CompanyId == comapnyId &&
                                                                   c.Type == "USER" &&
                                                                   c.Id != costCenter.Id &&
@@ -609,7 +611,7 @@ namespace PI.Business
                         Status = item.Status,
                         StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
-                        NumberOfUsers = 0,
+                        NumberOfUsers = item.UserInDivisions.ToList().Count(),
                         AssosiatedCostCentersForGrid = assosiatedCostCentersForGrid
                     });
                 }
@@ -707,12 +709,13 @@ namespace PI.Business
         public int SaveDivision(DivisionDto division)
         {
             long comapnyId = GetCompanyByUserId(division.UserId).Id;
-            using (var context = PIContext.Get())
+            using (var context = PIContext.Create())
             {
+                var isSpaceOrEmpty = String.IsNullOrWhiteSpace(division.Description);
                 var isSameDiviName = context.Divisions.Where(d => d.Id != division.Id
                                                                 && d.CompanyId == comapnyId
                                                                 && d.Type == "USER" &&
-                                                                (d.Name == division.Name || d.Description == division.Description)).SingleOrDefault();
+                                                                (d.Name == division.Name || (d.Description == division.Description && !isSpaceOrEmpty))).SingleOrDefault();
 
                 if (isSameDiviName != null)
                 {
@@ -848,6 +851,24 @@ namespace PI.Business
 
 
         /// <summary>
+        ///  Update LastLoginTime on every successful login.
+        /// </summary>
+        /// <param name="userId"></param>
+        public void UpdateLastLoginTime(string userId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+                if (user != null)
+                {
+                    user.LastLoginTime = DateTime.Now;
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        /// <summary>
         /// Get all roles under the current user role
         /// </summary>
         /// <param name="userId"></param>
@@ -891,7 +912,7 @@ namespace PI.Business
                 if (roleHierarchy != null)
                 {
                     //short orderId = roleHierarchy.Order;
-                    List<string> roleList = context.RoleHierarchies.Where(rh => roleHierarchy.Order <= rh.Order).Select(e => e.Name).ToList();
+                    List<string> roleList = context.RoleHierarchies.Where(rh => roleHierarchy.Order <= rh.Order).OrderBy(x => x.Order).Select(e => e.Name).ToList();
 
                     roleList.ForEach(rl => roles.Add(new RolesDto { Id = allRoles.Where(e => e.Name == rl).FirstOrDefault().Id, RoleName = rl }));
                 }
@@ -1004,13 +1025,21 @@ namespace PI.Business
         /// <returns></returns>
         public string SaveUser(UserDto userDto)
         {
-            //long comapnyId = this.GetCompanyByUserId(userDto.LoggedInUserId).Id;
             long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
 
+            
             using (var userContext = new PIContext())
             {
+                var isSameEmail = userContext.Users.Where(u => u.Id != userDto.Id
+                                                               && u.TenantId == tenantId
+                                                               && (u.Email == userDto.Email )).SingleOrDefault();
+
+                if (isSameEmail != null)
+                {
+                    return "Exsiting Email";
+                }
+
                 ApplicationUser appUser = new ApplicationUser();
-                //appUser = userContext.Users.FirstOrDefault();
                 if (string.IsNullOrEmpty(userDto.Id))
                 {
                     appUser.TenantId = tenantId;
@@ -1024,6 +1053,7 @@ namespace PI.Business
                     appUser.JoinDate = DateTime.Now;
                     appUser.Level = 1;
                     appUser.IsDeleted = false;
+                    appUser.LastLoginTime = (DateTime?)null;
 
                     userContext.Users.Add(appUser);
                 }
@@ -1031,11 +1061,6 @@ namespace PI.Business
                 {
                     //ApplicationUser existingUser = new ApplicationUser();
                     appUser = userContext.Users.SingleOrDefault(u => u.Id == userDto.Id);
-
-                    //Remove the existing active connection list
-                    //userContext.DivisionCostCenters.Include("CostCenters").Where(x => x.CostCenterId == costCenter.Id
-                    //                                                                && x.CostCenters.IsActive).ToList().ForEach
-                    //                                                (dc => { dc.IsActive = false; dc.IsDelete = true; });
 
                     appUser.Salutation = userDto.Salutation;
                     appUser.FirstName = userDto.FirstName;
@@ -1046,7 +1071,6 @@ namespace PI.Business
                     //existingUser.JoinDate = DateTime.Now;
                     //existingUser.CreatedBy = 1; //TODO: sessionHelper.Get<User>().LoginName; 
 
-                    //context.DivisionCostCenters.AddRange(divcostList);
                 }
                 // Save user context.
                 userContext.SaveChanges();
@@ -1153,7 +1177,8 @@ namespace PI.Business
                         LastName = item.LastName,
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive",
-                        AssignedDivisionsForGrid = assignedDivForGrid
+                        AssignedDivisionsForGrid = assignedDivForGrid,
+                        LastLoginTime = (item.LastLoginTime == null)? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                     });
                 }
 

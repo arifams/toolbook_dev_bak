@@ -43,6 +43,7 @@
 
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
+            vm.userId = userId;
             var division = (vm.selectedDivision == undefined || vm.selectedDivision == "") ? 0 : vm.selectedDivision;
             var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
             var searchText = vm.searchText;

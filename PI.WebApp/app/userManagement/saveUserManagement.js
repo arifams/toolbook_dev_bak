@@ -92,7 +92,7 @@
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-warning media fade in"><p>A cost center with the same name already exists!</p></div>',
+                        text: '<div class="alert alert-warning media fade in"><p>There is already an user with the same email address!</p></div>',
                         layout: 'bottom-right',
                         theme: 'made',
                         animation: {
