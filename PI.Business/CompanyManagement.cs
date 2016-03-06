@@ -483,6 +483,34 @@ namespace PI.Business
             return divisionList;
         }
 
+        public IList<DivisionDto> GetAllActiveDivisionsOfUser(string userId)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            Company currentcompany = this.GetCompanyByUserId(userId);
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())
+            {
+                var divisions = context.UsersInDivisions.Where(ud => ud.UserId == userId
+                                                                     && !ud.IsDelete
+                                                                     && ud.IsActive).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.DivisionId,
+                        Name = item.Divisions.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
+
         /// <summary>
         /// Get all costCenters for the tenant coampny
         /// </summary>
@@ -887,7 +915,17 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                divisionList = GetAllActiveDivisionsForCompany(loggedInUser);
+                // Get all divisions, if user role is business owner.
+                string roleId = context.Users.Where(u => u.Id == loggedInUser).FirstOrDefault().Roles.FirstOrDefault().RoleId;
+                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
+                if (roleName == "BusinessOwner")
+                    divisionList = GetAllActiveDivisionsForCompany(loggedInUser);
+                else
+                {
+                    // Get divisions from UsersInDivisions
+                    divisionList = GetAllActiveDivisionsOfUser(loggedInUser);
+                }
+
                 roleList = GetAllActiveChildRoles(loggedInUser);
 
                 if (string.IsNullOrEmpty(userId))
@@ -908,7 +946,8 @@ namespace PI.Business
                     {
                         div.IsAssigned = context.UsersInDivisions.Where(ud => ud.DivisionId == div.Id
                                                                               && ud.UserId == userId
-                                                                              && ud.IsDelete == false).ToList().Count() > 0;
+                                                                              && ud.IsDelete == false 
+                                                                              && ud.IsActive).ToList().Count() > 0;
                     }
 
 
@@ -1018,15 +1057,7 @@ namespace PI.Business
                     IList<UserInDivision> udList = context.UsersInDivisions.Where(ud => ud.UserId == appUser.Id && ud.IsActive && !ud.IsDelete).ToList();
 
                     // Removed division list which unselect
-                    // IList<DivisionDto> removedList = userDto.Divisions.Where(div => div.IsAssigned && !userDto.AssignedDivisionIdList.Contains(div.Id)).ToList();
-                    IList<UserInDivision> removedList = udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.Id)).ToList();
-
-                    // Set inactive above list
-                    foreach (var item in removedList)
-                    {
-                        // Set inactive above list.
-                        udList.Where(ud => ud.DivisionId == item.Id).FirstOrDefault().IsActive = false;
-                    }
+                    udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.DivisionId) && (div.IsActive = false)).ToList();
 
                     context.SaveChanges();
 
