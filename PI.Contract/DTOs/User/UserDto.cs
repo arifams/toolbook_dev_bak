@@ -41,5 +41,6 @@ namespace PI.Contract.DTOs.User
 
         public string AssignedDivisionsForGrid { get; set; }
 
+        public string TemplateLink { get; set; }
     }
 }

@@ -1023,11 +1023,12 @@ namespace PI.Business
         /// </summary>
         /// <param name="costCenter"></param>
         /// <returns></returns>
-        public string SaveUser(UserDto userDto)
+        public UserResultDto SaveUser(UserDto userDto)
         {
             long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
 
-            
+            UserResultDto result = new UserResultDto();
+
             using (var userContext = new PIContext())
             {
                 var isSameEmail = userContext.Users.Where(u => u.Id != userDto.Id
@@ -1036,12 +1037,16 @@ namespace PI.Business
 
                 if (isSameEmail != null)
                 {
-                    return "Exsiting Email";
+                    result.IsSucess = false;
+                    result.ErrorMessage = "Exsiting Email";
+                    return result;
                 }
 
                 ApplicationUser appUser = new ApplicationUser();
                 if (string.IsNullOrEmpty(userDto.Id))
                 {
+                    result.IsAddUser = true;
+
                     appUser.TenantId = tenantId;
                     appUser.UserName = userDto.Email;
                     appUser.Salutation = userDto.Salutation;
@@ -1059,6 +1064,7 @@ namespace PI.Business
                 }
                 else
                 {
+                    result.IsAddUser = false;
                     //ApplicationUser existingUser = new ApplicationUser();
                     appUser = userContext.Users.SingleOrDefault(u => u.Id == userDto.Id);
 
@@ -1105,7 +1111,10 @@ namespace PI.Business
                     context.UsersInDivisions.AddRange(userDivisionList);
                     context.SaveChanges();
                 }
-                return appUser.Id;
+
+                result.IsSucess = true;
+                result.UserId = appUser.Id;
+                return result;
             }
         }
 

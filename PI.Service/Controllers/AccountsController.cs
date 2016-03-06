@@ -428,16 +428,34 @@ namespace PI.Service.Controllers
         [Route("SaveUser")]
         public int SaveUser([FromBody] UserDto user)
         {
-            string userId = companyManagement.SaveUser(user);
+            UserResultDto result = companyManagement.SaveUser(user);
 
-            if (userId == "Exsiting Email")
+            if (!result.IsSucess)   // Existing email address
             {
                 return -1;
             }
 
-            string[] rolList = AppUserManager.GetRoles(userId).ToArray();
+            string[] rolList = AppUserManager.GetRoles(result.UserId).ToArray();
             //AppUserManager.RemoveFromRoles(userId, rolList);
-            AssignRolesToUser(userId, new string[1] { user.AssignedRoleName });
+            AssignRolesToUser(result.UserId, new string[1] { user.AssignedRoleName });
+
+            // Send email, if user is new.
+            if (result.IsAddUser) { 
+
+                #region For Email Confirmaion
+
+                string code = AppUserManager.GenerateEmailConfirmationToken(result.UserId);
+                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + result.UserId + "&code=" + code));
+
+                StringBuilder emailbody = new StringBuilder(user.TemplateLink);
+                emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
+                                            .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+
+                AppUserManager.SendEmail(result.UserId, "Your account has been provisioned!", emailbody.ToString());
+
+                #endregion
+            }
 
             return 1;
         }

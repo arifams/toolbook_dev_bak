@@ -5,7 +5,7 @@
     app.controller('loadUserManagementCtrl', function (userManagementFactory, $scope, $location, $routeParams, $log, $window, $sce) {
 
         var vm = this;
-
+        vm.status = 'All';
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
                

@@ -58,6 +58,7 @@
     <Compile Include="DTOs\Common\PagedList.cs" />
     <Compile Include="DTOs\Role\RolesDto.cs" />
     <Compile Include="DTOs\User\UserDto.cs" />
+    <Compile Include="DTOs\User\UserResultDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
