@@ -99,6 +99,7 @@ namespace PI.Service.Controllers
                 user.TenantId = tenantId;
 
                 IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
+                
                 createUserModel.UserId = user.Id;
 
                 // Save in customer table.
@@ -438,9 +439,10 @@ namespace PI.Service.Controllers
             string[] rolList = AppUserManager.GetRoles(result.UserId).ToArray();
             //AppUserManager.RemoveFromRoles(userId, rolList);
             AssignRolesToUser(result.UserId, new string[1] { user.AssignedRoleName });
+            
+            if (result.IsAddUser) {
 
-            // Send email, if user is new.
-            if (result.IsAddUser) { 
+                AppUserManager.AddPassword(result.UserId, user.Password);
 
                 #region For Email Confirmaion
 

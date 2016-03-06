@@ -88,6 +88,56 @@
                                     </div>
                                 </div>
                             </div>
+                            <!--<div class="form-group">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <div class="icheck-inline">
+                                        <label>
+                                            <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="changeLogin" ng-change="saveUserCtrl.clearPassword()"
+                                                   ng-model="saveUserCtrl.user.updatePassword" /> Update Password
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>-->
+
+                            <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
+                                <label class="col-sm-2 control-label">Password *</label>
+                                <div class="col-sm-10">
+                                    <div class="append-icon">
+                                        <input type="password" name="password" id="password" class="form-control form-white password" placeholder="Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
+                                               ng-model="saveUserCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||saveUserCtrl.isSubmit) }" valid-password-save />
+                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                           data-placement="top"
+                                           data-html="true"
+                                           data-content="- At least 8 characters long. <br>
+                                        - Should at least contain;
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
+                                        data-original-title="Your Password should be:"></i>
+                                        <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || saveUserCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="password">Enter your password</label>
+                                            <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
+                                <label class="col-sm-2 control-label">Confirm Password *</label>
+                                <div class="col-sm-10">
+                                    <div class="append-icon">
+                                        <input type="password" name="password_c" id="password_c" class="form-control form-white password2" placeholder="Confirm Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
+                                               ng-model="saveUserCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||saveUserCtrl.isSubmit) }" valid-password-c-save />
+                                        <i class="icon-lock"></i>
+                                        <div ng-messages="formSaveUser.password_c.$error" ng-show="formSaveUser.password_c.$dirty || saveUserCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="password_c">ReEnter your password</label>
+                                            <label ng-message="noMatch" class="error" for="password_c">2 passwords must be the same</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">User Role *</label>
