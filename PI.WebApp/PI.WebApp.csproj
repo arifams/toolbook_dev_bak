@@ -70,10 +70,8 @@
     <Content Include="app\addressBook\loadAddressesCtrl.js" />
     <Content Include="app\addressBook\saveAddress.html" />
     <Content Include="app\addressBook\saveAddressCtrl.js" />
-    <Content Include="app\shipment\loadShipment.html" />
-    <Content Include="app\shipment\loadShipment.js" />
-    <Content Include="app\shipment\saveShipment.html" />
-    <Content Include="app\shipment\saveShipment.js" />
+    <Content Include="app\shipment\addShipment.html" />
+    <Content Include="app\shipment\addShipment.js" />
     <Content Include="app\shipment\shipmentService.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />
     <Content Include="app\userManagement\loadUserManagement.js" />

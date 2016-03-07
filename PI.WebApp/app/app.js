@@ -255,7 +255,11 @@ var MakeApp = angular
             controller: 'loadUserManagementCtrl',
             controllerAs: 'loadUserCtrl'
         })
-
+        .when('/AddShipment', {
+            templateUrl: 'shipment/addShipment.html',
+            controller: 'addShipmentCtrl',
+            controllerAs: 'shipmentCtrl'
+        })
         .otherwise({
                 redirectTo: '/'
         });
