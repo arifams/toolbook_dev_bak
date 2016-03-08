@@ -685,7 +685,7 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr ng-repeat="package in productIngredients">
+                                  <tr ng-repeat="package in shipmentCtrl.packageDetails.productIngredients track by $index">
                                       <td>
                                           <select class="form-control" ng-model="shipmentCtrl.packageDetails.productType"
                                                   convert-to-number ng-options="sup.id as sup.supplierName for sup in shipmentCtrl.packageDetails.productTypes"></select>
@@ -696,13 +696,13 @@
                                       <td><input type="number" class="form-control" ng-model="packages.length" contenteditable="true" /></td>
                                       <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" /></td>
                                       <td style="text-align:center">
-                                          <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removeIngredient(ingredient)">
+                                          <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                               <i class="fa fa-remove" style="color:red">
                                               </i>
                                           </a>
                                       </td>
                                       <td style="text-align:center">
-                                          <a href="javascript:void(0)" ng-click="addemptyrow()">
+                                          <a href="javascript:void(0)" ng-click="shipmentCtrl.addEmptyRow()" ng-show="$last">
                                               <i class="fa fa-plus" style="color:blue">
                                               </i>
                                           </a>

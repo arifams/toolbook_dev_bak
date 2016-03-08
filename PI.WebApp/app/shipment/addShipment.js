@@ -14,7 +14,8 @@
         vm.collapse4 = true;
         vm.generalInfoisSubmit = false;
         vm.consignInfoisSubmit = false;
-       
+        vm.packageDetails = {};
+        vm.packageDetails.productIngredients = [{}];
 
         vm.checkGenaralInfo = function (value) {
             if (value==true) {
@@ -51,6 +52,18 @@
         //        $('#accordion').accordion('option', 'active', ($('#accordion').accordion('option', 'active') + delta));
         //    });
         //});
+
+        
+        vm.addEmptyRow = function () {
+            vm.packageDetails.productIngredients.push({});
+        };
+
+        vm.removePackage = function (index) {
+            vm.packageDetails.productIngredients.splice(index, 1);
+            // if array length is 0, then one empty row will insert.
+            if (vm.packageDetails.productIngredients.length == 0)
+                vm.addEmptyRow();
+        };
 
     }]);
 
