@@ -1,61 +1,6 @@
 ﻿'use strict';
 (function (app) {
 
-    app.directive('validPhoneNo', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, elm, attrs, ctrl) {
-                ctrl.$parsers.unshift(function (viewValue, $scope) {
-
-                    // should have only +,- and digits.
-                    var res1 = /^[0-9()+-]*$/.test(viewValue);
-                    // should have at least 8 digits.
-                    var res2 = /(?=(.*\d){8})/.test(viewValue);
-                    if (viewValue != '')
-                        ctrl.$setValidity('notValidPhoneNo', res1 && res2);
-                    else
-                        ctrl.$setValidity('notValidPhoneNo', true);
-
-                    return viewValue;
-                })
-            }
-        }
-    });
-    app.directive('icheck', ['$timeout', '$parse', function ($timeout, $parse) {
-
-        return {
-            require: 'ngModel',
-            link: function ($scope, element, $attrs, ngModel) {
-                return $timeout(function () {
-                    var value;
-                    value = $attrs['value'];
-
-                    $scope.$watch($attrs['ngModel'], function (newValue) {
-                        $(element).iCheck('update');
-                    })
-
-                    return $(element).iCheck({
-                        checkboxClass: 'icheckbox_square-blue', //'icheckbox_flat-aero',
-                        radioClass: 'iradio_square-blue'
-
-                    }).on('ifChanged', function (event) {
-                        if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
-                            $scope.$apply(function () {
-                                return ngModel.$setViewValue(event.target.checked);
-                            });
-                        }
-                        if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
-                            return $scope.$apply(function () {
-                                return ngModel.$setViewValue(value);
-                            });
-                        }
-                    });
-                });
-            }
-        };
-
-    }]);
-
     app.factory('saveAddressBookFactory', function ($http) {
         return {
             saveAddressBook: function (addressDetail) {
