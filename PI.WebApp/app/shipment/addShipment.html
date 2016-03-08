@@ -1,1 +1,135 @@
-﻿
+﻿<div>
+    <div class="col-sm-12 portlets">
+       
+         <div class="panel">
+
+            <form class="form-horizontal" name="genaralDetailsForm">
+                <div class="panel-header">
+                   
+                        <!-- left column -->
+                        <h2>General Information</h2>
+                        <div class="row">
+                           
+                                <div class="col-sm-2">
+                                    <label class="col-sm-2 control-label">Assigned Division*</label>
+                                </div>
+
+                                <div class="col-sm-10">
+                                    <div class="form-group">
+                                        <input ng-model="shipmentCtrl.model.shipmentName" type="text" name="shipmentname" class="form-control" ng-required="true"
+                                               ng-maxlength="200" ng-class="{ 'error': genaralDetailsForm.shipmentname.$invalid &&
+                                                                        (genaralDetailsForm.shipmentname.$dirty|| shipmentCtrl.isSubmit) }" />
+                                        <div ng-messages="genaralDetailsForm.shipmentname.$error"
+                                             ng-show="genaralDetailsForm.shipmentname.$dirty || shipmentCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="divisionName">Shipment Name is required</label>
+                                            <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-2 control-label">Assigned Division*</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="division" multiple class="form-control"
+                                                convert-to-number ng-options="divi.id as divi.name for divi in divisionList"
+                                                name="divisions" ng-model="selectedDivision" ng-change="selectDivision()">
+                                            <option value="">-Select Division-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-2 control-label">Assigned CostCenter*</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="costcenter" multiple class="form-control"
+                                                convert-to-number ng-options="cost.id as cost.name for cost in costcenterList"
+                                                name="costcenters" ng-model="selectedCostCenter" ng-change="selectCostCenter()">
+                                            <option value="">-Select Cost Center-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Shipment Mode*</label>
+                                </div>
+                                </div>
+
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Express</button>
+                            </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Air Freight</button>
+                                </div>
+                           </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Sea Freight</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Road Freight</button>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button class="btn btn-success">Show All Options</button>
+                                </div>
+                                </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-2 control-label">Shipment Type*</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="division" multiple class="form-control"
+                                                convert-to-number ng-options="type.id as type.name for type in shipmentTypeList"
+                                                name="divisions" ng-model="selectShipmentType" ng-change="selectShipmentType()">
+                                            <option value="">-Select Shipment Type-</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <label class="col-sm-2 control-label">Shipment Term*</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="costcenter" multiple class="form-control"
+                                                convert-to-number ng-options="term.id as term.name for term in shipmentTermList"
+                                                name="costcenters" ng-model="selectedShipmentTerm" ng-change="selectShipmentTerm()">
+                                            <option value="">Select shipment Term</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+               
+            </form>
+        </div>
+        </div>
+    </div>
