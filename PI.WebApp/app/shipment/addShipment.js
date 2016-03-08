@@ -11,6 +11,7 @@
         vm.collapse1 = false;
         vm.collapse2 = true;
         vm.collapse3 = true;
+        vm.collapse4 = true;
         vm.generalInfoisSubmit = false;
         vm.consignInfoisSubmit = false;
        

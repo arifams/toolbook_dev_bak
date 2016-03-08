@@ -585,7 +585,20 @@
                  
              </form>
 
-              <form class="form-horizontal" name="formPackage">
+              <div class="panel-header">
+                  <div class="row">
+                      <div class="col-sm-1">
+                          <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success" ng-show="shipmentCtrl.collapse3==true&&consignerConsigneeInfoForm.$valid==true"><i class="fa fa-check"></i></button>
+
+                      </div>
+                      <div class="col-sm-11">
+                          <h2>Package Details</h2>
+                      </div>
+                  </div>
+
+              </div>
+
+              <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid">
 
                   <div class="form-group">
                       <label class="col-sm-2 control-label"> Shipment Description *</label>
@@ -764,7 +777,7 @@
 
                   <div class="row">
                       <div class="col-sm-1">
-                          <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success" ng-show="shipmentCtrl.collapse3==true&&consignerConsigneeInfoForm.$valid==true"><i class="fa fa-check"></i></button>
+                          <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success" ng-show="shipmentCtrl.collapse4==true&&formPackage.$valid==true"><i class="fa fa-check"></i></button>
 
                       </div>
                       <div class="col-sm-11">
@@ -772,7 +785,7 @@
                       </div>
                   </div>
               </div>
-              <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse3==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate >
+              <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate >
                   <div class="panel-content">
                       <h3>Shipment Summary</h3>
 
