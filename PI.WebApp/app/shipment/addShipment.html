@@ -4,10 +4,11 @@
          <div class="panel">
 
             <form class="form-horizontal" name="genaralDetailsForm">
-                <div class="panel-header">
-                   
+                <div class="panel-header">                   
                         <!-- left column -->
                         <h2>General Information</h2>
+                    </div>
+                <div class="panel-content">
                         <div class="row">
                            
                                 <div class="col-sm-2">
@@ -142,9 +143,11 @@
             </form>
 
              <form class="form-horizontal" name="consignerConsigneeInfoForm">
-                 <h2>Consigner & Consignee Information</h2>
+               
                  <div class="panel-header">                   
-                        
+                     <h2>Consigner & Consignee Information</h2>
+                     </div>
+                 <div class="panel-content">
                              <div class="row">
                                  <div class="col-sm-6">
                                      <div class="form-group">
@@ -314,7 +317,7 @@
                                                                         (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.isSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
                                       ng-show="consignerConsigneeInfoForm.consigneraddress1.$dirty || shipmentCtrl.isSubmit">
-                                     <label ng-message="required" class="error" for="consigneraddress1">Consignee Address1 is required</label>
+                                     <label ng-message="required" class="error" for="consigneraddress1">Consigner Address1 is required</label>
                                      <label ng-message="maxlength" class="error" for="consigneraddress1">Max length should be 200 characters</label>
                                  </div>
                              </div>
