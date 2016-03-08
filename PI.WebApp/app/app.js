@@ -22,7 +22,8 @@ var MakeApp = angular
     //'ngGrid',
     'smart-table',
     'ngCsv',
-    'ngCsvImport'
+    'ngCsvImport',
+    'customDirective'
   ])
   .config(function ($routeProvider) {
       $routeProvider
