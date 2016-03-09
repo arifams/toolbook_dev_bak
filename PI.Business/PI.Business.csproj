@@ -103,6 +103,7 @@
     <Compile Include="CustomerManagement.cs" />
     <Compile Include="ProfileManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShipmentManagement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
