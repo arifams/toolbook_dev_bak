@@ -99,10 +99,12 @@
     <Compile Include="AddressBookManagement.cs" />
     <Compile Include="ApplicationRoleManager.cs" />
     <Compile Include="ApplicationUserManager.cs" />
+    <Compile Include="SISIntegrationManager.cs" />
     <Compile Include="CompanyManagement.cs" />
     <Compile Include="CustomerManagement.cs" />
     <Compile Include="ProfileManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShipmentManagent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
