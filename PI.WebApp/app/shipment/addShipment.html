@@ -219,7 +219,7 @@
                          </div>
                          <div class="col-sm-4">                             
                                  <div class="form-group">
-                                     <input ng-model="shipmentCtrl.AddressInformation.consignerName" type="text" name="consignerName" class="form-control" ng-required="true"
+                                     <input ng-model="shipmentCtrl.AddressInformation.consigner.consignerName" type="text" name="consignerName" class="form-control" ng-required="true"
                                             ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerName.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Enter Consignor Name" />
                                      <div ng-messages="consignerConsigneeInfoForm.consignerName.$error"
@@ -257,7 +257,7 @@
                              <div class="form-group">
                                  <div class="option-group">
                                      <country-select id="country2" name="countryConsigner"
-                                                     ng-model="shipmentCtrl.AddressInformation.consignerCountry" ng-change="shipmentCtrl.changeCountry()"
+                                                     ng-model="shipmentCtrl.AddressInformation.consigner.consignerCountry" ng-change="shipmentCtrl.changeCountry()"
                                                      class="form-control"></country-select>
                                  </div>
                              </div>
@@ -282,7 +282,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consignerpostalcode" type="text" name="consignerpostalcode" class="form-control" ng-required="true" placeholder="Postal/ZipCode"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.postalcode" type="text" name="consignerpostalcode" class="form-control" ng-required="true" placeholder="Postal/ZipCode"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerpostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerpostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consignerpostalcode.$error"
@@ -303,7 +303,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneepostalcode" type="text" name="consigneepostalcode" class="form-control" ng-required="true" placeholder="Postal/ZipCode"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.postalcode" type="text" name="consigneepostalcode" class="form-control" ng-required="true" placeholder="Postal/ZipCode"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneepostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneepostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
@@ -319,7 +319,7 @@
                          </div>
                          <div class="col-sm-1">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consignernumber" type="text" name="consignernumber" class="form-control" ng-required="true" placeholder="Number"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.number" type="text" name="consignernumber" class="form-control" ng-required="true" placeholder="Number"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignernumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignernumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consignernumber.$error"
@@ -331,7 +331,7 @@
                          </div>
                          <div class="col-sm-3">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneraddress1" type="text" name="consigneraddress1" class="form-control" ng-required="true" placeholder="Address1"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.address1" type="text" name="consigneraddress1" class="form-control" ng-required="true" placeholder="Address1"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress1.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
@@ -346,7 +346,7 @@
                         
                          <div class="col-sm-1">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneenumber" type="text" name="consigneenumber" class="form-control" ng-required="true" placeholder="Number"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.number" type="text" name="consigneenumber" class="form-control" ng-required="true" placeholder="Number"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneenumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneenumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneenumber.$error"
@@ -358,7 +358,7 @@
                          </div>
                          <div class="col-sm-3">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneeaddress1" type="text" name="consigneeaddress1" class="form-control" ng-required="true" placeholder="Address1"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.address1" type="text" name="consigneeaddress1" class="form-control" ng-required="true" placeholder="Address1"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeaddress1.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeaddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneeaddress1.$error"
@@ -374,7 +374,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneraddress2" type="text" name="consigneraddress2" class="form-control" placeholder="Address2"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="Address2"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress2.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneraddress2.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneraddress2.$error"
@@ -389,7 +389,7 @@
 
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneeaddress2" type="text" name="consigneeaddress2" class="form-control" placeholder="Address2"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.address2" type="text" name="consigneeaddress2" class="form-control" placeholder="Address2"
                                         ng-maxlength="200" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneeaddress2.$error"
                                       ng-show="consignerConsigneeInfoForm.consigneeaddress2.$dirty || shipmentCtrl.consignInfoisSubmit">
@@ -404,7 +404,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consignercity" type="text" name="consignercity" class="form-control" placeholder="City" required
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.city" type="text" name="consignercity" class="form-control" placeholder="City" required
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercity.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignercity.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consignercity.$error"
@@ -420,7 +420,7 @@
 
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneecity" type="text" name="consigneecity" class="form-control" placeholder="City" required
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.city" type="text" name="consigneecity" class="form-control" placeholder="City" required
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecity.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneecity.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneecity.$error"
@@ -437,7 +437,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consignerstate" type="text" name="consignerstate" class="form-control" placeholder="State" 
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.state" type="text" name="consignerstate" class="form-control" placeholder="State" 
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerstate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerstate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                  <div ng-messages="consignerConsigneeInfoForm.consignerstate.$error"
@@ -451,7 +451,7 @@
                          <div class="col-sm-2"></div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneestate" type="text" name="consigneeaddress2" class="form-control" placeholder="State" 
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.state" type="text" name="consigneeaddress2" class="form-control" placeholder="State" 
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneestate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneestate.$dirty|| shipmentCtrl.consignInfoisSubmit) }"  />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneestate.$error"
@@ -471,7 +471,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneremail" type="email" name="consigneremail" class="form-control" ng-required="true"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.email" type="email" name="consigneremail" class="form-control" ng-required="true"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneremail.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneremail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Email*" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneremail.$error"
@@ -493,7 +493,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneeemail" type="email" name="consigneeemail" class="form-control" ng-required="true"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.email" type="email" name="consigneeemail" class="form-control" ng-required="true"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeemail.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeemail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Email*" />
                                  <div ng-messages="consignerConsigneeInfoForm.consigneeemail.$error"
@@ -513,7 +513,7 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consignercontactNumber" type="text" name="consignercontactNumber" class="form-control" ng-required="true"
+                                 <input ng-model="shipmentCtrl.AddressInformation.consigner.contactNumber" type="text" name="consignercontactNumber" class="form-control" ng-required="true"
                                         ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercontactNumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignercontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Number*" valid-phone-no />
                                  <div ng-messages="consignerConsigneeInfoForm.consignercontactNumber.$error"
@@ -535,11 +535,11 @@
                          </div>
                          <div class="col-sm-4">
                              <div class="form-group">
-                                 <input ng-model="shipmentCtrl.AddressInformation.consigneecontact" type="text" name="consigneecontact" class="form-control" ng-required="true"
-                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontact.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneecontact.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Number*" valid-phone-no />
-                                 <div ng-messages="consignerConsigneeInfoForm.consigneecontact.$error"
-                                      ng-show="consignerConsigneeInfoForm.consigneecontact.$dirty || shipmentCtrl.consignInfoisSubmit">
+                                 <input ng-model="shipmentCtrl.AddressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber" class="form-control" ng-required="true"
+                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Number*" valid-phone-no />
+                                 <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
+                                      ng-show="consignerConsigneeInfoForm.consigneecontactNumber.$dirty || shipmentCtrl.consignInfoisSubmit">
                                      <label ng-message="required" class="error" for="consigneecontact">Consignee Email is required</label>
                                      <label ng-message="maxlength" class="error" for="consigneecontact">Max length should be 200 characters</label>
                                      <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
@@ -555,7 +555,7 @@
                              </label>
                          </div>
                          <div class="col-sm-2">
-                             <a href="#" ng-click="shipmentCtrl.ClearConsignerAddress()">Clear All</a>
+                             <a ng-click="shipmentCtrl.ClearConsignerAddress()">Clear All</a>
                          </div>
                          <div class="col-sm-4">
                              <label>
@@ -564,7 +564,7 @@
                              </label>
                          </div>
                          <div class="col-sm-2">
-                             <a href="#" ng-click="shipmentCtrl.ClearConsigneeAddress()">Clear All</a>
+                             <a  ng-click="shipmentCtrl.ClearConsigneeAddress()">Clear All</a>
                          </div>
                      </div> 
                      <div class="row">
