@@ -14,6 +14,7 @@
         vm.collapse4 = true;
         vm.generalInfoisSubmit = false;
         vm.consignInfoisSubmit = false;
+        vm.packageDetailsisSubmit = false;
         vm.packageDetails = {};
         vm.packageDetails.productIngredients = [{}];
 
@@ -30,11 +31,19 @@
         vm.checkConsignInfo = function (value) {
             if (value == true) {               
                 vm.collapse2 = true;
-                vm.collapse3 = false;
+                vm.collapse3 = false;   
             }
             vm.consignInfoisSubmit = true
 
         }
+        vm.checkPackageDetails = function (value) {
+            if (value) {
+                vm.collapse3 = true;
+                vm.collapse4 = false;
+            }
+            vm.packageDetailsisSubmit = true
+        }
+       
         
         //accordian functionality
         //$(document).ready(function () {
