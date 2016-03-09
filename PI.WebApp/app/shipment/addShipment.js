@@ -44,6 +44,12 @@
             vm.packageDetailsisSubmit = true
         }
        
+        vm.ClearConsignerAddress = function () {
+            vm.AddressInformation.consigner = {};
+        }
+        vm.ClearConsigneeAddress= function(){
+            vm.AddressInformation.consignee = {};
+        }
         
         //accordian functionality
         //$(document).ready(function () {
