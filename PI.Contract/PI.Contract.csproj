@@ -42,8 +42,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\IAddressBookManagement.cs" />
+    <Compile Include="Business\ICarrierIntegrationManager.cs" />
     <Compile Include="Business\ICompanyManagement.cs" />
     <Compile Include="Business\ICustomerManagement.cs" />
+    <Compile Include="Business\IShipmentManagement.cs" />
     <Compile Include="DTOs\AccountSettings\CurrencyDto.cs" />
     <Compile Include="DTOs\AccountSettings\LanguageDto.cs" />
     <Compile Include="DTOs\AccountSettings\TimeZoneDto.cs" />
