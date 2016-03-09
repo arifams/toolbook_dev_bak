@@ -15,9 +15,16 @@ namespace PI.Data.Entity
         public decimal Height { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
-
         public long ShipmentPackageId { get; set; }
+
+        #region Navigation properties
+
         [ForeignKey("ShipmentPackageId")]
         public virtual ShipmentPackage ShipmentPackage { get; set; }
+
+        [ForeignKey("ProductTypeId")]
+        public virtual PackageProductType PackageProductType { get; set; }
+
+        #endregion
     }
 }

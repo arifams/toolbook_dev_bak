@@ -9,10 +9,15 @@ namespace PI.Data.Entity
 {
     public class PackagePayment : BaseEntity
     {
-        public decimal CarrierCost { get; set; }
-        public decimal InsuranceCost { get; set; }
-        public short PaymentTypeId { get; set; }
-        [ForeignKey("PaymentTypeId")]
-        public PaymentType PaymentType { get; set; }
+        //public decimal CarrierCost { get; set; }
+        //public decimal InsuranceCost { get; set; }
+        //public short PaymentTypeId { get; set; }
+
+        //#region Navigation properties
+
+        //[ForeignKey("PaymentTypeId")]
+        //public PaymentType PaymentType { get; set; } 
+
+        //#endregion
     }
 }

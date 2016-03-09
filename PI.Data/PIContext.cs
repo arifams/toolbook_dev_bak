@@ -4,6 +4,7 @@ using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,17 @@ namespace PI.Data
         public DbSet<AddressBook> AddressBooks { get; set; }
         public DbSet<RoleHierarchy> RoleHierarchies { get; set; }
 
+        // Shipment
+        public DbSet<Shipment> Shipments { get; set; }
+        public DbSet<ShipmentMode> ShipmentModes { get; set; }
+        public DbSet<ShipmentType> ShipmentTypes { get; set; }
+        public DbSet<ShipmentTerm> ShipmentTerms { get; set; }
+        public DbSet<ShipmentAddress> ShipmentAddresses { get; set; }
+        public DbSet<ShipmentPackage> ShipmentPackages { get; set; }
+        public DbSet<PackageProduct> PackageProducts { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<PackageProductType> PackageProductTypes { get; set; }
+
         public PIContext()
             : base("name=PIBookingConnectionString")
         {
@@ -46,24 +58,15 @@ namespace PI.Data
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             //Configure domain classes using modelBuilder here
-
-
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<DivisionCostCenter>()
-            //.HasRequired(c => c.Divisions)
-            //.WithMany()
-            //.WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<DivisionCostCenter>()
-            //.HasRequired(s => s.CostCenters)
-            //.WithMany()
-            //.WillCascadeOnDelete(false);
-
+            // For defaultcostcenterid
             modelBuilder.Entity<Division>()
             .HasRequired(s => s.CostCenter)
             .WithMany()
             .WillCascadeOnDelete(false);
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
         }
 
 

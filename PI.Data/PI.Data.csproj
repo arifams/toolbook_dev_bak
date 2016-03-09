@@ -117,6 +117,10 @@
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201603091809051_Initial shipment entities.cs" />
+    <Compile Include="Migrations\201603091809051_Initial shipment entities.Designer.cs">
+      <DependentUpon>201603091809051_Initial shipment entities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -137,6 +141,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602070848525_InitialCreateOfIdentity.resx">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603091809051_Initial shipment entities.resx">
+      <DependentUpon>201603091809051_Initial shipment entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

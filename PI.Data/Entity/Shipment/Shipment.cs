@@ -17,14 +17,16 @@ namespace PI.Data.Entity
         public short ShipmentTypeId { get; set; }
         public short ShipmentTermId { get; set; }
 
-        // 
+        // Consignor and Consignee Information
         public long ConsignorId { get; set; }
         public long ConsigneeId { get; set; }
+
+        // Package details
         public long ShipmentPackageId { get; set; }
 
         #region Navigation properties
 
-        // General Information Navigations
+        // General Information - Navigations
         [ForeignKey("DivisionId")]
         public virtual Division Division { get; set; }
 
@@ -40,13 +42,14 @@ namespace PI.Data.Entity
         [ForeignKey("ShipmentTermId")]
         public virtual ShipmentTerm ShipmentTerm { get; set; }
 
-        //
+        // Consignor and Consignee Information - Navigations
         [ForeignKey("ConsignorId")]
         public virtual ShipmentAddress ConsignorAddress { get; set; }
 
         [ForeignKey("ConsigneeId")]
         public virtual ShipmentAddress ConsigneeAddress { get; set; }
 
+        // Package details
         [ForeignKey("ShipmentPackageId")]
         public virtual ShipmentPackage ShipmentPackage { get; set; }
 
