@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class NotificationCriteria :BaseEntity
+    public class NotificationCriteria : LongIdBaseEntity
     {
         public bool BookingConfirmation { get; set; }
         public bool PickupConfirmation { get; set; }

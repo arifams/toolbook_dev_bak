@@ -98,6 +98,7 @@
     <Compile Include="Entity\DivisionCostCenter.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
     <Compile Include="Entity\Language.cs" />
+    <Compile Include="Entity\LongIdBaseEntity.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\Shipment\PackagePayment.cs" />
     <Compile Include="Entity\Shipment\PackageProduct.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
     <Compile Include="Entity\Shipment\ShipmentTerm.cs" />
     <Compile Include="Entity\Shipment\ShipmentType.cs" />
+    <Compile Include="Entity\ShortIdBaseEntity.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Entity\UserInDivision.cs" />
@@ -117,9 +119,9 @@
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201603091809051_Initial shipment entities.cs" />
-    <Compile Include="Migrations\201603091809051_Initial shipment entities.Designer.cs">
-      <DependentUpon>201603091809051_Initial shipment entities.cs</DependentUpon>
+    <Compile Include="Migrations\201603100322470_Initial Shipment entities.cs" />
+    <Compile Include="Migrations\201603100322470_Initial Shipment entities.Designer.cs">
+      <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
@@ -142,8 +144,8 @@
     <EmbeddedResource Include="Migrations\201602070848525_InitialCreateOfIdentity.resx">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603091809051_Initial shipment entities.resx">
-      <DependentUpon>201603091809051_Initial shipment entities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201603100322470_Initial Shipment entities.resx">
+      <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class Language:BaseEntity
+    public class Language: ShortIdBaseEntity
     {
         public string LanguageCode { get; set; }
         public string LanguageName { get; set; }

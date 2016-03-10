@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -14,7 +15,7 @@ namespace PI.Business
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
 
-       public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
+        public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
             var requestURL = GetRateRequestURL(rateParameters);
 
@@ -33,22 +34,22 @@ namespace PI.Business
 
         }
 
-        string ICarrierIntegrationManager.SubmitShipment(string xmlDetail)
+        public string SubmitShipment(string xmlDetail)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.DeleteShipment(string shipmentCode)
+        public string DeleteShipment(string shipmentCode)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.GetShipmentStatus(string URL)
+        public string GetShipmentStatus(string URL)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.TrackAndTraceShipment(string URL)
+        public string TrackAndTraceShipment(string URL)
         {
             throw new NotImplementedException();
         }

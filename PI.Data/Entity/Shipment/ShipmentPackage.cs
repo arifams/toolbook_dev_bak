@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class ShipmentPackage : BaseEntity
+    public class ShipmentPackage : LongIdBaseEntity
     {
         public string PackageDescription { get; set; }
         public decimal TotalWeight { get; set; }
