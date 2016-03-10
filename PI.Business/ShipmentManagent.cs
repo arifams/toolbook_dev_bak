@@ -9,10 +9,11 @@ namespace PI.Business
 {
     public class ShipmentManagent
     {
-        //public ShipmentcostList GetRateSheet()
-        //{
-        //    SISIntegrationManager sisManager = new SISIntegrationManager();
-           
-        //}
+        public ShipmentcostList GetRateSheet(RateSheetParametersDto rateSheet)
+        {
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            return sisManager.GetRateSheetForShipment(rateSheet);
+
+        }
     }
 }
