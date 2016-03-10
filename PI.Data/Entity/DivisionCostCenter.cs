@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class DivisionCostCenter : BaseEntity
+    public class DivisionCostCenter : LongIdBaseEntity
     {
         
         public long CostCenterId { get; set; }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class PackageProduct : BaseEntity
+    public class PackageProduct : LongIdBaseEntity
     {
         public short ProductTypeId { get; set; }
         public short Quantity { get; set; }

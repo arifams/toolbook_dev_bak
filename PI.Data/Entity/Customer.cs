@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class Customer : BaseEntity
+    public class Customer : LongIdBaseEntity
     {
         public string Salutation { get; set; } // TODO: Convert to Enum.
         public string FirstName { get; set; }

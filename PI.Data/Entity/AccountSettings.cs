@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class AccountSettings:BaseEntity
+    public class AccountSettings: LongIdBaseEntity
     {
            
         public long CustomerId { get; set; }
-        public long DefaultLanguageId { get; set; }
-        public long DefaultCurrencyId { get; set; }
-        public long DefaultTimeZoneId { get; set; }
+        public short DefaultLanguageId { get; set; }
+        public short DefaultCurrencyId { get; set; }
+        public short DefaultTimeZoneId { get; set; }
 
         #region Navigation Property
 

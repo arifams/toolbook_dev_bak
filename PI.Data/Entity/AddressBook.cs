@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class AddressBook:BaseEntity
+    public class AddressBook: LongIdBaseEntity
     {
         public string CompanyName { get; set; }
         public string UserId { get; set; }

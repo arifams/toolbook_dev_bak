@@ -7,13 +7,13 @@ namespace PI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initialshipmententities : IMigrationMetadata
+    public sealed partial class InitialShipmententities : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initialshipmententities));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialShipmententities));
         
         string IMigrationMetadata.Id
         {
-            get { return "201603091809051_Initial shipment entities"; }
+            get { return "201603100322470_Initial Shipment entities"; }
         }
         
         string IMigrationMetadata.Source

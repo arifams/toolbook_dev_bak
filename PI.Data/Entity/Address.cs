@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class Address:BaseEntity
+    public class Address: LongIdBaseEntity
     {
         public string Country { get; set; } 
         public string ZipCode { get; set; }

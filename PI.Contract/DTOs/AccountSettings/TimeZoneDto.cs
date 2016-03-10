@@ -8,7 +8,7 @@ namespace PI.Contract.DTOs.AccountSettings
 {
      public class TimeZoneDto
     {
-        public long Id { get; set; }
+        public short Id { get; set; }
         public string TimeZoneCode { get; set; }
         public string CountryName { get; set; }
     }

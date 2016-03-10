@@ -19,9 +19,9 @@ namespace PI.Contract.DTOs.Profile
         public bool NotifyDiscountOffer { get; set; }
 
         //Default Account settings
-        public long DefaultLanguageId { get; set; }
-        public long DefaultCurrencyId { get; set; }
-        public long DefaultTimeZoneId { get; set; }
+        public short DefaultLanguageId { get; set; }
+        public short DefaultCurrencyId { get; set; }
+        public short DefaultTimeZoneId { get; set; }
 
         /// user settings
         public string NewPassword { get; set; }       

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class ShipmentMode : BaseEntity
+    public class ShipmentMode : ShortIdBaseEntity
     {
-        public new short Id { get; set; }
         public string Name { get; set; }
     }
 }

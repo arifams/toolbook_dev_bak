@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class PackagePayment : BaseEntity
+    public class PackagePayment : LongIdBaseEntity
     {
         //public decimal CarrierCost { get; set; }
         //public decimal InsuranceCost { get; set; }

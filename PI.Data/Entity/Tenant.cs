@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class Tenant : BaseEntity
+    public class Tenant : LongIdBaseEntity
     {
         public string TenancyName { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class UserInDivision : BaseEntity
+    public class UserInDivision : LongIdBaseEntity
     {
         public string UserId { get; set; }
 
