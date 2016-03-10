@@ -61,6 +61,14 @@
     <Compile Include="DTOs\RateSheets\RateSheetParametersDto.cs" />
     <Compile Include="DTOs\RateSheets\ShipmentcostList.cs" />
     <Compile Include="DTOs\Role\RolesDto.cs" />
+    <Compile Include="DTOs\Shipment\CarrierInformationDto.cs" />
+    <Compile Include="DTOs\Shipment\ConsigneeDto.cs" />
+    <Compile Include="DTOs\Shipment\ConsignerAndConsigneeInformationDto.cs" />
+    <Compile Include="DTOs\Shipment\ConsignerDto.cs" />
+    <Compile Include="DTOs\Shipment\GeneralInformationDto.cs" />
+    <Compile Include="DTOs\Shipment\PackageDetailsDto.cs" />
+    <Compile Include="DTOs\Shipment\ProductIngredientsDto.cs" />
+    <Compile Include="DTOs\Shipment\ShipmentDto.cs" />
     <Compile Include="DTOs\User\UserDto.cs" />
     <Compile Include="DTOs\User\UserResultDto.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
