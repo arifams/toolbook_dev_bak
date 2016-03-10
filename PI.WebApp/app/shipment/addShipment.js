@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$location', '$window', 'shipmentFactory', 'calculateRatesforShipment', function ($location, $window, shipmentFactory, calculateRatesforShipment) {
+    app.controller('addShipmentCtrl', ['$location', '$window', 'shipmentFactory', function ($location, $window, shipmentFactory) {
                   
        
         var vm = this;
@@ -83,7 +83,7 @@
         //get the calculated rates
         vm.calculateRates = function () {
 
-            calculateRatesforShipment.calculateRates(vm.shipment).success(
+            shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
 
                 }).error(function (error) {
