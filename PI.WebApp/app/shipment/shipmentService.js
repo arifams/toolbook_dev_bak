@@ -13,5 +13,17 @@
        
 
     }]);
+    
+    app.factory('calculateRatesforShipment', function ($http) {
+        return {
+            calculateRates: function (shipmentDetail) {
+
+                return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);
+            }
+        }
+
+    });
+
+  
 
 })(angular.module('newApp'));
