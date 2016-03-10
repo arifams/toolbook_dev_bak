@@ -17,7 +17,7 @@ namespace PI.Service.Controllers
 
         //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
+        [HttpPost]
         [Route("GetRatesforShipment")]
         public ShipmentcostList GetRatesforShipment([FromBody]ShipmentDto currentShipment)
         {
