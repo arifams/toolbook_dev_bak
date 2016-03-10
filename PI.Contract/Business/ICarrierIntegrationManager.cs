@@ -9,7 +9,7 @@ namespace PI.Contract.Business
 {
     public interface ICarrierIntegrationManager
     {
-        ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters);
+       ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters);
 
         string SubmitShipment(string xmlDetail);
 
