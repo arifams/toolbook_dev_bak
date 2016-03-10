@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.DTOs.RateSheets;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace PI.Contract.Business
 {
     public interface ICarrierIntegrationManager
     {
-        string GetRateSheetForShipment(string URL);
+        ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters);
 
         string SubmitShipment(string xmlDetail);
 
