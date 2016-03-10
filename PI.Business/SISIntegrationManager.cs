@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,27 +11,27 @@ namespace PI.Business
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
 
-        string ICarrierIntegrationManager.GetRateSheetForShipment(string URL)
+        public string GetRateSheetForShipment(string URL)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.SubmitShipment(string xmlDetail)
+        public string SubmitShipment(string xmlDetail)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.DeleteShipment(string shipmentCode)
+        public string DeleteShipment(string shipmentCode)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.GetShipmentStatus(string URL)
+        public string GetShipmentStatus(string URL)
         {
             throw new NotImplementedException();
         }
 
-        string ICarrierIntegrationManager.TrackAndTraceShipment(string URL)
+        public string TrackAndTraceShipment(string URL)
         {
             throw new NotImplementedException();
         }
