@@ -13,7 +13,7 @@ namespace PI.Contract.Business
 
         string SubmitShipment(string xmlDetail);
 
-        string DeleteShipment(string shipmentCode);       
+        void DeleteShipment(string shipmentCode);       
 
         string GetShipmentStatus(string URL);
 
