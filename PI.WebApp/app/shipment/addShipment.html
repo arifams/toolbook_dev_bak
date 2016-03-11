@@ -890,15 +890,22 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-sm-10"></div>
+                        <div class="col-sm-9"></div>
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <button class="btn btn-blue" type="submit" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
                             </div>
 
                         </div>
+                        <div class="col-sm-1">
+                            <div class="font-animation" ng-show="shipmentCtrl.loadingRates==true">
+                                <label><i class="fa fa-spinner faa-spin animated"></i> loading.</label>
+                            </div>
+                        </div>
+                        
                     </div>
                    
+
                     <div class="CareeDetailsTable"  collapse="shipmentCtrl.searchRates!=true">
 
                         <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-striped">

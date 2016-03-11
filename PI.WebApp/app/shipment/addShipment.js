@@ -19,6 +19,7 @@
         vm.shipment.packageDetails.productIngredients = [{}];
         vm.shipment.CarrierInformation = {};
         vm.searchRates = false;
+        vm.loadingRates = false;
 
         vm.checkGenaralInfo = function (value) {
             if (value==true) {
@@ -84,10 +85,11 @@
 
         //get the calculated rates
         vm.calculateRates = function () {
-            
+            vm.loadingRates = true;
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
                     vm.displayedCollection = responce.items;
+                    vm.loadingRates = false;
                     vm.searchRates = true;
                 }).error(function (error) {
 
