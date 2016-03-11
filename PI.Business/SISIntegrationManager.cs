@@ -14,6 +14,8 @@ namespace PI.Business
 {
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
+      private string sisUserId = null;
+      private string password = null;
 
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
@@ -37,12 +39,20 @@ namespace PI.Business
 
         public string SubmitShipment(string xmlDetail)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public string DeleteShipment(string shipmentCode)
+        public void DeleteShipment(string shipmentCode)
         {
-            throw new NotImplementedException();
+            shipmentCode = "37733403";
+
+            string deleteURL = @"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment="+ shipmentCode;
+
+
+            WebRequest webRequest = WebRequest.Create(deleteURL);
+            webRequest.Method = "POST";
+            webRequest.ContentLength = 0;
+            WebResponse webResp = webRequest.GetResponse();          
         }
 
         public string GetShipmentStatus(string URL)
@@ -135,7 +145,7 @@ namespace PI.Business
             rateRequestUrl.Append("&ind_delivery_inside=" + rateParameters.ind_delivery_inside);
             rateRequestUrl.Append("&url=" + rateParameters.url);
 
-          
+
             return rateRequestUrl.ToString();
         }
     }
