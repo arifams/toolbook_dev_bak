@@ -15,8 +15,8 @@
         vm.generalInfoisSubmit = false;
         vm.consignInfoisSubmit = false;
         vm.packageDetailsisSubmit = false;
-        vm.packageDetails = {};
-        vm.packageDetails.productIngredients = [{}];
+        vm.shipment.packageDetails = {};
+        vm.shipment.packageDetails.productIngredients = [{}];
 
         vm.checkGenaralInfo = function (value) {
             if (value==true) {
@@ -70,15 +70,27 @@
 
         
         vm.addEmptyRow = function () {
-            vm.packageDetails.productIngredients.push({});
+            vm.shipment.packageDetails.productIngredients.push({});
         };
 
         vm.removePackage = function (index) {
-            vm.packageDetails.productIngredients.splice(index, 1);
+            vm.shipment.packageDetails.productIngredients.splice(index, 1);
             // if array length is 0, then one empty row will insert.
-            if (vm.packageDetails.productIngredients.length == 0)
+            if (vm.shipment.packageDetails.productIngredients.length == 0)
                 vm.addEmptyRow();
         };
+
+        //get the calculated rates
+        vm.calculateRates = function () {
+
+            shipmentFactory.calculateRates(vm.shipment).success(
+                function (responce) {
+
+                }).error(function (error) {
+
+                });
+        }
+
 
     }]);
 
