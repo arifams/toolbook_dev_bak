@@ -269,7 +269,7 @@
                             <div class="form-group">
                                 <div class="option-group">
                                     <country-select id="country2" name="countryConsignee"
-                                                    ng-model="profileCtrl.shipment.addressInformation.consignee.country" ng-change="shipmentCtrl.changeCountry()"
+                                                    ng-model="shipmentCtrl.shipment.addressInformation.consignee.country" ng-change="shipmentCtrl.changeCountry()"
                                                     class="form-control"></country-select>
                                 </div>
                             </div>
@@ -695,7 +695,7 @@
                                         <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" /></td>
                                         <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" /></td>
                                         <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" /></td>
-                                        <td><input type="number" class="form-control" ng-model="packages.length" contenteditable="true" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" /></td>
                                         <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" /></td>
                                         <td style="text-align:center">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
@@ -809,8 +809,8 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentName" type="text" name="shipmentname" class="form-control" disabled
-                                       ng-maxlength="200" />
+                                <input  type="text" name="shipmentname" class="form-control" disabled
+                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentName}}" />
                             </div>
                         </div>
                     </div>
@@ -820,8 +820,8 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentMode" type="text" name="shipmentMode" class="form-control" disabled
-                                       ng-maxlength="200" />
+                                <input type="text" name="shipmentMode" class="form-control" disabled
+                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentMode}}" />
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -843,7 +843,7 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.Details" type="text" name="consignerDetails" class="form-control" disabled
+                                <input  type="text" name="consignerDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consignee.name}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -854,7 +854,7 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.Details" type="text" name="consigneeDetails" class="form-control" disabled
+                                <input  type="text" name="consigneeDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consigner.name}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -865,7 +865,7 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" type="text" name="packageWeight" class="form-control" disabled
+                                <input type="text" name="packageWeight" class="form-control" disabled value="{{shipmentCtrl.shipment.packageDetails.totalWeight}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -874,7 +874,7 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.packageDetails.totalVolume" type="text" name="packageVolume" class="form-control" disabled
+                                <input type="text" name="packageVolume" class="form-control" disabled value="{{shipmentCtrl.shipment.packageDetails.totalVolume}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -898,6 +898,43 @@
 
                         </div>
                     </div>
+                   
+                    <div class="CareeDetailsTable"  collapse="shipmentCtrl.searchRates!=true">
+
+                        <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name">Carrier</th>
+                                    <th>Price</th>
+                                    <th>Delivery date</th>
+                                    <th>Service</th>
+                                    <th>Transit time</th>
+                                    <th>Select</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in shipmentCtrl.displayedCollection">
+                                    <td>{{row.carrier_name+ " "+ row.transport_mode}}</td>
+                                    <td>{{row.currency_tariff+" "+row.price}}</td>
+                                   <td>{{row.delivery_date}}</td>
+                                    <td>{{row.price_detail.description}}</td>
+                                    <td>{{row.transit_time}}</td>                                   
+                                   
+                                    <td><a ng-click="shipmentCtrl.selectCarrier(row)" class="select btn btn-sm btn-success" href="javascript:;"><i class="fa fa-check"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+
 
 
                     <div class="col-sm-12 portlets">
@@ -916,7 +953,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>CarrierInformation
+                                        <tr>
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.carrierName}}</td>
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.pickupDate}}</td>
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.deliveryTime}}</td>

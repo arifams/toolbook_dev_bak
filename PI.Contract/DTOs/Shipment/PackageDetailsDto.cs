@@ -20,6 +20,7 @@ namespace PI.Contract.DTOs.Shipment
         public string Instructions { get; set; }
         public string   IsInsuared { get; set; }
         public string ValueCurrency { get; set; }
+        public string DeclaredValue { get; set; }
         public long Count { get; set; }
        
 

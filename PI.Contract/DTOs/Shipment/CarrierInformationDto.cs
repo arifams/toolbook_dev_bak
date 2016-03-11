@@ -13,6 +13,10 @@ namespace PI.Contract.DTOs.Shipment
         public DateTime PickupDate { get; set; }
         public DateTime DeliveryTime { get; set; }
         public string Price { get; set; }
-
+        public string serviceLevel { get; set; }
+        public string tariffText { get; set; }
+        public string tarriffType { get; set; }
+        public string currency { get; set; }
+         
     }
 }

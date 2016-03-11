@@ -17,6 +17,8 @@
         vm.packageDetailsisSubmit = false;
         vm.shipment.packageDetails = {};
         vm.shipment.packageDetails.productIngredients = [{}];
+        vm.shipment.CarrierInformation = {};
+        vm.searchRates = false;
 
         vm.checkGenaralInfo = function (value) {
             if (value==true) {
@@ -82,13 +84,31 @@
 
         //get the calculated rates
         vm.calculateRates = function () {
-
+            
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
-
+                    vm.displayedCollection = responce.items;
+                    vm.searchRates = true;
                 }).error(function (error) {
 
                 });
+        }
+
+        vm.selectCarrier = function (row) {
+
+            vm.searchRates = false;
+            if (row!=null) {
+                vm.shipment.CarrierInformation.carrierName=row.carrier_name;
+                vm.shipment.CarrierInformation.pickupDate=row.pickup_date;
+                vm.shipment.CarrierInformation.deliveryTime=row.delivery_time;
+                vm.shipment.CarrierInformation.price = row.price;
+
+                vm.shipment.CarrierInformation.serviceLevel= row.service_level
+                vm.shipment.CarrierInformation.tariffText  = row.tariff_text
+                vm.shipment.CarrierInformation.tarriffType = row.tariff_type
+                vm.shipment.CarrierInformation.currency = row.currency
+                
+            }
         }
 
 
