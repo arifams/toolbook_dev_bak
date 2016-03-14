@@ -3,8 +3,7 @@
 (function (app) {
 
     app.controller('addShipmentCtrl', ['$location', '$window', 'shipmentFactory', function ($location, $window, shipmentFactory) {
-                  
-       
+        
         var vm = this;
         vm.user = {};
         vm.shipment = {};
@@ -20,6 +19,37 @@
         vm.shipment.CarrierInformation = {};
         vm.searchRates = false;
         vm.loadingRates = false;
+        vm.divisionList = {};
+        //get the user and corporate status
+        vm.currentRole = $window.localStorage.getItem('userRole');
+        vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
+
+        //load the division list
+        if (vm.currentRole == "BusinessOwner" || vm.currentRole == "Admin") {
+            // shipmentFactory.
+            shipmentFactory.loadAllDivisions().success(
+               function (responce) {
+
+                   vm.divisionList = responce;
+                   
+               }).error(function (error) {
+
+               });
+            
+        } 
+        else {
+
+            shipmentFactory.loadAssignedDivisions().success(
+            function (responce) {
+
+                vm.divisionList = responce;
+                   
+            }).error(function (error) {
+
+            });
+           
+        }
+
 
         vm.checkGenaralInfo = function (value) {
             if (value==true) {

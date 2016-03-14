@@ -285,7 +285,7 @@ namespace PI.Service.Controllers
 
                     return Ok(new
                     {
-                        User = user,
+                        Id = user.Id,
                         Role = roleName,
                         Result = 1,
                         IsCorporateAccount = isCorporateAccount

@@ -108,6 +108,15 @@ namespace PI.Service.Controllers
             return divisionList;
         }
 
+        [EnableCors(origins:"*",headers:"*",methods:"*")]
+        [HttpGet]
+        [Route("GetAssignedDivisions")]
+        public IList<DivisionDto> GetAssignedDivisions([FromUri] string userId)
+        {
+            IList<DivisionDto> divisionList = companyManagement.GetAssignedDivisions(userId);
+            return divisionList;
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]

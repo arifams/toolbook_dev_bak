@@ -549,6 +549,30 @@ namespace PI.Business
             return divisionList;
         }
 
+        //get the assigned division by 
+        public IList<DivisionDto> GetAssignedDivisions(string userid)
+        {
+            IList<DivisionDto> divisionList = new List<DivisionDto>();
+
+            using (var context=new PIContext())
+            {
+                var divisions = from division in context.Divisions
+                                join divUser in context.UsersInDivisions on division.Id equals divUser.DivisionId
+                                where divUser.UserId == userid
+                                select division;
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id=item.Id,
+                        Name=item.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
 
 
         /// <summary>
