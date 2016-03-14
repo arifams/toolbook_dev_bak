@@ -1,5 +1,6 @@
 ﻿using PI.Contract.Business;
 using PI.Contract.DTOs.RateSheets;
+using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,8 +38,17 @@ namespace PI.Business
 
         }
 
-        public string SubmitShipment(string xmlDetail)
+        public string SubmitShipment(ShipmentDto addShipment)
         {
+            string xmlData = BuildAddShipmentXMLString(addShipment);
+
+            //xmlData = "http://www2.shipitsmarter.com/talecn/insert_shipment.asp?data_xml=<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>refh1012011cv300</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>";
+
+            WebRequest webRequest = WebRequest.Create(xmlData);
+            webRequest.Method = "POST";
+            webRequest.ContentLength = 0;
+            WebResponse webResp = webRequest.GetResponse();
+
             return null;
         }
 
@@ -147,6 +157,41 @@ namespace PI.Business
 
 
             return rateRequestUrl.ToString();
+        }
+
+        private string BuildAddShipmentXMLString(ShipmentDto addShipment)
+        {
+            // Retrieve username and password from service web.config file.
+            string sisUserName = "user@mitrai.com", sisPassword = "mitrai462", sisCompanyCode = "122";
+
+            // TODO : Get this from db.
+            string referenceNo = "testhp123hp123";
+            string accountNo = "12301230123";
+
+            StringBuilder shipmentStr = new StringBuilder();
+
+            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>",sisPassword,sisUserName,sisCompanyCode);
+            shipmentStr.AppendFormat("<output_type>XML</output_type>");
+            shipmentStr.AppendFormat("<action>STORE_AWB</action>");
+            shipmentStr.AppendFormat("<reference>{0}</reference>", referenceNo);
+            shipmentStr.AppendFormat("<account>{0}</account>", accountNo);
+            shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>",addShipment.CarrierInformation.CarrierName);
+
+
+            shipmentStr.AppendFormat("<address11>{0}</address11>",addShipment.AddressInformation.);
+            shipmentStr.AppendFormat("<service_level>EXPRESS</service_level>");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+            shipmentStr.AppendFormat("");
+
+            return null;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.RateSheets;
+﻿using PI.Contract.Business;
+using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace PI.Business
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consigner.Postalcode;
                 currentRateSheetDetails.country_from = currentShipment.AddressInformation.Consigner.Country;
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
-
+           
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
@@ -46,7 +47,7 @@ namespace PI.Business
                 currentRateSheetDetails.country_to = currentShipment.AddressInformation.Consignee.Country;
                 currentRateSheetDetails.code_country_to = currentShipment.AddressInformation.Consignee.Country;
 
-               
+
             }
             if (currentShipment.PackageDetails!=null)
             {
@@ -154,6 +155,15 @@ namespace PI.Business
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
 
         }
+
+        public string SubmitShipment(ShipmentDto addShipment)
+        {
+            ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+           
+            return sisManager.SubmitShipment(addShipment);
+        }
       
+
+        
     }
 }

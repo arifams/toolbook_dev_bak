@@ -11,9 +11,9 @@ namespace PI.Data.Entity
     {
         public string PackageDescription { get; set; }
         public decimal TotalWeight { get; set; }
-        public string WeightMetric { get; set; }
+        public short WeightMetricId { get; set; }
         public decimal TotalVolume { get; set; }
-        public string VolumeMetric { get; set; }
+        public short VolumeMetricId { get; set; }
         public string HSCode { get; set; }
         public DateTime CollectionDate { get; set; }
         public string CarrierInstruction { get; set; }
@@ -38,6 +38,15 @@ namespace PI.Data.Entity
 
         [ForeignKey("PaymentTypeId")]
         public PaymentType PaymentType { get; set; }
+
+        [ForeignKey("WeightMetricId")]
+        public WeightMetric WeightMetric { get; set; }
+
+        [ForeignKey("VolumeMetricId")]
+        public VolumeMetric VolumeMetric { get; set; }
+
+        [ForeignKey("InsuranceCurrencyType")]
+        public Currency Currency { get; set; }
 
         #endregion
     }

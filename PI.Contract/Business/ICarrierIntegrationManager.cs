@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs.RateSheets;
+using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace PI.Contract.Business
     {
        ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters);
 
-        string SubmitShipment(string xmlDetail);
+        string SubmitShipment(ShipmentDto addShipment);
 
         void DeleteShipment(string shipmentCode);       
 
