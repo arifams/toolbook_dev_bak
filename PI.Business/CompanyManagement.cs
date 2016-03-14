@@ -140,6 +140,32 @@ namespace PI.Business
         }
 
 
+        //Get costcenters by division Id
+        public IList<CostCenterDto> GetCostCentersbyDivision(string divisionId)
+        {
+            IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
+
+            using (var context = new PIContext())
+            {
+                var costCenters = from costcenter in context.CostCenters
+                                join ccdivision in context.DivisionCostCenters on costcenter.Id equals ccdivision.CostCenterId
+                                where ccdivision.DivisionId.ToString() == divisionId
+                                && ccdivision.IsActive==true
+                                  select costcenter;
+
+                foreach (var item in costCenters)
+                {
+                    costCenterList.Add(new CostCenterDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+            return costCenterList;
+        }
+
+
         /// <summary>
         /// Get all divisions by given filter criteria
         /// </summary>
@@ -304,7 +330,7 @@ namespace PI.Business
         {
             long comapnyId = this.GetCompanyByUserId(costCenter.UserId).Id;
 
-            using (var context = PIContext.Get())
+            using (var context = new PIContext())
             {
                // var isSpaceOrEmpty = String.IsNullOrWhiteSpace(costCenter.Description);
                 var isSameCostName = context.CostCenters.Where(c => c.CompanyId == comapnyId &&

@@ -97,6 +97,15 @@ namespace PI.Service.Controllers
             return costCenterList;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetCostCentersbyDivision")]
+        public IList<CostCenterDto> GetCostCentersbyDivision([FromUri]string divisionId)
+        {
+            IList<CostCenterDto> costCenterList = companyManagement.GetCostCentersbyDivision(divisionId);
+            return costCenterList;
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]

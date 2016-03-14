@@ -20,6 +20,7 @@
         vm.searchRates = false;
         vm.loadingRates = false;
         vm.divisionList = {};
+        vm.costcenterList = {};
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
@@ -45,9 +46,29 @@
                 vm.divisionList = responce;
                    
             }).error(function (error) {
-
+                console.log("error occurd while retrieving divisions");
             });
            
+        }
+
+        //get the cost centers according to the division
+        vm.selectDivision = function () {
+            var divisionId = vm.shipment.generalInformation.selectedDivision;
+            vm.costcenterList = {};
+            //  loadAssignedCostCenters
+            if (divisionId != '') {
+                shipmentFactory.loadAssignedCostCenters(divisionId).success(
+               function (responce) {
+
+                   vm.costcenterList = responce;
+
+               }).error(function (error) {
+
+                   console.log("error occurd while retrieving cost centers");
+               });
+
+            }
+            
         }
 
 
