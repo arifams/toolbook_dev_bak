@@ -102,19 +102,17 @@
     <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\Shipment\PackagePayment.cs" />
     <Compile Include="Entity\Shipment\PackageProduct.cs" />
-    <Compile Include="Entity\Shipment\PackageProductType.cs" />
     <Compile Include="Entity\Shipment\PaymentType.cs" />
     <Compile Include="Entity\RoleHierarchy.cs" />
     <Compile Include="Entity\Shipment\Shipment.cs" />
     <Compile Include="Entity\Shipment\ShipmentAddress.cs" />
-    <Compile Include="Entity\Shipment\ShipmentMode.cs" />
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
-    <Compile Include="Entity\Shipment\ShipmentTerm.cs" />
-    <Compile Include="Entity\Shipment\ShipmentType.cs" />
     <Compile Include="Entity\ShortIdBaseEntity.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Entity\UserInDivision.cs" />
+    <Compile Include="Entity\VolumeMetric.cs" />
+    <Compile Include="Entity\WeightMetric.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.cs" />
     <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
       <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>

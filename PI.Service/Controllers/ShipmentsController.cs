@@ -14,8 +14,6 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
-
-        //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("GetRatesforShipment")]
@@ -25,6 +23,13 @@ namespace PI.Service.Controllers
             return shipment.GetRateSheet(currentShipment);
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("SubmitShipment")]
+        public string SubmitShipment([FromBody]ShipmentDto addShipment)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            return shipment.SubmitShipment(addShipment);
+        }
     }
 }

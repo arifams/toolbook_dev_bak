@@ -40,14 +40,10 @@ namespace PI.Data
 
         // Shipment
         public DbSet<Shipment> Shipments { get; set; }
-        public DbSet<ShipmentMode> ShipmentModes { get; set; }
-        public DbSet<ShipmentType> ShipmentTypes { get; set; }
-        public DbSet<ShipmentTerm> ShipmentTerms { get; set; }
         public DbSet<ShipmentAddress> ShipmentAddresses { get; set; }
         public DbSet<ShipmentPackage> ShipmentPackages { get; set; }
         public DbSet<PackageProduct> PackageProducts { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
-        public DbSet<PackageProductType> PackageProductTypes { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")

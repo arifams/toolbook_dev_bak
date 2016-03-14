@@ -13,9 +13,9 @@ namespace PI.Data.Entity
         public string Name { get; set; }
         public long DivisionId { get; set; }
         public long CostCenterId { get; set; }
-        public short ShipmentModeId { get; set; }
-        public short ShipmentTypeId { get; set; }
-        public short ShipmentTermId { get; set; }
+        public short ShipmentModeCode { get; set; }
+        public short ShipmentTypeCode { get; set; }
+        public short ShipmentTermCode { get; set; }
 
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }
@@ -32,16 +32,7 @@ namespace PI.Data.Entity
 
         [ForeignKey("CostCenterId")]
         public virtual CostCenter CostCenter { get; set; }
-
-        [ForeignKey("ShipmentModeId")]
-        public virtual ShipmentMode ShipmentMode { get; set; }
-
-        [ForeignKey("ShipmentTypeId")]
-        public virtual ShipmentType ShipmentType { get; set; }
-
-        [ForeignKey("ShipmentTermId")]
-        public virtual ShipmentTerm ShipmentTerm { get; set; }
-
+        
         // Consignor and Consignee Information - Navigations
         [ForeignKey("ConsignorId")]
         public virtual ShipmentAddress ConsignorAddress { get; set; }

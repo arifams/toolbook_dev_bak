@@ -106,6 +106,30 @@ namespace PI.Data.Migrations
 
             //var adminUser = manager.FindByName("SuperPowerUser");
             //manager.AddToRoles(adminUser.Id, new string[] { "Admin" });
+
+            // Add records for shipments.
+            //context.ShipmentTypes.AddOrUpdate(
+            //    new Entity.ShipmentType() { Code = "DDP", Name = "Door to Door, Prepaid" },
+            //    new Entity.ShipmentType() { Code = "DPP", Name = "Door to Port, Prepaid" },
+            //    new Entity.ShipmentType() { Code = "PDP", Name = "Port to Door, Prepaid" },
+            //    new Entity.ShipmentType() { Code = "PPP", Name = "Port to Port, Prepaid" },
+            //    new Entity.ShipmentType() { Code = "FCA", Name = "Free Carrier" }
+            //);
+
+            //context.ShipmentTerms.AddOrUpdate(
+            //    new Entity.ShipmentTerm() { Code = "DDU", Name = "Delivered Duty Unpaid" },
+            //    new Entity.ShipmentTerm() { Code = "DDP", Name = "Delivered Duty Paid" },
+            //    new Entity.ShipmentTerm() { Code = "CIP", Name = "Carriage and Insurance Paid" },
+            //    new Entity.ShipmentTerm() { Code = "CPT", Name = "Carriage Paid To" },
+            //    new Entity.ShipmentTerm() { Code = "EXW", Name = "Ex Works" }
+            //);
+
+            //context.ShipmentModes.AddOrUpdate(
+            //    new Entity.ShipmentMode() { Name = "Express" },
+            //    new Entity.ShipmentMode() { Name = "Air Freight" },
+            //    new Entity.ShipmentMode() { Name = "Sea Freight" },
+            //    new Entity.ShipmentMode() { Name = "Road Freight" }
+            //);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.RateSheets;
+﻿using PI.Contract.Business;
+using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
@@ -24,5 +25,14 @@ namespace PI.Business
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
 
         }
+
+        public string SubmitShipment(ShipmentDto addShipment)
+        {
+            ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+           
+            return sisManager.SubmitShipment(addShipment);
+        }
+
+        
     }
 }

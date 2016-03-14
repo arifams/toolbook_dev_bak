@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class ShipmentTerm : ShortIdBaseEntity
+    public class WeightMetric : ShortIdBaseEntity
     {
         public string Name { get; set; }
     }
