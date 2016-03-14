@@ -49,6 +49,8 @@ namespace PI.Contract.DTOs.RateSheets
         public string max_volume { get; set; }
         public string package { get; set; }
         public string address1 { get; set; }
+        public string address2 { get; set; }
+        public string address4 { get; set; }
         public string street_number { get; set; }
         public string address3 { get; set; }
         public string postcode { get; set; }
@@ -56,11 +58,14 @@ namespace PI.Contract.DTOs.RateSheets
         public string code_country_from { get; set; }
         public string address11 { get; set; }
         public string address12 { get; set; }
+        public string address13 { get; set; }
+        public string address14 { get; set; }
         public string street_number_delivery { get; set; }
         public string postcode_delivery { get; set; }
         public string date_pickup { get; set; }
         public string time_pickup { get; set; }
         public string date_delivery_request { get; set; }
+        public string value { get; set; }
         public string delivery_condition { get; set; }
         public string weight_unit { get; set; }
         public string insurance_instruction { get; set; }

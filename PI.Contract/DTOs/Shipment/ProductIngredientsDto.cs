@@ -8,10 +8,10 @@ namespace PI.Contract.DTOs.Shipment
 {
     public class ProductIngredientsDto
     {
-        public long Quantity { get; set; }
-        public long Weight { get; set; }
-        public long Height { get; set; }
-        public long Length { get; set; }
-        public long Width { get; set; }
+        public double Quantity { get; set; }
+        public double Weight { get; set; }
+        public double Height { get; set; }
+        public double Length { get; set; }
+        public double Width { get; set; }
     }
 }
