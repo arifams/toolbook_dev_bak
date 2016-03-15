@@ -7,7 +7,9 @@
         return {
             calculateRates: calculateRates,
             loadAllDivisions: loadAllDivisions,
-            loadAssignedDivisions: loadAssignedDivisions
+            loadAssignedDivisions: loadAssignedDivisions,
+            loadAssignedCostCenters:loadAssignedCostCenters
+
         };
 
        
@@ -38,6 +40,16 @@
                 }
             });
 
+        }
+
+        function loadAssignedCostCenters(divisionid) {
+
+           // GetCostCentersbyDivision
+            return $http.get(serverBaseUrl + '/api/Company/GetCostCentersbyDivision', {
+                params: {
+                    divisionId: divisionid
+                }
+            });
         }
 
 
