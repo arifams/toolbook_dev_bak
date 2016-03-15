@@ -206,6 +206,7 @@
                 vm.shipment.CarrierInformation.pickupDate=row.pickup_date;
                 vm.shipment.CarrierInformation.deliveryTime=row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
+                vm.shipment.CarrierInformation.insurance = row.price * 1.1;
 
                 vm.shipment.CarrierInformation.serviceLevel= row.service_level
                 vm.shipment.CarrierInformation.tariffText  = row.tariff_text
