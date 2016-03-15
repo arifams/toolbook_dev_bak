@@ -336,12 +336,12 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address1" type="text" name="consigneraddress1" class="form-control" ng-required="true" placeholder="Address1"
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address1" type="text" name="consigneraddress1" class="form-control" ng-required="true" placeholder="Street name"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress1.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
                                      ng-show="consignerConsigneeInfoForm.consigneraddress1.$dirty || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneraddress1">Consigner Address1 is required</label>
+                                    <label ng-message="required" class="error" for="consigneraddress1">Consigner Street name is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneraddress1">Max length should be 200 characters</label>
                                 </div>
                             </div>
@@ -363,12 +363,12 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address1" type="text" name="consigneeaddress1" class="form-control" ng-required="true" placeholder="Address1"
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address1" type="text" name="consigneeaddress1" class="form-control" ng-required="true" placeholder="Street name"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeaddress1.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeaddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneeaddress1.$error"
                                      ng-show="consignerConsigneeInfoForm.consigneeaddress1.$dirty || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneeaddress1">Consignee Address1 is required</label>
+                                    <label ng-message="required" class="error" for="consigneeaddress1">Consignee Street name is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneeaddress1">Max length should be 200 characters</label>
                                 </div>
                             </div>
@@ -379,7 +379,7 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="Address2"
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="Street name 2"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress2.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneraddress2.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneraddress2.$error"
@@ -394,7 +394,7 @@
 
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address2" type="text" name="consigneeaddress2" class="form-control" placeholder="Address2"
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address2" type="text" name="consigneeaddress2" class="form-control" placeholder="Street name 2"
                                        ng-maxlength="200" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneeaddress2.$error"
                                      ng-show="consignerConsigneeInfoForm.consigneeaddress2.$dirty || shipmentCtrl.consignInfoisSubmit">
