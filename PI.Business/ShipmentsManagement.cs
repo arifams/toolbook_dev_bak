@@ -24,7 +24,7 @@ namespace PI.Business
             {
                 //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
                 // currentRateSheetDetails.
-                if (currentShipment.GeneralInformation.Express==true)
+                if (currentShipment.GeneralInformation.Express)
                 {
                     currentRateSheetDetails.courier = "UPSDHLFEDTNT";
                 }

@@ -80,27 +80,27 @@
 
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-success" ng-model="shipmentCtrl.shipment.generalInformation.express">Express</button>
+                                <button class="btn btn-dark"  ng-model="shipmentCtrl.shipment.generalInformation.express" ng-click="shipmentCtrl.selectExpress()"><strong id="express" class="text-danger">Express</strong> </button>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-success" ng-model="shipmentCtrl.shipment.generalInformation.airFreight">Air Freight</button>
+                                <button class="btn btn-dark" id="airFreight" ng-model="shipmentCtrl.shipment.generalInformation.airFreight" ng-click="shipmentCtrl.selectAir()"> <strong id="airFreight" class="text-danger">Air Freight</strong></button>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-success" ng-model="shipmentCtrl.shipment.generalInformation.seaFreight">Sea Freight</button>
+                                <button class="btn btn-dark" id="seaFreight" ng-model="shipmentCtrl.shipment.generalInformation.seaFreight" ng-click="shipmentCtrl.selectSea()"><strong id="seaFreight" class="text-danger">Sea Freight</strong></button>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-success" ng-model="shipmentCtrl.shipment.generalInformation.roadFreight">Road Freight</button>
+                                <button class="btn btn-dark" id="roadFreight" ng-model="shipmentCtrl.shipment.generalInformation.roadFreight" ng-click="shipmentCtrl.selectRoad()"><strong id="roadFreight" class="text-danger">Road Freight</strong></button>
                             </div>
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-success" ng-model="shipmentCtrl.shipment.generalInformation.all">Show All Options</button>
+                                <button class="btn btn-dark" id="all" ng-model="shipmentCtrl.shipment.generalInformation.all" ng-click="shipmentCtrl.selectall()"><strong id="all" class="text-danger">Show All Options</strong></button>
                             </div>
                         </div>
                     </div>
@@ -691,7 +691,7 @@
                                 <tbody>
                                     <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
                                         <td>
-                                            <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.productType"
+                                            <select class="form-control" ng-model="package.productType"
                                                     convert-to-number ng-options="sup.id as sup.supplierName for sup in shipmentCtrl.shipment.packageDetails.productTypes"></select>
                                         </td>
                                         <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
