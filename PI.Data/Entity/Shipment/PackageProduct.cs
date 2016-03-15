@@ -22,9 +22,6 @@ namespace PI.Data.Entity
         [ForeignKey("ShipmentPackageId")]
         public virtual ShipmentPackage ShipmentPackage { get; set; }
 
-        [ForeignKey("ProductTypeId")]
-        public virtual PackageProductType PackageProductType { get; set; }
-
         #endregion
     }
 }
