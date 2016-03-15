@@ -100,7 +100,6 @@
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\LongIdBaseEntity.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
-    <Compile Include="Entity\Shipment\PackagePayment.cs" />
     <Compile Include="Entity\Shipment\PackageProduct.cs" />
     <Compile Include="Entity\Shipment\PaymentType.cs" />
     <Compile Include="Entity\RoleHierarchy.cs" />
