@@ -19,7 +19,7 @@ namespace PI.Data.Entity
         public string CarrierInstruction { get; set; }
         public bool IsInsurance { get; set; }
         public decimal InsuranceDeclaredValue { get; set; }
-        public string InsuranceCurrencyType { get; set; }
+        public short InsuranceCurrencyType { get; set; }
 
         // Package payments
         public decimal CarrierCost { get; set; }

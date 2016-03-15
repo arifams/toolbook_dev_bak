@@ -166,30 +166,42 @@ namespace PI.Business
 
             // TODO : Get this from db.
             string referenceNo = "testhp123hp123";
-            string accountNo = "12301230123";
-
+            
             StringBuilder shipmentStr = new StringBuilder();
 
             shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>",sisPassword,sisUserName,sisCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", referenceNo);
-            shipmentStr.AppendFormat("<account>{0}</account>", accountNo);
+            shipmentStr.AppendFormat("<account>{0}</account>", 000001);  // Should be cost center - But for now send this value-: 000001
             shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>",addShipment.CarrierInformation.CarrierName);
+            shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);
+            shipmentStr.AppendFormat("<ind_dangerous>{0}</ind_dangerous>", "N");   // TODO: sprint 3 doesn't support for dangerous goods. So for this sprint this should be No
+            shipmentStr.AppendFormat("<ind_insurance>{0}</ind_insurance>", addShipment.PackageDetails.IsInsuared == "true" ? "Y" : "N");
+            shipmentStr.AppendFormat("<code_currency>{0}</code_currency>",addShipment.PackageDetails.ValueCurrency);
+            shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
+            shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
+            //shipmentStr.AppendFormat("<price>{0}</price>",);    // TODO: Get price from summary total
+            //shipmentStr.AppendFormat("<price_insurance>{0}</price_insurance>", ); // TODO: Comment this for now. - Will get clarification later.
 
+            // Get values for following fields from Dilshan code. --------------------------------------------------------------------------
+            //shipmentStr.AppendFormat("<weight>{0}</weight>",addShipment.PackageDetails.TotalWeight);
+            //shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>",);    // TODO: Get Unit
+            //shipmentStr.AppendFormat("<length>{0}</length>",); // TODO: Total length.
+            //shipmentStr.AppendFormat("<height>0</height>"); // TODO: Total height.
+            //shipmentStr.AppendFormat("<width>0</width>");   // TODO: Total width
+            //shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>",); // TODO:Volume unit
 
-            shipmentStr.AppendFormat("<address11>{0}</address11>",addShipment.AddressInformation.);
-            shipmentStr.AppendFormat("<service_level>EXPRESS</service_level>");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
-            shipmentStr.AppendFormat("");
+            //shipmentStr.AppendFormat("<package>{0}</package>",);    // TODO: This represent summary of package. So has different package types, use DIVERSE
+
+            // Consignor details.
+            //shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>",addShipment.AddressInformation.Consigner.Country);
+            //shipmentStr.AppendFormat("<address1>{0}</address1>", addShipment.AddressInformation.Consigner.Name);
+            //shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.);
+            //shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.);
+            //shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
+            //shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
+            //shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
 
             return null;
         }
