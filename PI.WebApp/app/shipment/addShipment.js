@@ -22,7 +22,14 @@
         vm.loadingRates = false;
         vm.divisionList = {};
         vm.costcenterList = {};
+        vm.Expressclass = "btn btn-success";
+        vm.Airclass = "btn btn-success";
+        vm.Seaclass = "btn btn-success";
+        vm.Roadclass = "btn btn-success";
+        vm.allclass = "btn btn-success";
 
+
+       
        
 
         //get the user and corporate status
@@ -206,6 +213,7 @@
                 vm.shipment.CarrierInformation.pickupDate=row.pickup_date;
                 vm.shipment.CarrierInformation.deliveryTime=row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
+                vm.shipment.CarrierInformation.insurance = row.price * 1.1;
 
                 vm.shipment.CarrierInformation.serviceLevel= row.service_level
                 vm.shipment.CarrierInformation.tariffText  = row.tariff_text
@@ -219,69 +227,44 @@
         //section to set the shipment mode
 
         vm.selectExpress = function () {
-
-            vm.shipment.generalInformation.express = true;
-            vm.shipment.generalInformation.airFreight = false;
-            vm.shipment.generalInformation.seaFreight = false;
-            vm.shipment.generalInformation.roadFreight = false;
-            vm.shipment.generalInformation.all = false;
-            $("#express").toggleClass("text-primary");
-            $("#airFreight").addClass("text-danger");
-            $("#seaFreight").addClass("text-danger");
-            $("#roadFreight").addClass("text-danger");
-            $("#all").addClass("text-danger");
+            vm.Expressclass = "btn btn-dark";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
+           
+           
         }
-        vm.selectAir = function () {
-            vm.shipment.generalInformation.express = false;
-            vm.shipment.generalInformation.airFreight = true;
-            vm.shipment.generalInformation.seaFreight = false;
-            vm.shipment.generalInformation.roadFreight = false;
-            vm.shipment.generalInformation.all = false;
-
-            $("#express").addClass("text-danger");
-            $("#airFreight").toggleClass("text-primary");
-            $("#seaFreight").addClass("text-danger");
-            $("#roadFreight").addClass("text-danger");
-            $("#all").addClass("text-danger");
+        vm.selectAir = function () {            
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-dark";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
         }
         vm.selectSea = function () {
-            vm.shipment.generalInformation.express = false;
-            vm.shipment.generalInformation.airFreight = false;
-            vm.shipment.generalInformation.seaFreight = true;
-            vm.shipment.generalInformation.roadFreight = false;
-            vm.shipment.generalInformation.all = false;
-
-            $("#express").addClass("text-danger");
-            $("#airFreight").addClass("text-danger");
-            $("#seaFreight").toggleClass("text-primary");
-            $("#roadFreight").addClass("text-danger");
-            $("#all").addClass("text-danger");
+           
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-dark";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
         }
         vm.selectRoad = function () {
-            vm.shipment.generalInformation.express = false;
-            vm.shipment.generalInformation.airFreight = false;
-            vm.shipment.generalInformation.seaFreight = false;
-            vm.shipment.generalInformation.roadFreight = true;
-            vm.shipment.generalInformation.all = false;
-
-            $("#express").addClass("text-danger");
-            $("#airFreight").addClass("text-danger");
-            $("#seaFreight").addClass("text-danger");
-            $("#roadFreight").toggleClass("text-primary");
-            $("#all").addClass("text-danger");
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-dark";
+            vm.allclass = "btn btn-success";
+            
         }
         vm.selectall = function () {
-            vm.shipment.generalInformation.express = false;
-            vm.shipment.generalInformation.airFreight = false;
-            vm.shipment.generalInformation.seaFreight = false;
-            vm.shipment.generalInformation.roadFreight = false;
-            vm.shipment.generalInformation.all = true;
-
-            $("#express").addClass("text-danger");
-            $("#airFreight").addClass("text-danger");
-            $("#seaFreight").addClass("text-danger");
-            $("#roadFreight").addClass("text-danger");
-            $("#all").toggleClass("text-primary");
+            
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-dark";
         }
 
 
