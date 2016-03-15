@@ -652,7 +652,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-6">
                                             <input type="number" step="0.001" name="totalVolume" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.packageDetails.shipment.totalVolume" ng-minlength="0.001" ng-disabled="true"
+                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalVolume" ng-minlength="0.001" ng-disabled="true"
                                                    ng-class="{ 'error': formPackage.totalVolume.$invalid && (formPackage.totalVolume.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
 
                                         </div>
@@ -694,11 +694,11 @@
                                             <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.productType"
                                                     convert-to-number ng-options="sup.id as sup.supplierName for sup in shipmentCtrl.shipment.packageDetails.productTypes"></select>
                                         </td>
-                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
                                         <td style="text-align:center">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
