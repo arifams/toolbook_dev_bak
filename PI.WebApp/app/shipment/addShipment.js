@@ -14,6 +14,7 @@
         vm.generalInfoisSubmit = false;
         vm.consignInfoisSubmit = false;
         vm.packageDetailsisSubmit = false;
+        vm.shipment.generalInformation = {};
         vm.shipment.packageDetails = {};
         vm.shipment.packageDetails.productIngredients = [{}];
         vm.shipment.CarrierInformation = {};
@@ -21,9 +22,33 @@
         vm.loadingRates = false;
         vm.divisionList = {};
         vm.costcenterList = {};
+
+       
+
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
+
+        vm.productTypes = [{ "Id": 1, "Name": "Document" },
+                                        { "Id": 2, "Name": "Pallet" },
+                                        { "Id": 3, "Name": "Euro Pallet" },
+                                        { "Id": 4, "Name": "Diverse" },
+                                        { "Id": 5, "Name": "Box" }
+        ];
+
+        vm.shipmentTerms = [{ "Id": 1, "Name": "Delivered Duty Unpaid (DDU)" },
+                                { "Id": 2, "Name": "Delivered Duty Paid (DDP)" },
+                                { "Id": 3, "Name": "Carriage and Insurance Paid (CIP)" },
+                                { "Id": 4, "Name": "Carriage Paid To (CPT)" },
+                                { "Id": 5, "Name": "Ex Works (EXW)" }
+        ];
+        vm.shipmentTypes = [{ "Id": 1, "Name": "Door to Door, Prepaid (DDP)" },
+                                { "Id": 2, "Name": "Door to Port, Prepaid (DPP)" },
+                                { "Id": 3, "Name": "Port to Door, Prepaid (PDP)" },
+                                { "Id": 4, "Name": "Port to Port, Prepaid (PPP)" },
+                                { "Id": 5, "Name": "Free Carrier (FCA)" }
+        ];
+
 
         //load the division list
         if (vm.currentRole == "BusinessOwner" || vm.currentRole == "Admin") {
@@ -125,6 +150,7 @@
         
         vm.addEmptyRow = function () {
             vm.shipment.packageDetails.productIngredients.push({});
+            vm.CalctotalWeightVolume();
         };
 
         vm.removePackage = function (index) {
@@ -132,7 +158,32 @@
             // if array length is 0, then one empty row will insert.
             if (vm.shipment.packageDetails.productIngredients.length == 0)
                 vm.addEmptyRow();
+            vm.CalctotalWeightVolume();
         };
+
+        //calculating the total volume and total weight
+        vm.CalctotalWeightVolume = function () {
+            var packages = vm.shipment.packageDetails.productIngredients;
+            var count = 0;
+            var totWeight = 0;
+            var totVolume = 0;
+
+            for (var i = 0; i < packages.length; i++) {
+
+                count = count + (packages[i].quantity != undefined ? packages[i].quantity : 0);
+
+                totWeight = totWeight + (packages[i].weight != undefined ? packages[i].weight : 0);
+
+                if (packages[i].height != undefined && packages[i].length != undefined && packages[i].width != undefined) {
+                    totVolume = totVolume + (packages[i].height * packages[i].length * packages[i].width);
+                }
+               
+
+            }
+            vm.shipment.packageDetails.totalWeight = totWeight;
+            vm.shipment.packageDetails.totalVolume = totVolume;
+            vm.shipment.packageDetails.count = count;
+        }
 
         //get the calculated rates
         vm.calculateRates = function () {
@@ -162,6 +213,75 @@
                 vm.shipment.CarrierInformation.currency = row.currency
                 
             }
+        }
+
+
+        //section to set the shipment mode
+
+        vm.selectExpress = function () {
+
+            vm.shipment.generalInformation.express = true;
+            vm.shipment.generalInformation.airFreight = false;
+            vm.shipment.generalInformation.seaFreight = false;
+            vm.shipment.generalInformation.roadFreight = false;
+            vm.shipment.generalInformation.all = false;
+            $("#express").toggleClass("text-primary");
+            $("#airFreight").addClass("text-danger");
+            $("#seaFreight").addClass("text-danger");
+            $("#roadFreight").addClass("text-danger");
+            $("#all").addClass("text-danger");
+        }
+        vm.selectAir = function () {
+            vm.shipment.generalInformation.express = false;
+            vm.shipment.generalInformation.airFreight = true;
+            vm.shipment.generalInformation.seaFreight = false;
+            vm.shipment.generalInformation.roadFreight = false;
+            vm.shipment.generalInformation.all = false;
+
+            $("#express").addClass("text-danger");
+            $("#airFreight").toggleClass("text-primary");
+            $("#seaFreight").addClass("text-danger");
+            $("#roadFreight").addClass("text-danger");
+            $("#all").addClass("text-danger");
+        }
+        vm.selectSea = function () {
+            vm.shipment.generalInformation.express = false;
+            vm.shipment.generalInformation.airFreight = false;
+            vm.shipment.generalInformation.seaFreight = true;
+            vm.shipment.generalInformation.roadFreight = false;
+            vm.shipment.generalInformation.all = false;
+
+            $("#express").addClass("text-danger");
+            $("#airFreight").addClass("text-danger");
+            $("#seaFreight").toggleClass("text-primary");
+            $("#roadFreight").addClass("text-danger");
+            $("#all").addClass("text-danger");
+        }
+        vm.selectRoad = function () {
+            vm.shipment.generalInformation.express = false;
+            vm.shipment.generalInformation.airFreight = false;
+            vm.shipment.generalInformation.seaFreight = false;
+            vm.shipment.generalInformation.roadFreight = true;
+            vm.shipment.generalInformation.all = false;
+
+            $("#express").addClass("text-danger");
+            $("#airFreight").addClass("text-danger");
+            $("#seaFreight").addClass("text-danger");
+            $("#roadFreight").toggleClass("text-primary");
+            $("#all").addClass("text-danger");
+        }
+        vm.selectall = function () {
+            vm.shipment.generalInformation.express = false;
+            vm.shipment.generalInformation.airFreight = false;
+            vm.shipment.generalInformation.seaFreight = false;
+            vm.shipment.generalInformation.roadFreight = false;
+            vm.shipment.generalInformation.all = true;
+
+            $("#express").addClass("text-danger");
+            $("#airFreight").addClass("text-danger");
+            $("#seaFreight").addClass("text-danger");
+            $("#roadFreight").addClass("text-danger");
+            $("#all").toggleClass("text-primary");
         }
 
 
