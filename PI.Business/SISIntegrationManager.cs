@@ -40,9 +40,9 @@ namespace PI.Business
 
         public string SubmitShipment(ShipmentDto addShipment)
         {
-            string xmlData = BuildAddShipmentXMLString(addShipment);
+            string xmlData = string.Format("{0}{1}", "http://www2.shipitsmarter.com/taleus/insert_shipment.asp?data_xml=", BuildAddShipmentXMLString(addShipment));
 
-            //xmlData = "http://www2.shipitsmarter.com/talecn/insert_shipment.asp?data_xml=<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>refh1012011cv300</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>";
+            //xmlData = "http://www2.shipitsmarter.com/taleus/insert_shipment.asp?data_xml=<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>refh1012011cv300</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>";
 
             WebRequest webRequest = WebRequest.Create(xmlData);
             webRequest.Method = "POST";
@@ -195,13 +195,51 @@ namespace PI.Business
             //shipmentStr.AppendFormat("<package>{0}</package>",);    // TODO: This represent summary of package. So has different package types, use DIVERSE
 
             // Consignor details.
-            //shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>",addShipment.AddressInformation.Consigner.Country);
-            //shipmentStr.AppendFormat("<address1>{0}</address1>", addShipment.AddressInformation.Consigner.Name);
-            //shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.);
-            //shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.);
-            //shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
-            //shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
-            //shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
+            shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
+            shipmentStr.AppendFormat("<address1>{0}</address1>", addShipment.AddressInformation.Consigner.Name);
+            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1);
+            shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
+            shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
+            shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
+            shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
+            shipmentStr.AppendFormat("<code_state_from>{0}</code_state_from>", addShipment.AddressInformation.Consigner.State);
+
+            // Consignee details.
+            shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
+            shipmentStr.AppendFormat("<address11>{0}</address11>", addShipment.AddressInformation.Consignee.Name);
+            shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);
+            shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
+            shipmentStr.AppendFormat("<address14>{0}</address14>", addShipment.AddressInformation.Consignee.City);
+            shipmentStr.AppendFormat("<postcode_delivery>{0}</postcode_delivery>", addShipment.AddressInformation.Consignee.Postalcode);
+            shipmentStr.AppendFormat("<street_number_delivery>{0}</street_number_delivery>", addShipment.AddressInformation.Consignee.Number);
+            shipmentStr.AppendFormat("<code_state_to>{0}</code_state_to>", addShipment.AddressInformation.Consignee.State);
+
+            // Summary of packages.
+            shipmentStr.AppendFormat("<description>{0}</description>", addShipment.PackageDetails.ShipmentDescription);
+            //shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", "");
+            shipmentStr.AppendFormat("<value>{0}</value>", addShipment.PackageDetails.DeclaredValue);
+            shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", addShipment.PackageDetails.ValueCurrency);
+
+            double totalCountOfPackages = 0;
+            addShipment.PackageDetails.ProductIngredients.Select(e => totalCountOfPackages += e.Quantity);
+
+            shipmentStr.AppendFormat("<pieces>{0}</pieces>", totalCountOfPackages);
+            shipmentStr.AppendFormat("<shipment_lines>{0}</shipment_lines>", addShipment.PackageDetails.ProductIngredients.Count);
+
+            short lineCount = 1;
+            foreach (var lineItem in addShipment.PackageDetails.ProductIngredients)
+            {
+                shipmentStr.AppendFormat("shipment_line id='" + lineCount + "'");
+                //shipmentStr.AppendFormat("<package>{0}</package>", addShipment.PackageDetails.ProductIngredients[0].);
+                shipmentStr.AppendFormat("<weight>{0}</weight>", lineItem.Weight);
+                shipmentStr.AppendFormat("<quantity>{0}</quantity>", lineItem.Quantity);
+                shipmentStr.AppendFormat("<width>{0}</width>", lineItem.Width);
+                shipmentStr.AppendFormat("<length>{0}</length>", lineItem.Length);
+                shipmentStr.AppendFormat("<height>{0}</height>", lineItem.Height);
+                shipmentStr.AppendFormat("</shipment_line>");
+                lineCount++;
+            }
+            shipmentStr.AppendFormat("</insert_shipment>");
 
             return null;
         }

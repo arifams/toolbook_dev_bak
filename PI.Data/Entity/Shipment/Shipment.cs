@@ -13,9 +13,9 @@ namespace PI.Data.Entity
         public string Name { get; set; }
         public long DivisionId { get; set; }
         public long CostCenterId { get; set; }
-        public short ShipmentModeCode { get; set; }
-        public short ShipmentTypeCode { get; set; }
-        public short ShipmentTermCode { get; set; }
+        public short ShipmentModeId { get; set; }
+        public short ShipmentTypeId { get; set; }
+        public short ShipmentTermId { get; set; }
 
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }
