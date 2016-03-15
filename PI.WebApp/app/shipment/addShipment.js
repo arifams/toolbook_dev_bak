@@ -22,7 +22,14 @@
         vm.loadingRates = false;
         vm.divisionList = {};
         vm.costcenterList = {};
+        vm.Expressclass = "btn btn-success";
+        vm.Airclass = "btn btn-success";
+        vm.Seaclass = "btn btn-success";
+        vm.Roadclass = "btn btn-success";
+        vm.allclass = "btn btn-success";
 
+
+       
        
 
         //get the user and corporate status
@@ -217,7 +224,48 @@
         }
 
 
-        //section to set the shipment mode        
+        //section to set the shipment mode
+
+        vm.selectExpress = function () {
+            vm.Expressclass = "btn btn-dark";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
+           
+           
+        }
+        vm.selectAir = function () {            
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-dark";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
+        }
+        vm.selectSea = function () {
+           
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-dark";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-success";
+        }
+        vm.selectRoad = function () {
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-dark";
+            vm.allclass = "btn btn-success";
+            
+        }
+        vm.selectall = function () {
+            
+            vm.Expressclass = "btn btn-success";
+            vm.Airclass = "btn btn-success";
+            vm.Seaclass = "btn btn-success";
+            vm.Roadclass = "btn btn-success";
+            vm.allclass = "btn btn-dark";
+        }
 
 
     }]);
