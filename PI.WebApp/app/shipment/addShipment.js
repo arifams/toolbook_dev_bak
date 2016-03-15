@@ -25,6 +25,27 @@
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
 
+        vm.productTypes = [{ "Id": 1, "Name": "Document" },
+                                        { "Id": 2, "Name": "Pallet" },
+                                        { "Id": 3, "Name": "Euro Pallet" },
+                                        { "Id": 4, "Name": "Diverse" },
+                                        { "Id": 5, "Name": "Box" }
+        ];
+
+        vm.shipmentTerms = [{ "Id": 1, "Name": "Delivered Duty Unpaid (DDU)" },
+                                { "Id": 2, "Name": "Delivered Duty Paid (DDP)" },
+                                { "Id": 3, "Name": "Carriage and Insurance Paid (CIP)" },
+                                { "Id": 4, "Name": "Carriage Paid To (CPT)" },
+                                { "Id": 5, "Name": "Ex Works (EXW)" }
+        ];
+        vm.shipmentTypes = [{ "Id": 1, "Name": "Door to Door, Prepaid (DDP)" },
+                                { "Id": 2, "Name": "Door to Port, Prepaid (DPP)" },
+                                { "Id": 3, "Name": "Port to Door, Prepaid (PDP)" },
+                                { "Id": 4, "Name": "Port to Port, Prepaid (PPP)" },
+                                { "Id": 5, "Name": "Free Carrier (FCA)" }
+        ];
+
+
         //load the division list
         if (vm.currentRole == "BusinessOwner" || vm.currentRole == "Admin") {
             // shipmentFactory.

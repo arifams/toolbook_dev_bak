@@ -1,0 +1,7 @@
+﻿[
+    { "Id": 1, "Name": "Door to Door, Prepaid(DDP)" },
+    { "Id": 2, "Name": "Door to Port, Prepaid(DPP)" },
+    { "Id": 3, "Name": "Port to Door, Prepaid(PDP)" },
+    { "Id": 4, "Name": "Port to Port, Prepaid(PPP)" },
+    { "Id": 5, "Name": "Free Carrier(FCA)" }
+]

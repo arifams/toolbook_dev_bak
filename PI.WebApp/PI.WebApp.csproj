@@ -81,6 +81,9 @@
     <Content Include="app\userRegistration\termsAndConditions.html" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
+    <None Include="app\shipment\jsonResourceFiles\shipmentTypes.json" />
+    <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
+    <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
     <Content Include="packages.config" />
