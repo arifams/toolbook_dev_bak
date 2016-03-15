@@ -12,7 +12,7 @@ namespace PI.Contract.DTOs.Shipment
         public long SelectedDivision { get; set; }
         public long SelectedCostCenter { get; set; }
         public bool Express { get; set; }
-        public bool EirFreight { get; set; }
+        public bool AirFreight { get; set; }
         public bool SeaFreight { get; set; }
         public bool RoadFreight { get; set; }
         public bool All { get; set; }

@@ -125,6 +125,7 @@
         
         vm.addEmptyRow = function () {
             vm.shipment.packageDetails.productIngredients.push({});
+            vm.CalctotalWeightVolume
         };
 
         vm.removePackage = function (index) {
@@ -133,6 +134,23 @@
             if (vm.shipment.packageDetails.productIngredients.length == 0)
                 vm.addEmptyRow();
         };
+
+        //calculating the total volume and total weight
+        vm.CalctotalWeightVolume = function () {
+            var packages = vm.shipmentCtrl.shipment.packageDetails.productIngredients;
+            var count = 0;
+            var totWeight = 0;
+            var totVolume = 0;
+
+            for (var i = 0; i < packages.length; i++) {
+
+                count = count + packages[i].quantity;
+                totWeight = totWeight + packages[i].weight;
+                totVolume = totVolume + (packages[i].height * packages[i].length * packages[i].width);
+
+            }
+           
+        }
 
         //get the calculated rates
         vm.calculateRates = function () {

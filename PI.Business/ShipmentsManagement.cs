@@ -22,8 +22,32 @@ namespace PI.Business
             }
             if (currentShipment.GeneralInformation!=null)
             {
-              //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
-               // currentRateSheetDetails.
+                //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
+                // currentRateSheetDetails.
+                if (currentShipment.GeneralInformation.Express==true)
+                {
+                    currentRateSheetDetails.courier = "UPSDHLFEDTNT";
+                }
+                else if (currentShipment.GeneralInformation.AirFreight)
+                {
+                    currentRateSheetDetails.courier_air = "EME";
+                }
+                else if (currentShipment.GeneralInformation.SeaFreight)
+                {
+                    currentRateSheetDetails.courier_sea = "EME";
+                }
+                else if (currentShipment.GeneralInformation.RoadFreight)
+                {
+                    currentRateSheetDetails.courier_road = "EME";
+                }
+                else
+                {
+                    //select all shipment modes
+                    currentRateSheetDetails.courier = "UPSDHLFEDTNT";
+                    currentRateSheetDetails.courier_air = "EME";
+                    currentRateSheetDetails.courier_sea = "EME";
+                    currentRateSheetDetails.courier_road = "EME";
+                }
             }
             if (currentShipment.AddressInformation!=null)
             {
@@ -119,13 +143,9 @@ namespace PI.Business
             currentRateSheetDetails.type = "selectkmnetworkroad";
             currentRateSheetDetails.fieldname4 = "shipment_price";
             currentRateSheetDetails.fieldname1 = "price";
-            currentRateSheetDetails.sell_buy = "";
-            currentRateSheetDetails.courier = "UPSDHLFEDTNT";
-            currentRateSheetDetails.courier_km = "";
-            currentRateSheetDetails.courier_air = "EME";
-            currentRateSheetDetails.courier_road = "";
-            currentRateSheetDetails.courier_tariff_base = "";
-            currentRateSheetDetails.courier_sea = "";
+            currentRateSheetDetails.sell_buy = "";          
+            currentRateSheetDetails.courier_km = "";     
+            currentRateSheetDetails.courier_tariff_base = "";           
             currentRateSheetDetails.courier_date_pickup_transition = "";
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";

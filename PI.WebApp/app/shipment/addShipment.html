@@ -626,7 +626,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-6">
                                             <input type="number" step="0.001" name="totalWeight" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" ng-minlength="0.001"
+                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" ng-minlength="0.001"  ng-disabled="true"
                                                    ng-class="{ 'error': formPackage.totalWeight.$invalid && (formPackage.totalWeight.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
 
                                         </div>
@@ -652,7 +652,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-6">
                                             <input type="number" step="0.001" name="totalVolume" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.packageDetails.shipment.totalVolume" ng-minlength="0.001"
+                                                   required autofocus ng-model="shipmentCtrl.packageDetails.shipment.totalVolume" ng-minlength="0.001" ng-disabled="true"
                                                    ng-class="{ 'error': formPackage.totalVolume.$invalid && (formPackage.totalVolume.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
 
                                         </div>
