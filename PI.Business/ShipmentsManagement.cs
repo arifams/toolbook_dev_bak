@@ -87,6 +87,7 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
+                bool diversed = false;
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
@@ -94,9 +95,10 @@ namespace PI.Business
                     {
                         package = item.ProductType;
                     }
-                    if (count>0 && package!=item.ProductType)
+                    if (count>0 && package!=item.ProductType && !diversed)
                     {
                         package = "DIVERSE";
+                        diversed = true;
                     }
 
                     if (item.Length>maxLength)
@@ -121,7 +123,7 @@ namespace PI.Business
                     pieces = pieces + item.Quantity;
                     volume = volume+ item.Length * item.Width * item.Height * item.Quantity;
                     weight = weight+ item.Weight * item.Quantity;
-
+                    count++;
                 }
                 maxdimension = maxLength + (maxWidth * 2) + (maxHeight * 2);
                 maxVolume = maxLength * maxWidth * maxHeight;
