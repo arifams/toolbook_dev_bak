@@ -85,9 +85,20 @@ namespace PI.Business
                 double maxVolume = 0;
                 double weight = 0;
                 double maxWeight = 0;
+                string package = string.Empty;
+                int count = 0;
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
+                    if (count==0)
+                    {
+                        package = item.ProductType;
+                    }
+                    if (count>0 && package!=item.ProductType)
+                    {
+                        package = "DIVERSE";
+                    }
+
                     if (item.Length>maxLength)
                     {
                         maxLength = item.Length;
@@ -104,6 +115,7 @@ namespace PI.Business
                     {
                         maxWeight = item.Weight;
                     }
+                   
 
                     surface = surface +(item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
@@ -129,6 +141,7 @@ namespace PI.Business
                 currentRateSheetDetails.volume = volume.ToString();
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue;
+                currentRateSheetDetails.package = package;
 
 
             }
@@ -151,7 +164,7 @@ namespace PI.Business
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
             currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
-            currentRateSheetDetails.package = "DOCUMENT";
+            
             currentRateSheetDetails.code_currency = "USD";
            
             currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
