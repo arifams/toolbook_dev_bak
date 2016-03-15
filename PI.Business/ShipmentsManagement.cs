@@ -87,7 +87,7 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
-                bool diversed = false;
+              
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
@@ -95,10 +95,9 @@ namespace PI.Business
                     {
                         package = item.ProductType;
                     }
-                    if (count>0 && package!=item.ProductType && !diversed)
+                    if (count>0 && package!=item.ProductType && package!= "DIVERSE")
                     {
-                        package = "DIVERSE";
-                        diversed = true;
+                        package = "DIVERSE";                      
                     }
 
                     if (item.Length>maxLength)
@@ -144,7 +143,23 @@ namespace PI.Business
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue;
                 currentRateSheetDetails.package = package;
+                if (currentShipment.PackageDetails.CmLBS)
+                {
+                    currentRateSheetDetails.weight_unit = "kg";
+                }
+                else
+                {
+                    currentRateSheetDetails.weight_unit = "lbs";
+                }
 
+                if (currentShipment.PackageDetails.VolumeCMM)
+                {
+                    currentRateSheetDetails.volume_unit = "cm";
+                }
+                else
+                {
+                    currentRateSheetDetails.volume_unit = "m";
+                }
 
             }
             //hardcoded values for now
@@ -172,11 +187,9 @@ namespace PI.Business
             currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             currentRateSheetDetails.time_pickup = "12:51";
             currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
-            currentRateSheetDetails.delivery_condition = "DD-DDU-PP";
-            currentRateSheetDetails.weight_unit = "kg";
+            currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
            currentRateSheetDetails.insurance_instruction = "N";
-           currentRateSheetDetails.sort = "PRICE";
-           currentRateSheetDetails.volume_unit = "cm";
+           currentRateSheetDetails.sort = "PRICE";         
            currentRateSheetDetails.inbound = "N"; 
            currentRateSheetDetails.dg = "NO";
            currentRateSheetDetails.dg_type = "";
