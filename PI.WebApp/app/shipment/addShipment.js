@@ -36,17 +36,17 @@
                                         { "Id": 5, "Name": "Box" }
         ];
 
-        vm.shipmentTerms = [{ "Id": 1, "Name": "Delivered Duty Unpaid (DDU)" },
-                                { "Id": 2, "Name": "Delivered Duty Paid (DDP)" },
-                                { "Id": 3, "Name": "Carriage and Insurance Paid (CIP)" },
-                                { "Id": 4, "Name": "Carriage Paid To (CPT)" },
-                                { "Id": 5, "Name": "Ex Works (EXW)" }
+        vm.shipmentTerms = [{ "Id": "DDU", "Name": "Delivered Duty Unpaid (DDU)" },
+                                { "Id": "DDP", "Name": "Delivered Duty Paid (DDP)" },
+                                { "Id": "CIP", "Name": "Carriage and Insurance Paid (CIP)" },
+                                { "Id": "CPT", "Name": "Carriage Paid To (CPT)" },
+                                { "Id": "EXW", "Name": "Ex Works (EXW)" }
         ];
-        vm.shipmentTypes = [{ "Id": 1, "Name": "Door to Door, Prepaid (DDP)" },
-                                { "Id": 2, "Name": "Door to Port, Prepaid (DPP)" },
-                                { "Id": 3, "Name": "Port to Door, Prepaid (PDP)" },
-                                { "Id": 4, "Name": "Port to Port, Prepaid (PPP)" },
-                                { "Id": 5, "Name": "Free Carrier (FCA)" }
+        vm.shipmentTypes = [{ "Id": "DD-PP", "Name": "Door to Door, Prepaid (DD-PP)" },
+                                { "Id": "DP-PP", "Name": "Door to Port, Prepaid (DP-PP)" },
+                                { "Id": "PD-PP", "Name": "Port to Door, Prepaid (PD-PP)" },
+                                { "Id": "PP-PP", "Name": "Port to Port, Prepaid (PP-PP)" },
+                                { "Id": "FCA", "Name": "Free Carrier (FCA)" }
         ];
 
 
@@ -78,7 +78,7 @@
 
         //get the cost centers according to the division
         vm.selectDivision = function () {
-            var divisionId = vm.shipment.generalInformation.selectedDivision;
+            var divisionId = vm.shipment.generalInformation.divisionId;
             vm.costcenterList = {};
             //  loadAssignedCostCenters
             if (divisionId != '') {

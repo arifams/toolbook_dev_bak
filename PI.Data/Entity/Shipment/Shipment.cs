@@ -10,7 +10,7 @@ namespace PI.Data.Entity
     public class Shipment : LongIdBaseEntity
     {
         // General Information
-        public string Name { get; set; }
+        public string ShipmentName { get; set; }
         public long DivisionId { get; set; }
         public long CostCenterId { get; set; }
         public short ShipmentModeId { get; set; }

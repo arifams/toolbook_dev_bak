@@ -46,7 +46,7 @@
                                 <div class="option-group">
                                     <select class="form-control"
                                             convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
-                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.selectedDivision" ng-change="shipmentCtrl.selectDivision()" ng-required="true">
+                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()" ng-required="true">
                                         <option value="">-Select Division-</option>
                                     </select>
                                 </div>
@@ -62,8 +62,8 @@
                             <div class="form-group">
                                 <div class="option-group">
                                     <select class="form-control"
-                                            convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList" 
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.selectedCostCenter" ng-change="selectCostCenter()">
+                                            convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
+                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId" ng-change="selectCostCenter()">
                                         <option value="">-Select Cost Center-</option>
                                     </select>
                                 </div>
