@@ -1,0 +1,7 @@
+﻿[
+    { "Id": 1, "Name": "Document" },
+    { "Id": 2, "Name": "Pallet" },
+    { "Id": 3, "Name": "Euro Pallet" },
+    { "Id": 4, "Name": "Diverse" },
+    { "Id": 5, "Name": "Box" }
+]   

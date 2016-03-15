@@ -44,7 +44,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select  class="form-control"
+                                    <select class="form-control"
                                             convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
                                             name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.selectedDivision" ng-change="shipmentCtrl.selectDivision()" ng-required="true">
                                         <option value="">-Select Division-</option>
@@ -61,7 +61,7 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select  class="form-control"
+                                    <select class="form-control"
                                             convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList" 
                                             name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.selectedCostCenter" ng-change="selectCostCenter()">
                                         <option value="">-Select Cost Center-</option>
@@ -113,9 +113,10 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="division" multiple class="form-control"
-                                            convert-to-number ng-options="type.id as type.name for type in shipmentTypeList"
-                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.selectedShipmentType" ng-change="selectShipmentType(); ">
+                                    <select id="shipmentType" class="form-control"
+                                            convert-to-number ng-options="type.Id as type.Name for type in shipmentCtrl.shipmentTypes"
+                                            name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.selectedShipmentType"
+                                            ng-change="selectShipmentType(); ">
                                         <option value="">-Select Shipment Type-</option>
                                     </select>
                                 </div>
@@ -130,8 +131,9 @@
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="costcenter" multiple class="form-control"
-                                            convert-to-number ng-options="term.id as term.name for term in shipmentTermList"
+                                    <div class="option-group">
+                                        <select id="costcenter" class="form-control"
+                                                convert-to-number ng-options="term.Id as term.Name for term in shipmentCtrl.shipmentTerms"
                                             name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.selectedShipmentTerm" ng-change="selectShipmentTerm()">
                                         <option value="">Select shipment Term</option>
                                     </select>
@@ -626,7 +628,7 @@
                                     <div class="form-group">
                                         <div class="col-sm-6">
                                             <input type="number" step="0.001" name="totalWeight" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" ng-minlength="0.001"  ng-disabled="true"
+                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" ng-minlength="0.001" ng-disabled="true"
                                                    ng-class="{ 'error': formPackage.totalWeight.$invalid && (formPackage.totalWeight.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
 
                                         </div>
@@ -692,13 +694,12 @@
                                     <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
                                         <td>
                                             <select class="form-control" ng-model="package.productType"
-                                                    convert-to-number ng-options="sup.id as sup.supplierName for sup in shipmentCtrl.shipment.packageDetails.productTypes"></select>
-                                        </td>
-                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()"/></td>
+                                                    convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes"></select>                                        </td>
+                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
                                         <td style="text-align:center">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
@@ -811,7 +812,7 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input  type="text" name="shipmentname" class="form-control" disabled
+                                <input type="text" name="shipmentname" class="form-control" disabled
                                        ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentName}}" />
                             </div>
                         </div>
@@ -845,7 +846,7 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input  type="text" name="consignerDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consignee.name}}"
+                                <input type="text" name="consignerDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consignee.name}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -856,7 +857,7 @@
                         </div>
                         <div class="col-sm-10">
                             <div class="form-group">
-                                <input  type="text" name="consigneeDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consigner.name}}"
+                                <input type="text" name="consigneeDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consigner.name}}"
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -908,7 +909,7 @@
                     </div>
                    
 
-                    <div class="CareeDetailsTable"  collapse="shipmentCtrl.searchRates!=true">
+                    <div class="CareeDetailsTable" collapse="shipmentCtrl.searchRates!=true">
 
                         <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-striped">
                             <thead>
