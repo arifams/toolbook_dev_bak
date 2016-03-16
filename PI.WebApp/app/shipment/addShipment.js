@@ -17,6 +17,9 @@
         vm.shipment.generalInformation = {};
         vm.shipment.packageDetails = {};
         vm.shipment.packageDetails.productIngredients = [{}];
+        vm.shipment.addressInformation = {};
+        vm.shipment.addressInformation.consigner = {};
+        vm.shipment.addressInformation.consignee = {};
         vm.shipment.CarrierInformation = {};
         vm.searchRates = false;
         vm.loadingRates = false;
@@ -295,6 +298,38 @@
 
                             });
         }
+
+        // In production remove this.
+        vm.textChangeOfName = function () {
+           
+            if (vm.shipment.generalInformation.shipmentName == "code123") {
+
+                vm.shipment.addressInformation.consigner = {};
+                vm.shipment.addressInformation.consigner.name = 'Comp1';
+                vm.shipment.addressInformation.consigner.country = 'US';
+                vm.shipment.addressInformation.consigner.postalcode = '94404';
+                vm.shipment.addressInformation.consigner.number = '901';
+                vm.shipment.addressInformation.consigner.address1 = 'Mariners Island Boulevard';
+                vm.shipment.addressInformation.consigner.address2 = '';
+                vm.shipment.addressInformation.consigner.city = 'San Mateo';
+                vm.shipment.addressInformation.consigner.state = 'CA';
+                vm.shipment.addressInformation.consigner.email = 'test1@yopmail.com';
+                vm.shipment.addressInformation.consigner.contactNumber = '1111111111';
+
+                vm.shipment.addressInformation.consignee = {};
+                vm.shipment.addressInformation.consignee.name = 'Comp2';
+                vm.shipment.addressInformation.consignee.country = 'US';
+                vm.shipment.addressInformation.consignee.postalcode = '94405';
+                vm.shipment.addressInformation.consignee.number = '902';
+                vm.shipment.addressInformation.consignee.address1 = 'Mariners Island Boulevard';
+                vm.shipment.addressInformation.consignee.address2 = '';
+                vm.shipment.addressInformation.consignee.city = 'San Mateo';
+                vm.shipment.addressInformation.consignee.state = 'CA';
+                vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
+                vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
+
+            }
+        };
 
     }]);
 
