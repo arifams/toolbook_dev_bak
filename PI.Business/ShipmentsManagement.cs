@@ -210,7 +210,7 @@ namespace PI.Business
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
            
-            // return sisManager.SubmitShipment(addShipment);
+              sisManager.SubmitShipment(addShipment);
 
             //If response is successfull save the shipment in DB.
             using (PIContext context = new PIContext())
