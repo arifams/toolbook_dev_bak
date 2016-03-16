@@ -1,6 +1,7 @@
 ﻿using PI.Contract.Business;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -10,6 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 
 namespace PI.Business
@@ -41,16 +43,28 @@ namespace PI.Business
 
         public string SubmitShipment(ShipmentDto addShipment)
         {
-            string xmlData = string.Format("{0}{1}", "http://www2.shipitsmarter.com/taleus/insert_shipment.asp?data_xml=", BuildAddShipmentXMLString(addShipment));
+            // Working sample xml data
+            // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
 
-            //xmlData = "http://www2.shipitsmarter.com/taleus/insert_shipment.asp?data_xml=<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>refh1012011cv300</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>";
+            string baseSISUrl = "http://www2.shipitsmarter.com/taleus/insert_shipment.asp";
+            string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
+            AddShipmentResponse myObject = null;
 
-            WebRequest webRequest = WebRequest.Create(xmlData);
-            webRequest.Method = "POST";
-            webRequest.ContentLength = 0;
-            WebResponse webResp = webRequest.GetResponse();
+            using (var wb = new WebClient())
+            {
+                var data = new NameValueCollection();
+                data["data_xml"] = addShipmentXML;
 
-            return null;
+                var response = wb.UploadValues(baseSISUrl, "POST", data);
+                var responseString = Encoding.Default.GetString(response);
+
+                XDocument doc = XDocument.Parse(responseString);
+
+                XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
+                myObject = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+            }
+
+            return myObject != null ? myObject.StatusShipment : "Error";
         }
 
         public void DeleteShipment(string shipmentCode)
@@ -181,20 +195,27 @@ namespace PI.Business
             string sisUserName = "user@mitrai.com", sisPassword = "mitrai462", sisCompanyCode = "122";
 
             // TODO : Get this from db.
-            string referenceNo = "testhp123hp123";
-            
+            string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff"); //"hpcdabc127";
+
+            string codeCurrenyString = "";
+            using (var context = new PIContext())
+            {
+                codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
+            }
+
             StringBuilder shipmentStr = new StringBuilder();
 
             shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>",sisPassword,sisUserName,sisCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", referenceNo);
-            shipmentStr.AppendFormat("<account>{0}</account>", 000001);  // Should be cost center - But for now send this value-: 000001
+            shipmentStr.AppendFormat("<account>{0}</account>", "000001");  // Should be cost center - But for now send this value-: 000001
             shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>",addShipment.CarrierInformation.CarrierName);
-            shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);
+            //shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.GeneralInformation.ShipmentMode);  // TODO: With this pickup date issue encounter.
             shipmentStr.AppendFormat("<ind_dangerous>{0}</ind_dangerous>", "N");   // TODO: sprint 3 doesn't support for dangerous goods. So for this sprint this should be No
             shipmentStr.AppendFormat("<ind_insurance>{0}</ind_insurance>", addShipment.PackageDetails.IsInsuared == "true" ? "Y" : "N");
-            shipmentStr.AppendFormat("<code_currency>{0}</code_currency>",addShipment.PackageDetails.ValueCurrency);
+            shipmentStr.AppendFormat("<code_currency>{0}</code_currency>", codeCurrenyString);
+            shipmentStr.AppendFormat("<date_pickup>{0}</date_pickup>", addShipment.PackageDetails.PreferredCollectionDate);   //"18-Mar-2016"
             shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
             shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
             shipmentStr.AppendFormat("<price>{0}</price>",(addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
@@ -233,10 +254,10 @@ namespace PI.Business
             shipmentStr.AppendFormat("<description>{0}</description>", addShipment.PackageDetails.ShipmentDescription);
             shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", "DD-DDP-PP");  // TODO: Change this after get values from view.
             shipmentStr.AppendFormat("<value>{0}</value>", addShipment.PackageDetails.DeclaredValue);
-            shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", addShipment.PackageDetails.ValueCurrency);
+            shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", codeCurrenyString);
 
             double totalCountOfPackages = 0;
-            addShipment.PackageDetails.ProductIngredients.Select(e => totalCountOfPackages += e.Quantity);
+            addShipment.PackageDetails.ProductIngredients.ForEach(e => totalCountOfPackages += e.Quantity);
 
             shipmentStr.AppendFormat("<pieces>{0}</pieces>", totalCountOfPackages);
             shipmentStr.AppendFormat("<shipment_lines>{0}</shipment_lines>", addShipment.PackageDetails.ProductIngredients.Count);
@@ -244,7 +265,7 @@ namespace PI.Business
             short lineCount = 1;
             foreach (var lineItem in addShipment.PackageDetails.ProductIngredients)
             {
-                shipmentStr.AppendFormat("shipment_line id='" + lineCount + "'");
+                shipmentStr.AppendFormat("<shipment_line id='" + lineCount + "'>");
                 shipmentStr.AppendFormat("<package>{0}</package>", lineItem.ProductType);
                 shipmentStr.AppendFormat("<weight>{0}</weight>", lineItem.Weight);
                 shipmentStr.AppendFormat("<quantity>{0}</quantity>", lineItem.Quantity);
