@@ -63,7 +63,7 @@ namespace PI.Business
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consigner.Postalcode;
                 currentRateSheetDetails.country_from = currentShipment.AddressInformation.Consigner.Country;
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
-
+           
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
@@ -90,7 +90,7 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
-                bool diversed = false;
+
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
@@ -101,7 +101,6 @@ namespace PI.Business
                     if (count > 0 && package != item.ProductType && !diversed)
                     {
                         package = "DIVERSE";
-                        diversed = true;
                     }
 
                     if (item.Length > maxLength)
@@ -120,7 +119,7 @@ namespace PI.Business
                     {
                         maxWeight = item.Weight;
                     }
-
+                   
 
                     surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
@@ -147,7 +146,23 @@ namespace PI.Business
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
+                if (currentShipment.PackageDetails.CmLBS)
+                {
+                    currentRateSheetDetails.weight_unit = "kg";
+                }
+                else
+                {
+                    currentRateSheetDetails.weight_unit = "lbs";
+                }
 
+                if (currentShipment.PackageDetails.VolumeCMM)
+                {
+                    currentRateSheetDetails.volume_unit = "cm";
+                }
+                else
+                {
+                    currentRateSheetDetails.volume_unit = "m";
+                }
 
             }
             //hardcoded values for now
@@ -161,32 +176,30 @@ namespace PI.Business
             currentRateSheetDetails.type = "selectkmnetworkroad";
             currentRateSheetDetails.fieldname4 = "shipment_price";
             currentRateSheetDetails.fieldname1 = "price";
-            currentRateSheetDetails.sell_buy = "";
-            currentRateSheetDetails.courier_km = "";
-            currentRateSheetDetails.courier_tariff_base = "";
+            currentRateSheetDetails.sell_buy = "";          
+            currentRateSheetDetails.courier_km = "";     
+            currentRateSheetDetails.courier_tariff_base = "";           
             currentRateSheetDetails.courier_date_pickup_transition = "";
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
             currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
-
+            
             currentRateSheetDetails.code_currency = "USD";
-
+           
             currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             currentRateSheetDetails.time_pickup = "12:51";
             currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
             currentRateSheetDetails.delivery_condition = "DD-DDU-PP";
-            currentRateSheetDetails.weight_unit = "kg";
-            currentRateSheetDetails.insurance_instruction = "N";
-            currentRateSheetDetails.sort = "PRICE";
-            currentRateSheetDetails.volume_unit = "cm";
-            currentRateSheetDetails.inbound = "N";
-            currentRateSheetDetails.dg = "NO";
-            currentRateSheetDetails.dg_type = "";
-            currentRateSheetDetails.account = "";
-            currentRateSheetDetails.code_customer = "";
-            currentRateSheetDetails.ind_delivery_inside = "";
-            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
+           currentRateSheetDetails.insurance_instruction = "N";
+           currentRateSheetDetails.sort = "PRICE";
+           currentRateSheetDetails.inbound = "N"; 
+           currentRateSheetDetails.dg = "NO";
+           currentRateSheetDetails.dg_type = "";
+           currentRateSheetDetails.account = "";
+           currentRateSheetDetails.code_customer = "";
+           currentRateSheetDetails.ind_delivery_inside = "";
+           currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
 
 
 
@@ -197,7 +210,7 @@ namespace PI.Business
         public string SubmitShipment(ShipmentDto addShipment)
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
-
+           
             // return sisManager.SubmitShipment(addShipment);
 
             //If response is successfull save the shipment in DB.
@@ -280,8 +293,8 @@ namespace PI.Business
             return "success";
 
         }
+      
 
-
-
+        
     }
 }
