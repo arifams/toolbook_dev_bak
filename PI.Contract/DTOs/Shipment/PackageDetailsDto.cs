@@ -10,10 +10,10 @@ namespace PI.Contract.DTOs.Shipment
     {
         public string ShipmentDescription { get; set; }
         public decimal TotalWeight { get; set; }
-        public short CmLBS { get; set; }
+        public bool CmLBS { get; set; }
         public string productTypes { get; set; }
         public decimal TotalVolume { get; set; }
-        public short VolumeCMM { get; set; }
+        public bool VolumeCMM { get; set; }
         public List<ProductIngredientsDto> ProductIngredients { get; set; }
         public string HsCode { get; set; }
         public DateTime PreferredCollectionDate { get; set; }

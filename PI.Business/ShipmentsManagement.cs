@@ -91,14 +91,13 @@ namespace PI.Business
                 string package = string.Empty;
                 int count = 0;
 
-
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
                     if (count == 0)
                     {
                         package = item.ProductType;
                     }
-                    if (count > 0 && package != item.ProductType && !diversed)
+                    if (count > 0 && package != item.ProductType)
                     {
                         package = "DIVERSE";
                     }
@@ -275,8 +274,8 @@ namespace PI.Business
                         PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
                         EarliestPickupDate = DateTime.Now,//addShipment.PackageDetails.PreferredCollectionDate ----------
                         EstDeliveryDate = DateTime.Now, // ---------------------
-                        WeightMetricId = addShipment.PackageDetails.CmLBS,
-                        VolumeMetricId = addShipment.PackageDetails.VolumeCMM,
+                        WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,/// --------------
+                        VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,///-----------
                         IsActive = true,
                         CreatedBy = 1,
                         CreatedDate = DateTime.Now
