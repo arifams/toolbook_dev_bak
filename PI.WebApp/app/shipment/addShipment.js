@@ -17,6 +17,9 @@
         vm.shipment.generalInformation = {};
         vm.shipment.packageDetails = {};
         vm.shipment.packageDetails.productIngredients = [{}];
+        vm.shipment.addressInformation = {};
+        vm.shipment.addressInformation.consigner = {};
+        vm.shipment.addressInformation.consignee = {};
         vm.shipment.CarrierInformation = {};
         vm.searchRates = false;
         vm.loadingRates = false;
@@ -36,11 +39,11 @@
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
 
-        vm.productTypes = [{ "Id": 1, "Name": "Document" },
-                                        { "Id": 2, "Name": "Pallet" },
-                                        { "Id": 3, "Name": "Euro Pallet" },
-                                        { "Id": 4, "Name": "Diverse" },
-                                        { "Id": 5, "Name": "Box" }
+        vm.productTypes = [{ "Id": "Document", "Name": "Document" },
+                                        { "Id": "Pallet", "Name": "Pallet" },
+                                        { "Id": "Euro Pallet", "Name": "Euro Pallet" },
+                                        { "Id": "Diverse", "Name": "Diverse" },
+                                        { "Id": "Box", "Name": "Box" }
         ];
 
         vm.shipmentTerms = [{ "Id": "DDU", "Name": "Delivered Duty Unpaid (DDU)" },
@@ -227,6 +230,7 @@
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 vm.shipment.CarrierInformation.insurance = row.price * 1.1;
+                vm.shipment.CarrierInformation.totalPrice =parseInt(row.price) + (row.price * 1.1);
 
                 vm.shipment.CarrierInformation.serviceLevel = row.service_level
                 vm.shipment.CarrierInformation.tariffText = row.tariff_text
@@ -245,7 +249,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
-
+            vm.shipment.generalInformation.shipmentMode = 'Express';
 
         }
         vm.selectAir = function () {
@@ -254,6 +258,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'AirFreight';
         }
         vm.selectSea = function () {
 
@@ -262,6 +267,7 @@
             vm.Seaclass = "btn btn-dark";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'SeaFreight';
         }
         vm.selectRoad = function () {
             vm.Expressclass = "btn btn-success";
@@ -269,6 +275,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-dark";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'RoadFreight';
 
         }
         vm.selectall = function () {
@@ -278,6 +285,8 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-dark";
+            vm.shipment.generalInformation.shipmentMode = 'All';
+
         }
 
 
@@ -305,6 +314,38 @@
 
                             });
         }
+
+        // In production remove this.
+        vm.textChangeOfName = function () {
+           
+            if (vm.shipment.generalInformation.shipmentName == "code123") {
+
+                vm.shipment.addressInformation.consigner = {};
+                vm.shipment.addressInformation.consigner.name = 'Comp1';
+                vm.shipment.addressInformation.consigner.country = 'US';
+                vm.shipment.addressInformation.consigner.postalcode = '94404';
+                vm.shipment.addressInformation.consigner.number = '901';
+                vm.shipment.addressInformation.consigner.address1 = 'Mariners Island Boulevard';
+                vm.shipment.addressInformation.consigner.address2 = '';
+                vm.shipment.addressInformation.consigner.city = 'San Mateo';
+                vm.shipment.addressInformation.consigner.state = 'CA';
+                vm.shipment.addressInformation.consigner.email = 'test1@yopmail.com';
+                vm.shipment.addressInformation.consigner.contactNumber = '1111111111';
+
+                vm.shipment.addressInformation.consignee = {};
+                vm.shipment.addressInformation.consignee.name = 'Comp2';
+                vm.shipment.addressInformation.consignee.country = 'US';
+                vm.shipment.addressInformation.consignee.postalcode = '94405';
+                vm.shipment.addressInformation.consignee.number = '902';
+                vm.shipment.addressInformation.consignee.address1 = 'Mariners Island Boulevard';
+                vm.shipment.addressInformation.consignee.address2 = '';
+                vm.shipment.addressInformation.consignee.city = 'San Mateo';
+                vm.shipment.addressInformation.consignee.state = 'CA';
+                vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
+                vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
+
+            }
+        };
 
     }]);
 
