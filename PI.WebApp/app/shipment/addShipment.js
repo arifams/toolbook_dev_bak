@@ -39,11 +39,11 @@
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
 
-        vm.productTypes = [{ "Id": 1, "Name": "Document" },
-                                        { "Id": 2, "Name": "Pallet" },
-                                        { "Id": 3, "Name": "Euro Pallet" },
-                                        { "Id": 4, "Name": "Diverse" },
-                                        { "Id": 5, "Name": "Box" }
+        vm.productTypes = [{ "Id": "Document", "Name": "Document" },
+                                        { "Id": "Pallet", "Name": "Pallet" },
+                                        { "Id": "Euro Pallet", "Name": "Euro Pallet" },
+                                        { "Id": "Diverse", "Name": "Diverse" },
+                                        { "Id": "Box", "Name": "Box" }
         ];
 
         vm.shipmentTerms = [{ "Id": "DDU", "Name": "Delivered Duty Unpaid (DDU)" },
@@ -220,6 +220,7 @@
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 vm.shipment.CarrierInformation.insurance = row.price * 1.1;
+                vm.shipment.CarrierInformation.totalPrice =parseInt(row.price) + (row.price * 1.1);
 
                 vm.shipment.CarrierInformation.serviceLevel = row.service_level
                 vm.shipment.CarrierInformation.tariffText = row.tariff_text
@@ -238,7 +239,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
-
+            vm.shipment.generalInformation.shipmentMode = 'Express';
 
         }
         vm.selectAir = function () {
@@ -247,6 +248,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'AirFreight';
         }
         vm.selectSea = function () {
 
@@ -255,6 +257,7 @@
             vm.Seaclass = "btn btn-dark";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'SeaFreight';
         }
         vm.selectRoad = function () {
             vm.Expressclass = "btn btn-success";
@@ -262,6 +265,7 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-dark";
             vm.allclass = "btn btn-success";
+            vm.shipment.generalInformation.shipmentMode = 'RoadFreight';
 
         }
         vm.selectall = function () {
@@ -271,6 +275,8 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-dark";
+            vm.shipment.generalInformation.shipmentMode = 'All';
+
         }
 
 

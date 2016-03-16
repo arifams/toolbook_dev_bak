@@ -60,16 +60,16 @@
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Shipment Mode*</label>
                         <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Expressclass" ng-model="shipmentCtrl.shipment.generalInformation.express" ng-click="shipmentCtrl.selectExpress()"><strong>Express</strong> </button>
+                                    <button ng-class="shipmentCtrl.Expressclass"  ng-click="shipmentCtrl.selectExpress()"><strong>Express</strong> </button>
                         </div>
                         <div class="col-sm-2">
-                                <button ng-class="shipmentCtrl.Airclass" ng-model="shipmentCtrl.shipment.generalInformation.airFreight" ng-click="shipmentCtrl.selectAir()"> <strong>Air Freight</strong></button>
+                                <button ng-class="shipmentCtrl.Airclass"  ng-click="shipmentCtrl.selectAir()"> <strong>Air Freight</strong></button>
                             </div>
                         <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Seaclass" ng-model="shipmentCtrl.shipment.generalInformation.seaFreight" ng-click="shipmentCtrl.selectSea()"><strong>Sea Freight</strong></button>
+                                    <button ng-class="shipmentCtrl.Seaclass"  ng-click="shipmentCtrl.selectSea()"><strong>Sea Freight</strong></button>
                         </div>
                         <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Roadclass" ng-model="shipmentCtrl.shipment.generalInformation.roadFreight" ng-click="shipmentCtrl.selectRoad()"><strong>Road Freight</strong></button>
+                                    <button ng-class="shipmentCtrl.Roadclass"  ng-click="shipmentCtrl.selectRoad()"><strong>Road Freight</strong></button>
                         </div>
                         <div class="col-sm-2">
                                     <button ng-class="shipmentCtrl.allclass" ng-model="shipmentCtrl.shipment.generalInformation.all" ng-click="shipmentCtrl.selectall()"><strong>Show All Options</strong></button>
@@ -785,7 +785,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input type="text" name="shipmentMode" class="form-control" disabled
-                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentModeName}}" />
+                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentMode}}" />
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -796,7 +796,7 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentTypeName" type="text" name="shipmentType" class="form-control" disabled
+                                <input value="{{shipmentCtrl.shipment.generalInformation.shipmentTypeCode+'-'+shipmentCtrl.shipment.generalInformation.shipmentTermCode}}" type="text" name="shipmentType" class="form-control" disabled
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -940,7 +940,7 @@
                                             <td>Total</td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{shipmentCtrl.shipment.CarrierInformation.price+shipmentCtrl.shipment.CarrierInformation.insurance}}</td>
+                                            <td>{{shipmentCtrl.shipment.CarrierInformation.totalPrice}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

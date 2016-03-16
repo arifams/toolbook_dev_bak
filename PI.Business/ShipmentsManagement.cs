@@ -27,19 +27,19 @@ namespace PI.Business
             {
                 //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
                 // currentRateSheetDetails.
-                if (currentShipment.GeneralInformation.Express)
+                if (currentShipment.GeneralInformation.ShipmentMode=="EXPRESS")
                 {
                     currentRateSheetDetails.courier = "UPSDHLFEDTNT";
                 }
-                else if (currentShipment.GeneralInformation.AirFreight)
+                else if (currentShipment.GeneralInformation.ShipmentMode == "AirFreight")
                 {
                     currentRateSheetDetails.courier_air = "EME";
                 }
-                else if (currentShipment.GeneralInformation.SeaFreight)
+                else if (currentShipment.GeneralInformation.ShipmentMode == "SeaFreight")
                 {
                     currentRateSheetDetails.courier_sea = "EME";
                 }
-                else if (currentShipment.GeneralInformation.RoadFreight)
+                else if (currentShipment.GeneralInformation.ShipmentMode == "RoadFreight")
                 {
                     currentRateSheetDetails.courier_road = "EME";
                 }
