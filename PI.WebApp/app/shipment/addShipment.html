@@ -689,9 +689,12 @@
 
                     <div class="form-group">
                         <label class="col-sm-2 control-label"> Preferred Collection Date *</label>
-                        <div class="col-sm-10">
-                            <input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="hsCode"
-                                   class="form-control" />
+                        <div class="col-sm-6">
+                            <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
+                                   class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                               
+                               
+                               <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy HH:mm"  >
+                               
                         </div>
                     </div>
 
@@ -868,7 +871,14 @@
                         </div>
                         
                     </div>
-                   
+                   <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
+                       <div class="col-sm-4"></div>
+                       <div class="col-sm-6">
+                           <label class="label label-danger" >
+                               <strong >No Available rates for this shipment</strong>
+                           </label>
+                       </div>
+                   </div>
 
                     <div class="CareeDetailsTable" collapse="shipmentCtrl.searchRates!=true">
 

@@ -23,7 +23,8 @@ var MakeApp = angular
     'smart-table',
     'ngCsv',
     'ngCsvImport',
-    'customDirective'
+    'customDirective',
+    'angularjs-datetime-picker'
   ])
   .config(function ($routeProvider) {
       $routeProvider

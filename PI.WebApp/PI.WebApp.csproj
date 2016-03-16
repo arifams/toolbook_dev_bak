@@ -82,6 +82,9 @@
     <Content Include="app\userRegistration\termsAndConditions.html" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
+    <None Include=".bin\bower.cmd" />
+    <None Include=".bin\git.cmd" />
+    <None Include=".bin\node.cmd" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTypes.json" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
@@ -455,6 +458,11 @@
     <Content Include="global\plugins\visible\df-visible.jquery.json" />
     <Content Include="global\plugins\visible\README.markdown" />
     <Content Include="plugins\angular-csv-import\angular-csv-import.js" />
+    <Content Include="plugins\angularjs-datetime-picker\angularjs-datetime-picker.css" />
+    <Content Include="plugins\angularjs-datetime-picker\angularjs-datetime-picker.js" />
+    <Content Include="plugins\angularjs-datetime-picker\angularjs-datetime-picker.min.js" />
+    <Content Include="plugins\angularjs-datetime-picker\gulpfile.js" />
+    <Content Include="plugins\angularjs-datetime-picker\index.html" />
     <Content Include="plugins\angular\.bower.json" />
     <Content Include="plugins\angular\angular.min.js.gzip" />
     <Content Include="plugins\angular\angular.min.js.map" />
@@ -554,6 +562,11 @@
     <Content Include="plugins\json3\README.md" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
+    <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
+    <Content Include="plugins\angularjs-datetime-picker\bower.json" />
+    <Content Include="plugins\angularjs-datetime-picker\LICENSE" />
+    <Content Include="plugins\angularjs-datetime-picker\package.json" />
+    <Content Include="plugins\angularjs-datetime-picker\README.md" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -5209,6 +5222,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\ng-grid-flexible-height.js" />
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-grid.min.js" />

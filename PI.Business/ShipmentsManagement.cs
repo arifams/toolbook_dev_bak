@@ -6,6 +6,7 @@ using PI.Data;
 using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,6 +52,10 @@ namespace PI.Business
                     currentRateSheetDetails.courier_sea = "EME";
                     currentRateSheetDetails.courier_road = "EME";
                 }
+                if (currentShipment.GeneralInformation.ShipmentTypeCode!=null && currentShipment.GeneralInformation.ShipmentTermCode!=null)
+                {
+                  currentRateSheetDetails.delivery_condition = "DD-DDU-PP";                   
+                }
             }
             if (currentShipment.AddressInformation != null)
             {
@@ -90,7 +95,13 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
-              
+                string codeCurrenyString = "";
+
+                using (var context = new PIContext())
+                {
+                    codeCurrenyString = context.Currencies.Where(c => c.Id == currentShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
+                }
+
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
                     if (count == 0)
@@ -145,6 +156,23 @@ namespace PI.Business
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
+                currentRateSheetDetails.code_currency = codeCurrenyString;
+                currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
+
+
+                //if (currentShipment.PackageDetails.PreferredCollectionDate != null)
+                //{
+                //    try
+                //    {
+                //        currentRateSheetDetails.date_pickup = DateTime.ParseExact(currentShipment.PackageDetails.PreferredCollectionDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString("dd-MMM-yyyy HH:mm");
+                //    }
+                //    catch (Exception)
+                //    {
+                //        currentRateSheetDetails.date_pickup = "00-Jan-0000 00:00";
+                //    }
+
+                //}
+
                 if (currentShipment.PackageDetails.CmLBS)
                 {
                     currentRateSheetDetails.weight_unit = "kg";
@@ -182,11 +210,10 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
-            
-            currentRateSheetDetails.code_currency = "USD";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";            
            
-            currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
+           
+           // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             currentRateSheetDetails.time_pickup = "12:51";
             currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
             currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
@@ -264,7 +291,7 @@ namespace PI.Business
                         TotalVolume = addShipment.PackageDetails.TotalVolume,
                         TotalWeight = addShipment.PackageDetails.TotalWeight,
                         HSCode = addShipment.PackageDetails.HsCode,
-                        CollectionDate = addShipment.PackageDetails.PreferredCollectionDate,
+                        CollectionDate =DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
                         CarrierInstruction = addShipment.PackageDetails.Instructions,
                         IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
                         InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
