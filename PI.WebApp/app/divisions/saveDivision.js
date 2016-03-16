@@ -12,6 +12,7 @@
     })
 
     app.factory('divisionService', function ($http, $routeParams, $window) {
+        debugger;
         return {
             loadDivisioninfo: function () {
                 return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {

@@ -27,7 +27,7 @@
         vm.Seaclass = "btn btn-success";
         vm.Roadclass = "btn btn-success";
         vm.allclass = "btn btn-success";
-
+        vm.currencies = [];
 
 
 
@@ -55,6 +55,16 @@
                                 { "Id": "PP-PP", "Name": "Port to Port, Prepaid (PP-PP)" },
                                 { "Id": "FCA", "Name": "Free Carrier (FCA)" }
         ];
+
+
+        shipmentFactory.loadAllCurrencies()
+            .success(
+               function (responce) {
+                   debugger;
+                   vm.currencies = responce;
+               }).error(function (error) {
+                   console.log("error occurd while retrieving currencies");
+               });
 
 
         //load the division list
@@ -179,13 +189,13 @@
 
             for (var i = 0; i < packages.length; i++) {
 
-                var Pieces=packages[i].quantity != undefined ? packages[i].quantity : 0;
+                var Pieces = packages[i].quantity != undefined ? packages[i].quantity : 0;
                 count = count + (Pieces);
 
-                totWeight = totWeight + ((packages[i].weight != undefined ? packages[i].weight : 0)*Pieces);
+                totWeight = totWeight + ((packages[i].weight != undefined ? packages[i].weight : 0) * Pieces);
 
                 if (packages[i].height != undefined && packages[i].length != undefined && packages[i].width != undefined) {
-                    totVolume = totVolume +( (packages[i].height * packages[i].length * packages[i].width)*Pieces);
+                    totVolume = totVolume + ((packages[i].height * packages[i].length * packages[i].width) * Pieces);
                 }
 
 

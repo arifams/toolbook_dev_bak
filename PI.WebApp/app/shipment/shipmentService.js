@@ -9,10 +9,16 @@
             loadAllDivisions: loadAllDivisions,
             loadAssignedDivisions: loadAssignedDivisions,
             loadAssignedCostCenters: loadAssignedCostCenters,
-            submitShipment : submitShipment,
+            submitShipment: submitShipment,
+            loadAllCurrencies: loadAllCurrencies
         };
 
-       
+
+        //loading language dropdown     
+        function loadAllCurrencies() {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllCurrencies');
+        }
 
         // Implement the functions.
         function submitShipment(shipmentDetail) {
