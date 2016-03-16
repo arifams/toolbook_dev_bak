@@ -95,7 +95,13 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
-              
+                string codeCurrenyString = "";
+
+                using (var context = new PIContext())
+                {
+                    codeCurrenyString = context.Currencies.Where(c => c.Id == currentShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
+                }
+
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
                     if (count == 0)
@@ -150,9 +156,18 @@ namespace PI.Business
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
+                currentRateSheetDetails.code_currency = codeCurrenyString;
                 if (currentShipment.PackageDetails.PreferredCollectionDate != null)
                 {
-                    currentRateSheetDetails.date_pickup = DateTime.ParseExact(currentShipment.PackageDetails.PreferredCollectionDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString("dd-MMM-yyyy HH:mm");
+                    try
+                    {
+                        currentRateSheetDetails.date_pickup = DateTime.ParseExact(currentShipment.PackageDetails.PreferredCollectionDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString("dd-MMM-yyyy HH:mm");
+                    }
+                    catch (Exception)
+                    {
+                        currentRateSheetDetails.date_pickup = "00-Jan-0000 00:00";
+                    }
+                   
                 }
 
                 if (currentShipment.PackageDetails.CmLBS)
@@ -192,9 +207,8 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
-            
-            currentRateSheetDetails.code_currency = "USD";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";            
+           
            
            // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             currentRateSheetDetails.time_pickup = "12:51";
