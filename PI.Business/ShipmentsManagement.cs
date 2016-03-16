@@ -56,8 +56,8 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%');
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consigner.Postalcode;
@@ -67,7 +67,7 @@ namespace PI.Business
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
-                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%');
+                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2!=null? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%'): string.Empty;
                 currentRateSheetDetails.address14 = currentShipment.AddressInformation.Consignee.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consignee.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consignee.Postalcode;
@@ -90,7 +90,7 @@ namespace PI.Business
                 double maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
-
+              
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
                     if (count == 0)
@@ -99,7 +99,7 @@ namespace PI.Business
                     }
                     if (count > 0 && package != item.ProductType)
                     {
-                        package = "DIVERSE";
+                        package = "DIVERSE";                      
                     }
 
                     if (item.Length > maxLength)
@@ -189,9 +189,9 @@ namespace PI.Business
             currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             currentRateSheetDetails.time_pickup = "12:51";
             currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
-            currentRateSheetDetails.delivery_condition = "DD-DDU-PP";
+            currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
            currentRateSheetDetails.insurance_instruction = "N";
-           currentRateSheetDetails.sort = "PRICE";
+           currentRateSheetDetails.sort = "PRICE";         
            currentRateSheetDetails.inbound = "N"; 
            currentRateSheetDetails.dg = "NO";
            currentRateSheetDetails.dg_type = "";
