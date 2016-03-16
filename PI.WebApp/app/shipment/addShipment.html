@@ -24,7 +24,7 @@
                                 <div class="col-sm-10">
                                 <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentName" type="text" name="shipmentname" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': genaralDetailsForm.shipmentname.$invalid &&
-                                                                        (genaralDetailsForm.shipmentname.$dirty|| shipmentCtrl.generalInfoisSubmit) }" />
+                                                                        (genaralDetailsForm.shipmentname.$dirty|| shipmentCtrl.generalInfoisSubmit) }" ng-change="shipmentCtrl.textChangeOfName()"/>
                                 <div ng-messages="genaralDetailsForm.shipmentname.$error"
                                      ng-show="genaralDetailsForm.shipmentname.$dirty || shipmentCtrl.generalInfoisSubmit">
                                     <label ng-message="required" class="error" for="divisionName">Shipment Name is required</label>
@@ -104,7 +104,7 @@
 
                         </div>
                             <div class="form-group">
-                                <button class="btn btn-app pull-right" type="submit"
+                                <button class="btn btn-primary btn-transparent pull-right" type="submit"
                                         ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
                                     <i class="fa fa-arrow-right"></i> NEXT
                                 </button>
@@ -189,7 +189,7 @@
                                                                         (consignerConsigneeInfoForm.consignerName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Enter Consignor Name" />
                                 <div ng-messages="consignerConsigneeInfoForm.consignerName.$error"
                                      ng-show="consignerConsigneeInfoForm.consignerName.$dirty || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consignerName">Consuner Name is required</label>
+                                    <label ng-message="required" class="error" for="consignerName">Consignor Name is required</label>
                                     <label ng-message="maxlength" class="error" for="consignerName">Max length should be 200 characters</label>
                                 </div>
                             </div>

@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.RateSheets;
+﻿
+using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using PI.Business;
+using PI.Contract.DTOs.AccountSettings;
 
 namespace PI.Service.Controllers
 {
@@ -30,6 +32,16 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SubmitShipment(addShipment);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetAllCurrencies")]
+        public IQueryable<CurrencyDto> GetAllCurrencies()
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+            IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
+            return currencies;
         }
     }
 }
