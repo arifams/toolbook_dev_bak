@@ -157,18 +157,21 @@ namespace PI.Business
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
-                if (currentShipment.PackageDetails.PreferredCollectionDate != null)
-                {
-                    try
-                    {
-                        currentRateSheetDetails.date_pickup = DateTime.ParseExact(currentShipment.PackageDetails.PreferredCollectionDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString("dd-MMM-yyyy HH:mm");
-                    }
-                    catch (Exception)
-                    {
-                        currentRateSheetDetails.date_pickup = "00-Jan-0000 00:00";
-                    }
-                   
-                }
+                currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
+
+
+                //if (currentShipment.PackageDetails.PreferredCollectionDate != null)
+                //{
+                //    try
+                //    {
+                //        currentRateSheetDetails.date_pickup = DateTime.ParseExact(currentShipment.PackageDetails.PreferredCollectionDate, "dd/MM/yyyy HH:mm", CultureInfo.InvariantCulture).ToString("dd-MMM-yyyy HH:mm");
+                //    }
+                //    catch (Exception)
+                //    {
+                //        currentRateSheetDetails.date_pickup = "00-Jan-0000 00:00";
+                //    }
+
+                //}
 
                 if (currentShipment.PackageDetails.CmLBS)
                 {
