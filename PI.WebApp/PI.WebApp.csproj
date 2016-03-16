@@ -5209,6 +5209,7 @@
     <None Include="Scripts\jquery-1.9.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
+    <Content Include="Scripts\jquery.mask.js" />
     <Content Include="Scripts\ng-grid-flexible-height.js" />
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-grid.min.js" />

@@ -27,8 +27,8 @@
         vm.Seaclass = "btn btn-success";
         vm.Roadclass = "btn btn-success";
         vm.allclass = "btn btn-success";
-
-
+        vm.ratesNotAvailable = false;
+        $('.date_time').mask('00/00/0000 00:00');
 
 
 
@@ -124,6 +124,7 @@
         }
 
         vm.checkPackageDetails = function (value) {
+
             if (value) {
                 vm.collapse3 = true;
                 vm.collapse4 = false;
@@ -198,11 +199,19 @@
         //get the calculated rates
         vm.calculateRates = function () {
             vm.loadingRates = true;
+            vm.ratesNotAvailable = false;
+            vm.searchRates = false;
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
-                    vm.displayedCollection = responce.items;
-                    vm.loadingRates = false;
-                    vm.searchRates = true;
+                    if (responce.items.length>0) {
+                        vm.displayedCollection = responce.items;
+                        vm.loadingRates = false;
+                        vm.searchRates = true;
+                    } else {
+                       vm.loadingRates = false;
+                      vm.ratesNotAvailable = true;
+                  }
+                    
                 }).error(function (error) {
 
                 });
@@ -301,6 +310,11 @@
 
                             });
         }
+
+        //vm.setDate = function () {
+
+        //    vm.shipment.packageDetails.preferredCollectionDate= $('#preferredCollectionDate').value;
+        //}
 
     }]);
 
