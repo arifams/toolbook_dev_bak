@@ -54,7 +54,7 @@ namespace PI.Business
                 //consigner details
                 currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
                 currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consigner.Postalcode;
@@ -64,7 +64,7 @@ namespace PI.Business
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
-                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%');
+                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2!=null? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%'): string.Empty;
                 currentRateSheetDetails.address14 = currentShipment.AddressInformation.Consignee.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consignee.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consignee.Postalcode;
