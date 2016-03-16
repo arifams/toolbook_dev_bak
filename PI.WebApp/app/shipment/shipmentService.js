@@ -8,13 +8,18 @@
             calculateRates: calculateRates,
             loadAllDivisions: loadAllDivisions,
             loadAssignedDivisions: loadAssignedDivisions,
-            loadAssignedCostCenters:loadAssignedCostCenters
-
+            loadAssignedCostCenters: loadAssignedCostCenters,
+            submitShipment : submitShipment,
         };
 
        
 
         // Implement the functions.
+        function submitShipment(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/SubmitShipment', shipmentDetail);
+        }
+
         function calculateRates(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);

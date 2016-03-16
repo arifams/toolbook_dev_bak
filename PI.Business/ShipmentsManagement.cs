@@ -1,6 +1,9 @@
-﻿using PI.Contract.Business;
+﻿using AutoMapper;
+using PI.Contract.Business;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Data;
+using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +19,11 @@ namespace PI.Business
             SISIntegrationManager sisManager = new SISIntegrationManager();
             RateSheetParametersDto currentRateSheetDetails = new RateSheetParametersDto();
 
-            if (currentShipment==null)
+            if (currentShipment == null)
             {
                 return null;
             }
-            if (currentShipment.GeneralInformation!=null)
+            if (currentShipment.GeneralInformation != null)
             {
                 //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
                 // currentRateSheetDetails.
@@ -49,7 +52,7 @@ namespace PI.Business
                     currentRateSheetDetails.courier_road = "EME";
                 }
             }
-            if (currentShipment.AddressInformation!=null)
+            if (currentShipment.AddressInformation != null)
             {
                 //consigner details
                 currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
@@ -73,7 +76,7 @@ namespace PI.Business
 
 
             }
-            if (currentShipment.PackageDetails!=null)
+            if (currentShipment.PackageDetails != null)
             {
                 double maxLength = 0;
                 double maxWidth = 0;
@@ -88,40 +91,39 @@ namespace PI.Business
                 string package = string.Empty;
                 int count = 0;
               
-
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
-                    if (count==0)
+                    if (count == 0)
                     {
                         package = item.ProductType;
                     }
-                    if (count>0 && package!=item.ProductType && package!= "DIVERSE")
+                    if (count > 0 && package != item.ProductType)
                     {
                         package = "DIVERSE";                      
                     }
 
-                    if (item.Length>maxLength)
+                    if (item.Length > maxLength)
                     {
                         maxLength = item.Length;
                     }
-                    if (item.Width>maxWidth)
+                    if (item.Width > maxWidth)
                     {
                         maxWidth = item.Width;
                     }
-                    if (item.Height>maxHeight)
+                    if (item.Height > maxHeight)
                     {
                         maxHeight = item.Height;
                     }
-                    if (item.Weight>maxWeight)
+                    if (item.Weight > maxWeight)
                     {
                         maxWeight = item.Weight;
                     }
                    
 
-                    surface = surface +(item.Length * item.Width * item.Quantity);
+                    surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
-                    volume = volume+ item.Length * item.Width * item.Height * item.Quantity;
-                    weight = weight+ item.Weight * item.Quantity;
+                    volume = volume + item.Length * item.Width * item.Height * item.Quantity;
+                    weight = weight + item.Weight * item.Quantity;
                     count++;
                 }
                 maxdimension = maxLength + (maxWidth * 2) + (maxHeight * 2);
@@ -130,10 +132,10 @@ namespace PI.Business
                 currentRateSheetDetails.length = maxLength.ToString();
                 currentRateSheetDetails.width = maxWidth.ToString();
                 currentRateSheetDetails.height = maxHeight.ToString();
-                currentRateSheetDetails.max_length= maxLength.ToString();
+                currentRateSheetDetails.max_length = maxLength.ToString();
                 currentRateSheetDetails.max_actual_length = maxLength.ToString();
-                currentRateSheetDetails.max_width= maxWidth.ToString();
-                currentRateSheetDetails.max_height= maxHeight.ToString();
+                currentRateSheetDetails.max_width = maxWidth.ToString();
+                currentRateSheetDetails.max_height = maxHeight.ToString();
                 currentRateSheetDetails.max_weight = maxWeight.ToString();
                 currentRateSheetDetails.weight = weight.ToString();
                 currentRateSheetDetails.pieces = pieces.ToString();
@@ -141,7 +143,7 @@ namespace PI.Business
                 currentRateSheetDetails.max_dimension = maxdimension.ToString();
                 currentRateSheetDetails.volume = volume.ToString();
                 currentRateSheetDetails.max_volume = maxVolume.ToString();
-                currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue;
+                currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
                 if (currentShipment.PackageDetails.CmLBS)
                 {
@@ -208,7 +210,87 @@ namespace PI.Business
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
            
-            return sisManager.SubmitShipment(addShipment);
+            // return sisManager.SubmitShipment(addShipment);
+
+            //If response is successfull save the shipment in DB.
+            using (PIContext context = new PIContext())
+            {
+                //Mapper.CreateMap<GeneralInformationDto, Shipment>();
+                Shipment newShipment = new Shipment
+                {
+                    ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                    DivisionId = addShipment.GeneralInformation.DivisionId,
+                    CostCenterId = addShipment.GeneralInformation.CostCenterId,
+                    ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
+                    ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
+                    ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
+                    CreatedBy = 1,
+                    CreatedDate = DateTime.Now,
+
+                    ConsigneeAddress = new ShipmentAddress
+                    {
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        Number = addShipment.AddressInformation.Consignee.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    },
+                    ConsignorAddress = new ShipmentAddress
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.Name,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        Number = addShipment.AddressInformation.Consigner.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    },
+                    ShipmentPackage = new ShipmentPackage()
+                    {
+                        PackageDescription = addShipment.PackageDetails.ShipmentDescription,
+                        TotalVolume = addShipment.PackageDetails.TotalVolume,
+                        TotalWeight = addShipment.PackageDetails.TotalWeight,
+                        HSCode = addShipment.PackageDetails.HsCode,
+                        CollectionDate = addShipment.PackageDetails.PreferredCollectionDate,
+                        CarrierInstruction = addShipment.PackageDetails.Instructions,
+                        IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
+                        InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
+                        InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
+                        CarrierCost = 0,//Shipment.PackageDetails.Ca -------------
+                        InsuranceCost = 0, //----------------
+                        PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
+                        EarliestPickupDate = DateTime.Now,//addShipment.PackageDetails.PreferredCollectionDate ----------
+                        EstDeliveryDate = DateTime.Now, // ---------------------
+                        WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,/// --------------
+                        VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,///-----------
+                        IsActive = true,
+                        CreatedBy = 1,
+                        CreatedDate = DateTime.Now
+                    }
+                };
+
+                try
+                {
+                    context.Shipments.Add(newShipment);
+                    context.SaveChanges();
+                }
+                catch (Exception ex) { throw ex; }
+            }
+            return "success";
+
         }
       
 

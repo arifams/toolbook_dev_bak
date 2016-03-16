@@ -16,12 +16,13 @@ namespace PI.Contract.DTOs.Shipment
         public bool AirFreight { get; set; }
         public bool SeaFreight { get; set; }
         public bool RoadFreight { get; set; }
-
         public bool All { get; set; }
-        public long SelectedShipmentType { get; set; }
-        public long SelectedShipmentTerm { get; set; }
-        public string shipmentMode { get; set; }
-        public string shipmentType { get; set; }
+
+        public string ShipmentTypeCode { get; set; }
+        public string ShipmentTermCode { get; set; }
+
+        public string shipmentModeName { get; set; }
+        public string shipmentTypeName { get; set; }
         
        
     }

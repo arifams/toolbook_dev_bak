@@ -3,7 +3,7 @@
 (function (app) {
 
     app.controller('addShipmentCtrl', ['$location', '$window', 'shipmentFactory', function ($location, $window, shipmentFactory) {
-        
+
         var vm = this;
         vm.user = {};
         vm.shipment = {};
@@ -29,8 +29,8 @@
         vm.allclass = "btn btn-success";
 
 
-       
-       
+
+
 
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
@@ -64,23 +64,23 @@
                function (responce) {
 
                    vm.divisionList = responce;
-                   
+
                }).error(function (error) {
 
                });
-            
-        } 
+
+        }
         else {
 
             shipmentFactory.loadAssignedDivisions().success(
             function (responce) {
 
                 vm.divisionList = responce;
-                   
+
             }).error(function (error) {
                 console.log("error occurd while retrieving divisions");
             });
-           
+
         }
 
         //get the cost centers according to the division
@@ -100,28 +100,29 @@
                });
 
             }
-            
+
         }
 
 
         vm.checkGenaralInfo = function (value) {
-            if (value==true) {
+            if (value == true) {
                 vm.collapse1 = true;
-                vm.collapse2 = false;               
+                vm.collapse2 = false;
             }
             vm.generalInfoisSubmit = true;
 
-           
+
         }
 
         vm.checkConsignInfo = function (value) {
-            if (value == true) {               
+            if (value == true) {
                 vm.collapse2 = true;
-                vm.collapse3 = false;   
+                vm.collapse3 = false;
             }
             vm.consignInfoisSubmit = true
 
         }
+
         vm.checkPackageDetails = function (value) {
             if (value) {
                 vm.collapse3 = true;
@@ -129,14 +130,15 @@
             }
             vm.packageDetailsisSubmit = true
         }
-       
+
         vm.ClearConsignerAddress = function () {
             vm.AddressInformation.consigner = {};
         }
-        vm.ClearConsigneeAddress= function(){
+
+        vm.ClearConsigneeAddress = function () {
             vm.AddressInformation.consignee = {};
         }
-        
+
         //accordian functionality
         //$(document).ready(function () {
         //    $('#accordion').accordion();
@@ -154,7 +156,7 @@
         //    });
         //});
 
-        
+
         vm.addEmptyRow = function () {
             vm.shipment.packageDetails.productIngredients.push({});
             vm.CalctotalWeightVolume();
@@ -185,7 +187,7 @@
                 if (packages[i].height != undefined && packages[i].length != undefined && packages[i].width != undefined) {
                     totVolume = totVolume +( (packages[i].height * packages[i].length * packages[i].width)*Pieces);
                 }
-               
+
 
             }
             vm.shipment.packageDetails.totalWeight = totWeight;
@@ -209,18 +211,18 @@
         vm.selectCarrier = function (row) {
 
             vm.searchRates = false;
-            if (row!=null) {
-                vm.shipment.CarrierInformation.carrierName=row.carrier_name;
-                vm.shipment.CarrierInformation.pickupDate=row.pickup_date;
-                vm.shipment.CarrierInformation.deliveryTime=row.delivery_time;
+            if (row != null) {
+                vm.shipment.CarrierInformation.carrierName = row.carrier_name;
+                vm.shipment.CarrierInformation.pickupDate = row.pickup_date;
+                vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 vm.shipment.CarrierInformation.insurance = row.price * 1.1;
 
-                vm.shipment.CarrierInformation.serviceLevel= row.service_level
-                vm.shipment.CarrierInformation.tariffText  = row.tariff_text
+                vm.shipment.CarrierInformation.serviceLevel = row.service_level
+                vm.shipment.CarrierInformation.tariffText = row.tariff_text
                 vm.shipment.CarrierInformation.tarriffType = row.tariff_type
                 vm.shipment.CarrierInformation.currency = row.currency
-                
+
             }
         }
 
@@ -233,10 +235,10 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
-           
-           
+
+
         }
-        vm.selectAir = function () {            
+        vm.selectAir = function () {
             vm.Expressclass = "btn btn-success";
             vm.Airclass = "btn btn-dark";
             vm.Seaclass = "btn btn-success";
@@ -244,7 +246,7 @@
             vm.allclass = "btn btn-success";
         }
         vm.selectSea = function () {
-           
+
             vm.Expressclass = "btn btn-success";
             vm.Airclass = "btn btn-success";
             vm.Seaclass = "btn btn-dark";
@@ -257,10 +259,10 @@
             vm.Seaclass = "btn btn-success";
             vm.Roadclass = "btn btn-dark";
             vm.allclass = "btn btn-success";
-            
+
         }
         vm.selectall = function () {
-            
+
             vm.Expressclass = "btn btn-success";
             vm.Airclass = "btn btn-success";
             vm.Seaclass = "btn btn-success";
@@ -268,6 +270,31 @@
             vm.allclass = "btn btn-dark";
         }
 
+
+        vm.submitShipment = function () {
+            debugger;
+            var body = $("html, body");
+            shipmentFactory.submitShipment(vm.shipment).success(
+                            function (responce) {
+                                debugger;
+                                if (response == "success") {
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 3000,
+                                    });
+                                }
+                            }).error(function (error) {
+
+                            });
+        }
 
     }]);
 
