@@ -181,18 +181,17 @@ namespace PI.Business
             shipmentStr.AppendFormat("<code_currency>{0}</code_currency>",addShipment.PackageDetails.ValueCurrency);
             shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
             shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
-            //shipmentStr.AppendFormat("<price>{0}</price>",);    // TODO: Get price from summary total
+            shipmentStr.AppendFormat("<price>{0}</price>",(addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
             //shipmentStr.AppendFormat("<price_insurance>{0}</price_insurance>", ); // TODO: Comment this for now. - Will get clarification later.
 
-            // Get values for following fields from Dilshan code. --------------------------------------------------------------------------
-            //shipmentStr.AppendFormat("<weight>{0}</weight>",addShipment.PackageDetails.TotalWeight);
-            //shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>",);    // TODO: Get Unit
-            //shipmentStr.AppendFormat("<length>{0}</length>",); // TODO: Total length.
-            //shipmentStr.AppendFormat("<height>0</height>"); // TODO: Total height.
-            //shipmentStr.AppendFormat("<width>0</width>");   // TODO: Total width
-            //shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>",); // TODO:Volume unit
+            shipmentStr.AppendFormat("<weight>{0}</weight>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Weight));
+            shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>", addShipment.PackageDetails.CmLBS ? "KG" : "LBS");    // TODO: Is LBS word correct?
+            shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Length));
+            shipmentStr.AppendFormat("<height>0</height>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Height)); 
+            shipmentStr.AppendFormat("<width>0</width>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Width));
+            shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>",addShipment.PackageDetails.VolumeCMM ? "CM" :"M" );
 
-            //shipmentStr.AppendFormat("<package>{0}</package>",);    // TODO: This represent summary of package. So has different package types, use DIVERSE
+            shipmentStr.AppendFormat("<package>{0}</package>", ProductType(addShipment.PackageDetails.ProductIngredients));    // This represent summary of package. So has different package types, use DIVERSE
 
             // Consignor details.
             shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
@@ -202,8 +201,8 @@ namespace PI.Business
             shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
             shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
-            shipmentStr.AppendFormat("<code_state_from>{0}</code_state_from>", addShipment.AddressInformation.Consigner.State);
-
+            shipmentStr.AppendFormat("<reference_list><reference_tag>STATE_FROM</reference_tag><reference_value>{0}</reference_value></reference_list>", addShipment.AddressInformation.Consigner.State);
+            
             // Consignee details.
             shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
             shipmentStr.AppendFormat("<address11>{0}</address11>", addShipment.AddressInformation.Consignee.Name);
@@ -230,7 +229,7 @@ namespace PI.Business
             foreach (var lineItem in addShipment.PackageDetails.ProductIngredients)
             {
                 shipmentStr.AppendFormat("shipment_line id='" + lineCount + "'");
-                //shipmentStr.AppendFormat("<package>{0}</package>", addShipment.PackageDetails.ProductIngredients[0].);
+                shipmentStr.AppendFormat("<package>{0}</package>", lineItem.ProductType);
                 shipmentStr.AppendFormat("<weight>{0}</weight>", lineItem.Weight);
                 shipmentStr.AppendFormat("<quantity>{0}</quantity>", lineItem.Quantity);
                 shipmentStr.AppendFormat("<width>{0}</width>", lineItem.Width);
@@ -241,7 +240,32 @@ namespace PI.Business
             }
             shipmentStr.AppendFormat("</insert_shipment>");
 
-            return null;
+            return shipmentStr.ToString();
+        }
+
+        private string ProductType(IList<ProductIngredientsDto> productList)
+        {
+            bool isFirst = true;
+            string productType = "";
+
+            foreach (var item in productList)
+            {
+                if (isFirst)
+                {
+                    productType = item.ProductType;
+                    isFirst = false;
+                }
+                else
+                {
+                    if (productType != item.ProductType)
+                    {
+                        productType = "DIVERSE";
+                        break;
+                    }
+                }
+            }
+
+            return productType;
         }
     }
 }
