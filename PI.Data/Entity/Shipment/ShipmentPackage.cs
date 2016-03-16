@@ -17,7 +17,7 @@ namespace PI.Data.Entity
         public string HSCode { get; set; }
         public DateTime CollectionDate { get; set; }
         public string CarrierInstruction { get; set; }
-        public bool IsInsurance { get; set; }
+        public bool IsInsured { get; set; }
         public decimal InsuranceDeclaredValue { get; set; }
         public short InsuranceCurrencyType { get; set; }
 
@@ -36,8 +36,8 @@ namespace PI.Data.Entity
         // Navigation of package.
         public virtual IList<PackageProduct> PackageProducts { get; set; }
 
-        [ForeignKey("PaymentTypeId")]
-        public PaymentType PaymentType { get; set; }
+        //[ForeignKey("PaymentTypeId")]
+        //public PaymentType PaymentType { get; set; }
 
         [ForeignKey("WeightMetricId")]
         public WeightMetric WeightMetric { get; set; }

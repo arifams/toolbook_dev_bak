@@ -115,7 +115,7 @@
                                 <div class="option-group">
                                     <select id="shipmentType" class="form-control"
                                             convert-to-number ng-options="type.Id as type.Name for type in shipmentCtrl.shipmentTypes"
-                                            name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.selectedShipmentType"
+                                            name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentTypeCode"
                                             ng-change="selectShipmentType(); ">
                                         <option value="">-Select Shipment Type-</option>
                                     </select>
@@ -134,9 +134,9 @@
                                     <div class="option-group">
                                         <select id="costcenter" class="form-control"
                                                 convert-to-number ng-options="term.Id as term.Name for term in shipmentCtrl.shipmentTerms"
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.selectedShipmentTerm" ng-change="selectShipmentTerm()">
-                                        <option value="">Select shipment Term</option>
-                                    </select>
+                                                name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.shipmentTermCode" ng-change="selectShipmentTerm()">
+                                            <option value="">Select shipment Term</option>
+                                        </select>
                                 </div>
                             </div>
                         </div>
@@ -824,7 +824,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input type="text" name="shipmentMode" class="form-control" disabled
-                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentMode}}" />
+                                       ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentModeName}}" />
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -835,7 +835,7 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentType" type="text" name="shipmentType" class="form-control" disabled
+                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentTypeName" type="text" name="shipmentType" class="form-control" disabled
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -999,14 +999,14 @@
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-blue" type="submit" ng-click="shipmentCtrl.payinvoice()">Pay via Invoice</button>
+                                <button class="btn btn-blue" type="submit" ng-click="shipmentCtrl.submitShipment()">Pay via Invoice</button>
                             </div>
 
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-blue" type="submit" ng-click="shipmentCtrl.payOnline()">Pay via Online</button>
+                                <button class="btn btn-blue" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="true">Pay via Online</button>
                             </div>
 
                         </div>
