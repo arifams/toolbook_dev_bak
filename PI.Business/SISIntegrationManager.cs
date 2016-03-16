@@ -3,6 +3,7 @@ using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -67,7 +68,22 @@ namespace PI.Business
 
         public string GetShipmentStatus(string URL)
         {
-            throw new NotImplementedException();
+            // Reference Link - Change following method in most suitable way described in following article
+            // http://stackoverflow.com/questions/4015324/http-request-with-post
+
+            using (var client = new WebClient())
+            {
+                var values = new NameValueCollection();
+                values["userid"] = "user@mitrai.com";
+                values["password"] = "mitrai462";
+                values["codeshipment"] = "1111";
+
+                var response = client.UploadValues("http://parcelinternational.pro/status/UPS/1Z049A0X6797782690", values);
+
+                var responseString = Encoding.Default.GetString(response);
+            }
+
+            return "";
         }
 
         public string TrackAndTraceShipment(string URL)
@@ -215,7 +231,7 @@ namespace PI.Business
 
             // Summary of packages.
             shipmentStr.AppendFormat("<description>{0}</description>", addShipment.PackageDetails.ShipmentDescription);
-            //shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", "");
+            shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", "DD-DDP-PP");  // TODO: Change this after get values from view.
             shipmentStr.AppendFormat("<value>{0}</value>", addShipment.PackageDetails.DeclaredValue);
             shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", addShipment.PackageDetails.ValueCurrency);
 
