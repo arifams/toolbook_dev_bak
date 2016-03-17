@@ -49,8 +49,8 @@ namespace PI.Data.Entity.Identity
 
         #region Navigation property
 
-        [ForeignKey("TenantId")]
-        public virtual Tenant Tenant { get; set; }
+        [Required]
+        public  Tenant Tenant { get; set; }
 
         public virtual Customer Customer { get; set; }
 
