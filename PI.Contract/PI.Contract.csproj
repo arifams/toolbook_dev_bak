@@ -61,6 +61,7 @@
     <Compile Include="DTOs\RateSheets\RateSheetParametersDto.cs" />
     <Compile Include="DTOs\RateSheets\ShipmentcostList.cs" />
     <Compile Include="DTOs\Role\RolesDto.cs" />
+    <Compile Include="DTOs\Shipment\AddShipmentResponse.cs" />
     <Compile Include="DTOs\Shipment\CarrierInformationDto.cs" />
     <Compile Include="DTOs\Shipment\ConsigneeDto.cs" />
     <Compile Include="DTOs\Shipment\ConsignerAndConsigneeInformationDto.cs" />

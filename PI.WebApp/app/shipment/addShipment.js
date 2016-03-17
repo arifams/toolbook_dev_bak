@@ -31,6 +31,8 @@
         vm.Roadclass = "btn btn-success";
         vm.allclass = "btn btn-success";
         vm.currencies = [];
+        vm.ratesNotAvailable = false;
+        $('.date_time').mask('00/00/0000 00:00');
 
 
 
@@ -137,6 +139,7 @@
         }
 
         vm.checkPackageDetails = function (value) {
+
             if (value) {
                 vm.collapse3 = true;
                 vm.collapse4 = false;
@@ -211,11 +214,19 @@
         //get the calculated rates
         vm.calculateRates = function () {
             vm.loadingRates = true;
+            vm.ratesNotAvailable = false;
+            vm.searchRates = false;
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
+                    if (responce.items.length>0) {
                     vm.displayedCollection = responce.items;
                     vm.loadingRates = false;
                     vm.searchRates = true;
+                    } else {
+                       vm.loadingRates = false;
+                      vm.ratesNotAvailable = true;
+                  }
+                    
                 }).error(function (error) {
 
                 });
@@ -291,12 +302,12 @@
 
 
         vm.submitShipment = function () {
-            debugger;
+   
             var body = $("html, body");
             shipmentFactory.submitShipment(vm.shipment).success(
-                            function (responce) {
+                            function (response) {
                                 debugger;
-                                if (response == "success") {
+                                if (response == "COMM") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
@@ -310,8 +321,31 @@
                                         timeout: 3000,
                                     });
                                 }
-                            }).error(function (error) {
+                                else {
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 3000,
+                                    });
+                                }
+                            }).error(function (error) {
+                                $('#panel-notif').noty({
+                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    layout: 'bottom-right',
+                                    theme: 'made',
+                                    animation: {
+                                        open: 'animated bounceInLeft',
+                                        close: 'animated bounceOutLeft'
+                                    },
+                                    timeout: 3000,
+                                });
                             });
         }
 
