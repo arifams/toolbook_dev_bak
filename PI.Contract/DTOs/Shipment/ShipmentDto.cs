@@ -12,5 +12,6 @@ namespace PI.Contract.DTOs.Shipment
         public ConsignerAndConsigneeInformationDto AddressInformation { get; set; }
         public PackageDetailsDto PackageDetails { get; set; }
         public CarrierInformationDto CarrierInformation { get; set; }
+        public string UserId { get; set; }
     }
 }
