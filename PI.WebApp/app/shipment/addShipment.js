@@ -33,9 +33,7 @@
         vm.currencies = [];
         vm.ratesNotAvailable = false;
         $('.date_time').mask('00/00/0000 00:00');
-
-
-
+        vm.shipment.userId = $window.localStorage.getItem('userGuid');
 
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');

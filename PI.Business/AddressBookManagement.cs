@@ -15,7 +15,7 @@ namespace PI.Business
     public class AddressBookManagement: IAddressBookManagement
     {
 
-        public PagedList GetAllAddresses(string type, string userId, string searchtext, int page = 1, int pageSize = 10)
+        public PagedList GetAllAddresses(string type, string userId, string searchtext, int page = 1, int pageSize = 25)
                                          
         {
             var pagedRecord = new PagedList();
