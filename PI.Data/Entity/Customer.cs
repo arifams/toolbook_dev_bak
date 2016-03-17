@@ -37,8 +37,8 @@ namespace PI.Data.Entity
         //[ForeignKey("CompanyId")]
         //public Company CustomerCompany { get; set; }
 
-        //[ForeignKey("UserId")]
-        //public virtual ApplicationUser User { get; set; }
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
 
         #endregion
     }

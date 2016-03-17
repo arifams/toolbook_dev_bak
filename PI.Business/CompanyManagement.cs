@@ -1111,6 +1111,32 @@ namespace PI.Business
                     appUser.LastLoginTime = (DateTime?)null;
 
                     userContext.Users.Add(appUser);
+                    // Save user context.
+                    userContext.SaveChanges();
+
+                    // Add customer record for the newly added user.
+                    CustomerManagement customerMgr = new CustomerManagement();
+                    long companyId  = GetCompanyByUserId(appUser.Id).Id;
+                    string roleId   = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                    var businessOwnerRecord = userContext.Customers.Include("CustomerAddress").Where(x => x.CompanyId == companyId 
+                                                                     && x.User.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
+
+                   
+                    customerMgr.SaveCustomer(new CustomerDto
+                    {
+                        Salutation = userDto.Salutation,
+                        FirstName = userDto.FirstName,
+                        MiddleName = userDto.MiddleName,
+                        LastName = userDto.LastName,
+                        Email = userDto.Email,
+                        UserName = userDto.Email,
+                        Password = userDto.Password,
+                        IsCorpAddressUseAsBusinessAddress = true,
+                        UserId = appUser.Id,
+                        CompanyId = companyId,
+                        AddressId = businessOwnerRecord.AddressId
+                    });
                 }
                 else
                 {
@@ -1127,9 +1153,10 @@ namespace PI.Business
                     //existingUser.JoinDate = DateTime.Now;
                     //existingUser.CreatedBy = 1; //TODO: sessionHelper.Get<User>().LoginName; 
 
+                    // Save user context.
+                    userContext.SaveChanges();
                 }
-                // Save user context.
-                userContext.SaveChanges();
+               
 
                 using (PIContext context = new PIContext())
                 {
