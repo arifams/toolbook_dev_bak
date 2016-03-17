@@ -130,6 +130,18 @@ namespace PI.Data.Migrations
             //    new Entity.ShipmentMode() { Name = "Sea Freight" },
             //    new Entity.ShipmentMode() { Name = "Road Freight" }
             //);
+
+            context.VolumeMetrics.AddOrUpdate(
+                x => x.Id,
+                new Entity.VolumeMetric() {Name = "kg",IsActive = true,IsDelete = false, CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.VolumeMetric() {Name = "lbs", IsActive = true, IsDelete = false , CreatedBy = 1, CreatedDate = DateTime.Now }
+                );
+
+            context.WeightMetrics.AddOrUpdate(
+                x => x.Id,
+                new Entity.WeightMetric() {Name = "cm", IsActive = true, IsDelete = false, CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.WeightMetric() {Name = "m", IsActive = true, IsDelete = false , CreatedBy = 1, CreatedDate = DateTime.Now }
+                );
         }
     }
 }
