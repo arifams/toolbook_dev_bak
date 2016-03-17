@@ -52,6 +52,8 @@ namespace PI.Data.Entity.Identity
         [ForeignKey("TenantId")]
         public virtual Tenant Tenant { get; set; }
 
+        public virtual Customer Customer { get; set; }
+
         public virtual IList<UserInDivision> UserInDivisions { get; set; }
 
         #endregion

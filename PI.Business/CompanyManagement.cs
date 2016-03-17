@@ -1119,10 +1119,9 @@ namespace PI.Business
                     long companyId  = GetCompanyByUserId(appUser.Id).Id;
                     string roleId   = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
-                    var businessOwnerRecord = userContext.Customers.Include("CustomerAddress").Where(x => x.CompanyId == companyId 
-                                                                     && x.User.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
+                    var businessOwnerRecord = userContext.Tenants.Include("User").Where(x => x.Company.Id == companyId
+                                                                         && x.User.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault().User.Customer;
 
-                   
                     customerMgr.SaveCustomer(new CustomerDto
                     {
                         Salutation = userDto.Salutation,

@@ -23,7 +23,7 @@ namespace PI.Data.Entity
         public bool IsCorpAddressUseAsBusinessAddress { get; set; }
 
         public long AddressId { get; set; }
-        public long CompanyId{get; set;}
+        //public long CompanyId{get; set;}
         public String UserId { get; set; }
 
         public string UserName { get; set; } // TODO: To be removed

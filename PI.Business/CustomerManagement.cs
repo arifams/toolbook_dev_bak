@@ -42,7 +42,7 @@ namespace PI.Business
                             UserName = customer.Email,
                             Password = customer.Password,
                             UserId = customer.UserId,
-                            CompanyId = customer.CompanyId,
+                            //CompanyId = customer.CompanyId,
                             AddressId = (customer.AddressId > 0) ? customer.AddressId : 0,
                             CustomerAddress = (customer.AddressId > 0) ? null : new Address()
                             {

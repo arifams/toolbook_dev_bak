@@ -35,7 +35,6 @@
                                     <div class="append-icon">
                                         <input type="text" name="firstname" class="form-control form-white"
                                                required autofocus ng-model="saveUserCtrl.user.firstName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||saveUserCtrl.isSubmit) }" />
-                                        <i class="icon-user"></i>
                                         <div ng-messages="formSaveUser.firstname.$error" ng-show="formSaveUser.firstname.$dirty || saveUserCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="firstname">Enter your first name</label>
                                             <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
@@ -50,7 +49,6 @@
                                     <div class="append-icon">
                                         <input type="text" name="middlename" class="form-control form-white"
                                                ng-model="saveUserCtrl.user.middleName" maxlength="100" ng-minlength="3" ng-class="{ 'error': formSaveUser.middlename.$invalid && (formSaveUser.middlename.$dirty||regCtrl.isSubmit) }">
-                                        <i class="icon-user"></i>
                                         <div ng-messages="formSaveUser.middlename.$error" ng-show="formSaveUser.middlename.$dirty || saveUserCtrl.isSubmit">
                                             <label ng-message="maxlength" class="error" for="middlename">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
@@ -64,7 +62,6 @@
                                     <div class="append-icon">
                                         <input type="text" name="lastname" class="form-control form-white" minlength="4" required
                                                ng-model="saveUserCtrl.user.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||saveUserCtrl.isSubmit) }">
-                                        <i class="icon-user"></i>
                                         <div ng-messages="formSaveUser.lastname.$error" ng-show="formSaveUser.lastname.$dirty ||saveUserCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="lastname">Enter your last name</label>
                                             <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
@@ -80,7 +77,6 @@
                                     <div class="append-icon">
                                         <input type="email" name="email" class="form-control form-white"
                                                ng-model="saveUserCtrl.user.email" required ng-maxlength="100" ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||saveUserCtrl.isSubmit) }">
-                                        <i class="icon-user"></i>
                                         <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || saveUserCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="email">Enter your email address</label>
                                             <label ng-message="email" class="error" for="email">Enter valid email address</label>
@@ -115,7 +111,7 @@
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
-                                        data-original-title="Your Password should be:"></i>
+                                           data-original-title="Your Password should be:"></i>
                                         <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || saveUserCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="password">Enter your password</label>
                                             <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
@@ -141,12 +137,14 @@
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">User Role *</label>
-                                <div class="col-sm-10">
+                                <div class="col-sm-9">
                                     <div class="option-group">
                                         <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
                                                 convert-to-number ng-options="option.roleName as option.roleName for option in saveUserCtrl.user.roles" ng-required="true"></select>
-
                                     </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"></i>
                                 </div>
                             </div>
                             <div class="form-group" ng-show="saveUserCtrl.user.divisions.length > 0">
@@ -160,7 +158,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Status</label>
                                 <div class="col-sm-10">

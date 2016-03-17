@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Data.Entity.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,12 @@ namespace PI.Data.Entity
 
         public bool IsCorporateAccount { get; set; }
 
+
         #region Navigation Property
 
-        //public Company Company { get; set; } 
+        public Company Company { get; set; }
+
+        public ApplicationUser User { get; set; } 
 
         #endregion
     }
