@@ -98,6 +98,7 @@ namespace PI.Service.Controllers
 
                 // Add tenant Id to user
                 user.TenantId = tenantId;
+                //user.Customer = new Data.Entity.Customer();
 
                 IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
                 

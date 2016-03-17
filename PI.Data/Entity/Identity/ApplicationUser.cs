@@ -49,10 +49,11 @@ namespace PI.Data.Entity.Identity
 
         #region Navigation property
 
-        [Required]
+        //[Required]
+        [ForeignKey("TenantId")]
         public  Tenant Tenant { get; set; }
 
-        public virtual Customer Customer { get; set; }
+        //public virtual Customer Customer { get; set; }
 
         public virtual IList<UserInDivision> UserInDivisions { get; set; }
 

@@ -1119,7 +1119,7 @@ namespace PI.Business
                     string roleId   = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                     var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
-                                                                         && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault().Customer;
+                                                                         && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
 
                     
                     customerMgr.SaveCustomer(new CustomerDto
@@ -1133,7 +1133,7 @@ namespace PI.Business
                         Password = userDto.Password,
                         IsCorpAddressUseAsBusinessAddress = true,
                         UserId = appUser.Id,
-                        AddressId = businessOwnerRecord.AddressId
+                        AddressId = 1//businessOwnerRecord.Id
                     });
                 }
                 else
