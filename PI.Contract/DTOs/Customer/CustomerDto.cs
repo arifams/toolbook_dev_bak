@@ -34,5 +34,9 @@ namespace PI.Contract.DTOs.Customer
         public string TemplateLink { get; set; }
 
         public string CompanyCode { get; set; }
+
+        public long CompanyId { get; set; }
+
+        public long AddressId { get; set; }
     }
 }

@@ -432,7 +432,8 @@ namespace PI.Service.Controllers
         {
             UserResultDto result = companyManagement.SaveUser(user);
 
-            if (!result.IsSucess)   // Existing email address
+            // Existing email address
+            if (!result.IsSucess)   
             {
                 return -1;
             }
