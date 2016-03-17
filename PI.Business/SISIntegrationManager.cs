@@ -41,14 +41,14 @@ namespace PI.Business
 
         }
 
-        public string SubmitShipment(ShipmentDto addShipment)
+        public AddShipmentResponse SubmitShipment(ShipmentDto addShipment)
         {
             // Working sample xml data
             // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
 
             string baseSISUrl = "http://www2.shipitsmarter.com/taleus/insert_shipment.asp";
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
-            AddShipmentResponse myObject = null;
+            AddShipmentResponse addShipmentResponse = null;
 
             using (var wb = new WebClient())
             {
@@ -61,10 +61,11 @@ namespace PI.Business
                 XDocument doc = XDocument.Parse(responseString);
 
                 XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
-                myObject = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+                addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
             }
 
-            return myObject != null ? myObject.StatusShipment : "Error";
+            //return myObject != null ? myObject.StatusShipment : "Error";
+            return addShipmentResponse;
         }
 
         public void DeleteShipment(string shipmentCode)

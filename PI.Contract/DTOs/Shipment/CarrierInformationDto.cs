@@ -10,8 +10,8 @@ namespace PI.Contract.DTOs.Shipment
     {
         public decimal Insurance { get; set; }
         public string CarrierName { get; set; }
-        public DateTime PickupDate { get; set; }
-        public DateTime DeliveryTime { get; set; }
+        public DateTime? PickupDate { get; set; }
+        public DateTime? DeliveryTime { get; set; }
         public decimal Price { get; set; }
         public string serviceLevel { get; set; }
         public string tariffText { get; set; }

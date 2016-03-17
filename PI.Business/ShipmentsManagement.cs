@@ -264,8 +264,8 @@ namespace PI.Business
         public string SubmitShipment(ShipmentDto addShipment)
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
-           
-              sisManager.SubmitShipment(addShipment);
+
+            AddShipmentResponse addShipmentResponse = sisManager.SubmitShipment(addShipment);
 
             //If response is successfull save the shipment in DB.
             using (PIContext context = new PIContext())
@@ -274,6 +274,7 @@ namespace PI.Business
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                    ShipmentCode = addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
@@ -327,8 +328,8 @@ namespace PI.Business
                         CarrierCost = addShipment.CarrierInformation.Price,
                         InsuranceCost = addShipment.CarrierInformation.Insurance, 
                         PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                        EarliestPickupDate = addShipment.CarrierInformation.PickupDate,
-                        EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime,
+                        EarliestPickupDate = addShipment.CarrierInformation.PickupDate ?? null,
+                        EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
                         WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                         VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
                         IsActive = true,
@@ -336,7 +337,7 @@ namespace PI.Business
                         CreatedDate = DateTime.Now
                     }
                 };
-
+               
                 try
                 {
                     context.Shipments.Add(newShipment);
@@ -344,11 +345,9 @@ namespace PI.Business
                 }
                 catch (Exception ex) { throw ex; }
             }
-            return "success";
-
+            
+            return addShipmentResponse != null ? addShipmentResponse.StatusShipment : "Error";
         }
       
-
-        
     }
 }
