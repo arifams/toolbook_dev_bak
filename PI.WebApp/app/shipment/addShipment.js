@@ -318,10 +318,11 @@
                                             open: 'animated bounceInLeft',
                                             close: 'animated bounceOutLeft'
                                         },
-                                        timeout: 3000,
+                                        timeout: 6000,
                                     });
                                 }
                                 else {
+                                    debugger;
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
@@ -332,7 +333,7 @@
                                             open: 'animated bounceInLeft',
                                             close: 'animated bounceOutLeft'
                                         },
-                                        timeout: 3000,
+                                        timeout: 6000,
                                     });
                                 }
                             }).error(function (error) {
@@ -344,7 +345,7 @@
                                         open: 'animated bounceInLeft',
                                         close: 'animated bounceOutLeft'
                                     },
-                                    timeout: 3000,
+                                    timeout: 6000,
                                 });
                             });
         }

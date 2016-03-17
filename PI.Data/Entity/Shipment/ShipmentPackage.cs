@@ -28,8 +28,8 @@ namespace PI.Data.Entity
 
         // Skipped dangerous good section.
 
-        public DateTime EarliestPickupDate { get; set; }
-        public DateTime EstDeliveryDate { get; set; }
+        public DateTime? EarliestPickupDate { get; set; }
+        public DateTime? EstDeliveryDate { get; set; }
 
         #region Navigation properties
 
