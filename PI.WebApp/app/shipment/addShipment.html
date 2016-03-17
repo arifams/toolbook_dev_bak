@@ -49,7 +49,7 @@
                                 <div class="option-group">
                                     <select class="form-control"
                                             convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId" ng-change="selectCostCenter()">
+                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId" ng-change="selectCostCenter()" ng-required="true">
                                         <option value="">-Select Cost Center-</option>
                                     </select>
                                 </div>
@@ -601,8 +601,8 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label><input type="radio" name="weightCMLBS" icheck ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true"> kg </label>
-                                                    <label><input type="radio" name="weightCMLBS" icheck ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
+                                                    <label><input type="radio" icheck name="weightCMLBS"  ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
+                                                    <label><input type="radio" icheck name="weightCMLBS"  ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -627,8 +627,8 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label><input type="radio" name="volumeCMM" icheck ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true"> cm </label>
-                                                    <label><input type="radio" name="volumeCMM" icheck ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> m </label>
+                                                    <label><input type="radio" icheck name="volumeCMM"  ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true" checked="checked"> cm </label>
+                                                    <label><input type="radio" icheck name="volumeCMM"  ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> m </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -660,13 +660,13 @@
                                     <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
                                         <td>
                                             <select class="form-control" ng-model="package.productType"
-                                                    convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes"></select>
+                                                    convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                         </td>
-                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
-                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" /></td>
+                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
                                         <td style="text-align:center">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
@@ -699,7 +699,7 @@
                             <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
                                    class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                               
                                
-                               <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy HH:mm"  >
+                               <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy HH:mm" ng-required="true" >
                                
                         </div>
                     </div>
@@ -729,7 +729,7 @@
                         <div class="col-sm-2">
                             <div class="option-group">
                                 <select name="mySelect" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.valueCurrency"
-                                        convert-to-number ng-options="option.id as option.currencyName for option in shipmentCtrl.currencies"></select>
+                                        convert-to-number ng-options="option.id as option.currencyName for option in shipmentCtrl.currencies" ng-required="true"></select>
                             </div>
                         </div>
                         <div class="col-sm-3">
