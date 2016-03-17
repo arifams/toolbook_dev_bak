@@ -1116,12 +1116,12 @@ namespace PI.Business
 
                     // Add customer record for the newly added user.
                     CustomerManagement customerMgr = new CustomerManagement();
-                    long companyId  = GetCompanyByUserId(appUser.Id).Id;
                     string roleId   = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
-                    //var businessOwnerRecord = userContext.Tenants.Include("User").Where(x => x.Company.Id == companyId
-                    //                                                     && x.User.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault().User.Customer;
+                    var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
+                                                                         && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault().Customer;
 
+                    
                     customerMgr.SaveCustomer(new CustomerDto
                     {
                         Salutation = userDto.Salutation,
@@ -1133,8 +1133,7 @@ namespace PI.Business
                         Password = userDto.Password,
                         IsCorpAddressUseAsBusinessAddress = true,
                         UserId = appUser.Id,
-                        CompanyId = companyId,
-                        AddressId = 1//businessOwnerRecord.AddressId
+                        AddressId = businessOwnerRecord.AddressId
                     });
                 }
                 else
