@@ -33,9 +33,9 @@
 
                     </div>
                             <div class="form-group">
-                                <label class="col-sm-2 control-label">Assigned Division *</label>
+                                <label class="col-sm-2 control-label" ng-hide="shipmentCtrl.hidedivisions">Assigned Division *</label>
                                 <div class="col-sm-4">
-                                <div class="option-group">
+                                <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
                                     <select class="form-control"
                                             convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
                                             name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()" >
@@ -44,9 +44,9 @@
                                 </div>
                             </div>
 
-                            <label class="col-sm-2 control-label">Assigned CostCenter*</label>
+                            <label class="col-sm-2 control-label" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
                         <div class="col-sm-4">
-                                <div class="option-group">
+                                <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
                                     <select class="form-control"
                                             convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
                                             name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId" ng-change="selectCostCenter()">

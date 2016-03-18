@@ -35,6 +35,8 @@
         vm.ratesNotAvailable = false;
         $('.date_time').mask('00/00/0000 00:00');
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
+        vm.hidedivisions = false;
+        vm.hidecostcenters = true;
 
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
@@ -90,8 +92,12 @@
             // shipmentFactory.
             shipmentFactory.loadAllDivisions().success(
                function (responce) {
-
-                   vm.divisionList = responce;
+                   if (responce.length>0) {
+                       vm.divisionList = responce;
+                   } else {
+                       vm.hidedivisions = true;
+                   }
+                 
 
                }).error(function (error) {
 
@@ -102,8 +108,12 @@
 
             shipmentFactory.loadAssignedDivisions().success(
             function (responce) {
-
-                vm.divisionList = responce;
+                if (responce.length>0) {
+                    vm.divisionList = responce;
+                } else {
+                    vm.hidedivisions = true;
+                }
+              
 
             }).error(function (error) {
                 console.log("error occurd while retrieving divisions");
@@ -119,8 +129,12 @@
             if (divisionId != '') {
                 shipmentFactory.loadAssignedCostCenters(divisionId).success(
                function (responce) {
-
-                   vm.costcenterList = responce;
+                   if (responce.length>0) {
+                       vm.costcenterList = responce;
+                       vm.hidecostcenters = false;
+                   }      
+                  
+                 
 
                }).error(function (error) {
 
