@@ -689,7 +689,7 @@
                         <label class="col-sm-2 control-label"> HS Code</label>
                         <div class="col-sm-10">
                             <input ng-model="shipmentCtrl.shipment.packageDetails.hsCode" type="text" name="hsCode"
-                                   class="form-control" />
+                                   class="form-control" ng-required="true"/>
                         </div>
                     </div>
 
@@ -905,7 +905,7 @@
                             <tbody>
                                 <tr ng-repeat="row in shipmentCtrl.displayedCollection">
                                     <td>{{row.carrier_name+ " "+ row.transport_mode}}</td>
-                                    <td>{{row.currency_tariff+" "+row.price}}</td>
+                                    <td>{{row.currency+" "+row.price}}</td>
                                    <td>{{row.delivery_date}}</td>
                                     <td>{{row.price_detail.description}}</td>
                                     <td>{{row.transit_time}}</td>                                   
@@ -946,19 +946,19 @@
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.carrierName}}</td>
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.pickupDate}}</td>
                                             <td>{{shipmentCtrl.shipment.CarrierInformation.deliveryTime}}</td>
-                                            <td>{{shipmentCtrl.shipment.CarrierInformation.price}}</td>
+                                            <td>{{shipmentCtrl.shipment.CarrierInformation.price}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
                                         </tr>
                                         <tr>
                                             <td>Insurance</td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{shipmentCtrl.shipment.CarrierInformation.insurance}}</td>
+                                            <td>{{shipmentCtrl.shipment.CarrierInformation.insurance}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
                                         </tr>
                                         <tr>
                                             <td>Total</td>
                                             <td></td>
                                             <td></td>
-                                            <td>{{shipmentCtrl.shipment.CarrierInformation.totalPrice}}</td>
+                                            <td>{{shipmentCtrl.shipment.CarrierInformation.totalPrice}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

@@ -159,7 +159,14 @@ namespace PI.Business
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
-
+                if (currentShipment.PackageDetails.IsInsuared=="true")
+                {
+                    currentRateSheetDetails.insurance_instruction = "Y";
+                }
+                else
+                {
+                    currentRateSheetDetails.insurance_instruction = "N";
+                }
 
                 //if (currentShipment.PackageDetails.PreferredCollectionDate != null)
                 //{
@@ -217,8 +224,8 @@ namespace PI.Business
            // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
            // currentRateSheetDetails.time_pickup = "12:51";
            // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
-            currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
-           currentRateSheetDetails.insurance_instruction = "N";
+        //    currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
+         //  currentRateSheetDetails.insurance_instruction = "N";
            currentRateSheetDetails.sort = "PRICE";         
           // currentRateSheetDetails.inbound = "N"; 
            currentRateSheetDetails.dg = "NO";
