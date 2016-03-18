@@ -23,6 +23,7 @@
         vm.shipment.CarrierInformation = {};
         vm.searchRates = false;
         vm.loadingRates = false;
+        vm.addingShipment = false;
         vm.divisionList = {};
         vm.costcenterList = {};
         vm.Expressclass = "btn btn-success";
@@ -316,11 +317,11 @@
         vm.selectExpress();
 
         vm.submitShipment = function () {
-   
+            vm.addingShipment = true;
             var body = $("html, body");
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
-                                debugger;
+                                vm.addingShipment = false;                                
                                 if (response == "COMM") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
@@ -336,7 +337,7 @@
                                     });
                                 }
                                 else {
-                                    debugger;
+                                    vm.addingShipment = false;
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
