@@ -52,10 +52,8 @@ namespace PI.Business
                     currentRateSheetDetails.courier_sea = "EME";
                     currentRateSheetDetails.courier_road = "EME";
                 }
-                if (currentShipment.GeneralInformation.ShipmentTypeCode!=null && currentShipment.GeneralInformation.ShipmentTermCode!=null)
-                {
-                  currentRateSheetDetails.delivery_condition = "DD-DDU-PP";                   
-                }
+
+                currentRateSheetDetails.delivery_condition = currentShipment.GeneralInformation.ShipmentServices;
             }
             if (currentShipment.AddressInformation != null)
             {
