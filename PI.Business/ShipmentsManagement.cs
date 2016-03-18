@@ -195,8 +195,8 @@ namespace PI.Business
             }
             //hardcoded values for now
 
-            currentRateSheetDetails.userid = "User@Mitrai.com";
-            currentRateSheetDetails.password = "Mitrai462";
+            //currentRateSheetDetails.userid = "User@Mitrai.com";
+            //currentRateSheetDetails.password = "Mitrai462";
             currentRateSheetDetails.output = "XML";
             currentRateSheetDetails.type_xml = "LIST";
             currentRateSheetDetails.vat = "NO";

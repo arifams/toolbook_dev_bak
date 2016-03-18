@@ -53,6 +53,10 @@ namespace PI.Business
 
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
+            // Set SIS credentials.
+            rateParameters.userid = SISUserName;
+            rateParameters.password = SISPassword;
+
             var requestURL = GetRateRequestURL(rateParameters);
 
             XmlDocument doc1 = new XmlDocument();
@@ -101,8 +105,10 @@ namespace PI.Business
         {
             shipmentCode = "37733403";
 
-            string deleteURL = @"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
+            // Sample url with data send format
+            //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
+            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURL,SISUserName,SISPassword, shipmentCode);
 
             WebRequest webRequest = WebRequest.Create(deleteURL);
             webRequest.Method = "POST";
@@ -118,8 +124,8 @@ namespace PI.Business
             using (var client = new WebClient())
             {
                 var values = new NameValueCollection();
-                values["userid"] = "user@mitrai.com";
-                values["password"] = "mitrai462";
+                values["userid"] = SISUserName;
+                values["password"] = SISPassword;
                 values["codeshipment"] = "1111";
 
                 var response = client.UploadValues("http://parcelinternational.pro/status/UPS/1Z049A0X6797782690", values);
@@ -137,7 +143,7 @@ namespace PI.Business
 
         public string GetRateRequestURL(RateSheetParametersDto rateParameters)
         {
-            string baseSISUrl = "http://www2.shipitsmarter.com/taleus/ec_shipmentcost_v2.asp?";
+            string baseSISUrl = SISWebURL + "/ec_shipmentcost_v2.asp?";
             if (rateParameters == null)
             {
                 return string.Empty;
