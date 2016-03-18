@@ -84,9 +84,9 @@
              .then(function (returnedResult) {
                  debugger;
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
-
+                     debugger;
                      // TODO: To be coverted to a token.
-                     $window.localStorage.setItem('userGuid', returnedResult.data.user.id); 
+                     $window.localStorage.setItem('userGuid', returnedResult.data.id); 
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
                      $window.localStorage.setItem('isCorporateAccount', returnedResult.data.isCorporateAccount);
 

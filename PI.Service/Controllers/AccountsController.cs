@@ -273,7 +273,7 @@ namespace PI.Service.Controllers
             if (user == null)
                 return Ok(new
                 {
-                    User = user,
+                    Id = "",
                     Role = roleName,
                     Result = -1
                 });
@@ -286,7 +286,7 @@ namespace PI.Service.Controllers
 
                     return Ok(new
                     {
-                        Id = user,
+                        Id = user.Id,
                         Role = roleName,
                         Result = 1,
                         IsCorporateAccount = isCorporateAccount
@@ -296,7 +296,7 @@ namespace PI.Service.Controllers
                 else
                     return Ok(new
                     {
-                        User = user,
+                        Id = user.Id,
                         Role = roleName,
                         Result = -11 //You must have a confirmed email to log in
                     });
@@ -311,7 +311,7 @@ namespace PI.Service.Controllers
 
                     return Ok(new
                     {
-                        User = user,
+                        Id = user.Id,
                         Role = roleName,
                         Result = 2,
                         IsCorporateAccount = isCorporateAccount
@@ -321,7 +321,7 @@ namespace PI.Service.Controllers
                 {
                     return Ok(new
                     {
-                        User = user,
+                        Id = user.Id,
                         Role = roleName,
                         Result = -2
                     });
