@@ -246,7 +246,7 @@
         }
 
         vm.selectCarrier = function (row) {
-
+            var total = 0.0;
             vm.searchRates = false;
             if (row != null) {
                 vm.shipment.CarrierInformation.carrierName = row.carrier_name;
@@ -255,7 +255,8 @@
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 vm.shipment.CarrierInformation.insurance = (row.price * 1.1).toFixed(2);
-                vm.shipment.CarrierInformation.totalPrice = parseFloat(row.price) + parseFloat((row.price * 1.1).toFixed(2));
+                total=parseFloat(row.price) + parseFloat((row.price * 1.1).toFixed(2));
+                vm.shipment.CarrierInformation.totalPrice = total.toFixed(2);
 
                 vm.shipment.CarrierInformation.serviceLevel = row.service_level
                 vm.shipment.CarrierInformation.tariffText = row.tariff_text
