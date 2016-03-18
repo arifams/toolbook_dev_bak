@@ -5,6 +5,7 @@ using PI.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -18,26 +19,55 @@ namespace PI.Business
 {
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
-      private string sisUserId = null;
-      private string password = null;
+        public string SISWebURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISWebURL"].ToString();
+            }
+        }
+
+        public string SISUserName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISUserName"].ToString();
+            }
+        }
+
+        public string SISPassword
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISPassword"].ToString();
+            }
+        }
+
+        public string SISCompanyCode
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISCompanyCode"].ToString();
+            }
+        }
 
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
             var requestURL = GetRateRequestURL(rateParameters);
 
             XmlDocument doc1 = new XmlDocument();
-           // doc1.Load("http://www2.shipitsmarter.com/taleus/ec_shipmentcost_v2.asp?userid=User@Mitrai.com&password=Mitrai462&output=XML&type_xml=LIST&vat=NO&default_off=YES&type=selectkmnetworkroad&fieldname4=shipment_price&fieldname1=price&sell_buy=&courier=UPSDHLFEDTNT&courier_km=&courier_air=EME&courier_road=&courier_tariff_base=&courier_sea=&courier_date_pickup_transition=&language=EN&print_button=&country_distance=&courier_tariff_type=NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE&country_to=AS&code_country_to=AS&weight=0.45&code_currency=USD&pieces=1&length=25&width=38.1&height=2.54&volume=2458.0596&max_dimension=106.67999999999999&max_length=38.1&max_weight=0.45&surface=967.74&ind_pallet=&max_actual_length=25.4&max_width=38.1&max_height=2.54&max_volume=2458.0596&package=DOCUMENT&address1=Tale%20United%20States&address2=Mariners%20Island%20Boulevard&street_number=901&address3=Suite%20595&address4=San%20Mateo&postcode=94404&country_from=US&code_country_from=US&address11=fgdfg&address12=dfgdfg&address13=dfgd&address14=dfgd&street_number_delivery=dfgdg&postcode_delivery=dfgd&date_pickup=09-Mar-2016%2000:00&time_pickup=09:30&date_delivery_request=24-Mar-2016%2000:00&delivery_condition=DD-DDU-PP&value=2&weight_unit=kg&insurance_instruction=N&sort=PRICE&volume_unit=cm&inbound=N&dg=NO&dg_type=&account=&code_customer=&ind_delivery_inside=&url=www2.shipitsmarter.com/taleus/");
+            // doc1.Load("http://www2.shipitsmarter.com/taleus/ec_shipmentcost_v2.asp?userid=User@Mitrai.com&password=Mitrai462&output=XML&type_xml=LIST&vat=NO&default_off=YES&type=selectkmnetworkroad&fieldname4=shipment_price&fieldname1=price&sell_buy=&courier=UPSDHLFEDTNT&courier_km=&courier_air=EME&courier_road=&courier_tariff_base=&courier_sea=&courier_date_pickup_transition=&language=EN&print_button=&country_distance=&courier_tariff_type=NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE&country_to=AS&code_country_to=AS&weight=0.45&code_currency=USD&pieces=1&length=25&width=38.1&height=2.54&volume=2458.0596&max_dimension=106.67999999999999&max_length=38.1&max_weight=0.45&surface=967.74&ind_pallet=&max_actual_length=25.4&max_width=38.1&max_height=2.54&max_volume=2458.0596&package=DOCUMENT&address1=Tale%20United%20States&address2=Mariners%20Island%20Boulevard&street_number=901&address3=Suite%20595&address4=San%20Mateo&postcode=94404&country_from=US&code_country_from=US&address11=fgdfg&address12=dfgdfg&address13=dfgd&address14=dfgd&street_number_delivery=dfgdg&postcode_delivery=dfgd&date_pickup=09-Mar-2016%2000:00&time_pickup=09:30&date_delivery_request=24-Mar-2016%2000:00&delivery_condition=DD-DDU-PP&value=2&weight_unit=kg&insurance_instruction=N&sort=PRICE&volume_unit=cm&inbound=N&dg=NO&dg_type=&account=&code_customer=&ind_delivery_inside=&url=www2.shipitsmarter.com/taleus/");
             doc1.Load(requestURL);
 
             ShipmentcostList myObject = null;
             // Construct an instance of the XmlSerializer with the type
             // of object that is being deserialized.
             XmlSerializer mySerializer =
-            new XmlSerializer(typeof(ShipmentcostList));          
+            new XmlSerializer(typeof(ShipmentcostList));
 
             // Call the Deserialize method and cast to the object type.       
 
-           return   myObject = (ShipmentcostList)mySerializer.Deserialize(new StringReader(doc1.OuterXml.ToString()));
+            return myObject = (ShipmentcostList)mySerializer.Deserialize(new StringReader(doc1.OuterXml.ToString()));
 
         }
 
@@ -45,8 +75,7 @@ namespace PI.Business
         {
             // Working sample xml data
             // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
-
-            string baseSISUrl = "http://www2.shipitsmarter.com/taleus/insert_shipment.asp";
+            
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
@@ -55,7 +84,7 @@ namespace PI.Business
                 var data = new NameValueCollection();
                 data["data_xml"] = addShipmentXML;
 
-                var response = wb.UploadValues(baseSISUrl, "POST", data);
+                var response = wb.UploadValues(SISWebURL + "insert_shipment.asp", "POST", data);
                 var responseString = Encoding.Default.GetString(response);
 
                 XDocument doc = XDocument.Parse(responseString);
@@ -72,13 +101,13 @@ namespace PI.Business
         {
             shipmentCode = "37733403";
 
-            string deleteURL = @"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment="+ shipmentCode;
+            string deleteURL = @"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
 
             WebRequest webRequest = WebRequest.Create(deleteURL);
             webRequest.Method = "POST";
             webRequest.ContentLength = 0;
-            WebResponse webResp = webRequest.GetResponse();          
+            WebResponse webResp = webRequest.GetResponse();
         }
 
         public string GetShipmentStatus(string URL)
@@ -107,9 +136,9 @@ namespace PI.Business
         }
 
         public string GetRateRequestURL(RateSheetParametersDto rateParameters)
-        {            
+        {
             string baseSISUrl = "http://www2.shipitsmarter.com/taleus/ec_shipmentcost_v2.asp?";
-            if (rateParameters==null)
+            if (rateParameters == null)
             {
                 return string.Empty;
             }
@@ -157,7 +186,7 @@ namespace PI.Business
             rateRequestUrl.Append("&address2=" + rateParameters.address2);
             rateRequestUrl.Append("&address3=" + rateParameters.address3);
             rateRequestUrl.Append("&address4=" + rateParameters.address4);
-            rateRequestUrl.Append("&street_number=" + rateParameters.street_number);           
+            rateRequestUrl.Append("&street_number=" + rateParameters.street_number);
             rateRequestUrl.Append("&postcode=" + rateParameters.postcode);
             rateRequestUrl.Append("&country_from=" + rateParameters.country_from);
             rateRequestUrl.Append("&code_country_from=" + rateParameters.code_country_from);
@@ -180,7 +209,7 @@ namespace PI.Business
             rateRequestUrl.Append("&dg_type=" + rateParameters.dg_type);
             rateRequestUrl.Append("&account=" + rateParameters.account);
             rateRequestUrl.Append("&max_actual_length=" + rateParameters.max_actual_length);
-         
+
 
             rateRequestUrl.Append("&code_customer=" + rateParameters.code_customer);
             rateRequestUrl.Append("&ind_delivery_inside=" + rateParameters.ind_delivery_inside);
@@ -192,11 +221,7 @@ namespace PI.Business
 
         private string BuildAddShipmentXMLString(ShipmentDto addShipment)
         {
-            // Retrieve username and password from service web.config file.
-            string sisUserName = "user@mitrai.com", sisPassword = "mitrai462", sisCompanyCode = "121";
-
-            // TODO : Get this from db.
-            string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff"); //"hpcdabc127";
+            string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
 
             string codeCurrenyString = "";
             using (var context = new PIContext())
@@ -206,12 +231,12 @@ namespace PI.Business
 
             StringBuilder shipmentStr = new StringBuilder();
 
-            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>",sisPassword,sisUserName,sisCompanyCode);
+            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, SISCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", referenceNo);
             shipmentStr.AppendFormat("<account>{0}</account>", "000001");  // Should be cost center - But for now send this value-: 000001
-            shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>",addShipment.CarrierInformation.CarrierName);
+            shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>", addShipment.CarrierInformation.CarrierName);
             shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);  // TODO: With this pickup date issue encounter.
             shipmentStr.AppendFormat("<ind_dangerous>{0}</ind_dangerous>", "N");   // TODO: sprint 3 doesn't support for dangerous goods. So for this sprint this should be No
             shipmentStr.AppendFormat("<ind_insurance>{0}</ind_insurance>", addShipment.PackageDetails.IsInsuared == "true" ? "Y" : "N");
@@ -219,15 +244,15 @@ namespace PI.Business
             shipmentStr.AppendFormat("<date_pickup>{0}</date_pickup>", addShipment.PackageDetails.PreferredCollectionDate);   //"18-Mar-2016"
             shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
             shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
-            shipmentStr.AppendFormat("<price>{0}</price>",(addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
+            shipmentStr.AppendFormat("<price>{0}</price>", (addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
             //shipmentStr.AppendFormat("<price_insurance>{0}</price_insurance>", ); // TODO: Comment this for now. - Will get clarification later.
 
             shipmentStr.AppendFormat("<weight>{0}</weight>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Weight));
             shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>", addShipment.PackageDetails.CmLBS ? "KG" : "LBS");    // TODO: Is LBS word correct?
             shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Length));
-            shipmentStr.AppendFormat("<height>0</height>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Height)); 
+            shipmentStr.AppendFormat("<height>0</height>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Height));
             shipmentStr.AppendFormat("<width>0</width>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Width));
-            shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>",addShipment.PackageDetails.VolumeCMM ? "CM" :"M" );
+            shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>", addShipment.PackageDetails.VolumeCMM ? "CM" : "M");
 
             shipmentStr.AppendFormat("<package>{0}</package>", ProductType(addShipment.PackageDetails.ProductIngredients));    // This represent summary of package. So has different package types, use DIVERSE
 
@@ -240,7 +265,7 @@ namespace PI.Business
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
             shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
             shipmentStr.AppendFormat("<reference_list><reference_tag>STATE_FROM</reference_tag><reference_value>{0}</reference_value></reference_list>", addShipment.AddressInformation.Consigner.State);
-            
+
             // Consignee details.
             shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
             shipmentStr.AppendFormat("<address11>{0}</address11>", addShipment.AddressInformation.Consignee.Name);
