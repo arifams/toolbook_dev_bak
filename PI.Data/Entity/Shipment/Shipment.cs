@@ -12,8 +12,8 @@ namespace PI.Data.Entity
         // General Information
         public string ShipmentName { get; set; }
         public string ShipmentCode { get; set; }
-        public long DivisionId { get; set; }
-        public long CostCenterId { get; set; }
+        public long? DivisionId { get; set; }
+        public long? CostCenterId { get; set; }
         public string ShipmentMode { get; set; }
         public string ShipmentTypeCode { get; set; }
         public string ShipmentTermCode { get; set; }
