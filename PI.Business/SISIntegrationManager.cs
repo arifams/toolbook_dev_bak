@@ -284,7 +284,7 @@ namespace PI.Business
 
             // Summary of packages.
             shipmentStr.AppendFormat("<description>{0}</description>", addShipment.PackageDetails.ShipmentDescription);
-            shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", "DD-DDP-PP");  // TODO: Change this after get values from view.
+            shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", addShipment.GeneralInformation.ShipmentServices);
             shipmentStr.AppendFormat("<value>{0}</value>", addShipment.PackageDetails.DeclaredValue);
             shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", codeCurrenyString);
 

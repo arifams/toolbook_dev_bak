@@ -402,13 +402,14 @@
                         </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.state" type="text" name="consignerstate" class="form-control" placeholder="State"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerstate.$invalid &&
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.state" type="text" name="consignerstate" class="form-control" placeholder="State code"
+                                       ng-maxlength="2" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consignerstate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerstate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                 <div ng-messages="consignerConsigneeInfoForm.consignerstate.$error"
                                      ng-show="consignerConsigneeInfoForm.consignerstate.$dirty || shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="required" class="error" for="consignerstate">Consigner State is required</label>
-                                    <label ng-message="maxlength" class="error" for="consignerstate">Max length should be 200 characters</label>
+                                    <label ng-message="maxlength" class="error" for="consignerstate">Max length should be 2 characters</label>
+                                    <label ng-message="minlength" class="error" for="consigneestate">Min length should be 2 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -416,13 +417,14 @@
                         <div class="col-sm-2"></div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.state" type="text" name="consigneeaddress2" class="form-control" placeholder="State"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneestate.$invalid &&
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.state" type="text" name="consigneeaddress2" class="form-control" placeholder="State code"
+                                       ng-maxlength="2" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consigneestate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneestate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneestate.$error"
                                      ng-show="consignerConsigneeInfoForm.consigneestate.$dirty || shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="required" class="error" for="consigneestate">Consignee state is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneestate">Max length should be 200 characters</label>
+                                    <label ng-message="maxlength" class="error" for="consigneestate">Max length should be 2 characters</label>
+                                    <label ng-message="minlength" class="error" for="consigneestate">Min length should be 2 characters</label>
                                 </div>
                             </div>
                         </div>
