@@ -70,6 +70,9 @@
         vm.shipment.generalInformation.shipmentServices = "DD-DDP-PP";
         vm.shipment.packageDetails.cmLBS = "true";
         vm.shipment.packageDetails.volumeCMM = "true";
+        vm.shipment.packageDetails.isInsuared = "false";
+        vm.shipment.packageDetails.valueCurrency = 1;
+        
 
         shipmentFactory.loadAllCurrencies()
             .success(
