@@ -193,7 +193,7 @@ namespace PI.Business
         private string BuildAddShipmentXMLString(ShipmentDto addShipment)
         {
             // Retrieve username and password from service web.config file.
-            string sisUserName = "user@mitrai.com", sisPassword = "mitrai462", sisCompanyCode = "122";
+            string sisUserName = "user@mitrai.com", sisPassword = "mitrai462", sisCompanyCode = "121";
 
             // TODO : Get this from db.
             string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff"); //"hpcdabc127";
@@ -212,7 +212,7 @@ namespace PI.Business
             shipmentStr.AppendFormat("<reference>{0}</reference>", referenceNo);
             shipmentStr.AppendFormat("<account>{0}</account>", "000001");  // Should be cost center - But for now send this value-: 000001
             shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>",addShipment.CarrierInformation.CarrierName);
-            //shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.GeneralInformation.ShipmentMode);  // TODO: With this pickup date issue encounter.
+            shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);  // TODO: With this pickup date issue encounter.
             shipmentStr.AppendFormat("<ind_dangerous>{0}</ind_dangerous>", "N");   // TODO: sprint 3 doesn't support for dangerous goods. So for this sprint this should be No
             shipmentStr.AppendFormat("<ind_insurance>{0}</ind_insurance>", addShipment.PackageDetails.IsInsuared == "true" ? "Y" : "N");
             shipmentStr.AppendFormat("<code_currency>{0}</code_currency>", codeCurrenyString);

@@ -19,7 +19,7 @@ namespace PI.Contract.DTOs.Shipment
 
         public string shipmentModeName { get; set; }
         public string shipmentTypeName { get; set; }
-        
-       
+
+        public string ShipmentServices { get; set; }
     }
 }

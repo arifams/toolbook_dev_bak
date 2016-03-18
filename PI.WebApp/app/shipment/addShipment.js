@@ -52,13 +52,24 @@
                                 { "Id": "CPT", "Name": "Carriage Paid To (CPT)" },
                                 { "Id": "EXW", "Name": "Ex Works (EXW)" }
         ];
-        vm.shipmentTypes = [{ "Id": "DD-PP", "Name": "Door to Door, Prepaid (DD-PP)" },
-                                { "Id": "DP-PP", "Name": "Door to Port, Prepaid (DP-PP)" },
-                                { "Id": "PD-PP", "Name": "Port to Door, Prepaid (PD-PP)" },
-                                { "Id": "PP-PP", "Name": "Port to Port, Prepaid (PP-PP)" },
-                                { "Id": "FCA", "Name": "Free Carrier (FCA)" }
+        vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
+                                { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+                                { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
+                                { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
+                                { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
+                                { "Id": "PD-CPT-PP", "Name": "Port-to-Door, CPT, Prepaid" },
+                                { "Id": "PD-CIP-PP", "Name": "Port-to-Door, CIP, Prepaid" },
+                                { "Id": "PP-CPT-PP", "Name": "Port-to-Port, CPT, Prepaid" },
+                                { "Id": "PP-CIP-PP", "Name": "Port-to-Port, CIP, Prepaid" },
+                                { "Id": "DP-FCA-CC", "Name": "FCA-Free Carrier" },
+                                { "Id": "DF-EXW-CC", "Name": "EXW-Ex Works" },
+                                { "Id": "KMSDY", "Name": "Door-to-Door, SDY, Same Day" },
         ];
 
+        // Select default values.
+        vm.shipment.generalInformation.shipmentServices = "DD-DDP-PP";
+        vm.shipment.packageDetails.cmLBS = "true";
+        vm.shipment.packageDetails.volumeCMM = "true";
 
         shipmentFactory.loadAllCurrencies()
             .success(
@@ -298,6 +309,7 @@
 
         }
 
+        vm.selectExpress();
 
         vm.submitShipment = function () {
    
@@ -377,6 +389,7 @@
                 vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
                 vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
 
+                vm.shipment.packageDetails.shipmentDescription = "testDesc";
             }
         };
 
