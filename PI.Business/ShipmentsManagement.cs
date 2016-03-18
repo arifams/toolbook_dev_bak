@@ -38,11 +38,11 @@ namespace PI.Business
                 }
                 else if (currentShipment.GeneralInformation.ShipmentMode == "SeaFreight")
                 {
-                    currentRateSheetDetails.courier_sea = "EME";
+                    currentRateSheetDetails.courier_sea = "";
                 }
                 else if (currentShipment.GeneralInformation.ShipmentMode == "RoadFreight")
                 {
-                    currentRateSheetDetails.courier_road = "EME";
+                    currentRateSheetDetails.courier_road = "";
                 }
                 else
                 {

@@ -15,7 +15,7 @@
             </div>
             <form class="form-horizontal" name="genaralDetailsForm" collapse="shipmentCtrl.collapse1==true" ng-submit="genaralDetailsForm.$valid && shipmentCtrl.updateGeneralInfo()">
 
-                <div class="panel-content">
+                <div class="panel-content panel-default">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -131,7 +131,7 @@
             </div>
             <form class="form-horizontal" name="consignerConsigneeInfoForm" collapse="shipmentCtrl.collapse2==true"
                   ng-submit="consignerConsigneeInfoForm.$valid && shipmentCtrl.updateConsignInfo()">
-                <div class="panel-content">
+                <div class="panel-content panel-default">
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="form-group">
@@ -485,7 +485,7 @@
                                                                         (consignerConsigneeInfoForm.consignercontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Number*" valid-phone-no />
                                 <div ng-messages="consignerConsigneeInfoForm.consignercontactNumber.$error"
                                      ng-show="consignerConsigneeInfoForm.consignercontactNumber.$dirty || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consignercontactNumber">Consigner Email is required</label>
+                                    <label ng-message="required" class="error" for="consignercontactNumber">Consigner Contact is required</label>
                                     <label ng-message="maxlength" class="error" for="consignercontactNumber">Max length should be 200 characters</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
                                 </div>
@@ -507,7 +507,7 @@
                                                                         (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Number*" valid-phone-no />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
                                      ng-show="consignerConsigneeInfoForm.consigneecontactNumber.$dirty || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneecontact">Consignee Email is required</label>
+                                    <label ng-message="required" class="error" for="consigneecontact">Consignee Contact is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneecontact">Max length should be 200 characters</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
                                 </div>
@@ -571,8 +571,8 @@
                 </div>
 
             </div>
-            <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid">
-                <div class="panel-content">
+            <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid" >
+                <div class="panel-content panel-default" >
                     <div class="form-group">
                         <label class="col-sm-2 control-label"> Shipment Description *</label>
                         <div class="col-sm-10">
@@ -776,7 +776,7 @@
                 </div>
             </div>
             <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate>
-                <div class="panel-content">
+                <div class="panel-content panel-default">
                     <h3>Shipment Summary</h3>
 
                     <div class="row">
