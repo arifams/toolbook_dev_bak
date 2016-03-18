@@ -137,15 +137,17 @@
 
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">User Role *</label>
-                                <div class="col-sm-9">
+                                <div class="col-sm-10">
                                     <div class="option-group">
                                         <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
-                                                convert-to-number ng-options="option.roleName as option.roleName for option in saveUserCtrl.user.roles" ng-required="true"></select>
+                                                convert-to-number ng-options="option.roleName as option.roleName for option in
+                                                saveUserCtrl.user.roles" ng-required="true"
+                                                rel="popover" data-container="body" data-toggle="popover"
+                                                data-placement="top"
+                                                data-html="true"
+                                                data-content="User role will determine the user's permisssion level."></select>
                                     </div>
-                                </div>
-                                <div class="col-sm-1">
-                                    <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"></i>
-                                </div>
+                                </div>                              
                             </div>
                             <div class="form-group" ng-show="saveUserCtrl.user.divisions.length > 0">
                                 <label class="col-sm-2 control-label">Assigned Division /'s * </label>

@@ -12,14 +12,15 @@
                     <div class="col-xs-12">
                         <!-- left column -->                      
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Company Name *</label>
+                            <label class="col-sm-2 control-label">Company Name</label>
                             <div class="col-sm-8">
-                                <input ng-model="addressCtrl.model.companyName" type="text" name="companyname" class="form-control" ng-required="true"
+                                <input ng-model="addressCtrl.model.companyName" type="text" name="companyname" class="form-control"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.companyname.$invalid &&
-                                                                        (saveAddressForm.companyname.$dirty|| addressCtrl.isSubmit) }" />
+                                                                        (saveAddressForm.companyname.$dirty|| addressCtrl.isSubmit) }"
+                                       placeholder="Enter Company Name" />
                                 <div ng-messages="saveAddressForm.companyname.$error"
                                      ng-show="saveAddressForm.companyname.$dirty || addressCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="divisionName">Company Name is required</label>
+                                    <!--<label ng-message="required" class="error" for="divisionName">Company Name is required</label>-->
                                     <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
                                 </div>
                             </div>
@@ -95,14 +96,14 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label">Account Number *</label>
+                            <label class="col-sm-2 control-label">Account Number </label>
                             <div class="col-sm-8">
-                                <input ng-model="addressCtrl.model.accountNumber" type="text" name="accountnumber" class="form-control" ng-required="true"
+                                <input ng-model="addressCtrl.model.accountNumber" type="text" name="accountnumber" class="form-control" 
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.accountnumber.$invalid &&
                                                                         (saveAddressForm.accountnumber.$dirty|| addressCtrl.isSubmit) }" placeholder="Enter account number"/>
                                 <div ng-messages="saveAddressForm.accountnumber.$error"
                                      ng-show="saveAddressForm.accountnumber.$dirty || addressCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="divisionName">Account Number is required</label>
+                                    <!--<label ng-message="required" class="error" for="divisionName">Account Number is required</label>-->
                                     <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
                                 </div>
                             </div>
