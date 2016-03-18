@@ -659,22 +659,22 @@
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
-                                        <td>
+                                        <td ng-init="package.productType = 'Document'" width="20%">
                                             <select class="form-control" ng-model="package.productType"
                                                     convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                         </td>
-                                        <td><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
-                                        <td><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
-                                        <td style="text-align:center">
-                                            <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
+                                        <td width="12%"><input type="number" class="form-control" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td width="12%"><input type="number" class="form-control" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td width="12%"><input type="number" class="form-control" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td width="12%"><input type="number" class="form-control" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td width="12%"><input type="number" class="form-control" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
+                                        <td style="text-align:center" width="5%">
+                                            <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removepackage1({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
                                                 </i>
                                             </a>
                                         </td>
-                                        <td style="text-align:center">
+                                        <td style="text-align:center" width="5%">
                                             <a href="javascript:void(0)" ng-click="shipmentCtrl.addEmptyRow()" ng-show="$last">
                                                 <i class="fa fa-plus" style="color:blue">
                                                 </i>
@@ -724,7 +724,7 @@
                             </div>
                         </div>
                         <div class="col-sm-3">
-                            <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue"
+                            <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue" placeholder="Declared value" 
                                    class="form-control" />
                         </div>
                         <div class="col-sm-2">
