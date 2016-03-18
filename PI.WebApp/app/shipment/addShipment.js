@@ -160,11 +160,11 @@
         }
 
         vm.ClearConsignerAddress = function () {
-            vm.AddressInformation.consigner = {};
+            vm.shipment.addressInformation.consigner = {};
         }
 
         vm.ClearConsigneeAddress = function () {
-            vm.AddressInformation.consignee = {};
+            vm.shipment.addressInformation.consignee = {};
         }
 
         //accordian functionality

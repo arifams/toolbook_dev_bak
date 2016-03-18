@@ -83,8 +83,7 @@
                                     <select id="shipmentServices" class="form-control"
                                             convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
                                                 name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                            ng-change="selectShipmentType(); ">
-                                    </select>
+                                                ng-change="selectShipmentType(); "></select>
                                 </div>
 
                             </div>
@@ -102,7 +101,7 @@
 
                         </div>
                             <div class="form-group">
-                                <button class="btn btn-default pull-right" type="submit"
+                                <button class="btn btn-primary pull-right" type="submit"
                                         ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
                                     Next
                                 </button>
@@ -534,22 +533,16 @@
                             <a ng-click="shipmentCtrl.ClearConsigneeAddress()">Clear All</a>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-8"></div>
-                        <div class="col-sm-2">
                             <div class="form-group">
-
-                                <button class="btn btn-primary btn-transparent pull-right"
-                                        ng-click="shipmentCtrl.collapse1=false;shipmentCtrl.collapse2=true">
-                                    Previous
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-12">
                             <div class="form-group">
-                                <button class="btn btn-primary btn-transparent pull-right"
+                                <button class="btn btn-primary btn-app pull-right"
                                         ng-click="shipmentCtrl.checkConsignInfo(consignerConsigneeInfoForm.$valid)">
                                     Next
+                                </button>
+                                <button class="btn btn-primary btn-app pull-right"
+                                        ng-click="shipmentCtrl.collapse1=false;shipmentCtrl.collapse2=true">
+                                    Previous
                                 </button>
                             </div>
                         </div>
@@ -602,8 +595,8 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label><input type="radio" icheck name="weightCMLBS"  ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
-                                                    <label><input type="radio" icheck name="weightCMLBS"  ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
+                                                    <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
+                                                    <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -628,8 +621,8 @@
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label><input type="radio" icheck name="volumeCMM"  ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true" checked="checked"> cm </label>
-                                                    <label><input type="radio" icheck name="volumeCMM"  ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> m </label>
+                                                    <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true" checked="checked"> cm </label>
+                                                    <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> m </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -690,7 +683,7 @@
                         <label class="col-sm-2 control-label"> HS Code</label>
                         <div class="col-sm-10">
                             <input ng-model="shipmentCtrl.shipment.packageDetails.hsCode" type="text" name="hsCode"
-                                   class="form-control" ng-required="true"/>
+                                   class="form-control" ng-required="true" />
                         </div>
                     </div>
 
@@ -700,7 +693,7 @@
                             <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
                                    class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                               
                                
-                               <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy HH:mm" ng-required="true" >
+                            <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy HH:mm" ng-required="true">
                                
                         </div>
                     </div>
@@ -738,22 +731,15 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="row">
-                            <div class="col-sm-8"></div>
-                            <div class="col-sm-2">
-                                <button ng-click="shipmentCtrl.collapse2=false;shipmentCtrl.collapse3=true" class="btn btn-primary btn-transparent pull-right">
-                                    Previous
-                                </button>
-                            </div>
-                            <div class="col-sm-2">
+                        <div class="col-sm-12">
                                 <button type="submit" ng-click="shipmentCtrl.checkPackageDetails(formPackage.$valid)"
-                                        class="btn btn-primary btn-transparent pull-right">
+                                    class="btn btn-primary pull-right">
                                     Next
                                 </button>
+                            <button ng-click="shipmentCtrl.collapse2=false;shipmentCtrl.collapse3=true" class="btn btn-primary pull-right">
+                                Previous
+                            </button>
                             </div>
-                        </div>
-
-
                     </div>
                 </div>
 
@@ -808,7 +794,7 @@
                         </div>
                         <div class="col-sm-3">
                             <div class="form-group">
-                                <input value="{{shipmentCtrl.shipment.generalInformation.shipmentTypeCode+'-'+shipmentCtrl.shipment.generalInformation.shipmentTermCode}}" type="text" name="shipmentType" class="form-control" disabled
+                                <input value="{{shipmentCtrl.shipment.generalInformation.shipmentServices}}" type="text" name="shipmentType" class="form-control" disabled
                                        ng-maxlength="200" />
                             </div>
                         </div>
@@ -864,27 +850,23 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col-sm-9"></div>
-                        <div class="col-sm-2">
+                    <br/>
                             <div class="form-group">
-                                <button class="btn btn-primary btn-transparent pull-right" type="submit" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
-                            </div>
-
-                        </div>
+                        <div class="col-sm-8"></div>                      
                         <div class="col-sm-1">
                             <div class="font-animation" ng-show="shipmentCtrl.loadingRates==true">
                                 <label><i class="fa fa-spinner faa-spin animated"></i> loading...</label>
                             </div>
                         </div>
-                        
+                        <div class="col-sm-3">
+                            <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
+                        </div>
                     </div>
                    <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
                        <div class="col-sm-4"></div>
                        <div class="col-sm-6">
-                           <label class="label label-danger" >
-                               <strong >No Available rates for this shipment</strong>
+                            <label class="label label-danger">
+                                <strong>No Available rates for this shipment</strong>
                            </label>
                        </div>
                    </div>
@@ -972,21 +954,21 @@
                         <div class="col-sm-2">
                             <div class="form-group">
                                 <div class="form-group">
-                                    <button class="btn btn-primary btn-transparent pull-right" ng-click="shipmentCtrl.collapse3=false;shipmentCtrl.collapse4=true">Previous</button>
+                                    <button class="btn btn-primary pull-right" ng-click="shipmentCtrl.collapse3=false;shipmentCtrl.collapse4=true">Previous</button>
                                 </div>
                             </div>
 
                         </div>
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-primary btn-transparent pull-right" type="submit" ng-click="shipmentCtrl.submitShipment()">Pay via Invoice</button>
+                                <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.submitShipment()">Pay via Invoice</button>
                             </div>
 
                         </div>
 
                         <div class="col-sm-2">
                             <div class="form-group">
-                                <button class="btn btn-primary btn-transparent pull-right" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="true">Pay via Online</button>
+                                <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="true">Pay via Online</button>
                             </div>
 
                         </div>
