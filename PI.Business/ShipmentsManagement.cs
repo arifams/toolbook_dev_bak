@@ -280,8 +280,8 @@ namespace PI.Business
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
                     ShipmentCode = addShipmentResponse.CodeShipment,
-                    DivisionId = addShipment.GeneralInformation.DivisionId,
-                    CostCenterId = addShipment.GeneralInformation.CostCenterId,
+                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
+                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
                     ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
                     ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
