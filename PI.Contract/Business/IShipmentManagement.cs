@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PI.Contract.DTOs.RateSheets;
+using PI.Contract.DTOs.Shipment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +10,9 @@ namespace PI.Contract.Business
 {
     public interface IShipmentManagement
     {
-        
-
+        ShipmentcostList GetRateSheet(ShipmentDto currentShipment);
+        string GetInboundoutBoundStatus(string userId, string fromCode, string toCode);
+        string SubmitShipment(ShipmentDto addShipment);
+        PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
     }
 }

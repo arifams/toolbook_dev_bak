@@ -43,5 +43,14 @@ namespace PI.Service.Controllers
             IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
             return currencies;
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetHashForPayLane")]
+        public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            return shipment.GetHashForPayLane(payLaneDto);
+        }
     }
 }
