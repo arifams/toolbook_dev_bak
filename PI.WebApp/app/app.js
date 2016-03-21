@@ -262,6 +262,11 @@ var MakeApp = angular
             controller: 'addShipmentCtrl',
             controllerAs: 'shipmentCtrl'
         })
+         .when('/PaymentSuccess', {
+             templateUrl: 'shipment/paymentResult.html',
+             controller: 'paymentResultCtrl',
+             controllerAs: 'resultCtrl'
+         })
         .otherwise({
                 redirectTo: '/'
         });

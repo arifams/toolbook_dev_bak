@@ -73,6 +73,8 @@
     <Content Include="app\commercialInvoice\commercialInvoice.html" />
     <Content Include="app\shipment\addShipment.html" />
     <Content Include="app\shipment\addShipment.js" />
+    <Content Include="app\shipment\paymentResult.html" />
+    <Content Include="app\shipment\paymentResult.js" />
     <Content Include="app\shipment\shipmentService.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />
     <Content Include="app\userManagement\loadUserManagement.js" />
