@@ -6,14 +6,16 @@ using PI.Data;
 using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PI.Business
 {
-    public class ShipmentsManagement
+    public class ShipmentsManagement : IShipmentManagement
     {
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
         {
@@ -353,6 +355,32 @@ namespace PI.Business
             
             return addShipmentResponse != null ? addShipmentResponse.StatusShipment : "Error";
         }
-      
+
+        public string GetHashForPayLane(PayLaneDto payLaneDto)
+        {
+            string merchantId = ConfigurationManager.AppSettings["PayLaneMerchantId"].ToString();
+            string hashSalt = ConfigurationManager.AppSettings["PayLaneHashSalt"].ToString();
+
+            //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
+            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt,payLaneDto.Description,payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
+            return Hash(buildStringForHash);
+        }
+
+        private static string Hash(string input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder(hash.Length * 2);
+
+                foreach (byte b in hash)
+                {
+                    // can be "x2" if you want lowercase
+                    sb.Append(b.ToString("X2"));
+                }
+
+                return sb.ToString();
+            }
+        }
     }
 }

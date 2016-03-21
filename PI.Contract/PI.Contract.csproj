@@ -68,6 +68,7 @@
     <Compile Include="DTOs\Shipment\ConsignerDto.cs" />
     <Compile Include="DTOs\Shipment\GeneralInformationDto.cs" />
     <Compile Include="DTOs\Shipment\PackageDetailsDto.cs" />
+    <Compile Include="DTOs\Shipment\PayLaneDto.cs" />
     <Compile Include="DTOs\Shipment\ProductIngredientsDto.cs" />
     <Compile Include="DTOs\Shipment\ShipmentDto.cs" />
     <Compile Include="DTOs\User\UserDto.cs" />
