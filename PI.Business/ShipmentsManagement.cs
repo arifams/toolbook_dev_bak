@@ -365,6 +365,7 @@ namespace PI.Business
             //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
             string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt, description, payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
             return new PayLaneDto() {
+                MerchantId = merchantId,
                 Description = description,
                 Hash = Hash(buildStringForHash)
             }; 

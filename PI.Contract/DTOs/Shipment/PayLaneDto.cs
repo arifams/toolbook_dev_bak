@@ -13,5 +13,6 @@ namespace PI.Contract.DTOs.Shipment
         public double Amount { get; set; }
         public string TransactionType { get; set; }
         public string Hash { get; set; }
+        public string MerchantId { get; set; }
     }
 }
