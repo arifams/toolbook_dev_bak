@@ -47,7 +47,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetHashForPayLane")]
-        public string GetHashForPayLane(PayLaneDto payLaneDto)
+        public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.GetHashForPayLane(payLaneDto);

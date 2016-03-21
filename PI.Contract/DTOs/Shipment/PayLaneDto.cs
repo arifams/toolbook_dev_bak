@@ -12,5 +12,6 @@ namespace PI.Contract.DTOs.Shipment
         public string Currency { get; set; }
         public double Amount { get; set; }
         public string TransactionType { get; set; }
+        public string Hash { get; set; }
     }
 }

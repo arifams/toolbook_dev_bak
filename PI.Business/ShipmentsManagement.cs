@@ -356,14 +356,18 @@ namespace PI.Business
             return addShipmentResponse != null ? addShipmentResponse.StatusShipment : "Error";
         }
 
-        public string GetHashForPayLane(PayLaneDto payLaneDto)
+        public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
         {
             string merchantId = ConfigurationManager.AppSettings["PayLaneMerchantId"].ToString();
             string hashSalt = ConfigurationManager.AppSettings["PayLaneHashSalt"].ToString();
+            string description = ConfigurationManager.AppSettings["PayLaneDescription"].ToString();
 
             //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
-            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt,payLaneDto.Description,payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
-            return Hash(buildStringForHash);
+            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt, description, payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
+            return new PayLaneDto() {
+                Description = description,
+                Hash = Hash(buildStringForHash)
+            }; 
         }
 
         private static string Hash(string input)
