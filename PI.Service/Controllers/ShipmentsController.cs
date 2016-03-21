@@ -45,7 +45,7 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
+        [HttpPost]
         [Route("GetHashForPayLane")]
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
         {

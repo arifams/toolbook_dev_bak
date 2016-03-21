@@ -37,6 +37,7 @@
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
         vm.hidecostcenters = true;
+        vm.paylane = {};
 
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
@@ -263,19 +264,32 @@
             var total = 0.0;
             vm.searchRates = false;
             if (row != null) {
-                vm.shipment.CarrierInformation.carrierName = row.carrier_name;
-               
+                vm.shipment.CarrierInformation.carrierName = row.carrier_name;               
                 vm.shipment.CarrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 vm.shipment.CarrierInformation.insurance = (row.price * 1.1).toFixed(2);
                 total=parseFloat(row.price) + parseFloat((row.price * 1.1).toFixed(2));
                 vm.shipment.CarrierInformation.totalPrice = total.toFixed(2);
-
                 vm.shipment.CarrierInformation.serviceLevel = row.service_level
                 vm.shipment.CarrierInformation.tariffText = row.tariff_text
                 vm.shipment.CarrierInformation.tarriffType = row.tariff_type
                 vm.shipment.CarrierInformation.currency = row.currency
+
+              
+                //get the paylane related details
+                vm.paylane.currency = vm.shipment.CarrierInformation.currency;
+                vm.paylane.amount = vm.shipment.CarrierInformation.totalPrice;
+                vm.paylane.transactionType = 'S';
+
+                shipmentFactory.getHashCodesForPaylane(vm.paylane).success(
+               function (responce) {                 
+                   vm.paylane.description= responce.description;                   
+                   vm.paylane.hash = responce.hash;
+                   vm.paylane.merchantId = responce.merchantId
+               }).error(function (error) {
+
+               });
 
             }
         }

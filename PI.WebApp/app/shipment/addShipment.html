@@ -861,7 +861,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
+                                <button class="btn btn-primary pull-right" type="button" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
                             </div>
                         </div>
                         <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
@@ -950,7 +950,7 @@
                                 </div>
                             </div>
                         </div>
-
+                      
                         <div class="row">
                             <div class="col-sm-5"></div>
                             <div class="col-sm-2">
@@ -970,7 +970,7 @@
                             <div class="col-sm-1">
                                 <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
                                     <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
-                                </div>
+                                </div>  
                             </div>
 
                             <div class="col-sm-2">
@@ -982,15 +982,15 @@
                         </div>
                     </div>
 
-                    <input type="hidden" name="amount" value={{shipmentCtrl.shipment.CarrierInformation.totalPrice}} />
-                    <input type="hidden" name="currency" value={{shipmentCtrl.shipment.CarrierInformation.currency}} />
-                    <input type="hidden" name="merchant_id" value="19154" />
-                    <input type="hidden" name="description" value="test" />
+                    <input type="hidden" name="amount" value={{shipmentCtrl.paylane.amount}} />
+                    <input type="hidden" name="currency" value={{shipmentCtrl.paylane.currency}} />
+                    <input type="hidden" name="merchant_id" value={{shipmentCtrl.paylane.merchantId}} />
+                    <input type="hidden" name="description" value={{shipmentCtrl.paylane.description}} />
                     <input type="hidden" name="transaction_description" value="Product 1 transaction" />
-                    <input type="hidden" name="transaction_type" value="S" />
+                    <input type="hidden" name="transaction_type" value={{shipmentCtrl.paylane.transactionType}} />
                     <input type="hidden" name="back_url" value="http://localhost:49995/app/index.html#/AddShipment" />
                     <input type="hidden" name="language" value="en" />
-                    <input type="hidden" name="hash" value="6926ed14d1ae4d8eb2350d3c15e6a420e3bb7052" />
+                    <input type="hidden" name="hash" value={{shipmentCtrl.paylane.hash}} />
 
                     <input type="hidden" name="customer_name" value={{shipmentCtrl.shipment.addressInformation.consigner.name}} />
                     <input type="hidden" name="customer_email" value={{shipmentCtrl.shipment.addressInformation.consigner.email}} />
@@ -999,7 +999,7 @@
                     <input type="hidden" name="customer_city" value={{shipmentCtrl.shipment.addressInformation.consigner.city}} />
                     <input type="hidden" name="customer_state" value={{shipmentCtrl.shipment.addressInformation.consigner.state}} />
                     <input type="hidden" name="customer_country" value={{shipmentCtrl.shipment.addressInformation.consigner.country}} />
-
+                   
                 </form>
         </div>
     </div>

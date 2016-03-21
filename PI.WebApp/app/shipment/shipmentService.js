@@ -10,9 +10,14 @@
             loadAssignedDivisions: loadAssignedDivisions,
             loadAssignedCostCenters: loadAssignedCostCenters,
             submitShipment: submitShipment,
-            loadAllCurrencies: loadAllCurrencies
+            loadAllCurrencies: loadAllCurrencies,
+            getHashCodesForPaylane:getHashCodesForPaylane
         };
 
+        //get paylane relted Details
+        function getHashCodesForPaylane(paylane) {
+            return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
+        }
 
         //loading language dropdown     
         function loadAllCurrencies() {
