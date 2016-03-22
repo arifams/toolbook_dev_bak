@@ -762,7 +762,7 @@
                 </div>
             </div>
             <!--<form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate>-->
-                <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true"  ng-submit="ratesandCareerDetailsForm.$valid" action="https://secure.paylane.com/order/cart.html" method="post" novalidate>
+                <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true"  ng-submit="ratesandCareerDetailsForm.$valid"  novalidate>
                    
                     <div class="panel-content panel-default">
                         <h3>Shipment Summary</h3>
@@ -975,32 +975,36 @@
 
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="true">Pay via Online</button>
+                                    <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.payOnline()" >Pay via Online</button>
                                 </div>
 
                             </div>
                         </div>
-                    </div>
-
-                    <input type="hidden" name="amount" value={{shipmentCtrl.paylane.amount}} />
-                    <input type="hidden" name="currency" value={{shipmentCtrl.paylane.currency}} />
-                    <input type="hidden" name="merchant_id" value={{shipmentCtrl.paylane.merchantId}} />
-                    <input type="hidden" name="description" value={{shipmentCtrl.paylane.description}} />
-                    <input type="hidden" name="transaction_description" value="Product 1 transaction" />
-                    <input type="hidden" name="transaction_type" value={{shipmentCtrl.paylane.transactionType}} />
-                    <input type="hidden" name="back_url" value="http://pibookingservice.azurewebsites.net/app/userLogin/userLogin.html" />
-                    <input type="hidden" name="language" value="en" />
-                    <input type="hidden" name="hash" value={{shipmentCtrl.paylane.hash}} />
-
-                    <input type="hidden" name="customer_name" value={{shipmentCtrl.shipment.addressInformation.consigner.name}} />
-                    <input type="hidden" name="customer_email" value={{shipmentCtrl.shipment.addressInformation.consigner.email}} />
-                    <input type="hidden" name="customer_address" value={{shipmentCtrl.shipment.addressInformation.consigner.number+','+shipmentCtrl.shipment.addressInformation.consigner.address1+','+shipmentCtrl.shipment.addressInformation.consigner.address2}} />
-                    <input type="hidden" name="customer_zip" value={{shipmentCtrl.shipment.addressInformation.consigner.postalcode}} />
-                    <input type="hidden" name="customer_city" value={{shipmentCtrl.shipment.addressInformation.consigner.city}} />
-                    <input type="hidden" name="customer_state" value={{shipmentCtrl.shipment.addressInformation.consigner.state}} />
-                    <input type="hidden" name="customer_country" value={{shipmentCtrl.shipment.addressInformation.consigner.country}} />
+                    </div>                  
                    
                 </form>
+
+            <form action="https://secure.paylane.com/order/cart.html" method="post" id="paylane_form">
+                <input type="hidden" name="amount" value={{shipmentCtrl.paylane.amount}} />
+                <input type="hidden" name="currency" value={{shipmentCtrl.paylane.currency}} />
+                <input type="hidden" name="merchant_id" value={{shipmentCtrl.paylane.merchantId}} />
+                <input type="hidden" name="description" value={{shipmentCtrl.paylane.description}} />
+                <input type="hidden" name="transaction_description" value="Product 1 transaction" />
+                <input type="hidden" name="transaction_type" value={{shipmentCtrl.paylane.transactionType}} />
+                <input type="hidden" name="back_url" value="http://pibookingservice.azurewebsites.net/app/userLogin/userLogin.html" />
+                <input type="hidden" name="language" value="en" />
+                <input type="hidden" name="hash" value={{shipmentCtrl.paylane.hash}} />
+
+                <input type="hidden" name="customer_name" value={{shipmentCtrl.shipment.addressInformation.consigner.name}} />
+                <input type="hidden" name="customer_email" value={{shipmentCtrl.shipment.addressInformation.consigner.email}} />
+                <input type="hidden" name="customer_address" value={{shipmentCtrl.shipment.addressInformation.consigner.number+','+shipmentCtrl.shipment.addressInformation.consigner.address1+','+shipmentCtrl.shipment.addressInformation.consigner.address2}} />
+                <input type="hidden" name="customer_zip" value={{shipmentCtrl.shipment.addressInformation.consigner.postalcode}} />
+                <input type="hidden" name="customer_city" value={{shipmentCtrl.shipment.addressInformation.consigner.city}} />
+                <input type="hidden" name="customer_state" value={{shipmentCtrl.shipment.addressInformation.consigner.state}} />
+                <input type="hidden" name="customer_country" value={{shipmentCtrl.shipment.addressInformation.consigner.country}} />
+            </form>
+
+
         </div>
     </div>
 </div>

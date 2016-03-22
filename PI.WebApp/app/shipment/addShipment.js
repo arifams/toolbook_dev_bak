@@ -394,6 +394,58 @@
                             });
         }
 
+
+        vm.payOnline = function () {
+            vm.addingShipment = true;
+            var body = $("html, body");
+            shipmentFactory.submitShipment(vm.shipment).success(
+                            function (response) {
+                                vm.addingShipment = false;
+                                if (response == "COMM") {
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    $('#paylane_form').submit();
+
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 6000,
+                                    });
+                                }
+                                else {
+                                    vm.addingShipment = false;
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 6000,
+                                    });
+                                }
+                            }).error(function (error) {
+                                $('#panel-notif').noty({
+                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    layout: 'bottom-right',
+                                    theme: 'made',
+                                    animation: {
+                                        open: 'animated bounceInLeft',
+                                        close: 'animated bounceOutLeft'
+                                    },
+                                    timeout: 6000,
+                                });
+                            });
+        }
+
         // In production remove this.
         vm.textChangeOfName = function () {
            
