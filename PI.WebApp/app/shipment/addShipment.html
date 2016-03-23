@@ -565,7 +565,7 @@
 
             </div>
             <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid" >
-                <div class="panel-content panel-default" >
+                <div class="panel-content panel-default" style="height:auto" >
                     <div class="form-group">
                         <label class="col-sm-2 control-label"> Shipment Description *</label>
                         <div class="col-sm-10">
@@ -664,7 +664,7 @@
                                         <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
                                         <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true"/></td>
                                         <td style="text-align:center" width="2%">
-                                            <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removepackage1({{$index}})">
+                                            <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
                                                 </i>
                                             </a>
