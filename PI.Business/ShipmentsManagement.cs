@@ -159,6 +159,7 @@ namespace PI.Business
                 currentRateSheetDetails.value = currentShipment.PackageDetails.DeclaredValue.ToString();
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
+
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared=="true")
                 {
