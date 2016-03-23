@@ -33,11 +33,15 @@
         vm.allclass = "btn btn-success";
         vm.currencies = [];
         vm.ratesNotAvailable = false;
-        $('.date_time').mask('00/00/0000 00:00');
+        
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
         vm.hidecostcenters = true;
         vm.paylane = {};
+
+        // Set current date as collection date. - dd-MMM-yyyy
+        var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        vm.shipment.packageDetails.preferredCollectionDate = ("0" + new Date().getDate()).slice(-2) + "-" + monthNamesShort[new Date().getUTCMonth()] + "-" + new Date().getFullYear();
 
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
