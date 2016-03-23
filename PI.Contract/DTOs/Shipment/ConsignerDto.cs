@@ -18,6 +18,7 @@ namespace PI.Contract.DTOs.Shipment
         public string State { get; set; }
         public string Email { get; set; }
         public string ContactNumber { get; set; }
+        public string ContactName { get; set; }
         public string Details { get; set; }
     }
 }

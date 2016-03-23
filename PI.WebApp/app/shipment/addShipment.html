@@ -513,6 +513,49 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <label class="control-label">Contact Name* </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.contactName" type="text" name="consignercontactName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercontactName.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consignercontactName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Name*"/>
+                                <div ng-messages="consignerConsigneeInfoForm.consignercontactName.$error"
+                                     ng-show="consignerConsigneeInfoForm.consignercontactName.$dirty || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consignercontactNumber">Consigner Contact Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consignercontactNumber">Max length should be 200 characters</label>
+                                   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-1">
+                        </div>
+
+                        <div class="col-sm-1">
+                            <div class="form-group">
+                                <label class="control-label">Contact Name* </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactName" type="text" name="consigneecontactName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactName.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneecontactName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Contact Name*"  />
+                                <div ng-messages="consignerConsigneeInfoForm.consigneecontactName.$error"
+                                     ng-show="consignerConsigneeInfoForm.consigneecontactName.$dirty || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consigneecontact">Consignee Contact Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consigneecontact">Max length should be 200 characters</label>                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="row">
                         <div class="col-sm-4">
                             <label>
@@ -693,9 +736,9 @@
                         <label class="col-sm-2 control-label"> Preferred Collection Date *</label>
                         <div class="col-sm-6">
                             <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
-                                   class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                               
+                                   class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                              
                                
-                            <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" date-format="dd-MMM-yyyy" ng-required="true" date-only />
+                            <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal" date-format="dd-MMM-yyyy" ng-required="true" date-only />
                                
                         </div>
                     </div>

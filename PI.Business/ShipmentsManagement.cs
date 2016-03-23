@@ -303,6 +303,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consignee.State,
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        ContactName=addShipment.AddressInformation.Consignee.ContactName,
                         IsActive = true,
                         CreatedBy = 1,
                         CreatedDate = DateTime.Now
@@ -319,6 +320,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consigner.State,
                         EmailAddress = addShipment.AddressInformation.Consigner.Email,
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        ContactName = addShipment.AddressInformation.Consigner.ContactName,
                         IsActive = true,
                         CreatedBy = 1,
                         CreatedDate = DateTime.Now

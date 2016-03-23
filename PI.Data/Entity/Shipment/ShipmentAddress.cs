@@ -19,6 +19,7 @@ namespace PI.Data.Entity
         public string State { get; set; }
         public string EmailAddress { get; set; }
         public string PhoneNumber { get; set; }
+        public string ContactName { get; set; }
 
     }
 }
