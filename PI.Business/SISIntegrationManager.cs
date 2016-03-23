@@ -310,6 +310,7 @@ namespace PI.Business
                 shipmentStr.AppendFormat("<width>{0}</width>", lineItem.Width);
                 shipmentStr.AppendFormat("<length>{0}</length>", lineItem.Length);
                 shipmentStr.AppendFormat("<height>{0}</height>", lineItem.Height);
+                shipmentStr.AppendFormat("<description>{0}</description>", lineItem.Description);
                 shipmentStr.AppendFormat("</shipment_line>");
                 lineCount++;
             }
