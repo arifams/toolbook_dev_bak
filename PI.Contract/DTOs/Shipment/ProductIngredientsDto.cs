@@ -10,6 +10,7 @@ namespace PI.Contract.DTOs.Shipment
     {
         public string ProductType { get; set; }
         public double Quantity { get; set; }
+        public string Description { get; set; }
         public double Weight { get; set; }
         public double Height { get; set; }
         public double Length { get; set; }
