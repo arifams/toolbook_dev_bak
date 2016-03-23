@@ -39,10 +39,10 @@
         vm.hidecostcenters = true;
         vm.paylane = {};
 
-        // Set current date as collection date. - dd-MMM-yyyy
+        // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
         var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         vm.shipment.packageDetails.preferredCollectionDate = ("0" + new Date().getDate()).slice(-2) + "-" + monthNamesShort[new Date().getUTCMonth()] + "-" + new Date().getFullYear();
-
+        
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
@@ -248,6 +248,9 @@
             vm.loadingRates = true;
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
+
+            vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDate + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
+
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
                     if (responce.items.length>0) {
