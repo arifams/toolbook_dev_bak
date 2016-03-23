@@ -271,7 +271,7 @@ namespace PI.Business
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
             shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
             shipmentStr.AppendFormat("<reference_list><reference_tag>STATE_FROM</reference_tag><reference_value>{0}</reference_value></reference_list>", addShipment.AddressInformation.Consigner.State);
-            shipmentStr.AppendFormat("<notify>{0}</notify>", addShipment.AddressInformation.Consigner.Name);
+            shipmentStr.AppendFormat("<notify>{0}</notify>", addShipment.AddressInformation.Consigner.ContactName);
             shipmentStr.AppendFormat("<notify_fax>{0}</notify_fax>", addShipment.AddressInformation.Consigner.ContactNumber);
             shipmentStr.AppendFormat("<notify_email>{0}</notify_email>", addShipment.AddressInformation.Consigner.Email);
 
@@ -284,7 +284,7 @@ namespace PI.Business
             shipmentStr.AppendFormat("<postcode_delivery>{0}</postcode_delivery>", addShipment.AddressInformation.Consignee.Postalcode);
             shipmentStr.AppendFormat("<street_number_delivery>{0}</street_number_delivery>", addShipment.AddressInformation.Consignee.Number);
             shipmentStr.AppendFormat("<code_state_to>{0}</code_state_to>", addShipment.AddressInformation.Consignee.State);
-            shipmentStr.AppendFormat("<deliver>{0}</deliver>", addShipment.AddressInformation.Consignee.Name);
+            shipmentStr.AppendFormat("<deliver>{0}</deliver>", addShipment.AddressInformation.Consignee.ContactName);
             shipmentStr.AppendFormat("<deliver_fax>{0}</deliver_fax>", addShipment.AddressInformation.Consignee.ContactNumber);
             shipmentStr.AppendFormat("<deliver_email>{0}</deliver_email>", addShipment.AddressInformation.Consignee.Email);
 
