@@ -258,10 +258,14 @@
 
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
-                    if (responce.items.length>0) {
+                    if (responce.items.length > 0) {
                     vm.displayedCollection = responce.items;
                     vm.loadingRates = false;
                     vm.searchRates = true;
+
+                    console.info("Rate calculate url: ");
+                    console.info(responce.rateCalculateURL);
+
                     } else {
                        vm.loadingRates = false;
                       vm.ratesNotAvailable = true;
@@ -367,7 +371,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;                                
-                                if (response == "Success") {
+                                if (response.status == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
@@ -380,6 +384,9 @@
                                         },
                                         timeout: 6000,
                                     });
+
+                                    console.info("Add Shipment XML: ");
+                                    console.info(response.addShipmentXML);
                                 }
                                 else {
                                     vm.addingShipment = false;
@@ -417,7 +424,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;
-                                if (response == "Success") {
+                                if (response.status == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#paylane_form').submit();
@@ -432,6 +439,9 @@
                                         },
                                         timeout: 6000,
                                     });
+
+                                    console.info("Add Shipment XML: ");
+                                    console.info(response.addShipmentXML);
                                 }
                                 else {
                                     vm.addingShipment = false;

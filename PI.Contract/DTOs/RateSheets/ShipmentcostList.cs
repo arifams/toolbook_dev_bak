@@ -14,7 +14,7 @@ namespace PI.Contract.DTOs.RateSheets
         [XmlElement("Shipmentcost")]
         public List<Shipmentcost> Items { get; set; }
 
-
+        public string RateCalculateURL { get; set; }
     }
     public class Shipmentcost
     {

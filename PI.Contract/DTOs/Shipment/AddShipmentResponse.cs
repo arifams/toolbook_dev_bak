@@ -69,6 +69,8 @@ namespace PI.Contract.DTOs.Shipment
 
         [XmlElement("PDF")]
         public string PDF { get; set; }
+
+        public string AddShipmentXML { get; set; }
     }
 
     public class TrackingUrl

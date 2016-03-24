@@ -51,6 +51,14 @@ namespace PI.Business
             }
         }
 
+        public string IsSendShipmentDebugData
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["IsSendShipmentDebugData"].ToString();
+            }
+        }
+
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
             // Set SIS credentials.
@@ -68,11 +76,15 @@ namespace PI.Business
             // of object that is being deserialized.
             XmlSerializer mySerializer =
             new XmlSerializer(typeof(ShipmentcostList));
-
+            
             // Call the Deserialize method and cast to the object type.       
+            myObject = (ShipmentcostList)mySerializer.Deserialize(new StringReader(doc1.OuterXml.ToString()));
 
-            return myObject = (ShipmentcostList)mySerializer.Deserialize(new StringReader(doc1.OuterXml.ToString()));
+            // Set rate calculate url.
+            if (IsSendShipmentDebugData == "true")
+                myObject.RateCalculateURL = requestURL;
 
+            return myObject;
         }
 
         public AddShipmentResponse SubmitShipment(ShipmentDto addShipment)
@@ -98,6 +110,10 @@ namespace PI.Business
             }
 
             //return myObject != null ? myObject.StatusShipment : "Error";
+
+            if (IsSendShipmentDebugData == "true")
+                addShipmentResponse.AddShipmentXML = addShipmentXML;
+
             return addShipmentResponse;
         }
 
