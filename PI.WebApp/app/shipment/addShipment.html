@@ -630,11 +630,8 @@
                             <div class="skin skin-minimal">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <input type="number" step="0.001" name="totalWeight" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalWeight" ng-minlength="0.001" ng-disabled="true"
-                                                   ng-class="{ 'error': formPackage.totalWeight.$invalid && (formPackage.totalWeight.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
-
+                                        <div class="col-sm-3">
+                                           <h4><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>                                          
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
@@ -656,17 +653,16 @@
                             <div class="skin skin-minimal">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <div class="col-sm-6">
-                                            <input type="number" step="0.001" name="totalVolume" class="form-control"
-                                                   required autofocus ng-model="shipmentCtrl.shipment.packageDetails.totalVolume" ng-minlength="0.001" ng-disabled="true"
-                                                   ng-class="{ 'error': formPackage.totalVolume.$invalid && (formPackage.totalVolume.$dirty||shipmentCtrl.packageDetailsisSubmit) }" />
+                                        
+                                        <div class="col-sm-3">
+                                           <h4><strong>{{shipmentCtrl.shipment.packageDetails.totalVolume}}</strong> </h4>
 
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
                                                     <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true" checked="checked"> cm </label>
-                                                    <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> m </label>
+                                                    <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="false"> inch </label>
                                                 </div>
                                             </div>
                                         </div>
@@ -969,6 +965,7 @@
                                                 <th>Carrier</th>
                                                 <th>Earliest Pickup Date</th>
                                                 <th>Est Delivery Time</th>
+                                                <th>Service Level</th>
                                                 <th>Price</th>
                                             </tr>
                                         </thead>
@@ -977,16 +974,19 @@
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.carrierName}}</td>
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.pickupDate}}</td>
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.deliveryTime}}</td>
+                                                <td>{{shipmentCtrl.shipment.CarrierInformation.serviceLevel}}</td>
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.price}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Insurance</td>
                                                 <td></td>
                                                 <td></td>
+                                                <td></td>
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.insurance}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
                                             </tr>
                                             <tr>
                                                 <td>Total</td>
+                                                <td></td>
                                                 <td></td>
                                                 <td></td>
                                                 <td>{{shipmentCtrl.shipment.CarrierInformation.totalPrice}} {{ shipmentCtrl.shipment.CarrierInformation.currency}}</td>
