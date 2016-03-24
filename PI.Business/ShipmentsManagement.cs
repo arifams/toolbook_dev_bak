@@ -270,7 +270,7 @@ namespace PI.Business
             return status;
         }
 
-        public string SubmitShipment(ShipmentDto addShipment)
+        public ShipmentOperationResult SubmitShipment(ShipmentDto addShipment)
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
 
@@ -357,10 +357,17 @@ namespace PI.Business
                 catch (Exception ex) { throw ex; }
             }
 
+            ShipmentOperationResult shipmentResult = new ShipmentOperationResult();
+
             if (addShipmentResponse == null || string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-                return "Error";
+                shipmentResult.Status = "Error";
             else
-                return "Success";
+            {
+                shipmentResult.Status = "Success";
+                shipmentResult.AddShipmentXML = addShipmentResponse.AddShipmentXML;
+            }
+
+            return shipmentResult;
         }
 
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
