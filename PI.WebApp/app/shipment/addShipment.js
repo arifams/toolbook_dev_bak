@@ -62,22 +62,45 @@
                                 { "Id": "CPT", "Name": "Carriage Paid To (CPT)" },
                                 { "Id": "EXW", "Name": "Ex Works (EXW)" }
         ];
-        vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
-                                { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
-                                { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
-                                { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
-                                { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
-                                { "Id": "PD-CPT-PP", "Name": "Port-to-Door, CPT, Prepaid" },
-                                { "Id": "PD-CIP-PP", "Name": "Port-to-Door, CIP, Prepaid" },
-                                { "Id": "PP-CPT-PP", "Name": "Port-to-Port, CPT, Prepaid" },
-                                { "Id": "PP-CIP-PP", "Name": "Port-to-Port, CIP, Prepaid" },
-                                { "Id": "DP-FCA-CC", "Name": "FCA-Free Carrier" },
-                                { "Id": "DF-EXW-CC", "Name": "EXW-Ex Works" },
-                                { "Id": "KMSDY", "Name": "Door-to-Door, SDY, Same Day" },
-        ];
+
+
+        vm.loadAllShipmentServices = function () {
+
+            vm.shipmentServices = [];
+            vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
+                               { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+                               { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
+                               { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
+                               { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
+                               { "Id": "PD-CPT-PP", "Name": "Port-to-Door, CPT, Prepaid" },
+                               { "Id": "PD-CIP-PP", "Name": "Port-to-Door, CIP, Prepaid" },
+                               { "Id": "PP-CPT-PP", "Name": "Port-to-Port, CPT, Prepaid" },
+                               { "Id": "PP-CIP-PP", "Name": "Port-to-Port, CIP, Prepaid" },
+                               { "Id": "DP-FCA-CC", "Name": "FCA-Free Carrier" },
+                               { "Id": "DF-EXW-CC", "Name": "EXW-Ex Works" },
+                               { "Id": "KMSDY", "Name": "Door-to-Door, SDY, Same Day" },
+            ];
+        };
+
+
+        vm.loadDoorToDoorShipmentServices = function () {
+
+            // Allow only doo-to-door
+            vm.shipmentServices = [];
+            vm.shipmentServices =
+                        [
+                         { "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
+                         { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+                         { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
+                         { "Id": "KMSDY", "Name": "Door-to-Door, SDY, Same Day" },
+                        ];
+
+        };
+
+           
 
         // Select default values.
-        vm.shipment.generalInformation.shipmentServices = "DD-DDP-PP";
+        vm.shipment.generalInformation.shipmentServices = "DD-DDU-PP";
         vm.shipment.packageDetails.cmLBS = "true";
         vm.shipment.packageDetails.volumeCMM = "true";
         vm.shipment.packageDetails.isInsuared = "false";
@@ -259,10 +282,14 @@
 
             shipmentFactory.calculateRates(vm.shipment).success(
                 function (responce) {
-                    if (responce.items.length>0) {
+                    if (responce.items.length > 0) {
                     vm.displayedCollection = responce.items;
                     vm.loadingRates = false;
                     vm.searchRates = true;
+
+                    console.info("Rate calculate url: ");
+                    console.info(responce.rateCalculateURL);
+
                     } else {
                        vm.loadingRates = false;
                       vm.ratesNotAvailable = true;
@@ -332,7 +359,10 @@
             vm.allclass = "btn btn-success";
             vm.shipment.generalInformation.shipmentMode = 'Express';
 
+            vm.loadDoorToDoorShipmentServices();
+
         }
+
         vm.selectAir = function () {
             vm.Expressclass = "btn btn-success";
             vm.Airclass = "btn btn-dark";
@@ -340,6 +370,8 @@
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
             vm.shipment.generalInformation.shipmentMode = 'AirFreight';
+
+            vm.loadAllShipmentServices();
         }
         vm.selectSea = function () {
 
@@ -349,7 +381,10 @@
             vm.Roadclass = "btn btn-success";
             vm.allclass = "btn btn-success";
             vm.shipment.generalInformation.shipmentMode = 'SeaFreight';
+
+            vm.loadAllShipmentServices();
         }
+
         vm.selectRoad = function () {
             vm.Expressclass = "btn btn-success";
             vm.Airclass = "btn btn-success";
@@ -358,7 +393,10 @@
             vm.allclass = "btn btn-success";
             vm.shipment.generalInformation.shipmentMode = 'RoadFreight';
 
+            vm.loadDoorToDoorShipmentServices();           
         }
+
+        
         vm.selectall = function () {
 
             vm.Expressclass = "btn btn-success";
@@ -368,6 +406,7 @@
             vm.allclass = "btn btn-dark";
             vm.shipment.generalInformation.shipmentMode = 'All';
 
+            vm.loadAllShipmentServices();
         }
 
         vm.selectExpress();
@@ -378,7 +417,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;                                
-                                if (response == "Success") {
+                                if (response.status == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
@@ -391,6 +430,9 @@
                                         },
                                         timeout: 6000,
                                     });
+
+                                    console.info("Add Shipment XML: ");
+                                    console.info(response.addShipmentXML);
                                 }
                                 else {
                                     vm.addingShipment = false;
@@ -428,7 +470,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;
-                                if (response == "Success") {
+                                if (response.status == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#paylane_form').submit();
@@ -443,6 +485,9 @@
                                         },
                                         timeout: 6000,
                                     });
+
+                                    console.info("Add Shipment XML: ");
+                                    console.info(response.addShipmentXML);
                                 }
                                 else {
                                     vm.addingShipment = false;
