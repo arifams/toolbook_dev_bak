@@ -198,7 +198,7 @@ namespace PI.Business
                 }
                 else
                 {
-                    currentRateSheetDetails.volume_unit = "m";
+                    currentRateSheetDetails.volume_unit = "inch";
                 }
 
             }

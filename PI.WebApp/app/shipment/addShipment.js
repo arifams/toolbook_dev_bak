@@ -286,8 +286,18 @@
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
                 vm.shipment.CarrierInformation.price = row.price;
                 if (vm.shipment.packageDetails.isInsuared=='true') {
-                    insurance = (row.price * 1.1).toFixed(2);                  
+                    insurance = (row.price * 1.1).toFixed(2);
+                   
+                   var currencyCode= vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
+                   
+                   if (insurance < 10 && currencyCode!=null && currencyCode == 'USD') {
+                        insurance = 10;
+                    }
+                   if (insurance < 5 && currencyCode!=null && currencyCode == 'EUR') {
+                        insurance=5;
+                    }
                 }
+                
                 vm.shipment.CarrierInformation.insurance = insurance;
                 total = parseFloat(row.price) + parseFloat(insurance);
                 vm.shipment.CarrierInformation.totalPrice = total.toFixed(2);
@@ -470,6 +480,15 @@
                                     timeout: 6000,
                                 });
                             });
+        }
+
+        vm.getCurrenyCode=function(key){
+            for (var i = 0; i < vm.currencies.length; i++) {
+                if (vm.currencies[i].id == key) {
+                    var currency = vm.currencies[i].currencyCode;
+                    return currency
+                }           
+            }          
         }
 
         // In production remove this.
