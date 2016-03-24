@@ -64,8 +64,8 @@ namespace PI.Business
                 currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
                 currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
-                currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consigner.Number;
-                currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consigner.Postalcode;
+                currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
+                currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
                 currentRateSheetDetails.country_from = currentShipment.AddressInformation.Consigner.Country;
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
            
