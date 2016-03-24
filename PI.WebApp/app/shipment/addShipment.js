@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$location', '$window', 'shipmentFactory', function ($location, $window, shipmentFactory) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', function ($scope,$location, $window, shipmentFactory) {
 
         var vm = this;
         vm.user = {};
@@ -33,6 +33,7 @@
         vm.allclass = "btn btn-success";
         vm.currencies = [];
         vm.ratesNotAvailable = false;
+        vm.clearAll = false;
         
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
@@ -181,10 +182,13 @@
         }
 
         vm.ClearConsignerAddress = function () {
+            $scope.consignerConsigneeInfoForm.$setPristine();           
             vm.shipment.addressInformation.consigner = {};
+          
         }
 
         vm.ClearConsigneeAddress = function () {
+            $scope.consignerConsigneeInfoForm.$setPristine();
             vm.shipment.addressInformation.consignee = {};
         }
 
