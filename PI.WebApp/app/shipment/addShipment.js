@@ -377,7 +377,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;                                
-                                if (response == "COMM") {
+                                if (response == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
@@ -427,7 +427,7 @@
             shipmentFactory.submitShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;
-                                if (response == "COMM") {
+                                if (response == "Success") {
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#paylane_form').submit();

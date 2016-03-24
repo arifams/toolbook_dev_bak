@@ -356,8 +356,11 @@ namespace PI.Business
                 }
                 catch (Exception ex) { throw ex; }
             }
-            
-            return addShipmentResponse != null ? addShipmentResponse.StatusShipment : "Error";
+
+            if (addShipmentResponse == null || string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
+                return "Error";
+            else
+                return "Success";
         }
 
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
