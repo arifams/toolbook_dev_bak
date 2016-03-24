@@ -44,7 +44,7 @@ namespace PI.Data.Migrations
             context.Currencies.AddOrUpdate(
                 x => x.Id,
                 new Entity.Currency() { Id = 1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = 1, CreatedDate = DateTime.Now },
-                new Entity.Currency() { Id = 2, CurrencyCode = "EU", CurrencyName = "EURO", CreatedBy = 1, CreatedDate = DateTime.Now },
+                new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = 1, CreatedDate = DateTime.Now },
                 new Entity.Currency() { Id = 4, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = 1, CreatedDate = DateTime.Now },
                 new Entity.Currency() { Id = 5, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = 1, CreatedDate = DateTime.Now }
                 );
