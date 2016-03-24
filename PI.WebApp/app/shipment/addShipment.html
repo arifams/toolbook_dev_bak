@@ -49,7 +49,12 @@
                                 <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
                                     <select class="form-control"
                                             convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId" ng-change="selectCostCenter()">
+                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId"
+                                            ng-change="selectCostCenter()"
+                                            rel="popover" data-container="body" data-toggle="popover"
+                                            data-placement="top"
+                                            data-html="true"
+                                            data-content="The appropriate billing address (cost center) to which the shipment should be assigned to.">
                                         <option value="">-Select Cost Center-</option>
                                     </select>
                                 </div>
@@ -82,8 +87,12 @@
                                 <div class="option-group">
                                     <select id="shipmentServices" class="form-control"
                                             convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
-                                                name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                ng-change="selectShipmentType(); "></select>
+                                            name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
+                                            ng-change="selectShipmentType();"
+                                            rel="popover" data-container="body" data-toggle="popover"
+                                            data-placement="top"
+                                            data-html="true"
+                                            data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
                                 </div>
 
                             </div>
