@@ -262,7 +262,7 @@ var MakeApp = angular
             controller: 'addShipmentCtrl',
             controllerAs: 'shipmentCtrl'
         })
-         .when('/PaymentSuccess', {
+         .when('/PaymentResult', {
              templateUrl: 'shipment/paymentResult.html',
              controller: 'paymentResultCtrl',
              controllerAs: 'resultCtrl'

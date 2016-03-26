@@ -34,6 +34,7 @@
         vm.currencies = [];
         vm.ratesNotAvailable = false;
         vm.clearAll = false;
+        vm.carrierselected = false;
         
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
@@ -276,6 +277,7 @@
             vm.loadingRates = true;
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
+            vm.previousClicked = false;
             
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -300,10 +302,13 @@
         }
 
         vm.selectCarrier = function (row) {
+
             var total = 0.0;
             var insurance = 0.0;
             vm.searchRates = false;
             if (row != null) {
+ 
+                vm.carrierselected = true;
                 vm.shipment.CarrierInformation.carrierName = row.carrier_name;               
                 vm.shipment.CarrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
@@ -517,6 +522,15 @@
                             });
         }
 
+        //change state required according to the country code
+        vm.changeConsignerCountry = function () {
+            vm.isRequiredConsignerState = vm.shipment.addressInformation.consigner.country == 'US' || vm.shipment.addressInformation.consigner.country == 'CA' || vm.shipment.addressInformation.consigner.country == 'PR' || vm.shipment.addressInformation.consigner.country == 'AU';
+        };
+
+        vm.changeConsigneeCountry = function () {
+            vm.isRequiredConsigneeState = vm.shipment.addressInformation.consignee.country == 'US' || vm.shipment.addressInformation.consignee.country == 'CA' || vm.shipment.addressInformation.consignee.country == 'PR' || vm.shipment.addressInformation.consignee.country == 'AU';
+        };
+
         vm.getCurrenyCode=function(key){
             for (var i = 0; i < vm.currencies.length; i++) {
                 if (vm.currencies[i].id == key) {
@@ -525,7 +539,14 @@
                 }           
             }          
         }
-
+        //clear carrier information if previous button clicked
+        vm.previousBtnClicked = function () {
+            vm.carrierselected = false;
+            vm.shipment.CarrierInformation={};
+            vm.collapse3=false;
+            vm.collapse4=true;
+            vm.previousClicked = true;
+        }
         // In production remove this.
         vm.textChangeOfName = function () {
            
