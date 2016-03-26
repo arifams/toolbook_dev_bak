@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
+using PI.Data.Entity.Shipment;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -47,6 +48,8 @@ namespace PI.Data
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }
+        public DbSet<ShipmentStatusHistory> ShipmentStatusHistory { get; set; }
+
 
         public PIContext()
             : base("name=PIBookingConnectionString")

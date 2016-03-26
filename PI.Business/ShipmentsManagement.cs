@@ -289,6 +289,9 @@ namespace PI.Business
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
                     ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
                     ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
+                    CarrierName = addShipment.CarrierInformation.CarrierName,
+                    TrackingNumber = addShipmentResponse.Awb,
+                    //Status = addShipmentResponse.Status,
                     CreatedBy = 1,
                     CreatedDate = DateTime.Now,
 
@@ -352,6 +355,9 @@ namespace PI.Business
                 try
                 {
                     context.Shipments.Add(newShipment);
+                    context.SaveChanges();
+
+                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW" });
                     context.SaveChanges();
                 }
                 catch (Exception ex) { throw ex; }
