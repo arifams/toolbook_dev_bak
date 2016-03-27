@@ -119,8 +119,6 @@ namespace PI.Business
 
         public void DeleteShipment(string shipmentCode)
         {
-            shipmentCode = "37733403";
-
             // Sample url with data send format
             //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
