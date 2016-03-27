@@ -32,7 +32,7 @@ namespace PI.Business
                 Tenant tenant = new Tenant
                 {
                     TenancyName = customerCompany.CompanyCode,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                     IsActive = true,
                     IsDelete = false,
@@ -48,7 +48,7 @@ namespace PI.Business
                     TenantId = tenant.Id,
                     IsActive = true,
                     IsDelete = false,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                 };
                 context.Companies.Add(company);
@@ -62,7 +62,7 @@ namespace PI.Business
                     Status = 1,
                     IsActive = true,
                     IsDelete = false,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                     BillingAddress = new Address
                     {
@@ -74,7 +74,7 @@ namespace PI.Business
                         City = customerCompany.CustomerAddress.City,
                         State = customerCompany.CustomerAddress.State,
                         CreatedDate = DateTime.Now,
-                        CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                        CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                     },
                 };
                 context.CostCenters.Add(costCenter);
@@ -89,7 +89,7 @@ namespace PI.Business
                     Status = 1,
                     IsActive = true,
                     IsDelete = false,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                 };
                 context.Divisions.Add(division);
@@ -351,7 +351,7 @@ namespace PI.Business
                         CostCenterId = costCenter.Id,
                         DivisionId = division,
                         IsActive = true,
-                        CreatedBy = 1,
+                        CreatedBy = "1",
                         CreatedDate = DateTime.Now
                     });
                 }
@@ -369,7 +369,7 @@ namespace PI.Business
                         CompanyId = comp == null ? 0 : comp.Id, //costCenter.CompanyId, TODO H - why?
                         Type = "USER",
                         CreatedDate = DateTime.Now,
-                        CreatedBy = 1,// TODO : Get created user.       
+                        CreatedBy = "1",// TODO : Get created user.       
                         BillingAddress = (costCenter.BillingAddress == null) ? null : new Address
                         {
                             Country = costCenter.BillingAddress.Country,
@@ -380,7 +380,7 @@ namespace PI.Business
                             City = costCenter.BillingAddress.City,
                             State = costCenter.BillingAddress.State,
                             CreatedDate = DateTime.Now,
-                            CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                            CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         },
                         IsActive = costCenter.Status == 1 ? true : false,
                         DivisionCostCenters = divcostList
@@ -427,7 +427,7 @@ namespace PI.Business
                     existingCostCenter.BillingAddress.ZipCode = costCenter.BillingAddress.ZipCode;
                     existingCostCenter.BillingAddress.State = costCenter.BillingAddress.State;
                     existingCostCenter.CreatedDate = DateTime.Now;
-                    existingCostCenter.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
+                    existingCostCenter.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
                     //existingCostCenter.DivisionCostCenters.ToList().AddRange(divcostList);
                     // TODO: Add Assigned Devisions
                     // TODO: Need to handle prevent remove default cost center in div.
@@ -548,9 +548,9 @@ namespace PI.Business
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public IList<DivisionDto> GetAllDivisionsForCompany(string userId)
+        public List<DivisionDto> GetAllDivisionsForCompany(string userId)
         {
-            IList<DivisionDto> divisionList = new List<DivisionDto>();
+            List<DivisionDto> divisionList = new List<DivisionDto>();
             Company currentcompany = this.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
@@ -798,7 +798,7 @@ namespace PI.Business
                         Type = "USER",
                         IsActive = division.Status == 1 ? true : false,
                         CreatedDate = DateTime.Now,
-                        CreatedBy = 1,// TODO : Get created user.                       
+                        CreatedBy = "1",// TODO : Get created user.                       
                     };
                     context.Divisions.Add(newDivision);
                 }
@@ -823,7 +823,7 @@ namespace PI.Business
                     existingDivision.Type = "USER";
                     existingDivision.IsActive = division.Status == 1 ? true : false;
                     existingDivision.CreatedDate = DateTime.Now;
-                    existingDivision.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
+                    existingDivision.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
 
                 }
                 context.SaveChanges();
@@ -1178,7 +1178,7 @@ namespace PI.Business
                             UserId = appUser.Id,
                             DivisionId = divisionId,
                             IsActive = true,
-                            CreatedBy = 1,
+                            CreatedBy = "1",
                             CreatedDate = DateTime.Now
                         });
                     }

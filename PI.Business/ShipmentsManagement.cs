@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using PI.Contract.Business;
+using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using PI.Data;
@@ -289,7 +291,7 @@ namespace PI.Business
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
                     ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
                     ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
-                    CreatedBy = 1,
+                    CreatedBy = addShipment.UserId,
                     CreatedDate = DateTime.Now,
 
                     ConsigneeAddress = new ShipmentAddress
@@ -305,7 +307,7 @@ namespace PI.Business
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
                         ContactName=addShipment.AddressInformation.Consignee.ContactName,
                         IsActive = true,
-                        CreatedBy = 1,
+                        CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now
                     },
                     ConsignorAddress = new ShipmentAddress
@@ -322,7 +324,7 @@ namespace PI.Business
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                         ContactName = addShipment.AddressInformation.Consigner.ContactName,
                         IsActive = true,
-                        CreatedBy = 1,
+                        CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now
                     },
                     ShipmentPackage = new ShipmentPackage()
@@ -344,7 +346,7 @@ namespace PI.Business
                         WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                         VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
                         IsActive = true,
-                        CreatedBy = 1,
+                        CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now
                     }
                 };
@@ -400,6 +402,63 @@ namespace PI.Business
 
                 return sb.ToString();
             }
+        }
+
+        //get shipments by User
+        public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime date, string number, string source, string destination)
+        {
+            CompanyManagement company =new CompanyManagement();
+            IList<DivisionDto> divisions = null;
+            List<Shipment> Shipments=new List<Shipment>();
+            var pagedRecord = new PagedList();
+            if (userId==null)
+            {
+                return null;
+            }
+            string role = this.GetUserRoleById(userId);
+            if (role == "BusinessOwner")
+            {
+                divisions = company.GetAllDivisionsForCompany(userId);
+            }              
+            else
+            {
+                divisions = company.GetAssignedDivisions(userId);
+            }
+            foreach (var item in divisions)
+            {
+                Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+            }
+
+            //TO DO: Add the search criteria
+
+            return pagedRecord;
+        }
+
+        public string GetUserRoleById(string userId)
+        {
+            using (PIContext context=new PIContext())
+            {
+                string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
+                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
+                return roleName;                
+            }
+
+        }
+
+        public IList<Shipment> GetshipmentsByDivisionId(long divid)
+        {
+            IList<Shipment> currentShipments = null;
+            using (PIContext context=new PIContext())
+            {
+                currentShipments = (from shipment in context.Shipments
+                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                    where shipment.DivisionId == divid  select shipment).ToList();
+               
+            }
+            
+            return currentShipments;
         }
     }
 }

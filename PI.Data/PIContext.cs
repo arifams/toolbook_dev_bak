@@ -18,8 +18,7 @@ namespace PI.Data
         /// database context for the current thread
         /// </summary>
         [ThreadStatic]
-        private static PIContext context = null;
-
+        private static PIContext context = null;       
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<webpages_Membership> Membership { get; set; }
         public DbSet<Customer> Customers { get; set; }

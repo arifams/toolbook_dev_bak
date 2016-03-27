@@ -39,7 +39,7 @@ namespace PI.Business
                             PhoneNumber = customer.PhoneNumber,
                             MobileNumber = customer.MobileNumber,
                             CreatedDate = DateTime.Now,
-                            CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                            CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                             UserName = customer.Email,
                             Password = customer.Password,
                             UserId = customer.UserId,
@@ -55,7 +55,7 @@ namespace PI.Business
                                 City = customer.CustomerAddress.City,
                                 State = customer.CustomerAddress.State,
                                 CreatedDate = DateTime.Now,
-                                CreatedBy = 1,//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                                CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                             }
                         };
                         context.Customers.Add(newCustomer);
@@ -73,7 +73,7 @@ namespace PI.Business
                         existingCustomer.PhoneNumber = customer.PhoneNumber;
                         existingCustomer.MobileNumber = customer.MobileNumber;
                         existingCustomer.CreatedDate = DateTime.Now;
-                        existingCustomer.CreatedBy = 1; //sessionHelper.Get<User>().LoginName; 
+                        existingCustomer.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
                         existingCustomer.UserId = customer.UserId;
 
                         existingCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
