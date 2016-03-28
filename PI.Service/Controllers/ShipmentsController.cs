@@ -58,7 +58,7 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("GetAllShipments")]
-        public PagedList GetAllShipments(string status = "0", string userId = null, DateTime? date = null,
+        public PagedList GetAllShipments(string status = null, string userId = null, DateTime? date = null,
                                          string number = null, string source = null, string destination = null)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();

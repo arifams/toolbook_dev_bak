@@ -438,20 +438,25 @@ namespace PI.Business
                 Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
             }
 
+            pagedRecord.Content = new List<ShipmentDto>();
+
             var content = (from shipment in Shipments
-                           where shipment.Status == status &&
-                           shipment.ShipmentPackage.EarliestPickupDate == date &&
-                           shipment.IsDelete!=true &&
+                           where (string.IsNullOrEmpty(status) || shipment.Status == status) &&
+                           ( date == null || shipment.ShipmentPackage.EarliestPickupDate == date) &&
+                           shipment.IsDelete == false &&
                            string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) &&
                            string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)&&
                            string.IsNullOrEmpty(destination)||shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)
                            select shipment).ToList();
+         
             foreach (var item in content)
             {
                 pagedRecord.Content.Add(new ShipmentDto
                 {
-                    AddressInformation = new ConsignerAndConsigneeInformationDto {
-                        Consignee = new ConsigneeDto {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto
+                    {
+                        Consignee = new ConsigneeDto
+                        {
                             Address1 = item.ConsigneeAddress.StreetAddress1,
                             Address2 = item.ConsigneeAddress.StreetAddress2,
                             Postalcode = item.ConsigneeAddress.ZipCode,
@@ -476,11 +481,12 @@ namespace PI.Business
                             ContactNumber = item.ConsignorAddress.ContactName,
                             Email = item.ConsignorAddress.EmailAddress,
                             Number = item.ConsignorAddress.Number
-                        } },
+                        } 
+                    },
                     GeneralInformation = new GeneralInformationDto
                     {
-                        CostCenterId = (long)item.CostCenterId,
-                        DivisionId = (long)item.DivisionId,
+                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                        DivisionId = item.DivisionId.GetValueOrDefault(),
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
@@ -502,16 +508,16 @@ namespace PI.Business
                         ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
-                        ShipmentDescription=item.ShipmentPackage.PackageDescription
-                       
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription
+
                     },
-                    CarrierInformation=new CarrierInformationDto
+                    CarrierInformation = new CarrierInformationDto
                     {
-                       CarrierName=item.CarrierName,
-                       serviceLevel=item.ServiceLevel,
-                       PickupDate=item.PickUpDate
+                        CarrierName = item.CarrierName,
+                        serviceLevel = item.ServiceLevel,
+                        PickupDate = item.PickUpDate
                     }                    
-                               
+
                 }); 
                 }
 
