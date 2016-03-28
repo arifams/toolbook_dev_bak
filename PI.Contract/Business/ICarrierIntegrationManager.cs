@@ -16,7 +16,7 @@ namespace PI.Contract.Business
 
         void DeleteShipment(string shipmentCode);       
 
-        string GetShipmentStatus(string URL);
+        string GetShipmentStatus(string URL, string shipmentCode);
 
         string TrackAndTraceShipment(string URL);
 

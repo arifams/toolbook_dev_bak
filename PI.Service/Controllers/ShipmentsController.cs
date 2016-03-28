@@ -78,6 +78,16 @@ namespace PI.Service.Controllers
             return currentshipment;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("DeleteShipment")]
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName);
+
+        }
 
     }
 }

@@ -32,7 +32,7 @@ namespace PI.Business
             {
                 //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
                 // currentRateSheetDetails.
-                if (currentShipment.GeneralInformation.ShipmentMode=="Express")
+                if (currentShipment.GeneralInformation.ShipmentMode == "Express")
                 {
                     currentRateSheetDetails.courier = "UPSDHLFEDTNT";
                 }
@@ -63,25 +63,25 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2 != null ? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
                 currentRateSheetDetails.country_from = currentShipment.AddressInformation.Consigner.Country;
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
-           
+
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
-                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2!=null? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%'): string.Empty;
+                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2 != null ? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address14 = currentShipment.AddressInformation.Consignee.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consignee.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consignee.Postalcode;
                 currentRateSheetDetails.country_to = currentShipment.AddressInformation.Consignee.Country;
                 currentRateSheetDetails.code_country_to = currentShipment.AddressInformation.Consignee.Country;
 
-              //  currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
+                //  currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
                 currentRateSheetDetails.inbound = "N";
 
             }
@@ -114,7 +114,7 @@ namespace PI.Business
                     }
                     if (count > 0 && package != item.ProductType)
                     {
-                        package = "DIVERSE";                      
+                        package = "DIVERSE";
                     }
 
                     if (item.Length > maxLength)
@@ -133,7 +133,7 @@ namespace PI.Business
                     {
                         maxWeight = item.Weight;
                     }
-                   
+
 
                     surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
@@ -163,7 +163,7 @@ namespace PI.Business
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
-                if (currentShipment.PackageDetails.IsInsuared=="true")
+                if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
                     currentRateSheetDetails.insurance_instruction = "Y";
                 }
@@ -215,29 +215,29 @@ namespace PI.Business
             currentRateSheetDetails.type = "selectkmnetworkroad";
             currentRateSheetDetails.fieldname4 = "shipment_price";
             currentRateSheetDetails.fieldname1 = "price";
-            currentRateSheetDetails.sell_buy = "";          
-            currentRateSheetDetails.courier_km = "";     
-            currentRateSheetDetails.courier_tariff_base = "";           
+            currentRateSheetDetails.sell_buy = "";
+            currentRateSheetDetails.courier_km = "";
+            currentRateSheetDetails.courier_tariff_base = "";
             currentRateSheetDetails.courier_date_pickup_transition = "";
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";            
-           
-           
-           // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
-           // currentRateSheetDetails.time_pickup = "12:51";
-           // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
-        //    currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
-         //  currentRateSheetDetails.insurance_instruction = "N";
-           currentRateSheetDetails.sort = "PRICE";         
-          // currentRateSheetDetails.inbound = "N"; 
-           currentRateSheetDetails.dg = "NO";
-           currentRateSheetDetails.dg_type = "";
-           currentRateSheetDetails.account = "";
-           currentRateSheetDetails.code_customer = "";
-           currentRateSheetDetails.ind_delivery_inside = "";
-           currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
+
+
+            // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
+            // currentRateSheetDetails.time_pickup = "12:51";
+            // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
+            //    currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
+            //  currentRateSheetDetails.insurance_instruction = "N";
+            currentRateSheetDetails.sort = "PRICE";
+            // currentRateSheetDetails.inbound = "N"; 
+            currentRateSheetDetails.dg = "NO";
+            currentRateSheetDetails.dg_type = "";
+            currentRateSheetDetails.account = "";
+            currentRateSheetDetails.code_customer = "";
+            currentRateSheetDetails.ind_delivery_inside = "";
+            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
 
 
 
@@ -246,25 +246,25 @@ namespace PI.Business
         }
 
         //get the status of inbound outbound rule
-        public string GetInboundoutBoundStatus(string userId, string fromCode,string toCode)
+        public string GetInboundoutBoundStatus(string userId, string fromCode, string toCode)
         {
             string status = "N";
 
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 var countryCode = string.Empty;
                 var addressId = context.Customers.Where(c => c.UserId == userId).Select(c => c.AddressId).SingleOrDefault();
-                if (addressId!=0)
+                if (addressId != 0)
                 {
-                    countryCode= context.Addresses.Where(c => c.Id == addressId).Select(c => c.Country).SingleOrDefault();
+                    countryCode = context.Addresses.Where(c => c.Id == addressId).Select(c => c.Country).SingleOrDefault();
                 }
-                if (countryCode!=null&& countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
+                if (countryCode != null && countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
                 {
                     status = "Y";
                 }
                 else
                 {
-                    status="N";
+                    status = "N";
                 }
 
             }
@@ -308,7 +308,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consignee.State,
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        ContactName=addShipment.AddressInformation.Consignee.ContactName,
+                        ContactName = addShipment.AddressInformation.Consignee.ContactName,
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now
@@ -342,7 +342,7 @@ namespace PI.Business
                         InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
                         InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
                         CarrierCost = addShipment.CarrierInformation.Price,
-                        InsuranceCost = addShipment.CarrierInformation.Insurance, 
+                        InsuranceCost = addShipment.CarrierInformation.Insurance,
                         PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
                         EarliestPickupDate = addShipment.CarrierInformation.PickupDate ?? null,
                         EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
@@ -353,13 +353,13 @@ namespace PI.Business
                         CreatedDate = DateTime.Now
                     }
                 };
-               
+
                 try
                 {
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
-                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now });
+                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate = DateTime.Now });
                     context.SaveChanges();
                 }
                 catch (Exception ex) { throw ex; }
@@ -385,12 +385,12 @@ namespace PI.Business
             string description = ConfigurationManager.AppSettings["PayLaneDescription"].ToString();
 
             //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
-            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt, description, payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
+            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}", hashSalt, description, payLaneDto.Amount, payLaneDto.Currency, payLaneDto.TransactionType);
             return new PayLaneDto() {
                 MerchantId = merchantId,
                 Description = description,
                 Hash = Hash(buildStringForHash)
-            }; 
+            };
         }
 
         private static string Hash(string input)
@@ -415,48 +415,48 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company =new CompanyManagement();
+            CompanyManagement company = new CompanyManagement();
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
-            List<Shipment> Shipments=new List<Shipment>();
+            List<Shipment> Shipments = new List<Shipment>();
             var pagedRecord = new PagedList();
-            if (userId==null)
+            if (userId == null)
             {
                 return null;
             }
             string role = this.GetUserRoleById(userId);
-            if (role == "BusinessOwner"|| role== "Manager")
+            if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
-            }              
-            else if(role== "Supervisor")
+            }
+            else if (role == "Supervisor")
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
-            if (divisions.Count>0)
+            if (divisions.Count > 0)
             {
-            foreach (var item in divisions)
-            {
-                Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
-            }
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
             }
             else
             {
                 Shipments.AddRange(this.GetshipmentsByUserId(userId));
             }
-           
+
 
             pagedRecord.Content = new List<ShipmentDto>();
 
             var content = (from shipment in Shipments
                            where (string.IsNullOrEmpty(status) || shipment.Status == status) &&
-                           ( date == null || shipment.ShipmentPackage.EarliestPickupDate == date) &&
+                           (date == null || shipment.ShipmentPackage.EarliestPickupDate == date) &&
                            shipment.IsDelete == false &&
-                           string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) &&
-                           string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)&&
-                           string.IsNullOrEmpty(destination)||shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)
+                           string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number) &&
+                           string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source) &&
+                           string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)
                            select shipment).ToList();
-         
+
             foreach (var item in content)
             {
                 pagedRecord.Content.Add(new ShipmentDto
@@ -489,7 +489,7 @@ namespace PI.Business
                             ContactNumber = item.ConsignorAddress.ContactName,
                             Email = item.ConsignorAddress.EmailAddress,
                             Number = item.ConsignorAddress.Number
-                        } 
+                        }
                     },
                     GeneralInformation = new GeneralInformationDto
                     {
@@ -501,7 +501,7 @@ namespace PI.Business
                         ShipmentTermCode = item.ShipmentTermCode,
                         ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy")                      
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy")
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -518,17 +518,17 @@ namespace PI.Business
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
-                       
+
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
                         CarrierName = item.CarrierName,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate
-                    }                    
-                               
-                }); 
-                }
+                    }
+
+                });
+            }
 
             pagedRecord.TotalRecords = Shipments.Count();
             pagedRecord.CurrentPage = page;
@@ -540,11 +540,11 @@ namespace PI.Business
 
         public string GetUserRoleById(string userId)
         {
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                 string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
-                return roleName;                
+                return roleName;
             }
 
         }
@@ -552,16 +552,16 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByDivisionId(long divid)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 currentShipments = (from shipment in context.Shipments
                                     join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                                     join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
                                     join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                    where shipment.DivisionId == divid  select shipment).ToList();
-               
+                                    where shipment.DivisionId == divid select shipment).ToList();
+
             }
-            
+
             return currentShipments;
         }
 
@@ -586,16 +586,16 @@ namespace PI.Business
         //get shipments by ID
         public ShipmentDto GetshipmentById(string shipmentId)
         {
-           ShipmentDto currentShipmentDto = null;
+            ShipmentDto currentShipmentDto = null;
 
             Shipment currentShipment = null;
             using (PIContext context = new PIContext())
             {
                 currentShipment = (from shipment in context.Shipments
-                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
-                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
-                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                    where shipment.Id.ToString() == shipmentId
+                                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                   join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                   join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                   where shipment.Id.ToString() == shipmentId
                                    select shipment).FirstOrDefault();
 
             }
@@ -676,7 +676,7 @@ namespace PI.Business
         //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
-             List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
+            List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
 
             foreach (var ingrediant in products)
             {
@@ -691,9 +691,9 @@ namespace PI.Business
                         Width = (double)ingrediant.Width,
                         Description = ingrediant.Description
                     });
-                
+
             }
-          return ingrediantList;
+            return ingrediantList;
         }
 
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
@@ -724,5 +724,25 @@ namespace PI.Business
 
             return divisionList;
         }
+
+        //Delete shipment
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        {
+
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
+            if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
+            {
+                sisManager.DeleteShipment(shipmentCode);
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+
+        }
     }
+
+    
 }
