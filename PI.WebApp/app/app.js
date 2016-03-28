@@ -231,16 +231,16 @@ var MakeApp = angular
             controller: 'apiCtrl'
         })
        .when('/loadDivisions', {
-                templateUrl: 'divisions/loadDivisions.html',
-                controller: 'loadDivisionsCtrl',
-            })
+           templateUrl: 'divisions/loadDivisions.html',
+           controller: 'loadDivisionsCtrl',
+       })
         .when('/saveDivision/:id', {
-                   templateUrl: 'divisions/saveDivision.html',
-                   controller: 'saveDivisionCtrl',
-               })
+            templateUrl: 'divisions/saveDivision.html',
+            controller: 'saveDivisionCtrl',
+        })
         .when('/saveCostcenter/:id', {
-             templateUrl: 'costcenter/saveCostCenter.html',
-             controller: 'saveCostCenterCtrl',
+            templateUrl: 'costcenter/saveCostCenter.html',
+            controller: 'saveCostCenterCtrl',
         })
         .when('/loadCostcenters', {
             templateUrl: 'costcenter/loadCostCenters.html',
@@ -267,33 +267,38 @@ var MakeApp = angular
              controller: 'paymentResultCtrl',
              controllerAs: 'resultCtrl'
          })
+         .when('/loadShipments', {
+             templateUrl: 'shipment/loadAllShipments.html',
+             controller: 'loadShipmentsCtrl',
+               controllerAs: 'loadShipCtrl'
+        })
         .otherwise({
-                redirectTo: '/'
+            redirectTo: '/'
         });
   });
 
 
 // Route State Load Spinner(used on page or content load)
 MakeApp.directive('ngSpinnerLoader', ['$rootScope',
-    function($rootScope) {
+    function ($rootScope) {
         return {
-                link: function(scope, element, attrs) {
-                    // by defult hide the spinner bar
-                    element.addClass('hide'); // hide spinner bar by default
-                    // display the spinner bar whenever the route changes(the content part started loading)
-                    $rootScope.$on('$routeChangeStart', function() {
-                        element.removeClass('hide'); // show spinner bar
-                    });
-                    // hide the spinner bar on rounte change success(after the content loaded)
-                    $rootScope.$on('$routeChangeSuccess', function() {
-                        setTimeout(function() {
-                            element.addClass('hide'); // hide spinner bar
-                        }, 500);
-                        $("html, body").animate({
-                            scrollTop: 0
-                        }, 500);
-                    });
-                }
-            };
+            link: function (scope, element, attrs) {
+                // by defult hide the spinner bar
+                element.addClass('hide'); // hide spinner bar by default
+                // display the spinner bar whenever the route changes(the content part started loading)
+                $rootScope.$on('$routeChangeStart', function () {
+                    element.removeClass('hide'); // show spinner bar
+                });
+                // hide the spinner bar on rounte change success(after the content loaded)
+                $rootScope.$on('$routeChangeSuccess', function () {
+                    setTimeout(function () {
+                        element.addClass('hide'); // hide spinner bar
+                    }, 500);
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, 500);
+                });
+            }
+        };
     }
-    ])
+])

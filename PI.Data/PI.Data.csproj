@@ -106,6 +106,7 @@
     <Compile Include="Entity\Shipment\Shipment.cs" />
     <Compile Include="Entity\Shipment\ShipmentAddress.cs" />
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
+    <Compile Include="Entity\Shipment\ShipmentStatusHistory.cs" />
     <Compile Include="Entity\ShortIdBaseEntity.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
