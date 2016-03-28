@@ -54,6 +54,8 @@ namespace PI.Data.Entity
         [ForeignKey("ShipmentPackageId")]
         public virtual ShipmentPackage ShipmentPackage { get; set; }
 
+        public virtual ICollection<ShipmentStatusHistory> ShipmentStatuses { get; set; }
+
         #endregion
     }   
 }
