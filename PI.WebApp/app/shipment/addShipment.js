@@ -414,7 +414,7 @@
         vm.submitShipment = function () {
             vm.addingShipment = true;
             var body = $("html, body");
-            shipmentFactory.submitShipment(vm.shipment).success(
+            shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;                                
                                 if (response.status == "Success") {
@@ -465,34 +465,16 @@
 
 
         vm.payOnline = function () {
-            vm.addingShipment = true;
+            //vm.addingShipment = true;
             var body = $("html, body");
-            shipmentFactory.submitShipment(vm.shipment).success(
+            shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
-                                vm.addingShipment = false;
-                                if (response.status == "Success") {
-                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
+                                if (response != 0) {
+                                    // Successfully saved in db.
+                                    $window.localStorage.setItem('shipmentId', response);
                                     $('#paylane_form').submit();
-
-                                    $('#panel-notif').noty({
-                                        text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
-                                        layout: 'bottom-right',
-                                        theme: 'made',
-                                        animation: {
-                                            open: 'animated bounceInLeft',
-                                            close: 'animated bounceOutLeft'
-                                        },
-                                        timeout: 6000,
-                                    });
-
-                                    console.info("Add Shipment XML: ");
-                                    console.info(response.addShipmentXML);
                                 }
                                 else {
-                                    vm.addingShipment = false;
-                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
                                     $('#panel-notif').noty({
                                         text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
                                         layout: 'bottom-right',
@@ -504,6 +486,30 @@
                                         timeout: 6000,
                                     });
                                 }
+                                    //vm.addingShipment = false;
+                                    //if (response.status == "Success") {
+                                    //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    //    console.info("Add Shipment XML: ");
+                                    //    console.info(response.addShipmentXML);
+
+                                    //    $('#paylane_form').submit();
+                                    //}
+                                    //else {
+                                    //    vm.addingShipment = false;
+                                    //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    //    $('#panel-notif').noty({
+                                    //        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    //        layout: 'bottom-right',
+                                    //        theme: 'made',
+                                    //        animation: {
+                                    //            open: 'animated bounceInLeft',
+                                    //            close: 'animated bounceOutLeft'
+                                    //        },
+                                    //        timeout: 6000,
+                                    //    });
+                                //}
                             }).error(function (error) {
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',

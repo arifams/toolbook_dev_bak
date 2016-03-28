@@ -270,11 +270,11 @@ namespace PI.Business
             return status;
         }
 
-        public ShipmentOperationResult SubmitShipment(ShipmentDto addShipment)
+        public long SaveShipment(ShipmentDto addShipment)
         {
             ICarrierIntegrationManager sisManager = new SISIntegrationManager();
 
-            AddShipmentResponse addShipmentResponse = sisManager.SubmitShipment(addShipment);
+            //AddShipmentResponse addShipmentResponse = sisManager.SubmitShipment(addShipment);
 
             //If response is successfull save the shipment in DB.
             using (PIContext context = new PIContext())
@@ -283,7 +283,7 @@ namespace PI.Business
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
-                    ShipmentCode = addShipmentResponse.CodeShipment,
+                    ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
@@ -353,21 +353,27 @@ namespace PI.Business
                 {
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
+
+                    return newShipment.Id;
                 }
-                catch (Exception ex) { throw ex; }
+                catch (Exception ex)
+                {
+                    //throw ex;
+                    return 0;
+                }
             }
 
-            ShipmentOperationResult shipmentResult = new ShipmentOperationResult();
+            //ShipmentOperationResult shipmentResult = new ShipmentOperationResult();
 
-            if (addShipmentResponse == null || string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-                shipmentResult.Status = "Error";
-            else
-            {
-                shipmentResult.Status = "Success";
-                shipmentResult.AddShipmentXML = addShipmentResponse.AddShipmentXML;
-            }
+            //if (addShipmentResponse == null || string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
+            //    shipmentResult.Status = "Error";
+            //else
+            //{
+            //    shipmentResult.Status = "Success";
+            //    shipmentResult.AddShipmentXML = addShipmentResponse.AddShipmentXML;
+            //}
 
-            return shipmentResult;
+            //return shipmentResult;
         }
 
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
@@ -400,6 +406,32 @@ namespace PI.Business
 
                 return sb.ToString();
             }
+        }
+
+        public ShipmentOperationResult SendShipmentDetails(long shipmentId)
+        {
+            // Get data from database and fill dto.
+            ShipmentDto shipmentDto;
+
+            using (var context = new PIContext())
+            {
+                Shipment shipment = context.Shipments.Where(sh => sh.Id == shipmentId).FirstOrDefault();
+
+                shipmentDto = new ShipmentDto()
+                {
+                    GeneralInformation = new GeneralInformationDto()
+                    {
+                        ShipmentName = shipment.ShipmentName,
+
+                    }
+                };
+            }
+
+            AddShipmentResponse response = new SISIntegrationManager().SendShipmentDetails(shipmentDto);
+
+
+            ShipmentOperationResult result = new ShipmentOperationResult();
+            return result;
         }
     }
 }
