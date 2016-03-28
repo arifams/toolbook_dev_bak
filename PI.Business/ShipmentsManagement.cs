@@ -584,7 +584,7 @@ namespace PI.Business
         }
 
         //get shipments by ID
-        public ShipmentDto GetshipmentsById(string shipmentId)
+        public ShipmentDto GetshipmentById(string shipmentId)
         {
            ShipmentDto currentShipmentDto = null;
 

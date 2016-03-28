@@ -66,5 +66,18 @@ namespace PI.Service.Controllers
             return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status,userId, date, number, source, destination);
 
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetShipmentbyId")]
+        public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentId);
+            return currentshipment;
+        }
+
+
     }
 }
