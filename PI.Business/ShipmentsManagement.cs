@@ -583,7 +583,97 @@ namespace PI.Business
             return currentShipments;
         }
 
-      //get the product ingrediants List
+        //get shipments by ID
+        public ShipmentDto GetshipmentsById(string shipmentId)
+        {
+           ShipmentDto currentShipmentDto = null;
+
+            Shipment currentShipment = null;
+            using (PIContext context = new PIContext())
+            {
+                currentShipment = (from shipment in context.Shipments
+                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                    where shipment.Id.ToString() == shipmentId
+                                   select shipment).FirstOrDefault();
+
+            }
+            currentShipmentDto = new ShipmentDto
+            {
+                AddressInformation = new ConsignerAndConsigneeInformationDto
+                {
+                    Consignee = new ConsigneeDto
+                    {
+                        Address1 = currentShipment.ConsigneeAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsigneeAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsigneeAddress.ZipCode,
+                        City = currentShipment.ConsigneeAddress.City,
+                        Country = currentShipment.ConsigneeAddress.Country,
+                        State = currentShipment.ConsigneeAddress.State,
+                        Name = currentShipment.ConsigneeAddress.FirstName + " " + currentShipment.ConsigneeAddress.LastName,
+                        ContactName = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        Email = currentShipment.ConsigneeAddress.EmailAddress,
+                        Number = currentShipment.ConsigneeAddress.Number
+                    },
+                    Consigner = new ConsignerDto
+                    {
+                        Address1 = currentShipment.ConsignorAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsignorAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsignorAddress.ZipCode,
+                        City = currentShipment.ConsignorAddress.City,
+                        Country = currentShipment.ConsignorAddress.Country,
+                        State = currentShipment.ConsignorAddress.State,
+                        Name = currentShipment.ConsignorAddress.FirstName + " " + currentShipment.ConsignorAddress.LastName,
+                        ContactName = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        Email = currentShipment.ConsignorAddress.EmailAddress,
+                        Number = currentShipment.ConsignorAddress.Number
+                    }
+                },
+                GeneralInformation = new GeneralInformationDto
+                {
+                    CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
+                    DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
+                    ShipmentCode = currentShipment.ShipmentCode,
+                    ShipmentMode = currentShipment.ShipmentMode,
+                    ShipmentName = currentShipment.ShipmentName,
+                    ShipmentTermCode = currentShipment.ShipmentTermCode,
+                    ShipmentTypeCode = currentShipment.ShipmentTypeCode,
+                    TrackingNumber = currentShipment.TrackingNumber,
+                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy")
+                },
+                PackageDetails = new PackageDetailsDto
+                {
+                    CmLBS = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    VolumeCMM = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    Count = currentShipment.ShipmentPackage.PackageProducts.Count,
+                    DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
+                    HsCode = currentShipment.ShipmentPackage.HSCode,
+                    Instructions = currentShipment.ShipmentPackage.CarrierInstruction,
+                    IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
+                    TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
+                    TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
+                    ValueCurrency = Convert.ToInt32(currentShipment.ShipmentPackage.Currency),
+                    PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
+                    ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
+                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+
+                },
+                CarrierInformation = new CarrierInformationDto
+                {
+                    CarrierName = currentShipment.CarrierName,
+                    serviceLevel = currentShipment.ServiceLevel,
+                    PickupDate = currentShipment.PickUpDate
+                }
+
+            };
+
+
+            return currentShipmentDto;
+        }
+        //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
              List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
