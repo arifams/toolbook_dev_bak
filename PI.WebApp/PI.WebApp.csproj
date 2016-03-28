@@ -73,6 +73,7 @@
     <Content Include="app\commercialInvoice\commercialInvoice.html" />
     <Content Include="app\shipment\addShipment.html" />
     <Content Include="app\shipment\addShipment.js" />
+    <Content Include="app\shipment\loadAllShipments.js" />
     <Content Include="app\shipment\paymentResult.html" />
     <Content Include="app\shipment\paymentResult.js" />
     <Content Include="app\shipment\shipmentService.js" />
@@ -95,6 +96,7 @@
     <Content Include="packages.config" />
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />
+    <Content Include="app\shipment\loadAllShipments.html" />
     <None Include="App_Data\PublishProfiles\PIBookingService.pubxml" />
     <None Include="App_Data\PublishProfiles\PI_Web.pubxml" />
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.eot" />

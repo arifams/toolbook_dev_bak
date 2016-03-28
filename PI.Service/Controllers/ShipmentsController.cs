@@ -10,6 +10,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using PI.Business;
 using PI.Contract.DTOs.AccountSettings;
+using PI.Contract.DTOs.Common;
 
 namespace PI.Service.Controllers
 {
@@ -51,6 +52,19 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.GetHashForPayLane(payLaneDto);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetAllShipments")]
+        public PagedList GetAllShipments(string status = "0", string userId = null, DateTime? date = null,
+                                         string number = null, string source = null, string destination = null)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            var pagedRecord = new PagedList();
+            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status,userId, date, number, source, destination);
+
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

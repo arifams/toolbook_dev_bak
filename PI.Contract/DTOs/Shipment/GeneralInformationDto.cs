@@ -8,18 +8,29 @@ namespace PI.Contract.DTOs.Shipment
 {
     public class GeneralInformationDto
     {
+        public string ShipmentCode { get; set; }
+
         public string ShipmentName { get; set; }
+
         public long DivisionId { get; set; }
+
         public long CostCenterId { get; set; }        
 
         public string ShipmentMode { get; set; }
 
         public string ShipmentTypeCode { get; set; }
+
         public string ShipmentTermCode { get; set; }
 
         public string shipmentModeName { get; set; }
+
         public string shipmentTypeName { get; set; }
 
         public string ShipmentServices { get; set; }
+
+        public long CreatedBy { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+
     }
 }

@@ -12,6 +12,7 @@
             saveShipment: saveShipment,
             loadAllCurrencies: loadAllCurrencies,
             getHashCodesForPaylane: getHashCodesForPaylane,
+            loadAllShipments: loadAllShipments,
             sendShipmentDetails: sendShipmentDetails
         };
 
@@ -72,6 +73,19 @@
 
             return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
+
+        function loadAllShipments()
+        {
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
+                params: {
+                userId: $window.localStorage.getItem('userGuid'),
+                //searchtext: searchText,
+                //costCenter: costCenter,
+                //type: type
+            }
+            });
+        }
+
 
     }]);
     

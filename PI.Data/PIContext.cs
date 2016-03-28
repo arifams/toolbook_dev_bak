@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
+using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -18,8 +19,7 @@ namespace PI.Data
         /// database context for the current thread
         /// </summary>
         [ThreadStatic]
-        private static PIContext context = null;
-
+        private static PIContext context = null;       
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<webpages_Membership> Membership { get; set; }
         public DbSet<Customer> Customers { get; set; }
@@ -47,6 +47,8 @@ namespace PI.Data
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }
+        public DbSet<ShipmentStatusHistory> ShipmentStatusHistory { get; set; }
+
 
         public PIContext()
             : base("name=PIBookingConnectionString")

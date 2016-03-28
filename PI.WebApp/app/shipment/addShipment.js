@@ -34,6 +34,7 @@
         vm.currencies = [];
         vm.ratesNotAvailable = false;
         vm.clearAll = false;
+        vm.carrierselected = false;
         
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
@@ -301,10 +302,13 @@
         }
 
         vm.selectCarrier = function (row) {
+
             var total = 0.0;
             var insurance = 0.0;
             vm.searchRates = false;
             if (row != null) {
+ 
+                vm.carrierselected = true;
                 vm.shipment.CarrierInformation.carrierName = row.carrier_name;               
                 vm.shipment.CarrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
@@ -543,7 +547,7 @@
         }
         //clear carrier information if previous button clicked
         vm.previousBtnClicked = function () {
-
+            vm.carrierselected = false;
             vm.shipment.CarrierInformation={};
             vm.collapse3=false;
             vm.collapse4=true;
