@@ -21,9 +21,11 @@ namespace PI.Data.Entity
 
         [MaxLength(200)]
         public string CarrierName { get; set; }
-
+        public string ServiceLevel {get;set;}
+        public DateTime PickUpDate { get; set; }
         public string Status { get; set; }
         public string TrackingNumber { get; set; }
+
 
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }
