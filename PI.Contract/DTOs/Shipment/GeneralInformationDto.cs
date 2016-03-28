@@ -28,9 +28,11 @@ namespace PI.Contract.DTOs.Shipment
 
         public string ShipmentServices { get; set; }
 
+        public string TrackingNumber { get; set; }
+
         public long CreatedBy { get; set; }
 
-        public DateTime CreatedDate { get; set; }
+        public string CreatedDate { get; set; }
 
     }
 }

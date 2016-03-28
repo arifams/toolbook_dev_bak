@@ -10,7 +10,8 @@
                                shipmentFactory.loadAllShipments()
                                     .success(
                                            function (responce) {
-                                               vm.shipmentList = responce;
+                                               debugger;
+                                               vm.shipmentList = responce.content;
                                            }).error(function (error) {
                                                console.log("error occurd while retrieving shiments");
                                            });
