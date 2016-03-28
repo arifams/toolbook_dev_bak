@@ -425,22 +425,30 @@ namespace PI.Business
                 return null;
             }
             string role = this.GetUserRoleById(userId);
-            if (role == "BusinessOwner")
+            if (role == "BusinessOwner"|| role== "Manager")
             {
-                divisions = company.GetAllDivisionsForCompany(userId);
+                divisions = this.GetAllDivisionsinCompany(userId);
             }              
-            else
+            else if(role== "Supervisor")
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
-            foreach (var item in divisions)
+            if (divisions.Count>0)
             {
-                Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
             }
+            else
+            {
+                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+            }
+           
 
             var content = (from shipment in Shipments
                            where shipment.Status == status &&
-                           shipment.ShipmentPackage.EarliestPickupDate == date &&
+                           date==null ||shipment.ShipmentPackage.EarliestPickupDate == date &&
                            shipment.IsDelete!=true &&
                            string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) &&
                            string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)&&
@@ -550,7 +558,25 @@ namespace PI.Business
             return currentShipments;
         }
 
-      //get the product ingrediants List
+        //get shipments by user ID
+        public IList<Shipment> GetshipmentsByUserId(string userId)
+        {
+            IList<Shipment> currentShipments = null;
+            using (PIContext context = new PIContext())
+            {
+                currentShipments = (from shipment in context.Shipments
+                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                    where shipment.CreatedBy == userId
+                                    select shipment).ToList();
+
+            }
+
+            return currentShipments;
+        }
+
+        //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
              List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
@@ -571,6 +597,35 @@ namespace PI.Business
                 
             }
           return ingrediantList;
+        }
+
+        public List<DivisionDto> GetAllDivisionsinCompany(string userId)
+        {
+            List<DivisionDto> divisionList = new List<DivisionDto>();
+            CompanyManagement companyManagement = new CompanyManagement();
+            Company currentcompany = companyManagement.GetCompanyByUserId(userId);
+
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
+                                                            c.IsDelete == false).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return divisionList;
         }
     }
 }
