@@ -55,10 +55,11 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetAllShipments")]
-        public PagedList GetAllShipments(string status, string userId, DateTime date, string number, string source, string destination)
+        public PagedList GetAllShipments(string status = "0", string userId = null, DateTime? date = null,
+                                         string number = null, string source = null, string destination = null)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();

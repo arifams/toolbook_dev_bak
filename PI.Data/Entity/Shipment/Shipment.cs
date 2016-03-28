@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -17,7 +18,10 @@ namespace PI.Data.Entity
         public string ShipmentMode { get; set; }
         public string ShipmentTypeCode { get; set; }        
         public string ShipmentTermCode { get; set; }
+
+        [MaxLength(200)]
         public string CarrierName { get; set; }
+
         public string Status { get; set; }
         public string TrackingNumber { get; set; }
 

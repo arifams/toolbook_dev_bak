@@ -1,5 +1,8 @@
 ﻿<div ng-controller="loadShipmentsCtrl">
-    @*<h2 class="box-title"> Load All Shipments &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2>*@
+    <div class="header">
+        <h2>All Shipments</h2>
+    </div>
+    <!--  <h2 class="box-title"> Load All Shipments &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2> -->
 
     <div class="panel">
         <!-- form start -->
@@ -87,12 +90,16 @@
                                 <td>{{row.addressInformation.consigner.city}}</td>
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td>{{row.generalInformation.status}}</td>
-                                <td><a href="#/saveDivision/{{row.id}}"
-                                        class="edit btn btn-sm btn-default">
-                                    <i class="icon-note"></i></a>
+                                <td>
+                                    <a href="#/saveDivision/{{row.id}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="icon-note"></i>
+                                    </a>
                                 </td>
-                                <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;">
-                                    <i class="icons-office-52"></i></a>
+                                <td>
+                                    <a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;">
+                                        <i class="icons-office-52"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -110,6 +117,5 @@
             </div>
         </form>
     </div>
-
 
 </div>

@@ -294,7 +294,7 @@ namespace PI.Business
                     CarrierName = addShipment.CarrierInformation.CarrierName,
                     TrackingNumber = addShipmentResponse.Awb,
                     //Status = addShipmentResponse.Status,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
 
                     ConsigneeAddress = new ShipmentAddress
@@ -336,7 +336,7 @@ namespace PI.Business
                         TotalVolume = addShipment.PackageDetails.TotalVolume,
                         TotalWeight = addShipment.PackageDetails.TotalWeight,
                         HSCode = addShipment.PackageDetails.HsCode,
-                        CollectionDate =DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
+                        CollectionDate = DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
                         CarrierInstruction = addShipment.PackageDetails.Instructions,
                         IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
                         InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
@@ -359,7 +359,7 @@ namespace PI.Business
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
-                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW" });
+                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now });
                     context.SaveChanges();
                 }
                 catch (Exception ex) { throw ex; }
@@ -411,10 +411,11 @@ namespace PI.Business
         }
 
         //get shipments by User
-        public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime date, string number, string source, string destination)
+        public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? date, string number, string source, string destination)
         {
             CompanyManagement company =new CompanyManagement();
             IList<DivisionDto> divisions = null;
+            IList<int> divisionList = new List<int>();
             List<Shipment> Shipments=new List<Shipment>();
             var pagedRecord = new PagedList();
             if (userId==null)
@@ -435,7 +436,17 @@ namespace PI.Business
                 Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
             }
 
+
             //TO DO: Add the search criteria
+
+            using (var context = new PIContext())
+            {
+                var content = context.Shipments.Where(x => 
+                                                    x.IsDelete == false &&
+                                                    //(string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
+                                                    (status == "0" || x.IsActive.ToString() == status)).ToList();
+            }
+
 
             return pagedRecord;
         }

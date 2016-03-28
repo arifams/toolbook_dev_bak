@@ -11,7 +11,8 @@
             loadAssignedCostCenters: loadAssignedCostCenters,
             submitShipment: submitShipment,
             loadAllCurrencies: loadAllCurrencies,
-            getHashCodesForPaylane:getHashCodesForPaylane
+            getHashCodesForPaylane: getHashCodesForPaylane,
+            loadAllShipments: loadAllShipments
         };
 
         //get paylane relted Details
@@ -65,6 +66,19 @@
                 params: {
                     divisionId: divisionid
                 }
+            });
+        }
+
+
+        function loadAllShipments()
+        {
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
+                params: {
+                userId: $window.localStorage.getItem('userGuid'),
+                //searchtext: searchText,
+                //costCenter: costCenter,
+                //type: type
+            }
             });
         }
 
