@@ -500,7 +500,8 @@ namespace PI.Business
                         ShipmentName = item.ShipmentName,
                         ShipmentTermCode = item.ShipmentTermCode,
                         ShipmentTypeCode = item.ShipmentTypeCode,
-
+                        TrackingNumber = item.TrackingNumber,
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy")                      
                     },
                     PackageDetails = new PackageDetailsDto
                     {
