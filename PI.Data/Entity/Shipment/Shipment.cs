@@ -15,11 +15,14 @@ namespace PI.Data.Entity
         public long? DivisionId { get; set; }
         public long? CostCenterId { get; set; }
         public string ShipmentMode { get; set; }
-        public string ShipmentTypeCode { get; set; }        
+        public string ShipmentTypeCode { get; set; }
         public string ShipmentTermCode { get; set; }
         public string CarrierName { get; set; }
+        public string ServiceLevel {get;set;}
+        public DateTime PickUpDate { get; set; }
         public string Status { get; set; }
         public string TrackingNumber { get; set; }
+
 
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }

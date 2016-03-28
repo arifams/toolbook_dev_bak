@@ -15,6 +15,7 @@ namespace PI.Data.Entity
         public decimal Height { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
+        public string Description { get; set; }
         public long ShipmentPackageId { get; set; }
 
         #region Navigation properties

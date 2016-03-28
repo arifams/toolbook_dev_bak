@@ -294,7 +294,7 @@ namespace PI.Business
                     CarrierName = addShipment.CarrierInformation.CarrierName,
                     TrackingNumber = addShipmentResponse.Awb,
                     //Status = addShipmentResponse.Status,
-                    CreatedBy = 1,
+                    CreatedBy = "1",
                     CreatedDate = DateTime.Now,
 
                     ConsigneeAddress = new ShipmentAddress
@@ -413,6 +413,8 @@ namespace PI.Business
         //get shipments by User
         public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime date, string number, string source, string destination)
         {
+            int page = 1;
+            int pageSize = 10;
             CompanyManagement company =new CompanyManagement();
             IList<DivisionDto> divisions = null;
             List<Shipment> Shipments=new List<Shipment>();
@@ -435,8 +437,88 @@ namespace PI.Business
                 Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
             }
 
-            //TO DO: Add the search criteria
+            var content = (from shipment in Shipments
+                           where shipment.Status == status &&
+                           shipment.ShipmentPackage.EarliestPickupDate == date &&
+                           shipment.IsDelete!=true &&
+                           string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) &&
+                           string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)&&
+                           string.IsNullOrEmpty(destination)||shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)
+                           select shipment).ToList();
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new ShipmentDto
+                {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto {
+                        Consignee = new ConsigneeDto {
+                            Address1 = item.ConsigneeAddress.StreetAddress1,
+                            Address2 = item.ConsigneeAddress.StreetAddress2,
+                            Postalcode = item.ConsigneeAddress.ZipCode,
+                            City = item.ConsigneeAddress.City,
+                            Country = item.ConsigneeAddress.Country,
+                            State = item.ConsigneeAddress.State,
+                            Name = item.ConsigneeAddress.FirstName + " " + item.ConsigneeAddress.LastName,
+                            ContactName = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            Email = item.ConsigneeAddress.EmailAddress,
+                            Number = item.ConsigneeAddress.Number
+                        },
+                        Consigner = new ConsignerDto {
+                            Address1 = item.ConsignorAddress.StreetAddress1,
+                            Address2 = item.ConsignorAddress.StreetAddress2,
+                            Postalcode = item.ConsignorAddress.ZipCode,
+                            City = item.ConsignorAddress.City,
+                            Country = item.ConsignorAddress.Country,
+                            State = item.ConsignorAddress.State,
+                            Name = item.ConsignorAddress.FirstName + " " + item.ConsignorAddress.LastName,
+                            ContactName = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.ContactName,
+                            Email = item.ConsignorAddress.EmailAddress,
+                            Number = item.ConsignorAddress.Number
+                        } },
+                    GeneralInformation = new GeneralInformationDto
+                    {
+                        CostCenterId = (long)item.CostCenterId,
+                        DivisionId = (long)item.DivisionId,
+                        ShipmentCode = item.ShipmentCode,
+                        ShipmentMode = item.ShipmentMode,
+                        ShipmentName = item.ShipmentName,
+                        ShipmentTermCode = item.ShipmentTermCode,
+                        ShipmentTypeCode = item.ShipmentTypeCode,
 
+                    },
+                    PackageDetails = new PackageDetailsDto
+                    {
+                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                        HsCode = item.ShipmentPackage.HSCode,
+                        Instructions = item.ShipmentPackage.CarrierInstruction,
+                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                        TotalVolume = item.ShipmentPackage.TotalVolume,
+                        TotalWeight = item.ShipmentPackage.TotalWeight,
+                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                        ShipmentDescription=item.ShipmentPackage.PackageDescription
+                       
+                    },
+                    CarrierInformation=new CarrierInformationDto
+                    {
+                       CarrierName=item.CarrierName,
+                       serviceLevel=item.ServiceLevel,
+                       PickupDate=item.PickUpDate
+                    }                    
+                               
+                }); 
+                }
+
+            pagedRecord.TotalRecords = Shipments.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+          
             return pagedRecord;
         }
 
@@ -465,6 +547,29 @@ namespace PI.Business
             }
             
             return currentShipments;
+        }
+
+      //get the product ingrediants List
+        public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
+        {
+             List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
+
+            foreach (var ingrediant in products)
+            {
+                ingrediantList.Add(
+                    new ProductIngredientsDto
+                    {
+                        Height = (double)ingrediant.Height,
+                        Length = (double)ingrediant.Length,
+                        ProductType = ingrediant.ProductTypeId.ToString(),
+                        Quantity = ingrediant.Quantity,
+                        Weight = (double)ingrediant.Weight,
+                        Width = (double)ingrediant.Width,
+                        Description = ingrediant.Description
+                    });
+                
+            }
+          return ingrediantList;
         }
     }
 }
