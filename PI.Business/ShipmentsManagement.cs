@@ -411,7 +411,8 @@ namespace PI.Business
         }
 
         //get shipments by User
-        public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? date, string number, string source, string destination)
+        public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? startDate, DateTime? endDate,
+                                               string number, string source, string destination)
         {
             int page = 1;
             int pageSize = 10;
@@ -440,13 +441,13 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            var content = (from shipment in Shipments
-                           where (string.IsNullOrEmpty(status) || shipment.Status == status) &&
-                           ( date == null || shipment.ShipmentPackage.EarliestPickupDate == date) &&
-                           shipment.IsDelete == false &&
-                           string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) &&
-                           string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)&&
-                           string.IsNullOrEmpty(destination)||shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)
+             var content = (from shipment in Shipments
+                           where shipment.IsDelete == false &&
+                           (string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x=> x.NewStatus == status)) &&
+                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&                           
+                           (string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) ) &&
+                           (string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source) )&&
+                           (string.IsNullOrEmpty(destination)||shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                            select shipment).ToList();
          
             foreach (var item in content)
@@ -493,7 +494,9 @@ namespace PI.Business
                         ShipmentTermCode = item.ShipmentTermCode,
                         ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy")                      
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = (item.ShipmentStatuses.Count() == 0)? null : 
+                                 item.ShipmentStatuses.OrderByDescending(x => x.CreatedDate).FirstOrDefault().NewStatus
                     },
                     PackageDetails = new PackageDetailsDto
                     {

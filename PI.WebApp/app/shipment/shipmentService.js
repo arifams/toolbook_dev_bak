@@ -70,14 +70,17 @@
         }
 
 
-        function loadAllShipments()
+        function loadAllShipments(status, startDate,endDate, number, source, destination)
         {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
                 userId: $window.localStorage.getItem('userGuid'),
-                //searchtext: searchText,
-                //costCenter: costCenter,
-                //type: type
+                status: status,
+                startDate: startDate,
+                endDate:endDate,
+                number: number,
+                source: source,
+                destination: destination
             }
             });
         }

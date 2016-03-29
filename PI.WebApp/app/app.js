@@ -24,7 +24,8 @@ var MakeApp = angular
     'ngCsv',
     'ngCsvImport',
     'customDirective',
-    'angularjs-datetime-picker'
+    'angularjs-datetime-picker',
+    'daterangepicker',
   ])
   .config(function ($routeProvider) {
       $routeProvider
