@@ -240,9 +240,33 @@ namespace PI.Business
             currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
 
 
-
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
 
+        }
+
+        //get the shipment status histories for shipment overview 
+        public List<ShipmentStatusHistoryDto> GetShipmentStatusListByShipmentId(string shipmentId)
+        {
+            List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
+            
+            using (PIContext context= new PIContext())
+            {
+             var statusList = (from statusHistory in context.ShipmentStatusHistory
+                                     where statusHistory.ShipmentId.ToString() == shipmentId
+                                     select statusHistory).ToList();
+
+                foreach (var item in statusList)
+                {
+                    statusHistoryList.Add(new ShipmentStatusHistoryDto {
+                        NewStatus=item.NewStatus,
+                        OldStatus=item.OldStatus,
+                        ShipmentId=item.ShipmentId,
+                        CreatedDate=item.CreatedDate
+                    });
+                }
+            }
+            
+            return statusHistoryList;
         }
 
         //get the status of inbound outbound rule

@@ -76,6 +76,8 @@
     <Content Include="app\shipment\loadAllShipments.js" />
     <Content Include="app\shipment\paymentResult.html" />
     <Content Include="app\shipment\paymentResult.js" />
+    <Content Include="app\shipment\ShipmentOverview.html" />
+    <Content Include="app\shipment\ShipmentOverview.js" />
     <Content Include="app\shipment\shipmentService.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />
     <Content Include="app\userManagement\loadUserManagement.js" />

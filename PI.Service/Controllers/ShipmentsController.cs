@@ -89,5 +89,15 @@ namespace PI.Service.Controllers
 
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetShipmentStatusListbyShipmentId")]
+        public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyShipmentId(string shipmetId)
+        {            
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.GetShipmentStatusListByShipmentId(shipmetId);
+        }
+
     }
 }

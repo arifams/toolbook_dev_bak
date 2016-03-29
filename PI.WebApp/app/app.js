@@ -271,7 +271,12 @@ var MakeApp = angular
              templateUrl: 'shipment/loadAllShipments.html',
              controller: 'loadShipmentsCtrl',
                controllerAs: 'loadShipCtrl'
-        })
+         })
+           .when('/ShipmentOverview', {
+               templateUrl: 'shipment/ShipmentOverview.html',
+               controller: 'shipmentOverviewCtrl',
+               controllerAs: 'overviewShipCtrl'
+           })
         .otherwise({
             redirectTo: '/'
         });
