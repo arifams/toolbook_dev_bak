@@ -5,6 +5,7 @@
                        function ($scope, $location, $window, shipmentFactory) {
 
                            var vm = this;
+                           vm.statusButton = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
 
@@ -29,6 +30,8 @@
                            }
 
                            vm.loadShipmentsByStatus = function (status) {
+
+                               vm.statusButton = status;
                                vm.loadAllShipments(status);
                            }
 

@@ -451,7 +451,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           (string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x=> x.NewStatus == status)) &&
+                           (string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x=> (status == "Active"? x.NewStatus != "Completed" : x.NewStatus == "Completed")  )) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&                           
                            (string.IsNullOrEmpty(number)|| shipment.TrackingNumber.Contains(number) ||shipment.ShipmentCode.Contains(number) ) &&
                            (string.IsNullOrEmpty(source)||shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source) )&&

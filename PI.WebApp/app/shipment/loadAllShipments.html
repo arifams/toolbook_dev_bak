@@ -15,11 +15,11 @@
 
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-xs-12">
+                        <div class="col-md-12">
 
                             <div class="col-md-2">
                                 <div dropdown="" class="btn-group form-group">
-                                    <button type="button" class="btn btn-primary">Status</button>
+                                    <button type="button" class="btn btn-primary">Status : <!--{{loadShipCtrl.statusButton}}--></button>
                                     <button dropdown-toggle="" type="button" class="btn btn-primary dropdown-toggle"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <span class="caret"></span>
@@ -27,13 +27,13 @@
                                     <span class="dropdown-arrow"></span>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <a href="javascript:;" ng-click="loadShipCtrl.loadShipmentsByStatus('All')">All</a>
+                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('All')">All</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-click="loadShipCtrl.loadShipmentsByStatus('Active')">Active</a>
+                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('Active')">Active</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
+                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
                                         </li>
                                     </ul>
                                 </div>
