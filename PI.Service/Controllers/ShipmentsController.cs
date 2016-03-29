@@ -66,5 +66,28 @@ namespace PI.Service.Controllers
             return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, number, source, destination);
 
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetShipmentbyId")]
+        public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentId);
+            return currentshipment;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("DeleteShipment")]
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName);
+
+        }
+
     }
 }

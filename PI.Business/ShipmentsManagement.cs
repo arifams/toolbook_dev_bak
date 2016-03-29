@@ -32,7 +32,7 @@ namespace PI.Business
             {
                 //  currentRateSheetDetails.type = currentShipment.GeneralInformation.shipmentType;
                 // currentRateSheetDetails.
-                if (currentShipment.GeneralInformation.ShipmentMode=="Express")
+                if (currentShipment.GeneralInformation.ShipmentMode == "Express")
                 {
                     currentRateSheetDetails.courier = "UPSDHLFEDTNT";
                 }
@@ -63,8 +63,8 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2 != null ? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
@@ -74,7 +74,7 @@ namespace PI.Business
                 //consignee details
                 currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
-                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2!=null? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%'): string.Empty;
+                currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2 != null ? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address14 = currentShipment.AddressInformation.Consignee.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number_delivery = currentShipment.AddressInformation.Consignee.Number;
                 currentRateSheetDetails.postcode_delivery = currentShipment.AddressInformation.Consignee.Postalcode;
@@ -163,7 +163,7 @@ namespace PI.Business
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
-                if (currentShipment.PackageDetails.IsInsuared=="true")
+                if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
                     currentRateSheetDetails.insurance_instruction = "Y";
                 }
@@ -246,25 +246,25 @@ namespace PI.Business
         }
 
         //get the status of inbound outbound rule
-        public string GetInboundoutBoundStatus(string userId, string fromCode,string toCode)
+        public string GetInboundoutBoundStatus(string userId, string fromCode, string toCode)
         {
             string status = "N";
 
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 var countryCode = string.Empty;
                 var addressId = context.Customers.Where(c => c.UserId == userId).Select(c => c.AddressId).SingleOrDefault();
-                if (addressId!=0)
+                if (addressId != 0)
                 {
-                    countryCode= context.Addresses.Where(c => c.Id == addressId).Select(c => c.Country).SingleOrDefault();
+                    countryCode = context.Addresses.Where(c => c.Id == addressId).Select(c => c.Country).SingleOrDefault();
                 }
-                if (countryCode!=null&& countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
+                if (countryCode != null && countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
                 {
                     status = "Y";
                 }
                 else
                 {
-                    status="N";
+                    status = "N";
                 }
 
             }
@@ -308,7 +308,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consignee.State,
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        ContactName=addShipment.AddressInformation.Consignee.ContactName,
+                        ContactName = addShipment.AddressInformation.Consignee.ContactName,
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now
@@ -359,7 +359,7 @@ namespace PI.Business
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
-                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now });
+                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate = DateTime.Now });
                     context.SaveChanges();
                 }
                 catch (Exception ex) { throw ex; }
@@ -385,7 +385,7 @@ namespace PI.Business
             string description = ConfigurationManager.AppSettings["PayLaneDescription"].ToString();
 
             //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
-            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}",hashSalt, description, payLaneDto.Amount,payLaneDto.Currency,payLaneDto.TransactionType);
+            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}", hashSalt, description, payLaneDto.Amount, payLaneDto.Currency, payLaneDto.TransactionType);
             return new PayLaneDto() {
                 MerchantId = merchantId,
                 Description = description,
@@ -416,32 +416,40 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company =new CompanyManagement();
+            CompanyManagement company = new CompanyManagement();
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
-            List<Shipment> Shipments=new List<Shipment>();
+            List<Shipment> Shipments = new List<Shipment>();
             var pagedRecord = new PagedList();
-            if (userId==null)
+            if (userId == null)
             {
                 return null;
             }
             string role = this.GetUserRoleById(userId);
-            if (role == "BusinessOwner")
+            if (role == "BusinessOwner" || role == "Manager")
             {
-                divisions = company.GetAllDivisionsForCompany(userId);
+                divisions = this.GetAllDivisionsinCompany(userId);
             }              
-            else
+            else if (role == "Supervisor")
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
+            if (divisions.Count > 0)
+            {
             foreach (var item in divisions)
             {
                 Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
             }
+            }
+            else
+            {
+                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+            }
+
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-             var content = (from shipment in Shipments
+            var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
                            (string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x=> x.NewStatus == status)) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&                           
@@ -535,7 +543,7 @@ namespace PI.Business
 
         public string GetUserRoleById(string userId)
         {
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                 string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
@@ -547,19 +555,127 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByDivisionId(long divid)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 currentShipments = (from shipment in context.Shipments
                                     join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                                     join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
                                     join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                    where shipment.DivisionId == divid  select shipment).ToList();
+                                    where shipment.DivisionId == divid select shipment).ToList();
+
+            }
+
+            return currentShipments;
+        }
+
+        //get shipments by user ID
+        public IList<Shipment> GetshipmentsByUserId(string userId)
+        {
+            IList<Shipment> currentShipments = null;
+            using (PIContext context = new PIContext())
+            {
+                currentShipments = (from shipment in context.Shipments
+                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                    where shipment.CreatedBy == userId
+                                    select shipment).ToList();
                
             }
             
             return currentShipments;
         }
 
+        //get shipments by ID
+        public ShipmentDto GetshipmentById(string shipmentId)
+        {
+            ShipmentDto currentShipmentDto = null;
+
+            Shipment currentShipment = null;
+            using (PIContext context = new PIContext())
+            {
+                currentShipment = (from shipment in context.Shipments
+                                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                                   join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                                   join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                                   where shipment.Id.ToString() == shipmentId
+                                   select shipment).FirstOrDefault();
+
+            }
+            currentShipmentDto = new ShipmentDto
+            {
+                AddressInformation = new ConsignerAndConsigneeInformationDto
+                {
+                    Consignee = new ConsigneeDto
+                    {
+                        Address1 = currentShipment.ConsigneeAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsigneeAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsigneeAddress.ZipCode,
+                        City = currentShipment.ConsigneeAddress.City,
+                        Country = currentShipment.ConsigneeAddress.Country,
+                        State = currentShipment.ConsigneeAddress.State,
+                        Name = currentShipment.ConsigneeAddress.FirstName + " " + currentShipment.ConsigneeAddress.LastName,
+                        ContactName = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        Email = currentShipment.ConsigneeAddress.EmailAddress,
+                        Number = currentShipment.ConsigneeAddress.Number
+                    },
+                    Consigner = new ConsignerDto
+                    {
+                        Address1 = currentShipment.ConsignorAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsignorAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsignorAddress.ZipCode,
+                        City = currentShipment.ConsignorAddress.City,
+                        Country = currentShipment.ConsignorAddress.Country,
+                        State = currentShipment.ConsignorAddress.State,
+                        Name = currentShipment.ConsignorAddress.FirstName + " " + currentShipment.ConsignorAddress.LastName,
+                        ContactName = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        Email = currentShipment.ConsignorAddress.EmailAddress,
+                        Number = currentShipment.ConsignorAddress.Number
+                    }
+                },
+                GeneralInformation = new GeneralInformationDto
+                {
+                    CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
+                    DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
+                    ShipmentCode = currentShipment.ShipmentCode,
+                    ShipmentMode = currentShipment.ShipmentMode,
+                    ShipmentName = currentShipment.ShipmentName,
+                    ShipmentTermCode = currentShipment.ShipmentTermCode,
+                    ShipmentTypeCode = currentShipment.ShipmentTypeCode,
+                    TrackingNumber = currentShipment.TrackingNumber,
+                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy")
+                },
+                PackageDetails = new PackageDetailsDto
+                {
+                    CmLBS = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    VolumeCMM = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    Count = currentShipment.ShipmentPackage.PackageProducts.Count,
+                    DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
+                    HsCode = currentShipment.ShipmentPackage.HSCode,
+                    Instructions = currentShipment.ShipmentPackage.CarrierInstruction,
+                    IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
+                    TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
+                    TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
+                    ValueCurrency = Convert.ToInt32(currentShipment.ShipmentPackage.Currency),
+                    PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
+                    ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
+                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+
+                },
+                CarrierInformation = new CarrierInformationDto
+                {
+                    CarrierName = currentShipment.CarrierName,
+                    serviceLevel = currentShipment.ServiceLevel,
+                    PickupDate = currentShipment.PickUpDate
+                }
+
+            };
+
+
+            return currentShipmentDto;
+        }
       //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
@@ -582,5 +698,54 @@ namespace PI.Business
             }
           return ingrediantList;
         }
+
+        public List<DivisionDto> GetAllDivisionsinCompany(string userId)
+        {
+            List<DivisionDto> divisionList = new List<DivisionDto>();
+            CompanyManagement companyManagement = new CompanyManagement();
+            Company currentcompany = companyManagement.GetCompanyByUserId(userId);
+
+            if (currentcompany == null)
+            {
+                return null;
+            }
+
+            using (var context = new PIContext())//PIContext.Get())
+            {
+                var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
+                                                            c.IsDelete == false).ToList();
+
+                foreach (var item in divisions)
+                {
+                    divisionList.Add(new DivisionDto
+                    {
+                        Id = item.Id,
+                        Name = item.Name
+                    });
+                }
+            }
+
+            return divisionList;
+        }
+
+        //Delete shipment
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        {
+
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
+            if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
+            {
+                sisManager.DeleteShipment(shipmentCode);
+                return 1;
+            }
+            else
+            {
+                return 2;
+            }
+
+        }
     }
+
+    
 }
