@@ -622,9 +622,13 @@ namespace PI.Business
                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                   where shipment.Id.ToString() == shipmentId
+                                   where shipment.ShipmentCode.ToString() == shipmentId
                                    select shipment).FirstOrDefault();
 
+            }
+            if (currentShipment==null)
+            {
+                return null;
             }
             currentShipmentDto = new ShipmentDto
             {
@@ -661,6 +665,7 @@ namespace PI.Business
                 },
                 GeneralInformation = new GeneralInformationDto
                 {
+                    ShipmentId=currentShipment.Id.ToString(),
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,

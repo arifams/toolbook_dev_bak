@@ -92,12 +92,14 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
-        [Route("GetShipmentStatusListbyShipmentId")]
-        public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyShipmentId(string shipmetId)
+        [Route("GetShipmentStatusListbyId")]
+        public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyId([FromUri]string shipmentId)
         {            
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetShipmentStatusListByShipmentId(shipmetId);
+            return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
         }
+
+        
 
     }
 }

@@ -116,13 +116,13 @@
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td>{{row.generalInformation.status}}</td>
                                 <td>
-                                    <a href="#/saveDivision/{{row.id}}"
+                                    <a href="#/saveDivision/{{row.generalInformation.shipmentCode}}"
                                        class="edit btn btn-sm btn-default">
                                         <i class="icon-note"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#/saveDivision/{{row.id}}"
+                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"  href="javascript:;
                                        class="edit btn btn-sm btn-default">
                                         <i class="icon-note"></i>
                                     </a>

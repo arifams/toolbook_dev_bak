@@ -8,6 +8,8 @@ namespace PI.Contract.DTOs.Shipment
 {
     public class GeneralInformationDto
     {
+        public string ShipmentId { get; set; }
+
         public string ShipmentCode { get; set; }
 
         public string ShipmentName { get; set; }

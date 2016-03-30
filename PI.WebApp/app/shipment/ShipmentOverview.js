@@ -10,6 +10,39 @@
                var vm = this;
                var simple_map;
                vm.statusHistories = {};
+               vm.shipmentCode = $location.search().SHIPMENT_CODE;
+               vm.trakingNo = $location.search().TRACKING_NO;
+               vm.carrier = $location.search().CARRIER;
+               vm.createdOn = $location.search().CREATED_ON;
+               var shipmentId = '';
+               var loadShipmentStatuses = function () {
+                   debugger;
+                   shipmentFactory.loadShipmentStatusList(shipmentId)
+                   .success(function (data) {
+                       vm.statusHistories = data;
+                   })
+                   .error(function () {
+                   })
+               }
+               //get the current shipment details
+               var loadShipmentInfo = function () {
+                   debugger;
+                   shipmentFactory.loadShipmentInfo(vm.shipmentCode)
+                   .success(function (data) {
+                       vm.shipment = data;
+                       shipmentId = vm.shipment.generalInformation.shipmentId;
+                       loadShipmentStatuses();
+                      
+                   })
+                   .error(function () {
+                   })
+               }
+                
+               loadShipmentInfo();
+                   
+               
+
+              
 
                if ($("#simple-map").length) {
                    simple_map = new GMaps({
