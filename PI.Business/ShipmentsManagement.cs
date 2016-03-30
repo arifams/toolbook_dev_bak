@@ -240,9 +240,33 @@ namespace PI.Business
             currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
 
 
-
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
 
+        }
+
+        //get the shipment status histories for shipment overview 
+        public List<ShipmentStatusHistoryDto> GetShipmentStatusListByShipmentId(string shipmentId)
+        {
+            List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
+            
+            using (PIContext context= new PIContext())
+            {
+             var statusList = (from statusHistory in context.ShipmentStatusHistory
+                                     where statusHistory.ShipmentId.ToString() == shipmentId
+                                     select statusHistory).ToList();
+
+                foreach (var item in statusList)
+                {
+                    statusHistoryList.Add(new ShipmentStatusHistoryDto {
+                        NewStatus=item.NewStatus,
+                        OldStatus=item.OldStatus,
+                        ShipmentId=item.ShipmentId,
+                        CreatedDate=item.CreatedDate
+                    });
+                }
+            }
+            
+            return statusHistoryList;
         }
 
         //get the status of inbound outbound rule
@@ -601,9 +625,13 @@ namespace PI.Business
                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                   where shipment.Id.ToString() == shipmentId
+                                   where shipment.ShipmentCode.ToString() == shipmentId
                                    select shipment).FirstOrDefault();
 
+            }
+            if (currentShipment==null)
+            {
+                return null;
             }
             currentShipmentDto = new ShipmentDto
             {
@@ -640,6 +668,7 @@ namespace PI.Business
                 },
                 GeneralInformation = new GeneralInformationDto
                 {
+                    ShipmentId=currentShipment.Id.ToString(),
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,

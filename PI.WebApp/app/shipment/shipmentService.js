@@ -12,7 +12,9 @@
             submitShipment: submitShipment,
             loadAllCurrencies: loadAllCurrencies,
             getHashCodesForPaylane: getHashCodesForPaylane,
-            loadAllShipments: loadAllShipments
+            loadAllShipments: loadAllShipments,
+            loadShipmentInfo: loadShipmentInfo,
+            loadShipmentStatusList: loadShipmentStatusList
         };
 
         //get paylane relted Details
@@ -69,6 +71,22 @@
             });
         }
 
+        function loadShipmentInfo(shipmentid) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentbyId', {
+                params: {
+                    shipmentId: shipmentid
+                }
+            });
+        }
+
+        
+        function loadShipmentStatusList(shipmentid) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusListbyId', {
+                params: {
+                    shipmentId: shipmentid
+                }
+            });
+        }
 
         function loadAllShipments(status, startDate,endDate, number, source, destination)
         {
