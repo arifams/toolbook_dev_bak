@@ -239,46 +239,60 @@ namespace PI.Business
 
 
         //get addressbook detail by id
-        public List<AddressBookDto> GetAddressBookDetailsList(string userId,string searchText)
+        public PagedList GetFilteredAddresses( string userId, string searchtext, int page = 1, int pageSize = 25)
+
         {
-            List<AddressBook> addressList = new List<AddressBook>();
-            List<AddressBookDto> addressBookResult = new List<AddressBookDto>();
+            var pagedRecord = new PagedList();
+
+            pagedRecord.Content = new List<AddressBookDto>();
             using (PIContext context = new PIContext())
             {
-                addressList = (from address in context.AddressBooks
-                               where address.CreatedBy == userId &&
-                               address.CompanyName.Contains(searchText) || address.FirstName.Contains(searchText) || address.LastName.Contains(searchText)
-                               select address).ToList();
-            }
+                var content = (from a in context.AddressBooks
+                               where a.IsDelete == false &&
+                               a.CreatedBy == userId &&
+                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext))                              
+                               orderby a.CreatedDate ascending
+                               select a)
+                              .ToList();
 
-            if (addressList==null)
-            {
-                return null;
-            }
-            foreach (var item in addressList)
-            {
-                addressBookResult.Add(new AddressBookDto
+                foreach (var item in content)
                 {
-                    AccountNumber=item.AccountNumber,
-                    City=item.City,
-                    CompanyName=item.CompanyName,
-                    Country=item.Country,
-                    EmailAddress=item.EmailAddress,
-                    FirstName=item.FirstName,
-                    Id=item.Id,
-                    IsActive=item.IsActive,
-                    LastName=item.LastName,
-                    Number=item.Number,
-                    PhoneNumber=item.PhoneNumber,
-                    Salutation=item.Salutation,
-                    State=item.State,
-                    StreetAddress1=item.StreetAddress1,
-                    StreetAddress2=item.StreetAddress2,
-                    UserId=item.UserId,
-                    ZipCode=item.ZipCode
-                });
+                    pagedRecord.Content.Add(new AddressBookDto
+                    {
+                        Id = item.Id,
+                        CompanyName = item.CompanyName,
+                        FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
+                        FullName = item.FirstName + " " + item.LastName,
+                        IsActive = item.IsActive,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        UserId = item.UserId,
+                        Salutation = item.Salutation,
+                        EmailAddress = item.EmailAddress,
+                        PhoneNumber = item.PhoneNumber,
+                        AccountNumber = item.AccountNumber,
+
+                        Country = item.Country,
+                        ZipCode = item.ZipCode,
+                        Number = item.Number,
+                        StreetAddress1 = item.StreetAddress1,
+                        StreetAddress2 = item.StreetAddress2,
+                        City = item.City,
+                        State = item.State
+
+                    });
+                }
+
+                // Count
+                pagedRecord.TotalRecords = content.Count();
+
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+
+
             }
-            return addressBookResult;
 
         }
 

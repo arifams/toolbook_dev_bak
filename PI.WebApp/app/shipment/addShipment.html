@@ -158,7 +158,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.consignorSearchText" name="consignorSearchText" type="text" class="form-control"
-                                       placeholder="Enter Company Name,FirstName or Last Name"  />
+                                       placeholder="Enter Company Name,FirstName or Last Name"  ng-change="shipmentCtrl.consignorSearchChange()"/>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -167,12 +167,13 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
+                            
                         </div>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.consigneeSearchText" name="consigneeSearchText" type="text" class="form-control"
-                                       placeholder="Enter Company Name,FirstName or Last Name" />
+                                       placeholder="Enter Company Name,FirstName or Last Name" ng-change="shipmentCtrl.consigneeSearchChange()"/>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -180,6 +181,27 @@
                                 <button type="button" class="btn btn-large btn-primary" ng-click="shipmentCtrl.searchAddressesConsignee()">
                                     <i class="fa fa-search"></i>
                                 </button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
+                                <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                            </div>
+                            <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
+                                <label class="label label-danger">Add text before search</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
+                                <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                            </div>
+                            <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.emptySearch">
+                                <label class="label label-danger">Add text before search</label>
                             </div>
                         </div>
                     </div>
