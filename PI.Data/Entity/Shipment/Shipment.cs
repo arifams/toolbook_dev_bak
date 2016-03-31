@@ -16,14 +16,17 @@ namespace PI.Data.Entity
         public long? DivisionId { get; set; }
         public long? CostCenterId { get; set; }
         public string ShipmentMode { get; set; }
-        public string ShipmentTypeCode { get; set; }        
-        public string ShipmentTermCode { get; set; }
+        public short ShipmentService { get; set; }
+        //public string ShipmentTypeCode { get; set; }        
+        //public string ShipmentTermCode { get; set; }
 
         [MaxLength(200)]
         public string CarrierName { get; set; }
+        public string TarriffType { get; set; }
+        public string TariffText { get; set; }
         public string ServiceLevel {get;set;}
-        public DateTime PickUpDate { get; set; }
-        public string Status { get; set; }
+        public DateTime? PickUpDate { get; set; }
+        public short Status { get; set; }
         public string TrackingNumber { get; set; }
 
 
@@ -33,6 +36,10 @@ namespace PI.Data.Entity
 
         // Package details
         public long ShipmentPackageId { get; set; }
+
+        public long? ParentShipmentId { get; set; }
+
+        public short ShipmentPaymentTypeId { get; set; }
 
         #region Navigation properties
 
@@ -53,6 +60,11 @@ namespace PI.Data.Entity
         // Package details
         [ForeignKey("ShipmentPackageId")]
         public virtual ShipmentPackage ShipmentPackage { get; set; }
+
+        [ForeignKey("ParentShipmentId")]
+        public virtual Shipment ParentShipment { get; set; }
+
+        public virtual ShipmentPayment ShipmentPayment { get; set; }
 
         #endregion
     }   

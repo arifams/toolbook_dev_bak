@@ -32,5 +32,6 @@ namespace PI.Contract.DTOs.Shipment
 
         public DateTime CreatedDate { get; set; }
 
+        public short ShipmentPaymentTypeId { get; set; }
     }
 }

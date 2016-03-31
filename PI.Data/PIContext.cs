@@ -47,7 +47,8 @@ namespace PI.Data
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }
-        public DbSet<ShipmentStatusHistory> ShipmentStatusHistory { get; set; }
+        public DbSet<ShipmentPayment> ShipmentPayments { get; set; }
+        //public DbSet<ShipmentStatusHistory> ShipmentStatusHistory { get; set; }
 
 
         public PIContext()

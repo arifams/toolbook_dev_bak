@@ -29,7 +29,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SaveShipment")]
-        public long SaveShipment([FromBody]ShipmentDto addShipment)
+        public ShipmentOperationResult SaveShipment([FromBody]ShipmentDto addShipment)
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SaveShipment(addShipment);
@@ -70,10 +70,10 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SendShipmentDetails")]
-        public ShipmentOperationResult SendShipmentDetails(long shipmentId)
+        public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
-            return shipment.SendShipmentDetails(shipmentId);
+            return shipment.SendShipmentDetails(sendShipmentDetails);
         }
     }
 }

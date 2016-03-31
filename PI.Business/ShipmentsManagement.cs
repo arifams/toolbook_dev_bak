@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
 using System;
@@ -62,7 +64,7 @@ namespace PI.Business
             if (currentShipment.AddressInformation != null)
             {
                 //consigner details
-                currentRateSheetDetails.address1 = currentShipment.AddressInformation.Consigner.Name.Replace(' ', '%');
+                currentRateSheetDetails.address1 = string.Format("{0} {1}", currentShipment.AddressInformation.Consigner.FirstName, currentShipment.AddressInformation.Consigner.LastName).Replace(' ', '%');
                 currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
                 currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
@@ -72,7 +74,7 @@ namespace PI.Business
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
            
                 //consignee details
-                currentRateSheetDetails.address11 = currentShipment.AddressInformation.Consignee.Name.Replace(' ', '%');
+                currentRateSheetDetails.address11 = string.Format("{0} {1}", currentShipment.AddressInformation.Consignee.FirstName, currentShipment.AddressInformation.Consignee.LastName).Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
                 currentRateSheetDetails.address13 = currentShipment.AddressInformation.Consignee.Address2!=null? currentShipment.AddressInformation.Consignee.Address2.Replace(' ', '%'): string.Empty;
                 currentRateSheetDetails.address14 = currentShipment.AddressInformation.Consignee.City.Replace(' ', '%');
@@ -87,16 +89,16 @@ namespace PI.Business
             }
             if (currentShipment.PackageDetails != null)
             {
-                double maxLength = 0;
-                double maxWidth = 0;
-                double maxHeight = 0;
-                double surface = 0;
-                double maxdimension = 0;
-                double pieces = 0;
-                double volume = 0;
-                double maxVolume = 0;
-                double weight = 0;
-                double maxWeight = 0;
+                decimal maxLength = 0;
+                decimal maxWidth = 0;
+                decimal maxHeight = 0;
+                decimal surface = 0;
+                decimal maxdimension = 0;
+                decimal pieces = 0;
+                decimal volume = 0;
+                decimal maxVolume = 0;
+                decimal weight = 0;
+                decimal maxWeight = 0;
                 string package = string.Empty;
                 int count = 0;
                 string codeCurrenyString = "";
@@ -272,15 +274,29 @@ namespace PI.Business
             return status;
         }
 
-        public long SaveShipment(ShipmentDto addShipment)
+        public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
-            ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+            //ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+            ShipmentOperationResult result = new ShipmentOperationResult();
 
-            //AddShipmentResponse addShipmentResponse = sisManager.SubmitShipment(addShipment);
-
-            //If response is successfull save the shipment in DB.
             using (PIContext context = new PIContext())
             {
+                var packageProductList = new List<PackageProduct>();
+                addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
+                {
+                    CreatedBy = addShipment.UserId,
+                    CreatedDate = DateTime.Now,
+                    IsActive = true,
+                    IsDelete = false,
+                    Description = p.Description,
+                    Height = p.Height,
+                    Length = p.Length,
+                    Weight = p.Weight,
+                    Width = p.Width,
+                    Quantity = p.Quantity,
+                    ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
+                }));
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
@@ -289,16 +305,23 @@ namespace PI.Business
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
-                    ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
-                    ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
+                    ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
+                    //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
+                    //ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
                     CarrierName = addShipment.CarrierInformation.CarrierName,
-                    TrackingNumber = addShipmentResponse.Awb,
-                    //Status = addShipmentResponse.Status,
-                    CreatedBy = "1",
+                    TrackingNumber = null, //addShipmentResponse.Awb,
+                    CreatedBy = addShipment.UserId,
                     CreatedDate = DateTime.Now,
-
+                    ServiceLevel = addShipment.CarrierInformation.serviceLevel,
+                    TarriffType = addShipment.CarrierInformation.tarriffType,
+                    TariffText = addShipment.CarrierInformation.tariffText,
+                    ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
+                    Status = (short)ShipmentStatus.Pending,
+                    PickUpDate = addShipment.CarrierInformation.PickupDate,
                     ConsigneeAddress = new ShipmentAddress
                     {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
                         Country = addShipment.AddressInformation.Consignee.Country,
                         ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
                         Number = addShipment.AddressInformation.Consignee.Number,
@@ -315,7 +338,8 @@ namespace PI.Business
                     },
                     ConsignorAddress = new ShipmentAddress
                     {
-                        FirstName = addShipment.AddressInformation.Consigner.Name,
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
                         Country = addShipment.AddressInformation.Consigner.Country,
                         ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
                         Number = addShipment.AddressInformation.Consigner.Number,
@@ -350,7 +374,8 @@ namespace PI.Business
                         VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.Now,
+                        PackageProducts = packageProductList
                     }
                 };
                
@@ -359,29 +384,47 @@ namespace PI.Business
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
-                    context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, NewStatus = "NEW", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now });
-                    context.SaveChanges();
+                    //context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, Status = "Pending", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now,IsActive = true });
+                    //context.SaveChanges();
 
-                    return newShipment.Id;
+                    result.ShipmentId = newShipment.Id;
+                    result.Status = Status.Success;
+
+                    // If success fully saved and is invoice, then add to SIS.
+                    //if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
+                    //{
+                    //    AddShipmentResponse addShipmentResponse = new SISIntegrationManager().SendShipmentDetails(addShipment);
+                    //    result.AddShipmentXML = addShipmentResponse.AddShipmentXML;
+
+                    //    if (string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
+                    //    { 
+                    //        result.Status = Status.Error;
+                    //        result.Message = "Error occured while adding shipment";
+                    //    }
+                    //    else
+                    //    {
+                    //        result.Status = Status.Success;
+                    //        result.Message = "Shipment added successfully";
+
+                    //        result.LabelURL = addShipmentResponse.PDF;
+
+                    //        // Update shipment entity.
+                    //        newShipment.ShipmentCode = addShipmentResponse.CodeShipment;
+                    //        newShipment.TrackingNumber = addShipmentResponse.Awb;
+                    //        newShipment.Status = (short)ShipmentStatus.BookingConfirmation;
+                    //        context.SaveChanges();
+                    //    }
+                    //}
                 }
                 catch (Exception ex)
                 {
                     //throw ex;
-                    return 0;
+                    result.ShipmentId = 0;
+                    result.Status = Status.Error;
+                }
             }
-            }
 
-            //ShipmentOperationResult shipmentResult = new ShipmentOperationResult();
-
-            //if (addShipmentResponse == null || string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-            //    shipmentResult.Status = "Error";
-            //else
-            //{
-            //    shipmentResult.Status = "Success";
-            //    shipmentResult.AddShipmentXML = addShipmentResponse.AddShipmentXML;
-            //}
-
-            //return shipmentResult;
+            return result;
         }
 
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
@@ -464,7 +507,8 @@ namespace PI.Business
                             City = item.ConsigneeAddress.City,
                             Country = item.ConsigneeAddress.Country,
                             State = item.ConsigneeAddress.State,
-                            Name = item.ConsigneeAddress.FirstName + " " + item.ConsigneeAddress.LastName,
+                            FirstName = item.ConsigneeAddress.FirstName,
+                            LastName = item.ConsigneeAddress.LastName,
                             ContactName = item.ConsigneeAddress.ContactName,
                             ContactNumber = item.ConsigneeAddress.ContactName,
                             Email = item.ConsigneeAddress.EmailAddress,
@@ -477,7 +521,8 @@ namespace PI.Business
                             City = item.ConsignorAddress.City,
                             Country = item.ConsignorAddress.Country,
                             State = item.ConsignorAddress.State,
-                            Name = item.ConsignorAddress.FirstName + " " + item.ConsignorAddress.LastName,
+                            FirstName = item.ConsignorAddress.FirstName,
+                            LastName = item.ConsignorAddress.LastName,
                             ContactName = item.ConsignorAddress.ContactName,
                             ContactNumber = item.ConsignorAddress.ContactName,
                             Email = item.ConsignorAddress.EmailAddress,
@@ -490,8 +535,8 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
-                        ShipmentTermCode = item.ShipmentTermCode,
-                        ShipmentTypeCode = item.ShipmentTypeCode,
+                        //ShipmentTermCode = item.ShipmentTermCode,
+                        //ShipmentTypeCode = item.ShipmentTypeCode,
 
                     },
                     PackageDetails = new PackageDetailsDto
@@ -566,12 +611,12 @@ namespace PI.Business
                 ingrediantList.Add(
                     new ProductIngredientsDto
                     {
-                        Height = (double)ingrediant.Height,
-                        Length = (double)ingrediant.Length,
+                        Height = ingrediant.Height,
+                        Length = ingrediant.Length,
                         ProductType = ingrediant.ProductTypeId.ToString(),
                         Quantity = ingrediant.Quantity,
-                        Weight = (double)ingrediant.Weight,
-                        Width = (double)ingrediant.Width,
+                        Weight = ingrediant.Weight,
+                        Width = ingrediant.Width,
                         Description = ingrediant.Description
                     });
                 
@@ -579,30 +624,138 @@ namespace PI.Business
           return ingrediantList;
         }
 
-        public ShipmentOperationResult SendShipmentDetails(long shipmentId)
+        public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
             // Get data from database and fill dto.
             ShipmentDto shipmentDto;
+            AddShipmentResponse response;
+            ShipmentOperationResult result = new ShipmentOperationResult();
 
             using (var context = new PIContext())
             {
-                Shipment shipment = context.Shipments.Where(sh => sh.Id == shipmentId).FirstOrDefault();
+                Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
+
+                if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
+                {
+                    // Added payment data
+                    shipment.ShipmentPayment = new ShipmentPayment()
+                    {
+                        CreatedBy = sendShipmentDetails.UserId,
+                        CreatedDate = DateTime.Now,
+                        IsActive = true,
+                        SaleId = sendShipmentDetails.PayLane.SaleId,
+                        Status = sendShipmentDetails.PayLane.Status // TODO : H- Use enum.
+                    };
+
+                    context.SaveChanges();
+
+                    if (sendShipmentDetails.PayLane.Status != "PERFORMED")
+                    {
+                        result.Status = Status.Error;
+                        result.Message = "Error occured when adding payment";
+                        return result;
+                    }
+                }
+
+                var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
+
+                shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
+                {
+                    Description = p.Description,
+                    Height = p.Height,
+                    Length = p.Length,
+                    Weight = p.Weight,
+                    Width = p.Width,
+                    Quantity = p.Quantity,
+                    ProductType = Utility.GetEnumDescription((ProductType)p.ProductTypeId)
+                }));
 
                 shipmentDto = new ShipmentDto()
                 {
                     GeneralInformation = new GeneralInformationDto()
                     {
                         ShipmentName = shipment.ShipmentName,
-
+                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
+                    },
+                    CarrierInformation = new CarrierInformationDto()
+                    {
+                        CarrierName = shipment.CarrierName,
+                        serviceLevel = shipment.ServiceLevel,
+                        Price = shipment.ShipmentPackage.CarrierCost,
+                        Insurance = shipment.ShipmentPackage.InsuranceCost,
+                        tarriffType = shipment.TarriffType,
+                        tariffText = shipment.TariffText
+                    },
+                    AddressInformation = new ConsignerAndConsigneeInformationDto()
+                    {
+                        Consignee = new ConsigneeDto()
+                        {
+                            FirstName = shipment.ConsigneeAddress.FirstName,
+                            LastName = shipment.ConsigneeAddress.LastName,
+                            Country = shipment.ConsigneeAddress.Country,
+                            Postalcode = shipment.ConsigneeAddress.ZipCode,
+                            Number = shipment.ConsigneeAddress.Number,
+                            Address1 = shipment.ConsigneeAddress.StreetAddress1,
+                            Address2 = shipment.ConsigneeAddress.StreetAddress2,
+                            City = shipment.ConsigneeAddress.City,
+                            State = shipment.ConsigneeAddress.State,
+                            Email = shipment.ConsigneeAddress.EmailAddress,
+                            ContactNumber = shipment.ConsigneeAddress.PhoneNumber,
+                            ContactName = shipment.ConsigneeAddress.ContactName
+                        },
+                        Consigner = new ConsignerDto()
+                        {
+                            FirstName = shipment.ConsignorAddress.FirstName,
+                            LastName = shipment.ConsignorAddress.LastName,
+                            Country = shipment.ConsignorAddress.Country,
+                            Postalcode = shipment.ConsignorAddress.ZipCode,
+                            Number = shipment.ConsignorAddress.Number,
+                            Address1 = shipment.ConsignorAddress.StreetAddress1,
+                            Address2 = shipment.ConsignorAddress.StreetAddress2,
+                            City = shipment.ConsignorAddress.City,
+                            State = shipment.ConsignorAddress.State,
+                            Email = shipment.ConsignorAddress.EmailAddress,
+                            ContactNumber = shipment.ConsignorAddress.PhoneNumber,
+                            ContactName = shipment.ConsignorAddress.ContactName
+                        }
+                    },
+                    PackageDetails = new PackageDetailsDto()
+                    {
+                        IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
+                        ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
+                        PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
+                        CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
+                        VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
+                        ProductIngredients = shipmentProductIngredientsList,
+                        ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
+                        DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
                     }
                 };
+
+                // Add Shipment to SIS.
+                response = new SISIntegrationManager().SendShipmentDetails(shipmentDto);
+
+                shipment.ShipmentCode = response.CodeShipment;
+                shipment.TrackingNumber = response.Awb;
+                result.AddShipmentXML = response.AddShipmentXML;
+
+                if (string.IsNullOrWhiteSpace(response.Awb))
+                { 
+                    result.Status = Status.Error;
+                    result.Message = "Error occured when adding shipment";
+                }
+                else
+                {
+                    result.Status = Status.Success;
+                    result.Message = "Shipment added successfully";
+                    result.LabelURL = response.PDF;
+
+                    shipment.Status = (short)ShipmentStatus.BookingConfirmation;
+                }
+
+                context.SaveChanges();
+                return result;
             }
-
-            AddShipmentResponse response = new SISIntegrationManager().SendShipmentDetails(shipmentDto);
-
-
-            ShipmentOperationResult result = new ShipmentOperationResult();
-            return result;
         }
     }
 }

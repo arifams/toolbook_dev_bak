@@ -7,8 +7,14 @@
                 <div class="col-xs-12">
                     <div class="box-body">
 
-                        <div ng-show="resultCtrl.paymentMsgStatus"> {{resultCtrl.paymentMsg}} </div>
+                        <div ng-show="resultCtrl.paymentMsgStatus"> 
+                            
+                            {{resultCtrl.paymentMsg}} 
 
+                            <div> <a href="{{resultCtrl.labelUrl}}" target="_blank">Click here to open the Label</a> </div>
+
+                        </div>
+                        
                     </div>
                 </div>
             </div>
