@@ -330,7 +330,7 @@ namespace PI.Business
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
-                    ShipmentMode = addShipment.GeneralInformation.shipmentModeName,
+                    ShipmentMode = addShipment.GeneralInformation.shipmentMode,
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
                     //ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
@@ -344,6 +344,7 @@ namespace PI.Business
                     ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                     Status = (short)ShipmentStatus.Pending,
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
+                    IsActive = true,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
