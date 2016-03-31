@@ -58,12 +58,36 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("GetAllShipments")]
-        public PagedList GetAllShipments(string status = "0", string userId = null, DateTime? date = null,
+        public PagedList GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();
-            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status,userId, date, number, source, destination);
+            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, number, source, destination);
+
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetShipmentbyId")]
+        public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentId);
+            return currentshipment;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("DeleteShipment")]
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName);
+
+        }
 
         }
 
@@ -74,6 +98,17 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SendShipmentDetails(sendShipmentDetails);
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetShipmentStatusListbyId")]
+        public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyId([FromUri]string shipmentId)
+        {            
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
         }
+
+        
+
     }
 }

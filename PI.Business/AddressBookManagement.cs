@@ -237,6 +237,51 @@ namespace PI.Business
 
         }
 
+
+        //get addressbook detail by id
+        public List<AddressBookDto> GetAddressBookDetailsList(string userId,string searchText)
+        {
+            List<AddressBook> addressList = new List<AddressBook>();
+            List<AddressBookDto> addressBookResult = new List<AddressBookDto>();
+            using (PIContext context = new PIContext())
+            {
+                addressList = (from address in context.AddressBooks
+                               where address.CreatedBy == userId &&
+                               address.CompanyName.Contains(searchText) || address.FirstName.Contains(searchText) || address.LastName.Contains(searchText)
+                               select address).ToList();
+            }
+
+            if (addressList==null)
+            {
+                return null;
+            }
+            foreach (var item in addressList)
+            {
+                addressBookResult.Add(new AddressBookDto
+                {
+                    AccountNumber=item.AccountNumber,
+                    City=item.City,
+                    CompanyName=item.CompanyName,
+                    Country=item.Country,
+                    EmailAddress=item.EmailAddress,
+                    FirstName=item.FirstName,
+                    Id=item.Id,
+                    IsActive=item.IsActive,
+                    LastName=item.LastName,
+                    Number=item.Number,
+                    PhoneNumber=item.PhoneNumber,
+                    Salutation=item.Salutation,
+                    State=item.State,
+                    StreetAddress1=item.StreetAddress1,
+                    StreetAddress2=item.StreetAddress2,
+                    UserId=item.UserId,
+                    ZipCode=item.ZipCode
+                });
+            }
+            return addressBookResult;
+
+        }
+
         //rturn the address book detail if available
         public AddressBookDto GetAddressBookDtoById(long Id)
         {

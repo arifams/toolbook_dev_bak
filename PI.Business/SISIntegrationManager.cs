@@ -130,7 +130,7 @@ namespace PI.Business
             WebResponse webResp = webRequest.GetResponse();
         }
 
-        public string GetShipmentStatus(string URL)
+        public string GetShipmentStatus(string URL, string shipmentCode)
         {
             // Reference Link - Change following method in most suitable way described in following article
             // http://stackoverflow.com/questions/4015324/http-request-with-post
@@ -140,14 +140,40 @@ namespace PI.Business
                 var values = new NameValueCollection();
                 values["userid"] = SISUserName;
                 values["password"] = SISPassword;
-                values["codeshipment"] = "1111";
+                values["codeshipment"] = shipmentCode;
 
-                var response = client.UploadValues("http://parcelinternational.pro/status/UPS/1Z049A0X6797782690", values);
+                //  var response = client.UploadValues("http://parcelinternational.pro/status/UPS/1Z049A0X6797782690", values);
+                var response = client.UploadValues(URL, values);
 
                 var responseString = Encoding.Default.GetString(response);
             }
 
             return "";
+        }
+
+        //get the update 
+        public StatusHistoryResponce UpdateShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string userID, string password, string environment)
+        {
+            StatusHistoryResponce statusHistoryResponce = null;
+           // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+            string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+            using (var wb = new WebClient())
+            {
+                var data = new NameValueCollection();
+                data["codeshipment"] = codeShipment;
+                data["codeshipment"] = userID;
+                data["codeshipment"] = password;
+                data["codeshipment"] = environment;
+
+                var response = wb.UploadValues(SISWebURL + "insert_shipment.asp", "POST", data);
+                var responseString = Encoding.Default.GetString(response);
+
+                XDocument doc = XDocument.Parse(responseString);
+
+                XmlSerializer mySerializer = new XmlSerializer(typeof(StatusHistoryResponce));
+                statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
+            }
+            return statusHistoryResponce;
         }
 
         public string TrackAndTraceShipment(string URL)

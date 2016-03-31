@@ -13,6 +13,10 @@
             loadAllCurrencies: loadAllCurrencies,
             getHashCodesForPaylane: getHashCodesForPaylane,
             loadAllShipments: loadAllShipments,
+            loadShipmentInfo: loadShipmentInfo,
+            loadShipmentStatusList: loadShipmentStatusList,
+            loadAddressBookDetails:loadAddressBookDetails
+            
             sendShipmentDetails: sendShipmentDetails
         };
 
@@ -21,6 +25,15 @@
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
         }
 
+        function loadAddressBookDetails(searchText)
+        {
+            return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsList', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),
+                    searchText: searchText
+                }
+            });
+        }
         //loading language dropdown     
         function loadAllCurrencies() {
 
@@ -69,19 +82,38 @@
             });
         }
 
+        function loadShipmentInfo(shipmentid) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentbyId', {
+                params: {
+                    shipmentId: shipmentid
+                }
+            });
+        }
         function sendShipmentDetails(shipmentId) {
 
             return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
 
-        function loadAllShipments()
+        
+        function loadShipmentStatusList(shipmentid) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusListbyId', {
+                params: {
+                    shipmentId: shipmentid
+                }
+            });
+        }
+
+        function loadAllShipments(status, startDate,endDate, number, source, destination)
         {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
                 userId: $window.localStorage.getItem('userGuid'),
-                //searchtext: searchText,
-                //costCenter: costCenter,
-                //type: type
+                status: status,
+                startDate: startDate,
+                endDate:endDate,
+                number: number,
+                source: source,
+                destination: destination
             }
             });
         }

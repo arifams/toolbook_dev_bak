@@ -24,7 +24,9 @@ var MakeApp = angular
     'ngCsv',
     'ngCsvImport',
     'customDirective',
-    'angularjs-datetime-picker'
+    'angularjs-datetime-picker',
+    'daterangepicker',
+    'ngDialog',
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -271,7 +273,12 @@ var MakeApp = angular
              templateUrl: 'shipment/loadAllShipments.html',
              controller: 'loadShipmentsCtrl',
                controllerAs: 'loadShipCtrl'
-        })
+         })
+           .when('/ShipmentOverview', {
+               templateUrl: 'shipment/ShipmentOverview.html',
+               controller: 'shipmentOverviewCtrl',
+               controllerAs: 'overviewShipCtrl'
+           })
         .otherwise({
             redirectTo: '/'
         });
