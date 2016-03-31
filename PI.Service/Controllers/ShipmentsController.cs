@@ -89,8 +89,6 @@ namespace PI.Service.Controllers
 
         }
 
-        }
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SendShipmentDetails")]
@@ -98,6 +96,8 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SendShipmentDetails(sendShipmentDetails);
+        }
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
@@ -107,8 +107,6 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
         }
-
-        
 
     }
 }

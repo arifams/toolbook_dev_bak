@@ -249,26 +249,28 @@ namespace PI.Business
         //get the shipment status histories for shipment overview 
         public List<ShipmentStatusHistoryDto> GetShipmentStatusListByShipmentId(string shipmentId)
         {
-            List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
-            
-            using (PIContext context= new PIContext())
-            {
-             var statusList = (from statusHistory in context.ShipmentStatusHistory
-                                     where statusHistory.ShipmentId.ToString() == shipmentId
-                                     select statusHistory).ToList();
+            //List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
 
-                foreach (var item in statusList)
-                {
-                    statusHistoryList.Add(new ShipmentStatusHistoryDto {
-                        NewStatus=item.NewStatus,
-                        OldStatus=item.OldStatus,
-                        ShipmentId=item.ShipmentId,
-                        CreatedDate=item.CreatedDate
-                    });
-                }
-            }
-            
-            return statusHistoryList;
+            //using (PIContext context= new PIContext())
+            //{
+            // var statusList = (from statusHistory in context.ShipmentStatusHistory
+            //                         where statusHistory.ShipmentId.ToString() == shipmentId
+            //                         select statusHistory).ToList();
+
+            //    foreach (var item in statusList)
+            //    {
+            //        statusHistoryList.Add(new ShipmentStatusHistoryDto {
+            //            NewStatus=item.NewStatus,
+            //            OldStatus=item.OldStatus,
+            //            ShipmentId=item.ShipmentId,
+            //            CreatedDate=item.CreatedDate
+            //        });
+            //    }
+            //}
+
+            //return statusHistoryList;
+
+            return null;
         }
 
         //get the status of inbound outbound rule
@@ -525,7 +527,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           (string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
+                           //(string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                            (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
@@ -582,8 +584,8 @@ namespace PI.Business
 
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        Status = (item.ShipmentStatuses.Count() == 0) ? null :
-                                 item.ShipmentStatuses.OrderByDescending(x => x.CreatedDate).FirstOrDefault().NewStatus
+                        //Status = (item.ShipmentStatuses.Count() == 0) ? null :
+                        //         item.ShipmentStatuses.OrderByDescending(x => x.CreatedDate).FirstOrDefault().NewStatus
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -698,7 +700,8 @@ namespace PI.Business
                         City = currentShipment.ConsigneeAddress.City,
                         Country = currentShipment.ConsigneeAddress.Country,
                         State = currentShipment.ConsigneeAddress.State,
-                        Name = currentShipment.ConsigneeAddress.FirstName + " " + currentShipment.ConsigneeAddress.LastName,
+                        FirstName = currentShipment.ConsigneeAddress.FirstName,
+                        LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
                         ContactNumber = currentShipment.ConsigneeAddress.ContactName,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
@@ -712,7 +715,8 @@ namespace PI.Business
                         City = currentShipment.ConsignorAddress.City,
                         Country = currentShipment.ConsignorAddress.Country,
                         State = currentShipment.ConsignorAddress.State,
-                        Name = currentShipment.ConsignorAddress.FirstName + " " + currentShipment.ConsignorAddress.LastName,
+                        FirstName = currentShipment.ConsignorAddress.FirstName,
+                        LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
                         ContactNumber = currentShipment.ConsignorAddress.ContactName,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
@@ -727,8 +731,9 @@ namespace PI.Business
                     ShipmentCode = currentShipment.ShipmentCode,
                     ShipmentMode = currentShipment.ShipmentMode,
                     ShipmentName = currentShipment.ShipmentName,
-                    ShipmentTermCode = currentShipment.ShipmentTermCode,
-                    ShipmentTypeCode = currentShipment.ShipmentTypeCode,
+                    ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
+                    //ShipmentTermCode = currentShipment.ShipmentTermCode,
+                    //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
                     CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy")
                 },
