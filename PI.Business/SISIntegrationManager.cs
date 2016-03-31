@@ -152,10 +152,29 @@ namespace PI.Business
         }
 
         //get the update 
-        //public bool UpdateShipmentStatusehistory()
-        //{
+        public StatusHistoryResponce UpdateShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string userID, string password, string environment)
+        {
+            StatusHistoryResponce statusHistoryResponce = null;
+           // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+            string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+            using (var wb = new WebClient())
+            {
+                var data = new NameValueCollection();
+                data["codeshipment"] = codeShipment;
+                data["codeshipment"] = userID;
+                data["codeshipment"] = password;
+                data["codeshipment"] = environment;
 
-        //}
+                var response = wb.UploadValues(SISWebURL + "insert_shipment.asp", "POST", data);
+                var responseString = Encoding.Default.GetString(response);
+
+                XDocument doc = XDocument.Parse(responseString);
+
+                XmlSerializer mySerializer = new XmlSerializer(typeof(StatusHistoryResponce));
+                statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
+            }
+            return statusHistoryResponce;
+        }
 
         public string TrackAndTraceShipment(string URL)
         {

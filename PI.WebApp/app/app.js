@@ -26,6 +26,7 @@ var MakeApp = angular
     'customDirective',
     'angularjs-datetime-picker',
     'daterangepicker',
+    'ngDialog',
   ])
   .config(function ($routeProvider) {
       $routeProvider

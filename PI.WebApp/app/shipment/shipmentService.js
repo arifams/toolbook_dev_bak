@@ -14,7 +14,8 @@
             getHashCodesForPaylane: getHashCodesForPaylane,
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
-            loadShipmentStatusList: loadShipmentStatusList
+            loadShipmentStatusList: loadShipmentStatusList,
+            loadAddressBookDetails:loadAddressBookDetails
         };
 
         //get paylane relted Details
@@ -22,6 +23,15 @@
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
         }
 
+        function loadAddressBookDetails(searchText)
+        {
+            return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsList', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),
+                    searchText: searchText
+                }
+            });
+        }
         //loading language dropdown     
         function loadAllCurrencies() {
 

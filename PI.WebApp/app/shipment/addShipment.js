@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', function ($scope,$location, $window, shipmentFactory) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', function ($scope, $location, $window, shipmentFactory, ngDialog) {
 
         var vm = this;
         vm.user = {};
@@ -35,6 +35,9 @@
         vm.ratesNotAvailable = false;
         vm.clearAll = false;
         vm.carrierselected = false;
+        vm.displayedAddressCollection = {};
+       
+        var templateView = '<h4>Address Book Results</h4><br/><table st-table="shipmentCtrl.addressBookCollection" st-safe-src="rowCollection" class="table table-striped"><thead><tr><th st-sort="name">First Name</th><th>Last Name</th><th>Company Name</th><th>Select</th></tr></thead><tbody><tr ng-repeat="row in shipmentCtrl.displayedAddressCollection"><td>{{row.firstName}}</td><td>{{row.lastName}}</td><td>{{row.companyName}}</td><td><a ng-click="shipmentCtrl.selectAddress(row)" class="btn btn-sm btn-success" href="javascript:;"><i class="fa fa-check"></i></a></tr></tbody><tfoot><tr><td colspan="5" class="text-center"><div st-pagination="" st-items-by-page="itemsByPage"></div></td></tr></tfoot></table>';
         
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
@@ -176,6 +179,36 @@
 
         }
 
+        //showing consigner addressBook search details
+        vm.searchAddressesConsignor = function () {
+          
+            ngDialog.open({
+                template: webBaseUrl+'/app/shipment/loadAllShipments.html',
+                className: 'ngdialog-theme-default',               
+                plain: true
+            });
+        }
+
+        vm.getAddressBookDetails = function () {
+            var searchText = vm.consignorSearchText;
+            if (searchText=='') {
+                return;
+            }
+            shipmentFactory.loadAddressBookDetails(searchText).success(
+               function (responce) {
+                   if (responce.length > 0) {
+                       vm.displayedAddressCollection = responce;
+                     
+                   }
+               }).error(function (error) {
+
+                   console.log("error occurd while retrieving Addresses");
+               });
+
+        }
+
+
+        
 
         vm.checkGenaralInfo = function (value) {
             if (value == true) {
