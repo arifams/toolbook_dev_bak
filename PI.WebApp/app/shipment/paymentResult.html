@@ -1,27 +1,25 @@
 ﻿<div >   
 
     <div class="panel">
-        <!-- form start -->
-        <!-- Main content -->
-        <form class="form-horizontal" name="saveDivisionForm">
-            <!-- /.box-header -->
+        <div class="panel-header">
+            <div class="row">
+                <!-- left column -->
+                <div class="col-xs-12">
+                    <div class="box-body">
 
-            <div class="panel-header">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-xs-12">
-                        <div class="box-body">                       
+                        <div ng-show="resultCtrl.paymentMsgStatus"> 
+                            
+                            {{resultCtrl.paymentMsg}} 
 
-                           
-                          
+                            <div> <a href="{{resultCtrl.labelUrl}}" target="_blank">Click here to open the Label</a> </div>
 
-                            <div id="panel-notif"></div>
                         </div>
+                        
                     </div>
                 </div>
-
             </div>
-        </form>
+
+        </div>
     </div>
 
 </div>

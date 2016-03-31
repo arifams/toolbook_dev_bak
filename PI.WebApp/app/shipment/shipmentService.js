@@ -9,13 +9,14 @@
             loadAllDivisions: loadAllDivisions,
             loadAssignedDivisions: loadAssignedDivisions,
             loadAssignedCostCenters: loadAssignedCostCenters,
-            submitShipment: submitShipment,
+            saveShipment: saveShipment,
             loadAllCurrencies: loadAllCurrencies,
             getHashCodesForPaylane: getHashCodesForPaylane,
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
-            loadAddressBookDetails:loadAddressBookDetails
+            loadAddressBookDetails:loadAddressBookDetails,
+            sendShipmentDetails: sendShipmentDetails
         };
 
         //get paylane relted Details
@@ -38,10 +39,9 @@
             return $http.get(serverBaseUrl + '/api/shipments/GetAllCurrencies');
         }
 
-        // Implement the functions.
-        function submitShipment(shipmentDetail) {
+        function saveShipment(shipmentDetail) {
 
-            return $http.post(serverBaseUrl + '/api/shipments/SubmitShipment', shipmentDetail);
+            return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
         }
 
         function calculateRates(shipmentDetail) {
@@ -87,6 +87,10 @@
                     shipmentId: shipmentid
                 }
             });
+        }
+        function sendShipmentDetails(shipmentId) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
 
         

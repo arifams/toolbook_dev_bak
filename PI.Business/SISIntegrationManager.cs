@@ -87,7 +87,7 @@ namespace PI.Business
             return myObject;
         }
 
-        public AddShipmentResponse SubmitShipment(ShipmentDto addShipment)
+        public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
             // Working sample xml data
             // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
@@ -304,7 +304,7 @@ namespace PI.Business
 
             // Consignor details.
             shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
-            shipmentStr.AppendFormat("<address1>{0}</address1>", addShipment.AddressInformation.Consigner.Name);
+            shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
             shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1);
             shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
             shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
@@ -317,7 +317,7 @@ namespace PI.Business
 
             // Consignee details.
             shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
-            shipmentStr.AppendFormat("<address11>{0}</address11>", addShipment.AddressInformation.Consignee.Name);
+            shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.FirstName, addShipment.AddressInformation.Consignee.LastName));
             shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);
             shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
             shipmentStr.AppendFormat("<address14>{0}</address14>", addShipment.AddressInformation.Consignee.City);

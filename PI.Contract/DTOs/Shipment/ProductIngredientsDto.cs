@@ -9,11 +9,11 @@ namespace PI.Contract.DTOs.Shipment
     public class ProductIngredientsDto
     {
         public string ProductType { get; set; }
-        public double Quantity { get; set; }
+        public short Quantity { get; set; }
         public string Description { get; set; }
-        public double Weight { get; set; }
-        public double Height { get; set; }
-        public double Length { get; set; }
-        public double Width { get; set; }
+        public decimal Weight { get; set; }
+        public decimal Height { get; set; }
+        public decimal Length { get; set; }
+        public decimal Width { get; set; }
     }
 }

@@ -14,5 +14,8 @@ namespace PI.Contract.DTOs.Shipment
         public string TransactionType { get; set; }
         public string Hash { get; set; }
         public string MerchantId { get; set; }
+
+        public string Status { get; set; }
+        public long SaleId { get; set; }
     }
 }

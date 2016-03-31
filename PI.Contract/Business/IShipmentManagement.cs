@@ -12,7 +12,8 @@ namespace PI.Contract.Business
     {
         ShipmentcostList GetRateSheet(ShipmentDto currentShipment);
         string GetInboundoutBoundStatus(string userId, string fromCode, string toCode);
-        ShipmentOperationResult SubmitShipment(ShipmentDto addShipment);
+        ShipmentOperationResult SaveShipment(ShipmentDto addShipment);
         PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
+        ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails);
     }
 }
