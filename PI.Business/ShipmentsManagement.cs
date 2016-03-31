@@ -330,7 +330,7 @@ namespace PI.Business
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
-                    ShipmentMode = addShipment.GeneralInformation.shipmentMode,
+                    ShipmentMode = addShipment.GeneralInformation.ShipmentMode,
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
                     //ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
