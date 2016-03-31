@@ -15,8 +15,7 @@
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
-            loadAddressBookDetails:loadAddressBookDetails
-            
+            loadAddressBookDetails:loadAddressBookDetails,
             sendShipmentDetails: sendShipmentDetails
         };
 
