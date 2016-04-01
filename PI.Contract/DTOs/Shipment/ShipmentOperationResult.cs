@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace PI.Contract.DTOs.Shipment
 {
-    public class ShipmentOperationResult
+    public class ShipmentOperationResult : OperationResult
     {
-        public string Status { get; set; }
         public string AddShipmentXML { get; set; }
+        public long ShipmentId { get; set; }
+        public string LabelURL { get; set; }
     }
 }

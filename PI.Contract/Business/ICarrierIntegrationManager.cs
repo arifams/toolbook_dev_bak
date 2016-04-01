@@ -12,7 +12,7 @@ namespace PI.Contract.Business
     {
        ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters);
 
-        AddShipmentResponse SubmitShipment(ShipmentDto addShipment);
+        AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment);
 
         void DeleteShipment(string shipmentCode);       
 

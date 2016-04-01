@@ -55,6 +55,7 @@
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
     <Compile Include="DTOs\ImportAddress\ImportAddressDto.cs" />
+    <Compile Include="DTOs\OperationResult.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="DTOs\Division\DivisionDto.cs" />
     <Compile Include="DTOs\Common\PagedList.cs" />
@@ -70,11 +71,14 @@
     <Compile Include="DTOs\Shipment\PackageDetailsDto.cs" />
     <Compile Include="DTOs\Shipment\PayLaneDto.cs" />
     <Compile Include="DTOs\Shipment\ProductIngredientsDto.cs" />
+    <Compile Include="DTOs\Shipment\SendShipmentDetailsDto.cs" />
     <Compile Include="DTOs\Shipment\ShipmentDto.cs" />
     <Compile Include="DTOs\Shipment\ShipmentOperationResult.cs" />
     <Compile Include="DTOs\Shipment\ShipmentStatusHistoryDto.cs" />
+    <Compile Include="DTOs\Shipment\StatusHistoryResponce.cs" />
     <Compile Include="DTOs\User\UserDto.cs" />
     <Compile Include="DTOs\User\UserResultDto.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

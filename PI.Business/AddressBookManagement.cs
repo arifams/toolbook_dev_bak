@@ -237,6 +237,65 @@ namespace PI.Business
 
         }
 
+
+        //get addressbook detail by id
+        public PagedList GetFilteredAddresses( string userId, string searchtext, int page = 1, int pageSize = 25)
+
+        {
+            var pagedRecord = new PagedList();
+
+            pagedRecord.Content = new List<AddressBookDto>();
+            using (PIContext context = new PIContext())
+            {
+                var content = (from a in context.AddressBooks
+                               where a.IsDelete == false &&
+                               a.CreatedBy == userId &&
+                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext))                              
+                               orderby a.CreatedDate ascending
+                               select a)
+                              .ToList();
+
+                foreach (var item in content)
+                {
+                    pagedRecord.Content.Add(new AddressBookDto
+                    {
+                        Id = item.Id,
+                        CompanyName = item.CompanyName,
+                        FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
+                        FullName = item.FirstName + " " + item.LastName,
+                        IsActive = item.IsActive,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        UserId = item.UserId,
+                        Salutation = item.Salutation,
+                        EmailAddress = item.EmailAddress,
+                        PhoneNumber = item.PhoneNumber,
+                        AccountNumber = item.AccountNumber,
+
+                        Country = item.Country,
+                        ZipCode = item.ZipCode,
+                        Number = item.Number,
+                        StreetAddress1 = item.StreetAddress1,
+                        StreetAddress2 = item.StreetAddress2,
+                        City = item.City,
+                        State = item.State
+
+                    });
+                }
+
+                // Count
+                pagedRecord.TotalRecords = content.Count();
+
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+
+
+            }
+
+        }
+
         //rturn the address book detail if available
         public AddressBookDto GetAddressBookDtoById(long Id)
         {

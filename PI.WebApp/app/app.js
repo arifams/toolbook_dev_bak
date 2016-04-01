@@ -26,6 +26,7 @@ var MakeApp = angular
     'customDirective',
     'angularjs-datetime-picker',
     'daterangepicker',
+    'ngDialog',
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -277,6 +278,10 @@ var MakeApp = angular
                templateUrl: 'shipment/ShipmentOverview.html',
                controller: 'shipmentOverviewCtrl',
                controllerAs: 'overviewShipCtrl'
+           })
+           .when('/AddressViewTemplate', {
+               templateUrl: 'shipment/AddressViewTemplate.html',
+              
            })
         .otherwise({
             redirectTo: '/'

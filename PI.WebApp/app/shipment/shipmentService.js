@@ -9,12 +9,14 @@
             loadAllDivisions: loadAllDivisions,
             loadAssignedDivisions: loadAssignedDivisions,
             loadAssignedCostCenters: loadAssignedCostCenters,
-            submitShipment: submitShipment,
+            saveShipment: saveShipment,
             loadAllCurrencies: loadAllCurrencies,
             getHashCodesForPaylane: getHashCodesForPaylane,
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
-            loadShipmentStatusList: loadShipmentStatusList
+            loadShipmentStatusList: loadShipmentStatusList,
+            loadAddressBookDetails:loadAddressBookDetails,
+            sendShipmentDetails: sendShipmentDetails
         };
 
         //get paylane relted Details
@@ -22,16 +24,24 @@
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
         }
 
+        function loadAddressBookDetails(searchText)
+        {
+            return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),
+                    searchText: searchText
+                }
+            });
+        }
         //loading language dropdown     
         function loadAllCurrencies() {
 
             return $http.get(serverBaseUrl + '/api/shipments/GetAllCurrencies');
         }
 
-        // Implement the functions.
-        function submitShipment(shipmentDetail) {
+        function saveShipment(shipmentDetail) {
 
-            return $http.post(serverBaseUrl + '/api/shipments/SubmitShipment', shipmentDetail);
+            return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
         }
 
         function calculateRates(shipmentDetail) {
@@ -77,6 +87,10 @@
                     shipmentId: shipmentid
                 }
             });
+        }
+        function sendShipmentDetails(shipmentId) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
 
         

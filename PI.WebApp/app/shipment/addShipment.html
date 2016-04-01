@@ -158,7 +158,7 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.consignorSearchText" name="consignorSearchText" type="text" class="form-control"
-                                       placeholder="Enter Company Name,FirstName or Last Name" />
+                                       placeholder="Enter Company Name,FirstName or Last Name"  ng-change="shipmentCtrl.consignorSearchChange()"/>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -167,12 +167,13 @@
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
+                            
                         </div>
                         <div class="col-sm-1"></div>
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.consigneeSearchText" name="consigneeSearchText" type="text" class="form-control"
-                                       placeholder="Enter Company Name,FirstName or Last Name" />
+                                       placeholder="Enter Company Name,FirstName or Last Name" ng-change="shipmentCtrl.consigneeSearchChange()"/>
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -180,6 +181,27 @@
                                 <button type="button" class="btn btn-large btn-primary" ng-click="shipmentCtrl.searchAddressesConsignee()">
                                     <i class="fa fa-search"></i>
                                 </button>
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
+                                <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                            </div>
+                            <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
+                                <label class="label label-danger">Add text before search</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-1"></div>
+                        <div class="col-sm-5">
+                            <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
+                                <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                            </div>
+                            <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.emptySearch">
+                                <label class="label label-danger">Add text before search</label>
                             </div>
                         </div>
                     </div>
@@ -191,15 +213,27 @@
                             </div>
                         </div>
                        
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.name" type="text" name="consignerName" class="form-control" ng-required="true"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerName.$invalid && 
-                                                                        ((consignerConsigneeInfoForm.consignerName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="Enter Consignor Name" />
-                                <div ng-messages="consignerConsigneeInfoForm.consignerName.$error"
-                                     ng-show="(consignerConsigneeInfoForm.consignerName.$dirty && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consignerName">Consignor Name is required</label>
-                                    <label ng-message="maxlength" class="error" for="consignerName">Max length should be 200 characters</label>
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.firstName" type="text" name="consignerFirstName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerFirstName.$invalid && 
+                                                                        ((consignerConsigneeInfoForm.consignerFirstName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="First Name" />
+                                <div ng-messages="consignerConsigneeInfoForm.consignerFirstName.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consignerFirstName.$dirty && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consignerFirstName">Consignor First Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consignerFirstName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.lastName" type="text" name="consignerLastName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerLastName.$invalid &&
+                                                                        ((consignerConsigneeInfoForm.consignerLastName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="Last Name" />
+                                <div ng-messages="consignerConsigneeInfoForm.consignerLastName.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consignerLastName.$dirty && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consignerLastName">Consignor Last Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consignerLastName">Max length should be 200 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -212,15 +246,27 @@
                                 <label class="control-label">Consignee </label>
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-2">
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.name" type="text" name="consigneeName" class="form-control" ng-required="true"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeName.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneeName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Enter Consigneee Name" />
-                                <div ng-messages="consignerConsigneeInfoForm.consigneeName.$error"
-                                     ng-show="(consignerConsigneeInfoForm.consigneeName.$dirty  && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneeName">Consignee Name is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneeName">Max length should be 200 characters</label>
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.firstName" type="text" name="consigneeFirstName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeFirstName.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneeFirstName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="First Name" />
+                                <div ng-messages="consignerConsigneeInfoForm.consigneeFirstName.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consigneeFirstName.$dirty  && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consigneeFirstName">Consignee First Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consigneeFirstName">Max length should be 200 characters</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.lastName" type="text" name="consigneeLastName" class="form-control" ng-required="true"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeLastName.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneeLastName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="Last Name" />
+                                <div ng-messages="consignerConsigneeInfoForm.consigneeLastName.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consigneeLastName.$dirty  && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consigneeLastName">Consignee Last Name is required</label>
+                                    <label ng-message="maxlength" class="error" for="consigneeLastName">Max length should be 200 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -1048,7 +1094,7 @@
                 <input type="hidden" name="description" value={{shipmentCtrl.paylane.description}} />
                 <input type="hidden" name="transaction_description" value="Product 1 transaction" />
                 <input type="hidden" name="transaction_type" value={{shipmentCtrl.paylane.transactionType}} />
-                <input type="hidden" name="back_url" value="http://pibookingservice.azurewebsites.net/app/userLogin/userLogin.html" />
+                <input type="hidden" name="back_url" value="http://localhost:49995/app/index.html#/PaymentResult" />
                 <input type="hidden" name="language" value="en" />
                 <input type="hidden" name="hash" value={{shipmentCtrl.paylane.hash}} />
 

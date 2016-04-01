@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', function ($scope,$location, $window, shipmentFactory) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller) {
 
         var vm = this;
         vm.user = {};
@@ -35,11 +35,17 @@
         vm.ratesNotAvailable = false;
         vm.clearAll = false;
         vm.carrierselected = false;
-        
+        vm.displayedAddressCollection = {};
+        vm.AddList = {};
         vm.shipment.userId = $window.localStorage.getItem('userGuid');
         vm.hidedivisions = false;
         vm.hidecostcenters = true;
         vm.paylane = {};
+        vm.consignor = '';
+        vm.addressDetailsEmpty = false;
+        vm.searchText = '';
+        vm.emptySearch = false;
+        
 
         // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
         var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -176,6 +182,75 @@
 
         }
 
+
+        vm.consignorSearchChange = function () {
+            vm.addressDetailsEmpty = false;
+        }
+        vm.consigneeSearchChange = function () {
+            vm.addressDetailsEmpty = false;
+        }
+
+        vm.getAddressBookDetails = function () {
+            
+
+            shipmentFactory.loadAddressBookDetails(vm.searchText).success(
+               function (responce) {
+                   if (responce.content.length > 0) {
+                      
+                      
+                           ngDialog.open({
+                               scope: $scope,
+                               template: '/app/shipment/AddressViewTemplate.html',
+                               className: 'ngdialog-theme-default',
+                               controller: $controller('addressListCtrl', {
+                                   $scope: $scope,
+                                   searchList: responce.content,
+                                   consignor: vm.consignor
+                               })
+
+                           });
+                       
+
+                   } else {
+                       vm.addressDetailsEmpty = true;
+                       vm.emptySearch = false;
+                   }
+               }).error(function (error) {
+
+                   console.log("error occurd while retrieving Addresses");
+               });
+
+        }
+
+        //showing consigner addressBook search details
+        vm.searchAddressesConsignor = function () {
+            vm.consignor = true;
+            if (vm.consignorSearchText) {                
+                vm.searchText = vm.consignorSearchText;
+                vm.getAddressBookDetails();
+            } else {
+                vm.emptySearch = true;
+            }
+          
+           
+            
+        }
+
+        vm.searchAddressesConsignee = function () {
+            vm.consignor = false;
+            if (vm.consigneeSearchText) {               
+                vm.searchText = vm.consigneeSearchText;
+                vm.getAddressBookDetails();
+            } else {
+                vm.emptySearch = true;
+            }
+           
+           
+
+        }
+
+               
+       
 
         vm.checkGenaralInfo = function (value) {
             if (value == true) {
@@ -418,25 +493,26 @@
         vm.submitShipment = function () {
             vm.addingShipment = true;
             var body = $("html, body");
-            shipmentFactory.submitShipment(vm.shipment).success(
+            vm.shipment.generalInformation.shipmentPaymentTypeId = 1; // Payment type is Invoice.
+            shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
-                                vm.addingShipment = false;                                
-                                if (response.status == "Success") {
-                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                                vm.addingShipment = false;
 
-                                    $('#panel-notif').noty({
-                                        text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
-                                        layout: 'bottom-right',
-                                        theme: 'made',
-                                        animation: {
-                                            open: 'animated bounceInLeft',
-                                            close: 'animated bounceOutLeft'
-                                        },
-                                        timeout: 6000,
-                                    });
+                                if (response.status == 2) {
+                                    //body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
-                                    console.info("Add Shipment XML: ");
-                                    console.info(response.addShipmentXML);
+                                    //$('#panel-notif').noty({
+                                    //    text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
+                                    //    layout: 'bottom-right',
+                                    //    theme: 'made',
+                                    //    animation: {
+                                    //        open: 'animated bounceInLeft',
+                                    //        close: 'animated bounceOutLeft'
+                                    //    },
+                                    //    timeout: 6000,
+                                    //});
+                                    $window.localStorage.setItem('shipmentId', response.shipmentId);
+                                    window.location = webBaseUrl + "/app/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";
                                 }
                                 else {
                                     vm.addingShipment = false;
@@ -469,34 +545,19 @@
 
 
         vm.payOnline = function () {
-            vm.addingShipment = true;
+            //vm.addingShipment = true;
             var body = $("html, body");
-            shipmentFactory.submitShipment(vm.shipment).success(
+            debugger;
+            vm.shipment.generalInformation.shipmentPaymentTypeId = 2; // Payment type is Online.
+            shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
-                                vm.addingShipment = false;
-                                if (response.status == "Success") {
-                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
+                                debugger;
+                                if (response.status == 2) {
+                                    // Successfully saved in db.
+                                    $window.localStorage.setItem('shipmentId', response.shipmentId);
                                     $('#paylane_form').submit();
-
-                                    $('#panel-notif').noty({
-                                        text: '<div class="alert alert-success media fade in"><p>Shipment saved successfully!</p></div>',
-                                        layout: 'bottom-right',
-                                        theme: 'made',
-                                        animation: {
-                                            open: 'animated bounceInLeft',
-                                            close: 'animated bounceOutLeft'
-                                        },
-                                        timeout: 6000,
-                                    });
-
-                                    console.info("Add Shipment XML: ");
-                                    console.info(response.addShipmentXML);
                                 }
                                 else {
-                                    vm.addingShipment = false;
-                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
                                     $('#panel-notif').noty({
                                         text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
                                         layout: 'bottom-right',
@@ -508,7 +569,32 @@
                                         timeout: 6000,
                                     });
                                 }
+                                    //vm.addingShipment = false;
+                                    //if (response.status == "Success") {
+                                    //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    //    console.info("Add Shipment XML: ");
+                                    //    console.info(response.addShipmentXML);
+
+                                    //    $('#paylane_form').submit();
+                                    //}
+                                    //else {
+                                    //    vm.addingShipment = false;
+                                    //    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    //    $('#panel-notif').noty({
+                                    //        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    //        layout: 'bottom-right',
+                                    //        theme: 'made',
+                                    //        animation: {
+                                    //            open: 'animated bounceInLeft',
+                                    //            close: 'animated bounceOutLeft'
+                                    //        },
+                                    //        timeout: 6000,
+                                    //    });
+                                //}
                             }).error(function (error) {
+                                debugger;
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
                                     layout: 'bottom-right',
@@ -553,7 +639,8 @@
             if (vm.shipment.generalInformation.shipmentName == "code123") {
 
                 vm.shipment.addressInformation.consigner = {};
-                vm.shipment.addressInformation.consigner.name = 'Comp1';
+                vm.shipment.addressInformation.consigner.firstName = 'Comp1';
+                vm.shipment.addressInformation.consigner.lastName = 'Comp11';
                 vm.shipment.addressInformation.consigner.country = 'US';
                 vm.shipment.addressInformation.consigner.postalcode = '94404';
                 vm.shipment.addressInformation.consigner.number = '901';
@@ -563,9 +650,11 @@
                 vm.shipment.addressInformation.consigner.state = 'CA';
                 vm.shipment.addressInformation.consigner.email = 'test1@yopmail.com';
                 vm.shipment.addressInformation.consigner.contactNumber = '1111111111';
+                vm.shipment.addressInformation.consigner.contactName = "contact name A";
 
                 vm.shipment.addressInformation.consignee = {};
-                vm.shipment.addressInformation.consignee.name = 'Comp2';
+                vm.shipment.addressInformation.consignee.firstName = 'Comp2';
+                vm.shipment.addressInformation.consignee.lastName = 'Comp22';
                 vm.shipment.addressInformation.consignee.country = 'US';
                 vm.shipment.addressInformation.consignee.postalcode = '94405';
                 vm.shipment.addressInformation.consignee.number = '902';
@@ -575,8 +664,10 @@
                 vm.shipment.addressInformation.consignee.state = 'CA';
                 vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
                 vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
+                vm.shipment.addressInformation.consignee.contactName = "contact name B";
 
                 vm.shipment.packageDetails.shipmentDescription = "testDesc";
+                vm.shipment.packageDetails.declaredValue = 500;
             }
         };
 
