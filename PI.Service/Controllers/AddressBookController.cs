@@ -30,6 +30,16 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
+        [HttpGet]
+        [Route("GetSerchedAddressList")]
+        public PagedList GetSerchedAddressList(string userId, string searchtext = "")
+        {
+            var pagedRecord = new PagedList();
+            return pagedRecord = addressBookManagement.GetFilteredAddresses(userId, searchtext);            
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
         [HttpPost]
         [Route("DeleteAddress")]
         public int DeleteAddress([FromBody] AddressBookDto address)

@@ -5,3 +5,53 @@
 .login-top-message p{
     border:1px solid white;
 }
+
+.form-content {
+    display:inline-block;
+}
+
+.user-reg .input-group, .user-reg .form-group {
+    margin-bottom: 8px;
+}
+
+.reg {
+    border: 1px solid #E8E8E8;
+}
+.regheader {
+    background-color:#247EB2;
+    height:44px;
+    color:#fff;
+    font-size:20px;
+    padding:7px;
+}
+.reg-contentwrapper {
+    padding:4em;
+}
+.spacer_1px {
+    clear:both;
+    height:1px;
+}
+.user-reg .form-control {
+    font-size:17px;
+    
+}
+.accType {
+    font-weight:normal;
+    font-size:16px;
+}
+
+#jobcapcity1 {
+    width:25%;
+    float:left;
+}
+#jobcapcity2 {
+    width:72%;
+    float:right;
+}
+.append-icon .icon-question {
+     font-size: 32px;
+}
+.glyphicon.glyphicon-circle-arrow-right {
+    font-size: 23px;
+   
+}

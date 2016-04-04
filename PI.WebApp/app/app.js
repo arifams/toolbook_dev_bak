@@ -279,6 +279,10 @@ var MakeApp = angular
                controller: 'shipmentOverviewCtrl',
                controllerAs: 'overviewShipCtrl'
            })
+           .when('/AddressViewTemplate', {
+               templateUrl: 'shipment/AddressViewTemplate.html',
+              
+           })
         .otherwise({
             redirectTo: '/'
         });

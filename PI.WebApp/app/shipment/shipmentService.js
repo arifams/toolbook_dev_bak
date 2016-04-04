@@ -26,7 +26,7 @@
 
         function loadAddressBookDetails(searchText)
         {
-            return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsList', {
+            return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
                 params: {
                     userId: $window.localStorage.getItem('userGuid'),
                     searchText: searchText
