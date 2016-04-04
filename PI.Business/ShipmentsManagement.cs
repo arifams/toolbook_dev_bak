@@ -275,8 +275,12 @@ namespace PI.Business
 
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
-            //ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+           
             ShipmentOperationResult result = new ShipmentOperationResult();
+            CompanyManagement companyManagement = new CompanyManagement();
+            Company currentcompany = companyManagement.GetCompanyByUserId(addShipment.UserId);
+            long sysDivisionId = 0;
+            long sysCostCenterId = 0;
 
             using (PIContext context = new PIContext())
             {
@@ -296,13 +300,29 @@ namespace PI.Business
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
 
+                // If division and costcenter Ids are 0, then assign default costcenter and division.
+                if (addShipment.GeneralInformation.DivisionId == 0)
+                {
+                    var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+                                                           && d.Type == "SYSTEM").SingleOrDefault();
+
+                    sysDivisionId = sysDivision.Id;
+                                                    
+                }
+                if (addShipment.GeneralInformation.CostCenterId == 0)
+                {
+                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+                                                                                && c.Type == "SYSTEM").SingleOrDefault();
+                    sysCostCenterId = defaultCostCntr.Id;
+                }
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
-                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
-                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
+                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
+                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.ShipmentMode,
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
