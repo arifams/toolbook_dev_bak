@@ -16,7 +16,8 @@
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
             loadAddressBookDetails:loadAddressBookDetails,
-            sendShipmentDetails: sendShipmentDetails
+            sendShipmentDetails: sendShipmentDetails,
+            getLocationHistory: getLocationHistory
         };
 
         //get paylane relted Details
@@ -44,6 +45,11 @@
             return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
         }
 
+        function getLocationHistory(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/GetLocationHistoryforShipment', shipmentDetail);
+        }
+                
         function calculateRates(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);

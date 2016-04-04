@@ -44,6 +44,9 @@ namespace PI.Data
         public DbSet<ShipmentPackage> ShipmentPackages { get; set; }
         public DbSet<PackageProduct> PackageProducts { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
+        public DbSet<LocationActivity> LocationActivities { get; set; }
+
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }

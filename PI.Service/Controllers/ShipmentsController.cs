@@ -28,6 +28,19 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
+        [Route("GetLocationHistoryforShipment")]
+        public StatusHistoryResponce GetLocationHistoryforShipment([FromBody]ShipmentDto currentShipment)
+        {
+            string carrier= currentShipment.CarrierInformation.CarrierName;
+            string trackingNumber = currentShipment.GeneralInformation.TrackingNumber;
+            string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
+            string environment = "taleus";
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            return shipment.GetLocationHistoryInfoForShipment(carrier,trackingNumber,codeShipment,environment);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
         [Route("SaveShipment")]
         public ShipmentOperationResult SaveShipment([FromBody]ShipmentDto addShipment)
         {

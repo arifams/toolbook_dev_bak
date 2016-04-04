@@ -669,6 +669,35 @@ namespace PI.Business
             return currentShipments;
         }
 
+        public void UpdateShipmentStatus(string codeShipment, short status)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var shipment = (from shipmentinfo in context.Shipments
+                                where shipmentinfo.ShipmentCode == codeShipment
+                                select shipmentinfo).FirstOrDefault();
+                if (shipment!=null)
+                {
+                    shipment.Status=status;
+                }
+                context.SaveChanges();
+            }
+        }
+
+        public Shipment GetShipmentByShipmentCode(string codeShipment)
+        {
+            Shipment currentShipment = new Shipment();
+
+            using (PIContext context= new PIContext())
+            {
+                currentShipment = (from shipment in context.Shipments
+                                   where shipment.ShipmentCode == codeShipment
+                                   select shipment).FirstOrDefault();
+            }
+
+            return currentShipment;
+        }
+
         //get shipments by ID
         public ShipmentDto GetshipmentById(string shipmentId)
         {
@@ -736,7 +765,8 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy")
+                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
+                    Status=currentShipment.Status.ToString()
                 },
                 PackageDetails = new PackageDetailsDto
                 {
@@ -971,6 +1001,215 @@ namespace PI.Business
             }
         }
 
+        //get the location history list 
+       public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, string codeShipment, string environment)
+        {            
+            StatusHistoryResponce locationHistory = new StatusHistoryResponce();
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
+            info info = new info();
+
+            if (currentShipmet.GeneralInformation.Status == ShipmentStatus.)
+            {
+                locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
+                Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
+                info.status = currentShipment.Status.ToString();
+
+            }
+            else
+            {
+                var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
+
+              //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
+                this.UpdateShipmentStatus(codeShipment, 3);                
+                Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
+                info.status = currentShipment.Status.ToString();
+                List<ShipmentLocationHistory> historyList= this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+                foreach (var item in historyList)
+                {
+                    this.DeleteLocationActivityByLocationHistoryId(item.Id);
+                }
+                this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+                this.UpdateStatusHistories(currentSisLocationHistory, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
+                locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
+            }
+            locationHistory.info = info;
+            return locationHistory;
+           
+        }
+
+        //update status hisory with latest statuses and locations
+        public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
+        {
+            
+            using (PIContext context= new PIContext())
+            {
+                foreach (var item in statusHistory.history.Items)
+                {
+                    ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
+                    locationHistory.City = item.location.city;
+                    locationHistory.Country = item.location.country;
+                    locationHistory.ShipmentId = ShipmntId;
+                    locationHistory.Longitude =Convert.ToDouble(item.location.geo.lng);
+                    locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
+                    locationHistory.CreatedDate = DateTime.Now;
+                    context.ShipmentLocationHistories.Add(locationHistory);
+                    context.SaveChanges();
+                }
+                List<ShipmentLocationHistory> histories= this.GetShipmentLocationHistoryByShipmentId(ShipmntId);
+                foreach (var item in histories)
+                {                   
+                    foreach (var his in statusHistory.history.Items)
+                    {
+                        if (item.Longitude.ToString()==his.location.geo.lng&& item.Latitude.ToString() == his.location.geo.lat)
+                        {                           
+                            foreach (var activityItems in his.activity.Items)
+                            {
+                                LocationActivity activity = new LocationActivity();
+                                activity.ShipmentLocationHistoryId = item.Id;
+                                activity.Status = activityItems.status;
+                                activity.Time =Convert.ToDateTime(activityItems.timestamp.time);
+                                activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
+                                activity.CreatedDate = DateTime.Now;
+                                context.LocationActivities.Add(activity);
+                                context.SaveChanges();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+           
+
+        }
+
+        //get updated status history from DB
+        public StatusHistoryResponce getUpdatedShipmentHistoryFromDB(string codeShipment)
+        {
+            StatusHistoryResponce statusHistory = new StatusHistoryResponce();
+            Shipment currentShipment = this.GetShipmentByCodeShipment(codeShipment);
+           
+            List<ShipmentLocationHistory> historyList= GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+            history historynew = new history();
+            List<items> itemList = new List<items>();
+            historynew.Items = itemList;
+
+           
+            foreach (var item in historyList)
+            {
+                items items = new items();         
+                location location = new location();
+                geo geo = new geo();           
+               
+                location.city = item.City;
+                location.country = item.Country;
+                
+                geo.lat = item.Latitude.ToString();
+                geo.lng = item.Longitude.ToString();
+                location.geo = geo;
+                items.location = location;               
+               
+                List<LocationActivity> locationActivities = this.GetLocationActivityByLocationHistoryId(item.Id);
+                activity activity = new activity();
+                foreach (var activ in locationActivities)
+                {
+                   
+                    timestamp time = new timestamp()
+                    {
+                        date = activ.Date.ToString(),
+                        time = activ.Time.ToString(),
+
+                    };
+                    activity.Items.Add(
+                        new item
+                        {
+                            status = activ.Status,
+                            timestamp = time
+                        });                   
+                   
+                    //adding location activity histories                
+                   
+                }
+                items.activity = activity;
+                historynew.Items.Add(items);
+                statusHistory.history = historynew;
+            }
+            return statusHistory;
+
+        }
+
+
+        public void DeleteLocationActivityByLocationHistoryId(long historyId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                List<LocationActivity> activities = (from activity in context.LocationActivities
+                                                    where activity.ShipmentLocationHistoryId == historyId
+                                                    select activity).ToList();
+
+                context.LocationActivities.RemoveRange(activities);
+                context.SaveChanges();               
+                
+            }
+        }
+
+        //get shipmentLocation from database
+        public void DeleteShipmentLocationHistoryByShipmentId(long shipmentId)
+        {
+
+            using (PIContext context = new PIContext())
+            {
+                List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
+                                                           where history.ShipmentId == shipmentId
+                                                           select history).ToList();
+
+                context.ShipmentLocationHistories.RemoveRange(histories);
+                context.SaveChanges();
+            }
+        }
+
+
+        public List<LocationActivity> GetLocationActivityByLocationHistoryId(long historyId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                List<LocationActivity> histories = (from activity in context.LocationActivities
+                                                           where activity.ShipmentLocationHistoryId == historyId
+                                                    select activity).ToList();
+
+                return histories;
+            }
+        }
+
+        //get shipmentLocation from database
+        public List<ShipmentLocationHistory> GetShipmentLocationHistoryByShipmentId(long shipmentId)
+        {
+            
+            using (PIContext context=new PIContext())
+            {
+                List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
+                               where history.ShipmentId == shipmentId
+                               select history).ToList();
+
+                return histories;
+            }
+        }
+
+        //get the shipment by code shipment
+        public Shipment GetShipmentByCodeShipment(string codeShipment)
+        {
+            using (PIContext context = new PIContext())
+            {
+                Shipment shipmentContent = (from shipment in context.Shipments
+                                    where shipment.ShipmentCode == codeShipment
+                                     select shipment).FirstOrDefault();
+
+                return shipmentContent;
+            }
+
+        }
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
@@ -997,7 +1236,7 @@ namespace PI.Business
         //            context.SaveChanges();
 
         //        }
-          
+
         //    }
 
         //}
