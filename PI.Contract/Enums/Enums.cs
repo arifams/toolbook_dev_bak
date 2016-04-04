@@ -53,9 +53,16 @@ namespace PI.Contract.Enums
     public enum ShipmentStatus : short
     {
         Error = 1,
+        Pending,
         [Description("Booking confirmation")]
         BookingConfirmation,
-        Pending
+        Pickup,
+        Transit,
+        [Description("Out for delivery")]
+        OutForDelivery,
+        Delivered,
+        Deleted,
+        Exception
     }
 
     public enum ShipmentPaymentType : short
