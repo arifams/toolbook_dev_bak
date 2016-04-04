@@ -111,15 +111,15 @@ namespace PI.Service.Controllers
             return shipment.SendShipmentDetails(sendShipmentDetails);
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
-        [HttpGet]
-        [Route("GetShipmentStatusListbyId")]
-        public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyId([FromUri]string shipmentId)
-        {            
-            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
-        }
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        ////[Authorize]
+        //[HttpGet]
+        //[Route("GetShipmentStatusListbyId")]
+        //public List<ShipmentStatusHistoryDto> GetShipmentStatusListbyId([FromUri]string shipmentId)
+        //{            
+        //    ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+        //    return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
+        //}
 
     }
 }

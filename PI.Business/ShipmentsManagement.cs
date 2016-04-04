@@ -997,22 +997,22 @@ namespace PI.Business
             SISIntegrationManager sisManager = new SISIntegrationManager();
             ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
             info info = new info();
-
-            if (currentShipmet.GeneralInformation.Status == ShipmentStatus.)
+                           
+            if(currentShipmet.GeneralInformation.Status == ((short)ShipmentStatus.Delivered).ToString())
             {
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = currentShipment.Status.ToString();
 
-        }
+            }
             else
             {
                 var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
 
               //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
-                this.UpdateShipmentStatus(codeShipment, 3);                
+                this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);                
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
-                info.status = currentShipment.Status.ToString();
+                info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
                 List<ShipmentLocationHistory> historyList= this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
                 foreach (var item in historyList)
                 {
