@@ -246,33 +246,6 @@ namespace PI.Business
 
         }
 
-        //get the shipment status histories for shipment overview 
-        public List<ShipmentStatusHistoryDto> GetShipmentStatusListByShipmentId(string shipmentId)
-        {
-            //List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
-
-            //using (PIContext context= new PIContext())
-            //{
-            // var statusList = (from statusHistory in context.ShipmentStatusHistory
-            //                         where statusHistory.ShipmentId.ToString() == shipmentId
-            //                         select statusHistory).ToList();
-
-            //    foreach (var item in statusList)
-            //    {
-            //        statusHistoryList.Add(new ShipmentStatusHistoryDto {
-            //            NewStatus=item.NewStatus,
-            //            OldStatus=item.OldStatus,
-            //            ShipmentId=item.ShipmentId,
-            //            CreatedDate=item.CreatedDate
-            //        });
-            //    }
-            //}
-
-            //return statusHistoryList;
-
-            return null;
-        }
-
         //get the status of inbound outbound rule
         public string GetInboundoutBoundStatus(string userId, string fromCode, string toCode)
         {
@@ -302,8 +275,12 @@ namespace PI.Business
 
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
-            //ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+           
             ShipmentOperationResult result = new ShipmentOperationResult();
+            CompanyManagement companyManagement = new CompanyManagement();
+            Company currentcompany = companyManagement.GetCompanyByUserId(addShipment.UserId);
+            long sysDivisionId = 0;
+            long sysCostCenterId = 0;
 
             using (PIContext context = new PIContext())
             {
@@ -323,13 +300,29 @@ namespace PI.Business
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
 
+                // If division and costcenter Ids are 0, then assign default costcenter and division.
+                if (addShipment.GeneralInformation.DivisionId == 0)
+                {
+                    var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+                                                           && d.Type == "SYSTEM").SingleOrDefault();
+
+                    sysDivisionId = sysDivision.Id;
+                                                    
+                }
+                if (addShipment.GeneralInformation.CostCenterId == 0)
+                {
+                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+                                                                                && c.Type == "SYSTEM").SingleOrDefault();
+                    sysCostCenterId = defaultCostCntr.Id;
+                }
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
-                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
-                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
+                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
+                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.ShipmentMode,
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
@@ -410,9 +403,6 @@ namespace PI.Business
                 {
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
-
-                    //context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, Status = "Pending", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now,IsActive = true });
-                    //context.SaveChanges();
 
                     result.ShipmentId = newShipment.Id;
                     result.Status = Status.Success;
@@ -528,7 +518,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           //(string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
+                           (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                            (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
@@ -585,8 +575,7 @@ namespace PI.Business
 
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        //Status = (item.ShipmentStatuses.Count() == 0) ? null :
-                        //         item.ShipmentStatuses.OrderByDescending(x => x.CreatedDate).FirstOrDefault().NewStatus
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -1015,7 +1004,7 @@ namespace PI.Business
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = currentShipment.Status.ToString();
 
-            }
+        }
             else
             {
                 var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
