@@ -57,7 +57,7 @@
         $scope.itemsByPage = 25;
         $scope.rowCollection = [];
         // Add dumy record, since data loading is async.
-        $scope.rowCollection.push(1);
+        $scope.rowCollection.push();
 
         $scope.searchCostCenters = function () {
             
