@@ -338,6 +338,7 @@ namespace PI.Business
                     Status = (short)ShipmentStatus.Pending,
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
                     IsActive = true,
+                    IsParent = false,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
@@ -768,7 +769,7 @@ namespace PI.Business
                     IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
                     TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
                     TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
-                    ValueCurrency = Convert.ToInt32(currentShipment.ShipmentPackage.Currency),
+                    ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
@@ -798,7 +799,7 @@ namespace PI.Business
                     {
                         Height = ingrediant.Height,
                         Length = ingrediant.Length,
-                        ProductType = ingrediant.ProductTypeId.ToString(),
+                        ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
                         Quantity = ingrediant.Quantity,
                         Weight = ingrediant.Weight,
                         Width = ingrediant.Width,
@@ -998,7 +999,7 @@ namespace PI.Business
             ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
             info info = new info();
 
-            if (currentShipmet.GeneralInformation.Status == ShipmentStatus.)
+            if (currentShipmet.GeneralInformation.Status == "")
             {
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);

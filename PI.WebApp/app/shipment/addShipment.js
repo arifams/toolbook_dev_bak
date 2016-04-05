@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams) {
 
         var vm = this;
         vm.user = {};
@@ -633,6 +633,46 @@
             vm.collapse4=true;
             vm.previousClicked = true;
         }
+
+        var loadShipmentInfo = function (id) {
+            shipmentFactory.loadShipmentInfo(id)
+            .success(function (data) {
+                vm.shipment = data;
+
+                if (vm.shipment.packageDetails.cmlbs == true) {
+                    vm.shipment.packageDetails.cmLBS = "true";
+                }
+                else {
+                    vm.shipment.packageDetails.cmLBS = "false";
+                }
+
+                if (vm.shipment.packageDetails.volumeCMM == true) {
+                    vm.shipment.packageDetails.volumeCMM = "true";
+                }
+                else {
+                    vm.shipment.packageDetails.volumeCMM = "false";
+                }
+
+                if (vm.shipment.packageDetails.isInsuared == "True") {
+                    vm.shipment.packageDetails.isInsuared = "true";
+                }
+                else {
+                    vm.shipment.packageDetails.isInsuared = "false";
+                }
+
+                vm.shipment.packageDetails.preferredCollectionDateLocal = ("0" + new Date(vm.shipment.packageDetails.preferredCollectionDate).getDate()).slice(-2) + "-" + monthNamesShort[new Date(vm.shipment.packageDetails.preferredCollectionDate).getUTCMonth()] + "-" + new Date(vm.shipment.packageDetails.preferredCollectionDate).getFullYear();
+                
+
+                console.log(vm.shipment);
+                debugger;
+            })
+            .error(function () {
+            })
+        }
+        debugger;
+        if ($routeParams.id != "0")
+            loadShipmentInfo($routeParams.id);
+
         // In production remove this.
         vm.textChangeOfName = function () {
            

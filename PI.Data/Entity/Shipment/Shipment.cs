@@ -38,6 +38,7 @@ namespace PI.Data.Entity
         public long ShipmentPackageId { get; set; }
 
         public long? ParentShipmentId { get; set; }
+        public bool IsParent { get; set; }
 
         public short ShipmentPaymentTypeId { get; set; }
 

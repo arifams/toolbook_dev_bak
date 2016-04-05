@@ -259,7 +259,7 @@ var MakeApp = angular
             controller: 'loadUserManagementCtrl',
             controllerAs: 'loadUserCtrl'
         })
-        .when('/AddShipment', {
+        .when('/addShipment/:id', {
             templateUrl: 'shipment/addShipment.html',
             controller: 'addShipmentCtrl',
             controllerAs: 'shipmentCtrl'
