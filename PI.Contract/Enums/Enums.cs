@@ -70,4 +70,9 @@ namespace PI.Contract.Enums
         Success,
         Warning
     }
+
+    public enum DocumentType : short
+    {
+        Shipment = 1,      
+    }
 }

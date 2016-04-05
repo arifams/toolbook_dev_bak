@@ -3,6 +3,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
@@ -65,14 +66,14 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = string.Format("{0} {1}", currentShipment.AddressInformation.Consigner.FirstName, currentShipment.AddressInformation.Consigner.LastName).Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2 != null ? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
                 currentRateSheetDetails.country_from = currentShipment.AddressInformation.Consigner.Country;
                 currentRateSheetDetails.code_country_from = currentShipment.AddressInformation.Consigner.Country;
-           
+
                 //consignee details
                 currentRateSheetDetails.address11 = string.Format("{0} {1}", currentShipment.AddressInformation.Consignee.FirstName, currentShipment.AddressInformation.Consignee.LastName).Replace(' ', '%');
                 currentRateSheetDetails.address12 = currentShipment.AddressInformation.Consignee.Address1.Replace(' ', '%');
@@ -83,7 +84,7 @@ namespace PI.Business
                 currentRateSheetDetails.country_to = currentShipment.AddressInformation.Consignee.Country;
                 currentRateSheetDetails.code_country_to = currentShipment.AddressInformation.Consignee.Country;
 
-              //  currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
+                //  currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
                 currentRateSheetDetails.inbound = "N";
 
             }
@@ -116,7 +117,7 @@ namespace PI.Business
                     }
                     if (count > 0 && package != item.ProductType)
                     {
-                        package = "DIVERSE";                      
+                        package = "DIVERSE";
                     }
 
                     if (item.Length > maxLength)
@@ -135,7 +136,7 @@ namespace PI.Business
                     {
                         maxWeight = item.Weight;
                     }
-                   
+
 
                     surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
@@ -217,29 +218,29 @@ namespace PI.Business
             currentRateSheetDetails.type = "selectkmnetworkroad";
             currentRateSheetDetails.fieldname4 = "shipment_price";
             currentRateSheetDetails.fieldname1 = "price";
-            currentRateSheetDetails.sell_buy = "";          
-            currentRateSheetDetails.courier_km = "";     
-            currentRateSheetDetails.courier_tariff_base = "";           
+            currentRateSheetDetails.sell_buy = "";
+            currentRateSheetDetails.courier_km = "";
+            currentRateSheetDetails.courier_tariff_base = "";
             currentRateSheetDetails.courier_date_pickup_transition = "";
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";            
-           
-           
-           // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
-           // currentRateSheetDetails.time_pickup = "12:51";
-           // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
-        //    currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
-         //  currentRateSheetDetails.insurance_instruction = "N";
-           currentRateSheetDetails.sort = "PRICE";         
-          // currentRateSheetDetails.inbound = "N"; 
-           currentRateSheetDetails.dg = "NO";
-           currentRateSheetDetails.dg_type = "";
-           currentRateSheetDetails.account = "";
-           currentRateSheetDetails.code_customer = "";
-           currentRateSheetDetails.ind_delivery_inside = "";
-           currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
+
+
+            // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
+            // currentRateSheetDetails.time_pickup = "12:51";
+            // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
+            //    currentRateSheetDetails.delivery_condition = "DD-DDU-PP";         
+            //  currentRateSheetDetails.insurance_instruction = "N";
+            currentRateSheetDetails.sort = "PRICE";
+            // currentRateSheetDetails.inbound = "N"; 
+            currentRateSheetDetails.dg = "NO";
+            currentRateSheetDetails.dg_type = "";
+            currentRateSheetDetails.account = "";
+            currentRateSheetDetails.code_customer = "";
+            currentRateSheetDetails.ind_delivery_inside = "";
+            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
 
 
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
@@ -302,7 +303,7 @@ namespace PI.Business
 
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
-           
+
             ShipmentOperationResult result = new ShipmentOperationResult();
             CompanyManagement companyManagement = new CompanyManagement();
             Company currentcompany = companyManagement.GetCompanyByUserId(addShipment.UserId);
@@ -334,7 +335,7 @@ namespace PI.Business
                                                            && d.Type == "SYSTEM").SingleOrDefault();
 
                     sysDivisionId = sysDivision.Id;
-                                                    
+
                 }
                 if (addShipment.GeneralInformation.CostCenterId == 0)
                 {
@@ -413,7 +414,7 @@ namespace PI.Business
                         InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
                         InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
                         CarrierCost = addShipment.CarrierInformation.Price,
-                        InsuranceCost = addShipment.CarrierInformation.Insurance, 
+                        InsuranceCost = addShipment.CarrierInformation.Insurance,
                         PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
                         EarliestPickupDate = addShipment.CarrierInformation.PickupDate ?? null,
                         EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
@@ -425,7 +426,7 @@ namespace PI.Business
                         PackageProducts = packageProductList
                     }
                 };
-               
+
                 try
                 {
                     context.Shipments.Add(newShipment);
@@ -464,11 +465,11 @@ namespace PI.Business
                     //}
                 }
                 catch (Exception ex)
-            {
+                {
                     //throw ex;
                     result.ShipmentId = 0;
                     result.Status = Status.Error;
-            }
+                }
             }
 
             return result;
@@ -487,7 +488,7 @@ namespace PI.Business
                 MerchantId = merchantId,
                 Description = description,
                 Hash = Hash(buildStringForHash)
-            }; 
+            };
         }
 
         private static string Hash(string input)
@@ -526,17 +527,17 @@ namespace PI.Business
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
-            }              
+            }
             else if (role == "Supervisor")
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
             if (divisions.Count > 0)
             {
-            foreach (var item in divisions)
-            {
-                Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
-            }
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
             }
             else
             {
@@ -548,7 +549,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           //(string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
+                               //(string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                            (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
@@ -623,17 +624,17 @@ namespace PI.Business
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
-                       
+
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
                         CarrierName = item.CarrierName,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate
-                    }                    
-                               
-                }); 
-                }
+                    }
+
+                });
+            }
 
             pagedRecord.TotalRecords = Shipments.Count();
             pagedRecord.CurrentPage = page;
@@ -649,7 +650,7 @@ namespace PI.Business
             {
                 string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                 string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
-                return roleName;                
+                return roleName;
             }
 
         }
@@ -683,9 +684,9 @@ namespace PI.Business
                                     join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
                                     where shipment.CreatedBy == userId
                                     select shipment).ToList();
-               
+
             }
-            
+
             return currentShipments;
         }
 
@@ -705,7 +706,7 @@ namespace PI.Business
                                    select shipment).FirstOrDefault();
 
             }
-            if (currentShipment==null)
+            if (currentShipment == null)
             {
                 return null;
             }
@@ -746,7 +747,7 @@ namespace PI.Business
                 },
                 GeneralInformation = new GeneralInformationDto
                 {
-                    ShipmentId=currentShipment.Id.ToString(),
+                    ShipmentId = currentShipment.Id.ToString(),
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,
@@ -787,10 +788,10 @@ namespace PI.Business
 
             return currentShipmentDto;
         }
-      //get the product ingrediants List
+        //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
-             List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
+            List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
 
             foreach (var ingrediant in products)
             {
@@ -805,9 +806,9 @@ namespace PI.Business
                         Width = ingrediant.Width,
                         Description = ingrediant.Description
                     });
-                
+
             }
-          return ingrediantList;
+            return ingrediantList;
         }
 
         public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
@@ -926,7 +927,7 @@ namespace PI.Business
                 result.AddShipmentXML = response.AddShipmentXML;
 
                 if (string.IsNullOrWhiteSpace(response.Awb))
-                { 
+                {
                     result.Status = Status.Error;
                     result.Message = "Error occured when adding shipment";
                 }
@@ -991,6 +992,61 @@ namespace PI.Business
             }
         }
 
+
+        /// <summary>
+        /// Insert shipment record
+        /// </summary>
+        /// <param name="fileDetails"></param>
+        public void InsertShipmentDocument(FileUploadDto fileDetails)
+        {
+            using (var context = new PIContext())
+            {
+                CompanyManagement companyManagement = new CompanyManagement();
+                var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
+
+                context.ShipmentDocument.Add(new ShipmentDocument
+                {
+                    TenantId = tenantId,
+                    ShipmentId = fileDetails.ReferenceId,
+                    ClientFileName = fileDetails.ClientFileName,
+                    UploadedFileName = fileDetails.UploadedFileName
+                });
+
+                context.SaveChanges();
+            }
+        }
+
+
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(int shipmentId, string userId)
+        {
+            List<FileUploadDto> returnList = new List<FileUploadDto>();
+            // Make absolute link
+            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+
+            CompanyManagement companyManagement = new CompanyManagement();
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
+
+            using (var context = new PIContext())
+            {
+                var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
+                                                    && x.ShipmentId == shipmentId).
+                                                    OrderByDescending(x => x.CreatedDate).ToList();
+
+                docList.ForEach(x => returnList.Add(new FileUploadDto
+                {
+                    TenantId = x.TenantId,
+                    ReferenceId = x.ShipmentId,
+                    ClientFileName = x.ClientFileName,
+                    UploadedFileName = x.UploadedFileName
+                }));
+
+                returnList.ForEach(e =>
+                    e.FileAbsoluteURL = baseUrl + "TENANT_"+ e.TenantId + "/" + "SHIPMENT_DOCUMENTS" + "/" + e.UploadedFileName
+                );
+            }
+            return returnList;
+        }
+
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
@@ -1017,7 +1073,7 @@ namespace PI.Business
         //            context.SaveChanges();
 
         //        }
-          
+
         //    }
 
         //}

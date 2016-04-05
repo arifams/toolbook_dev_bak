@@ -117,6 +117,10 @@
             });
         }
 
+        function uploadDocumentsForShipment(fileDetail) {
+            return $http.post(serverBaseUrl + '/api/shipments/uploadDocumentsForShipment', fileDetail)
+        }
+
 
     }]);
     

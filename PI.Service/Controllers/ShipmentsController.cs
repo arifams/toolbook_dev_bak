@@ -1,5 +1,4 @@
-﻿
-using PI.Contract.DTOs.RateSheets;
+﻿using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
@@ -11,6 +10,14 @@ using System.Web.Http.Cors;
 using PI.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Common;
+using System.Web;
+using System.Threading.Tasks;
+using AzureMediaManager;
+using PI.Common;
+using PI.Contract.Enums;
+using PI.Contract.DTOs.FileUpload;
+
+
 
 namespace PI.Service.Controllers
 {
@@ -106,6 +113,38 @@ namespace PI.Service.Controllers
         {            
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             return shipmentManagement.GetShipmentStatusListByShipmentId(shipmentId);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpPost]
+        [Route("UploadDocumentsForShipment")]
+        public async Task UploadDocumentsForShipment([FromBody]FileUploadDto fileUpload)
+        {
+            try
+            {
+                HttpPostedFileBase assignmentFile = fileUpload.Attachment;
+                var fileName = fileUpload.Attachment.FileName;
+
+                var imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), fileName);
+
+                fileUpload.ClientFileName = fileName;
+                fileUpload.UploadedFileName = imageFileNameInFull;
+
+                AzureFileManager media = new AzureFileManager();
+                media.InitializeStorage(fileUpload.TenantId.ToString(), DocumentType.Shipment.ToString());
+                var result = await media.Upload(assignmentFile, imageFileNameInFull);
+                
+                // Insert document record to DB.
+                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+                shipmentManagement.InsertShipmentDocument(fileUpload);
+
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
         }
 
     }

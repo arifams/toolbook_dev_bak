@@ -105,6 +105,7 @@
     <Compile Include="Entity\RoleHierarchy.cs" />
     <Compile Include="Entity\Shipment\Shipment.cs" />
     <Compile Include="Entity\Shipment\ShipmentAddress.cs" />
+    <Compile Include="Entity\Shipment\ShipmentDocument.cs" />
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
     <Compile Include="Entity\Shipment\ShipmentPayment.cs" />
     <Compile Include="Entity\Shipment\ShipmentStatusHistory.cs" />
