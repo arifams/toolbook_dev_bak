@@ -9,7 +9,11 @@
            function ($location, $window, shipmentFactory) {
                var vm = this;
                var simple_map;
-               vm.statusHistories = {};
+               vm.statusLocationItems = {};
+               vm.locationHistory = {};
+               var lat = 0;
+               var lng = 0;
+
                vm.shipmentCode = $location.search().SHIPMENT_CODE;
                vm.trakingNo = $location.search().TRACKING_NO;
                vm.carrier = $location.search().CARRIER;
@@ -17,9 +21,40 @@
                var shipmentId = '';
                var loadShipmentStatuses = function () {
                    debugger;
-                   shipmentFactory.loadShipmentStatusList(shipmentId)
+                   shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
-                       vm.statusHistories = data;
+                       vm.locationHistory = data;
+
+                       for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
+                           lat = vm.locationHistory.history.items[i].location.geo.lat;
+                           lng = vm.locationHistory.history.items[i].location.geo.lng;
+
+                       }
+
+                       if ($("#simple-map").length) {
+                           simple_map = new GMaps({
+                               el: '#simple-map',
+                               lat: lat,
+                               lng: lng,
+                               zoomControl: true,
+                               zoomControlOpt: {
+                                   style: 'SMALL',
+                                   position: 'TOP_LEFT'
+                               },
+                               panControl: false,
+                               streetViewControl: false,
+                               mapTypeControl: false,
+                               overviewMapControl: false
+                           });
+                           simple_map.addMarker({
+                               lat: lat,
+                               lng: lng,
+                               title: 'Marker with InfoWindow',
+                               infoWindow: {
+                                   content: '<p>Here we are!</p>'
+                               }
+                           });
+                       }
                    })
                    .error(function () {
                    })
@@ -38,36 +73,10 @@
                    })
                }
                 
-               loadShipmentInfo();
-                   
-               
-
+               loadShipmentInfo();             
               
 
-               if ($("#simple-map").length) {
-                   simple_map = new GMaps({
-                       el: '#simple-map',
-                       lat: -12.043333,
-                       lng: -77.028333,
-                       zoomControl: true,
-                       zoomControlOpt: {
-                           style: 'SMALL',
-                           position: 'TOP_LEFT'
-                       },
-                       panControl: false,
-                       streetViewControl: false,
-                       mapTypeControl: false,
-                       overviewMapControl: false
-                   });
-                   simple_map.addMarker({
-                       lat: -12.042,
-                       lng: -77.028333,
-                       title: 'Marker with InfoWindow',
-                       infoWindow: {
-                           content: '<p>Here we are!</p>'
-                       }
-                   });
-               }
+               
 
 
            }]);

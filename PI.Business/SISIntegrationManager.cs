@@ -152,20 +152,29 @@ namespace PI.Business
         }
 
         //get the update 
-        public StatusHistoryResponce UpdateShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string userID, string password, string environment)
+        public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
         {
+            //TODO change the web url to production 
+           string userID = SISUserName;
+           string password = SISPassword;
             StatusHistoryResponce statusHistoryResponce = null;
            // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
-            string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+        string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
-                data["codeshipment"] = codeShipment;
-                data["codeshipment"] = userID;
-                data["codeshipment"] = password;
-                data["codeshipment"] = environment;
+                //data["codeshipment"] = codeShipment;
+                //data["userid"] = userID;
+                //data["password"] = password;
+                //data["environment"] = environment;
 
-                var response = wb.UploadValues(SISWebURL + "insert_shipment.asp", "POST", data);
+                data["codeshipment"] = "38165364";
+                data["userid"] = "info@parcelinternational.com";
+                data["password"] = "Shipper01";
+                data["environment"] = "taleus";
+
+
+                var response = wb.UploadValues(URL, "POST", data);
                 var responseString = Encoding.Default.GetString(response);
 
                 XDocument doc = XDocument.Parse(responseString);
