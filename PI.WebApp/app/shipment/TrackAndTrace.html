@@ -55,9 +55,24 @@
                                           </div>
                                           <div class="panel-header">
                                               <label class="form-control label-info">Current Packege Location</label>
+                                              <div class="row" ng-show="trackCtrl.trackingNotFound">
+                                                  <label class="form-control">
+                                                      Please check the Tracking Number and try Again
+                                                  </label>
+                                              </div>
+                                              <div class="row" ng-show="trackCtrl.missingFields">
+                                                  <label class="form-control label-danger">
+                                                      Fill the request Details correctly
+                                                  </label>
+                                              </div>
                                           </div>
                                       </div>
                                   </div>
+
+                                 
+
+                                  
+
                               </div>
                           </div>
 
