@@ -316,6 +316,15 @@ namespace PI.Business
                     sysCostCenterId = defaultCostCntr.Id;
                 }
 
+                long shipmentCodeAsLong = Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+                if (shipmentCodeAsLong != 0)
+                {
+                    // If has parent shipment id, then add to previous shipment.
+                    Shipment oldShipment = context.Shipments.Where(sh => sh.Id == shipmentCodeAsLong).FirstOrDefault();
+                    oldShipment.IsParent = true;
+                    context.SaveChanges();
+                }
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
@@ -339,6 +348,7 @@ namespace PI.Business
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
                     IsActive = true,
                     IsParent = false,
+                    ParentShipmentId = shipmentCodeAsLong == 0 ? null : (long?)shipmentCodeAsLong,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
@@ -408,31 +418,6 @@ namespace PI.Business
                     result.ShipmentId = newShipment.Id;
                     result.Status = Status.Success;
 
-                    // If success fully saved and is invoice, then add to SIS.
-                    //if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
-                    //{
-                    //    AddShipmentResponse addShipmentResponse = new SISIntegrationManager().SendShipmentDetails(addShipment);
-                    //    result.AddShipmentXML = addShipmentResponse.AddShipmentXML;
-
-                    //    if (string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-                    //    { 
-                    //        result.Status = Status.Error;
-                    //        result.Message = "Error occured while adding shipment";
-                    //    }
-                    //    else
-                    //    {
-                    //        result.Status = Status.Success;
-                    //        result.Message = "Shipment added successfully";
-
-                    //        result.LabelURL = addShipmentResponse.PDF;
-
-                    //        // Update shipment entity.
-                    //        newShipment.ShipmentCode = addShipmentResponse.CodeShipment;
-                    //        newShipment.TrackingNumber = addShipmentResponse.Awb;
-                    //        newShipment.Status = (short)ShipmentStatus.BookingConfirmation;
-                    //        context.SaveChanges();
-                    //    }
-                    //}
                 }
                 catch (Exception ex)
             {

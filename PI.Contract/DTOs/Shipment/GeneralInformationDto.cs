@@ -39,7 +39,5 @@ namespace PI.Contract.DTOs.Shipment
         public string CreatedDate { get; set; }
 
         public short ShipmentPaymentTypeId { get; set; }
-
-        public string ParentShipmentId { get; set; }
     }
 }

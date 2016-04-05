@@ -20,7 +20,7 @@
         vm.shipment.addressInformation = {};
         vm.shipment.addressInformation.consigner = {};
         vm.shipment.addressInformation.consignee = {};
-        vm.shipment.CarrierInformation = {};
+        vm.shipment.carrierInformation = {};
         vm.searchRates = false;
         vm.loadingRates = false;
         vm.addingShipment = false;
@@ -384,10 +384,10 @@
             if (row != null) {
  
                 vm.carrierselected = true;
-                vm.shipment.CarrierInformation.carrierName = row.carrier_name;               
-                vm.shipment.CarrierInformation.pickupDate = row.pickup_date;
-                vm.shipment.CarrierInformation.deliveryTime = row.delivery_time;
-                vm.shipment.CarrierInformation.price = row.price;
+                vm.shipment.carrierInformation.carrierName = row.carrier_name;               
+                vm.shipment.carrierInformation.pickupDate = row.pickup_date;
+                vm.shipment.carrierInformation.deliveryTime = row.delivery_time;
+                vm.shipment.carrierInformation.price = row.price;
                 if (vm.shipment.packageDetails.isInsuared=='true') {
                     insurance = (row.price * 1.1).toFixed(2);
                    
@@ -401,18 +401,18 @@
                     }
                 }
                 
-                vm.shipment.CarrierInformation.insurance = insurance;
+                vm.shipment.carrierInformation.insurance = insurance;
                 total = parseFloat(row.price) + parseFloat(insurance);
-                vm.shipment.CarrierInformation.totalPrice = total.toFixed(2);
-                vm.shipment.CarrierInformation.serviceLevel = row.service_level
-                vm.shipment.CarrierInformation.tariffText = row.tariff_text
-                vm.shipment.CarrierInformation.tarriffType = row.tariff_type
-                vm.shipment.CarrierInformation.currency = row.currency
+                vm.shipment.carrierInformation.totalPrice = total.toFixed(2);
+                vm.shipment.carrierInformation.serviceLevel = row.service_level
+                vm.shipment.carrierInformation.tariffText = row.tariff_text
+                vm.shipment.carrierInformation.tarriffType = row.tariff_type
+                vm.shipment.carrierInformation.currency = row.currency
 
               
                 //get the paylane related details
-                vm.paylane.currency = vm.shipment.CarrierInformation.currency;
-                vm.paylane.amount = vm.shipment.CarrierInformation.totalPrice;
+                vm.paylane.currency = vm.shipment.carrierInformation.currency;
+                vm.paylane.amount = vm.shipment.carrierInformation.totalPrice;
                 vm.paylane.transactionType = 'S';
 
                 shipmentFactory.getHashCodesForPaylane(vm.paylane).success(
@@ -494,6 +494,7 @@
             vm.addingShipment = true;
             var body = $("html, body");
             vm.shipment.generalInformation.shipmentPaymentTypeId = 1; // Payment type is Invoice.
+
             shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
                                 vm.addingShipment = false;
@@ -628,7 +629,7 @@
         //clear carrier information if previous button clicked
         vm.previousBtnClicked = function () {
             vm.carrierselected = false;
-            vm.shipment.CarrierInformation={};
+            vm.shipment.carrierInformation={};
             vm.collapse3=false;
             vm.collapse4=true;
             vm.previousClicked = true;
@@ -662,16 +663,17 @@
 
                 vm.shipment.packageDetails.preferredCollectionDateLocal = ("0" + new Date(vm.shipment.packageDetails.preferredCollectionDate).getDate()).slice(-2) + "-" + monthNamesShort[new Date(vm.shipment.packageDetails.preferredCollectionDate).getUTCMonth()] + "-" + new Date(vm.shipment.packageDetails.preferredCollectionDate).getFullYear();
                 
-
-                console.log(vm.shipment);
-                debugger;
+                //console.log(vm.shipment);
+                vm.shipment.carrierInformation = {};
             })
             .error(function () {
             })
         }
-        debugger;
-        if ($routeParams.id != "0")
+        
+        vm.shipment.generalInformation.shipmentCode = "0";
+        if ($routeParams.id != "0") {
             loadShipmentInfo($routeParams.id);
+        }
 
         // In production remove this.
         vm.textChangeOfName = function () {
