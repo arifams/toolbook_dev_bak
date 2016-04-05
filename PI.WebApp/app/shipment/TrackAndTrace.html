@@ -1,0 +1,85 @@
+﻿
+<div>
+    <div class="header">
+        <h2>Shipment:Track and Trace</h2>
+    </div>
+
+    <div class="panel">       
+
+        <div class="panel-header">          
+
+        </div>
+        <div class="panel-body">
+                      <div class="panel-content">
+                          <div class="row">
+                              <div class="col-sm-3">
+                                  <select class="form-control" ng-model="trackCtrl.shipmentMode"  >
+                                      <option value="EXPRESS">EXPRESS</option>
+                                  </select>
+                              </div>
+                              <div class="col-sm-3">
+                                  <select class="form-control" ng-model="trackCtrl.carrier">
+                                      <option value="">Select Carrier</option>
+                                      <option value="UPS">UPS</option>
+                                      <option value="TNT">TNT</option>
+                                      <option value="DHL">DHL</option>
+                                      <option value="FEDEX">FEDEX</option>                                     
+                                  </select>
+                              </div>
+                              <div class="col-sm-6">
+                                  <div class="col-sm-5" >
+                                      <div class="form-group">
+                                          <input ng-model="trackCtrl.trackingNumber" name="trackingNumber" type="text" class="form-control"
+                                                 placeholder="Tracking Number" />
+                                      </div>
+                                  </div>
+
+                                  <div class="col-sm-1">
+                                      <div class="form-group">
+                                          <button type="button" class="btn btn-large btn-primary" ng-click="trackCtrl.LoadTrackAndTracecDate()">
+                                              <i class="fa fa-search"></i>
+                                          </button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-sm-12">
+
+                                  <div class="panel panel-default map-panel">
+                                      <div class="panel-body">  
+                                          <div class="row">
+                                              <div class="col-sm-12">
+                                                  <div class="map" id="simple-map"></div>
+                                              </div>
+                                          </div>
+                                          <div class="panel-header">
+                                              <label class="form-control label-info">Current Packege Location</label>
+                                              <div class="row" ng-show="trackCtrl.trackingNotFound">
+                                                  <label class="form-control">
+                                                      Please check the Tracking Number and try Again
+                                                  </label>
+                                              </div>
+                                              <div class="row" ng-show="trackCtrl.missingFields">
+                                                  <label class="form-control label-danger">
+                                                      Fill the request Details correctly
+                                                  </label>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                                 
+
+                                  
+
+                              </div>
+                          </div>
+
+                      </div> 
+
+        </div>
+
+    </div>
+
+</div>

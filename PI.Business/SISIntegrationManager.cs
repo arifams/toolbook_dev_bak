@@ -154,11 +154,12 @@ namespace PI.Business
         //get the update 
         public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
         {
+            //TODO change the web url to production 
            string userID = SISUserName;
            string password = SISPassword;
             StatusHistoryResponce statusHistoryResponce = null;
-            string URL = "http://parcelinternational.pro/status/DHL/9167479650";
-         //   string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+           // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+        string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
@@ -171,7 +172,7 @@ namespace PI.Business
                 data["userid"] = "info@parcelinternational.com";
                 data["password"] = "Shipper01";
                 data["environment"] = "taleus";
-                                
+
 
                 var response = wb.UploadValues(URL, "POST", data);
                 var responseString = Encoding.Default.GetString(response);

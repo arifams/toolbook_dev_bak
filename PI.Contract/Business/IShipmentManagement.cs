@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.RateSheets;
+﻿using PI.Contract.DTOs.FileUpload;
+using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace PI.Contract.Business
         ShipmentOperationResult SaveShipment(ShipmentDto addShipment);
         PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
         ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails);
+        void InsertShipmentDocument(FileUploadDto fileDetails);
     }
 }

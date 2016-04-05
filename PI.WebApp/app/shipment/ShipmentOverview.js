@@ -30,6 +30,31 @@
                            lng = vm.locationHistory.history.items[i].location.geo.lng;
 
                        }
+
+                       if ($("#simple-map").length) {
+                           simple_map = new GMaps({
+                               el: '#simple-map',
+                               lat: lat,
+                               lng: lng,
+                               zoomControl: true,
+                               zoomControlOpt: {
+                                   style: 'SMALL',
+                                   position: 'TOP_LEFT'
+                               },
+                               panControl: false,
+                               streetViewControl: false,
+                               mapTypeControl: false,
+                               overviewMapControl: false
+                           });
+                           simple_map.addMarker({
+                               lat: lat,
+                               lng: lng,
+                               title: 'Marker with InfoWindow',
+                               infoWindow: {
+                                   content: '<p>Here we are!</p>'
+                               }
+                           });
+                       }
                    })
                    .error(function () {
                    })
@@ -51,30 +76,7 @@
                loadShipmentInfo();             
               
 
-               if ($("#simple-map").length) {
-                   simple_map = new GMaps({
-                       el: '#simple-map',
-                       lat: lat,
-                       lng: lng,
-                       zoomControl: true,
-                       zoomControlOpt: {
-                           style: 'SMALL',
-                           position: 'TOP_LEFT'
-                       },
-                       panControl: false,
-                       streetViewControl: false,
-                       mapTypeControl: false,
-                       overviewMapControl: false
-                   });
-                   simple_map.addMarker({
-                       lat: lat,
-                       lng: lng,
-                       title: 'Marker with InfoWindow',
-                       infoWindow: {
-                           content: '<p>Here we are!</p>'
-                       }
-                   });
-               }
+               
 
 
            }]);

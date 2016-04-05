@@ -133,7 +133,7 @@
                                 <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> Manage Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> Add Shipment</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Label</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Track & Trace</a></li>
+                                <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> Track & Trace</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Manifest</a></li>
                             </ul>
@@ -1230,6 +1230,12 @@
         <script src="../global/plugins/google-maps/gmaps.js"></script>
         <script src="../global/plugins/google-maps/markerclusterer.js"></script>
         <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
+        <script src="../../Scripts/ng-file-upload.js"></script>
+        <script src="../Scripts/ng-file-upload.min.js"></script>
+
+        <script src="directive/fileUploader.js"></script>
+        <script src="shipment/shipmentDocuments.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.2.0/angular-file-upload.js"></script>
 
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
         <script src="../js/pages/dashboard.js"></script>
@@ -1238,7 +1244,7 @@
         <script src="../js/pages/layouts_api.js"></script>
         <script src="../js/builder.js"></script>
         <script src="../js/application.js"></script>
-        <script src="../js/plugins.js"></script> 
+        <script src="../js/plugins.js"></script>
         <script src="../js/quickview.js"></script>
         <script src="mainCtrl.js"></script>
         <script src="../../global/js/custom.js"></script>
@@ -1260,7 +1266,7 @@
         <script src="uiElements/helperClasses/helperClassesCtrl.js"></script>
         <script src="mailbox/mailboxTemplatesCtrl.js"></script>
         <script src="mailbox/mailboxCtrl.js"></script>
-        <script src="mailbox/mailSendCtrl.js"></script>        
+        <script src="mailbox/mailSendCtrl.js"></script>
         <script src="medias/croping/cropingCtrl.js"></script>
         <script src="medias/hover/hoverCtrl.js"></script>
         <script src="medias/sortable/sortableCtrl.js"></script>
@@ -1305,6 +1311,7 @@
         <script src="shipment/loadAllShipments.js"></script>
         <script src="shipment/ShipmentOverview.js"></script>
         <script src="shipment/AddressViewTemplate.js"></script>
+        <script src="shipment/TrackAndTrace.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

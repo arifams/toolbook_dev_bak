@@ -3,6 +3,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
@@ -65,8 +66,8 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = string.Format("{0} {1}", currentShipment.AddressInformation.Consigner.FirstName, currentShipment.AddressInformation.Consigner.LastName).Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2 != null ? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
@@ -689,7 +690,7 @@ namespace PI.Business
                                    select shipment).FirstOrDefault();
 
             }
-            if (currentShipment==null)
+            if (currentShipment == null)
             {
                 return null;
             }
@@ -730,7 +731,7 @@ namespace PI.Business
                 },
                 GeneralInformation = new GeneralInformationDto
                 {
-                    ShipmentId=currentShipment.Id.ToString(),
+                    ShipmentId = currentShipment.Id.ToString(),
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,
@@ -984,7 +985,7 @@ namespace PI.Business
             ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
             info info = new info();
 
-            if (currentShipmet.GeneralInformation.Status == "")
+            if(currentShipmet.GeneralInformation.Status == ((short)ShipmentStatus.Delivered).ToString())
             {
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
@@ -996,9 +997,9 @@ namespace PI.Business
                 var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
 
               //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
-                this.UpdateShipmentStatus(codeShipment, 3);                
+                this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);                
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
-                info.status = currentShipment.Status.ToString();
+                info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
                 List<ShipmentLocationHistory> historyList= this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
                 foreach (var item in historyList)
                 {
@@ -1012,6 +1013,37 @@ namespace PI.Business
             locationHistory.info = info;
             return locationHistory;
            
+        }
+
+        //get track and trace information
+        public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
+        {
+            string environment = "taleus";
+            StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
+            Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            //if (currentShipment!=null)
+            //{
+            //    trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
+            //}
+            trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, "77878787878", environment);
+            return trackingInfo;
+        }
+
+
+        //get shipment details by tracking number
+        public Shipment GetShipmentByTrackingNo(string trackingNo)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var currentShipment = (from shipment in context.Shipments
+                                       where shipment.TrackingNumber == trackingNo
+                                       select shipment).SingleOrDefault();
+
+                return currentShipment;
+            }
+
+
         }
 
         //update status hisory with latest statuses and locations
@@ -1185,6 +1217,63 @@ namespace PI.Business
             }
 
         }
+
+
+        /// <summary>
+        /// Insert shipment record
+        /// </summary>
+        /// <param name="fileDetails"></param>
+        public void InsertShipmentDocument(FileUploadDto fileDetails)
+        {
+            using (var context = new PIContext())
+            {
+                CompanyManagement companyManagement = new CompanyManagement();
+                var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
+
+                context.ShipmentDocument.Add(new ShipmentDocument
+                {
+                    TenantId = tenantId,
+                    ShipmentId = fileDetails.ReferenceId,
+                    ClientFileName = fileDetails.ClientFileName,
+                    UploadedFileName = fileDetails.UploadedFileName
+                });
+
+                context.SaveChanges();
+            }
+        }
+
+
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(int shipmentId, string userId)
+        {
+            List<FileUploadDto> returnList = new List<FileUploadDto>();
+            // Make absolute link
+            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+
+            CompanyManagement companyManagement = new CompanyManagement();
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
+
+            using (var context = new PIContext())
+            {
+                var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
+                                                    && x.ShipmentId == shipmentId).
+                                                    OrderByDescending(x => x.CreatedDate).ToList();
+
+                docList.ForEach(x => returnList.Add(new FileUploadDto
+                {
+                    TenantId = x.TenantId,
+                    ReferenceId = x.ShipmentId,
+                    ClientFileName = x.ClientFileName,
+                    UploadedFileName = x.UploadedFileName
+                }));
+
+                returnList.ForEach(e =>
+                    e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + "SHIPMENT_DOCUMENTS" + "/" + e.UploadedFileName
+                );
+            }
+            return returnList;
+        }
+
+
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{

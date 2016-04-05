@@ -205,6 +205,10 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureMediaManager\PI.AzureFileStorageManager.csproj">
+      <Project>{272b5e98-13cc-4eb1-8c55-64519e5931ff}</Project>
+      <Name>PI.AzureFileStorageManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PI.Business\PI.Business.csproj">
       <Project>{d6f56f05-63ee-4d5c-811f-a0b56e1f5fad}</Project>
       <Name>PI.Business</Name>

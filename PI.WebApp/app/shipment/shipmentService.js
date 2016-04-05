@@ -17,9 +17,20 @@
             loadShipmentStatusList: loadShipmentStatusList,
             loadAddressBookDetails:loadAddressBookDetails,
             sendShipmentDetails: sendShipmentDetails,
-            getLocationHistory: getLocationHistory
+            getLocationHistory: getLocationHistory,
+            getTeackAndTraceDetails:getTeackAndTraceDetails
         };
 
+
+        function getTeackAndTraceDetails(carrier, trackingNo) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetTrackAndTraceInfo',{
+                params: {
+                    career: carrier,
+                    trackingNumber: trackingNo
+                        }
+             });
+            
+        }
         //get paylane relted Details
         function getHashCodesForPaylane(paylane) {
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
@@ -121,6 +132,10 @@
                 destination: destination
             }
             });
+        }
+
+        function uploadDocumentsForShipment(fileDetail) {
+            return $http.post(serverBaseUrl + '/api/shipments/uploadDocumentsForShipment', fileDetail)
         }
 
 
