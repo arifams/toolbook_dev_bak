@@ -26,7 +26,8 @@ var MakeApp = angular
     'customDirective',
     'angularjs-datetime-picker',
     'daterangepicker',
-    'ngDialog',
+    'ngDialog', 
+    'akFileUploader'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -287,6 +288,10 @@ var MakeApp = angular
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
               
+           })
+           .when('/DocumentRepository', {
+               templateUrl: 'shipment/shipmentDocuments.html',
+
            })
         .otherwise({
             redirectTo: '/'

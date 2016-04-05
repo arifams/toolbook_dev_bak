@@ -1,0 +1,26 @@
+﻿<div ng-controller="shipmentDocumentCtrl as vm">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel">
+                <div class="panel-header bg-blue-light">
+                  <h3>Shipment Details</h3>
+                   </div>
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Organization Logo</label>
+                        <div class="col-sm-6">
+                            <input type="file" ak-file-model="vm.model.document" name="logo"
+                                   class="form-control" />
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="submit" ng-click="vm.fileUpload()" class="btn">
+                                <i class="fa fa-arrow-circle-o-up"></i> Upload
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

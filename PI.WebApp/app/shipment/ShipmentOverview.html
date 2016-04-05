@@ -2,201 +2,208 @@
     <div class="header">
         <h2>All Shipments</h2>
     </div>
-    
+
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        
-            <!-- /.box-header -->
+        <!-- /.box-header -->
 
-            <div class="panel-header">
-                <!-- left column -->            
+        <div class="panel-header">
+            <!-- left column -->
 
-            </div>
-            <div class="panel-body">
+        </div>
+        <div class="panel-body">
 
 
-                <div class="wizard-div current wizard-arrow">
-                    <form class="wizard" data-style="arrow" >
-                        <fieldset class="withScroll show-scroll">
-                            <legend>Overview</legend>
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    
-                                    <div class="panel">
-                                        <div class="panel-header bg-blue-light">
-                                            <div class="row">                                               
-                                                <div class="col-sm-12">
-                                                    <h3>Shipment Details</h3>
-                                                </div>
-                                            </div>
+            <div class="wizard-div current wizard-arrow">
+                <form class="wizard" data-style="arrow">
+                    <fieldset class="withScroll show-scroll">
+                        <legend>Overview</legend>
+                        <div class="row">
+                            <div class="col-sm-12">
 
-                                        </div>
-                                        <div class="form-horizontal">
-
-                                            <div class="panel-content panel-default">
-                                               <div class="row">
-                                                   <div class="col-sm-8">
-                                                       <div class="row">
-                                                           <div class="col-sm-3">
-                                                               <label class="form-control label-default">Tracking Number</label>
-                                                           </div>
-                                                           <div class="col-sm-5">
-                                                               <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}}/>
-                                                           </div>
-                                                       </div>
-                                                       <div class="row">
-                                                           <div class="col-sm-3">
-                                                               <label class="form-control label-default">Shipment ID</label>
-                                                           </div>
-                                                           <div class="col-sm-5">
-                                                               <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
-                                                           </div>
-                                                       </div>
-                                                       <div class="row">
-                                                           <div class="col-sm-3">
-                                                               <label class="form-control label-default">Carrier</label>
-                                                           </div>
-                                                           <div class="col-sm-5">
-                                                               <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
-                                                           </div>
-                                                       </div>
-                                                       <div class="row">
-                                                           <div class="col-sm-3">
-                                                               <label class="form-control label-default">Order Submitted Date</label>
-                                                           </div>
-                                                           <div class="col-sm-5">
-                                                               <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
-                                                           </div>
-                                                       </div>
-                                                       <div class="row">
-                                                           <div class="col-sm-3">
-                                                               <label class="form-control label-default">Shipment Label</label>
-                                                           </div>
-                                                           <div class="col-sm-5">
-                                                               <input type="text" disabled name="shipmentLabel" class="form-control bg-primary"  />
-                                                           </div>
-                                                       </div>
-                                                   </div>
-                                                   <div class="col-sm-4">
-                                                      
-                                                           <div class="panel panel-default map-panel">
-                                                               <div class="panel-body">
-                                                                   <div class="row">
-                                                                       <div class="col-sm-12">
-                                                                           <div class="map" id="simple-map"></div>
-                                                                       </div>
-                                                                   </div>
-                                                                   <div class="panel-header">
-                                                                       <label class="form-control label-info">Current Packege Location</label>
-                                                                   </div>
-                                                               </div>
-                                                           </div>
-                                                       </div>
-                                               </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel">
-                                        <div class="panel-header bg-blue-light">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <h3>Shipment Status</h3>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="form-horizontal">
-                                            <div class="panel-content panel-default">
-                                                <div class="row" >
-                                                    <div class="col-sm-1"></div>
-                                                    
-                                                    <div class="col-sm-1">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
-                                                        <label class="small">Booking Confirmation</label>
-                                                    </div>
-                                                    <div class="col-sm-2"></div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
-                                                        <label class="small">Picked-Up</label>
-                                                    </div>
-                                                    <div class="col-sm-2"></div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
-                                                        <label class="small">In-Transit</label>
-                                                    </div>
-                                                    <div class="col-sm-2"></div>
-                                                    <div class="col-sm-1">
-                                                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
-                                                        <label class="small">Delivered</label>
-                                                    </div>
-                                                    <div class="col-sm-1"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="panel">
-                                        <div class="panel-header bg-blue-light">
-                                            <div class="row">
-                                                <div class="col-sm-12">
-                                                    <h3>Tracking History</h3>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div >
-
-                                         
-                                        </div>
-                                    </div>
-
-                                </div>                              
-                              
-                            </div>
-                        </fieldset>
-                        <fieldset class="withScroll show-scroll">
-                            <legend>Airway Bill</legend>
-                            
-                            <div>
-                                <div class="col-sm-12">
-
-                                    <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
-                                        <div class="col-sm-12">
-                                            <label class="form-control">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
-                                        </div>
-                                        <div class="row" ng-repeat="location in items.activity.items">
+                                <div class="panel">
+                                    <div class="panel-header bg-blue-light">
+                                        <div class="row">
                                             <div class="col-sm-12">
-                                                <label class="form-control">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
+                                                <h3>Shipment Details</h3>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-horizontal">
+
+                                        <div class="panel-content panel-default">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Tracking Number</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Shipment ID</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Carrier</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Order Submitted Date</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Shipment Label</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+
+                                                    <div class="panel panel-default map-panel">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                                    <div class="map" id="simple-map"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-header">
+                                                                <label class="form-control label-info">Current Packege Location</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
 
+                                <div class="panel">
+                                    <div class="panel-header bg-blue-light">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3>Shipment Status</h3>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-horizontal">
+                                        <div class="panel-content panel-default">
+                                            <div class="row">
+                                                <div class="col-sm-1"></div>
+
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
+                                                    <label class="small">Booking Confirmation</label>
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
+                                                    <label class="small">Picked-Up</label>
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
+                                                    <label class="small">In-Transit</label>
+                                                </div>
+                                                <div class="col-sm-2"></div>
+                                                <div class="col-sm-1">
+                                                    <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success"><i class="fa fa-check"></i></button>
+                                                    <label class="small">Delivered</label>
+                                                </div>
+                                                <div class="col-sm-1"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel">
+                                    <div class="panel-header bg-blue-light">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <h3>Tracking History</h3>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div>
+
+
+                                    </div>
+                                </div>
 
                             </div>
-                           
-                        </fieldset>
-                        <fieldset class="withScroll show-scroll">
-                            <legend>Commercial Invoice</legend>
-                            In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate
-                            the graphic elements of a document or visual presentation, such as web pages, typography,
-                            and graphical layout. It is a form of "greeking".
-                            Even though using "lorem ipsum" often arouses curiosity due to its resemblance to classical
-                            Latin, it is not intended to have meaning. Where text is visible in a document, people tend
-                            to focus on the textual content rather than upon overall presentation, so publishers use
-                            lorem ipsum when displaying a typeface or design in order to direct the focus to
-                            presentation. "Lorem ipsum" also approximates a typical distribution of letters in English.
-                            
-                        </fieldset>
-                                             
-                    </form>
-                </div>
 
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="withScroll show-scroll">
+                        <legend>Airway Bill</legend>
+
+                        <div>
+                            <div class="col-sm-12">
+
+                                <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
+                                    <div class="col-sm-12">
+                                        <label class="form-control">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
+                                    </div>
+                                    <div class="row" ng-repeat="location in items.activity.items">
+                                        <div class="col-sm-12">
+                                            <label class="form-control">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </fieldset>
+
+                    <fieldset class="withScroll show-scroll">
+                        <legend>Commercial Invoice</legend>
+                        In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate
+                        the graphic elements of a document or visual presentation, such as web pages, typography,
+                        and graphical layout. It is a form of "greeking".
+                        Even though using "lorem ipsum" often arouses curiosity due to its resemblance to classical
+                        Latin, it is not intended to have meaning. Where text is visible in a document, people tend
+                        to focus on the textual content rather than upon overall presentation, so publishers use
+                        lorem ipsum when displaying a typeface or design in order to direct the focus to
+                        presentation. "Lorem ipsum" also approximates a typical distribution of letters in English.
+
+                    </fieldset>
+
+                    <fieldset class="withScroll show-scroll">
+                        <legend>Document Repository</legend>
+                       asasa
+                        <div ng-include="'shipment/shipmentDocuments.html'"></div>
+
+                    </fieldset>
+                </form>
             </div>
-       
+
+        </div>
+
     </div>
 
 </div>
