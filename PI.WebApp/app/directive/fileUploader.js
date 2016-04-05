@@ -12,7 +12,7 @@
                    };
 
                    var saveModel = function (data, url) {
-
+                       debugger;
                        var deferred = $q.defer();
                        $http({
                            url: url,

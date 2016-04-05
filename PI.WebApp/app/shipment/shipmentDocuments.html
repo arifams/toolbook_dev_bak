@@ -3,14 +3,15 @@
         <div class="col-sm-12">
             <div class="panel">
                 <div class="panel-header bg-blue-light">
-                  <h3>Shipment Details</h3>
-                   </div>
+                    <h3>Shipment Details</h3>
+                </div>
                 <div class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Organization Logo</label>
                         <div class="col-sm-6">
-                            <input type="file" ak-file-model="vm.model.document" name="logo"
-                                   class="form-control" />
+                            <!--<input type="file" ak-file-model="vm.model.document" name="logo"
+                                   class="form-control" />-->
+                            <input type="file" ng-file-select="vm.onFileSelect($files)">
                         </div>
                         <div class="col-sm-4">
                             <button type="submit" ng-click="vm.fileUpload()" class="btn">
