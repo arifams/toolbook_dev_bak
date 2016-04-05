@@ -279,6 +279,11 @@ var MakeApp = angular
                controller: 'shipmentOverviewCtrl',
                controllerAs: 'overviewShipCtrl'
            })
+          .when('/TrackAndTrace', {
+              templateUrl: 'shipment/TrackAndTrace.html',
+              controller: 'trackAndTraceCtrl',
+              controllerAs: 'trackCtrl'
+          })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
               

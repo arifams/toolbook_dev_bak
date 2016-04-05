@@ -1028,6 +1028,37 @@ namespace PI.Business
            
         }
 
+        //get track and trace information
+        public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
+        {
+            string environment = "taleus";
+            StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
+            Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            //if (currentShipment!=null)
+            //{
+            //    trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
+            //}
+            trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, "77878787878", environment);
+            return trackingInfo;
+        }
+
+
+        //get shipment details by tracking number
+        public Shipment GetShipmentByTrackingNo(string trackingNo)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var currentShipment = (from shipment in context.Shipments
+                                       where shipment.TrackingNumber == trackingNo
+                                       select shipment).SingleOrDefault();
+
+                return currentShipment;
+            }
+
+
+        }
+
         //update status hisory with latest statuses and locations
         public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
         {

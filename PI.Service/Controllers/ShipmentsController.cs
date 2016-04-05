@@ -111,5 +111,15 @@ namespace PI.Service.Controllers
             return shipment.SendShipmentDetails(sendShipmentDetails);
         }
 
+        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetTrackAndTraceInfo")]
+        public StatusHistoryResponce GetTrackAndTraceInfo(string career, string trackingNumber)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            return shipment.GetTrackAndTraceInfo(career, trackingNumber);
+        }
     }
 }
