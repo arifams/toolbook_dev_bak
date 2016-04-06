@@ -27,6 +27,7 @@ var MakeApp = angular
     'angularjs-datetime-picker',
     'daterangepicker',
     'ngDialog',
+    'akFileUploader'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -259,7 +260,7 @@ var MakeApp = angular
             controller: 'loadUserManagementCtrl',
             controllerAs: 'loadUserCtrl'
         })
-        .when('/AddShipment', {
+        .when('/addShipment/:id', {
             templateUrl: 'shipment/addShipment.html',
             controller: 'addShipmentCtrl',
             controllerAs: 'shipmentCtrl'
@@ -279,9 +280,27 @@ var MakeApp = angular
                controller: 'shipmentOverviewCtrl',
                controllerAs: 'overviewShipCtrl'
            })
+          .when('/TrackAndTrace', {
+              templateUrl: 'shipment/TrackAndTrace.html',
+              controller: 'trackAndTraceCtrl',
+              controllerAs: 'trackCtrl'
+          })
+           .when('/PrintLabel', {
+               templateUrl: 'shipment/printLabel.html',
+               controller: 'printLabelCtrl',
+               controllerAs: 'printCtrl'
+           })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
               
+           })
+           .when('/PreviewLabelTemplate', {
+               templateUrl: 'shipment/PreviewLabelTemplate.html',
+
+           })
+           .when('/DocumentRepository', {
+               templateUrl: 'shipment/shipmentDocuments.html',
+
            })
         .otherwise({
             redirectTo: '/'

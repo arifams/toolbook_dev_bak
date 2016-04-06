@@ -140,6 +140,9 @@ namespace PI.Contract.DTOs.Shipment
         [XmlElement("location")]
         public location location { get; set; }
 
+        [XmlElement("activity")]
+        public activity activity { get; set; }
+
     }
 
     public class location

@@ -59,7 +59,7 @@
             .st-sort-descent:before{
                 content: '\25BC';
             }
-           
+
         </style>
 
     </head>
@@ -106,7 +106,7 @@
                         </div>
                     </div>-->
                     <!--
-                       <div class="menu-title">
+                    <div class="menu-title">
                         Navigation
                         <div class="pull-right menu-settings">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300">
@@ -132,9 +132,10 @@
                         <li class="nav-parent">
                             <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/AddShipment')}"><a href="#AddShipment"> ADD SHIPMENT</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> PRINT LABEL</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> TRACK & TRACE</a></li>
+                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> VIEW SHIPMENTS</a></li>
+                                <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> ADD SHIPMENT</a></li>
+                                <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> PRINT LABEL</a></li>
+                                <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> TRACK & TRACE</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> VIEW OVERVIEW</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> PRINT MANIFEST</a></li>
                             </ul>
@@ -1231,6 +1232,13 @@
         <script src="../global/plugins/google-maps/gmaps.js"></script>
         <script src="../global/plugins/google-maps/markerclusterer.js"></script>
         <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
+        <script src="../../Scripts/ng-file-upload.js"></script>
+        <script src="../Scripts/ng-file-upload.min.js"></script>
+
+        <script src="directive/fileUploader.js"></script>
+        <script src="shipment/shipmentDocuments.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-file-upload/2.2.0/angular-file-upload.js"></script>
+
 
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
         <script src="../js/pages/dashboard.js"></script>
@@ -1306,6 +1314,9 @@
         <script src="shipment/loadAllShipments.js"></script>
         <script src="shipment/ShipmentOverview.js"></script>
         <script src="shipment/AddressViewTemplate.js"></script>
+        <script src="shipment/TrackAndTrace.js"></script>
+        <script src="shipment/printLabel.js"></script>
+        <script src="shipment/PreviewLabelTemplate.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

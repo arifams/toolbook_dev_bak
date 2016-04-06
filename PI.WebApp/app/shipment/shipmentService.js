@@ -16,9 +16,22 @@
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
             loadAddressBookDetails:loadAddressBookDetails,
-            sendShipmentDetails: sendShipmentDetails
+            sendShipmentDetails: sendShipmentDetails,
+            getLocationHistory: getLocationHistory,
+            getTeackAndTraceDetails: getTeackAndTraceDetails,
+            loadAllPendingShipments: loadAllPendingShipments
         };
 
+
+        function getTeackAndTraceDetails(carrier, trackingNo) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetTrackAndTraceInfo',{
+                params: {
+                    career: carrier,
+                    trackingNumber: trackingNo
+                        }
+             });
+            
+        }
         //get paylane relted Details
         function getHashCodesForPaylane(paylane) {
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
@@ -44,6 +57,11 @@
             return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
         }
 
+        function getLocationHistory(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/GetLocationHistoryforShipment', shipmentDetail);
+        }
+                
         function calculateRates(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);
@@ -115,6 +133,22 @@
                 destination: destination
             }
             });
+        }
+
+        function loadAllPendingShipments(startDate, endDate, number) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),                   
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,                   
+                }
+            });
+        }
+
+        function uploadDocumentsForShipment(fileDetail) {
+            return $http.post(serverBaseUrl + '/api/shipments/uploadDocumentsForShipment', fileDetail)
         }
 
 

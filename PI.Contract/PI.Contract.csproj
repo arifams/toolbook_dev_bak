@@ -33,6 +33,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,6 +55,7 @@
     <Compile Include="DTOs\Company\CompanyDto.cs" />
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
+    <Compile Include="DTOs\FileUpload\FileUploadDto.cs" />
     <Compile Include="DTOs\ImportAddress\ImportAddressDto.cs" />
     <Compile Include="DTOs\OperationResult.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />

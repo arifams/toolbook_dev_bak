@@ -9,6 +9,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PI.Data.Entity;
 
 namespace PI.Data
 {
@@ -44,11 +45,14 @@ namespace PI.Data
         public DbSet<ShipmentPackage> ShipmentPackages { get; set; }
         public DbSet<PackageProduct> PackageProducts { get; set; }
         public DbSet<PaymentType> PaymentTypes { get; set; }
+        public DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
+        public DbSet<LocationActivity> LocationActivities { get; set; }
+
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }
         public DbSet<ShipmentPayment> ShipmentPayments { get; set; }
-        //public DbSet<ShipmentStatusHistory> ShipmentStatusHistory { get; set; }
+        public DbSet<ShipmentDocument> ShipmentDocument { get; set; }
 
 
         public PIContext()

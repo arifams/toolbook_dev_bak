@@ -3,6 +3,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
@@ -65,8 +66,8 @@ namespace PI.Business
             {
                 //consigner details
                 currentRateSheetDetails.address1 = string.Format("{0} {1}", currentShipment.AddressInformation.Consigner.FirstName, currentShipment.AddressInformation.Consigner.LastName).Replace(' ', '%');
-                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ','%');
-                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2!=null? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%'):string.Empty;
+                currentRateSheetDetails.address2 = currentShipment.AddressInformation.Consigner.Address1.Replace(' ', '%');
+                currentRateSheetDetails.address3 = currentShipment.AddressInformation.Consigner.Address2 != null ? currentShipment.AddressInformation.Consigner.Address2.Replace(' ', '%') : string.Empty;
                 currentRateSheetDetails.address4 = currentShipment.AddressInformation.Consigner.City.Replace(' ', '%');
                 currentRateSheetDetails.street_number = currentShipment.AddressInformation.Consigner.Number;
                 currentRateSheetDetails.postcode = currentShipment.AddressInformation.Consigner.Postalcode;
@@ -246,33 +247,6 @@ namespace PI.Business
 
         }
 
-        //get the shipment status histories for shipment overview 
-        public List<ShipmentStatusHistoryDto> GetShipmentStatusListByShipmentId(string shipmentId)
-        {
-            //List<ShipmentStatusHistoryDto> statusHistoryList = new List<ShipmentStatusHistoryDto>();
-
-            //using (PIContext context= new PIContext())
-            //{
-            // var statusList = (from statusHistory in context.ShipmentStatusHistory
-            //                         where statusHistory.ShipmentId.ToString() == shipmentId
-            //                         select statusHistory).ToList();
-
-            //    foreach (var item in statusList)
-            //    {
-            //        statusHistoryList.Add(new ShipmentStatusHistoryDto {
-            //            NewStatus=item.NewStatus,
-            //            OldStatus=item.OldStatus,
-            //            ShipmentId=item.ShipmentId,
-            //            CreatedDate=item.CreatedDate
-            //        });
-            //    }
-            //}
-
-            //return statusHistoryList;
-
-            return null;
-        }
-
         //get the status of inbound outbound rule
         public string GetInboundoutBoundStatus(string userId, string fromCode, string toCode)
         {
@@ -302,8 +276,12 @@ namespace PI.Business
 
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
-            //ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+           
             ShipmentOperationResult result = new ShipmentOperationResult();
+            CompanyManagement companyManagement = new CompanyManagement();
+            Company currentcompany = companyManagement.GetCompanyByUserId(addShipment.UserId);
+            long sysDivisionId = 0;
+            long sysCostCenterId = 0;
 
             using (PIContext context = new PIContext())
             {
@@ -323,13 +301,38 @@ namespace PI.Business
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
 
+                // If division and costcenter Ids are 0, then assign default costcenter and division.
+                if (addShipment.GeneralInformation.DivisionId == 0)
+                {
+                    var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+                                                           && d.Type == "SYSTEM").SingleOrDefault();
+
+                    sysDivisionId = sysDivision.Id;
+                                                    
+                }
+                if (addShipment.GeneralInformation.CostCenterId == 0)
+                {
+                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+                                                                                && c.Type == "SYSTEM").SingleOrDefault();
+                    sysCostCenterId = defaultCostCntr.Id;
+                }
+
+                long shipmentCodeAsLong = Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+                if (shipmentCodeAsLong != 0)
+                {
+                    // If has parent shipment id, then add to previous shipment.
+                    Shipment oldShipment = context.Shipments.Where(sh => sh.Id == shipmentCodeAsLong).FirstOrDefault();
+                    oldShipment.IsParent = true;
+                    context.SaveChanges();
+                }
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
-                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? null : (long?)addShipment.GeneralInformation.DivisionId,
-                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? null : (long?)addShipment.GeneralInformation.CostCenterId,
+                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
+                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
                     ShipmentMode = addShipment.GeneralInformation.ShipmentMode,
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
@@ -345,6 +348,8 @@ namespace PI.Business
                     Status = (short)ShipmentStatus.Pending,
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
                     IsActive = true,
+                    IsParent = false,
+                    ParentShipmentId = shipmentCodeAsLong == 0 ? null : (long?)shipmentCodeAsLong,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
@@ -411,37 +416,9 @@ namespace PI.Business
                     context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
-                    //context.ShipmentStatusHistory.Add(new ShipmentStatusHistory { ShipmentId = newShipment.Id, Status = "Pending", CreatedBy = addShipment.UserId, CreatedDate= DateTime.Now,IsActive = true });
-                    //context.SaveChanges();
-
                     result.ShipmentId = newShipment.Id;
                     result.Status = Status.Success;
 
-                    // If success fully saved and is invoice, then add to SIS.
-                    //if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
-                    //{
-                    //    AddShipmentResponse addShipmentResponse = new SISIntegrationManager().SendShipmentDetails(addShipment);
-                    //    result.AddShipmentXML = addShipmentResponse.AddShipmentXML;
-
-                    //    if (string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-                    //    { 
-                    //        result.Status = Status.Error;
-                    //        result.Message = "Error occured while adding shipment";
-                    //    }
-                    //    else
-                    //    {
-                    //        result.Status = Status.Success;
-                    //        result.Message = "Shipment added successfully";
-
-                    //        result.LabelURL = addShipmentResponse.PDF;
-
-                    //        // Update shipment entity.
-                    //        newShipment.ShipmentCode = addShipmentResponse.CodeShipment;
-                    //        newShipment.TrackingNumber = addShipmentResponse.Awb;
-                    //        newShipment.Status = (short)ShipmentStatus.BookingConfirmation;
-                    //        context.SaveChanges();
-                    //    }
-                    //}
                 }
                 catch (Exception ex)
             {
@@ -528,7 +505,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           //(string.IsNullOrEmpty(status) || shipment.ShipmentStatuses.Any(x => (status == "Active" ? x.NewStatus != "Delivered" : x.NewStatus == "Delivered"))) &&
+                           (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                            (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
@@ -579,14 +556,12 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
+                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
-
-
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        //Status = (item.ShipmentStatuses.Count() == 0) ? null :
-                        //         item.ShipmentStatuses.OrderByDescending(x => x.CreatedDate).FirstOrDefault().NewStatus
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -669,6 +644,35 @@ namespace PI.Business
             return currentShipments;
         }
 
+        public void UpdateShipmentStatus(string codeShipment, short status)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var shipment = (from shipmentinfo in context.Shipments
+                                where shipmentinfo.ShipmentCode == codeShipment
+                                select shipmentinfo).FirstOrDefault();
+                if (shipment!=null)
+                {
+                    shipment.Status=status;
+                }
+                context.SaveChanges();
+            }
+        }
+
+        public Shipment GetShipmentByShipmentCode(string codeShipment)
+        {
+            Shipment currentShipment = new Shipment();
+
+            using (PIContext context= new PIContext())
+            {
+                currentShipment = (from shipment in context.Shipments
+                                   where shipment.ShipmentCode == codeShipment
+                                   select shipment).FirstOrDefault();
+            }
+
+            return currentShipment;
+        }
+
         //get shipments by ID
         public ShipmentDto GetshipmentById(string shipmentId)
         {
@@ -685,7 +689,7 @@ namespace PI.Business
                                    select shipment).FirstOrDefault();
 
             }
-            if (currentShipment==null)
+            if (currentShipment == null)
             {
                 return null;
             }
@@ -726,7 +730,7 @@ namespace PI.Business
                 },
                 GeneralInformation = new GeneralInformationDto
                 {
-                    ShipmentId=currentShipment.Id.ToString(),
+                    ShipmentId = currentShipment.Id.ToString(),
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,
@@ -736,7 +740,8 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy")
+                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
+                    Status=currentShipment.Status.ToString()
                 },
                 PackageDetails = new PackageDetailsDto
                 {
@@ -749,7 +754,7 @@ namespace PI.Business
                     IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
                     TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
                     TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
-                    ValueCurrency = Convert.ToInt32(currentShipment.ShipmentPackage.Currency),
+                    ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
@@ -779,7 +784,7 @@ namespace PI.Business
                     {
                         Height = ingrediant.Height,
                         Length = ingrediant.Length,
-                        ProductType = ingrediant.ProductTypeId.ToString(),
+                        ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
                         Quantity = ingrediant.Quantity,
                         Weight = ingrediant.Weight,
                         Width = ingrediant.Width,
@@ -971,6 +976,438 @@ namespace PI.Business
             }
         }
 
+        //get the location history list 
+       public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, string codeShipment, string environment)
+        {            
+            StatusHistoryResponce locationHistory = new StatusHistoryResponce();
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
+            info info = new info();
+
+            if(currentShipmet.GeneralInformation.Status == ((short)ShipmentStatus.Delivered).ToString())
+            {
+                locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
+                Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
+                info.status = currentShipment.Status.ToString();
+
+        }
+            else
+            {
+                var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
+
+              //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
+                this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);                
+                Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
+                info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
+                List<ShipmentLocationHistory> historyList= this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+                foreach (var item in historyList)
+                {
+                    this.DeleteLocationActivityByLocationHistoryId(item.Id);
+                }
+                this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+                this.UpdateStatusHistories(currentSisLocationHistory, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
+                locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
+            }
+            locationHistory.info = info;
+            return locationHistory;
+           
+        }
+
+        //get track and trace information
+        public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
+        {
+            string environment = "taleus";
+            StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
+            Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
+            SISIntegrationManager sisManager = new SISIntegrationManager();
+            //if (currentShipment!=null)
+            //{
+            //    trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
+            //}
+            trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, "77878787878", environment);
+            return trackingInfo;
+        }
+
+
+        //get shipment details by tracking number
+        public Shipment GetShipmentByTrackingNo(string trackingNo)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var currentShipment = (from shipment in context.Shipments
+                                       where shipment.TrackingNumber == trackingNo
+                                       select shipment).SingleOrDefault();
+
+                return currentShipment;
+            }
+
+
+        }
+
+        //update status hisory with latest statuses and locations
+        public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
+        {
+            
+            using (PIContext context= new PIContext())
+            {
+                foreach (var item in statusHistory.history.Items)
+                {
+                    ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
+                    locationHistory.City = item.location.city;
+                    locationHistory.Country = item.location.country;
+                    locationHistory.ShipmentId = ShipmntId;
+                    locationHistory.Longitude =Convert.ToDouble(item.location.geo.lng);
+                    locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
+                    locationHistory.CreatedDate = DateTime.Now;
+                    context.ShipmentLocationHistories.Add(locationHistory);
+                    context.SaveChanges();
+                }
+                List<ShipmentLocationHistory> histories= this.GetShipmentLocationHistoryByShipmentId(ShipmntId);
+                foreach (var item in histories)
+                {                   
+                    foreach (var his in statusHistory.history.Items)
+                    {
+                        if (item.Longitude.ToString()==his.location.geo.lng&& item.Latitude.ToString() == his.location.geo.lat)
+                        {                           
+                            foreach (var activityItems in his.activity.Items)
+                            {
+                                LocationActivity activity = new LocationActivity();
+                                activity.ShipmentLocationHistoryId = item.Id;
+                                activity.Status = activityItems.status;
+                                activity.Time =Convert.ToDateTime(activityItems.timestamp.time);
+                                activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
+                                activity.CreatedDate = DateTime.Now;
+                                context.LocationActivities.Add(activity);
+                                context.SaveChanges();
+                            }
+                        }
+
+                    }
+                }
+            }
+
+           
+
+        }
+
+        //get updated status history from DB
+        public StatusHistoryResponce getUpdatedShipmentHistoryFromDB(string codeShipment)
+        {
+            StatusHistoryResponce statusHistory = new StatusHistoryResponce();
+            Shipment currentShipment = this.GetShipmentByCodeShipment(codeShipment);
+           
+            List<ShipmentLocationHistory> historyList= GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+            history historynew = new history();
+            List<items> itemList = new List<items>();
+            historynew.Items = itemList;
+
+           
+            foreach (var item in historyList)
+            {
+                items items = new items();         
+                location location = new location();
+                geo geo = new geo();           
+               
+                location.city = item.City;
+                location.country = item.Country;
+                
+                geo.lat = item.Latitude.ToString();
+                geo.lng = item.Longitude.ToString();
+                location.geo = geo;
+                items.location = location;               
+               
+                List<LocationActivity> locationActivities = this.GetLocationActivityByLocationHistoryId(item.Id);
+                activity activity = new activity();
+                foreach (var activ in locationActivities)
+                {
+                   
+                    timestamp time = new timestamp()
+                    {
+                        date = activ.Date.ToString(),
+                        time = activ.Time.ToString(),
+
+                    };
+                    activity.Items.Add(
+                        new item
+                        {
+                            status = activ.Status,
+                            timestamp = time
+                        });                   
+                   
+                    //adding location activity histories                
+                   
+                }
+                items.activity = activity;
+                historynew.Items.Add(items);
+                statusHistory.history = historynew;
+            }
+            return statusHistory;
+
+        }
+
+
+        public void DeleteLocationActivityByLocationHistoryId(long historyId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                List<LocationActivity> activities = (from activity in context.LocationActivities
+                                                    where activity.ShipmentLocationHistoryId == historyId
+                                                    select activity).ToList();
+
+                context.LocationActivities.RemoveRange(activities);
+                context.SaveChanges();               
+                
+            }
+        }
+
+        //get shipmentLocation from database
+        public void DeleteShipmentLocationHistoryByShipmentId(long shipmentId)
+        {
+
+            using (PIContext context = new PIContext())
+            {
+                List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
+                                                           where history.ShipmentId == shipmentId
+                                                           select history).ToList();
+
+                context.ShipmentLocationHistories.RemoveRange(histories);
+                context.SaveChanges();
+            }
+        }
+
+
+        public List<LocationActivity> GetLocationActivityByLocationHistoryId(long historyId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                List<LocationActivity> histories = (from activity in context.LocationActivities
+                                                           where activity.ShipmentLocationHistoryId == historyId
+                                                    select activity).ToList();
+
+                return histories;
+            }
+        }
+
+        //get shipmentLocation from database
+        public List<ShipmentLocationHistory> GetShipmentLocationHistoryByShipmentId(long shipmentId)
+        {
+            
+            using (PIContext context=new PIContext())
+            {
+                List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
+                               where history.ShipmentId == shipmentId
+                               select history).ToList();
+
+                return histories;
+            }
+        }
+
+        //get the shipment by code shipment
+        public Shipment GetShipmentByCodeShipment(string codeShipment)
+        {
+            using (PIContext context = new PIContext())
+            {
+                Shipment shipmentContent = (from shipment in context.Shipments
+                                    where shipment.ShipmentCode == codeShipment
+                                     select shipment).FirstOrDefault();
+
+                return shipmentContent;
+            }
+
+        }
+
+
+        /// <summary>
+        /// Insert shipment record
+        /// </summary>
+        /// <param name="fileDetails"></param>
+        public void InsertShipmentDocument(FileUploadDto fileDetails)
+        {
+            using (var context = new PIContext())
+            {
+                CompanyManagement companyManagement = new CompanyManagement();
+                var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
+
+                context.ShipmentDocument.Add(new ShipmentDocument
+                {
+                    TenantId = tenantId,
+                    ShipmentId = fileDetails.ReferenceId,
+                    ClientFileName = fileDetails.ClientFileName,
+                    UploadedFileName = fileDetails.UploadedFileName
+                });
+
+                context.SaveChanges();
+            }
+        }
+
+
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(int shipmentId, string userId)
+        {
+            List<FileUploadDto> returnList = new List<FileUploadDto>();
+            // Make absolute link
+            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+
+            CompanyManagement companyManagement = new CompanyManagement();
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
+
+            using (var context = new PIContext())
+            {
+                var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
+                                                    && x.ShipmentId == shipmentId).
+                                                    OrderByDescending(x => x.CreatedDate).ToList();
+
+                docList.ForEach(x => returnList.Add(new FileUploadDto
+                {
+                    TenantId = x.TenantId,
+                    ReferenceId = x.ShipmentId,
+                    ClientFileName = x.ClientFileName,
+                    UploadedFileName = x.UploadedFileName
+                }));
+
+                returnList.ForEach(e =>
+                    e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + "SHIPMENT_DOCUMENTS" + "/" + e.UploadedFileName
+                );
+            }
+            return returnList;
+        }
+
+
+
+        //get shipments by User
+        public PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
+                                               string number)
+        {
+            int page = 1;
+            int pageSize = 10;
+            CompanyManagement company = new CompanyManagement();
+            IList<DivisionDto> divisions = null;
+            IList<int> divisionList = new List<int>();
+            List<Shipment> Shipments = new List<Shipment>();
+            var pagedRecord = new PagedList();
+            if (userId == null)
+            {
+                return null;
+            }
+            string role = this.GetUserRoleById(userId);
+            if (role == "BusinessOwner" || role == "Manager")
+            {
+                divisions = this.GetAllDivisionsinCompany(userId);
+            }
+            else if (role == "Supervisor")
+            {
+                divisions = company.GetAssignedDivisions(userId);
+            }
+            if (divisions.Count > 0)
+            {
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
+            }
+            else
+            {
+                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+            }
+
+
+            pagedRecord.Content = new List<ShipmentDto>();
+
+            var content = (from shipment in Shipments
+                           where shipment.IsDelete == false &&
+                           shipment.Status== (short)ShipmentStatus.Pending &&                        
+                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                           (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))                          
+                           select shipment).ToList();
+
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new ShipmentDto
+                {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto
+                    {
+                        Consignee = new ConsigneeDto
+                        {
+                            Address1 = item.ConsigneeAddress.StreetAddress1,
+                            Address2 = item.ConsigneeAddress.StreetAddress2,
+                            Postalcode = item.ConsigneeAddress.ZipCode,
+                            City = item.ConsigneeAddress.City,
+                            Country = item.ConsigneeAddress.Country,
+                            State = item.ConsigneeAddress.State,
+                            FirstName = item.ConsigneeAddress.FirstName,
+                            LastName = item.ConsigneeAddress.LastName,
+                            ContactName = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            Email = item.ConsigneeAddress.EmailAddress,
+                            Number = item.ConsigneeAddress.Number
+                        },
+                        Consigner = new ConsignerDto
+                        {
+                            Address1 = item.ConsignorAddress.StreetAddress1,
+                            Address2 = item.ConsignorAddress.StreetAddress2,
+                            Postalcode = item.ConsignorAddress.ZipCode,
+                            City = item.ConsignorAddress.City,
+                            Country = item.ConsignorAddress.Country,
+                            State = item.ConsignorAddress.State,
+                            FirstName = item.ConsignorAddress.FirstName,
+                            LastName = item.ConsignorAddress.LastName,
+                            ContactName = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.ContactName,
+                            Email = item.ConsignorAddress.EmailAddress,
+                            Number = item.ConsignorAddress.Number
+                        }
+                    },
+                    GeneralInformation = new GeneralInformationDto
+                    {
+                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                        DivisionId = item.DivisionId.GetValueOrDefault(),
+                        ShipmentCode = item.ShipmentCode,
+                        ShipmentMode = item.ShipmentMode,
+                        ShipmentName = item.ShipmentName,
+                        //ShipmentTermCode = item.ShipmentTermCode,
+                        //ShipmentTypeCode = item.ShipmentTypeCode,
+
+
+                        TrackingNumber = item.TrackingNumber,
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                    },
+                    PackageDetails = new PackageDetailsDto
+                    {
+                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                        HsCode = item.ShipmentPackage.HSCode,
+                        Instructions = item.ShipmentPackage.CarrierInstruction,
+                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                        TotalVolume = item.ShipmentPackage.TotalVolume,
+                        TotalWeight = item.ShipmentPackage.TotalWeight,
+                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                    },
+                    CarrierInformation = new CarrierInformationDto
+                    {
+                        CarrierName = item.CarrierName,
+                        serviceLevel = item.ServiceLevel,
+                        PickupDate = item.PickUpDate
+                    }
+
+                });
+            }
+
+            pagedRecord.TotalRecords = Shipments.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            return pagedRecord;
+        }
+
+
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
@@ -997,7 +1434,7 @@ namespace PI.Business
         //            context.SaveChanges();
 
         //        }
-          
+
         //    }
 
         //}
