@@ -106,6 +106,8 @@
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="packages.config" />
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />
@@ -1223,9 +1225,6 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_close.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
-    <Content Include="Scripts\FileAPI.flash.swf" />
-    <Content Include="Scripts\FileAPI.js" />
-    <Content Include="Scripts\FileAPI.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
     <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
