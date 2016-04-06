@@ -646,14 +646,14 @@ namespace PI.Business
 
         public void UpdateShipmentStatus(string codeShipment, short status)
         {
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 var shipment = (from shipmentinfo in context.Shipments
                                 where shipmentinfo.ShipmentCode == codeShipment
                                 select shipmentinfo).FirstOrDefault();
-                if (shipment!=null)
+                if (shipment != null)
                 {
-                    shipment.Status=status;
+                    shipment.Status = status;
                 }
                 context.SaveChanges();
             }
@@ -663,7 +663,7 @@ namespace PI.Business
         {
             Shipment currentShipment = new Shipment();
 
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 currentShipment = (from shipment in context.Shipments
                                    where shipment.ShipmentCode == codeShipment
@@ -987,29 +987,29 @@ namespace PI.Business
         {            
             StatusHistoryResponce locationHistory = new StatusHistoryResponce();
             SISIntegrationManager sisManager = new SISIntegrationManager();
-            ShipmentDto currentShipmet= this.GetshipmentById(codeShipment);
+            ShipmentDto currentShipmet = this.GetshipmentById(codeShipment);
             info info = new info();
-                           
-            if(currentShipmet.GeneralInformation.Status == ((short)ShipmentStatus.Delivered).ToString())
+
+            if (currentShipmet.GeneralInformation.Status == ((short)ShipmentStatus.Delivered).ToString())
             {
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = currentShipment.Status.ToString();
 
-            }
+        }
             else
             {
-                var currentSisLocationHistory= sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
+                var currentSisLocationHistory = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
 
               //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
                 this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);                
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
-                List<ShipmentLocationHistory> historyList= this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+                List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
                 foreach (var item in historyList)
                 {
                     this.DeleteLocationActivityByLocationHistoryId(item.Id);
-        }
+                }
                 this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
                 this.UpdateStatusHistories(currentSisLocationHistory, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
@@ -1039,7 +1039,7 @@ namespace PI.Business
         //get shipment details by tracking number
         public Shipment GetShipmentByTrackingNo(string trackingNo)
         {
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.TrackingNumber == trackingNo
@@ -1055,7 +1055,7 @@ namespace PI.Business
         public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
         {
             
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 foreach (var item in statusHistory.history.Items)
                 {
@@ -1063,25 +1063,25 @@ namespace PI.Business
                     locationHistory.City = item.location.city;
                     locationHistory.Country = item.location.country;
                     locationHistory.ShipmentId = ShipmntId;
-                    locationHistory.Longitude =Convert.ToDouble(item.location.geo.lng);
+                    locationHistory.Longitude = Convert.ToDouble(item.location.geo.lng);
                     locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
                     locationHistory.CreatedDate = DateTime.Now;
                     context.ShipmentLocationHistories.Add(locationHistory);
                     context.SaveChanges();
                 }
-                List<ShipmentLocationHistory> histories= this.GetShipmentLocationHistoryByShipmentId(ShipmntId);
+                List<ShipmentLocationHistory> histories = this.GetShipmentLocationHistoryByShipmentId(ShipmntId);
                 foreach (var item in histories)
                 {                   
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if (item.Longitude.ToString()==his.location.geo.lng&& item.Latitude.ToString() == his.location.geo.lat)
+                        if (item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat)
                         {                           
                             foreach (var activityItems in his.activity.Items)
                             {
                                 LocationActivity activity = new LocationActivity();
                                 activity.ShipmentLocationHistoryId = item.Id;
                                 activity.Status = activityItems.status;
-                                activity.Time =Convert.ToDateTime(activityItems.timestamp.time);
+                                activity.Time = Convert.ToDateTime(activityItems.timestamp.time);
                                 activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
                                 activity.CreatedDate = DateTime.Now;
                                 context.LocationActivities.Add(activity);
@@ -1103,7 +1103,7 @@ namespace PI.Business
             StatusHistoryResponce statusHistory = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByCodeShipment(codeShipment);
            
-            List<ShipmentLocationHistory> historyList= GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+            List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
             history historynew = new history();
             List<items> itemList = new List<items>();
             historynew.Items = itemList;
@@ -1199,7 +1199,7 @@ namespace PI.Business
         public List<ShipmentLocationHistory> GetShipmentLocationHistoryByShipmentId(long shipmentId)
         {
             
-            using (PIContext context=new PIContext())
+            using (PIContext context = new PIContext())
             {
                 List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
                                where history.ShipmentId == shipmentId
@@ -1321,7 +1321,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           shipment.Status== (short)ShipmentStatus.Pending &&                        
+                           shipment.Status == (short)ShipmentStatus.Pending &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))                          
                            select shipment).ToList();
@@ -1449,7 +1449,7 @@ namespace PI.Business
         //            context.SaveChanges();
 
         //        }
-          
+
         //    }
 
         //}
