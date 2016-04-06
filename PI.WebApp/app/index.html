@@ -49,7 +49,7 @@
         <link href="../admin/layout1/css/layout.css" rel="stylesheet">
         <!-- END LAYOUT STYLE -->
         <script src="../global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-
+        <link href="../../css/custom-general.css" rel="stylesheet" />
         <style>
 
             /*Styles for smart table*/
@@ -59,7 +59,7 @@
             .st-sort-descent:before{
                 content: '\25BC';
             }
-
+           
         </style>
 
     </head>
@@ -78,9 +78,10 @@
 
         <section>
             <!-- BEGIN SIDEBAR -->
-            <div class="sidebar">
+            <div class="sidebar" >
                 <div class="logopanel">
-                    <p style="color:white;font-size:17px;"><a href="#/"></a>Parcel International</p>
+                    <img src="/proj_img/PI-logo.png">
+                   
                 </div>
                 <div class="sidebar-inner">
                     <!--<div class="sidebar-top">
@@ -104,7 +105,8 @@
                             </div>
                         </div>
                     </div>-->
-                    <div class="menu-title">
+                    <!--
+                       <div class="menu-title">
                         Navigation
                         <div class="pull-right menu-settings">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-close-others="true" data-delay="300">
@@ -116,9 +118,9 @@
                                 <li><a href="#" id="hide-top-sidebar" class="hide-top-sidebar">Hide user &amp; search</a></li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                     <ul class="nav nav-sidebar">
-                        <li ng-class="{ active  : isActive('/')}"><a href="#/"><i class="icon-home"></i><span>Dashboard</span></a></li>
+                        <li class="nav-parent" ng-class="{ active  : isActive('/')}"><a href="#/"><span>DASHBOARD</span></a></li>
                         <!--<li class="nav-parent" >
                             <a href="#"><i class="icon-bulb"></i><span>Mailbox</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
@@ -128,35 +130,35 @@
                         </li>-->
 
                         <li class="nav-parent">
-                            <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse">
-                                <li ng-class="{ active  : isActive('/AddShipment')}"><a href="#AddShipment"> Add Shipment</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Label</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> Track & Trace</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Manifest</a></li>
+                            <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('/AddShipment')}"><a href="#AddShipment"> ADD SHIPMENT</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> PRINT LABEL</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="mailbox.html"> TRACK & TRACE</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> VIEW OVERVIEW</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> PRINT MANIFEST</a></li>
                             </ul>
                         </li>
 
                         <li class="nav-parent">
-                            <a href="#"><i class="icon-bulb"></i><span>Billing & Invoicing</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse">
-                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="#"> Invoice</a></li>                                
+                            <a href="#"><span>BILLING & INVOICING</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('mailbox.html')}"><a href="#"> INVOICE</a></li>                                
 
                             </ul>
                         </li>
                         <li class="nav-parent">
-                            <a href="#"><i class="icon-picture"></i><span>Manage Profile</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse">
-                                <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> Profile Information</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> User Management</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions"> Division Management</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters"> Cost Center Management</a></li>
-                                <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses"> Address Book</a></li>
+                            <a href="#"><span>Manage Profile</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> USER MANAGEMENT</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions"> DIVISION MANAGEMENT</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters"> COST CENTER MANAGEMENT</a></li>
+                                <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses"> ADDRESS BOOK</a></li>
 
                             </ul>
                         </li>
-                        <li ng-class="{ active  : isActive('/layout-api')}"><a href="#"><i class="icon-home"></i><span>Reports</span></a></li>
+                        <li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><span>REPORTS</span></a></li>
 
                         
                         <!--<li class="nav-parent">
