@@ -16,6 +16,7 @@ using AzureMediaManager;
 using PI.Common;
 using PI.Contract.Enums;
 using PI.Contract.DTOs.FileUpload;
+using System.IO;
 
 
 
@@ -149,10 +150,15 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpPost]
         [Route("UploadDocumentsForShipment")]
-        public async Task UploadDocumentsForShipment([FromBody]FileUploadDto fileUpload)
+        public async Task UploadDocumentsForShipment(FileUploadDto fileUpload)
         {
             try
             {
+                var provider = GetMultipartProvider();
+                var result = await Request.Content.ReadAsMultipartAsync(provider);
+
+
+
                 HttpPostedFileBase assignmentFile = fileUpload.Attachment;
                 var fileName = fileUpload.Attachment.FileName;
 
@@ -163,7 +169,7 @@ namespace PI.Service.Controllers
 
                 AzureFileManager media = new AzureFileManager();
                 media.InitializeStorage(fileUpload.TenantId.ToString(), DocumentType.Shipment.ToString());
-                var result = await media.Upload(assignmentFile, imageFileNameInFull);
+                var result1 = await media.Upload(assignmentFile, imageFileNameInFull);
                 
                 // Insert document record to DB.
                 ShipmentsManagement shipmentManagement = new ShipmentsManagement();
@@ -174,6 +180,18 @@ namespace PI.Service.Controllers
             {
                 //throw;
             }
+        }
+
+        // You could extract these two private methods to a separate utility class since
+        // they do not really belong to a controller class but that is up to you
+        private MultipartFormDataStreamProvider GetMultipartProvider()
+        {
+            // IMPORTANT: replace "(tilde)" with the real tilde character
+            // (our editor doesn't allow it, so I just wrote "(tilde)" instead)
+            var uploadFolder = "(tilde)/App_Data/Tmp/FileUploads"; // you could put this to web.config
+            var root = HttpContext.Current.Server.MapPath(uploadFolder);
+            Directory.CreateDirectory(root);
+            return new MultipartFormDataStreamProvider(root);
         }
 
     }

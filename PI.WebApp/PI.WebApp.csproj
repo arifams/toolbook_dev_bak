@@ -71,6 +71,7 @@
     <Content Include="app\addressBook\saveAddress.html" />
     <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\commercialInvoice\commercialInvoice.html" />
+    <Content Include="app\directive\fileUploader.js" />
     <Content Include="app\shipment\AddressViewTemplate.html" />
     <Content Include="app\shipment\AddressViewTemplate.js" />
     <Content Include="app\shipment\addShipment.html" />
@@ -82,6 +83,8 @@
     <Content Include="app\shipment\PreviewLabelTemplate.js" />
     <Content Include="app\shipment\printLabel.html" />
     <Content Include="app\shipment\printLabel.js" />
+    <Content Include="app\shipment\shipmentDocuments.html" />
+    <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />
     <Content Include="app\shipment\ShipmentOverview.js" />
     <Content Include="app\shipment\shipmentService.js" />
@@ -1220,6 +1223,9 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_close.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
+    <Content Include="Scripts\FileAPI.flash.swf" />
+    <Content Include="Scripts\FileAPI.js" />
+    <Content Include="Scripts\FileAPI.min.js" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
     <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
@@ -5922,6 +5928,12 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\ng-file-upload-all.js" />
+    <Content Include="Scripts\ng-file-upload-all.min.js" />
+    <Content Include="Scripts\ng-file-upload-shim.js" />
+    <Content Include="Scripts\ng-file-upload-shim.min.js" />
+    <Content Include="Scripts\ng-file-upload.js" />
+    <Content Include="Scripts\ng-file-upload.min.js" />
     <Content Include="Scripts\ng-grid-flexible-height.js" />
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-grid.min.js" />

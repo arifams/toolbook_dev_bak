@@ -26,7 +26,8 @@ var MakeApp = angular
     'customDirective',
     'angularjs-datetime-picker',
     'daterangepicker',
-    'ngDialog',   
+    'ngDialog',
+    'akFileUploader'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -259,7 +260,7 @@ var MakeApp = angular
             controller: 'loadUserManagementCtrl',
             controllerAs: 'loadUserCtrl'
         })
-        .when('/AddShipment', {
+        .when('/addShipment/:id', {
             templateUrl: 'shipment/addShipment.html',
             controller: 'addShipmentCtrl',
             controllerAs: 'shipmentCtrl'
@@ -295,6 +296,10 @@ var MakeApp = angular
            })
            .when('/PreviewLabelTemplate', {
                templateUrl: 'shipment/PreviewLabelTemplate.html',
+
+           })
+           .when('/DocumentRepository', {
+               templateUrl: 'shipment/shipmentDocuments.html',
 
            })
         .otherwise({
