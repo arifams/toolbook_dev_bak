@@ -8,6 +8,7 @@ using Microsoft.WindowsAzure.Storage.Blob;
 using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System.Web;
+using System.IO;
 
 namespace AzureMediaManager
 {
@@ -49,7 +50,7 @@ namespace AzureMediaManager
         /// <param name="categoryId">The category identifier.</param>
         /// <param name="referenceId">The reference identifier.</param>
         /// <returns></returns>
-        public async Task<bool> Upload(System.Web.HttpPostedFileBase imageFile, string imageFileNameInFull)
+        public async Task<bool> Upload(Stream imageFileStream, string imageFileNameInFull)
         {
 
             CloudBlockBlob imageBlob = null;
@@ -69,17 +70,17 @@ namespace AzureMediaManager
             //    Tag = input.Tag
             //});
 
-            if (imageFile != null && imageFile.ContentLength != 0)
+            if (imageFileStream != null && imageFileStream.Length != 0)
             {
-                imageBlob = await UploadAndSaveBlobAsync(imageFile, imageFileNameInFull);
+                imageBlob = await UploadAndSaveBlobAsync(imageFileStream, imageFileNameInFull);
                 imageUrl = imageBlob.Uri.ToString();
             }
 
-            if (imageBlob != null)
-            {
-                var queueMessage = new CloudQueueMessage(imageUrl);
-                await _imagesQueue.AddMessageAsync(queueMessage);
-            }
+            //if (imageBlob != null)
+            //{
+            //    var queueMessage = new CloudQueueMessage(imageUrl);
+            //    await _imagesQueue.AddMessageAsync(queueMessage);
+            //}
 
             return true;
         }
@@ -131,13 +132,13 @@ namespace AzureMediaManager
         /// <param name="imageFile">The image file.</param>
         /// <param name="imageFileName">Name of the image file.</param>
         /// <returns></returns>
-        private async Task<CloudBlockBlob> UploadAndSaveBlobAsync(HttpPostedFileBase imageFile, string imageFileName)
+        private async Task<CloudBlockBlob> UploadAndSaveBlobAsync(Stream imageFileStream, string imageFileName)
         {
             var blobName = imageFileName;
             // Retrieve reference to a blob. 
             var imageBlob = _imagesBlobContainer.GetBlockBlobReference(blobName);
             // Create the blob by uploading a local file.
-            using (var fileStream = imageFile.InputStream)
+            using (var fileStream = imageFileStream)
             {
                 await imageBlob.UploadFromStreamAsync(fileStream);
             }

@@ -67,6 +67,7 @@
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+                       console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 
                    })
