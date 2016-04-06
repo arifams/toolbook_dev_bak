@@ -50,7 +50,20 @@
 
                                         
                        
-                    </div>                  
+                    </div>  
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="btn btn-default" ngf-select="addressCtrl.setFileName(addressCtrl.file)" ng-model="addressCtrl.file" name="file" ngf-pattern="'*'"
+                                 ngf-accept="''*''" ngf-max-size="20MB" ngf-min-height="100"
+                                 ngf-resize="{width: 100, height: 100}">Select</div> 
+                            <label class="label label-default">{{addressCtrl.fileName}}</label>
+                        </div>
+
+                        <div class="col-sm-3">
+                            <button class="btn btn-blue" ng-click="addressCtrl.uploadFile()"> Upload</button>
+                        </div>
+                      
+                    </div>                
                     <br />
                     <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
                  

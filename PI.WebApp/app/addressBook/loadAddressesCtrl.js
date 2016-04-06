@@ -1,6 +1,20 @@
 ﻿'use strict';
 (function (app) {
 
+    app.factory('uploadExcelDataService', function ($http, $window) {
+        return {
+            uploadExcelFile: function (formdata) {              
+
+                return $http.post(serverBaseUrl + '/api/AddressBook/ImportAddressesExcel',{
+                    params: {                        
+                            userId: $window.localStorage.getItem('userGuid')
+                    },
+                    file:formdata                 
+                });                    
+            }
+        };
+    });
+
     app.factory('addressManagmentService', function ($http) {
         return {
             deleteAddress: function (address) {
@@ -38,7 +52,7 @@
         }
     });
       
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', function ($route,$scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'Upload', '$timeout', 'uploadExcelDataService', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, Upload, $timeout, uploadExcelDataService) {
        var vm = this;
         
         vm.searchAddresses = function () {
@@ -93,6 +107,20 @@
                 }, function errorCallback(response) {
                     //todo
                 });
+
+            vm.setFileName = function () {
+                vm.fileName = vm.file.name;
+            };
+
+           //upload files
+            vm.uploadFile = function () {
+                if (vm.file != null) {
+
+                    uploadExcelDataService.uploadExcelFile(vm.file);
+                }                
+                } 
+
+               
         };
 
         vm.Import = function () {

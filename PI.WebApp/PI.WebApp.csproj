@@ -79,6 +79,10 @@
     <Content Include="app\shipment\loadAllShipments.js" />
     <Content Include="app\shipment\paymentResult.html" />
     <Content Include="app\shipment\paymentResult.js" />
+    <Content Include="app\shipment\PreviewLabelTemplate.html" />
+    <Content Include="app\shipment\PreviewLabelTemplate.js" />
+    <Content Include="app\shipment\printLabel.html" />
+    <Content Include="app\shipment\printLabel.js" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />
@@ -100,8 +104,11 @@
     <None Include="app\shipment\jsonResourceFiles\shipmentTypes.json" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
+    <Content Include="css\custom-general.css" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="packages.config" />
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />
@@ -1219,9 +1226,8 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_close.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
-    <Content Include="Scripts\FileAPI.flash.swf" />
-    <Content Include="Scripts\FileAPI.js" />
-    <Content Include="Scripts\FileAPI.min.js" />
+    <Content Include="proj_img\PI-logo.png" />
+    <Content Include="proj_img\shipment_icons.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
     <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
@@ -5924,12 +5930,6 @@
     <Content Include="Scripts\jquery-1.9.1.js" />
     <Content Include="Scripts\jquery-1.9.1.min.js" />
     <Content Include="Scripts\jquery.mask.js" />
-    <Content Include="Scripts\ng-file-upload-all.js" />
-    <Content Include="Scripts\ng-file-upload-all.min.js" />
-    <Content Include="Scripts\ng-file-upload-shim.js" />
-    <Content Include="Scripts\ng-file-upload-shim.min.js" />
-    <Content Include="Scripts\ng-file-upload.js" />
-    <Content Include="Scripts\ng-file-upload.min.js" />
     <Content Include="Scripts\ng-grid-flexible-height.js" />
     <Content Include="Scripts\ng-grid.js" />
     <Content Include="Scripts\ng-grid.min.js" />
@@ -5940,7 +5940,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="proj_img\App_LocalResources\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

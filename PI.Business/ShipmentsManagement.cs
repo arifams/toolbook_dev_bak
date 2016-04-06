@@ -317,6 +317,15 @@ namespace PI.Business
                     sysCostCenterId = defaultCostCntr.Id;
                 }
 
+                long shipmentCodeAsLong = Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+                if (shipmentCodeAsLong != 0)
+                {
+                    // If has parent shipment id, then add to previous shipment.
+                    Shipment oldShipment = context.Shipments.Where(sh => sh.Id == shipmentCodeAsLong).FirstOrDefault();
+                    oldShipment.IsParent = true;
+                    context.SaveChanges();
+                }
+
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
                 Shipment newShipment = new Shipment
                 {
@@ -339,6 +348,8 @@ namespace PI.Business
                     Status = (short)ShipmentStatus.Pending,
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
                     IsActive = true,
+                    IsParent = false,
+                    ParentShipmentId = shipmentCodeAsLong == 0 ? null : (long?)shipmentCodeAsLong,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
@@ -408,31 +419,6 @@ namespace PI.Business
                     result.ShipmentId = newShipment.Id;
                     result.Status = Status.Success;
 
-                    // If success fully saved and is invoice, then add to SIS.
-                    //if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
-                    //{
-                    //    AddShipmentResponse addShipmentResponse = new SISIntegrationManager().SendShipmentDetails(addShipment);
-                    //    result.AddShipmentXML = addShipmentResponse.AddShipmentXML;
-
-                    //    if (string.IsNullOrWhiteSpace(addShipmentResponse.Awb))
-                    //    { 
-                    //        result.Status = Status.Error;
-                    //        result.Message = "Error occured while adding shipment";
-                    //    }
-                    //    else
-                    //    {
-                    //        result.Status = Status.Success;
-                    //        result.Message = "Shipment added successfully";
-
-                    //        result.LabelURL = addShipmentResponse.PDF;
-
-                    //        // Update shipment entity.
-                    //        newShipment.ShipmentCode = addShipmentResponse.CodeShipment;
-                    //        newShipment.TrackingNumber = addShipmentResponse.Awb;
-                    //        newShipment.Status = (short)ShipmentStatus.BookingConfirmation;
-                    //        context.SaveChanges();
-                    //    }
-                    //}
                 }
                 catch (Exception ex)
             {
@@ -570,10 +556,9 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
+                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
-
-
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
@@ -772,7 +757,7 @@ namespace PI.Business
                     IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
                     TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
                     TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
-                    ValueCurrency = Convert.ToInt32(currentShipment.ShipmentPackage.Currency),
+                    ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
@@ -802,7 +787,7 @@ namespace PI.Business
                     {
                         Height = ingrediant.Height,
                         Length = ingrediant.Length,
-                        ProductType = ingrediant.ProductTypeId.ToString(),
+                        ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
                         Quantity = ingrediant.Quantity,
                         Weight = ingrediant.Weight,
                         Width = ingrediant.Width,
@@ -1279,7 +1264,7 @@ namespace PI.Business
                     ReferenceId = x.ShipmentId,
                     ClientFileName = x.ClientFileName,
                     UploadedFileName = x.UploadedFileName
-                })); 
+                }));
 
                 returnList.ForEach(e =>
                     e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + Utility.GetEnumDescription(DocumentType.Shipment) + "/" + e.UploadedFileName
@@ -1289,17 +1274,150 @@ namespace PI.Business
         }
 
 
+
+        //get shipments by User
+        public PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
+                                               string number)
+        {
+            int page = 1;
+            int pageSize = 10;
+            CompanyManagement company = new CompanyManagement();
+            IList<DivisionDto> divisions = null;
+            IList<int> divisionList = new List<int>();
+            List<Shipment> Shipments = new List<Shipment>();
+            var pagedRecord = new PagedList();
+            if (userId == null)
+            {
+                return null;
+            }
+            string role = this.GetUserRoleById(userId);
+            if (role == "BusinessOwner" || role == "Manager")
+            {
+                divisions = this.GetAllDivisionsinCompany(userId);
+            }
+            else if (role == "Supervisor")
+            {
+                divisions = company.GetAssignedDivisions(userId);
+            }
+            if (divisions.Count > 0)
+            {
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
+            }
+            else
+            {
+                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+            }
+
+
+            pagedRecord.Content = new List<ShipmentDto>();
+
+            var content = (from shipment in Shipments
+                           where shipment.IsDelete == false &&
+                           shipment.Status== (short)ShipmentStatus.Pending &&                        
+                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                           (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))                          
+                           select shipment).ToList();
+
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new ShipmentDto
+                {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto
+                    {
+                        Consignee = new ConsigneeDto
+                        {
+                            Address1 = item.ConsigneeAddress.StreetAddress1,
+                            Address2 = item.ConsigneeAddress.StreetAddress2,
+                            Postalcode = item.ConsigneeAddress.ZipCode,
+                            City = item.ConsigneeAddress.City,
+                            Country = item.ConsigneeAddress.Country,
+                            State = item.ConsigneeAddress.State,
+                            FirstName = item.ConsigneeAddress.FirstName,
+                            LastName = item.ConsigneeAddress.LastName,
+                            ContactName = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            Email = item.ConsigneeAddress.EmailAddress,
+                            Number = item.ConsigneeAddress.Number
+                        },
+                        Consigner = new ConsignerDto
+                        {
+                            Address1 = item.ConsignorAddress.StreetAddress1,
+                            Address2 = item.ConsignorAddress.StreetAddress2,
+                            Postalcode = item.ConsignorAddress.ZipCode,
+                            City = item.ConsignorAddress.City,
+                            Country = item.ConsignorAddress.Country,
+                            State = item.ConsignorAddress.State,
+                            FirstName = item.ConsignorAddress.FirstName,
+                            LastName = item.ConsignorAddress.LastName,
+                            ContactName = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.ContactName,
+                            Email = item.ConsignorAddress.EmailAddress,
+                            Number = item.ConsignorAddress.Number
+                        }
+                    },
+                    GeneralInformation = new GeneralInformationDto
+                    {
+                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                        DivisionId = item.DivisionId.GetValueOrDefault(),
+                        ShipmentCode = item.ShipmentCode,
+                        ShipmentMode = item.ShipmentMode,
+                        ShipmentName = item.ShipmentName,
+                        //ShipmentTermCode = item.ShipmentTermCode,
+                        //ShipmentTypeCode = item.ShipmentTypeCode,
+
+
+                        TrackingNumber = item.TrackingNumber,
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                    },
+                    PackageDetails = new PackageDetailsDto
+                    {
+                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                        HsCode = item.ShipmentPackage.HSCode,
+                        Instructions = item.ShipmentPackage.CarrierInstruction,
+                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                        TotalVolume = item.ShipmentPackage.TotalVolume,
+                        TotalWeight = item.ShipmentPackage.TotalWeight,
+                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                    },
+                    CarrierInformation = new CarrierInformationDto
+                    {
+                        CarrierName = item.CarrierName,
+                        serviceLevel = item.ServiceLevel,
+                        PickupDate = item.PickUpDate
+                    }
+
+                });
+            }
+
+            pagedRecord.TotalRecords = Shipments.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            return pagedRecord;
+        }
+
+
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
             // Make absolute link
             string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
 
-            string fileAbsoluteURL = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.ShipmentLabel) 
+            string fileAbsoluteURL = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.ShipmentLabel)
                                                                           + "/" + (shipmentId.ToString() + ".pdf");
             return fileAbsoluteURL;
         }
-
-
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
