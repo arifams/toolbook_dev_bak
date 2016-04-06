@@ -692,8 +692,9 @@ namespace PI.Business
         public ShipmentDto GetshipmentById(string shipmentId)
         {
             ShipmentDto currentShipmentDto = null;
-
             Shipment currentShipment = null;
+            long tenantId = 0;
+
             using (PIContext context = new PIContext())
             {
                 currentShipment = (from shipment in context.Shipments
@@ -703,6 +704,7 @@ namespace PI.Business
                                    where shipment.ShipmentCode.ToString() == shipmentId
                                    select shipment).FirstOrDefault();
 
+              tenantId =  currentShipment.Division.Company.TenantId;
             }
             if (currentShipment == null)
             {
@@ -756,7 +758,8 @@ namespace PI.Business
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
                     CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
-                    Status=currentShipment.Status.ToString()
+                    Status=currentShipment.Status.ToString(),
+                    ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
                 },
                 PackageDetails = new PackageDetailsDto
                 {
@@ -860,6 +863,7 @@ namespace PI.Business
                 {
                     GeneralInformation = new GeneralInformationDto()
                     {
+                        ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
                     },
@@ -1241,12 +1245,9 @@ namespace PI.Business
         {
             using (var context = new PIContext())
             {
-                CompanyManagement companyManagement = new CompanyManagement();
-                var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
-
                 context.ShipmentDocument.Add(new ShipmentDocument
                 {
-                    TenantId = tenantId,
+                    TenantId = fileDetails.TenantId,
                     ShipmentId = fileDetails.ReferenceId,
                     ClientFileName = fileDetails.ClientFileName,
                     UploadedFileName = fileDetails.UploadedFileName
@@ -1278,13 +1279,24 @@ namespace PI.Business
                     ReferenceId = x.ShipmentId,
                     ClientFileName = x.ClientFileName,
                     UploadedFileName = x.UploadedFileName
-                }));
+                })); 
 
                 returnList.ForEach(e =>
-                    e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + "SHIPMENT_DOCUMENTS" + "/" + e.UploadedFileName
+                    e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + Utility.GetEnumDescription(DocumentType.Shipment) + "/" + e.UploadedFileName
                 );
             }
             return returnList;
+        }
+
+
+        private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
+        {
+            // Make absolute link
+            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+
+            string fileAbsoluteURL = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.ShipmentLabel) 
+                                                                          + "/" + (shipmentId.ToString() + ".pdf");
+            return fileAbsoluteURL;
         }
 
 

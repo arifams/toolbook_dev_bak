@@ -66,17 +66,18 @@
                    .success(function (data) {
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
+                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
                        loadShipmentStatuses();
-                      
+
                    })
                    .error(function () {
                    })
                }
-                
-               loadShipmentInfo();             
-              
 
-               
+               loadShipmentInfo();
+
+
+
 
 
            }]);
