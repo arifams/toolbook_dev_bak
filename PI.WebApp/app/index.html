@@ -132,7 +132,7 @@
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/AddShipment')}"><a href="#AddShipment"> Add Shipment</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Label</a></li>
+                                <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> Print Label</a></li>
                                 <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> Track & Trace</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> Print Manifest</a></li>
@@ -1230,6 +1230,7 @@
         <script src="../global/plugins/google-maps/gmaps.js"></script>
         <script src="../global/plugins/google-maps/markerclusterer.js"></script>
         <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
+       
 
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
         <script src="../js/pages/dashboard.js"></script>
@@ -1306,6 +1307,8 @@
         <script src="shipment/ShipmentOverview.js"></script>
         <script src="shipment/AddressViewTemplate.js"></script>
         <script src="shipment/TrackAndTrace.js"></script>
+        <script src="shipment/printLabel.js"></script>
+        <script src="shipment/PreviewLabelTemplate.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

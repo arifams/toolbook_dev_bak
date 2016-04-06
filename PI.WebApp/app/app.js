@@ -26,7 +26,7 @@ var MakeApp = angular
     'customDirective',
     'angularjs-datetime-picker',
     'daterangepicker',
-    'ngDialog',
+    'ngDialog',   
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -284,9 +284,18 @@ var MakeApp = angular
               controller: 'trackAndTraceCtrl',
               controllerAs: 'trackCtrl'
           })
+           .when('/PrintLabel', {
+               templateUrl: 'shipment/printLabel.html',
+               controller: 'printLabelCtrl',
+               controllerAs: 'printCtrl'
+           })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
               
+           })
+           .when('/PreviewLabelTemplate', {
+               templateUrl: 'shipment/PreviewLabelTemplate.html',
+
            })
         .otherwise({
             redirectTo: '/'
