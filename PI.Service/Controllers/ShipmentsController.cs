@@ -24,6 +24,8 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
+        CompanyManagement comapnyManagement = new CompanyManagement();
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("GetRatesforShipment")]
@@ -129,8 +131,20 @@ namespace PI.Service.Controllers
         [Route("SendShipmentDetails")]
         public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
+            ShipmentOperationResult  operationResult = new ShipmentOperationResult();
+
+            // Make payment and send shipment to SIS.
             ShipmentsManagement shipment = new ShipmentsManagement();
-            return shipment.SendShipmentDetails(sendShipmentDetails);
+            operationResult = shipment.SendShipmentDetails(sendShipmentDetails);            
+            
+            // Add shipment label to azure storage.
+            AzureFileManager media = new AzureFileManager();
+            long tenantId = comapnyManagement.GettenantIdByUserId(sendShipmentDetails.UserId);
+            media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.ShipmentLabel));
+          
+            var result =  media.UploadFromFileURL(operationResult.LabelURL, operationResult.ShipmentId.ToString()+ ".pdf");
+
+            return operationResult;
         }
 
         
@@ -221,7 +235,7 @@ namespace PI.Service.Controllers
             data.Read(buf, 0, buf.Length);
 
             // End of convert to stream
-
+                
             // Remove this line as well as GetFormData method if you're not
             // sending any form data with your upload request
             var fileUploadObj = GetFormData<FileUploadDto>(result);
@@ -233,9 +247,7 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
-        // You could extract these two private methods to a separate utility class since
-        // they do not really belong to a controller class but that is up to you
-        private MultipartFormDataStreamProvider GetMultipartProvider()
+        public List<FileUploadDto> GetAvailableFilesForShipment(int shipmentId, string userId)
         {
             var uploadFolder = "~/App_Data/Tmp/FileUploads"; // you could put this to web.config
             var root = HttpContext.Current.Server.MapPath(uploadFolder);
@@ -268,6 +280,48 @@ namespace PI.Service.Controllers
         {
             return fileData.Headers.ContentDisposition.FileName;
         }
+
+
+         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpPost]
+        [Route("UploadDocumentsForShipment")]
+        public async Task UploadDocumentsForShipment(FileUploadDto fileUpload)
+        {
+            try
+            {                               
+                HttpPostedFileBase assignmentFile = fileUpload.Attachment;
+                var fileName = fileUpload.Attachment.FileName;
+                var imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), fileName);
+                fileUpload.ClientFileName = fileName;
+                fileUpload.UploadedFileName = imageFileNameInFull;
+
+                AzureFileManager media = new AzureFileManager();
+                CompanyManagement companyManagement = new CompanyManagement();
+                var tenantId = companyManagement.GettenantIdByUserId(fileUpload.UserId);
+                fileUpload.TenantId = tenantId;
+
+                media.InitializeStorage(fileUpload.TenantId.ToString(), Utility.GetEnumDescription(DocumentType.Shipment));
+                var result = await media.Upload(assignmentFile, imageFileNameInFull);
+                
+                // Insert document record to DB.
+                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+                shipmentManagement.InsertShipmentDocument(fileUpload);
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+        }
+
+        public List<FileUploadDto> GetAvailableFilesForShipment(int shipmentId, string userId)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentId,userId);
+        }  
+
+    }
+}
 
     }
 }
