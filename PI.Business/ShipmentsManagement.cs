@@ -682,12 +682,14 @@ namespace PI.Business
 
             using (PIContext context = new PIContext())
             {
-                currentShipment = (from shipment in context.Shipments
-                                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
-                                   join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
-                                   join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                   where shipment.ShipmentCode.ToString() == shipmentId
-                                   select shipment).FirstOrDefault();
+               currentShipment= context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
+
+                //currentShipment = (from shipment in context.Shipments.Include("Division.Company")
+                //                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                //                   join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                //                   join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                //                   where shipment.ShipmentCode.ToString() == shipmentId
+                //                   select shipment).FirstOrDefault();
 
               tenantId =  currentShipment.Division.Company.TenantId;
             }
@@ -1229,13 +1231,16 @@ namespace PI.Business
         public void InsertShipmentDocument(FileUploadDto fileDetails)
         {
             using (var context = new PIContext())
-            {
+            {                
                 context.ShipmentDocument.Add(new ShipmentDocument
                 {
                     TenantId = fileDetails.TenantId,
                     ShipmentId = fileDetails.ReferenceId,
                     ClientFileName = fileDetails.ClientFileName,
-                    UploadedFileName = fileDetails.UploadedFileName
+                    UploadedFileName = fileDetails.UploadedFileName,
+                    IsActive = true,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy = "1"
                 });
 
                 context.SaveChanges();
