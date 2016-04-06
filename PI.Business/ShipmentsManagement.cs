@@ -1273,6 +1273,141 @@ namespace PI.Business
         }
 
 
+
+        //get shipments by User
+        public PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
+                                               string number)
+        {
+            int page = 1;
+            int pageSize = 10;
+            CompanyManagement company = new CompanyManagement();
+            IList<DivisionDto> divisions = null;
+            IList<int> divisionList = new List<int>();
+            List<Shipment> Shipments = new List<Shipment>();
+            var pagedRecord = new PagedList();
+            if (userId == null)
+            {
+                return null;
+            }
+            string role = this.GetUserRoleById(userId);
+            if (role == "BusinessOwner" || role == "Manager")
+            {
+                divisions = this.GetAllDivisionsinCompany(userId);
+            }
+            else if (role == "Supervisor")
+            {
+                divisions = company.GetAssignedDivisions(userId);
+            }
+            if (divisions.Count > 0)
+            {
+                foreach (var item in divisions)
+                {
+                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                }
+            }
+            else
+            {
+                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+            }
+
+
+            pagedRecord.Content = new List<ShipmentDto>();
+
+            var content = (from shipment in Shipments
+                           where shipment.IsDelete == false &&
+                           shipment.Status== (short)ShipmentStatus.Pending &&                        
+                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                           (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))                          
+                           select shipment).ToList();
+
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new ShipmentDto
+                {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto
+                    {
+                        Consignee = new ConsigneeDto
+                        {
+                            Address1 = item.ConsigneeAddress.StreetAddress1,
+                            Address2 = item.ConsigneeAddress.StreetAddress2,
+                            Postalcode = item.ConsigneeAddress.ZipCode,
+                            City = item.ConsigneeAddress.City,
+                            Country = item.ConsigneeAddress.Country,
+                            State = item.ConsigneeAddress.State,
+                            FirstName = item.ConsigneeAddress.FirstName,
+                            LastName = item.ConsigneeAddress.LastName,
+                            ContactName = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            Email = item.ConsigneeAddress.EmailAddress,
+                            Number = item.ConsigneeAddress.Number
+                        },
+                        Consigner = new ConsignerDto
+                        {
+                            Address1 = item.ConsignorAddress.StreetAddress1,
+                            Address2 = item.ConsignorAddress.StreetAddress2,
+                            Postalcode = item.ConsignorAddress.ZipCode,
+                            City = item.ConsignorAddress.City,
+                            Country = item.ConsignorAddress.Country,
+                            State = item.ConsignorAddress.State,
+                            FirstName = item.ConsignorAddress.FirstName,
+                            LastName = item.ConsignorAddress.LastName,
+                            ContactName = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.ContactName,
+                            Email = item.ConsignorAddress.EmailAddress,
+                            Number = item.ConsignorAddress.Number
+                        }
+                    },
+                    GeneralInformation = new GeneralInformationDto
+                    {
+                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                        DivisionId = item.DivisionId.GetValueOrDefault(),
+                        ShipmentCode = item.ShipmentCode,
+                        ShipmentMode = item.ShipmentMode,
+                        ShipmentName = item.ShipmentName,
+                        //ShipmentTermCode = item.ShipmentTermCode,
+                        //ShipmentTypeCode = item.ShipmentTypeCode,
+
+
+                        TrackingNumber = item.TrackingNumber,
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                    },
+                    PackageDetails = new PackageDetailsDto
+                    {
+                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                        HsCode = item.ShipmentPackage.HSCode,
+                        Instructions = item.ShipmentPackage.CarrierInstruction,
+                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                        TotalVolume = item.ShipmentPackage.TotalVolume,
+                        TotalWeight = item.ShipmentPackage.TotalWeight,
+                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                    },
+                    CarrierInformation = new CarrierInformationDto
+                    {
+                        CarrierName = item.CarrierName,
+                        serviceLevel = item.ServiceLevel,
+                        PickupDate = item.PickUpDate
+                    }
+
+                });
+            }
+
+            pagedRecord.TotalRecords = Shipments.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            return pagedRecord;
+        }
+
+
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{

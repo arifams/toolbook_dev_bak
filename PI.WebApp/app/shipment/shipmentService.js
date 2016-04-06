@@ -18,7 +18,8 @@
             loadAddressBookDetails:loadAddressBookDetails,
             sendShipmentDetails: sendShipmentDetails,
             getLocationHistory: getLocationHistory,
-            getTeackAndTraceDetails:getTeackAndTraceDetails
+            getTeackAndTraceDetails: getTeackAndTraceDetails,
+            loadAllPendingShipments: loadAllPendingShipments
         };
 
 
@@ -131,6 +132,18 @@
                 source: source,
                 destination: destination
             }
+            });
+        }
+
+        function loadAllPendingShipments(startDate, endDate, number) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),                   
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,                   
+                }
             });
         }
 

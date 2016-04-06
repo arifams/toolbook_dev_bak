@@ -91,6 +91,21 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
+        [Route("GetAllPendingShipments")]
+        public PagedList GetAllPendingShipments(string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                string number = null)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            var pagedRecord = new PagedList();
+            return pagedRecord = shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number);
+
+        }
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
         [Route("GetShipmentbyId")]
         public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
         {
