@@ -104,6 +104,7 @@
     <None Include="app\shipment\jsonResourceFiles\shipmentTypes.json" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
+    <Content Include="css\custom-general.css" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
@@ -1225,6 +1226,8 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_close.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
+    <Content Include="proj_img\PI-logo.png" />
+    <Content Include="proj_img\shipment_icons.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
     <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
@@ -5937,7 +5940,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="proj_img\App_LocalResources\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
