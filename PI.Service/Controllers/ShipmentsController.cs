@@ -194,7 +194,11 @@ namespace PI.Service.Controllers
         //        //throw;
         //    }
         //}
-
+        [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
+        public async Task<HttpResponseMessage> UploadAddressBook()
+        {
+           return await Upload();
+        }
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
