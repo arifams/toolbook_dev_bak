@@ -64,7 +64,9 @@
 
 
             $scope.loadAllUploadedFiles = function () {
-                var shipmentId = $scope.overviewShipCtrl.shipment.generalInformation.shipmentId;
+                debugger;
+                var shipmentId = $scope.overviewShipCtrl.shipmentCode;
+
                 $scope.details = { userId: userId, referenceId: shipmentId };
 
                 shipmentFactory.getAvailableFilesForShipment(details)
