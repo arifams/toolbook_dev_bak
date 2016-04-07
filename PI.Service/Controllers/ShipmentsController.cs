@@ -238,15 +238,29 @@ namespace PI.Service.Controllers
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)
             {
-                imageFileNameInFull = string.Format("{0}", fileDetails.UserId);
-                fileDetails.UploadedFileName = imageFileNameInFull;
+                var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
+                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
 
+                imageFileNameInFull = string.Format("{0}.{1}", fileDetails.UserId, fileExtention);
+                fileDetails.UploadedFileName = imageFileNameInFull;
+                try
+                {
+                    // Delete if a file already exists from the same userId
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                        + "/" + (fileDetails.UploadedFileName + ".xls") );                
+                }
+                catch (Exception ex) { }
+
+                try
+                {
                 // Delete if a file already exists from the same userId
                 try
                 {
-                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                  + "/" + fileDetails.UploadedFileName);
+               await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
+                                        + "/" + (fileDetails.UploadedFileName + ".xls"));
                 }
+                catch (Exception ex) { }
+            }
                 catch (Exception)
                 {
                    //to do
@@ -361,10 +375,10 @@ namespace PI.Service.Controllers
         //    }
         //}
 
-        public List<FileUploadDto> GetAvailableFilesForShipment(int shipmentId, string userId, string azureFilePath)
+        public List<FileUploadDto> GetAvailableFilesForShipment(FileUploadDto details)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentId, userId);
+            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(details);
         }
 
 
