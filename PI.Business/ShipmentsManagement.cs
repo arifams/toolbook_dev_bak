@@ -1256,19 +1256,19 @@ namespace PI.Business
         }
 
 
-        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(int shipmentId, string userId)
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(FileUploadDto details)
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(userId);
+            var tenantId = companyManagement.GettenantIdByUserId(details.UserId);
 
             using (var context = new PIContext())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
-                                                    && x.ShipmentId == shipmentId).
+                                                    && x.ShipmentId == details.ReferenceId).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto

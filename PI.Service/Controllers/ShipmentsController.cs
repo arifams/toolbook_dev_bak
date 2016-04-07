@@ -234,12 +234,26 @@ namespace PI.Service.Controllers
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)
             {
-                imageFileNameInFull = string.Format("{0}", fileDetails.UserId);
-                fileDetails.UploadedFileName = imageFileNameInFull;
+                var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
+                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
 
-                // Delete if a file already exists from the same userId
-               await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
-                                   + "/" + fileDetails.UploadedFileName);
+                imageFileNameInFull = string.Format("{0}.{1}", fileDetails.UserId, fileExtention);
+                fileDetails.UploadedFileName = imageFileNameInFull;
+                try
+                {
+                    // Delete if a file already exists from the same userId
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                        + "/" + (fileDetails.UploadedFileName + ".xls") );                
+                }
+                catch (Exception ex) { }
+
+                try
+                {
+                    // Delete if a file already exists from the same userId
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                        + "/" + (fileDetails.UploadedFileName + ".xls"));
+                }
+                catch (Exception ex) { }
             }
             else
             {
@@ -268,7 +282,7 @@ namespace PI.Service.Controllers
             // Through the request response you can return an object to the Angular controller
             // You will be able to access this in the .success callback through its data attribute
             // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
+            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
                              + "/" + fileDetails.UploadedFileName;
 
 
@@ -291,7 +305,7 @@ namespace PI.Service.Controllers
             FileUploadDto fileUploadDto = new FileUploadDto();
 
             if (result.FormData.HasKeys())
-            {              
+            {
                 fileUploadDto.UserId = Uri.UnescapeDataString(result.FormData.GetValues(0).FirstOrDefault());
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
                 fileUploadDto.DocumentType = (DocumentType)Enum.Parse(typeof(DocumentType), docType);
@@ -349,10 +363,10 @@ namespace PI.Service.Controllers
         //    }
         //}
 
-        public List<FileUploadDto> GetAvailableFilesForShipment(int shipmentId, string userId, string azureFilePath)
+        public List<FileUploadDto> GetAvailableFilesForShipment(FileUploadDto details)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentId, userId);
+            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(details);
         }
 
 
