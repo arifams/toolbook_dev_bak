@@ -41,5 +41,9 @@ namespace PI.Contract.DTOs.Shipment
         public short ShipmentPaymentTypeId { get; set; }
 
         public string ShipmentLabelBLOBURL { get; set; }
+
+        public bool IsEnableEdit { get; set; }
+
+        public bool IsEnableDelete { get; set; }
     }
 }

@@ -116,8 +116,9 @@
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td>{{row.generalInformation.status}}</td>
                                 <td>
+                                    <i class="icon-note" ng-hide="row.generalInformation.isEnableEdit"></i>
                                     <a href="#/addShipment/{{row.generalInformation.shipmentCode}}"
-                                       class="edit btn btn-sm btn-default">
+                                       class="edit btn btn-sm btn-default" ng-show="row.generalInformation.isEnableEdit">
                                         <i class="icon-note"></i>
                                     </a>
                                 </td>
@@ -128,7 +129,8 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;">
+                                    <i class="icons-office-52" ng-hide="row.generalInformation.isEnableDelete"></i>
+                                    <a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;" ng-show="row.generalInformation.isEnableDelete">
                                         <i class="icons-office-52"></i>
                                     </a>
                                 </td>
