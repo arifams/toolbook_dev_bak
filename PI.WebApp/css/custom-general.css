@@ -1,0 +1,197 @@
+﻿.form-content {
+    display:inline-block;
+}
+
+.user-reg .input-group, .user-reg .form-group {
+    margin-bottom: 8px;
+}
+
+.reg {
+    border: 1px solid #E8E8E8;
+}
+.regheader {
+    background-color:#247EB2;
+    height:44px;
+    color:#fff;
+    font-size:20px;
+    padding:7px;
+}
+.reg-contentwrapper {
+    padding:4em;
+}
+.spacer_1px {
+    clear:both;
+    height:1px;
+}
+.user-reg .form-control {
+    font-size:17px;
+    
+}
+.accType {
+    font-weight:normal;
+    font-size:16px;
+}
+
+#jobcapcity1 {
+    width:25%;
+    float:left;
+}
+#jobcapcity2 {
+    width:72%;
+    float:right;
+}
+.append-icon .icon-question {
+     font-size: 32px;
+}
+.glyphicon.glyphicon-circle-arrow-right {
+    font-size: 23px;
+   
+}
+ .nav-parent .children collapse{
+    color:white;
+    font-size:100px;
+}
+.children collapse{
+    background-color:#0D4773;
+}
+.sidebar .sidebar-inner .nav-sidebar .children li::before {
+    background:#A19F9F;
+}
+.sidebar .sidebar-inner .nav-sidebar .children::after {
+    border-left: 1px solid #A19F9F;
+}
+.sidebar {
+    top:85px;
+}
+.sidebar .logopanel {
+    height:auto;  
+    border-bottom:1px solid #396485; 
+    text-align:center;
+                
+            }
+.theme-sdtl.color-default:not(.sidebar-top) .logopanel {
+    background-color:#0D4773;
+}
+.theme-sdtl.color-default .sidebar .sidebar-inner {
+     background-color:#0D4773;
+}
+            .nav-parent {
+                border-bottom:1px solid #396485;
+            }
+    .main-content .page-content .panel {
+        margin-bottom:0px;
+    }
+    .panel-header {
+        background-color:#8DD8C2;
+        min-height:20px;
+    }
+    #panel-footer1, #panel-footer2, #panel-footer3 {
+        background-color:#B1DBFB;
+        min-height:5px;
+        margin-bottom:1px;
+    }
+    .icon-check{
+        font-size:1.6em;
+    }
+    .form-control {
+        font-style:italic;
+    }
+    
+    .form-horizontal .control-label {
+        color:#0D4773;
+        font-size:medium;
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight:normal;
+    }
+    .main-content .page-content .panel .panel-header {
+        padding:0px 0px 5px 0px;
+        margin-bottom:0px;
+    }
+    .select-options{
+        padding-left:5px;
+        color:#0D4773;
+       
+    }
+    #heading1 {
+        color:#000000;
+        font-weight:normal;
+        margin-top:5px;
+    }
+    #panel-content {
+        border: 1px solid #E8E8E8;
+        padding:12px;
+ 
+    }
+    .main-content .page-content .panel .panel-header h3 {
+        margin-bottom:0px;
+    }
+    .main-content .page-content .panel-header i {
+       
+    }
+.shipmentmethod {
+                                        box-sizing: border-box;
+                                        border: 1px solid #319DB5;
+                                        border-radius: 5px;
+                                        width:149px;
+                                        height:65px;
+                                        float:left;
+                                        margin-right:9px;
+                                        margin-bottom:6px;
+                                        position: relative;
+                                        text-align:center;
+                                       padding-bottom:80px;
+                                    }
+                                    .shipmentmethod:hover {
+                                        border: 2px solid #319DB5;
+                                         margin-bottom:4px;
+                                         
+                                    }
+                                    .selected {
+                                        border: 3px solid #319DB5;
+                                    }
+                                    #t_express1 {
+                                
+                                        background: url('/proj_img/shipment_icons.png') -10px 0px;                                     
+                                        background-repeat: no-repeat; 
+                                    }
+                                    #t_express2 {
+                                        background: url('/proj_img/shipment_icons.png') -165px 0px;
+                                         background-repeat: no-repeat;
+                                    }
+                                    #t_express3 {
+                                        background: url('/proj_img/shipment_icons.png') -310px 0px;
+                                         background-repeat: no-repeat;
+                                    }
+                                    #t_express4 {
+                                        background: url('/proj_img/shipment_icons.png') -470px 0px;
+                                         background-repeat: no-repeat;
+                                    }
+                                    #t_express5 {
+                                        background: url('/proj_img/shipment_icons.png') -618px 0px;
+                                         background-repeat: no-repeat;
+                                    }
+.btn {
+    padding:5px 24px 8px;
+    
+}
+.width-half {
+    width:48% !important;
+}
+.float-side {
+    float:right;
+}
+
+.no-margin {
+    margin-right:0px !important;
+}
+
+.pull-right {
+    width:150px;
+    height:30px;
+}
+.float-left {
+    float:left;
+}
+.col-md-6 {
+    padding-right:30px;
+}

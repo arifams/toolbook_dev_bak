@@ -1,4 +1,4 @@
-﻿<div ng-controller="shipmentDocumentCtrl as vm">
+﻿<div ng-controller="shipmentDocumentCtrl">
     <div class="row">
         <div class="col-sm-12">
             <div class="panel">
@@ -7,17 +7,24 @@
                 </div>
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Organization Logo</label>
-                        <div class="col-sm-6">
-                            <!--<input type="file" ak-file-model="vm.model.document" name="logo"
-                                   class="form-control" />-->
-                            <input type="file" ng-file-select="vm.onFileSelect($files)">
-                        </div>
-                        <div class="col-sm-4">
-                            <button type="submit" ng-click="vm.fileUpload()" class="btn">
-                                <i class="fa fa-arrow-circle-o-up"></i> Upload
-                            </button>
-                        </div>
+                        <form name="formDocumentUpload">
+                            <label class="col-sm-2 control-label">Organization Logo</label>
+                            <div class="col-sm-6">
+                                <!--<input type="file" ak-file-model="vm.model.document" name="logo"
+                                class="form-control" />-->
+                                <!--<input type="file" ng-file-select="vm.onFileSelect($files)">-->
+                                <input type="file" ngf-select ng-model="document" name="file" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                            </div>
+                            <div class="col-sm-4">
+                                <button ng-click="document = null" ng-show="document">Remove</button>
+                                <button ng-click="uploadFile(document)"> Submit </button>
+                                <!--<button type="submit" ng-click="vm.fileUpload()" class="btn">
+                                    <i class="fa fa-arrow-circle-o-up"></i> Upload
+                                </button>-->
+                                {{errorMsg}}
+
+                            </div>
+                        </form>
                     </div>
 
                 </div>
