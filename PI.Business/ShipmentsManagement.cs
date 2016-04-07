@@ -1252,7 +1252,7 @@ namespace PI.Business
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
-            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
             var tenantId = companyManagement.GettenantIdByUserId(userId);
@@ -1417,7 +1417,7 @@ namespace PI.Business
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
             // Make absolute link
-            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             string fileAbsoluteURL = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.ShipmentLabel)
                                                                           + "/" + (shipmentId.ToString() + ".pdf");
