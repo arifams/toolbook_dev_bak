@@ -83,6 +83,8 @@
     <Content Include="app\shipment\PreviewLabelTemplate.js" />
     <Content Include="app\shipment\printLabel.html" />
     <Content Include="app\shipment\printLabel.js" />
+    <Content Include="app\shipment\printManifest.html" />
+    <Content Include="app\shipment\printManifest.js" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />

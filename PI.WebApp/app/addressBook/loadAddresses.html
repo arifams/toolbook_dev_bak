@@ -34,7 +34,7 @@
                                 <label class="control-label">Filter by  </label>
                             </div>
                         </div>
-                        
+
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <div class="option-group">
@@ -48,35 +48,22 @@
                             </div>
                         </div>
 
-                                        
-                       
-                    </div>  
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <div class="btn btn-default" ngf-select="addressCtrl.setFileName(addressCtrl.file)" ng-model="addressCtrl.file" name="file" ngf-pattern="'*'"
-                                 ngf-accept="''*''" ngf-max-size="20MB" ngf-min-height="100"
-                                 ngf-resize="{width: 100, height: 100}">Select</div> 
-                            <label class="label label-default">{{addressCtrl.fileName}}</label>
-                        </div>
 
-                        <div class="col-sm-3">
-                            <button class="btn btn-blue" ng-click="addressCtrl.uploadFile()"> Upload</button>
-                        </div>
-                      
-                    </div>                
+
+                    </div>
                     <br />
                     <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
-                 
+
                     <div class="costCenterTable">
-                      
+
                         <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
                             <thead>
-                                <tr>                                   
+                                <tr>
                                     <th st-sort="name">Company</th>
                                     <th>Name</th>
                                     <th>Billing Address</th>
                                     <th>Status</th>
-                                   
+
                                     <th>Edit</th>
                                     <th>Delete</th>
                                 </tr>
@@ -84,11 +71,11 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in displayedCollection">
-                                    <td>{{row.companyName}}</td> 
-                                    <td>{{row.fullName}}</td>                                  
+                                    <td>{{row.companyName}}</td>
+                                    <td>{{row.fullName}}</td>
                                     <td>{{row.fullAddress}}</td>
                                     <td>{{row.isActive==true ?'Active':'Inactive'}}</td>
-                                    
+
                                     <td><a href="#/saveAddress/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
                                     <td><a ng-click="addressCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
                                 </tr>
@@ -102,7 +89,7 @@
                             </tfoot>
                         </table>
                         <div id="panel-notif"></div>
-                       
+
                         <div class="row">
                             <div class="col-sm-4"></div>
                             <div class="col-sm-2">
@@ -121,6 +108,11 @@
                             </div>
                             <div class="col-sm-2">
                                 <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <button class="btn btn-default" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
                             </div>
                         </div>
                     </div>
