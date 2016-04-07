@@ -1,4 +1,6 @@
-﻿using PI.Contract.Business;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.ImportAddress;
@@ -6,6 +8,8 @@ using PI.Data;
 using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -328,5 +332,155 @@ namespace PI.Business
 
         }
 
+        //get address book details by excel file
+        public int ExportExcelAddressbookDetails()
+        {
+            return 1;
+        }
+     
+        
+        //get address details by userId  
+        public byte[] GetAddressBookDetailsByUserId(string userId)
+        {
+            List<AddressBookDto> addressList = new List<AddressBookDto>();
+
+            using (PIContext context= new PIContext())
+            {
+                var content = (from addresses in context.AddressBooks
+                               where addresses.CreatedBy == userId
+                               select addresses).ToList();
+
+                foreach (var item in content)
+                {
+                    AddressBookDto address = new AddressBookDto()
+                    {
+                        Id = item.Id,
+                        CompanyName = item.CompanyName,                        
+                        IsActive = item.IsActive,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        UserId = item.UserId,
+                        Salutation = item.Salutation,
+                        EmailAddress = item.EmailAddress,
+                        PhoneNumber = item.PhoneNumber,
+                        AccountNumber = item.AccountNumber,
+
+                        Country = item.Country,
+                        ZipCode = item.ZipCode,
+                        Number = item.Number,
+                        StreetAddress1 = item.StreetAddress1,
+                        StreetAddress2 = item.StreetAddress2,
+                        City = item.City,
+                        State = item.State
+
+                    };
+
+                    addressList.Add(address);
+                }
+            }
+
+
+            byte[] stream = this.GenerateExcelSheetFromAddressBook(addressList);
+            return stream;
+
+        }
+
+        public byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
+        {
+            using (ExcelPackage pck = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Addrerss Book");
+
+                //Merging cells and create a center heading for out table
+                ws.Cells[2, 1].Value = "Address Book Details";
+                ws.Cells[2, 1, 2, 8].Merge = true;
+                ws.Cells[2, 1, 2, 8].Style.Font.Bold = true;
+                ws.Cells[2, 1, 2, 8].Style.Font.Size = 15;
+                ws.Cells[2, 1, 2, 8].Style.Font.Name = "Calibri";
+                ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                // Set headings.
+                ws.Cells["A6"].Value = "Salutation";
+                ws.Cells["B6"].Value = "First Name";
+                ws.Cells["C6"].Value = "Last Name";
+                ws.Cells["D6"].Value = "Company Name";
+                ws.Cells["E6"].Value = "Zip Code";
+                ws.Cells["F6"].Value = "Number";
+                ws.Cells["G6"].Value = "Street Address1";
+                ws.Cells["H6"].Value = "Street Address2";
+                ws.Cells["I6"].Value = "State";
+                ws.Cells["J6"].Value = "Email Adderess";
+                ws.Cells["K6"].Value = "Phone Number";
+
+                //Format the header for columns.
+                using (ExcelRange rng = ws.Cells["A6:K6"])
+                {
+                    rng.Style.Font.Bold = true;
+                    rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
+                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(Color.White);
+                }
+
+                //ws.Cells["A6:H6"].AutoFitColumns();
+
+                // Set data.
+                int rowIndex = 6;
+                foreach (AddressBookDto addressBook in addressBookDtoList) // Adding Data into rows
+                {
+                    rowIndex++;
+
+                    var cell = ws.Cells[rowIndex, 1];                    
+                    cell.Value = addressBook.Salutation;
+
+                    cell = ws.Cells[rowIndex, 2];
+                    cell.Value = addressBook.FirstName;
+
+                    cell = ws.Cells[rowIndex, 3];
+                    cell.Value = addressBook.LastName;
+
+                    cell = ws.Cells[rowIndex, 4];
+                    cell.Value = addressBook.CompanyName;
+
+                    cell = ws.Cells[rowIndex, 5];
+                    cell.Value = addressBook.ZipCode;
+
+                    cell = ws.Cells[rowIndex, 6];
+                    cell.Value = addressBook.Number;
+
+                    cell = ws.Cells[rowIndex, 7];
+                    cell.Value = addressBook.StreetAddress1;
+
+                    cell = ws.Cells[rowIndex, 8];
+                    cell.Value = addressBook.StreetAddress2;
+
+                    cell = ws.Cells[rowIndex, 9];
+                    cell.Value = addressBook.State;
+
+                    cell = ws.Cells[rowIndex, 10];
+                    cell.Value = addressBook.EmailAddress;
+
+                    cell = ws.Cells[rowIndex, 11];
+                    cell.Value = addressBook.PhoneNumber;
+
+                    ws.Row(rowIndex).Height = 120;
+                }
+
+                // Set width
+                ws.Column(1).Width = 25;
+                ws.Column(2).Width = 25;
+                ws.Column(3).Width = 25;
+                ws.Column(4).Width = 25;
+                ws.Column(5).Width = 25;
+                ws.Column(6).Width = 22;
+                ws.Column(7).Width = 25;
+                ws.Column(8).Width = 25;
+                ws.Column(9).Width = 20;
+                ws.Column(10).Width = 20;
+                ws.Column(11).Width = 20;
+                
+                return pck.GetAsByteArray();
+            }
+        }
     }
 }

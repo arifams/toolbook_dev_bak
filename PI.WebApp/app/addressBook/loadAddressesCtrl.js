@@ -1,20 +1,6 @@
 ﻿'use strict';
 (function (app) {
 
-    app.factory('uploadExcelDataService', function ($http, $window) {
-        return {
-            uploadExcelFile: function (formdata) {              
-
-                return $http.post(serverBaseUrl + '/api/AddressBook/ImportAddressesExcel',{
-                    params: {                        
-                            userId: $window.localStorage.getItem('userGuid')
-                    },
-                    file:formdata                 
-                });                    
-            }
-        };
-    });
-
     app.factory('addressManagmentService', function ($http) {
         return {
             deleteAddress: function (address) {
@@ -27,7 +13,19 @@
         return {
             importAddressBook: function (addressDetails) {
                 return $http.post(serverBaseUrl + '/api/AddressBook/ImportAddresses', addressDetails, {
-                    params: {                        
+                    params: {
+                        userId: $window.localStorage.getItem('userGuid')
+                    }
+                });
+            }
+        };
+    });
+
+    app.factory('exportAddressExcelFactory', function ($http, $window) {
+        return {
+            importAddressBookExcel: function () {
+                return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsExcel', {
+                    params: {
                         userId: $window.localStorage.getItem('userGuid')
                     }
                 });
@@ -44,28 +42,29 @@
                 return $http.get(serverBaseUrl + '/api/AddressBook/GetAllAddressBookDetailsByFilter', {
                     params: {
                         userId: userId,
-                        searchtext: searchText,                        
+                        searchtext: searchText,
                         type: type
                     }
                 });
             }
         }
     });
-      
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'Upload', '$timeout', 'uploadExcelDataService', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, Upload, $timeout, uploadExcelDataService) {
-       var vm = this;
-        
+
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory) {
+        var vm = this;
+        vm.stream = {};
+
         vm.searchAddresses = function () {
 
             // Get values from view.
-            var userId = $window.localStorage.getItem('userGuid');            
+            var userId = $window.localStorage.getItem('userGuid');
             var type = (vm.state == undefined) ? "" : vm.state;
             var searchText = vm.searchText;
 
-            loadAddressService.find(userId,searchText,type)
+            loadAddressService.find(userId, searchText, type)
                 .then(function successCallback(responce) {
 
-                    vm.rowCollection = responce.data.content;                   
+                    vm.rowCollection = responce.data.content;
                     vm.exportcollection = [];
 
                     //adding headers for export csv file
@@ -81,7 +80,7 @@
                     headers.accountNumber = "accountNumber";
                     headers.fullName = "fullName";
                     headers.fullAddress = "fullAddress";
-                  
+
                     headers.country = "country";
                     headers.zipCode = "zipCode";
                     headers.number = "number";
@@ -92,10 +91,10 @@
                     headers.isActive = "isActive";
 
                     vm.exportcollection.push(headers);
-                   
-                    $.each(responce.data.content, function (index, value) {                   
-                      
-                            vm.exportcollection.push(value);
+
+                    $.each(responce.data.content, function (index, value) {
+
+                        vm.exportcollection.push(value);
                     });
                     //loop through the address collection to remove the fullname and fulladdress properties
                     //$.each(vm.exportcollection, function (index, value) {
@@ -103,24 +102,10 @@
                     //     vm.exportcollection[index].pop("fullName");
                     //     vm.exportcollection[index].pop("fullAddress");
                     //});
-                    
+
                 }, function errorCallback(response) {
                     //todo
                 });
-
-            vm.setFileName = function () {
-                vm.fileName = vm.file.name;
-            };
-
-           //upload files
-            vm.uploadFile = function () {
-                if (vm.file != null) {
-
-                    uploadExcelDataService.uploadExcelFile(vm.file);
-                }                
-                } 
-
-               
         };
 
         vm.Import = function () {
@@ -129,27 +114,28 @@
                 var addressList = vm.csv.result;
 
                 $.each(addressList, function (index, value) {
-                    var address = {"csvContent": value[0] };
+                    var address = { "csvContent": value[0] };
                     importCollection.push(address);
                 });
-             
+
                 importAddressBookFactory.importAddressBook(importCollection).then(function successCallback(responce) {
                     var body = $("html, body");
-                    if (responce.data!=-1) {
+                    if (responce.data != -1) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });                  
+                        });
 
                         $('#panel-notif').noty({
                             text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' Address records added successfully.' + '</p></div>',
                             buttons: [
-                                    {       addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    {
+                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
                                             $route.reload();
-                                            $noty.close();                                          
+                                            $noty.close();
 
 
                                         }
                                     }
-                                   
+
                             ],
                             layout: 'bottom-right',
                             theme: 'made',
@@ -166,7 +152,7 @@
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
-                                          
+
                                             $noty.close();
 
 
@@ -187,13 +173,13 @@
                     //todo
                 });;
             } else {
-              //  alert("No file uploaded");
+                //  alert("No file uploaded");
                 $('#panel-notif').noty({
                     text: '<div class="alert alert-warning media fade in"><p>No File uploaded for import</p></div>',
                     buttons: [
                             {
                                 addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
-                                    
+
                                     $noty.close();
 
 
@@ -210,7 +196,7 @@
                     timeout: 3000,
                 });
             }
-            
+
 
 
         }
@@ -226,16 +212,28 @@
                 .then(function successCallback(responce) {
 
                     vm.rowCollection = responce.data.content;
+
                 }, function errorCallback(response) {
                     //todo
                 });
         };
 
         // Call search function in page load.
-        vm.searchAddresses();     
-  
+        vm.searchAddresses();
+
+        vm.ExportExcel = function () {
+            exportAddressExcelFactory.importAddressBookExcel()
+                .then(function successCallback(responce) {
+                    vm.stream = responce.data;
+                    window.location = vm.stream;
+               // vm.rowCollection = responce.data.content;
+            }, function errorCallback(response) {
+                //todo
+            });
+        }
+
         //detete address detail
-        vm.deleteById = function (row) {            
+        vm.deleteById = function (row) {
 
             $('#panel-notif').noty({
                 text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
@@ -245,17 +243,17 @@
 
                                 addressManagmentService.deleteAddress({ Id: row.id })
                                 .success(function (response) {
-                                if (response == 1) {
-                                var index = vm.rowCollection.indexOf(row);
-                                if (index !== -1) {
-                                vm.rowCollection.splice(index, 1);
-                               }
-                        }
-                    })
+                                    if (response == 1) {
+                                        var index = vm.rowCollection.indexOf(row);
+                                        if (index !== -1) {
+                                            vm.rowCollection.splice(index, 1);
+                                        }
+                                    }
+                                })
                     .error(function () {
                     })
 
-                                $noty.close();                              
+                                $noty.close();
 
 
                             }

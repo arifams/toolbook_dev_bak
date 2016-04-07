@@ -4,9 +4,11 @@ using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.ImportAddress;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -73,5 +75,27 @@ namespace PI.Service.Controllers
         {
             return addressBookManagement.GetAddressBookDtoById(Id);
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAddressBookDetailsExcel")]
+        public HttpResponseMessage GetAddressBookDetailsExcel([FromUri]string userId)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);            
+            result.Content =   new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
+            result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
+            {
+                FileName = "AddressBook.xls"
+            };
+            result.Content.Headers.ContentType =
+                new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+
+           
+        }
+
+
     }
+
 }

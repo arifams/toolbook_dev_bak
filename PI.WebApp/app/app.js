@@ -290,6 +290,11 @@ var MakeApp = angular
                controller: 'printLabelCtrl',
                controllerAs: 'printCtrl'
            })
+           .when('/PrintManifest', {
+               templateUrl:'shipment/printManifest.html',
+               controller: 'printManifestCtrl',
+               controllerAs: 'manifestCtrl'
+           })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
               

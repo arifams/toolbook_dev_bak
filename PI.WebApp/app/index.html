@@ -130,14 +130,14 @@
                         </li>-->
 
                         <li class="nav-parent">
-                            <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> VIEW SHIPMENTS</a></li>
-                                <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> ADD SHIPMENT</a></li>
-                                <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> PRINT LABEL</a></li>
-                                <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> TRACK & TRACE</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> VIEW OVERVIEW</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> PRINT MANIFEST</a></li>
+                            <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse">
+                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
+                                <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> Add Shipment</a></li>
+                                <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> Print Label</a></li>
+                                <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> Track & Trace</a></li>
+                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
+                                <li ng-class="{ active  : isActive('/PrintManifest')}"><a href="#PrintManifest"> Print Manifest</a></li>
                             </ul>
                         </li>
 
@@ -1316,6 +1316,7 @@
         <script src="shipment/TrackAndTrace.js"></script>
         <script src="shipment/printLabel.js"></script>
         <script src="shipment/PreviewLabelTemplate.js"></script>
+        <script src="shipment/printManifest.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 
