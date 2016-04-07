@@ -1277,19 +1277,19 @@ namespace PI.Business
         }
 
 
-        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(int shipmentId, string userId)
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(FileUploadDto details)
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
-            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(userId);
+            var tenantId = companyManagement.GettenantIdByUserId(details.UserId);
 
             using (var context = new PIContext())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
-                                                    && x.ShipmentId == shipmentId).
+                                                    && x.ShipmentId == details.ReferenceId).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto
@@ -1446,7 +1446,7 @@ namespace PI.Business
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
             // Make absolute link
-            string baseUrl = @"https://pidocuments.blob.core.windows.net:443/piblobstorage/";
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             string fileAbsoluteURL = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.ShipmentLabel)
                                                                           + "/" + (shipmentId.ToString() + ".pdf");
