@@ -51,7 +51,7 @@
         }
     });
 
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout) {
         var vm = this;
         vm.stream = {};
 
@@ -326,7 +326,7 @@
         vm.uploadFile = function (file) {
             debugger;
             file.upload = Upload.upload({
-                url: serverBaseUrl + '/api/Shipments/upload',
+                url: serverBaseUrl + '/api/Shipments/UploadAddressBook',
                 data: {
                     file: file,
                     userId: $window.localStorage.getItem('userGuid'),

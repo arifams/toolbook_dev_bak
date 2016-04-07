@@ -138,6 +138,7 @@ namespace PI.Business
                     {
                         currentAddress.CompanyName = list["companyName"];
                         currentAddress.UserId = userId;
+                        currentAddress.CreatedBy = userId;
                         currentAddress.Salutation = list["salutation"];
                         currentAddress.FirstName = list["firstName"];
                         currentAddress.LastName = list["lastName"];
@@ -181,6 +182,7 @@ namespace PI.Business
                 {
                     currentAddress.CompanyName = addressDetail.CompanyName;
                     currentAddress.UserId = addressDetail.UserId;
+                    currentAddress.CreatedBy = addressDetail.UserId;
                     currentAddress.Salutation = addressDetail.Salutation;
                     currentAddress.FirstName = addressDetail.FirstName;
                     currentAddress.LastName = addressDetail.LastName;
@@ -205,6 +207,7 @@ namespace PI.Business
                     currentAddress = new AddressBook();
                     currentAddress.CompanyName = addressDetail.CompanyName;
                     currentAddress.UserId = addressDetail.UserId;
+                    currentAddress.CreatedBy = addressDetail.UserId;
                     currentAddress.Salutation = addressDetail.Salutation;
                     currentAddress.FirstName = addressDetail.FirstName;
                     currentAddress.LastName = addressDetail.LastName;

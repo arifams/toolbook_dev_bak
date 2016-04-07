@@ -242,8 +242,16 @@ namespace PI.Service.Controllers
                 fileDetails.UploadedFileName = imageFileNameInFull;
 
                 // Delete if a file already exists from the same userId
-               await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
-                                   + "/" + fileDetails.UploadedFileName);
+                try
+                {
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                  + "/" + fileDetails.UploadedFileName);
+                }
+                catch (Exception)
+                {
+                   //to do
+                }
+              
             }
             else
             {
