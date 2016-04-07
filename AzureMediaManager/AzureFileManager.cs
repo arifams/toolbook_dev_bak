@@ -56,20 +56,6 @@ namespace AzureMediaManager
             CloudBlockBlob imageBlob = null;
             string imageUrl = string.Empty;
 
-            // Insert record to Document table.
-            //_documentService.InsertDocumentRecord(new GetDocumentInput
-            //{
-            //    CategoryId = input.CategoryId,
-            //    ReferenceId = input.ReferenceId,
-            //    FileNameWithExtention = imageFile.FileName,
-            //    UploadedFileName = imageFileName,
-            //    DocumentType = input.DocumentType,
-            //    ContentDescription = input.ContentDescription,
-            //    Classification = input.Classification,
-            //    SearchAttributes = input.SearchAttributes,
-            //    Tag = input.Tag
-            //});
-
             if (imageFileStream != null && imageFileStream.Length != 0)
             {
                 imageBlob = await UploadAndSaveBlobAsync(imageFileStream, imageFileNameInFull);
@@ -84,7 +70,6 @@ namespace AzureMediaManager
 
             return true;
         }
-
 
 
         /// <summary>

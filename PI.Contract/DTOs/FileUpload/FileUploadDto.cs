@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace PI.Contract.DTOs.FileUpload
 
         public string FileAbsoluteURL { get; set; } 
 
-        public string UserId { get; set; } 
+        public string UserId { get; set; }
+
+        public DocumentType DocumentType { get; set; } 
     }
 }
