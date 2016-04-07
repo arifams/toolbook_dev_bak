@@ -195,7 +195,11 @@ namespace PI.Service.Controllers
         //        //throw;
         //    }
         //}
-
+        [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
+        public async Task<HttpResponseMessage> UploadAddressBook()
+        {
+           return await Upload();
+        }
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
@@ -249,11 +253,19 @@ namespace PI.Service.Controllers
 
                 try
                 {
-                    // Delete if a file already exists from the same userId
-                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                // Delete if a file already exists from the same userId
+                try
+                {
+               await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
                                         + "/" + (fileDetails.UploadedFileName + ".xls"));
                 }
                 catch (Exception ex) { }
+            }
+                catch (Exception)
+                {
+                   //to do
+                }
+              
             }
             else
             {
@@ -282,7 +294,7 @@ namespace PI.Service.Controllers
             // Through the request response you can return an object to the Angular controller
             // You will be able to access this in the .success callback through its data attribute
             // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
                              + "/" + fileDetails.UploadedFileName;
 
 
@@ -305,7 +317,7 @@ namespace PI.Service.Controllers
             FileUploadDto fileUploadDto = new FileUploadDto();
 
             if (result.FormData.HasKeys())
-            {
+            {              
                 fileUploadDto.UserId = Uri.UnescapeDataString(result.FormData.GetValues(0).FirstOrDefault());
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
                 fileUploadDto.DocumentType = (DocumentType)Enum.Parse(typeof(DocumentType), docType);

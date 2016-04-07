@@ -84,15 +84,11 @@ namespace PI.Service.Controllers
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);            
             result.Content =   new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
-            result.Content.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("attachment")
-            {
-                FileName = "AddressBook.xls"
-            };
-            result.Content.Headers.ContentType =
-                new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            result.Content.Headers.Add("x-filename", "AddressBook.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;
 
-           
+
         }
 
 

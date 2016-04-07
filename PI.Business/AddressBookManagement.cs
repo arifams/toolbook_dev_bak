@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Excel = Microsoft.Office.Interop.Excel;
 
 namespace PI.Business
 {
@@ -137,6 +138,7 @@ namespace PI.Business
                     {
                         currentAddress.CompanyName = list["companyName"];
                         currentAddress.UserId = userId;
+                        currentAddress.CreatedBy = userId;
                         currentAddress.Salutation = list["salutation"];
                         currentAddress.FirstName = list["firstName"];
                         currentAddress.LastName = list["lastName"];
@@ -180,6 +182,7 @@ namespace PI.Business
                 {
                     currentAddress.CompanyName = addressDetail.CompanyName;
                     currentAddress.UserId = addressDetail.UserId;
+                    currentAddress.CreatedBy = addressDetail.UserId;
                     currentAddress.Salutation = addressDetail.Salutation;
                     currentAddress.FirstName = addressDetail.FirstName;
                     currentAddress.LastName = addressDetail.LastName;
@@ -204,6 +207,7 @@ namespace PI.Business
                     currentAddress = new AddressBook();
                     currentAddress.CompanyName = addressDetail.CompanyName;
                     currentAddress.UserId = addressDetail.UserId;
+                    currentAddress.CreatedBy = addressDetail.UserId;
                     currentAddress.Salutation = addressDetail.Salutation;
                     currentAddress.FirstName = addressDetail.FirstName;
                     currentAddress.LastName = addressDetail.LastName;
@@ -482,5 +486,41 @@ namespace PI.Business
                 return pck.GetAsByteArray();
             }
         }
+
+        //update addressBook details with records in excel
+        public bool UpdateAddressBookDatafromExcel(string URI, string userId)
+        {
+           Excel.Workbook MyBook = null;
+           Excel.Application MyApp = null;
+           Excel.Worksheet MySheet = null;
+           int lastRow = 0;
+
+            MyApp = new Excel.Application();
+            MyApp.Visible = false;
+            MyBook = MyApp.Workbooks.Open(URI);
+            MySheet = (Excel.Worksheet)MyBook.Sheets[1]; // Explicit cast is not required here
+            lastRow = MySheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+
+            //readin from excel
+            List<AddressBook> EmpList = new List<AddressBook>();
+            for (int index = 2; index <= lastRow; index++)
+            {
+                System.Array MyValues = (System.Array)MySheet.get_Range("A" +
+                   index.ToString(), "D" + index.ToString()).Cells.Value;
+                EmpList.Add(new AddressBook
+                {
+                    CompanyName = MyValues.GetValue(1, 1).ToString(),
+                    FirstName = MyValues.GetValue(1, 2).ToString(),
+                    LastName = MyValues.GetValue(1, 3).ToString(),
+                    AccountNumber = MyValues.GetValue(1, 4).ToString(),
+                    CreatedBy= userId,
+
+                });
+            }
+
+            return true;
+
+    }
+
     }
 }
