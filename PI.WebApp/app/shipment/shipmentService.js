@@ -19,7 +19,8 @@
             sendShipmentDetails: sendShipmentDetails,
             getLocationHistory: getLocationHistory,
             getTeackAndTraceDetails: getTeackAndTraceDetails,
-            loadAllPendingShipments: loadAllPendingShipments
+            loadAllPendingShipments: loadAllPendingShipments,
+            getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice
         };
 
 
@@ -151,7 +152,13 @@
             return $http.post(serverBaseUrl + '/api/shipments/GetAvailableFilesForShipment', details)
         }
 
-
+        function getshipmentByShipmentCodeForInvoice(shipmentcode) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForInvoice', {
+                params: {
+                    shipmentCode: shipmentcode
+                }
+            });
+        }
     }]);
     
     //app.factory('calculateRatesforShipment', function ($http) {
