@@ -167,10 +167,14 @@
         vm.selectDivision = function () {
             var divisionId = vm.shipment.generalInformation.divisionId;
             vm.costcenterList = {};
+            debugger;
+
             //  loadAssignedCostCenters
             if (divisionId != '') {
                 shipmentFactory.loadAssignedCostCenters(divisionId).success(
                function (responce) {
+                   debugger;
+
                    if (responce.length>0) {
                        vm.costcenterList = responce;
                        vm.hidecostcenters = false;
