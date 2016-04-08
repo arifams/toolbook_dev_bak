@@ -21,5 +21,6 @@ namespace PI.Contract.DTOs.Shipment
         public string ContactNumber { get; set; }
         public string ContactName { get; set; }
         public string Details { get; set; }
+        public bool SaveNewAddress { get; set; }
     }
 }

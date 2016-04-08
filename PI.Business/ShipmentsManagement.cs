@@ -323,6 +323,7 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
+               
 
                 // If division and costcenter Ids are 0, then assign default costcenter and division.
                 if (addShipment.GeneralInformation.DivisionId == 0)
@@ -438,6 +439,56 @@ namespace PI.Business
 
                     }
                 };
+
+                //save consigner details as new address book detail
+                if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        Number = addShipment.AddressInformation.Consigner.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
+
+                //save consignee details as new address book detail
+                if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        Number = addShipment.AddressInformation.Consignee.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
 
                 try
                 {
@@ -609,8 +660,8 @@ namespace PI.Business
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
-                        IsEnableEdit = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending ),
-                        IsEnableDelete = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation )
+                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
+                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -731,7 +782,7 @@ namespace PI.Business
 
             using (PIContext context = new PIContext())
             {
-               currentShipment= context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
+                currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
 
                 //currentShipment = (from shipment in context.Shipments.Include("Division.Company")
                 //                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
@@ -1289,11 +1340,13 @@ namespace PI.Business
         public void InsertShipmentDocument(FileUploadDto fileDetails)
         {
             using (var context = new PIContext())
-            {                
+            {
+                var shipement = context.Shipments.Where(x => x.ShipmentCode == fileDetails.CodeReference).SingleOrDefault();
+
                 context.ShipmentDocument.Add(new ShipmentDocument
                 {
                     TenantId = fileDetails.TenantId,
-                    ShipmentId = fileDetails.ReferenceId,
+                    ShipmentId = shipement.Id,
                     ClientFileName = fileDetails.ClientFileName,
                     DocumentType = (int)fileDetails.DocumentType,
                     UploadedFileName = fileDetails.UploadedFileName,
@@ -1324,6 +1377,7 @@ namespace PI.Business
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto
                 {
+                    Id = x.Id,
                     TenantId = x.TenantId,
                     ReferenceId = x.ShipmentId,
                     ClientFileName = x.ClientFileName,
@@ -1522,7 +1576,7 @@ namespace PI.Business
             using (PIContext context = new PIContext())
             {
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
-                
+
                 tenantId = currentShipment.Division.Company.TenantId;
             }
             if (currentShipment == null)
@@ -1610,6 +1664,19 @@ namespace PI.Business
 
             return currentShipmentDto;
         }
+
+
+        public void DeleteFileInDB(FileUploadDto fileDetails)
+        {
+            using (var context = new PIContext())
+            {
+                var document = context.ShipmentDocument.Where(x=> x.Id == fileDetails.Id).SingleOrDefault();
+                
+                context.ShipmentDocument.Remove(document);
+                context.SaveChanges();
+            }
+        }
+
     }
 
 

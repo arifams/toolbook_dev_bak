@@ -1,43 +1,24 @@
-﻿<div>
-    <div class="header">
-        <h2>All Shipments</h2>
-    </div>
-
+﻿
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
         <!-- /.box-header -->
-
-        <div class="panel-header">
-            <!-- left column -->
-
-        </div>
-        <div class="panel-body">
-
-
-            <div class="wizard-div current wizard-arrow">
-                <form class="wizard" data-style="arrow">
-                    <fieldset class="withScroll show-scroll">
-                        <legend>Overview</legend>
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        OVERVIEW
+                    </tab-heading>
+                    
+                    <div class="panel-content panel-border p-t-0">
                         <div class="row">
                             <div class="col-sm-12">
-
-                                <div class="panel">
-                                    <div class="panel-header bg-blue-light">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h3>Shipment Details</h3>
+                                <h3><strong>Shipment Details</strong></h3>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="form-horizontal">
-
-                                        <div class="panel-content panel-default">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                    <div class="col-sm-3 inc-width">
                                                             <label class="form-control label-default">Tracking Number</label>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -45,7 +26,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                    <div class="col-sm-3 inc-width">
                                                             <label class="form-control label-default">Shipment ID</label>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -53,7 +34,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                    <div class="col-sm-3 inc-width">
                                                             <label class="form-control label-default">Carrier</label>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -61,7 +42,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                    <div class="col-sm-3 inc-width">
                                                             <label class="form-control label-default">Order Submitted Date</label>
                                                         </div>
                                                         <div class="col-sm-5">
@@ -69,20 +50,21 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-sm-3">
+                                    <div class="col-sm-3 inc-width">
                                                             <label class="form-control label-default">Shipment Label</label>
-                                                        </div>
+                                    </div>
                                                         <div class="col-sm-5">
-                                                            <div> <a href="{{overviewShipCtrl.shipmentLabel}}" target="_blank">View Label</a> </div>
+                                        <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
                                                         </div>
                                                     </div>
                                                 </div>
+                            </div>
+                           <!--
                                                 <div class="col-sm-4">
-
                                                     <div class="panel panel-default map-panel">
                                                         <div class="panel-body">
                                                             <div class="row">
-                                                                <div class="col-sm-12">
+                                                <div class="col-sm-12">
                                                                     <div class="map" id="simple-map"></div>
                                                                 </div>
                                                             </div>
@@ -92,22 +74,18 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                           -->
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="panel">
-                                    <div class="panel-header bg-blue-light">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h3>Shipment Status</h3>
+           <div class="panel-content panel-border p-t-0">
+            <div class="panel-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                        <h3><strong>Shipment Status</strong></h3>
                                             </div>
                                         </div>
 
                                     </div>
                                     <div class="form-horizontal">
-                                        <div class="panel-content panel-default">
                                             <div class="row">
                                                 <div class="col-sm-1"></div>
 
@@ -132,34 +110,17 @@
                                                 </div>
                                                 <div class="col-sm-1"></div>
                                             </div>
-                                        </div>
+
                                     </div>
                                 </div>
-
-                                <div class="panel">
-                                    <div class="panel-header bg-blue-light">
+            <div class="panel-content panel-border p-t-0">
+                        <div class="panel-header">
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <h3>Tracking History</h3>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div>
-
-
-                                    </div>
+                                    <h3><strong>Tracking History</strong></h3>
                                 </div>
-
                             </div>
-
                         </div>
-                    </fieldset>
-
-                    <fieldset class="withScroll show-scroll">
-                        <legend>Airway Bill</legend>
-
-                        <div>
                             <div class="col-sm-12">
 
                                 <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
@@ -176,26 +137,36 @@
                             </div>
 
 
+                            <iframe src={{overviewShipCtrl.awb_URL}} height="800" width="700"></iframe>
+
+
                         </div>
+        </tab>
+        <tab>
+            <tab-heading>
+                AIR WAYBILL
+            </tab-heading>
 
-                    </fieldset>
-
-                    <fieldset class="withScroll show-scroll">
-                        <legend>Commercial Invoice</legend>
+        </tab>
+        <tab>
+            <tab-heading>
+                COMMERCIAL INVOICE
+            </tab-heading>
+            <div class="panel-content panel-border">
                         <div ng-include="'shipment/commercialInvoice.html'"></div>
-                    </fieldset>
-
-                    <fieldset class="withScroll show-scroll">
-                        <legend>Document Repository</legend>
-                       asasa
-                        <div ng-include="'shipment/shipmentDocuments.html'"></div>
-
-                    </fieldset>
-                </form>
             </div>
 
-        </div>
+            </tab>
+        <tab>
+            <tab-heading>
+                DOCUMENTS
+            </tab-heading>
+            <div ng-include="'shipment/shipmentDocuments.html'">
+                <div class="panel-content panel-border">
+                </div>
+            </div>
 
-    </div>
+            </tab>
+        </tabset>
 
 </div>

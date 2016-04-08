@@ -129,14 +129,20 @@
                             </ul>
                         </li>-->
 
+                        <li class="nav-parent" ng-show="currentRole != 'Admin'">
+                            <a href="#"><span>ADMIN SETTINGS</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('/CustomerMangement')}"><a href="#CustomerMangement"> Customer Management</a></li>
+                            </ul>
+                        </li>
+
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse">
-                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
+                            <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> Add Shipment</a></li>
                                 <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> Print Label</a></li>
                                 <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> Track & Trace</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
+                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> Manage Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/PrintManifest')}"><a href="#PrintManifest"> Print Manifest</a></li>
                             </ul>
                         </li>
@@ -148,8 +154,9 @@
 
                             </ul>
                         </li>
+
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><span>Manage Profile</span> <span class="fa arrow"></span></a>
+                            <a href="#"><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> USER MANAGEMENT</a></li>
@@ -159,6 +166,7 @@
 
                             </ul>
                         </li>
+
                         <li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><span>REPORTS</span></a></li>
 
                         
@@ -1234,7 +1242,7 @@
         <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
         <script src="../global/plugins/ng-file-upload/ng-file-upload-shim.min.js"></script>
         <script src="../global/plugins/ng-file-upload/ng-file-upload.min.js"></script>
-        <script src="directive/fileUploader.js"></script>      
+        <script src="directive/fileUploader.js"></script>
         <script src="shipment/commercialInvoice.js"></script>
 
 
