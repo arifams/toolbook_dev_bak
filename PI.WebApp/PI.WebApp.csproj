@@ -70,6 +70,8 @@
     <Content Include="app\addressBook\loadAddressesCtrl.js" />
     <Content Include="app\addressBook\saveAddress.html" />
     <Content Include="app\addressBook\saveAddressCtrl.js" />
+    <Content Include="app\adminLogin\adminLogin.html" />
+    <Content Include="app\adminLogin\adminLoginCtrl.js" />
     <Content Include="app\commercialInvoice\commercialInvoice.html" />
     <Content Include="app\directive\fileUploader.js" />
     <Content Include="app\shipment\AddressViewTemplate.html" />
@@ -83,6 +85,8 @@
     <Content Include="app\shipment\PreviewLabelTemplate.js" />
     <Content Include="app\shipment\printLabel.html" />
     <Content Include="app\shipment\printLabel.js" />
+    <Content Include="app\shipment\printManifest.html" />
+    <Content Include="app\shipment\printManifest.js" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />
@@ -107,6 +111,8 @@
     <Content Include="css\custom-general.css" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
+    <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="packages.config" />
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />

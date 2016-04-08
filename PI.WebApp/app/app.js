@@ -27,7 +27,7 @@ var MakeApp = angular
     'angularjs-datetime-picker',
     'daterangepicker',
     'ngDialog',
-    'akFileUploader'
+    'ngFileUpload'
   ])
   .config(function ($routeProvider) {
       $routeProvider
@@ -289,6 +289,11 @@ var MakeApp = angular
                templateUrl: 'shipment/printLabel.html',
                controller: 'printLabelCtrl',
                controllerAs: 'printCtrl'
+           })
+           .when('/PrintManifest', {
+               templateUrl:'shipment/printManifest.html',
+               controller: 'printManifestCtrl',
+               controllerAs: 'manifestCtrl'
            })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',

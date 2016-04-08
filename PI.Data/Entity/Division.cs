@@ -24,10 +24,10 @@ namespace PI.Data.Entity
         #region Navigation Property
 
         [ForeignKey("CompanyId")]
-        public Company Company { get; set; }
+        public virtual Company Company { get; set; }
 
         [ForeignKey("DefaultCostCenterId")]
-        public CostCenter CostCenter { get; set; }
+        public virtual CostCenter CostCenter { get; set; }
 
         public virtual IList<DivisionCostCenter> DivisionCostCenters { get; set; }
 
