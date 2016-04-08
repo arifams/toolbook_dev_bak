@@ -192,7 +192,7 @@ namespace PI.Business
 
         public string GetRateRequestURL(RateSheetParametersDto rateParameters)
         {
-            string baseSISUrl = SISWebURL + "/ec_shipmentcost_v2.asp?";
+            string baseSISUrl = SISWebURL + "ec_shipmentcost_v2.asp?";
             if (rateParameters == null)
             {
                 return string.Empty;
@@ -262,6 +262,7 @@ namespace PI.Business
             rateRequestUrl.Append("&inbound=" + rateParameters.inbound);
             rateRequestUrl.Append("&dg=" + rateParameters.dg);
             rateRequestUrl.Append("&dg_type=" + rateParameters.dg_type);
+            rateRequestUrl.Append("&dg_accessible=" + rateParameters.dg_accessible);
             rateRequestUrl.Append("&account=" + rateParameters.account);
             rateRequestUrl.Append("&max_actual_length=" + rateParameters.max_actual_length);
 
@@ -276,7 +277,7 @@ namespace PI.Business
 
         private string BuildAddShipmentXMLString(ShipmentDto addShipment)
         {
-            string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff");
+            //string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff"); addShipment.GeneralInformation.ShipmentName + "-" + referenceNo
 
             string codeCurrenyString = "";
             using (var context = new PIContext())
@@ -289,7 +290,7 @@ namespace PI.Business
             shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, SISCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
-            shipmentStr.AppendFormat("<reference>{0}</reference>", addShipment.GeneralInformation.ShipmentName + "-" + referenceNo);
+            shipmentStr.AppendFormat("<reference>{0}</reference>", addShipment.GeneralInformation.ShipmentReferenceName);
             shipmentStr.AppendFormat("<account>{0}</account>", "000001");  // Should be cost center - But for now send this value-: 000001
             shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>", addShipment.CarrierInformation.CarrierName);
             shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);  // TODO: With this pickup date issue encounter.

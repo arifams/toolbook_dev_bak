@@ -14,7 +14,7 @@ namespace PI.Contract.DTOs.RateSheets
         public string type_xml { get; set; }
         public string type { get; set; }
         public string vat { get; set; }
-        public string default_off { get; set; }
+        public string default_off { get; set; } 
         public string fieldname4 { get; set; }
         public string fieldname1 { get; set; }
         public string sell_buy { get; set; }
@@ -73,6 +73,7 @@ namespace PI.Contract.DTOs.RateSheets
         public string volume_unit { get; set; }
         public string inbound { get; set; }
         public string dg { get; set; }
+        public string dg_accessible { get; set; }
         public string dg_type { get; set; }
         public string account { get; set; }
         public string code_customer { get; set; }

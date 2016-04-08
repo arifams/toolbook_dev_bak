@@ -7,14 +7,17 @@
                 <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options" id="heading1">
-                        <input ng-model="shipmentCtrl.shipment.generalInformation.genInfo" type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
+                        <!--<input ng-model="shipmentCtrl.shipment.generalInformation.genInfo" type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">-->
+                        
+                            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="genaralDetailsForm.$valid&&shipmentCtrl.collapse1==true"><i class="fa fa-check"></i></button>
+                       
                         General Information
                     </h3>
                     </div>
                     </div>
                 </div>
             <form class="form-horizontal" name="genaralDetailsForm" collapse="shipmentCtrl.collapse1==true" ng-submit="genaralDetailsForm.$valid && shipmentCtrl.updateGeneralInfo()">
-                <div class="panel-content panel-default rem-martop" id="panel-border">
+                <div class="panel-content panel-default panel-border">
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -32,79 +35,50 @@
                             </div>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="col-sm-2 label-font">Division*</label>
-                                    <div class="col-sm-4">
-                                        <div class="option-group">
-                                            <select id="shipmentServices" class="form-control"
-                                                    convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
-                                                    name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                    ng-change="selectShipmentType();"
-                                                    rel="popover" data-container="body" data-toggle="popover"
-                                                    data-placement="top"
-                                                    data-html="true"
-                                                    data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
-                                        </div>
-                                    </div>
-                                    <label class="col-sm-2 label-font">Cost Center*</label>
-                                    <div class="col-sm-4">
-                                        <div class="option-group">
-                                            <select id="shipmentServices" class="form-control"
-                                                    convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
-                                                    name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                    ng-change="selectShipmentType();"
-                                                    rel="popover" data-container="body" data-toggle="popover"
-                                                    data-placement="top"
-                                                    data-html="true"
-                                                    data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
-                                        </div>
-                                    </div>
-                                </div>                              
-                            </div>
-                        </div>
-                    <!--
+                    
                       <div class="row">
-                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
-                                <div class="col-sm-4">
-                                <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
-                                    <select class="form-control"
-                                            convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
-                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()">
-                                        <option value="">-Select Division-</option>
-                                    </select>
-                                </div>
-                            </div>
+                          <div class="col-sm-12">
+                              <div class="form-group">
+                                  <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
+                                  <div class="col-sm-4">
+                                      <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
+                                          <select class="form-control"
+                                                  convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
+                                                  name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()">
+                                              <option value="">-Select Division-</option>
+                                          </select>
+                                      </div>
+                                  </div>
 
-                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
-                        <div class="col-sm-4">
-                                <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
-                                    <select class="form-control"
-                                            convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId"
-                                            ng-change="selectCostCenter()"
-                                            rel="popover" data-container="body" data-toggle="popover"
-                                            data-placement="top"
-                                            data-html="true"
-                                            data-content="The appropriate billing address (cost center) to which the shipment should be assigned to.">
-                                        <option value="">-Select Cost Center-</option>
-                                    </select>
-                                </div>
-                            </div>
-                    </div>  
-                    -->                                                    
+                                  <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
+                                  <div class="col-sm-4">
+                                      <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
+                                          <select class="form-control"
+                                                  convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
+                                                  name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId"
+                                                  ng-change="selectCostCenter()"
+                                                  rel="popover" data-container="body" data-toggle="popover"
+                                                  data-placement="top"
+                                                  data-html="true"
+                                                  data-content="The appropriate billing address (cost center) to which the shipment should be assigned to.">
+                                              <option value="">-Select Cost Center-</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          </div>                                   
                                 <div class="row">
                                     <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="col-sm-2 label-font">Product*</label>
 
                                         <div class="col-sm-10 p-r-0">
-                                            <div id="t_express1" class="shipmentmethod">Express</div>
-                                            <div id="t_express2" class="shipmentmethod">Air Freight</div>
-                                            <div id="t_express3" class="shipmentmethod">Sea Freight</div>
-                                            <div id="t_express4" class="shipmentmethod">Road Freight</div>
-                                            <div id="t_express5" class="shipmentmethod">Show All Options </div>
+                                            <div id="t_express1" class="shipmentmethod" ng-click="shipmentCtrl.selectExpress()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode =='Express' ? 'selected' :''" >Express</div>
+                                            <div id="t_express2" class="shipmentmethod" ng-click="shipmentCtrl.selectAir()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='AirFreight' ? 'selected' :''">Air Freight</div>
+                                            <div id="t_express3" class="shipmentmethod" ng-click="shipmentCtrl.selectSea()"   ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='SeaFreight' ? 'selected' :''">Sea Freight</div>
+                                            <div id="t_express4" class="shipmentmethod" ng-click="shipmentCtrl.selectRoad()"   ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='RoadFreight' ? 'selected' :''">Road Freight</div>
+                                            <div id="t_express5" class="shipmentmethod" ng-click="shipmentCtrl.selectall()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='All' ? 'selected' :''">Show All Options </div>
                                         </div>
                                     </div>
                                     </div>
@@ -152,8 +126,9 @@
                 <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <input type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse2==true"><i class="fa fa-check"></i></button>
                         Consigner & Consignee Information
+                       
                     </h3>
                     </div>
                     </div>
@@ -271,7 +246,7 @@
                         </div>
                         <div class="form-group">
                             <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.state" type="text" name="consignerstate" class="form-control" placeholder="State Code{{shipmentCtrl.isRequiredConsignerState?'*':''}}"
-                                   ng-maxlength="2" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consignerstate.$invalid &&
+                                   ng-maxlength="20" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consignerstate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerstate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-required="shipmentCtrl.isRequiredConsignerState" />
                             <div ng-messages="consignerConsigneeInfoForm.consignerstate.$error"
                                  ng-show="(consignerConsigneeInfoForm.consignerstate.$dirty  && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
@@ -325,7 +300,7 @@
                         <p>
                             <label class="form-label">
                                 <input type="checkbox" name="saveconsingnerAddress" data-checkbox="icheckbox_square-blue" icheck
-                                       ng-model="shipmentCtrl.saveconsingnerAddress"> Save as a new customer address
+                                       ng-model="shipmentCtrl.shipment.addressInformation.consigner.saveNewAddress"> Save as a new customer address
                             </label>
                             <a href="" ng-click="shipmentCtrl.ClearConsignerAddress()" class="float-side">Clear All</a>
                         </p>
@@ -438,7 +413,7 @@
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.state" type="text" name="consigneestate" class="form-control" placeholder="State Code{{shipmentCtrl.isRequiredConsigneeState?'*':''}}" 
-                                       ng-maxlength="2" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consigneestate.$invalid &&
+                                       ng-maxlength="20" ng-minlength="2" ng-class="{ 'error': consignerConsigneeInfoForm.consigneestate.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneestate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-required="shipmentCtrl.isRequiredConsigneeState" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneestate.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneestate.$dirty && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
@@ -491,7 +466,7 @@
                         </div>
                                 <label class="form-label">
                                 <input type="checkbox" name="saveconsingneeAddress" data-checkbox="icheckbox_square-blue" icheck
-                                       ng-model="shipmentCtrl.saveconsingneeAddress"> Save as a new customer address
+                                       ng-model="shipmentCtrl.shipment.addressInformation.consignee.saveNewAddress"> Save as a new customer address
                                 </label>
                                 <a href="" ng-click="shipmentCtrl.ClearConsigneeAddress()" class="float-side">Clear All</a></div>
 
@@ -521,7 +496,7 @@
                 <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <input type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="formPackage.$valid&&shipmentCtrl.collapse3==true"><i class="fa fa-check"></i></button>
                         Package Details
                     </h3>
                 </div>
@@ -689,6 +664,40 @@
                     </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 label-font"> Dangerous goods *</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value="true"> Yes </label>
+                                        <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value="false"> No </label>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.dGType" ng-show="shipmentCtrl.shipment.packageDetails.isDG=='true'">
+                                    <option value="EQ" selected>expected quantity (EQ)</option>
+                                    <option value="LQ">limited quantity (LQ)</option>
+                                    <option value="LB">lithium batteries (LB)</option>
+                                    <option value="DI">dry ice (DI)</option>
+                                    <option value="FIX">dangerous goods</option>
+                                    <option value="VAR_CAO">cargo aircraft only (CAO)</option>
+                                    <option value="PAX">passenger aircraft (PAX)</option>
+                                </select>                                
+                        </div>
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.accessibility" ng-show="shipmentCtrl.shipment.packageDetails.isDG=='true'">
+                                    <option value="true" selected>Accessible</option>
+                                    <option value="false">Inaccessible</option>
+                                </select>
+                            </div>
+                    </div>
+
+                </div>
+
                 <div class="row">
                     <div class="col-sm-12">
                     <div class="form-group">
@@ -771,7 +780,7 @@
                 <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <input type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="shipmentCtrl.vm.collapse3==true"><i class="fa fa-check"></i></button>
                         Rates and Carrier Details
                     </h3>
                     </div>
@@ -813,7 +822,9 @@
                             <label class="label-font">Consigner Details</label>
                         </div>
                         <div class="col-sm-10">
-                            <label class="label-info">{{(shipmentCtrl.shipment.addressInformation.consignee.name.length>0 ? shipmentCtrl.shipment.addressInformation.consignee.name : "&nbsp;")}}</label>
+                            <label class="label-info">
+                                {{shipmentCtrl.shipment.addressInformation.consigner.firstName +' '+shipmentCtrl.shipment.addressInformation.consigner.lastName}}
+                            </label>
                         </div>
                     </div>
 
@@ -823,7 +834,7 @@
                         </div>
                         <div class="col-sm-10">
                             <label class="label-info">
-                                {{(shipmentCtrl.shipment.addressInformation.consigner.name.lenght>0 ? shipmentCtrl.shipment.addressInformation.consigner.name : "&nbsp;")}}
+                                {{shipmentCtrl.shipment.addressInformation.consignee.firstName +' '+shipmentCtrl.shipment.addressInformation.consignee.lastName}}
                             </label>
                         </div>
                     </div>

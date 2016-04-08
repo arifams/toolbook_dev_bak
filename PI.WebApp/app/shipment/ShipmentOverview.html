@@ -1,7 +1,4 @@
 ﻿<div>
-    <div class="header">
-        <h2>All Shipments</h2>
-    </div>
 
     <div class="panel">
         <!-- form start -->
@@ -12,28 +9,17 @@
             <!-- left column -->
 
         </div>
-        <div class="panel-body">
-
-
-            <div class="wizard-div current wizard-arrow">
-                <form class="wizard" data-style="arrow">
-                    <fieldset class="withScroll show-scroll">
-                        <legend>Overview</legend>
+        <div class="panel-content panel-border">
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        OVERVIEW
+                    </tab-heading>
                         <div class="row">
                             <div class="col-sm-12">
-
-                                <div class="panel">
-                                    <div class="panel-header bg-blue-light">
-                                        <div class="row">
-                                            <div class="col-sm-12">
                                                 <h3>Shipment Details</h3>
                                             </div>
                                         </div>
-
-                                    </div>
-                                    <div class="form-horizontal">
-
-                                        <div class="panel-content panel-default">
                                             <div class="row">
                                                 <div class="col-sm-8">
                                                     <div class="row">
@@ -71,7 +57,7 @@
                                                     <div class="row">
                                                         <div class="col-sm-3">
                                                             <label class="form-control label-default">Shipment Label</label>
-                                                        </div>
+                                                        </div>shipmentLabelBLOBURL
                                                         <div class="col-sm-5">
                                                             <div> <a href="{{overviewShipCtrl.shipmentLabel}}" target="_blank">View Label</a> </div>
                                                         </div>
@@ -82,7 +68,7 @@
                                                     <div class="panel panel-default map-panel">
                                                         <div class="panel-body">
                                                             <div class="row">
-                                                                <div class="col-sm-12">
+                                        <div class="col-sm-4">
                                                                     <div class="map" id="simple-map"></div>
                                                                 </div>
                                                             </div>
@@ -93,9 +79,30 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        AIR WAYBILL
+                    </tab-heading>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        COMMERCIAL INVOICE
+                    </tab-heading>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        DOCUMENTS
+                    </tab-heading>
+                </tab>
+            </tabset>
                                 </div>
+            <div class="wizard-div current wizard-arrow">
+                <form class="wizard" data-style="arrow">
+                    <fieldset class="withScroll show-scroll">
+                        <legend>Overview</legend>
+                        <div class="row">
+                            <div class="col-sm-12">
 
                                 <div class="panel">
                                     <div class="panel-header bg-blue-light">
@@ -194,7 +201,7 @@
                 </form>
             </div>
 
-        </div>
+        
 
     </div>
 

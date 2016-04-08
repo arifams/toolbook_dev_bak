@@ -165,6 +165,29 @@ namespace PI.Business
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
+                if (currentShipment.PackageDetails.IsDG)
+                {
+                    currentRateSheetDetails.dg = "YES";
+
+                    currentRateSheetDetails.dg_type = currentShipment.PackageDetails.DGType;
+                    //set the dg accessibility
+                    if (currentShipment.PackageDetails.Accessibility)
+                    {
+                        currentRateSheetDetails.dg_accessible = "Y";
+                    }
+                    else
+                    {
+                        currentRateSheetDetails.dg_accessible = "N";
+                    }
+                    
+                }
+                else
+                {
+                    currentRateSheetDetails.dg = "NO";
+                }
+               
+                
+
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
@@ -235,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-            currentRateSheetDetails.dg = "NO";
-            currentRateSheetDetails.dg_type = "";
+           // currentRateSheetDetails.dg = "NO";
+           // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -300,6 +323,7 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
+               
 
                 // If division and costcenter Ids are 0, then assign default costcenter and division.
                 if (addShipment.GeneralInformation.DivisionId == 0)
@@ -330,6 +354,7 @@ namespace PI.Business
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                    ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff"),
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
@@ -407,9 +432,63 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList
+                        PackageProducts = packageProductList,                       
+                        IsDG=addShipment.PackageDetails.IsDG,
+                        Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+                        DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
                     }
                 };
+
+                //save consigner details as new address book detail
+                if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        Number = addShipment.AddressInformation.Consigner.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
+
+                //save consignee details as new address book detail
+                if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        Number = addShipment.AddressInformation.Consignee.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
 
                 try
                 {
@@ -733,7 +812,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -748,7 +827,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }
@@ -873,6 +952,7 @@ namespace PI.Business
                     {
                         ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
+                        ShipmentReferenceName = shipment.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
                     },
                     CarrierInformation = new CarrierInformationDto()
@@ -1518,7 +1598,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -1533,7 +1613,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }
