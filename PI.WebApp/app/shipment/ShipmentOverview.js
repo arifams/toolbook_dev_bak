@@ -13,6 +13,7 @@
                vm.locationHistory = {};
                var lat = 0;
                var lng = 0;
+               vm.Consigneremail = '';
 
                vm.shipmentCode = $location.search().SHIPMENT_CODE;
                vm.trakingNo = $location.search().TRACKING_NO;
@@ -67,7 +68,9 @@
                        debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
-                    
+                       vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
+
+                       vm.awb_URL= "http://book.12send.com/taleus/print_awb.asp?code_shipment="+vm.shipmentCode+"&email="+vm.Consigneremail;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
                        console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
