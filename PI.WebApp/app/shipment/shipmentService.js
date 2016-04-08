@@ -21,7 +21,8 @@
             getTeackAndTraceDetails: getTeackAndTraceDetails,
             loadAllPendingShipments: loadAllPendingShipments,
             getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice,
-            getAvailableFilesForShipment: getAvailableFilesForShipment
+            getAvailableFilesForShipment: getAvailableFilesForShipment,
+            deleteFile: deleteFile
         };
 
 
@@ -164,6 +165,11 @@
                 }
             });
         }
+
+        function deleteFile(fileDetails) {
+            return $http.post(serverBaseUrl + '/api/shipments/DeleteFile', fileDetails)
+        }
+
     }]);
     
     //app.factory('calculateRatesforShipment', function ($http) {

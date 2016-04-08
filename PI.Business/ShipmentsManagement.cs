@@ -660,8 +660,8 @@ namespace PI.Business
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
-                        IsEnableEdit = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending ),
-                        IsEnableDelete = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation )
+                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
+                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -782,7 +782,7 @@ namespace PI.Business
 
             using (PIContext context = new PIContext())
             {
-               currentShipment= context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
+                currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
 
                 //currentShipment = (from shipment in context.Shipments.Include("Division.Company")
                 //                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
@@ -1340,11 +1340,13 @@ namespace PI.Business
         public void InsertShipmentDocument(FileUploadDto fileDetails)
         {
             using (var context = new PIContext())
-            {                
+            {
+                var shipement = context.Shipments.Where(x => x.ShipmentCode == fileDetails.CodeReference).SingleOrDefault();
+
                 context.ShipmentDocument.Add(new ShipmentDocument
                 {
                     TenantId = fileDetails.TenantId,
-                    ShipmentId = fileDetails.ReferenceId,
+                    ShipmentId = shipement.Id,
                     ClientFileName = fileDetails.ClientFileName,
                     DocumentType = (int)fileDetails.DocumentType,
                     UploadedFileName = fileDetails.UploadedFileName,
@@ -1375,6 +1377,7 @@ namespace PI.Business
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto
                 {
+                    Id = x.Id,
                     TenantId = x.TenantId,
                     ReferenceId = x.ShipmentId,
                     ClientFileName = x.ClientFileName,
@@ -1573,7 +1576,7 @@ namespace PI.Business
             using (PIContext context = new PIContext())
             {
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
-                
+
                 tenantId = currentShipment.Division.Company.TenantId;
             }
             if (currentShipment == null)
@@ -1660,6 +1663,19 @@ namespace PI.Business
 
             return currentShipmentDto;
         }
+
+
+        public void DeleteFileInDB(FileUploadDto fileDetails)
+        {
+            using (var context = new PIContext())
+            {
+                var document = context.ShipmentDocument.Where(x=> x.Id == fileDetails.Id).SingleOrDefault();
+                
+                context.ShipmentDocument.Remove(document);
+                context.SaveChanges();
+            }
+        }
+
     }
 
 

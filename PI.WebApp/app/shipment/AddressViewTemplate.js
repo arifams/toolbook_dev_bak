@@ -24,6 +24,7 @@
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.state = address.state
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.email = address.emailAddress;
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.contactNumber = address.phoneNumber;
+                       $scope.shipmentCtrl.consignorAdded = 'true';
                        
                    } else {
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.name = address.fullName;
@@ -36,6 +37,7 @@
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.state = address.state
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.email = address.emailAddress;
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.contactNumber = address.phoneNumber;
+                       $scope.shipmentCtrl.consigneeAdded = 'true';
                      
                    }
                    

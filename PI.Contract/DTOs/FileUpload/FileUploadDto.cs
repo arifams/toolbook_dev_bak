@@ -10,10 +10,13 @@ namespace PI.Contract.DTOs.FileUpload
 {
     public class FileUploadDto
     {
-        public int Id { get; set; }
+        public long Id { get; set; }
         public long TenantId { get; set; }
         public int CategoryId { get; set; }
         public long ReferenceId { get; set; }
+
+        public string CodeReference { get; set; }
+
         public string SubFolderName { get; set; }
 
         public HttpPostedFileBase Attachment { get; set; }

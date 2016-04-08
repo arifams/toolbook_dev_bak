@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
-using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

@@ -1,59 +1,58 @@
 ﻿<div ng-controller="shipmentDocumentCtrl">
     <div class="row">
         <div class="col-sm-12">
-            <div class="panel">
-                <div class="panel-header bg-blue-light">
-                    <h3>Shipment Details</h3>
+            <div class="panel-header bg-blue-light">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3>Uploaded  Documents</h3>
+                    </div>
                 </div>
-                <div class="form-horizontal">
 
-                    <form name="formDocumentUpload">
-                        <div class="form-group">
-                            <label class="col-sm-2 control-label">Organization Logo</label>
-                            <div class="col-sm-6">
-                                <input type="file" ngf-select ng-model="document" name="file"
-                                       ngf-max-size="2MB" required ngf-model-invalid="errorFile">
-                            </div>
-                            <div class="col-sm-4">
-                                <button ng-click="document = null" ng-show="document">Remove</button>
-                                <button ng-click="uploadFile(document)" class="btn">
-                                    <i class="fa fa-arrow-circle-o-up"></i> Upload
-                                </button>
-                                {{errorMsg}}
-                            </div>
+            </div>
+
+            <div>
+                <form name="formDocumentUpload" class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-sm-4">
+                            <input type="file" ngf-select ng-model="document" name="file"
+                                   ngf-max-size="2MB" required ngf-model-invalid="errorFile">
                         </div>
-
-                          <div class="box-body">
-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Uploaded Files</label>
-                                    <div class="col-sm-12">
-
-                                        <div class="table-responsive no-padding">
-                                            <table class="table table-striped">                                               
-                                                <tbody>
-                                                    <tr ng-repeat="file in fileList">
-                                                        <td> <a ng-href="{{file.uploadedFileName}}">{{file.clientFileName}}</a> </td>
-                                                        <td style="text-align:center">
-                                                            <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="deleteFile(file)">
-                                                                <i class="fa fa-remove" style="color:red">
-                                                                </i>
-                                                            </a>
-                                                        </td>
-
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                  
-                    </form>
-                </div>
+                        <div class="col-sm-8">
+                            <button ng-click="uploadFile(document)" class="btn">
+                                <i class="fa fa-arrow-circle-o-up"></i> Upload
+                            </button>
+                            {{errorMsg}}
+                        </div>
                     </div>
 
-                </div>
+                    <div class="box-body">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Uploaded Files</label>
+                            <div class="col-sm-12">
+
+                                <div class="table-responsive no-padding">
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            <tr ng-repeat="file in fileList">
+                                                <td> <a ng-href="{{file.uploadedFileName}}">{{file.clientFileName}}</a> </td>
+                                                <td style="text-align:center">
+                                                    <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="deleteFile(file)">
+                                                        <i class="fa fa-remove" style="color:red">
+                                                        </i>
+                                                    </a>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
+
     </div>
 </div>
