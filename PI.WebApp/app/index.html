@@ -129,14 +129,20 @@
                             </ul>
                         </li>-->
 
+                        <li class="nav-parent" ng-show="currentRole != 'Admin'">
+                            <a href="#"><span>ADMIN SETTINGS</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('/CustomerMangement')}"><a href="#CustomerMangement"> Customer Management</a></li>
+                            </ul>
+                        </li>
+
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> Add Shipment</a></li>
                                 <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> Print Label</a></li>
                                 <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace"> Track & Trace</a></li>
-                                <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="#"> View Overview</a></li>
+                                <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> Manage Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/PrintManifest')}"><a href="#PrintManifest"> Print Manifest</a></li>
                             </ul>
                         </li>
@@ -148,6 +154,7 @@
 
                             </ul>
                         </li>
+
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
@@ -159,6 +166,7 @@
 
                             </ul>
                         </li>
+
                         <li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><span>REPORTS</span></a></li>
 
                         
