@@ -380,10 +380,17 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             return shipmentManagement.GetAvailableFilesForShipmentbyTenant(details);
         }
-
-
-
-
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForInvoice")]
+        public ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
+            return currentshipment;
+        }
     }
 }
 
