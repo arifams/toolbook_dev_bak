@@ -1572,6 +1572,7 @@ namespace PI.Business
                     ShipmentCode = currentShipment.ShipmentCode,
                     ShipmentMode = currentShipment.ShipmentMode,
                     ShipmentName = currentShipment.ShipmentName,
+                    ShipmentReferenceName = currentShipment.ShipmentReferenceName,
                     ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
