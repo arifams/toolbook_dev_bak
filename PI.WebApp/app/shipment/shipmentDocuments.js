@@ -2,8 +2,8 @@
 (function (app) {
 
     app.controller('shipmentDocumentCtrl',
-        ['$window', '$scope', 'Upload', '$http', '$timeout', 'shipmentFactory',
-        function ($window, $scope, Upload, $http, $timeout, shipmentFactory) {
+        ['$window', '$scope', '$rootScope', 'Upload', '$http', '$timeout', 'shipmentFactory',
+        function ($window, $scope, $rootScope,Upload, $http, $timeout, shipmentFactory) {
 
 
             var userId = $window.localStorage.getItem('userGuid');
@@ -17,7 +17,7 @@
                         file: file,
                         userId: userId,
                         documentType: "SHIPMENT_LABEL",
-                        referenceId: shipmentId
+                        referenceId: $scope.shipment.generalInformation.shipmentId
                     },
                 });
 
@@ -41,7 +41,7 @@
             $scope.deleteFile = function (file) {
                 debugger;
                 $http({
-                    url: serverBaseUrl + '/api/Shipments/upload',
+                    url: serverBaseUrl + '/api/Shipments/DeleteFile',
                     method: "POST",
                     data: file
                 }).success(function (result) {
@@ -64,12 +64,9 @@
 
 
             $scope.loadAllUploadedFiles = function () {
-                debugger;
+
                 var shipmentId = $scope.overviewShipCtrl.shipmentCode;
-
-                $scope.details = { userId: userId, referenceId: shipmentId };
-
-                shipmentFactory.getAvailableFilesForShipment(details)
+                shipmentFactory.getAvailableFilesForShipment(shipmentId,userId)
                                 .success(
                                         function (responce) {
                                             debugger;

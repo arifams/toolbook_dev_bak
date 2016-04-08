@@ -165,6 +165,29 @@ namespace PI.Business
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
+                if (currentShipment.PackageDetails.IsDG)
+                {
+                    currentRateSheetDetails.dg = "YES";
+
+                    currentRateSheetDetails.dg_type = currentShipment.PackageDetails.DGType;
+                    //set the dg accessibility
+                    if (currentShipment.PackageDetails.Accessibility)
+                    {
+                        currentRateSheetDetails.dg_accessible = "Y";
+                    }
+                    else
+                    {
+                        currentRateSheetDetails.dg_accessible = "N";
+                    }
+                    
+                }
+                else
+                {
+                    currentRateSheetDetails.dg = "NO";
+                }
+               
+                
+
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
@@ -235,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-            currentRateSheetDetails.dg = "NO";
-            currentRateSheetDetails.dg_type = "";
+           // currentRateSheetDetails.dg = "NO";
+           // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -407,7 +430,11 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList
+                        PackageProducts = packageProductList,                       
+                        IsDG=addShipment.PackageDetails.IsDG,
+                        Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+                        DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
                     }
                 };
 
@@ -1266,6 +1293,7 @@ namespace PI.Business
                     TenantId = fileDetails.TenantId,
                     ShipmentId = fileDetails.ReferenceId,
                     ClientFileName = fileDetails.ClientFileName,
+                    DocumentType = (int)fileDetails.DocumentType,
                     UploadedFileName = fileDetails.UploadedFileName,
                     IsActive = true,
                     CreatedDate = DateTime.Now,
@@ -1277,19 +1305,19 @@ namespace PI.Business
         }
 
 
-        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(FileUploadDto details)
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId)
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(details.UserId);
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
 
             using (var context = new PIContext())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
-                                                    && x.ShipmentId == details.ReferenceId).
+                                                    && x.Shipment.ShipmentCode == shipmentCode).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto

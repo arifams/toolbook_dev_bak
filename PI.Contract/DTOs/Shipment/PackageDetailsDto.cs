@@ -22,6 +22,9 @@ namespace PI.Contract.DTOs.Shipment
         public int ValueCurrency { get; set; }
         public decimal DeclaredValue { get; set; }
         public long Count { get; set; }
+        public bool IsDG { get; set; }
+        public string DGType { get; set; }
+        public bool Accessibility { get; set; }
 
         public short PaymentTypeId { get; set; }
        
