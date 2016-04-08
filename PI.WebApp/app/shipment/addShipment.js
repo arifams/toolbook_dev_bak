@@ -45,6 +45,10 @@
         vm.addressDetailsEmpty = false;
         vm.searchText = '';
         vm.emptySearch = false;
+        vm.shipment.packageDetails.dGType = 'DG_EQ';
+        vm.shipment.packageDetails.accessibility = 'true';
+       
+        
         
 
         // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
@@ -111,6 +115,7 @@
         vm.shipment.packageDetails.cmLBS = "true";
         vm.shipment.packageDetails.volumeCMM = "true";
         vm.shipment.packageDetails.isInsuared = "false";
+        vm.shipment.packageDetails.isDG = "false";
         vm.shipment.packageDetails.valueCurrency = 1;
         
 

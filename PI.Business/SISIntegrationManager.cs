@@ -192,7 +192,7 @@ namespace PI.Business
 
         public string GetRateRequestURL(RateSheetParametersDto rateParameters)
         {
-            string baseSISUrl = SISWebURL + "/ec_shipmentcost_v2.asp?";
+            string baseSISUrl = SISWebURL + "ec_shipmentcost_v2.asp?";
             if (rateParameters == null)
             {
                 return string.Empty;
@@ -262,6 +262,7 @@ namespace PI.Business
             rateRequestUrl.Append("&inbound=" + rateParameters.inbound);
             rateRequestUrl.Append("&dg=" + rateParameters.dg);
             rateRequestUrl.Append("&dg_type=" + rateParameters.dg_type);
+            rateRequestUrl.Append("&dg_accessible=" + rateParameters.dg_accessible);
             rateRequestUrl.Append("&account=" + rateParameters.account);
             rateRequestUrl.Append("&max_actual_length=" + rateParameters.max_actual_length);
 

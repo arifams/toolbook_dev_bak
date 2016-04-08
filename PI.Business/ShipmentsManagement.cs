@@ -165,6 +165,29 @@ namespace PI.Business
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
+                if (currentShipment.PackageDetails.IsDG)
+                {
+                    currentRateSheetDetails.dg = "YES";
+
+                    currentRateSheetDetails.dg_type = currentShipment.PackageDetails.DGType;
+                    //set the dg accessibility
+                    if (currentShipment.PackageDetails.Accessibility)
+                    {
+                        currentRateSheetDetails.dg_accessible = "Y";
+                    }
+                    else
+                    {
+                        currentRateSheetDetails.dg_accessible = "N";
+                    }
+                    
+                }
+                else
+                {
+                    currentRateSheetDetails.dg = "NO";
+                }
+               
+                
+
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
@@ -235,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-            currentRateSheetDetails.dg = "NO";
-            currentRateSheetDetails.dg_type = "";
+           // currentRateSheetDetails.dg = "NO";
+           // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -407,7 +430,11 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList
+                        PackageProducts = packageProductList,                       
+                        IsDG=addShipment.PackageDetails.IsDG,
+                        Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+                        DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
                     }
                 };
 
