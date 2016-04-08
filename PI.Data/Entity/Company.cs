@@ -22,7 +22,7 @@ namespace PI.Data.Entity
         [ForeignKey("TenantId")]
         public Tenant Tenant { get; set; }
 
-        //public Division Division { get; set; }
+       // public Division Division { get; set; }
 
         //public CostCenter CostCenter { get; set; }
 

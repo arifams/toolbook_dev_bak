@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Contract.Business;
+using PI.Contract.DTOs.Admin;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
@@ -148,9 +149,9 @@ namespace PI.Business
             using (var context = new PIContext())
             {
                 var costCenters = from costcenter in context.CostCenters
-                                join ccdivision in context.DivisionCostCenters on costcenter.Id equals ccdivision.CostCenterId
-                                where ccdivision.DivisionId.ToString() == divisionId
-                                && ccdivision.IsActive==true
+                                  join ccdivision in context.DivisionCostCenters on costcenter.Id equals ccdivision.CostCenterId
+                                  where ccdivision.DivisionId.ToString() == divisionId
+                                  && ccdivision.IsActive == true
                                   select costcenter;
 
                 foreach (var item in costCenters)
@@ -332,7 +333,7 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-               // var isSpaceOrEmpty = String.IsNullOrWhiteSpace(costCenter.Description);
+                // var isSpaceOrEmpty = String.IsNullOrWhiteSpace(costCenter.Description);
                 var isSameCostName = context.CostCenters.Where(c => c.CompanyId == comapnyId &&
                                                                   c.Type == "USER" &&
                                                                   c.Id != costCenter.Id &&
@@ -580,7 +581,7 @@ namespace PI.Business
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
 
-            using (var context=new PIContext())
+            using (var context = new PIContext())
             {
                 var divisions = from division in context.Divisions
                                 join divUser in context.UsersInDivisions on division.Id equals divUser.DivisionId
@@ -591,8 +592,8 @@ namespace PI.Business
                 {
                     divisionList.Add(new DivisionDto
                     {
-                        Id=item.Id,
-                        Name=item.Name
+                        Id = item.Id,
+                        Name = item.Name
                     });
                 }
             }
@@ -1017,7 +1018,7 @@ namespace PI.Business
                     {
                         div.IsAssigned = context.UsersInDivisions.Where(ud => ud.DivisionId == div.Id
                                                                               && ud.UserId == userId
-                                                                              && ud.IsDelete == false 
+                                                                              && ud.IsDelete == false
                                                                               && ud.IsActive).ToList().Count() > 0;
                     }
 
@@ -1083,7 +1084,7 @@ namespace PI.Business
             {
                 var isSameEmail = userContext.Users.Where(u => u.Id != userDto.Id
                                                                && u.TenantId == tenantId
-                                                               && (u.Email == userDto.Email )).SingleOrDefault();
+                                                               && (u.Email == userDto.Email)).SingleOrDefault();
 
                 if (isSameEmail != null)
                 {
@@ -1116,12 +1117,12 @@ namespace PI.Business
 
                     // Add customer record for the newly added user.
                     CustomerManagement customerMgr = new CustomerManagement();
-                    string roleId   = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+                    string roleId = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                     var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
                                                                          && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
 
-                    
+
                     customerMgr.SaveCustomer(new CustomerDto
                     {
                         Salutation = userDto.Salutation,
@@ -1154,7 +1155,7 @@ namespace PI.Business
                     // Save user context.
                     userContext.SaveChanges();
                 }
-               
+
 
                 using (PIContext context = new PIContext())
                 {
@@ -1262,7 +1263,7 @@ namespace PI.Business
                         RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                         Status = (item.IsActive) ? "Active" : "Inactive",
                         AssignedDivisionsForGrid = assignedDivForGrid,
-                        LastLoginTime = (item.LastLoginTime == null)? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
+                        LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                     });
                 }
 
@@ -1285,7 +1286,6 @@ namespace PI.Business
                 string userRoleName = userContext.Roles.Where(r => r.Id == roleId).Select(e => e.Name).FirstOrDefault();
 
                 return userRoleName;
-
             }
         }
 
@@ -1309,6 +1309,99 @@ namespace PI.Business
             {
                 Tenant tenant = context.Tenants.SingleOrDefault(t => t.Id == currentuser.TenantId);
                 return tenant.IsCorporateAccount;
+            }
+        }
+
+
+        /// <summary>
+        /// Get all divisions by given filter criteria
+        /// </summary>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public PagedList GetAllComapnies(string status, string searchtext)
+        {
+            var pagedRecord = new PagedList();
+
+            pagedRecord.Content = new List<CustomerListDto>();
+
+            using (var context = new PIContext())
+            {
+                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                var content = (from customer in context.Customers
+                               join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                               where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                               customer.IsDelete == false &&
+                               (string.IsNullOrEmpty(status) || comapny.IsActive.ToString() == status) &&
+                               (string.IsNullOrEmpty(searchtext) || customer.FirstName.Contains(searchtext) || customer.LastName.Contains(searchtext)
+                                 || comapny.Name.Contains(searchtext))
+                               select new
+                               {
+                                   Customer = customer,
+                                   Company = comapny
+                               }).ToList();
+
+
+
+                foreach (var item in content)
+                {
+                    //StringBuilder str = new StringBuilder();
+                    //item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+
+                    //// Remove last <br/> tag.
+                    //assignedDivForGrid = str.ToString();
+                    //lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
+                    //if (lastIndexOfBrTag != -1)
+                    //    assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
+
+                    pagedRecord.Content.Add(new CustomerListDto
+                    {
+                        Id = item.Company.Id,
+                        FirstName = item.Customer.FirstName,
+                        LastName = item.Customer.LastName,
+                        CorporateName = item.Company.Name,
+                        City = item.Customer.CustomerAddress.City,
+                        Status = item.Company.IsActive,
+                        CreatedDate = item.Customer.CreatedDate.ToString("dd/MM/yyyy"),
+                    });
+                }
+
+                // Count
+                //pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
+                //                                                      x.Type == "USER" && x.IsDelete == false &&
+                //                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
+                //                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
+                //                                                     (type == null || x.IsActive.ToString() == type)).Count();
+
+                //pagedRecord.CurrentPage = page;
+                //pagedRecord.PageSize = pageSize;
+
+                return pagedRecord;
+            }
+        }
+
+
+        public bool ChangeCompanyStatus(long comapnyId)
+        {
+            using (var context = new PIContext())
+            {
+                var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
+
+                // Inactivate/activate company
+                if (comapny != null)
+                {
+                    comapny.IsActive = !comapny.IsActive;
+                    context.SaveChanges();
+                }
+
+                //ToDo: Inactivate/activate Users, divisions, cost centers
+
+
+                return comapny.IsActive;
             }
         }
 

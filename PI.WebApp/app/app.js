@@ -273,7 +273,7 @@ var MakeApp = angular
          .when('/loadShipments', {
              templateUrl: 'shipment/loadAllShipments.html',
              controller: 'loadShipmentsCtrl',
-               controllerAs: 'loadShipCtrl'
+             controllerAs: 'loadShipCtrl'
          })
            .when('/ShipmentOverview', {
                templateUrl: 'shipment/ShipmentOverview.html',
@@ -291,13 +291,13 @@ var MakeApp = angular
                controllerAs: 'printCtrl'
            })
            .when('/PrintManifest', {
-               templateUrl:'shipment/printManifest.html',
+               templateUrl: 'shipment/printManifest.html',
                controller: 'printManifestCtrl',
                controllerAs: 'manifestCtrl'
            })
            .when('/AddressViewTemplate', {
                templateUrl: 'shipment/AddressViewTemplate.html',
-              
+
            })
            .when('/PreviewLabelTemplate', {
                templateUrl: 'shipment/PreviewLabelTemplate.html',
@@ -305,7 +305,9 @@ var MakeApp = angular
            })
            .when('/DocumentRepository', {
                templateUrl: 'shipment/shipmentDocuments.html',
-
+           })
+           .when('/CustomerMangement', {
+                 templateUrl: 'admin/loadAllCompanies.html',
            })
         .otherwise({
             redirectTo: '/'

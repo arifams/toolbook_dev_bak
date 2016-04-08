@@ -26,6 +26,7 @@ namespace PI.Service.Controllers
     public class ShipmentsController : BaseApiController
     {
         CompanyManagement comapnyManagement = new CompanyManagement();
+        ShipmentsManagement shipmentManagement = new ShipmentsManagement();
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -375,14 +376,35 @@ namespace PI.Service.Controllers
         //    }
         //}
 
-        public List<FileUploadDto> GetAvailableFilesForShipment(FileUploadDto details)
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetAvailableFilesForShipment")]
+        public List<FileUploadDto> GetAvailableFilesForShipment(string shipmentCode,string userId)
         {
-            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(details);
+            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
         }
 
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("DeleteFile")]
+        public void DeleteFile(FileUploadDto fileDetails)
+        {
+            try
+             {
+                 //shipmentManagement.(fileDelete.Id);
 
+                AzureFileManager media = new AzureFileManager();
+                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                var result = media.Delete(fileDetails.FileAbsoluteURL);
+
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+        }
 
     }
 }

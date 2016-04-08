@@ -1245,6 +1245,7 @@ namespace PI.Business
                     TenantId = fileDetails.TenantId,
                     ShipmentId = fileDetails.ReferenceId,
                     ClientFileName = fileDetails.ClientFileName,
+                    DocumentType = (int)fileDetails.DocumentType,
                     UploadedFileName = fileDetails.UploadedFileName,
                     IsActive = true,
                     CreatedDate = DateTime.Now,
@@ -1256,19 +1257,19 @@ namespace PI.Business
         }
 
 
-        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(FileUploadDto details)
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId)
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(details.UserId);
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
 
             using (var context = new PIContext())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
-                                                    && x.ShipmentId == details.ReferenceId).
+                                                    && x.Shipment.ShipmentCode == shipmentCode).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto
