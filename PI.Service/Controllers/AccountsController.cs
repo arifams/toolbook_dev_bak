@@ -72,7 +72,7 @@ namespace PI.Service.Controllers
         {
             if (!ModelState.IsValid)
             {
-               // return BadRequest(ModelState);
+                // return BadRequest(ModelState);
                 return -1;
             }
 
@@ -91,7 +91,7 @@ namespace PI.Service.Controllers
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
             if (existingUser == null)
             {
-              
+
                 //Create Tenant, Default Company, Division & CostCenter 
                 CompanyController companyManagement = new CompanyController();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
@@ -101,7 +101,7 @@ namespace PI.Service.Controllers
                 //user.Customer = new Data.Entity.Customer();
 
                 IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
-                
+
                 createUserModel.UserId = user.Id;
 
                 // Save in customer table.
@@ -110,11 +110,11 @@ namespace PI.Service.Controllers
             }
             else
             {
-                  return -2;
+                return -2;
                 //return GetErrorResult(IdentityResult.Failed("Email already exists!"));
             }
 
-              
+
 
             // Add Business Owner Role to user
             AppUserManager.AddToRole(user.Id, "BusinessOwner");
@@ -122,15 +122,15 @@ namespace PI.Service.Controllers
             AppUserManager.Update(user);
 
 
-            
+
             #region For Email Confirmaion
 
-            string code =  AppUserManager.GenerateEmailConfirmationToken(user.Id);
+            string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
             //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation +".")
+            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(user.Id, "Your account has been provisioned!", emailbody.ToString());
@@ -269,7 +269,7 @@ namespace PI.Service.Controllers
 
             bool isCorporateAccount = companyManagement.GetAccountType(user.Id);
 
-         
+
             if (user == null)
                 return Ok(new
                 {
@@ -279,7 +279,7 @@ namespace PI.Service.Controllers
                 });
             else if (!customer.IsConfirmEmail)
             {
-                if(AppUserManager.IsEmailConfirmed(user.Id))
+                if (AppUserManager.IsEmailConfirmed(user.Id))
                 {
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
@@ -292,7 +292,7 @@ namespace PI.Service.Controllers
                         IsCorporateAccount = isCorporateAccount
                     });
                 }
-                
+
                 else
                     return Ok(new
                     {
@@ -326,8 +326,40 @@ namespace PI.Service.Controllers
                         Result = -2
                     });
                 }
-            }       
+            }
         }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("LoginAdmin")]
+        public IHttpActionResult LoginAdmin(CustomerDto customer)
+        {
+            var user = AppUserManager.Find(customer.UserName, customer.Password);
+
+            //var currentRoles = await this.AppUserManager.GetRolesAsync(user.Id);
+            string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
+          
+            if (user == null)
+                return Ok(new
+                {
+                    Id = "",
+                    Role = roleName,
+                    Result = -1
+                });
+            else
+            {   //set last logon time as current datetime
+                companyManagement.UpdateLastLoginTime(user.Id);
+                return Ok(new
+                {
+                    Id = user.Id,
+                    Role = roleName,
+                    Result = 1,                  
+                });
+            }
+        }
+     
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]

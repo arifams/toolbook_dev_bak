@@ -54,6 +54,9 @@
     app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout) {
         var vm = this;
         vm.stream = {};
+     
+
+       
 
         vm.searchAddresses = function () {
 
@@ -332,9 +335,44 @@
                     userId: $window.localStorage.getItem('userGuid'),
                     documentType: "AddressBook",                   
                 },
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),
+                }
             });
 
             file.upload.then(function (response) {
+               
+                var body = $("html, body");
+                if (response.statusText = 'OK') {
+                                       
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-success media fade in"><p>' + ' Address records added successfully.' + '</p></div>',
+                            buttons: [
+                                    {
+                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            $route.reload();
+                                            $noty.close();
+
+
+                                        }
+                                    }
+
+                            ],
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    
+
+                }
+
                 $timeout(function () {
                     file.result = response.data;
                     deleteFile();

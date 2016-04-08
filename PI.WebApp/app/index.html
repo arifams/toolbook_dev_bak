@@ -129,7 +129,7 @@
                             </ul>
                         </li>-->
 
-                        <li class="nav-parent">
+                        <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
@@ -141,14 +141,14 @@
                             </ul>
                         </li>
 
-                        <li class="nav-parent">
+                        <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><span>BILLING & INVOICING</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('mailbox.html')}"><a href="#"> INVOICE</a></li>                                
 
                             </ul>
                         </li>
-                        <li class="nav-parent">
+                        <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><span>Manage Profile</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
@@ -506,8 +506,8 @@
                                         <a data-target="#"><i class="icon-settings"></i><span>Account Settings</span></a> 
                                     </li>-->
                                     <li>
-                                        <a href="../app/userLogin/userLogin.html"><i class="icon-logout"></i><span>Logout</span></a>
-
+                                        <a href="../app/userLogin/userLogin.html" ng-show="currentRole != 'Admin'" ><i class="icon-logout"></i><span>Logout</span></a>
+                                        <a href="../app/adminLogin/adminLogin.html" ng-show="currentRole == 'Admin'"><i class="icon-logout"></i><span>Logout</span></a>
                                     </li>
                                 </ul>
                             </li>
@@ -1234,8 +1234,8 @@
         <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
         <script src="../global/plugins/ng-file-upload/ng-file-upload-shim.min.js"></script>
         <script src="../global/plugins/ng-file-upload/ng-file-upload.min.js"></script>
-        <script src="directive/fileUploader.js"></script>
-   
+        <script src="directive/fileUploader.js"></script>      
+        <script src="shipment/commercialInvoice.js"></script>
 
 
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->

@@ -20,6 +20,7 @@
             getLocationHistory: getLocationHistory,
             getTeackAndTraceDetails: getTeackAndTraceDetails,
             loadAllPendingShipments: loadAllPendingShipments,
+            getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice
             getAvailableFilesForShipment: getAvailableFilesForShipment
         };
 
@@ -29,9 +30,9 @@
                 params: {
                     career: carrier,
                     trackingNumber: trackingNo
-                }
-            });
-
+                        }
+             });
+            
         }
         //get paylane relted Details
         function getHashCodesForPaylane(paylane) {
@@ -61,21 +62,21 @@
 
             return $http.post(serverBaseUrl + '/api/shipments/GetLocationHistoryforShipment', shipmentDetail);
         }
-
+                
         function calculateRates(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);
         }
-
+       
         //get all divisions for business owners
         function loadAllDivisions() {
-
-            return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
-                params: {
-                    userId: $window.localStorage.getItem('userGuid')
-                }
-            });
-
+         
+             return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
+                    params: {
+                        userId: $window.localStorage.getItem('userGuid')
+                    }
+             });
+            
         }
 
         //get the assigned divisions for other users
@@ -91,7 +92,7 @@
 
         function loadAssignedCostCenters(divisionid) {
 
-            // GetCostCentersbyDivision
+           // GetCostCentersbyDivision
             return $http.get(serverBaseUrl + '/api/Company/GetCostCentersbyDivision', {
                 params: {
                     divisionId: divisionid
@@ -111,7 +112,7 @@
             return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
 
-
+        
         function loadShipmentStatusList(shipmentid) {
             return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusListbyId', {
                 params: {
@@ -121,16 +122,16 @@
         }
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {
-            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),
-                    status: status,
-                    startDate: startDate,
+                userId: $window.localStorage.getItem('userGuid'),
+                status: status,
+                startDate: startDate,
                     endDate: endDate,
-                    number: number,
-                    source: source,
-                    destination: destination
-                }
+                number: number,
+                source: source,
+                destination: destination
+            }
             });
         }
 
@@ -138,10 +139,10 @@
 
             return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),
+                    userId: $window.localStorage.getItem('userGuid'),                   
                     startDate: startDate,
                     endDate: endDate,
-                    number: number,
+                    number: number,                   
                 }
             });
         }
@@ -156,9 +157,15 @@
             });
         }
 
-
+        function getshipmentByShipmentCodeForInvoice(shipmentcode) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForInvoice', {
+                params: {
+                    shipmentCode: shipmentcode
+                }
+            });
+        }
     }]);
-
+    
     //app.factory('calculateRatesforShipment', function ($http) {
     //    return {
     //        calculateRates: function (shipmentDetail) {
@@ -169,6 +176,6 @@
 
     //});
 
-
+  
 
 })(angular.module('newApp'));

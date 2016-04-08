@@ -17,5 +17,6 @@ namespace PI.Contract.Business
         PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
         ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails);
         void InsertShipmentDocument(FileUploadDto fileDetails);
+        ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode);
     }
 }

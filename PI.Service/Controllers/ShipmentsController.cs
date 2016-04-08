@@ -19,6 +19,9 @@ using PI.Contract.DTOs.FileUpload;
 using System.IO;
 using Newtonsoft.Json;
 using System.Configuration;
+using PI.Contract.DTOs.AddressBook;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace PI.Service.Controllers
 {
@@ -197,9 +200,24 @@ namespace PI.Service.Controllers
         //    }
         //}
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
-        public async Task<HttpResponseMessage> UploadAddressBook()
+        public async Task<HttpResponseMessage> UploadAddressBook(String userId)
         {
-           return await Upload();
+            var responce= await Upload();
+
+            var urlJson =await responce.Content.ReadAsStringAsync();
+
+            Result result =null;
+            result= JsonConvert.DeserializeObject<Result>(urlJson);
+
+           // string URL = "https://pidocuments.blob.core.windows.net:443/piblobstorage/TENANT_3/ADDRESS_BOOK/b39a9937-1c7c-4889-af62-aea78aaca524.xlsx";
+
+            AddressBookManagement addressManagement = new AddressBookManagement();
+            addressManagement.UpdateAddressBookDatafromExcel(result.returnData, userId);
+
+            //DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Result));
+            //Result result = (Result)serializer.;
+
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
@@ -248,7 +266,7 @@ namespace PI.Service.Controllers
                 {
                     // Delete if a file already exists from the same userId
                     await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                        + "/" + (fileDetails.UploadedFileName + ".xls") );                
+                                        + "/" + (fileDetails.UserId + ".xls") );                
                 }
                 catch (Exception ex) { }
 
@@ -258,7 +276,7 @@ namespace PI.Service.Controllers
                 try
                 {
                await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
-                                        + "/" + (fileDetails.UploadedFileName + ".xls"));
+                                        + "/" + (fileDetails.UserId + ".xlsx"));
                 }
                 catch (Exception ex) { }
             }
@@ -385,6 +403,16 @@ namespace PI.Service.Controllers
             return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForInvoice")]
+        public ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
+            return currentshipment;
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

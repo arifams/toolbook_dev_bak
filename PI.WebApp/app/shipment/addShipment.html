@@ -3,37 +3,39 @@
 <div>
         <div id="panel-notif"></div>
         <div class="panel">
-        <div class="panel-header">
+        <div class="panel-header change-head">
                 <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options" id="heading1">
-                        <input type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
+                        <input ng-model="shipmentCtrl.shipment.generalInformation.genInfo" type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
                         General Information
                     </h3>
                     </div>
                     </div>
                 </div>
             <form class="form-horizontal" name="genaralDetailsForm" collapse="shipmentCtrl.collapse1==true" ng-submit="genaralDetailsForm.$valid && shipmentCtrl.updateGeneralInfo()">
-                <div class="panel-content panel-default">
-                <div class="row" id="panel-content">
+                <div class="panel-content panel-default rem-martop" id="panel-border">
+                    <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">Reference *</label>
+                                <label class="col-sm-2 label-font">Reference *</label>
                                 <div class="col-sm-10">
-                                <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentName" type="text" name="shipmentname" class="form-control" ng-required="true"
-                                       ng-maxlength="200" ng-class="{ 'error': genaralDetailsForm.shipmentname.$invalid &&
+                                    <input ng-model="shipmentCtrl.shipment.generalInformation.shipmentName" type="text" name="shipmentname" class="form-control" ng-required="true"
+                                           ng-maxlength="200" ng-class="{ 'error': genaralDetailsForm.shipmentname.$invalid &&
                                                                         (genaralDetailsForm.shipmentname.$dirty|| shipmentCtrl.generalInfoisSubmit) }" ng-change="shipmentCtrl.textChangeOfName()" placeholder="purchase order or description of the shipment" />
-                                <div ng-messages="genaralDetailsForm.shipmentname.$error"
-                                     ng-show="genaralDetailsForm.shipmentname.$dirty || shipmentCtrl.generalInfoisSubmit">
-                                    <label ng-message="required" class="error" for="divisionName">Shipment Name is required</label>
-                                    <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                    <div ng-messages="genaralDetailsForm.shipmentname.$error"
+                                         ng-show="genaralDetailsForm.shipmentname.$dirty || shipmentCtrl.generalInfoisSubmit">
+                                        <label ng-message="required" class="error" for="divisionName">Shipment Name is required</label>
+                                        <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label">Division*</label>
+                                    <label class="col-sm-2 label-font">Division*</label>
                                     <div class="col-sm-4">
                                         <div class="option-group">
                                             <select id="shipmentServices" class="form-control"
@@ -46,7 +48,7 @@
                                                     data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
                                         </div>
                                     </div>
-                                    <label class="col-sm-2 control-label">Cost Center*</label>
+                                    <label class="col-sm-2 label-font">Cost Center*</label>
                                     <div class="col-sm-4">
                                         <div class="option-group">
                                             <select id="shipmentServices" class="form-control"
@@ -59,12 +61,12 @@
                                                     data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
                                         </div>
                                     </div>
-                                </div>
-
-                    </div>
+                                </div>                              
+                            </div>
                         </div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
+                    <!--
+                      <div class="row">
+                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
                                 <div class="col-sm-4">
                                 <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
                                     <select class="form-control"
@@ -75,7 +77,7 @@
                                 </div>
                             </div>
 
-                            <label class="col-sm-2 control-label" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
+                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
                         <div class="col-sm-4">
                                 <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
                                     <select class="form-control"
@@ -90,37 +92,30 @@
                                     </select>
                                 </div>
                             </div>
+                    </div>  
+                    -->                                                    
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 label-font">Product*</label>
 
-                    </div>
-                            <div class="form-group">
-                            <label class="col-sm-2 control-label">Product*</label>
+                                        <div class="col-sm-10 p-r-0">
+                                            <div id="t_express1" class="shipmentmethod">Express</div>
+                                            <div id="t_express2" class="shipmentmethod">Air Freight</div>
+                                            <div id="t_express3" class="shipmentmethod">Sea Freight</div>
+                                            <div id="t_express4" class="shipmentmethod">Road Freight</div>
+                                            <div id="t_express5" class="shipmentmethod">Show All Options </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
 
-                            <div class="col-sm-10 p-r-0">
-                                <div id="t_express1" class="shipmentmethod">Express</div>
-                                <div id="t_express2" class="shipmentmethod">Air Freight</div>
-                                <div id="t_express3" class="shipmentmethod">Sea Freight</div>
-                                <div id="t_express4" class="shipmentmethod">Road Freight</div>
-                                <div id="t_express5" class="shipmentmethod">Show All Options </div>
-                            </div>
-                            <!--<div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Expressclass" ng-click="shipmentCtrl.selectExpress()"><strong>Express</strong> </button>
-                        </div>
-                        <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Airclass" ng-click="shipmentCtrl.selectAir()"> <strong>Air Freight</strong></button>
-                            </div>
-                        <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Seaclass" ng-click="shipmentCtrl.selectSea()"><strong>Sea Freight</strong></button>
-                        </div>
-                        <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.Roadclass" ng-click="shipmentCtrl.selectRoad()"><strong>Road Freight</strong></button>
-                        </div>
-                        <div class="col-sm-2">
-                                    <button ng-class="shipmentCtrl.allclass" ng-model="shipmentCtrl.shipment.generalInformation.all" ng-click="shipmentCtrl.selectall()"><strong>Show All Options</strong></button>
-                                </div>-->
-                            </div>
+
+                    <div class="row">
+                        <div class="col-sm-12">
                             <div class="form-group">
-                            <label class="col-sm-2 control-label">Condition*</label>
-                        <div class="col-sm-4">
+                            <label class="col-sm-2 label-font">Condition*</label>
+                            <div class="col-sm-4">
                                 <div class="option-group">
                                     <select id="shipmentServices" class="form-control"
                                             convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
@@ -132,17 +127,23 @@
                                             data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
                                 </div>
                             </div>
-
-                                </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary pull-right" type="submit"
-                                        ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
-                                    Next
-                                </button>
-                            </div>
                         </div>
                     </div>
-                </div>
+                  </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <div class="col-sm-8 col-md-9"></div>
+                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
+                                    <button class="btn btn-primary resize-btn" type="submit"
+                                            ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
+                                        Next
+                                    </button>
+                                </div>
+                            </div>                         
+                        </div>
+                    </div>
+                 </div>
             </form>
         </div>
 
@@ -176,14 +177,12 @@
                                 </button>
                             </span>
                         </div>
-                            <p>
                                 <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
-                                    <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                                    <label class="error">Searsh Criteria is not Matched with any Address Detail</label>
                             </div>
                                 <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
-                                    <label class="label label-danger">Add text before search</label>
+                                    <label class="error">Add text before search</label>
                         </div>
-                            </p>
                         <div class="form-group">
                             <label class="form-label">Consigner </label>
                     </div>
@@ -328,7 +327,7 @@
                                 <input type="checkbox" name="saveconsingnerAddress" data-checkbox="icheckbox_square-blue" icheck
                                        ng-model="shipmentCtrl.saveconsingnerAddress"> Save as a new customer address
                             </label>
-                            <a ng-click="shipmentCtrl.ClearConsignerAddress()">Clear All</a>
+                            <a href="" ng-click="shipmentCtrl.ClearConsignerAddress()" class="float-side">Clear All</a>
                         </p>
                     </div>
 
@@ -344,16 +343,13 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                            </div>
-                            <p>
+                            </div> 
                                 <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
-                                    <label class="label label-danger">Searsh Criteria is not Matched with any Address Detail</label>
+                                    <label class="error">Searsh Criteria is not Matched with any Address Detail</label>
                                 </div>
                                 <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.emptySearch">
-                                    <label class="label label-danger">Add text before search</label>
+                                    <label class="error">Add text before search</label>
                                 </div>
-                                </p>
-
                             <div class="form-group">
                                 <label class="form-label">Consignee </label>
                         </div>
@@ -493,20 +489,17 @@
                                 </div>
 
                         </div>
-                            <div class="form-group">
                                 <label class="form-label">
                                 <input type="checkbox" name="saveconsingneeAddress" data-checkbox="icheckbox_square-blue" icheck
                                        ng-model="shipmentCtrl.saveconsingneeAddress"> Save as a new customer address
-                            </label>
-                                <a ng-click="shipmentCtrl.ClearConsigneeAddress()">Clear All</a>
-                        </div>
+                                </label>
+                                <a href="" ng-click="shipmentCtrl.ClearConsigneeAddress()" class="float-side">Clear All</a></div>
+
                         </div>
                         
                     </div>
-                
-   
-                
-                            <div class="form-group">
+              
+                    <div class="row" style="padding:0px 30px 0px 40px;">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <button class="btn btn-primary btn-app pull-right"
@@ -519,7 +512,6 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
                 </div>
             </form>
         </div>
@@ -532,36 +524,66 @@
                         <input type="radio" data-radio="iradio_square-blue" name="radio1" style="position: absolute; opacity: 0;">
                         Package Details
                     </h3>
-                    </div>
+                </div>
                 </div>
 
             </div>
             <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid">
-            <div class="panel-content panel-default" style="height:auto">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"> Shipment Description *</label>
-                        <div class="col-sm-10">
-                            <input ng-model="shipmentCtrl.shipment.packageDetails.shipmentDescription" type="text" name="shipmentName"
-                                   class="form-control" ng-required="true"
-                                   ng-class="{ 'error': formPackage.shipmentName.$invalid && (formPackage.shipmentName.$dirty|| shipmentCtrl.packageDetailsisSubmit) }" />
-                            <div ng-messages="saveDivisionForm.shipmentName.$error"
-                                 ng-show="saveDivisionForm.shipmentName.$dirty || shipmentCtrl.packageDetailsisSubmit">
-                                <label ng-message="required" class="error" for="shipmentName">Shipment Desciption is required</label>
+            <div class="panel-content panel-default" style="height:auto;padding:30px;">
+                    
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 label-font">Shipment Description *</label>
+                            <div class="col-sm-10">
+                                <input ng-model="shipmentCtrl.shipment.packageDetails.shipmentDescription" type="text" name="shipmentName"
+                                       class="form-control" ng-required="true"
+                                       ng-class="{ 'error': formPackage.shipmentName.$invalid && (formPackage.shipmentName.$dirty|| shipmentCtrl.packageDetailsisSubmit) }" />
+                                <div ng-messages="saveDivisionForm.shipmentName.$error"
+                                     ng-show="saveDivisionForm.shipmentName.$dirty || shipmentCtrl.packageDetailsisSubmit">
+                                    <label ng-message="required" class="error" for="shipmentName">Shipment Desciption is required</label>
+                                </div>
                             </div>
+                            
                         </div>
 
                     </div>
+                </div>
+                <!--
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="control-label">Total Weight</label>
+                            
+                                    <h4><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>                                   
+                             
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
+                                        <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">Total Weight</label>
+                        </div>
+
+                    </div>
+                </div>
+                -->
+                
+                
+                <div class="row">
+                    <div class="col-sm-12">
+                    <div class="form-group p-l-18">
+                        <label class="col-sm-2 label-font">Total Weight</label>
                         <div class="col-sm-10">
                             <div class="skin skin-minimal">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <div class="col-sm-3">
-                                           <h4><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>                                          
+                                        <div class="col-sm-5" >
+                                           <h4 style="min-height: 26px;" class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>                                          
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
                                                     <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
@@ -569,24 +591,28 @@
                                                 </div>
                                             </div>
                                         </div>
+                                       
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    </div>
+                    </div>
+            
+                    
+                <div class="row">
+                    <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Total Volume</label>
+                        <label class="col-sm-2 label-font">Total Volume</label>
                         <div class="col-sm-10">
                             <div class="skin skin-minimal">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        
-                                        <div class="col-sm-3">
-                                           <h4><strong>{{shipmentCtrl.shipment.packageDetails.totalVolume}}</strong> </h4>
-
+                                        <div class="col-sm-5">
+                                            <h4 style="min-height: 26px;" class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalVolume}}</strong> </h4>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
                                                     <label><input type="radio" icheck name="volumeCMM" ng-model="shipmentCtrl.shipment.packageDetails.volumeCMM" value="true" checked="checked"> cm </label>
@@ -599,13 +625,15 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-2">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <div class="form-group" style="overflow-x: auto;">
+                        <div class="col-sm-2 label-font ">
                             Product Details *
                         </div>
-                        <div class="col-sm-10 table-responsive no-padding">
-                            <table class="table table-striped">
+                            <table id="product_info" class="table table-striped">
                                 <thead>
                                     <tr>
                                         <th> Product Type *  </th>
@@ -625,13 +653,13 @@
                                             <select class="form-control" ng-model="package.productType"
                                                     convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                         </td>
-                                    <td width="13%"><input type="number" class="form-control" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="13%"><input type="number" class="form-control" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
                                         <td width="17%"><input type="text" class="form-control" ng-model="package.description" contenteditable="true" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                        <td style="text-align:center" width="2%">
+                                        <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td style="text-align:center" width="2%" class="prod_ops_rm">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
                                                 </i>
@@ -646,73 +674,94 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
                     </div>
-
+                    </div>
+                </div>                 
+                
+                <div class="row">
+                    <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"> HS Code</label>
+                        <label class="col-sm-2 label-font"> HS Code</label>
                         <div class="col-sm-10">
                             <input ng-model="shipmentCtrl.shipment.packageDetails.hsCode" type="text" name="hsCode"
                                    class="form-control" />
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"> Preferred Collection Date *</label>
-                        <div class="col-sm-6">
-                            <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
-                                   class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->                                              
-                               
-                            <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal" date-format="dd-MMM-yyyy" ng-required="true" date-only />
-                               
-                        </div>
                     </div>
-
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label"> Carrier Instructions</label>
+                        <label class="col-sm-2 label-font"> Preferred Collection Date *</label>
+                        <div class="col-sm-4 prepend-icon">
+                            <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
+                   class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->
+
+                            <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="date-picker form-control hasDatepicker" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal" date-format="dd-MMM-yyyy" ng-required="true" date-only />
+                            <i class="icon-calendar"></i>
+                        </div>
+                        <div class="col-sm-6"></div>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-2 label-font"> Carrier Instructions</label>
                         <div class="col-sm-10">
                             <input ng-model="shipmentCtrl.shipment.packageDetails.instructions" type="text" name="instructions"
                                    class="form-control" />
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label"> Insurance *</label>
-                        <div class="col-sm-2">
-                            <div class="input-group">
-                                <div class="icheck-inline">
-                                    <label><input type="radio" name="isInsuared" icheck ng-model="shipmentCtrl.shipment.packageDetails.isInsuared" value="true"> Yes </label>
-                                    <label><input type="radio" name="isInsuared" icheck ng-model="shipmentCtrl.shipment.packageDetails.isInsuared" value="false"> No </label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue" placeholder="Declared value" required="true"  
-                                   class="form-control" />
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="option-group">
-                                <select name="mySelect" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.valueCurrency"
-                                        convert-to-number ng-options="option.id as option.currencyName for option in shipmentCtrl.currencies" ng-required="true"></select>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12">
-                                <button type="submit" ng-click="shipmentCtrl.checkPackageDetails(formPackage.$valid)"
-                                    class="btn btn-primary pull-right">
-                                    Next
-                                </button>
-                            <button ng-click="shipmentCtrl.collapse2=false;shipmentCtrl.collapse3=true" class="btn btn-primary pull-right">
-                                Previous
-                            </button>
-                            </div>
                     </div>
                 </div>
+                                       
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 label-font"> Insurance *</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label><input type="radio" name="isInsuared" icheck ng-model="shipmentCtrl.shipment.packageDetails.isInsuared" value="true"> Yes </label>
+                                        <label><input type="radio" name="isInsuared" icheck ng-model="shipmentCtrl.shipment.packageDetails.isInsuared" value="false"> No </label>
+                                    </div>
+                                </div>
+                            </div>                         
+                            <div class="col-sm-3 set-margin">
+                                <div class="form-group">
+                                    <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue" placeholder="Declared value" required="true"
+                                           class="form-control" />
+                                </div>
+                                </div>
+                            <div class="col-sm-3 set-margin">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select name="mySelect" class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.valueCurrency"
+                                                convert-to-number ng-options="option.id as option.currencyName for option in shipmentCtrl.currencies" ng-required="true"></select>
+                                    </div>
+                                </div>
 
+
+                        </div>
+                    </div>
+                </div>           
+                </div>
+                <div class="row" style="padding:0px 0px 0px 20px;">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <button type="submit" ng-click="shipmentCtrl.checkPackageDetails(formPackage.$valid)"
+                                    class="btn btn-primary pull-right ">
+                                Next
+                            </button>
+                            <button ng-click="shipmentCtrl.collapse2=false;shipmentCtrl.collapse3=true" class="btn btn-primary pull-right ">
+                                Previous
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                </div>
             </form>
         </div>
 
@@ -730,233 +779,210 @@
             </div>
             <!--<form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate>-->
         <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid" novalidate>
-                   
-                    <div class="panel-content">
-                        <h3>Shipment Summary</h3>
-
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Shipment Name</label>
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="form-group">
-                                    <input type="text" name="shipmentname" class="form-control" disabled
-                                           ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentName}}" />
-                                </div>
-                            </div>
+            
+            <div class="panel-content panel-default" style="height:auto;">
+                <fieldset>
+                    <legend>Shipment Summary</legend>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="label-font">Shipment Name</label>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Shipment Mode</label>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input type="text" name="shipmentMode" class="form-control" disabled
-                                           ng-maxlength="200" value="{{shipmentCtrl.shipment.generalInformation.shipmentMode}}" />
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-
-                            </div>
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Shipment Type</label>
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="form-group">
-                                    <input value="{{shipmentCtrl.shipment.generalInformation.shipmentServices}}" type="text" name="shipmentType" class="form-control" disabled
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
+                        <div class="col-sm-10">
+                            <label class="label-info">{{shipmentCtrl.shipment.generalInformation.shipmentName}}"</label>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Consigner Details</label>
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="form-group">
-                                    <input type="text" name="consignerDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consignee.name}}"
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="label-font">Shipment Mode</label>
                         </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Consignee Details</label>
-                            </div>
-                            <div class="col-sm-10">
-                                <div class="form-group">
-                                    <input type="text" name="consigneeDetails" class="form-control" disabled value="{{shipmentCtrl.shipment.addressInformation.consigner.name}}"
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Package Weight</label>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" name="packageWeight" class="form-control" disabled value="{{shipmentCtrl.shipment.packageDetails.totalWeight}}"
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Package Volume</label>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input type="text" name="packageVolume" class="form-control" disabled value="{{shipmentCtrl.shipment.packageDetails.totalVolume}}"
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
-                            <div class="col-sm-2">
-                                <label class="col-sm-2 control-label">Package Count</label>
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <input ng-model="shipmentCtrl.shipment.packageDetails.count" type="text" name="packageCount" class="form-control" disabled
-                                           ng-maxlength="200" />
-                                </div>
-                            </div>
-                        </div>
-                        <br />
-                        <div class="form-group">
-                            <div class="col-sm-8"></div>
-                            <div class="col-sm-1">
-                                <div class="font-animation" ng-show="shipmentCtrl.loadingRates==true">
-                                    <label><i class="fa fa-spinner faa-spin animated"></i> loading...</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <button class="btn btn-primary pull-right" type="button" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
-                            </div>
-                        </div>
-                        <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
-                            <div class="col-sm-4"></div>
-                            <div class="col-sm-6">
-                                <label class="label label-danger">
-                                    <strong>No Available rates for this shipment</strong>
-                                </label>
-                            </div>
+                        <div class="col-sm-4">
+                            <label class="label-info">{{shipmentCtrl.shipment.generalInformation.shipmentMode}}"</label>
                         </div>
 
-                        <div class="CareeDetailsTable" collapse="shipmentCtrl.searchRates!=true||shipmentCtrl.previousClicked">
+                        <div class="col-sm-2">
+                            <label class="label-font">Shipment Type</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <label class="label-info ">
+                                {{shipmentCtrl.shipment.generalInformation.shipmentServices}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="label-font">Consigner Details</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <label class="label-info">{{(shipmentCtrl.shipment.addressInformation.consignee.name.length>0 ? shipmentCtrl.shipment.addressInformation.consignee.name : "&nbsp;")}}</label>
+                        </div>
+                    </div>
 
-                            <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th st-sort="name">Carrier</th>
-                                        <th>Price</th>
-                                        <th>Delivery date</th>
-                                        <th>Service</th>
-                                        <th>Transit time</th>
-                                        <th>Select</th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="row in shipmentCtrl.displayedCollection">
-                                        <td>{{row.carrier_name+ " "+ row.transport_mode}}</td>
-                                        <td>{{row.currency+" "+row.price}}</td>
-                                        <td>{{row.delivery_date}}</td>
-                                        <td>{{row.price_detail.description}}</td>
-                                        <td>{{row.transit_time}}</td>
-
-                                        <td><a ng-click="shipmentCtrl.selectCarrier(row)" class="select btn btn-sm btn-success" href="javascript:;"><i class="fa fa-check"></i></a></td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="label-font">Consignee Details</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <label class="label-info">
+                                {{(shipmentCtrl.shipment.addressInformation.consigner.name.lenght>0 ? shipmentCtrl.shipment.addressInformation.consigner.name : "&nbsp;")}}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label class="label-font">Package Weight</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="label-info">
+                                {{shipmentCtrl.shipment.packageDetails.totalWeight}}
+                            </label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="label-font">Package Volume</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="label-info">
+                                {{shipmentCtrl.shipment.packageDetails.totalVolume}}
+                            </label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="label-font">Package Count</label>
+                        </div>
+                        <div class="col-sm-2">
+                            <label class="label-info">{{shipmentCtrl.shipment.packageDetails.count}}</label>
 
                         </div>
+                    </div>
+                    <br />
+                </fieldset>
+                <br>
+                <div class="row">
+
+                    <div class="col-sm-8"></div>
+                    <div class="col-sm-1">
+                        <div class="font-animation" ng-show="shipmentCtrl.loadingRates==true">
+                            <label><i class="fa fa-spinner faa-spin animated"></i> loading...</label>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary no-margin" type="button" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
+                    </div>
+                </div>
+                <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
+                    <div class="col-sm-4"></div>
+                    <div class="col-sm-6">
+                        <label class="label label-danger">
+                            <strong>No Available rates for this shipment</strong>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="CareeDetailsTable" collapse="shipmentCtrl.searchRates!=true||shipmentCtrl.previousClicked">
+
+                    <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th st-sort="name">Carrier</th>
+                                <th>Price</th>
+                                <th>Delivery date</th>
+                                <th>Service</th>
+                                <th>Transit time</th>
+                                <th>Select</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in shipmentCtrl.displayedCollection">
+                                <td>{{row.carrier_name+ " "+ row.transport_mode}}</td>
+                                <td>{{row.currency+" "+row.price}}</td>
+                                <td>{{row.delivery_date}}</td>
+                                <td>{{row.price_detail.description}}</td>
+                                <td>{{row.transit_time}}</td>
+
+                                <td><a ng-click="shipmentCtrl.selectCarrier(row)" class="select btn btn-sm btn-success" href="javascript:;"><i class="fa fa-check"></i></a></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+            </div>
+            <div class="panel-content panel-default" style="height:auto;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <fieldset>
+                            <legend>Rate Summary</legend>
+                            <div class="row">
+                                <!--<h3><i class="fa fa-table"></i> <strong>Rate Summary</strong></h3>-->
 
 
-
-                        <div class="col-sm-12 portlets">
-                            <div class="panel">
-                                <div class="panel-header ">
-                                    <h3><i class="fa fa-table"></i> <strong>Rate Summary</strong></h3>
-                                </div>
-                                <div class="panel-content">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Carrier</th>
-                                                <th>Earliest Pickup Date</th>
-                                                <th>Est Delivery Time</th>
-                                                <th>Service Level</th>
-                                                <th>Price</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.carrierName}}</td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.pickupDate}}</td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.deliveryTime}}</td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.serviceLevel}}</td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.price}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Insurance</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.insurance}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Total</td>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                                <td>{{shipmentCtrl.shipment.carrierInformation.totalPrice}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                   
-                                </div>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Carrier</th>
+                                            <th>Earliest Pickup Date</th>
+                                            <th>Est Delivery Time</th>
+                                            <th>Service Level</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.carrierName}}</td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.pickupDate}}</td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.deliveryTime}}</td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.serviceLevel}}</td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.price}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Insurance</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.insurance}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Total</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td>{{shipmentCtrl.shipment.carrierInformation.totalPrice}} {{ shipmentCtrl.shipment.carrierInformation.currency}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                      
-                        <div class="row">
-                            <div class="col-sm-5"></div>
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                <button class="btn btn-primary pull-right" ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
+                            <div class="row">
+                                <div class="col-sm-5"></div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary " ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Invoice</button>
+
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
+                                        <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
                                     </div>
                                 </div>
 
-                            </div>
-                            
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Invoice</button>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Online</button>
                                 </div>
-
                             </div>
-                            <div class="col-sm-1">
-                                <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
-                                    <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
-                                </div>  
-                            </div>
+                        </fieldset>
+                    </div>
 
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <button class="btn btn-primary pull-right" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Online</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>                  
-                   
-                </form>
-
+                </div>
+            </div>
+</form>
+</div>
             <form action="https://secure.paylane.com/order/cart.html" method="post" id="paylane_form">
                 <input type="hidden" name="amount" value={{shipmentCtrl.paylane.amount}} />
                 <input type="hidden" name="currency" value={{shipmentCtrl.paylane.currency}} />
