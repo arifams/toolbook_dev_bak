@@ -15,16 +15,18 @@
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
-            loadAddressBookDetails:loadAddressBookDetails,
+            loadAddressBookDetails: loadAddressBookDetails,
             sendShipmentDetails: sendShipmentDetails,
             getLocationHistory: getLocationHistory,
             getTeackAndTraceDetails: getTeackAndTraceDetails,
-            loadAllPendingShipments: loadAllPendingShipments
+            loadAllPendingShipments: loadAllPendingShipments,
+            getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice,
+            getAvailableFilesForShipment: getAvailableFilesForShipment
         };
 
 
         function getTeackAndTraceDetails(carrier, trackingNo) {
-            return $http.get(serverBaseUrl + '/api/shipments/GetTrackAndTraceInfo',{
+            return $http.get(serverBaseUrl + '/api/shipments/GetTrackAndTraceInfo', {
                 params: {
                     career: carrier,
                     trackingNumber: trackingNo
@@ -37,8 +39,7 @@
             return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
         }
 
-        function loadAddressBookDetails(searchText)
-        {
+        function loadAddressBookDetails(searchText) {
             return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
                 params: {
                     userId: $window.localStorage.getItem('userGuid'),
@@ -120,14 +121,13 @@
             });
         }
 
-        function loadAllShipments(status, startDate,endDate, number, source, destination)
-        {
+        function loadAllShipments(status, startDate, endDate, number, source, destination) {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
                 userId: $window.localStorage.getItem('userGuid'),
                 status: status,
                 startDate: startDate,
-                endDate:endDate,
+                    endDate: endDate,
                 number: number,
                 source: source,
                 destination: destination
@@ -147,11 +147,23 @@
             });
         }
 
-        function getAvailableFilesForShipment(details) {
-            return $http.post(serverBaseUrl + '/api/shipments/GetAvailableFilesForShipment', details)
+        function getAvailableFilesForShipment(shipmentId, userId) {
+            debugger;
+            return $http.get(serverBaseUrl + '/api/shipments/GetAvailableFilesForShipment', {
+                params: {
+                    userId: userId,
+                    shipmentCode: shipmentId
+                }
+            });
         }
 
-
+        function getshipmentByShipmentCodeForInvoice(shipmentcode) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForInvoice', {
+                params: {
+                    shipmentCode: shipmentcode
+                }
+            });
+        }
     }]);
     
     //app.factory('calculateRatesforShipment', function ($http) {

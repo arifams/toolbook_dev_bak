@@ -29,6 +29,7 @@ namespace PI.Service.Controllers
     public class ShipmentsController : BaseApiController
     {
         CompanyManagement comapnyManagement = new CompanyManagement();
+        ShipmentsManagement shipmentManagement = new ShipmentsManagement();
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -200,7 +201,7 @@ namespace PI.Service.Controllers
         //}
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadAddressBook(String userId)
-        {  
+        {
             var responce= await Upload();
 
             var urlJson =await responce.Content.ReadAsStringAsync();
@@ -393,14 +394,45 @@ namespace PI.Service.Controllers
         //    }
         //}
 
-        public List<FileUploadDto> GetAvailableFilesForShipment(FileUploadDto details)
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetAvailableFilesForShipment")]
+        public List<FileUploadDto> GetAvailableFilesForShipment(string shipmentCode,string userId)
         {
-            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(details);
+            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForInvoice")]
+        public ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        {
+            ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
+            return currentshipment;
+        }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("DeleteFile")]
+        public void DeleteFile(FileUploadDto fileDetails)
+        {
+            try
+             {
+                 //shipmentManagement.(fileDelete.Id);
 
+                AzureFileManager media = new AzureFileManager();
+                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                var result = media.Delete(fileDetails.FileAbsoluteURL);
+
+            }
+            catch (Exception ex)
+            {
+                //throw;
+            }
+        }
 
     }
 }

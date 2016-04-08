@@ -5,8 +5,8 @@
 (function (app) {
 
     app.controller('shipmentOverviewCtrl',
-       ['$location', '$window', 'shipmentFactory',
-           function ($location, $window, shipmentFactory) {
+       ['$location', '$window', 'shipmentFactory','$rootScope',
+           function ($location, $window, shipmentFactory, $rootScope) {
                var vm = this;
                var simple_map;
                vm.statusLocationItems = {};
@@ -64,8 +64,10 @@
                    debugger;
                    shipmentFactory.loadShipmentInfo(vm.shipmentCode)
                    .success(function (data) {
+                       debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
+                    
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
                        console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
