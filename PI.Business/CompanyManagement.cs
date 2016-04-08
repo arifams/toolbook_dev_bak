@@ -1370,16 +1370,6 @@ namespace PI.Business
                     });
                 }
 
-                // Count
-                //pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
-                //                                                      x.Type == "USER" && x.IsDelete == false &&
-                //                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
-                //                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
-                //                                                     (type == null || x.IsActive.ToString() == type)).Count();
-
-                //pagedRecord.CurrentPage = page;
-                //pagedRecord.PageSize = pageSize;
-
                 return pagedRecord;
             }
         }
