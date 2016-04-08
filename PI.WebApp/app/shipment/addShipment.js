@@ -45,11 +45,11 @@
         vm.addressDetailsEmpty = false;
         vm.searchText = '';
         vm.emptySearch = false;
-        vm.shipment.packageDetails.dGType = 'DG_EQ';
+        vm.shipment.packageDetails.dGType = 'EQ';
         vm.shipment.packageDetails.accessibility = 'true';
+        vm.consigneeAdded = false;
+        vm.consignorAdded = false;
        
-        
-        
 
         // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
         var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -233,12 +233,22 @@
             if (vm.consignorSearchText) {                
                 vm.searchText = vm.consignorSearchText;
                 vm.getAddressBookDetails();
+                vm.emptySearch = false;
             } else {
                 vm.emptySearch = true;
-            }
+            }         
           
+        }
+
+        vm.consignorEdited = function () {
            
-            
+            vm.consignorAdded = false;
+        }
+
+        vm.consigneeEdited = function () {
+
+            vm.consigneeAdded = false;
+           
         }
 
         vm.searchAddressesConsignee = function () {
@@ -246,14 +256,12 @@
             if (vm.consigneeSearchText) {               
                 vm.searchText = vm.consigneeSearchText;
                 vm.getAddressBookDetails();
+                vm.emptySearch = false;
             } else {
                 vm.emptySearch = true;
-            }
-           
-           
-
+            }         
+        
         }
-
                
        
 
@@ -617,10 +625,12 @@
         //change state required according to the country code
         vm.changeConsignerCountry = function () {
             vm.isRequiredConsignerState = vm.shipment.addressInformation.consigner.country == 'US' || vm.shipment.addressInformation.consigner.country == 'CA' || vm.shipment.addressInformation.consigner.country == 'PR' || vm.shipment.addressInformation.consigner.country == 'AU';
+            vm.consignorAdded = false;
         };
 
         vm.changeConsigneeCountry = function () {
             vm.isRequiredConsigneeState = vm.shipment.addressInformation.consignee.country == 'US' || vm.shipment.addressInformation.consignee.country == 'CA' || vm.shipment.addressInformation.consignee.country == 'PR' || vm.shipment.addressInformation.consignee.country == 'AU';
+            vm.consigneeAdded = false;
         };
 
         vm.getCurrenyCode=function(key){
