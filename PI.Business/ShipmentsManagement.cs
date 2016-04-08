@@ -323,6 +323,7 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
+               
 
                 // If division and costcenter Ids are 0, then assign default costcenter and division.
                 if (addShipment.GeneralInformation.DivisionId == 0)
@@ -437,6 +438,56 @@ namespace PI.Business
 
                     }
                 };
+
+                //save consigner details as new address book detail
+                if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        Number = addShipment.AddressInformation.Consigner.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
+
+                //save consignee details as new address book detail
+                if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+                {
+                    AddressBook ConsignerAddressBook = new AddressBook
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        Number = addShipment.AddressInformation.Consignee.Number,
+                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        IsActive = true,
+                        CreatedBy = addShipment.UserId,
+                        UserId = addShipment.UserId,
+                        CreatedDate = DateTime.Now
+                    };
+                    context.AddressBooks.Add(ConsignerAddressBook);
+
+                }
 
                 try
                 {

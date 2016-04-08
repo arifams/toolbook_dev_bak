@@ -296,7 +296,7 @@
                         <p>
                             <label class="form-label">
                                 <input type="checkbox" name="saveconsingnerAddress" data-checkbox="icheckbox_square-blue" icheck
-                                       ng-model="shipmentCtrl.saveconsingnerAddress"> Save as a new customer address
+                                       ng-model="shipmentCtrl.shipment.addressInformation.consigner.saveNewAddress"> Save as a new customer address
                             </label>
                             <a href="" ng-click="shipmentCtrl.ClearConsignerAddress()" class="float-side">Clear All</a>
                         </p>
@@ -462,7 +462,7 @@
                         </div>
                                 <label class="form-label">
                                 <input type="checkbox" name="saveconsingneeAddress" data-checkbox="icheckbox_square-blue" icheck
-                                       ng-model="shipmentCtrl.saveconsingneeAddress"> Save as a new customer address
+                                       ng-model="shipmentCtrl.shipment.addressInformation.consignee.saveNewAddress"> Save as a new customer address
                                 </label>
                                 <a href="" ng-click="shipmentCtrl.ClearConsigneeAddress()" class="float-side">Clear All</a></div>
 
