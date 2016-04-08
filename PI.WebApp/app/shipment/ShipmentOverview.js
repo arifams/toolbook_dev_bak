@@ -18,7 +18,7 @@
                vm.trakingNo = $location.search().TRACKING_NO;
                vm.carrier = $location.search().CARRIER;
                vm.createdOn = $location.search().CREATED_ON;
-               $rootScope.shipmentId = '';
+               var shipmentId = '';
                var loadShipmentStatuses = function () {
                    debugger;
                    shipmentFactory.getLocationHistory(vm.shipment)

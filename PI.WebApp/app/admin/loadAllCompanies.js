@@ -37,12 +37,10 @@
                           var searchText = (vm.searchText == undefined || vm.searchText == "") ? null : vm.searchText;
                           var status = (status == undefined || status == "" || status == "All") ? null : status;
 
-                          debugger;
                           adminFactory.getAllComapnies(searchText, status)
                               .then(function successCallback(responce) {
 
                                   vm.rowCollection = responce.data.content;
-                                  debugger;
                               }, function errorCallback(response) {
                                   //todo
                               });
@@ -56,7 +54,6 @@
 
                           vm.searchComapnies(status);
                       };
-
 
                       vm.changeCompanyStatus = function (row) {
 

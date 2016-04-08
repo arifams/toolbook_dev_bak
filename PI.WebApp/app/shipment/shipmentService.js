@@ -20,7 +20,7 @@
             getLocationHistory: getLocationHistory,
             getTeackAndTraceDetails: getTeackAndTraceDetails,
             loadAllPendingShipments: loadAllPendingShipments,
-            getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice
+            getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice,
             getAvailableFilesForShipment: getAvailableFilesForShipment
         };
 

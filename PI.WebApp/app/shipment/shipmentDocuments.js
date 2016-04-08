@@ -41,7 +41,7 @@
             $scope.deleteFile = function (file) {
                 debugger;
                 $http({
-                    url: serverBaseUrl + '/api/Shipments/upload',
+                    url: serverBaseUrl + '/api/Shipments/DeleteFile',
                     method: "POST",
                     data: file
                 }).success(function (result) {
