@@ -512,6 +512,25 @@ namespace PI.Business
                            (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                            select shipment).ToList();
 
+            // Update retrieve shipment list status from SIS.
+            foreach (var shipment in content)
+            {
+                if (shipment.Status != ((short)ShipmentStatus.Delivered))
+                {
+                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "telus", shipment.Id);
+                }
+            }
+
+            // Get new updated shipment list again.
+            content = (from shipment in Shipments
+                       where shipment.IsDelete == false &&
+                       (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                       (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                       (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                       (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                       select shipment).ToList();
+
             foreach (var item in content)
             {
                 pagedRecord.Content.Add(new ShipmentDto
@@ -561,7 +580,9 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        IsEnableEdit = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending ),
+                        IsEnableDelete = ( (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation )
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -998,7 +1019,7 @@ namespace PI.Business
             }
             else
             {
-                info.status = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, currentShipmet).status;
+                info.status = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId)).status;
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
             }
             locationHistory.info = info;
@@ -1006,7 +1027,7 @@ namespace PI.Business
 
         }
 
-        private info UpdateLocationHistory(string carrier, string trackingNumber, string codeShipment, string environment, ShipmentDto currentShipmet)
+        private info UpdateLocationHistory(string carrier, string trackingNumber, string codeShipment, string environment, long currentShipmetId)
         {
             SISIntegrationManager sisManager = new SISIntegrationManager();
             info info = new info();
@@ -1023,7 +1044,7 @@ namespace PI.Business
             }
             this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
-            this.UpdateStatusHistories(currentSisLocationHistory, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
+            this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
 
             return info;
         }
