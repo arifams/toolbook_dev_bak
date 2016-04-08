@@ -16,16 +16,17 @@
                     data: {
                         file: file,
                         userId: userId,
-                        documentType: "SHIPMENT_LABEL",
-                        referenceId: $scope.shipment.generalInformation.shipmentId
+                        documentType: "SHIPMENT_DOCUMENTS",
+                        referenceId: $scope.shipmentId
                     },
                 });
 
                 file.upload.then(function (response) {
                     $timeout(function () {
+                        debugger;
                         file.result = response.data;
-                        deleteFile();
-
+                        //deleteFile();
+                        $scope.document = null;
                          $scope.loadAllUploadedFiles();
                     });
                 }, function (response) {
@@ -40,11 +41,8 @@
         
             $scope.deleteFile = function (file) {
                 debugger;
-                $http({
-                    url: serverBaseUrl + '/api/Shipments/DeleteFile',
-                    method: "POST",
-                    data: file
-                }).success(function (result) {
+                shipmentFactory.deleteFile(file)
+                .success(function (result) {
 
                     for (var i = 0; i < $scope.fileList.length; i++)
                         if ($scope.fileList[i].id === file.id) {
@@ -64,12 +62,13 @@
 
 
             $scope.loadAllUploadedFiles = function () {
-
-                var shipmentId = $scope.overviewShipCtrl.shipmentCode;
-                shipmentFactory.getAvailableFilesForShipment(shipmentId,userId)
+                debugger;
+                $scope.shipmentId = $scope.overviewShipCtrl.shipmentCode;
+                shipmentFactory.getAvailableFilesForShipment($scope.shipmentId, userId)
                                 .success(
                                         function (responce) {
                                             debugger;
+                                            $scope.fileList = [];
                                             $scope.fileList = responce;
                                         }).error(function (error) {
                                             console.log("error occurd while retrieving shiment documents");

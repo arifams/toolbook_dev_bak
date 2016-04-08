@@ -339,11 +339,11 @@ namespace PI.Service.Controllers
             {              
                 fileUploadDto.UserId = Uri.UnescapeDataString(result.FormData.GetValues(0).FirstOrDefault());
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
-                fileUploadDto.DocumentType = (DocumentType)Enum.Parse(typeof(DocumentType), docType);
+                fileUploadDto.DocumentType = Utility.GetValueFromDescription<DocumentType>(docType);
 
                 if (fileUploadDto.DocumentType != DocumentType.AddressBook)
                 {
-                    fileUploadDto.ReferenceId = long.Parse(Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault()));
+                    fileUploadDto.CodeReference = Uri.UnescapeDataString(result.FormData.GetValues(2).FirstOrDefault());
                 }
             }
 
@@ -414,6 +414,7 @@ namespace PI.Service.Controllers
             return currentshipment;
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("DeleteFile")]
@@ -424,8 +425,10 @@ namespace PI.Service.Controllers
                  //shipmentManagement.(fileDelete.Id);
 
                 AzureFileManager media = new AzureFileManager();
-                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                media.InitializeStorage(fileDetails.TenantId.ToString(), "SHIPMENT_DOCUMENTS");//Utility.GetEnumDescription(fileDetails.DocumentType));
                 var result = media.Delete(fileDetails.FileAbsoluteURL);
+
+                shipmentManagement.DeleteFileInDB(fileDetails);
 
             }
             catch (Exception ex)

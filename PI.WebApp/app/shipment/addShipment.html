@@ -28,7 +28,7 @@
                                                                         (genaralDetailsForm.shipmentname.$dirty|| shipmentCtrl.generalInfoisSubmit) }" ng-change="shipmentCtrl.textChangeOfName()" placeholder="purchase order or description of the shipment" />
                                     <div ng-messages="genaralDetailsForm.shipmentname.$error"
                                          ng-show="genaralDetailsForm.shipmentname.$dirty || shipmentCtrl.generalInfoisSubmit">
-                                        <label ng-message="required" class="error" for="divisionName">Shipment Name is required</label>
+                                    <label ng-message="required" class="error" for="divisionName">Reference is required</label>
                                         <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -36,6 +36,7 @@
                         </div>
                     </div>
                     
+
                       <div class="row">
                           <div class="col-sm-12">
                               <div class="form-group">
@@ -44,11 +45,18 @@
                                       <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
                                           <select class="form-control"
                                                   convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
-                                                  name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()">
+                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId"
+                                            ng-change="shipmentCtrl.selectDivision()" ng-required="shipmentCtrl.hidedivisions? false: true"
+                                            ng-class="{ 'error': genaralDetailsForm.divisions.$invalid &&
+                                                                 (genaralDetailsForm.divisions.$dirty|| shipmentCtrl.generalInfoisSubmit) }">
                                               <option value="">-Select Division-</option>
                                           </select>
+                                    <div ng-messages="genaralDetailsForm.divisions.$error"
+                                         ng-show="genaralDetailsForm.divisions.$dirty || shipmentCtrl.generalInfoisSubmit">
+                                        <label ng-message="required" class="error" for="divisions">Division is required</label>
                                       </div>
                                   </div>
+                            </div>
 
                                   <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
                                   <div class="col-sm-4">
@@ -74,11 +82,11 @@
                                         <label class="col-sm-2 label-font">Product*</label>
 
                                         <div class="col-sm-10 p-r-0">
-                                            <div id="t_express1" class="shipmentmethod" ng-click="shipmentCtrl.selectExpress()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode =='Express' ? 'selected' :''" >Express</div>
-                                            <div id="t_express2" class="shipmentmethod" ng-click="shipmentCtrl.selectAir()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='AirFreight' ? 'selected' :''">Air Freight</div>
-                                            <div id="t_express3" class="shipmentmethod" ng-click="shipmentCtrl.selectSea()"   ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='SeaFreight' ? 'selected' :''">Sea Freight</div>
-                                            <div id="t_express4" class="shipmentmethod" ng-click="shipmentCtrl.selectRoad()"   ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='RoadFreight' ? 'selected' :''">Road Freight</div>
-                                            <div id="t_express5" class="shipmentmethod" ng-click="shipmentCtrl.selectall()"  ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='All' ? 'selected' :''">Show All Options </div>
+                                <div id="t_express1" class="shipmentmethod" ng-click="shipmentCtrl.selectExpress()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode =='Express' ? 'selected' :''">Express</div>
+                                <div id="t_express2" class="shipmentmethod" ng-click="shipmentCtrl.selectAir()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='AirFreight' ? 'selected' :''">Air Freight</div>
+                                <div id="t_express3" class="shipmentmethod" ng-click="shipmentCtrl.selectSea()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='SeaFreight' ? 'selected' :''">Sea Freight</div>
+                                <div id="t_express4" class="shipmentmethod" ng-click="shipmentCtrl.selectRoad()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='RoadFreight' ? 'selected' :''">Road Freight</div>
+                                <div id="t_express5" class="shipmentmethod" ng-click="shipmentCtrl.selectall()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='All' ? 'selected' :''">Show All Options </div>
                                         </div>
                                     </div>
                                     </div>
@@ -138,7 +146,7 @@
             <form class="form-horizontal" name="consignerConsigneeInfoForm" collapse="shipmentCtrl.collapse2==true"
                   ng-submit="consignerConsigneeInfoForm.$valid && shipmentCtrl.updateConsignInfo()">
             <div class="panel-content panel-default" style="padding:30px;">
-                <div class="row" >
+                <div class="row">
                     <div class="col-md-6">
                             <div class="form-group">
                             <label class="form-label ">Consigner Details</label>
@@ -472,7 +480,8 @@
                                 <input type="checkbox" name="saveconsingneeAddress" data-checkbox="icheckbox_square-blue" icheck ng-disabled="shipmentCtrl.consigneeAdded=='true'"
                                        ng-model="shipmentCtrl.shipment.addressInformation.consignee.saveNewAddress"> Save as a new customer address
                                 </label>
-                                <a href="" ng-click="shipmentCtrl.ClearConsigneeAddress()" class="float-side">Clear All</a></div>
+                        <a href="" ng-click="shipmentCtrl.ClearConsigneeAddress()" class="float-side">Clear All</a>
+                    </div>
 
                         </div>
                         
@@ -559,7 +568,7 @@
                             <div class="skin skin-minimal">
                                 <div class="form-body">
                                     <div class="form-group">
-                                        <div class="col-sm-5" >
+                                            <div class="col-sm-5">
                                            <h4 style="min-height: 26px;" class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>                                          
                                         </div>
                                         <div class="col-sm-5">
