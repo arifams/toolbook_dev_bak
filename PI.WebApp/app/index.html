@@ -130,8 +130,8 @@
                         </li>-->
 
                         <li class="nav-parent">
-                            <a href="#"><i class="icon-basket"></i><span>Shipments</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse">
+                            <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
+                            <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments"> View Shipments</a></li>
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> Add Shipment</a></li>
                                 <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> Print Label</a></li>
@@ -149,7 +149,7 @@
                             </ul>
                         </li>
                         <li class="nav-parent">
-                            <a href="#"><span>Manage Profile</span> <span class="fa arrow"></span></a>
+                            <a href="#"><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> USER MANAGEMENT</a></li>

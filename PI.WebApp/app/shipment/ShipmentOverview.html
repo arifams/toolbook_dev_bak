@@ -1,8 +1,5 @@
 ﻿<div>
-    <div class="header">
-        <h2>All Shipments</h2>
-    </div>
-
+  
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
@@ -12,90 +9,100 @@
             <!-- left column -->
 
         </div>
-        <div class="panel-body">
+        <div class="panel-content panel-border">
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        OVERVIEW
+                    </tab-heading>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Shipment Details</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="form-control label-default">Tracking Number</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}} />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="form-control label-default">Shipment ID</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="form-control label-default">Carrier</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="form-control label-default">Order Submitted Date</label>
+                                </div>
+                                <div class="col-sm-5">
+                                    <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="form-control label-default">Shipment Label</label>
+                                </div><!--shipmentLabelBLOBURL -->
+                                <div class="col-sm-5">
+                                    <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
 
-
+                            <div class="panel panel-default map-panel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <div class="map" id="simple-map"></div>
+                                        </div>
+                                    </div>
+                                    <div class="panel-header">
+                                        <label class="form-control label-info">Current Packege Location</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        AIR WAYBILL
+                    </tab-heading>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        COMMERCIAL INVOICE
+                    </tab-heading>
+                </tab>
+                <tab>
+                    <tab-heading>
+                        DOCUMENTS
+                    </tab-heading>
+                </tab>
+            </tabset>
+        </div>
             <div class="wizard-div current wizard-arrow">
                 <form class="wizard" data-style="arrow">
                     <fieldset class="withScroll show-scroll">
                         <legend>Overview</legend>
                         <div class="row">
                             <div class="col-sm-12">
-
-                                <div class="panel">
-                                    <div class="panel-header bg-blue-light">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <h3>Shipment Details</h3>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-horizontal">
-
-                                        <div class="panel-content panel-default">
-                                            <div class="row">
-                                                <div class="col-sm-8">
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label class="form-control label-default">Tracking Number</label>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label class="form-control label-default">Shipment ID</label>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label class="form-control label-default">Carrier</label>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label class="form-control label-default">Order Submitted Date</label>
-                                                        </div>
-                                                        <div class="col-sm-5">
-                                                            <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-sm-3">
-                                                            <label class="form-control label-default">Shipment Label</label>
-                                                        </div>shipmentLabelBLOBURL
-                                                        <div class="col-sm-5">
-                                                            <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-sm-4">
-
-                                                    <div class="panel panel-default map-panel">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <div class="map" id="simple-map"></div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="panel-header">
-                                                                <label class="form-control label-info">Current Packege Location</label>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                                 <div class="panel">
                                     <div class="panel-header bg-blue-light">
@@ -202,7 +209,7 @@
                 </form>
             </div>
 
-        </div>
+        
 
     </div>
 
