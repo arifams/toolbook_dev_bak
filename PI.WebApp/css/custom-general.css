@@ -81,7 +81,7 @@
     .main-content .page-content .panel {
         margin-bottom:0px;
     }
-    .panel-header {
+    .change-head {
         background-color:#8DD8C2;
         min-height:20px;
     }
@@ -117,9 +117,9 @@
         font-weight:normal;
         margin-top:5px;
     }
-    #panel-content {
+    #panel-border {
         border: 1px solid #E8E8E8;
-        padding:12px;
+        margin:12px;
  
     }
     .main-content .page-content .panel .panel-header h3 {
@@ -132,10 +132,10 @@
                                         box-sizing: border-box;
                                         border: 1px solid #319DB5;
                                         border-radius: 5px;
-                                        width:149px;
+                                        width:148px;
                                         height:65px;
                                         float:left;
-                                        margin-right:9px;
+                                        margin-right:10px;
                                         margin-bottom:6px;
                                         position: relative;
                                         text-align:center;
@@ -171,8 +171,10 @@
                                          background-repeat: no-repeat;
                                     }
 .btn {
-    padding:5px 24px 8px;
-    
+    padding:5px 24px 8px; 
+}
+.resize-btn {
+    width:100%;
 }
 .width-half {
     width:48% !important;
@@ -186,7 +188,7 @@
 }
 
 .pull-right {
-    width:150px;
+    width:108px;
     height:30px;
 }
 .float-left {
@@ -195,3 +197,28 @@
 .col-md-6 {
     padding-right:30px;
 }
+.rem-martop {
+    margin-top: 0px;
+}
+.set-margin {
+   margin:0px 10px 0px 10px;
+}
+.form-horizontal .control-label  {
+    top:0px;
+}
+.label-font {
+    font-weight:bold;
+    font-size:14px;
+}
+#product_info tbody tr:first-child .prod_ops_rm a {
+    display: none;
+}
+.label-info {
+    background-color:#ADD8E1;
+    width:100%;
+    min-height:35px;
+    padding:5px 0px 0px 5px;
+}
+    .label-info:hover {
+       background-color:#ADD8E1; 
+    }
