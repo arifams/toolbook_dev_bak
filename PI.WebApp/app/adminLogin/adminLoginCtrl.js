@@ -80,15 +80,14 @@
                 user.isConfirmEmail = true;
             }
 
-            userManager.loginUser(user, 'api/accounts/LoginUser')
+            userManager.loginUser(user, 'api/accounts/LoginAdmin')
              .then(function (returnedResult) {
                  debugger;
-                 if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
+                 if (returnedResult.data.result == "1") {
                      debugger;
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
-                     $window.localStorage.setItem('userRole', returnedResult.data.role);
-                     $window.localStorage.setItem('isCorporateAccount', returnedResult.data.isCorporateAccount);
+                     $window.localStorage.setItem('userRole', returnedResult.data.role);                    
 
                      window.location = webBaseUrl + "/app/index.html";
                  }
@@ -98,17 +97,8 @@
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
                  }
-                 else if (returnedResult.data.result == "-2") {
-                     vm.invalidToken = true;
-                     $cookieStore.remove('username');
-                     $cookieStore.remove('password');
-                 }
-                 else if (returnedResult.data.result == "-11") {
-                     vm.loginInvalid = true;
-                     vm.loginInvalidMessage = "You must have a confirmed email to log in";
-                     $cookieStore.remove('username');
-                     $cookieStore.remove('password');
-                 }
+                
+                
              },
             //.then(function (result) {
 
