@@ -733,7 +733,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -748,7 +748,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }
@@ -1514,7 +1514,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -1529,7 +1529,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }

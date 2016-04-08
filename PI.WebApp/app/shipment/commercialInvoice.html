@@ -9,11 +9,16 @@
                         <tbody>
                             <tr>
                                 <td rowspan="2" class="col-sm-6">
-                                    <p>{{invoiceCtrl.shipment.addressInformation.firstName}} {{invoiceCtrl.shipment.addressInformation.lastName}}</p>
-                                    <p>{{invoiceCtrl.shipment.addressInformation.address1}} {{invoiceCtrl.shipment.addressInformation.number}}</p>
-                                    <p>{{invoiceCtrl.shipment.addressInformation.postalcode}} {{invoiceCtrl.shipment.addressInformation.city}}</p>
-                                    <p>{{invoiceCtrl.shipment.addressInformation.country}}</p>
-                                    <p>VAT number:</p>
+                                    <!--<p>{{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.postalcode}} {{invoiceCtrl.shipment.addressInformation.consigner.city}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.country}}</p>
+                                    <p>VAT number:</p>-->
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}<br/>
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}<br />
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.postalcode}} {{invoiceCtrl.shipment.addressInformation.consigner.city}}<br />
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.country}}<br />
+                                    VAT number:
                                 </td>
                                 <td class="col-sm-3">
                                     <label>Date of issue</label><br />
@@ -39,15 +44,23 @@
                                 <td>
                                     <div class="form-group">
                                         <label>Ship To</label><br />
-                                        <textarea class="form-control">
-
+                                        <textarea class="form-control" style="height:100px;">
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.country}}
                                         </textarea>
                                     </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="form-group">
                                         <label>Invoice To/Consigned To</label><br />
-                                        <textarea class="form-control"></textarea>
+                                        <textarea class="form-control" style="height:100px;">
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.country}}
+                                        </textarea>
                                     </div>
                                 </td>
 
@@ -67,18 +80,18 @@
                                     <br />
                                     <div class="form-group">
                                         <label>Terms of payment:</label>
-                                        <input type="text" class="form-control" />
+                                        <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.termsOfPayment"/>
                                     </div>
 
                                 </td>
                                 <td class="col-sm-3">
                                     <label>Country of orgins</label><br />
-                                    <input type="text" class="form-control" />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consigner.country"/>
 
                                 </td>
                                 <td class="col-sm-3">
                                     <label>Country of destinations</label><br />
-                                    <input type="text" class="form-control" />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consignee.country"/>
                                 </td>
 
                             </tr>
@@ -86,25 +99,28 @@
                                 <td>
                                     <div class="form-group">
                                         <label>Mode of transport:</label><br />
-                                        <input type="text" class="form-control" /><br />
+                                        <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.modeOfTransport" /> <br />
                                         <label>Import Brokers:</label><br />
-                                        <textarea class="form-control"></textarea>
+                                        <textarea class="form-control" ng-model="invoiceCtrl.shipment.importBroker"></textarea>
                                     </div>
                                 </td>
                                 <td colspan="2">
                                     <div class="form-group">
                                         <label>Shipment for attension of:</label><br />
-                                        <label>Tel:</label><br />
-                                        <label>Shipped by:</label><br />
-                                        <label>taleUS</label><br />
+                                        {{invoiceCtrl.shipment.addressInformation.consignee.contactName}} <br />
+                                        <span>Tel:</span> {{invoiceCtrl.shipment.addressInformation.consignee.contactNumber}}  <br />
+                                        <label>Shipped by:</label> <br />
+                                        {{invoiceCtrl.shipment.addressInformation.consigner.contactName}} <br />
+                                        <span>Tel:</span> {{invoiceCtrl.shipment.addressInformation.consigner.contactNumber}}  <br />
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="col-sm-6">
                                     <label>Packages:</label><br />
-                                    <label>2*COLLI</label>
-
+                                    <div ng-repeat="product in invoiceCtrl.shipment.packageDetails.productIngredients">
+                                        <label> {{product.quantity}} * {{product.productType}}  ({{product.length}} * {{product.width}} * {{product.height}} <span ng-show="invoiceCtrl.shipment.packageDetails.cmlbs">cm</span><span ng-hide="invoiceCtrl.shipment.packageDetails.cmlbs">lbs</span>)</label>
+                                    </div>
                                 </td>
                                 <td class="col-sm-3">
                                     <label>Gross(kg):</label><br />
