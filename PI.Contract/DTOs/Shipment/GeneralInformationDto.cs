@@ -45,5 +45,7 @@ namespace PI.Contract.DTOs.Shipment
         public bool IsEnableEdit { get; set; }
 
         public bool IsEnableDelete { get; set; }
+
+        public string ShipmentReferenceName { get; set; }
     }
 }
