@@ -70,6 +70,8 @@
     <Content Include="app\addressBook\loadAddressesCtrl.js" />
     <Content Include="app\addressBook\saveAddress.html" />
     <Content Include="app\addressBook\saveAddressCtrl.js" />
+    <Content Include="app\adminLogin\adminLogin.html" />
+    <Content Include="app\adminLogin\adminLoginCtrl.js" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />
     <Content Include="app\directive\fileUploader.js" />

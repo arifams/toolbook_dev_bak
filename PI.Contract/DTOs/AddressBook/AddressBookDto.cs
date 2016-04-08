@@ -31,4 +31,9 @@ namespace PI.Contract.DTOs.AddressBook
         public string State { get; set; }
         public bool IsActive { get; set; }
     }
+
+    public class Result
+    {
+        public string returnData { get; set; }
+    }
 }
