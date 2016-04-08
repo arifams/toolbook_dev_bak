@@ -354,6 +354,7 @@ namespace PI.Business
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                    ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff"),
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
@@ -811,7 +812,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -826,7 +827,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }
@@ -951,6 +952,7 @@ namespace PI.Business
                     {
                         ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
+                        ShipmentReferenceName = shipment.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
                     },
                     CarrierInformation = new CarrierInformationDto()
@@ -1593,7 +1595,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -1608,7 +1610,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }

@@ -23,6 +23,8 @@
                 console.info("shipment info in commercial invoice");
                 console.info(vm.shipment);
                 shipmentId = vm.shipment.generalInformation.shipmentId;
+                vm.shipment.termsOfPayment = "FREE OF CHARGE";
+                vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
                 //vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
                 //console.log(vm.shipmentLabel);
             })
