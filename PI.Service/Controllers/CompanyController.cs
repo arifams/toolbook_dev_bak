@@ -163,5 +163,25 @@ namespace PI.Service.Controllers
         }
 
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllComapnies")]
+        public PagedList GetAllComapnies(string status = null, string searchText = null)
+        {
+            return companyManagement.GetAllComapnies(status, searchText);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ChangeCompanyStatus")]
+        public bool ChangeCompanyStatus([FromBody] CompanyDto copmany)
+        {
+            return companyManagement.ChangeCompanyStatus(copmany.Id);
+        }
+
+
     }
 }

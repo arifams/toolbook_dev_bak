@@ -1,5 +1,5 @@
 ﻿<div>
-  
+
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
@@ -15,70 +15,70 @@
                     <tab-heading>
                         OVERVIEW
                     </tab-heading>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <h3>Shipment Details</h3>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-8">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label class="form-control label-default">Tracking Number</label>
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}} />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label class="form-control label-default">Shipment ID</label>
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label class="form-control label-default">Carrier</label>
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label class="form-control label-default">Order Submitted Date</label>
-                                </div>
-                                <div class="col-sm-5">
-                                    <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <label class="form-control label-default">Shipment Label</label>
-                                </div><!--shipmentLabelBLOBURL -->
-                                <div class="col-sm-5">
-                                    <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-4">
-
-                            <div class="panel panel-default map-panel">
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="col-sm-4">
-                                            <div class="map" id="simple-map"></div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                                <h3>Shipment Details</h3>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="panel-header">
-                                        <label class="form-control label-info">Current Packege Location</label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Tracking Number</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="trackingNumber" class="form-control bg-primary" value={{overviewShipCtrl.trakingNo}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Shipment ID</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="shipmentId" class="form-control bg-primary" value={{overviewShipCtrl.shipmentCode}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Carrier</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="carrier" class="form-control bg-primary" value={{overviewShipCtrl.carrier}} />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Order Submitted Date</label>
+                                                        </div>
+                                                        <div class="col-sm-5">
+                                                            <input type="text" disabled name="orderSubmittedDate" class="form-control bg-primary" value="{{overviewShipCtrl.createdOn}}" />
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-control label-default">Shipment Label</label>
+                                                        </div>shipmentLabelBLOBURL
+                                                        <div class="col-sm-5">
+                                                            <div> <a href="{{overviewShipCtrl.shipmentLabel}}" target="_blank">View Label</a> </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-4">
+
+                                                    <div class="panel panel-default map-panel">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                        <div class="col-sm-4">
+                                                                    <div class="map" id="simple-map"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="panel-header">
+                                                                <label class="form-control label-info">Current Packege Location</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                 </tab>
                 <tab>
                     <tab-heading>
@@ -96,7 +96,7 @@
                     </tab-heading>
                 </tab>
             </tabset>
-        </div>
+                                </div>
             <div class="wizard-div current wizard-arrow">
                 <form class="wizard" data-style="arrow">
                     <fieldset class="withScroll show-scroll">
@@ -189,15 +189,7 @@
 
                     <fieldset class="withScroll show-scroll">
                         <legend>Commercial Invoice</legend>
-                        In publishing and graphic design, lorem ipsum is common placeholder text used to demonstrate
-                        the graphic elements of a document or visual presentation, such as web pages, typography,
-                        and graphical layout. It is a form of "greeking".
-                        Even though using "lorem ipsum" often arouses curiosity due to its resemblance to classical
-                        Latin, it is not intended to have meaning. Where text is visible in a document, people tend
-                        to focus on the textual content rather than upon overall presentation, so publishers use
-                        lorem ipsum when displaying a typeface or design in order to direct the focus to
-                        presentation. "Lorem ipsum" also approximates a typical distribution of letters in English.
-
+                        <div ng-include="'shipment/commercialInvoice.html'"></div>
                     </fieldset>
 
                     <fieldset class="withScroll show-scroll">

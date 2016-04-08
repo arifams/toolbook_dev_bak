@@ -1,0 +1,211 @@
+﻿<div ng-controller="commercialInvoiceCtrl as invoiceCtrl">
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-md-10 portlets">
+            <div class="panel ">
+                <div class="panel-content">
+                    <table class="table table-bordered">
+
+                        <tbody>
+                            <tr>
+                                <td rowspan="2" class="col-sm-6">
+                                    <!--<p>{{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.postalcode}} {{invoiceCtrl.shipment.addressInformation.consigner.city}}</p>
+                                    <p>{{invoiceCtrl.shipment.addressInformation.consigner.country}}</p>
+                                    <p>VAT number:</p>-->
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}<br/>
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}<br />
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.postalcode}} {{invoiceCtrl.shipment.addressInformation.consigner.city}}<br />
+                                    {{invoiceCtrl.shipment.addressInformation.consigner.country}}<br />
+                                    VAT number:
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Date of issue</label><br />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.generalInformation.createdDate"/>
+
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Invoice Number</label><br />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.generalInformation.shipmentCode"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-3">
+                                    <label>VAT Number</label><br />
+                                    <input type="text" class="form-control" />
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Customer Number</label><br />
+                                    <input type="text" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label>Ship To</label><br />
+                                        <textarea class="form-control" style="height:100px;">
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.country}}
+                                        </textarea>
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <label>Invoice To/Consigned To</label><br />
+                                        <textarea class="form-control" style="height:100px;">
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
+                                            {{invoiceCtrl.shipment.addressInformation.consignee.country}}
+                                        </textarea>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                            <tr>
+                                <td class="col-sm-6">
+                                    <label>Terms of Delivery:</label>
+                                    <select>
+                                        <option>DAP/DDU</option>
+                                        <option>DDP</option>
+                                        <option>CIP</option>
+                                        <option>CPT</option>
+                                        <option>FCA</option>
+                                        <option>EXW</option>
+                                    </select>
+                                    <br />
+                                    <div class="form-group">
+                                        <label>Terms of payment:</label>
+                                        <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.termsOfPayment"/>
+                                    </div>
+
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Country of orgins</label><br />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consigner.country"/>
+
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Country of destinations</label><br />
+                                    <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consignee.country"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="form-group">
+                                        <label>Mode of transport:</label><br />
+                                        <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.modeOfTransport" /> <br />
+                                        <label>Import Brokers:</label><br />
+                                        <textarea class="form-control" ng-model="invoiceCtrl.shipment.importBroker"></textarea>
+                                    </div>
+                                </td>
+                                <td colspan="2">
+                                    <div class="form-group">
+                                        <label>Shipment for attension of:</label><br />
+                                        {{invoiceCtrl.shipment.addressInformation.consignee.contactName}} <br />
+                                        <span>Tel:</span> {{invoiceCtrl.shipment.addressInformation.consignee.contactNumber}}  <br />
+                                        <label>Shipped by:</label> <br />
+                                        {{invoiceCtrl.shipment.addressInformation.consigner.contactName}} <br />
+                                        <span>Tel:</span> {{invoiceCtrl.shipment.addressInformation.consigner.contactNumber}}  <br />
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-6">
+                                    <label>Packages:</label><br />
+                                    <div ng-repeat="product in invoiceCtrl.shipment.packageDetails.productIngredients">
+                                        <label> {{product.quantity}} * {{product.productType}}  ({{product.length}} * {{product.width}} * {{product.height}} <span ng-show="invoiceCtrl.shipment.packageDetails.cmlbs">cm</span><span ng-hide="invoiceCtrl.shipment.packageDetails.cmlbs">lbs</span>)</label>
+                                    </div>
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Gross(kg):</label><br />
+                                    <label>1.8</label>
+
+                                </td>
+                                <td class="col-sm-3">
+                                    <label>Colli Number/Reference</label><br />
+                                    <label>K00134777VP34h</label>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Item</th>
+                                                <th>Article-/typenumber/description ( Trademark: see above )</th>
+                                                <th>Quantity</th>
+                                                <th>Price per 1 pce.</th>
+                                                <th>
+                                                    Currency:<select>
+                                                        <option>EUR</option>
+                                                        <option>USD</option>
+                                                        <option>GBP</option>
+                                                        <option>YEN</option>
+                                                    </select>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <label>001</label>
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" class="form-control" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
+                                                    <label>VALUE FOR CUSTOMS PURPOSE ONLY</label>
+                                                </td>
+                                                <td>
+                                                    <label>
+                                                        Total:
+                                                    </label>
+                                                </td>
+                                                <td>
+                                                    <label>0.00</label>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3">
+                                    <strong>
+                                        We hereby certify that the information on the Commercial Invoice is true and correct.<br />
+
+                                        This is a computer generated Commercial Invoice, no signature is required.
+                                    </strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea class="form-control"></textarea>
+                                </td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -33,7 +33,7 @@ namespace PI.Data.Entity
         #region Navigation property
 
         [ForeignKey("AddressId")]
-        public Address CustomerAddress { get; set; }
+        public virtual Address CustomerAddress { get; set; }
 
         //[ForeignKey("CompanyId")]
         //public Company CustomerCompany { get; set; }

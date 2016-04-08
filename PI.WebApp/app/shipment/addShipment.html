@@ -32,68 +32,39 @@
                             </div>
                         </div>
                     </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label class="col-sm-2 label-font">Division*</label>
-                                    <div class="col-sm-4">
-                                        <div class="option-group">
-                                            <select id="shipmentServices" class="form-control"
-                                                    convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
-                                                    name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                    ng-change="selectShipmentType();"
-                                                    rel="popover" data-container="body" data-toggle="popover"
-                                                    data-placement="top"
-                                                    data-html="true"
-                                                    data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
-                                        </div>
-                                    </div>
-                                    <label class="col-sm-2 label-font">Cost Center*</label>
-                                    <div class="col-sm-4">
-                                        <div class="option-group">
-                                            <select id="shipmentServices" class="form-control"
-                                                    convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
-                                                    name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                    ng-change="selectShipmentType();"
-                                                    rel="popover" data-container="body" data-toggle="popover"
-                                                    data-placement="top"
-                                                    data-html="true"
-                                                    data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
-                                        </div>
-                                    </div>
-                                </div>                              
-                            </div>
-                        </div>
-                    <!--
+                    
                       <div class="row">
-                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
-                                <div class="col-sm-4">
-                                <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
-                                    <select class="form-control"
-                                            convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
-                                            name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()">
-                                        <option value="">-Select Division-</option>
-                                    </select>
-                                </div>
-                            </div>
+                          <div class="col-sm-12">
+                              <div class="form-group">
+                                  <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions">Division *</label>
+                                  <div class="col-sm-4">
+                                      <div class="option-group" ng-hide="shipmentCtrl.hidedivisions">
+                                          <select class="form-control"
+                                                  convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
+                                                  name="divisions" ng-model="shipmentCtrl.shipment.generalInformation.divisionId" ng-change="shipmentCtrl.selectDivision()">
+                                              <option value="">-Select Division-</option>
+                                          </select>
+                                      </div>
+                                  </div>
 
-                            <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
-                        <div class="col-sm-4">
-                                <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
-                                    <select class="form-control"
-                                            convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
-                                            name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId"
-                                            ng-change="selectCostCenter()"
-                                            rel="popover" data-container="body" data-toggle="popover"
-                                            data-placement="top"
-                                            data-html="true"
-                                            data-content="The appropriate billing address (cost center) to which the shipment should be assigned to.">
-                                        <option value="">-Select Cost Center-</option>
-                                    </select>
-                                </div>
-                            </div>
-                    </div>  
-                    -->                                                    
+                                  <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidecostcenters">Assigned CostCenter*</label>
+                                  <div class="col-sm-4">
+                                      <div class="option-group" ng-hide="shipmentCtrl.hidecostcenters">
+                                          <select class="form-control"
+                                                  convert-to-number ng-options="cost.id as cost.name for cost in shipmentCtrl.costcenterList"
+                                                  name="costcenters" ng-model="shipmentCtrl.shipment.generalInformation.costCenterId"
+                                                  ng-change="selectCostCenter()"
+                                                  rel="popover" data-container="body" data-toggle="popover"
+                                                  data-placement="top"
+                                                  data-html="true"
+                                                  data-content="The appropriate billing address (cost center) to which the shipment should be assigned to.">
+                                              <option value="">-Select Cost Center-</option>
+                                          </select>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                          </div>                                   
                                 <div class="row">
                                     <div class="col-sm-12">
                                     <div class="form-group">
@@ -689,6 +660,40 @@
                     </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label class="col-sm-2 label-font"> Dangerous goods *</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <div class="icheck-inline">
+                                        <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value="true"> Yes </label>
+                                        <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value="false"> No </label>
+                                    </div>
+                                </div>
+                            </div>   
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.dGType" ng-show="shipmentCtrl.shipment.packageDetails.isDG=='true'">
+                                    <option value="EQ" selected>expected quantity (EQ)</option>
+                                    <option value="LQ">limited quantity (LQ)</option>
+                                    <option value="LB">lithium batteries (LB)</option>
+                                    <option value="DI">dry ice (DI)</option>
+                                    <option value="FIX">dangerous goods</option>
+                                    <option value="VAR_CAO">cargo aircraft only (CAO)</option>
+                                    <option value="PAX">passenger aircraft (PAX)</option>
+                                </select>                                
+                        </div>
+                            <div class="col-sm-4">
+                                <select class="form-control" ng-model="shipmentCtrl.shipment.packageDetails.accessibility" ng-show="shipmentCtrl.shipment.packageDetails.isDG=='true'">
+                                    <option value="true" selected>Accessible</option>
+                                    <option value="false">Inaccessible</option>
+                                </select>
+                            </div>
+                    </div>
+
+                </div>
+
                 <div class="row">
                     <div class="col-sm-12">
                     <div class="form-group">

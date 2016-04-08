@@ -165,6 +165,29 @@ namespace PI.Business
                 currentRateSheetDetails.package = package;
                 currentRateSheetDetails.code_currency = codeCurrenyString;
 
+                if (currentShipment.PackageDetails.IsDG)
+                {
+                    currentRateSheetDetails.dg = "YES";
+
+                    currentRateSheetDetails.dg_type = currentShipment.PackageDetails.DGType;
+                    //set the dg accessibility
+                    if (currentShipment.PackageDetails.Accessibility)
+                    {
+                        currentRateSheetDetails.dg_accessible = "Y";
+                    }
+                    else
+                    {
+                        currentRateSheetDetails.dg_accessible = "N";
+                    }
+                    
+                }
+                else
+                {
+                    currentRateSheetDetails.dg = "NO";
+                }
+               
+                
+
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
@@ -235,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-            currentRateSheetDetails.dg = "NO";
-            currentRateSheetDetails.dg_type = "";
+           // currentRateSheetDetails.dg = "NO";
+           // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -330,6 +353,7 @@ namespace PI.Business
                 Shipment newShipment = new Shipment
                 {
                     ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                    ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff"),
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
@@ -407,7 +431,11 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList
+                        PackageProducts = packageProductList,                       
+                        IsDG=addShipment.PackageDetails.IsDG,
+                        Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+                        DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
                     }
                 };
 
@@ -733,7 +761,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsigneeAddress.FirstName,
                         LastName = currentShipment.ConsigneeAddress.LastName,
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
-                        ContactNumber = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
                         Number = currentShipment.ConsigneeAddress.Number
                     },
@@ -748,7 +776,7 @@ namespace PI.Business
                         FirstName = currentShipment.ConsignorAddress.FirstName,
                         LastName = currentShipment.ConsignorAddress.LastName,
                         ContactName = currentShipment.ConsignorAddress.ContactName,
-                        ContactNumber = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
                         Number = currentShipment.ConsignorAddress.Number
                     }
@@ -873,6 +901,7 @@ namespace PI.Business
                     {
                         ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
+                        ShipmentReferenceName = shipment.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
                     },
                     CarrierInformation = new CarrierInformationDto()
@@ -1266,6 +1295,7 @@ namespace PI.Business
                     TenantId = fileDetails.TenantId,
                     ShipmentId = fileDetails.ReferenceId,
                     ClientFileName = fileDetails.ClientFileName,
+                    DocumentType = (int)fileDetails.DocumentType,
                     UploadedFileName = fileDetails.UploadedFileName,
                     IsActive = true,
                     CreatedDate = DateTime.Now,
@@ -1277,19 +1307,19 @@ namespace PI.Business
         }
 
 
-        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(FileUploadDto details)
+        public List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId)
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
             CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(details.UserId);
+            var tenantId = companyManagement.GettenantIdByUserId(userId);
 
             using (var context = new PIContext())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
-                                                    && x.ShipmentId == details.ReferenceId).
+                                                    && x.Shipment.ShipmentCode == shipmentCode).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
 
                 docList.ForEach(x => returnList.Add(new FileUploadDto
@@ -1483,6 +1513,102 @@ namespace PI.Business
 
         //}
 
+        public ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        {
+            ShipmentDto currentShipmentDto = null;
+            Shipment currentShipment = null;
+            long tenantId = 0;
+
+            using (PIContext context = new PIContext())
+            {
+                currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
+                
+                tenantId = currentShipment.Division.Company.TenantId;
+            }
+            if (currentShipment == null)
+            {
+                return null;
+            }
+            currentShipmentDto = new ShipmentDto
+            {
+                AddressInformation = new ConsignerAndConsigneeInformationDto
+                {
+                    Consignee = new ConsigneeDto
+                    {
+                        Address1 = currentShipment.ConsigneeAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsigneeAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsigneeAddress.ZipCode,
+                        City = currentShipment.ConsigneeAddress.City,
+                        Country = currentShipment.ConsigneeAddress.Country,
+                        State = currentShipment.ConsigneeAddress.State,
+                        FirstName = currentShipment.ConsigneeAddress.FirstName,
+                        LastName = currentShipment.ConsigneeAddress.LastName,
+                        ContactName = currentShipment.ConsigneeAddress.ContactName,
+                        ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
+                        Email = currentShipment.ConsigneeAddress.EmailAddress,
+                        Number = currentShipment.ConsigneeAddress.Number
+                    },
+                    Consigner = new ConsignerDto
+                    {
+                        Address1 = currentShipment.ConsignorAddress.StreetAddress1,
+                        Address2 = currentShipment.ConsignorAddress.StreetAddress2,
+                        Postalcode = currentShipment.ConsignorAddress.ZipCode,
+                        City = currentShipment.ConsignorAddress.City,
+                        Country = currentShipment.ConsignorAddress.Country,
+                        State = currentShipment.ConsignorAddress.State,
+                        FirstName = currentShipment.ConsignorAddress.FirstName,
+                        LastName = currentShipment.ConsignorAddress.LastName,
+                        ContactName = currentShipment.ConsignorAddress.ContactName,
+                        ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
+                        Email = currentShipment.ConsignorAddress.EmailAddress,
+                        Number = currentShipment.ConsignorAddress.Number
+                    }
+                },
+                GeneralInformation = new GeneralInformationDto
+                {
+                    ShipmentId = currentShipment.Id.ToString(),
+                    CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
+                    DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
+                    ShipmentCode = currentShipment.ShipmentCode,
+                    ShipmentMode = currentShipment.ShipmentMode,
+                    ShipmentName = currentShipment.ShipmentName,
+                    ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
+                    //ShipmentTermCode = currentShipment.ShipmentTermCode,
+                    //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
+                    TrackingNumber = currentShipment.TrackingNumber,
+                    CreatedDate = currentShipment.CreatedDate.ToString("dd-MMM-yyyy"),
+                    Status = currentShipment.Status.ToString(),
+                    ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
+                },
+                PackageDetails = new PackageDetailsDto
+                {
+                    CmLBS = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    VolumeCMM = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
+                    Count = currentShipment.ShipmentPackage.PackageProducts.Count,
+                    DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
+                    HsCode = currentShipment.ShipmentPackage.HSCode,
+                    Instructions = currentShipment.ShipmentPackage.CarrierInstruction,
+                    IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
+                    TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
+                    TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
+                    ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
+                    PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
+                    ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
+                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+
+                },
+                CarrierInformation = new CarrierInformationDto
+                {
+                    CarrierName = currentShipment.CarrierName,
+                    serviceLevel = currentShipment.ServiceLevel,
+                    PickupDate = currentShipment.PickUpDate
+                }
+
+            };
+
+
+            return currentShipmentDto;
+        }
     }
 
 
