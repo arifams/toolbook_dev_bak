@@ -336,11 +336,7 @@ namespace PI.Business
 
         }
 
-        //get address book details by excel file
-        public int ExportExcelAddressbookDetails()
-        {
-            return 1;
-        }
+      
      
         
         //get address details by userId  
@@ -368,7 +364,6 @@ namespace PI.Business
                         EmailAddress = item.EmailAddress,
                         PhoneNumber = item.PhoneNumber,
                         AccountNumber = item.AccountNumber,
-
                         Country = item.Country,
                         ZipCode = item.ZipCode,
                         Number = item.Number,
@@ -416,9 +411,12 @@ namespace PI.Business
                 ws.Cells["I6"].Value = "State";
                 ws.Cells["J6"].Value = "Email Adderess";
                 ws.Cells["K6"].Value = "Phone Number";
+                ws.Cells["L6"].Value = "Country";
+                ws.Cells["M6"].Value = "Account Number";
+
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:K6"])
+                using (ExcelRange rng = ws.Cells["A6:M6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -467,6 +465,13 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 11];
                     cell.Value = addressBook.PhoneNumber;
 
+                    cell = ws.Cells[rowIndex, 12];
+                    cell.Value = addressBook.Country;
+
+                    cell = ws.Cells[rowIndex, 13];
+                    cell.Value = addressBook.AccountNumber;
+                    
+
                     ws.Row(rowIndex).Height = 120;
                 }
 
@@ -482,7 +487,9 @@ namespace PI.Business
                 ws.Column(9).Width = 20;
                 ws.Column(10).Width = 20;
                 ws.Column(11).Width = 20;
-                
+                ws.Column(12).Width = 20;
+                ws.Column(13).Width = 20;
+
                 return pck.GetAsByteArray();
             }
         }
@@ -502,20 +509,41 @@ namespace PI.Business
             lastRow = MySheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
 
             //readin from excel
-            List<AddressBook> EmpList = new List<AddressBook>();
-            for (int index = 2; index <= lastRow; index++)
+            List<AddressBook> AddressList = new List<AddressBook>();
+            for (int index = 7; index <= lastRow; index++)
             {
                 System.Array MyValues = (System.Array)MySheet.get_Range("A" +
-                   index.ToString(), "D" + index.ToString()).Cells.Value;
-                EmpList.Add(new AddressBook
+                   index.ToString(), "M" + index.ToString()).Cells.Value;
+                AddressList.Add(new AddressBook
                 {
-                    CompanyName = MyValues.GetValue(1, 1).ToString(),
+                    Salutation = MyValues.GetValue(1, 1).ToString(),
                     FirstName = MyValues.GetValue(1, 2).ToString(),
                     LastName = MyValues.GetValue(1, 3).ToString(),
-                    AccountNumber = MyValues.GetValue(1, 4).ToString(),
-                    CreatedBy= userId,
+                    CompanyName = MyValues.GetValue(1, 4).ToString(),
+                    ZipCode = MyValues.GetValue(1, 5).ToString(),
+                    Number = MyValues.GetValue(1, 6).ToString(),
+                    StreetAddress1 = MyValues.GetValue(1, 7).ToString(),
+                    StreetAddress2 = MyValues.GetValue(1, 8).ToString(),
+                    State = MyValues.GetValue(1, 9).ToString(),
+                    EmailAddress = MyValues.GetValue(1, 10).ToString(),
+                    PhoneNumber = MyValues.GetValue(1, 11).ToString(),
+                    Country = MyValues.GetValue(1, 12).ToString(),
+                    AccountNumber = MyValues.GetValue(1, 13).ToString(),
+                    CreatedBy = userId,
+                    UserId = userId,
+                    CreatedDate = DateTime.Now
 
                 });
+            }
+
+
+            using (PIContext context=new PIContext())
+            {
+                foreach (var addrerss in AddressList)
+                {
+                    context.AddressBooks.Add(addrerss);
+                    context.SaveChanges();
+                }
             }
 
             return true;
