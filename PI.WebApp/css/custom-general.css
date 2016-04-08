@@ -222,6 +222,6 @@
     .label-info:hover {
        background-color:#ADD8E1; 
     }
-.bar-color {
-    background-color:#0D4773;
+.inc-width {
+    width:40%;
 }
