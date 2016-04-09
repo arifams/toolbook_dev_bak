@@ -9,7 +9,6 @@
         var vm = this;
 
         vm.shipmentCode = $location.search().SHIPMENT_CODE;
-        var shipmentId = '';
 
         vm.shipmentServices = [];
         vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
@@ -42,19 +41,18 @@
                 vm.shipment = data;
                 console.info("shipment info in commercial invoice");
                 console.info(vm.shipment);
-                shipmentId = vm.shipment.generalInformation.shipmentId;
                 vm.shipment.termsOfPayment = "FREE OF CHARGE";
-                vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
-                vm.shipment.item = {};
-                vm.shipment.item.lineItems = [{ no: 1, description: "", qty: 0, pricePerPiece:0.0 }];
-                
+                //vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
+                //vm.shipment.item = {};
+                //vm.shipment.item.lineItems = [{ no: 1, description: "", qty: 0, pricePerPiece: 0.0 }];
+                vm.calculateTotal();
             })
             .error(function () {
             })
         }
 
         vm.addEmptyRow = function () {
-            vm.shipment.item.lineItems.push({ description: "", qty: 0, pricePerPiece: 0.0 });
+            vm.shipment.item.lineItems.push({ description: "", quantity: 0, pricePerPiece: 0.0 });
             vm.calculateTotal();
         };
 
@@ -72,12 +70,27 @@
             vm.shipment.item.totalPrice = 0.0;
 
             for (var i = 0; i < vm.shipment.item.lineItems.length; i++) {
-                vm.shipment.item.totalPrice = vm.shipment.item.totalPrice + (vm.shipment.item.lineItems[i].qty * vm.shipment.item.lineItems[i].pricePerPiece);
+                vm.shipment.item.totalPrice = vm.shipment.item.totalPrice + (vm.shipment.item.lineItems[i].quantity * vm.shipment.item.lineItems[i].pricePerPiece);
             }
         }
 
         vm.save = function () {
-            
+            shipmentFactory.saveCommercialInvoice(vm.shipment)
+            .success(function (data) {
+                console.log('saved success');
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-success media fade in"><p>"Commercial invoice saved successfully"</p></div>',
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
+            })
+            .error(function () {
+            })
         };
     }])
 })(angular.module('newApp'));

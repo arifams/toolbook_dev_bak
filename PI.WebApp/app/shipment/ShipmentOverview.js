@@ -69,6 +69,8 @@
                        debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
+                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
 
                        vm.awb_URL = SISUrl+ "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
