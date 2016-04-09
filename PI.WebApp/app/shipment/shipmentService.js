@@ -121,6 +121,8 @@
                 }
             });
         }
+      
+
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
