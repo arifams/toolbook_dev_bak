@@ -54,7 +54,7 @@
                                                             <label class="form-control label-default">Shipment Label</label>
                                     </div>
                                                         <div class="col-sm-5">
-                                                            <a href="{{overviewShipCtrl.shipmentLabel}}">View Label</a>
+                                                            <div> <a href="{{overviewShipCtrl.shipmentLabel}}" target="_blank">View Label</a> </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -140,17 +140,16 @@
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
-            <div>
-                {{overviewShipCtrl.awb_URL}}
-                <iframe ng-src='{{overviewShipCtrl.awb_URL}}' height="800" width="700"></iframe>
+            <div class="awb">
+                
             </div>
         </tab>
         <tab>
         <tab-heading>
             CMR
          </tab-heading>
-                    <div>
-                        <iframe src={{overviewShipCtrl.cmr_URL}} height="800" width="700"></iframe>
+                    <div class="cmr">
+                       
                     </div>
          </tab>
 
