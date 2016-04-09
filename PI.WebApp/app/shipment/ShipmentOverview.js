@@ -68,11 +68,12 @@
                        debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
+                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
 
                        vm.awb_URL = "http://www2.shipitsmarter.com/taleus/print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
                        vm.cmr_URL = "http://book.parcelinternational.nl/taleus/print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=info@parcelinternational.com&password=Shipper01";
-                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
                        console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 
