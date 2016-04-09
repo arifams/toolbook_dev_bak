@@ -1349,14 +1349,12 @@ namespace PI.Business
 
                 foreach (var item in content)
                 {
-                    //StringBuilder str = new StringBuilder();
-                    //item.DivisionCostCenters.Where(x => x.IsDelete == false).ToList().ForEach(e => str.Append(e.Divisions.Name + "<br/>"));
+                  
+                    int userCount = context.UsersInDivisions.Where(x => x.Divisions.CompanyId == item.Company.Id)
+                                    .Select(x=> x.UserId).ToList().Count();
 
-                    //// Remove last <br/> tag.
-                    //assignedDivForGrid = str.ToString();
-                    //lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-                    //if (lastIndexOfBrTag != -1)
-                    //    assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag);
+                    int shipmentCount = context.Shipments.Where(x => x.Division.CompanyId == item.Company.Id && x.IsActive)
+                                    .Select(x => x.Id).ToList().Count();
 
                     pagedRecord.Content.Add(new CustomerListDto
                     {
@@ -1367,18 +1365,10 @@ namespace PI.Business
                         City = item.Customer.CustomerAddress.City,
                         Status = item.Company.IsActive,
                         CreatedDate = item.Customer.CreatedDate.ToString("dd/MM/yyyy"),
+                        ActiveShipments = shipmentCount,
+                        AssignedUserCount = ++userCount
                     });
                 }
-
-                // Count
-                //pagedRecord.TotalRecords = context.CostCenters.Include("DivisionCostCenters").Where(x => x.CompanyId == currentcompany.Id &&
-                //                                                      x.Type == "USER" && x.IsDelete == false &&
-                //                                                     (searchtext == null || x.Name.Contains(searchtext)) &&
-                //                                                     (divisionId == 0 || x.DivisionCostCenters.Any(C => C.DivisionId == divisionId)) &&
-                //                                                     (type == null || x.IsActive.ToString() == type)).Count();
-
-                //pagedRecord.CurrentPage = page;
-                //pagedRecord.PageSize = pageSize;
 
                 return pagedRecord;
             }
