@@ -53,6 +53,7 @@ namespace PI.Data
         public DbSet<ShipmentPayment> ShipmentPayments { get; set; }
         public DbSet<ShipmentDocument> ShipmentDocument { get; set; }
 
+        public DbSet<CommercialInvoice> CommercialInvoices { get; set; }
 
         public PIContext()
             : base("name=PIBookingConnectionString")

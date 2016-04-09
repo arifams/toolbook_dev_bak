@@ -61,7 +61,7 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SaveShipment(addShipment);
         }
-
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllCurrencies")]
@@ -407,10 +407,10 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("GetshipmentByShipmentCodeForInvoice")]
-        public ShipmentDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        public CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            ShipmentDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
+            CommercialInvoiceDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
             return currentshipment;
         }
 
@@ -437,6 +437,14 @@ namespace PI.Service.Controllers
             }
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("SaveCommercialInvoice")]
+        public ShipmentOperationResult SaveCommercialInvoice([FromBody]CommercialInvoiceDto addShipment)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            return shipment.SaveCommercialInvoice(addShipment);
+        }
     }
 }
 

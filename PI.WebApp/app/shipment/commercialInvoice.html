@@ -10,6 +10,7 @@
                                 <tbody>
                                     <tr>
                                         <td rowspan="2" class="col-sm-6">
+                                            {{invoiceCtrl.shipment.consignerAddress}}<br />
                                             {{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}<br />
                                             {{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}<br />
                                             {{invoiceCtrl.shipment.addressInformation.consigner.postalcode}} {{invoiceCtrl.shipment.addressInformation.consigner.city}}<br />
@@ -18,44 +19,38 @@
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Date of issue</label><br />
-                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.generalInformation.createdDate" />
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.createdDate" />
 
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Invoice Number</label><br />
-                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.generalInformation.shipmentCode" />
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.invoiceNo" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="col-sm-3">
                                             <label>VAT Number</label><br />
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.vatNo"/>
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Customer Number</label><br />
-                                            <input type="text" class="form-control" />
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.customerNo"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <div class="form-group">
                                                 <label>Ship To</label><br />
-                                                <textarea class="form-control" style="height:100px;">
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.country}}
+                                                <textarea class="form-control" style="height:100px;" ng-model="invoiceCtrl.shipment.shipTo">
+                                                    
                                                 </textarea>
                                             </div>
                                         </td>
                                         <td colspan="2">
                                             <div class="form-group">
                                                 <label>Invoice To/Consigned To</label><br />
-                                                <textarea class="form-control" style="height:100px;">
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.firstName}} {{invoiceCtrl.shipment.addressInformation.consignee.lastName}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.address1}} {{invoiceCtrl.shipment.addressInformation.consignee.number}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.postalcode}} {{invoiceCtrl.shipment.addressInformation.consignee.city}} {{invoiceCtrl.shipment.addressInformation.consignee.state}}
-                                                    {{invoiceCtrl.shipment.addressInformation.consignee.country}}
+                                                <textarea class="form-control" style="height:100px;" ng-model="invoiceCtrl.shipment.invoiceTo">
+                                                    
                                                 </textarea>
                                             </div>
                                         </td>
@@ -67,7 +62,7 @@
                                             <label>Terms of Delivery:</label>
                                             <select id="shipmentServices" class="form-control"
                                                     convert-to-number ng-options="service.Id as service.Name for service in invoiceCtrl.shipmentServices"
-                                                    name="shipmentType" ng-model="invoiceCtrl.shipment.generalInformation.shipmentServices"></select>
+                                                    name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
                                             <br />
                                             <div class="form-group">
                                                 <label>Terms of payment:</label>
@@ -77,12 +72,13 @@
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Country of orgins</label><br />
-                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consigner.country" />
-
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfOrigin" />
+                                            <!--<input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consigner.country" />-->
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Country of destinations</label><br />
-                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consignee.country" />
+                                            <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfDestination" />
+                                            <!--<input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consignee.country" />-->
                                         </td>
 
                                     </tr>
@@ -120,7 +116,7 @@
                                         </td>
                                         <td class="col-sm-3">
                                             <label>Colli Number/Reference</label><br />
-                                            <label>{{invoiceCtrl.shipment.generalInformation.shipmentReferenceName}}</label>
+                                            <label>{{invoiceCtrl.shipment.shipmentReferenceName}}</label>
                                         </td>
 
                                     </tr>
@@ -148,7 +144,7 @@
                                                     <tr ng-repeat="line in invoiceCtrl.shipment.item.lineItems track by $index">
                                                         <td width="5%">{{$index + 1}}</td>
                                                         <td width="40%"><input type="text" name="description" class="form-control" ng-model="line.description" contenteditable="true" ng-required="true" /></td>
-                                                        <td width="15%"><input type="number" name="qty" class="form-control" min="0" ng-model="line.qty" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
+                                                        <td width="15%"><input type="number" name="qty" class="form-control" min="0" ng-model="line.quantity" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
                                                         <td width="15%"><input type="number" name="priceperPiece" class="form-control" min="0" step="0.01" ng-model="line.pricePerPiece" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
                                                         <td width="15%"></td>
                                                         <td style="text-align:center" width="5%" class="prod_ops_rm">
@@ -193,9 +189,16 @@
                                             </strong>
                                         </td>
                                     </tr>
+                                    <tr ng-hide="formCommercialInvoice.$valid">
+                                        <td colspan="3">
+                                            <span style="color:lightcoral">
+                                                Description, Quantity and Price per piece are required.
+                                            </span>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colspan="2">
-                                            <textarea class="form-control"></textarea>
+                                            <textarea class="form-control" ng-model="invoiceCtrl.shipment.note"></textarea>
                                         </td>
                                         <td></td>
                                     </tr>
@@ -206,8 +209,8 @@
                 </div>
 
             </div>
-
+            
             <button type="submit" class="btn btn-primary pull-right" ng-click="formCommercialInvoice.$valid && invoiceCtrl.save()">Save</button>
-
+            <div id="panel-notif"></div>
         </ng-form>
 </div>
