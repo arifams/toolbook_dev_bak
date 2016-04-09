@@ -121,25 +121,25 @@
                                     <h3><strong>Tracking History</strong></h3>
                                 </div>
                             </div>
+                        </div><div class="form-horizontal">
+                                  <div class="col-sm-12 ">
+
+                                      <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
+                                          <div class="col-sm-12">
+                                              <label class="form-control lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
+                                          </div>
+                                          <div class="row" ng-repeat="location in items.activity.items">
+                                              <div class="col-sm-12">
+                                                  <label class="form-control lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
+                                              </div>
+                                          </div>
+                                      </div>
+
+                                  </div>
                         </div>
-                            <div class="col-sm-12">
+    
 
-                                <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
-                                    <div class="col-sm-12">
-                                        <label class="form-control">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
-                                    </div>
-                                    <div class="row" ng-repeat="location in items.activity.items">
-                                        <div class="col-sm-12">
-                                            <label class="form-control">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                                         
-
-
-                        </div>
+</div>
         </tab>
         <tab>
             <tab-heading>

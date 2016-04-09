@@ -219,3 +219,10 @@
 .inc-width {
     width:40%;
 }
+.lbl-border {
+    border:1px solid #ADD8E1;
+    border-radius:5px;
+    padding:5px 5px;
+    display: block; 
+    
+}
