@@ -68,10 +68,13 @@
                        debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
+                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
 
-                       vm.awb_URL= "http://book.12send.com/taleus/print_awb.asp?code_shipment="+vm.shipmentCode+"&email="+vm.Consigneremail;
-                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+                       vm.awb_URL = SISUrl+ "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
+                       vm.cmr_URL = SISUrl2 + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
+                    
                        console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 

@@ -1027,7 +1027,7 @@ namespace PI.Business
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
                     result.LabelURL = response.PDF;
-
+                    result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
                 }
 

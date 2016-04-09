@@ -158,8 +158,8 @@ namespace PI.Business
            string userID = SISUserName;
            string password = SISPassword;
             StatusHistoryResponce statusHistoryResponce = null;
-           // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
-        string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+           string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+       // string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();

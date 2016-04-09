@@ -9,7 +9,7 @@
                 </div>
 
             </div>
-
+            <br/><br />
             <div>
                 <form name="formDocumentUpload" class="form-horizontal">
                     <div class="form-group">
@@ -35,7 +35,7 @@
                                     <table class="table table-striped">
                                         <tbody>
                                             <tr ng-repeat="file in fileList">
-                                                <td> <a ng-href="{{file.uploadedFileName}}">{{file.clientFileName}}</a> </td>
+                                                <td> <a ng-href="{{file.fileAbsoluteURL}}">{{file.clientFileName}}</a> </td>
                                                 <td style="text-align:center">
                                                     <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="deleteFile(file)">
                                                         <i class="fa fa-remove" style="color:red">

@@ -54,17 +54,15 @@
                                                             <label class="form-control label-default">Shipment Label</label>
                                     </div>
                                                         <div class="col-sm-5">
-                                        <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
+                                                            <a href="{{overviewShipCtrl.shipmentLabel}}">View Label</a>
                                                         </div>
                                                     </div>
                                                 </div>
-                            </div>
-                           <!--
                                                 <div class="col-sm-4">
                                                     <div class="panel panel-default map-panel">
                                                         <div class="panel-body">
                                                             <div class="row">
-                                                <div class="col-sm-12">
+                                                                <div class="col-sm-12">
                                                                     <div class="map" id="simple-map"></div>
                                                                 </div>
                                                             </div>
@@ -74,7 +72,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                           -->
+                            </div>
+                           
+                                               
+                           
                                             </div>
            <div class="panel-content panel-border p-t-0">
             <div class="panel-header">
@@ -113,41 +114,46 @@
 
                                     </div>
                                 </div>
-            <div class="panel-content panel-border p-t-0">
-                        <div class="panel-header">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                    <h3><strong>Tracking History</strong></h3>
-                                </div>
+                    <div class="panel-content panel-border p-t-0">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h3><strong>Tracking History</strong></h3>
                             </div>
                         </div>
-                            <div class="col-sm-12">
-
+                        <div class="row">
+                            <div class="col-sm-12 ">
                                 <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
                                     <div class="col-sm-12">
-                                        <label class="form-control">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
+                                        <label class="lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
                                     </div>
                                     <div class="row" ng-repeat="location in items.activity.items">
                                         <div class="col-sm-12">
-                                            <label class="form-control">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
+                                            <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
-
-                            <iframe src={{overviewShipCtrl.awb_URL}} height="800" width="700"></iframe>
-
-
                         </div>
+                    </div>
         </tab>
         <tab>
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
-
+            <div>
+                {{overviewShipCtrl.awb_URL}}
+                <iframe ng-src='{{overviewShipCtrl.awb_URL}}' height="800" width="700"></iframe>
+            </div>
         </tab>
+        <tab>
+        <tab-heading>
+            CMR
+         </tab-heading>
+                    <div>
+                        <iframe src={{overviewShipCtrl.cmr_URL}} height="800" width="700"></iframe>
+                    </div>
+         </tab>
+
         <tab>
             <tab-heading>
                 COMMERCIAL INVOICE

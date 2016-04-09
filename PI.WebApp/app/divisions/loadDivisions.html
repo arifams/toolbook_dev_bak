@@ -1,5 +1,5 @@
 ﻿<div ng-controller="loadDivisionsCtrl">
-    <h2 class="box-title"> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2>
+    <h2 class="box-title"> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" style="width:auto" role="button"> Add Division</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -9,93 +9,93 @@
 
             <div class="panel-header">
                 <!-- left column -->
+                <div class="panel-content panel-default">
+                    <div class="box-body">
+                        <div class="row">
 
-                <div class="box-body">
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                       placeholder="Search by Division Name" />
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <label class="control-label">Filter by  </label>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select id="costcenter"
-                                            convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                            name="costcenter" class="defaultcurrency" ng-model="costcenter"
-                                            ng-change="selectDivisionforCostCenter()">
-                                        <option value="">All</option>
-                                    </select>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                           placeholder="Search by Division Name" />
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select id="costcenters" name="costcenters" class="costcenters"
-                                            ng-model="status" ng-change="selectActiveDivisions()">
-                                        <option value="">All</option>
-                                        <option value="True">Active</option>
-                                        <option value="False">Inactive</option>
-                                    </select>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
                                 </div>
                             </div>
+                            <div class="col-md-1">
+                                <div class="form-group">
+                                    <label class="control-label">Filter by  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="costcenter"
+                                                convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
+                                                name="costcenter" class="defaultcurrency" ng-model="costcenter"
+                                                ng-change="selectDivisionforCostCenter()">
+                                            <option value="">All</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="costcenters" name="costcenters" class="costcenters"
+                                                ng-model="status" ng-change="selectActiveDivisions()">
+                                            <option value="">All</option>
+                                            <option value="True">Active</option>
+                                            <option value="False">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
+                        <br />
 
                     </div>
-                    <br />
 
-                </div>
-                
-                <div class="divisionTable">
+                    <div class="divisionTable">
 
-                    <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th st-sort="name">Division</th>
-                                <th>Assigned Cost Centers</th>
-                                <th>Number Of Users</th>
-                                <th>Status</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
-                            </tr>
+                        <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name">Division</th>
+                                    <th>Assigned Cost Centers</th>
+                                    <th>Number Of Users</th>
+                                    <th>Status</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
 
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="row in displayedCollection">
-                                <td>{{row.name}}</td>
-                                <td><span ng-bind-html="renderHtml(row.assosiatedCostCentersForGrid)"></span></td>   
-                                <td>{{row.numberOfUsers}}</td>
-                                <td>{{row.statusString}}</td>
-                                <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
-                                <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" class="text-center">
-                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in displayedCollection">
+                                    <td>{{row.name}}</td>
+                                    <td><span ng-bind-html="renderHtml(row.assosiatedCostCentersForGrid)"></span></td>
+                                    <td>{{row.numberOfUsers}}</td>
+                                    <td>{{row.statusString}}</td>
+                                    <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
 
-                </div>
-
+                    </div>
+                </div> 
             </div>
         </form>
     </div>
