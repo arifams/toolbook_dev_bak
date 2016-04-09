@@ -14,6 +14,7 @@
                var lat = 0;
                var lng = 0;
                vm.Consigneremail = '';
+               vm.awb_URL = '';
 
                vm.shipmentCode = $location.search().SHIPMENT_CODE;
                vm.trakingNo = $location.search().TRACKING_NO;
@@ -73,7 +74,10 @@
                        vm.awb_URL = SISUrl+ "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
                        vm.cmr_URL = SISUrl2 + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
-                       console.log(vm.shipmentLabel);
+
+                       $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="700"></iframe>').appendTo('.awb');
+                       $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="700"></iframe>').appendTo('.cmr');
+                     //  console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 
                    })
