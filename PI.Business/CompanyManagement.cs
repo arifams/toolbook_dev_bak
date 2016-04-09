@@ -1389,7 +1389,21 @@ namespace PI.Business
                 }
 
                 //ToDo: Inactivate/activate Users, divisions, cost centers
+                var divisions = context.Divisions.Where(x => x.CompanyId == comapnyId).ToList();
+                divisions.ForEach(x => x.IsActive = false);
 
+                var costCenters = context.CostCenters.Where(x => x.CompanyId == comapnyId).ToList();
+                costCenters.ForEach(x => x.IsActive = false);
+
+                var userList = (from user in context.Users
+                                join comapnyNew in context.Companies on user.TenantId equals comapnyNew.TenantId
+                                where comapnyNew.Id == comapnyId
+                                select user).ToList();
+
+
+                userList.ForEach(x => x.IsActive = false);
+
+                context.SaveChanges();
 
                 return comapny.IsActive;
             }
