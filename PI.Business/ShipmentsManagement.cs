@@ -341,11 +341,13 @@ namespace PI.Business
                     sysCostCenterId = defaultCostCntr.Id;
                 }
 
-                long shipmentCodeAsLong = Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
-                if (shipmentCodeAsLong != 0)
+                long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+                
+                if (addShipment.GeneralInformation.ShipmentCode != "0")
                 {
                     // If has parent shipment id, then add to previous shipment.
-                    Shipment oldShipment = context.Shipments.Where(sh => sh.Id == shipmentCodeAsLong).FirstOrDefault();
+                    Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
+                    oldShipmentId = oldShipment.Id;
                     oldShipment.IsParent = true;
                     context.SaveChanges();
                 }
@@ -374,7 +376,7 @@ namespace PI.Business
                     PickUpDate = addShipment.CarrierInformation.PickupDate,
                     IsActive = true,
                     IsParent = false,
-                    ParentShipmentId = shipmentCodeAsLong == 0 ? null : (long?)shipmentCodeAsLong,
+                    ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
                     ConsigneeAddress = new ShipmentAddress
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
@@ -588,7 +590,8 @@ namespace PI.Business
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                            (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                           (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                           (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
+                           !shipment.IsParent
                            select shipment).ToList();
 
             // Update retrieve shipment list status from SIS.
@@ -607,7 +610,8 @@ namespace PI.Business
                        (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                        (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                        (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
+                       !shipment.IsParent
                        select shipment).ToList();
 
             foreach (var item in content)
