@@ -96,13 +96,7 @@
     .form-control {
         font-style:italic;
     }
-    
-    .form-horizontal .control-label {
-        color:#0D4773;
-        font-size:medium;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight:normal;
-    }
+  
     .main-content .page-content .panel .panel-header {
         padding:0px 0px 5px 0px;
         margin-bottom:0px;
