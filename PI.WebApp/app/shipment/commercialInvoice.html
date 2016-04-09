@@ -1,4 +1,5 @@
 ﻿<div ng-controller="commercialInvoiceCtrl as invoiceCtrl">
+    <div id="panel-notif"></div>
         <ng-form class="form-horizontal" role="form" id="formCommercialInvoice" name="formCommercialInvoice">
             <div class="row">
                 <div class="col-sm-1"></div>
@@ -39,7 +40,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                                 <label>Ship To</label><br />
                                                 <textarea class="form-control" style="height:100px;" ng-model="invoiceCtrl.shipment.shipTo">
                                                     
@@ -47,7 +48,7 @@
                                             </div>
                                         </td>
                                         <td colspan="2">
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                                 <label>Invoice To/Consigned To</label><br />
                                                 <textarea class="form-control" style="height:100px;" ng-model="invoiceCtrl.shipment.invoiceTo">
                                                     
@@ -64,7 +65,7 @@
                                                     convert-to-number ng-options="service.Id as service.Name for service in invoiceCtrl.shipmentServices"
                                                     name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
                                             <br />
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                                 <label>Terms of payment:</label>
                                                 <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.termsOfPayment" />
                                             </div>
@@ -84,7 +85,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                                 <label>Mode of transport:</label><br />
                                                 <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.modeOfTransport" /> <br />
                                                 <label>Import Brokers:</label><br />
@@ -92,7 +93,7 @@
                                             </div>
                                         </td>
                                         <td colspan="2">
-                                            <div class="form-group">
+                                            <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                                 <label>Shipment for attension of:</label><br />
                                                 {{invoiceCtrl.shipment.addressInformation.consignee.contactName}} <br />
                                                 <span>Tel:</span> {{invoiceCtrl.shipment.addressInformation.consignee.contactNumber}}  <br />
@@ -211,6 +212,6 @@
             </div>
             
             <button type="submit" class="btn btn-primary pull-right" ng-click="formCommercialInvoice.$valid && invoiceCtrl.save()">Save</button>
-            <div id="panel-notif"></div>
+            
         </ng-form>
 </div>
