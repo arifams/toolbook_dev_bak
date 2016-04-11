@@ -23,8 +23,17 @@
             getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice,
             getAvailableFilesForShipment: getAvailableFilesForShipment,
             deleteFile: deleteFile,
-            saveCommercialInvoice: saveCommercialInvoice
+            saveCommercialInvoice: saveCommercialInvoice,
+            getProfileInfo: getProfileInfo
         };
+
+        function getProfileInfo() {
+            return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),                  
+                }
+            });
+        }
 
 
         function getTeackAndTraceDetails(carrier, trackingNo) {
