@@ -28,7 +28,7 @@
         };
 
         function getProfileInfo() {
-            return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
+            return $http.get(serverBaseUrl + '/api/profile/GetProfile', {
                 params: {
                     userId: $window.localStorage.getItem('userGuid'),                  
                 }

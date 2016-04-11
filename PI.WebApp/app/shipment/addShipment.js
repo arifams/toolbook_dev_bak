@@ -51,15 +51,35 @@
         vm.consignorAdded = false;
        
         vm.loadConsignerInfo = function () {
-
+            debugger;
             shipmentFactory.getProfileInfo().success(
                function (responce) {
+                   if (responce != null) {
+
+                       if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
+                                                     //assigning customer address info to consigner details
+                           vm.shipment.addressInformation.consigner.firstName = responce.customerDetails.firstName;
+                           vm.shipment.addressInformation.consigner.lastName = responce.customerDetails.lastName;
+                           vm.shipment.addressInformation.consigner.country = responce.customerDetails.customerAddress.country;
+                           vm.shipment.addressInformation.consigner.postalcode = responce.customerDetails.customerAddress.zipCode;
+                           vm.shipment.addressInformation.consigner.number = responce.customerDetails.customerAddress.number
+                           vm.shipment.addressInformation.consigner.address1 = responce.customerDetails.customerAddress.streetAddress1
+                           vm.shipment.addressInformation.consigner.address2 = responce.customerDetails.customerAddress.streetAddress2
+                           vm.shipment.addressInformation.consigner.city = responce.customerDetails.customerAddress.city;
+                           vm.shipment.addressInformation.consigner.state = responce.customerDetails.customerAddress.state;
+                           vm.shipment.addressInformation.consigner.email = responce.customerDetails.email;
+                           vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;
+
+                       }
+                   }
                    debugger; vm.currencies = responce;
                }).error(function (error) {
-                   console.log("error occurd while retrieving currencies");
+                   console.log("error occurd while retrieving customer details");
                });
 
         }
+
+        vm.loadConsignerInfo();
 
         // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
         var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
