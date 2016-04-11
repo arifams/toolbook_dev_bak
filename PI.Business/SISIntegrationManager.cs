@@ -158,20 +158,20 @@ namespace PI.Business
            string userID = SISUserName;
            string password = SISPassword;
             StatusHistoryResponce statusHistoryResponce = null;
-           string URL = "http://parcelinternational.pro/status/DHL/9167479650";
-       // string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+          // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+             string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
-                //data["codeshipment"] = codeShipment;
-                //data["userid"] = userID;
-                //data["password"] = password;
-                //data["environment"] = environment;
+                data["codeshipment"] = codeShipment;
+                data["userid"] = userID;
+                data["password"] = password;
+                data["environment"] = environment;
 
-                data["codeshipment"] = "38165364";
-                data["userid"] = "info@parcelinternational.com";
-                data["password"] = "Shipper01";
-                data["environment"] = "taleus";
+                //data["codeshipment"] = "38165364";
+                //data["userid"] = "info@parcelinternational.com";
+                //data["password"] = "Shipper01";
+                //data["environment"] = "taleus";
 
 
                 var response = wb.UploadValues(URL, "POST", data);

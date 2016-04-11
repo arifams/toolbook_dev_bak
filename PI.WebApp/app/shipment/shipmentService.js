@@ -22,7 +22,8 @@
             loadAllPendingShipments: loadAllPendingShipments,
             getshipmentByShipmentCodeForInvoice: getshipmentByShipmentCodeForInvoice,
             getAvailableFilesForShipment: getAvailableFilesForShipment,
-            deleteFile: deleteFile
+            deleteFile: deleteFile,
+            saveCommercialInvoice: saveCommercialInvoice
         };
 
 
@@ -170,6 +171,11 @@
 
         function deleteFile(fileDetails) {
             return $http.post(serverBaseUrl + '/api/shipments/DeleteFile', fileDetails)
+        }
+
+        function saveCommercialInvoice(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/SaveCommercialInvoice', shipmentDetail);
         }
 
     }]);

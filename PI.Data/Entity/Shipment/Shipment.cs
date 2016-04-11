@@ -68,6 +68,8 @@ namespace PI.Data.Entity
 
         public virtual ShipmentPayment ShipmentPayment { get; set; }
 
+        public virtual CommercialInvoice CommercialInvoice { get; set; }
+
         #endregion
     }   
 }
