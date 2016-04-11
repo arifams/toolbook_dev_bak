@@ -72,7 +72,7 @@
 
                        }
                    }
-                   debugger; vm.currencies = responce;
+                 
                }).error(function (error) {
                    console.log("error occurd while retrieving customer details");
                });
