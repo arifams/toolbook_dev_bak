@@ -54,7 +54,7 @@
                                                             <label class="form-control label-default">Shipment Label</label>
                                     </div>
                                                         <div class="col-sm-5">
-                                                            <div> <a href="{{overviewShipCtrl.shipmentLabel}}" target="_blank">View Label</a> </div>
+                                        <input type="text" disabled name="shipmentLabel" class="form-control bg-primary" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -65,10 +65,12 @@
                                                                 <div class="col-sm-12">
                                                                     <div class="map" id="simple-map"></div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="panel-header">
+                                                            </div><!--
+                                                                     <div class="panel-header">
                                                                 <label class="form-control label-info">Current Packege Location</label>
-                                                            </div>
+                                                            </div> 
+                                                                  -->
+                                                            
                                                         </div>
                                                     </div>
                                                 </div>
@@ -114,42 +116,43 @@
 
                                     </div>
                                 </div>
-                    <div class="panel-content panel-border p-t-0">
-                        <div class="row">
+            <div class="panel-content panel-border p-t-0">          
+                   <div class="row">
+                          <div class="col-sm-12">
+                             <h3><strong>Tracking History</strong></h3>
+                          </div>
+                 </div>
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
                             <div class="col-sm-12">
-                                <h3><strong>Tracking History</strong></h3>
+                                <label class="lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12 ">
-                                <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
-                                    <div class="col-sm-12">
-                                        <label class="lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
-                                    </div>
-                                    <div class="row" ng-repeat="location in items.activity.items">
-                                        <div class="col-sm-12">
-                                            <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
-                                        </div>
-                                    </div>
+                            <div class="row" ng-repeat="location in items.activity.items">
+                                <div class="col-sm-12">
+                                    <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
                                 </div>
                             </div>
-                        </div>
+                        </div>                                                   
                     </div>
+                </div> 
+                </div>
         </tab>
         <tab>
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
-            <div class="awb">
-                
+            <div>
+                {{overviewShipCtrl.awb_URL}}
+                <iframe ng-src='{{overviewShipCtrl.awb_URL}}' height="800" width="700"></iframe>
             </div>
         </tab>
         <tab>
         <tab-heading>
             CMR
          </tab-heading>
-                    <div class="cmr">
-                       
+                    <div>
+                        <iframe src={{overviewShipCtrl.cmr_URL}} height="800" width="700"></iframe>
                     </div>
          </tab>
 
