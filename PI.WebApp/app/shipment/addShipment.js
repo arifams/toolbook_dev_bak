@@ -50,12 +50,24 @@
         vm.consigneeAdded = false;
         vm.consignorAdded = false;
        
+        vm.loadConsignerInfo = function () {
+
+            shipmentFactory.getProfileInfo().success(
+               function (responce) {
+                   debugger; vm.currencies = responce;
+               }).error(function (error) {
+                   console.log("error occurd while retrieving currencies");
+               });
+
+        }
 
         // Set current date as collection date. - dd-MMM-yyyy --- dd-MMM-yyyy HH:mm
         var monthNamesShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         // This preferredCollectionDateLocal is use only in view. Not passing to server through the dto. So when editing shipment, need to explicilty load to preferredCollectionDateLocal from preferredCollectionDate.
         vm.shipment.packageDetails.preferredCollectionDateLocal = ("0" + new Date().getDate()).slice(-2) + "-" + monthNamesShort[new Date().getUTCMonth()] + "-" + new Date().getFullYear();
         
+
+
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
