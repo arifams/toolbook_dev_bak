@@ -33,22 +33,14 @@
         ];
 
 
-        getshipmentByShipmentCodeForInvoice();
+        //calculating the total volume and total weight
+        vm.calculateTotal = function () {
+            debugger;
+            vm.shipment.item.totalPrice = 0.0;
 
-        function getshipmentByShipmentCodeForInvoice() {
-            shipmentFactory.getshipmentByShipmentCodeForInvoice(vm.shipmentCode)
-            .success(function (data) {
-                vm.shipment = data;
-                console.info("shipment info in commercial invoice");
-                console.info(vm.shipment);
-                vm.shipment.termsOfPayment = "FREE OF CHARGE";
-                //vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
-                //vm.shipment.item = {};
-                //vm.shipment.item.lineItems = [{ no: 1, description: "", qty: 0, pricePerPiece: 0.0 }];
-                vm.calculateTotal();
-            })
-            .error(function () {
-            })
+            for (var i = 0; i < vm.shipment.item.lineItems.length; i++) {
+                vm.shipment.item.totalPrice = vm.shipment.item.totalPrice + (vm.shipment.item.lineItems[i].quantity * vm.shipment.item.lineItems[i].pricePerPiece);
+            }
         }
 
         vm.addEmptyRow = function () {
@@ -64,14 +56,26 @@
             vm.calculateTotal();
         };
 
-        //calculating the total volume and total weight
-        vm.calculateTotal = function () {
+        getshipmentByShipmentCodeForInvoice();
 
-            vm.shipment.item.totalPrice = 0.0;
-
-            for (var i = 0; i < vm.shipment.item.lineItems.length; i++) {
-                vm.shipment.item.totalPrice = vm.shipment.item.totalPrice + (vm.shipment.item.lineItems[i].quantity * vm.shipment.item.lineItems[i].pricePerPiece);
-            }
+        function getshipmentByShipmentCodeForInvoice() {
+            shipmentFactory.getshipmentByShipmentCodeForInvoice(vm.shipmentCode)
+            .success(function (data) {
+                vm.shipment = data;
+                console.info("shipment info in commercial invoice");
+                console.info(vm.shipment);
+                vm.shipment.termsOfPayment = "FREE OF CHARGE";
+                //vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
+                //vm.shipment.item = {};
+                if (vm.shipment.item.lineItems.length == 0) {
+                    vm.addEmptyRow();
+                }
+                else{
+                    vm.calculateTotal();
+                }
+            })
+            .error(function () {
+            })
         }
 
         vm.save = function () {
