@@ -8,6 +8,7 @@
                var vm = this;
 
                vm.paymentMsgStatus = false;
+               vm.showLabel = false;
                vm.paymentMsg = "";
                console.log(window.location.hash);
                if (window.location.hash != "") {
@@ -31,11 +32,25 @@
                    };
                    console.log(sendShipmentData);
                    shipmentFactory.sendShipmentDetails(sendShipmentData).success(
-                            function (response) { 
-                                debugger; 
+                            function (response) {
+                                debugger;
+                                vm.showLabel = false;
+                                console.log('response');
+                                console.log(response);
+                                
                                 vm.paymentMsgStatus = true;
                                 vm.paymentMsg = response.message;
-                                vm.labelUrl = response.labelURL;
+                                
+                                if (response.status == 2) { // Success
+                                    vm.showLabel = true;
+                                    vm.labelUrl = response.labelURL;
+                                }
+                                else if (response.status == 5) { // SIS Error. Redirect to error label page.
+                                    var errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                    window.open(errorUrl);
+                                }
+
+                                
                             }).error(function (error) {
                                 $('#panel-notif').noty({
                                         text: '<div class="alert alert-danger media fade in"><p>Error occured while adding the Shipment!</p></div>',

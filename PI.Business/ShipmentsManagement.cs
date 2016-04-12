@@ -915,6 +915,14 @@ namespace PI.Business
             {
                 Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
 
+                // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
+                if (!string.IsNullOrWhiteSpace(shipment.ShipmentCode))
+                {
+                    result.Status = Status.Error;
+                    result.Message = "Shipment is already added";
+                    return result;
+                }
+
                 if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
                 {
                     // Added payment data
@@ -931,8 +939,8 @@ namespace PI.Business
 
                     if (sendShipmentDetails.PayLane.Status != "PERFORMED")
                     {
-                        result.Status = Status.Error;
-                        result.Message = "Error occured when adding payment";
+                        result.Status = Status.PaymentError;
+                        result.Message = "Error occured when adding payment. Please contact Parcel International";
                         return result;
                     }
                 }
@@ -1023,8 +1031,10 @@ namespace PI.Business
 
                 if (string.IsNullOrWhiteSpace(response.Awb))
                 {
-                    result.Status = Status.Error;
+                    result.Status = Status.SISError;
                     result.Message = "Error occured when adding shipment";
+                    result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
+                    result.ShipmentCode = response.CodeShipment;
                 }
                 else
                 {

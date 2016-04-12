@@ -75,7 +75,9 @@ namespace PI.Contract.Enums
     {
         Error = 1,
         Success,
-        Warning
+        Warning,
+        PaymentError,
+        SISError
     }
 
     public enum DocumentType : short

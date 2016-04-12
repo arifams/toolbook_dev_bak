@@ -11,5 +11,7 @@ namespace PI.Contract.DTOs.Shipment
         public string AddShipmentXML { get; set; }
         public long ShipmentId { get; set; }
         public string LabelURL { get; set; }
+        public string CarrierName { get; set; }
+        public string ShipmentCode { get; set; }
     }
 }

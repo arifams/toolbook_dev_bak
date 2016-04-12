@@ -7,20 +7,18 @@
                 <div class="col-xs-12">
                     <div class="box-body">
                         <div class="form-group">
-                           
                             <div class="font-animation" ng-hide="resultCtrl.paymentMsgStatus">
                                 <label><i class="fa fa-spinner faa-spin animated"></i> Please wait while we submit your shipment  ...</label>
                             </div>
                         </div>
 
-
                         <div ng-show="resultCtrl.paymentMsgStatus"> 
-                            
                             {{resultCtrl.paymentMsg}} 
-
-                            <div> <a href="{{resultCtrl.labelUrl}}" target="_blank">Click here to open the Label</a> </div>
-
                         </div>
+                        <div ng-show="resultCtrl.showLabel">
+                            <a href="{{resultCtrl.labelUrl}}" target="_blank">Click here to open the Label</a>
+                        </div>
+
                         
                     </div>
                 </div>
