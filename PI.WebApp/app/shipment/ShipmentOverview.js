@@ -16,6 +16,11 @@
                vm.Consigneremail = '';
                vm.awb_URL = '';
 
+
+               vm.openLabel = function (url) {
+                   window.open(url);
+               }
+
                vm.shipmentCode = $location.search().SHIPMENT_CODE;
                vm.trakingNo = $location.search().TRACKING_NO;
                vm.carrier = $location.search().CARRIER;

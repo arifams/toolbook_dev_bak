@@ -13,9 +13,14 @@ using PI.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IdentityModel.Tokens;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Reflection;
+using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -284,6 +289,25 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
+                    //DateTime expires = DateTime.Now.AddDays(1);
+                    //var tokenHandler = new JwtSecurityTokenHandler();
+                    //X509Certificate2 cert = new X509Certificate2(Path.Combine(AssemblyDirectory, "private.localhost.pfx"), "localhost", X509KeyStorageFlags.MachineKeySet);
+
+                    //ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
+                    //{
+                    // new Claim(ClaimTypes.Name, user.Id),
+                    // new Claim("Id", user.Id),
+                    // new Claim("IsCorporateAccount", isCorporateAccount.ToString()),
+                    // new Claim(ClaimTypes.Role, roleName),
+
+                    // });
+                    ////create the token
+                    //var token = (JwtSecurityToken)tokenHandler.CreateToken(issuer: "http://localhost:5555/", audience: "http://localhost:5555/", subject: claimsIdentity, expires: expires, signingCredentials: new X509SigningCredentials(cert));
+                    //var tokenString = tokenHandler.WriteToken(token);
+                    ////return the token
+                    //return Ok<String>(tokenString);
+
+
                     return Ok(new
                     {
                         Id = user.Id,
@@ -359,8 +383,17 @@ namespace PI.Service.Controllers
                 });
             }
         }
-     
 
+        public static string AssemblyDirectory
+        {
+            get
+            {
+                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
+                UriBuilder uri = new UriBuilder(codeBase);
+                string path = Uri.UnescapeDataString(uri.Path);
+                return Path.GetDirectoryName(path);
+            }
+        }
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
