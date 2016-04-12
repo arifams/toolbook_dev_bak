@@ -9,113 +9,111 @@
         <!-- Main content -->
         <form class="form-horizontal" name="formLoadUser">
             <!-- /.box-header -->
+            <div class="panel-content panel-border">
+                <div class="panel-header">
+                    <!-- left column -->
 
-            <div class="panel-header">
-                <!-- left column -->
-
-                <div class="box-body">
-                    <div class="row">
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control"
-                                       placeholder="Search by First Name or Last Name" />
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary" ng-click="loadUserCtrl.searchUsers()">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-1">
-                            <div class="form-group">
-                                <label class="control-label">Filter by  </label>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select convert-to-number ng-options="role.id as role.roleName for role in loadUserCtrl.roleList" 
-                                            name="role" ng-model="loadUserCtrl.role" ng-change="loadUserCtrl.selectRole()">
-                                        <option value="">All</option>
-                                    </select>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group input-group">
+                                    <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control"
+                                           placeholder="Search by First Name or Last Name" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary" ng-click="loadUserCtrl.searchUsers()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
-                        </div>
-                       
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
-                                            name="divisions" ng-model="loadUserCtrl.selectedDivision" ng-change="loadUserCtrl.selectDivision()">
-                                        <option value="">All</option>
-                                    </select>
+                            <div class="col-md-6 p-r-0">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="control-label text-center">Filter by  </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select convert-to-number ng-options="role.id as role.roleName for role in loadUserCtrl.roleList"
+                                                    name="role" ng-model="loadUserCtrl.role" ng-change="loadUserCtrl.selectRole()" class="form-control ng-pristine ng-valid ng-touched">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
+                                                    name="divisions" ng-model="loadUserCtrl.selectedDivision" ng-change="loadUserCtrl.selectDivision()" class="form-control ng-pristine ng-valid ng-touched">
+                                                <option value="">All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select name="status"
+                                                    ng-model="loadUserCtrl.status" ng-change="loadUserCtrl.selectActiveUsers()" class="form-control ng-pristine ng-valid ng-touched">
+                                                <option value="All">All</option>
+                                                <option value="True">Active</option>
+                                                <option value="False">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select name="status"
-                                            ng-model="loadUserCtrl.status" ng-change="loadUserCtrl.selectActiveUsers()">
-                                        <option value="All">All</option>
-                                        <option value="True">Active</option>
-                                        <option value="False">Inactive</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
+                           </div>
+                        <br />
+                        <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
+                        <div class="costCenterTable">
 
-                    </div>
-                    <br />
-                    <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
-                    <div class="costCenterTable">
+                            <table st-table="loadUserCtrl.displayedCollection" st-safe-src="loadUserCtrl.rowCollection" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="name">First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Role</th>
+                                        <th>Assigned Division(s)</th>
+                                        <th>Last Visit Date</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in loadUserCtrl.displayedCollection">
 
-                        <table st-table="loadUserCtrl.displayedCollection" st-safe-src="loadUserCtrl.rowCollection" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th st-sort="name">First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Role</th>
-                                    <th>Assigned Division(s)</th>
-                                    <th>Last Visit Date</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="row in loadUserCtrl.displayedCollection">
-                                   
-                                    <td>{{row.firstName}}</td>
-                                    <td>{{row.lastName}}</td>
-                                    <td>{{row.roleName}}</td>
-                                    <td><span ng-bind-html="loadUserCtrl.renderHtml(row.assignedDivisionsForGrid)"></span></td>
-                                    <td>{{row.lastLoginTime}}</td>
-                                    <td>{{row.status}}</td>
-                                    <td> 
-                                        <a href="#/saveUserManagement/{{row.id}}" 
-                                           class="edit btn btn-sm btn-default" ng-hide="{{ loadUserCtrl.userId == row.id }}">
+                                        <td>{{row.firstName}}</td>
+                                        <td>{{row.lastName}}</td>
+                                        <td>{{row.roleName}}</td>
+                                        <td><span ng-bind-html="loadUserCtrl.renderHtml(row.assignedDivisionsForGrid)"></span></td>
+                                        <td>{{row.lastLoginTime}}</td>
+                                        <td>{{row.status}}</td>
+                                        <td>
+                                            <a href="#/saveUserManagement/{{row.id}}"
+                                               class="edit btn btn-sm btn-default" ng-hide="{{ loadUserCtrl.userId == row.id }}">
                                                 <i class="icon-note"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
 
                     </div>
-
                 </div>
-            </div>
-        </form>
+                </div>
+</form>
     </div>
 
 

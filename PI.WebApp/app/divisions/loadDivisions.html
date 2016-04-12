@@ -9,44 +9,43 @@
 
             <div class="panel-header">
                 <!-- left column -->
-                <div class="panel-content panel-default">
+                <div class="panel-content panel-border">
                     <div class="box-body">
                         <div class="row">
-
-                            <div class="col-md-4">
-                                <div class="form-group">
+                            <div class="col-md-6">
+                                <div class="form-group input-group">
                                     <input ng-model="searchText" name="searchText" type="text" class="form-control"
                                            placeholder="Search by Division Name" />
-                                </div>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div> 
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-1">
                                 <div class="form-group">
                                     <label class="control-label">Filter by  </label>
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="option-group">
                                         <select id="costcenter"
                                                 convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                                name="costcenter" class="defaultcurrency" ng-model="costcenter"
+                                                name="costcenter" class="defaultcurrency form-control ng-pristine ng-valid ng-touched" ng-model="costcenter"
                                                 ng-change="selectDivisionforCostCenter()">
                                             <option value="">All</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-1"></div>
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="option-group">
-                                        <select id="costcenters" name="costcenters" class="costcenters"
+                                        <select id="costcenters" name="costcenters" class="costcenters form-control ng-pristine ng-valid ng-touched"
                                                 ng-model="status" ng-change="selectActiveDivisions()">
                                             <option value="">All</option>
                                             <option value="True">Active</option>

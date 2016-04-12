@@ -247,7 +247,7 @@
 .bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
 .bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #1E6194; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
 .bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #1E6194; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
-.bs-wizard > .bs-wizard-step > .progress {position: relative;height: 18px; box-shadow: none; margin: 20px 0;border-radius:0px;}
+.bs-wizard > .bs-wizard-step > .progress {position: relative;height: 18px; box-shadow: none; margin: 20px 0;border-radius:0px; background:#BCBBBB;}
 .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #319DB5;position: relative;border-radius:0px;}
 .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
 .bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:100%;}
@@ -274,8 +274,4 @@
 }
 .heading {
     color:#0D4773;
-}
-
-.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar > .bs-wizard-dot > .last-element ::after {
-background:red;
 }

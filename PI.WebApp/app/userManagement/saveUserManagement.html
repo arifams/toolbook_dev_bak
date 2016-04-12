@@ -1,200 +1,215 @@
 ﻿<div>
-    <h2 class="box-title" ng-hide="saveUserCtrl.user.id > 0"> Add User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" role="button">Manage User</a></h2>
-    <h2 class="box-title" ng-show="saveUserCtrl.user.id > 0"> Edit User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" role="button">Manage User</a></h2>
+    <h2 class="box-title" ng-hide="saveUserCtrl.user.id > 0"> Add User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage User</a></h2>
+    <h2 class="box-title" ng-show="saveUserCtrl.user.id > 0"> Edit User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage User</a></h2>
 
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal" name="formSaveUser">
-            <!-- /.box-header -->
-            <div class="panel-header">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-xs-12">
-                        <div class="box-body">
-                            <div class="form-group">
-                                <div class="col-sm-12">
-                                    <span style="font-style:italic">  * Indicates mandatory fields.</span>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Salutation *</label>
-                                <div class="col-sm-10">
-                                    <div class="option-group">
-                                        <select id="salutation" name="salutation" class="salutation" required ng-model="saveUserCtrl.user.salutation">
-                                            <option value="Mr">Mr</option>
-                                            <option value="Mrs">Mrs</option>
-                                            <option value="Ms">Ms</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">First Name *</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="text" name="firstname" class="form-control form-white"
-                                               required autofocus ng-model="saveUserCtrl.user.firstName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||saveUserCtrl.isSubmit) }" />
-                                        <div ng-messages="formSaveUser.firstname.$error" ng-show="formSaveUser.firstname.$dirty || saveUserCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="firstname">Enter your first name</label>
-                                            <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
-                                            <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+        
+            <form class="form-horizontal" name="formSaveUser">
+                <div class="panel-content panel-border">
+                    <!-- /.box-header -->
+                    <div class="panel-header">
+                        <div class="row">
+                            <!-- left column -->
+                            <div class="col-xs-12">
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="col-sm-12">
+                                            <span style="font-style:italic">  * Indicates mandatory fields.</span>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Middle Name</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="text" name="middlename" class="form-control form-white"
-                                               ng-model="saveUserCtrl.user.middleName" maxlength="100" ng-minlength="3" ng-class="{ 'error': formSaveUser.middlename.$invalid && (formSaveUser.middlename.$dirty||regCtrl.isSubmit) }">
-                                        <div ng-messages="formSaveUser.middlename.$error" ng-show="formSaveUser.middlename.$dirty || saveUserCtrl.isSubmit">
-                                            <label ng-message="maxlength" class="error" for="middlename">Enter less than 100 characters</label>
-                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Last Name *</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="text" name="lastname" class="form-control form-white" minlength="4" required
-                                               ng-model="saveUserCtrl.user.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||saveUserCtrl.isSubmit) }">
-                                        <div ng-messages="formSaveUser.lastname.$error" ng-show="formSaveUser.lastname.$dirty ||saveUserCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="lastname">Enter your last name</label>
-                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                            <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Salutation *</label>
+                                            <div class="col-sm-4">
+                                                <div class="option-group">
 
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Email Address *</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="email" name="email" class="form-control form-white"
-                                               ng-model="saveUserCtrl.user.email" required ng-maxlength="100" ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||saveUserCtrl.isSubmit) }">
-                                        <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || saveUserCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="email">Enter your email address</label>
-                                            <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                                    <select id="salutation" name="salutation" class="form-control ng-pristine ng-valid ng-touched" required ng-model="saveUserCtrl.user.salutation">
+                                                        <option value="Mr">Mr</option>
+                                                        <option value="Mrs">Mrs</option>
+                                                        <option value="Ms">Ms</option>
+                                                    </select>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="form-group">
-                                <label class="col-sm-2 control-label"></label>
-                                <div class="col-sm-10">
-                                    <div class="icheck-inline">
-                                        <label>
-                                            <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="changeLogin" ng-change="saveUserCtrl.clearPassword()"
-                                                   ng-model="saveUserCtrl.user.updatePassword" /> Update Password
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>-->
-
-                            <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
-                                <label class="col-sm-2 control-label">Password *</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="password" name="password" id="password" class="form-control form-white password" placeholder="Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
-                                               ng-model="saveUserCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||saveUserCtrl.isSubmit) }" valid-password-save />
-                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
-                                           data-placement="top"
-                                           data-html="true"
-                                           data-content="- At least 8 characters long. <br>
+                                        <div class="col-sm-6"></div>
+                                    </div>                                   
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">First Name *</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="text" name="firstname" class="form-control"
+                                                           required autofocus ng-model="saveUserCtrl.user.firstName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||saveUserCtrl.isSubmit) }" />
+                                                    <div ng-messages="formSaveUser.firstname.$error" ng-show="formSaveUser.firstname.$dirty || saveUserCtrl.isSubmit">
+                                                        <label ng-message="required" class="error" for="firstname">Enter your first name</label>
+                                                        <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
+                                                        <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Middle Name</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="text" name="middlename" class="form-control"
+                                                           ng-model="saveUserCtrl.user.middleName" maxlength="100" ng-minlength="3" ng-class="{ 'error': formSaveUser.middlename.$invalid && (formSaveUser.middlename.$dirty||regCtrl.isSubmit) }">
+                                                    <div ng-messages="formSaveUser.middlename.$error" ng-show="formSaveUser.middlename.$dirty || saveUserCtrl.isSubmit">
+                                                        <label ng-message="maxlength" class="error" for="middlename">Enter less than 100 characters</label>
+                                                        <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Last Name *</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="text" name="lastname" class="form-control" minlength="4" required
+                                                           ng-model="saveUserCtrl.user.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||saveUserCtrl.isSubmit) }">
+                                                    <div ng-messages="formSaveUser.lastname.$error" ng-show="formSaveUser.lastname.$dirty ||saveUserCtrl.isSubmit">
+                                                        <label ng-message="required" class="error" for="lastname">Enter your last name</label>
+                                                        <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                                        <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">Email Address *</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="email" name="email" class="form-control"
+                                                           ng-model="saveUserCtrl.user.email" required ng-maxlength="100" ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||saveUserCtrl.isSubmit) }">
+                                                    <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || saveUserCtrl.isSubmit">
+                                                        <label ng-message="required" class="error" for="email">Enter your email address</label>
+                                                        <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>                                                                   
+                                    <div class="row">
+                                        <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
+                                            <label class="col-sm-2 control-label">Password *</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="password" name="password" id="password" class="form-control password" placeholder="Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
+                                                           ng-model="saveUserCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||saveUserCtrl.isSubmit) }" valid-password-save />
+                                                    <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                                       data-placement="top"
+                                                       data-html="true"
+                                                       data-content="- At least 8 characters long. <br>
                                         - Should at least contain;
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
                                         <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
                                            data-original-title="Your Password should be:"></i>
-                                        <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || saveUserCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="password">Enter your password</label>
-                                            <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
+                                                    <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || saveUserCtrl.isSubmit">
+                                                        <label ng-message="required" class="error" for="password">Enter your password</label>
+                                                        <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
-                                <label class="col-sm-2 control-label">Confirm Password *</label>
-                                <div class="col-sm-10">
-                                    <div class="append-icon">
-                                        <input type="password" name="password_c" id="password_c" class="form-control form-white password2" placeholder="Confirm Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
-                                               ng-model="saveUserCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||saveUserCtrl.isSubmit) }" valid-password-c-save />
-                                        <i class="icon-lock"></i>
-                                        <div ng-messages="formSaveUser.password_c.$error" ng-show="formSaveUser.password_c.$dirty || saveUserCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="password_c">ReEnter your password</label>
-                                            <label ng-message="noMatch" class="error" for="password_c">2 passwords must be the same</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">User Role *</label>
-                                <div class="col-sm-10">
-                                    <div class="option-group">
-                                        <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
-                                                convert-to-number ng-options="option.roleName as option.roleName for option in
-                                                saveUserCtrl.user.roles" ng-required="true"
-                                                rel="popover" data-container="body" data-toggle="popover"
-                                                data-placement="top"
-                                                data-html="true"
-                                                data-content="User role will determine the user's permisssion level."></select>
-                                    </div>
-                                </div>                              
-                            </div>
-                            <div class="form-group" ng-show="saveUserCtrl.user.divisions.length > 0">
-                                <label class="col-sm-2 control-label">Assigned Division /'s * </label>
-
-                                <div class="col-sm-10">
-                                    <div ng-repeat="division in saveUserCtrl.user.divisions">
-                                        <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
-                                               ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
-                                        <label for="{{division.name}}}">{{division.name}}</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">Status</label>
-                                <div class="col-sm-10">
-                                    <div class="skin skin-minimal">
-                                        <div class="form-body">
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="icheck-inline">
-                                                        <label><input type="radio" name="status" icheck ng-model="saveUserCtrl.user.isActive" value="true"> Active </label>
-                                                        <label><input type="radio" name="status" icheck ng-model="saveUserCtrl.user.isActive" value="false"> Inactive</label>
+                                    </div>                                   
+                                    <div class="row">
+                                        <div class="form-group" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
+                                            <label class="col-sm-2 control-label">Confirm Password *</label>
+                                            <div class="col-sm-10">
+                                                <div class="append-icon">
+                                                    <input type="password" name="password_c" id="password_c" class="form-control password2" placeholder="Confirm Password *" ng-required="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null"
+                                                           ng-model="saveUserCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||saveUserCtrl.isSubmit) }" valid-password-c-save />
+                                                    <i class="icon-lock"></i>
+                                                    <div ng-messages="formSaveUser.password_c.$error" ng-show="formSaveUser.password_c.$dirty || saveUserCtrl.isSubmit">
+                                                        <label ng-message="required" class="error" for="password_c">ReEnter your password</label>
+                                                        <label ng-message="noMatch" class="error" for="password_c">2 passwords must be the same</label>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label">User Role *</label>
+                                            <div class="col-sm-10">
+                                                <div class="option-group">
+                                                    <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
+                                                            convert-to-number ng-options="option.roleName as option.roleName for option in
+                                                saveUserCtrl.user.roles" ng-required="true"
+                                                            rel="popover" data-container="body" data-toggle="popover"
+                                                            data-placement="top"
+                                                            data-html="true"
+                                                            data-content="User role will determine the user's permisssion level."></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group" ng-show="saveUserCtrl.user.divisions.length > 0">
+                                            <label class="col-sm-2 control-label">Assigned Division /'s * </label>
+
+                                            <div class="col-sm-10">
+                                                <div ng-repeat="division in saveUserCtrl.user.divisions">
+                                                    <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
+                                                           ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
+                                                    <label for="{{division.name}}}">{{division.name}}</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <div class="col-sm-2">
+                                                <label class="control-label">Status </label>
+                                            </div>
+                                            <div class="col-sm-10 p-l-30">
+                                                <div class="skin skin-minimal">
+                                                    <div class="form-body">
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <div class="icheck-inline">
+                                                                    <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck> Active</label>
+                                                                    <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck> Inactive</label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <button ng-click="saveUserCtrl.close()" class="btn btn-app pull-right">
+                                            <i class="fa fa-close"></i> Close
+                                        </button>
+                                        <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
+                                                class="btn btn-app pull-right">
+                                            <i class="fa fa-save"></i> Save
+                                        </button>
+                                    </div>
+                                    <div id="panel-notif"></div>
                                 </div>
                             </div>
-
-                            <div class="form-group">
-                                <button ng-click="saveUserCtrl.close()" class="btn btn-app pull-right">
-                                    <i class="fa fa-close"></i> Close
-                                </button>
-                                <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
-                                        class="btn btn-app pull-right">
-                                    <i class="fa fa-save"></i> Save
-                                </button>
-                            </div>
-                            <div id="panel-notif"></div>
                         </div>
+
                     </div>
                 </div>
-
+</form>
             </div>
-        </form>
-    </div>
+        
 
 </div>

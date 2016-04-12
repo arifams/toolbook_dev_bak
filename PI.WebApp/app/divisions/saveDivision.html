@@ -5,7 +5,7 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <div class="panel-content panel-default p-t-0">
+        <div class="panel-content panel-border">
             <form class="form-horizontal" name="saveDivisionForm">
                 <!-- /.box-header -->
 
@@ -19,54 +19,68 @@
                                         <span style="font-style:italic">  * Indicates mandatory fields.</span>
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Division Name *</label>
-                                    <div class="col-sm-10">
-                                        <input ng-model="divCtrl.model.name" type="text" name="divisionName" class="form-control" ng-required="true"
-                                               ng-maxlength="200" ng-class="{ 'error': saveDivisionForm.divisionName.$invalid &&
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Division Name *</label>
+                                        <div class="col-sm-10">
+                                            <input ng-model="divCtrl.model.name" type="text" name="divisionName" class="form-control" ng-required="true"
+                                                   ng-maxlength="200" ng-class="{ 'error': saveDivisionForm.divisionName.$invalid &&
                                                                         (saveDivisionForm.divisionName.$dirty|| divCtrl.isSubmit) }" />
-                                        <div ng-messages="saveDivisionForm.divisionName.$error"
-                                             ng-show="saveDivisionForm.divisionName.$dirty || divCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="divisionName">Division Name is required</label>
-                                            <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                            <div ng-messages="saveDivisionForm.divisionName.$error"
+                                                 ng-show="saveDivisionForm.divisionName.$dirty || divCtrl.isSubmit">
+                                                <label ng-message="required" class="error" for="divisionName">Division Name is required</label>
+                                                <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                            </div>
                                         </div>
-                                    </div>
 
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Division Description</label>
-                                    <div class="col-sm-10">
-                                        <input ng-model="divCtrl.model.description" type="text" class="form-control" />
                                     </div>
                                 </div>
-
-                                <div class="form-group" ng-show="divCtrl.model.assosiatedCostCenters.length > 0">
-                                    <label class="col-sm-2 control-label">Default Cost Center * </label>
-                                    <div class="col-sm-10">
-                                        <div ng-repeat="costCent in divCtrl.model.assosiatedCostCenters">
-                                            <input name="{{costCent.id}}" type="radio"
-                                                   ng-model="divCtrl.model.defaultCostCenterId" value="{{costCent.id}}"
-                                                   icheck>
-                                            <label for="{{costCent.id}}}"></label>
-                                            {{costCent.name}}
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label class="col-sm-2 control-label">Division Description</label>
+                                        <div class="col-sm-10">
+                                            <input ng-model="divCtrl.model.description" type="text" class="form-control" />
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="form-group" ng-show="divCtrl.model.assosiatedCostCenters.length > 0">
+                                        <label class="col-sm-2 control-label">Default Cost Center * </label>
+                                        <div class="col-sm-10">
+                                            <div ng-repeat="costCent in divCtrl.model.assosiatedCostCenters">
+                                                <input name="{{costCent.id}}" type="radio"
+                                                       ng-model="divCtrl.model.defaultCostCenterId" value="{{costCent.id}}"
+                                                       icheck>
+                                                <label for="{{costCent.id}}}"></label>
+                                                {{costCent.name}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
                                 <!--<p>{{divCtrl.model.assosiatedCostCenters}}</p>-->
-                                <div class="form-
-                                <div class="form-group">
-                                    <label class="col-sm-2 control-label">Status</label>
-                                    <div class="col-sm-10">
-                                        <label>
-                                            <input name="activeRadio" type="radio" value="1" ng-model="divCtrl.model.status" icheck />
-                                            &nbsp; Active
-                                        </label> <br />
-                                        <label>
-                                            <input name="inactiveRadio" type="radio" value="2" ng-model="divCtrl.model.status" icheck />
-                                            &nbsp; Inactive
-                                        </label>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <label class="control-label">Status </label>
+                                        </div>
+                                        <div class="col-sm-10 p-l-30">
+                                            <div class="skin skin-minimal">
+                                                <div class="form-body">
+                                                    <div class="form-group">
+                                                        <div class="input-group">
+                                                            <div class="icheck-inline">
+                                                                <label><input type="radio" name="activeRadio" ng-model="divCtrl.model.status" value="1" icheck> Active</label>
+                                                                <label><input type="radio" name="inactiveRadio" ng-model="divCtrl.model.status" value="2" icheck> Inactive</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                                
                                 <div class="form-group">
                                     <button ng-click="divCtrl.close()" class="btn btn-app pull-right">
                                         <i class="fa fa-close"></i> Close
