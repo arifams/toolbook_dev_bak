@@ -20,5 +20,6 @@ namespace PI.Contract.Business
 
         string TrackAndTraceShipment(string URL);
 
+        string GetLabel(string shipmentCode);
     }
 }

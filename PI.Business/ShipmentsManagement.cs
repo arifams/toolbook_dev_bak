@@ -1040,7 +1040,17 @@ namespace PI.Business
                 {
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
-                    result.LabelURL = response.PDF;
+
+                    // If response.PDF is empty, get from following url.
+                    if (string.IsNullOrWhiteSpace(response.PDF))
+                    {
+                        ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                    }
+                    else
+                    {
+                        result.LabelURL = response.PDF;
+                    }
                     result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
                 }

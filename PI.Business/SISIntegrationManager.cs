@@ -9,6 +9,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -398,6 +399,19 @@ namespace PI.Business
             }
 
             return productType;
+        }
+
+        public string GetLabel(string shipmentCode)
+        {
+            string URL = "http://parcelinternational.pro/labelsis/" + shipmentCode;
+
+            string responseString = string.Empty;
+            using (var client = new WebClient())
+            {
+                responseString = client.DownloadString(URL);
+            }
+
+            return responseString;
         }
     }
 }
