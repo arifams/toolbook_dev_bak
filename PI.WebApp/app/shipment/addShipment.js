@@ -49,6 +49,7 @@
         vm.shipment.packageDetails.accessibility = 'true';
         vm.consigneeAdded = false;
         vm.consignorAdded = false;
+        vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
        
         vm.loadConsignerInfo = function () {
             debugger;
