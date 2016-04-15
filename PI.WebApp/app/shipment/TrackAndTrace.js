@@ -34,7 +34,6 @@
 
                                }
 
-
                                if ($("#simple-map").length) {
                                    simple_map = new GMaps({
                                        el: '#simple-map',
