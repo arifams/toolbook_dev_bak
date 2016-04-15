@@ -1137,8 +1137,10 @@ namespace PI.Business
                 this.DeleteLocationActivityByLocationHistoryId(item.Id);
             }
             this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
-
-            this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+            if (currentSisLocationHistory!=null)
+            {
+                this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+            }            
 
             return info;
         }
