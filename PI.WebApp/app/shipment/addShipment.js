@@ -763,6 +763,16 @@
                 vm.shipment.packageDetails.shipmentDescription = "testDesc";
                 vm.shipment.packageDetails.declaredValue = 500;
             }
+            if (vm.shipment.generalInformation.shipmentName == "code123h") {
+                // Added UK country
+                vm.shipment.addressInformation.consignee.country = 'GB';
+                vm.shipment.addressInformation.consignee.postalcode = 'W1J 8NE';
+                vm.shipment.addressInformation.consignee.number = '3';
+                vm.shipment.addressInformation.consignee.address1 = 'Berkeley Street';
+                vm.shipment.addressInformation.consignee.address2 = '';
+                vm.shipment.addressInformation.consignee.city = 'London';
+                vm.shipment.addressInformation.consignee.state = 'GL';
+            }
         };
 
     }]);
