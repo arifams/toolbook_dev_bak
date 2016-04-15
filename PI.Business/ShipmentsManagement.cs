@@ -1150,11 +1150,11 @@ namespace PI.Business
             StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
             SISIntegrationManager sisManager = new SISIntegrationManager();
-            //if (currentShipment!=null)
-            //{
-            //    trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
-            //}
-            trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, "77878787878", environment);
+            if (currentShipment != null)
+            {
+                trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
+            }
+            //trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, "77878787878", environment);
             return trackingInfo;
         }
 
