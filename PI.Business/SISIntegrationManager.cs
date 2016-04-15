@@ -176,11 +176,17 @@ namespace PI.Business
 
                 var response = wb.UploadValues(URL, "POST", data);
                 var responseString = Encoding.Default.GetString(response);
+                if (string.IsNullOrWhiteSpace(responseString))
+                    statusHistoryResponce = null;
+                else
+                {
+                    XDocument doc = XDocument.Parse(responseString);
 
-                XDocument doc = XDocument.Parse(responseString);
+                    XmlSerializer mySerializer = new XmlSerializer(typeof(StatusHistoryResponce));
+                    statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
+                }
 
-                XmlSerializer mySerializer = new XmlSerializer(typeof(StatusHistoryResponce));
-                statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
+                
             }
             return statusHistoryResponce;
         }
