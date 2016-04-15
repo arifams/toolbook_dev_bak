@@ -1136,20 +1136,27 @@ namespace PI.Business
             SISIntegrationManager sisManager = new SISIntegrationManager();
             info info = new info();
             var currentSisLocationHistory = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
+         
+            if (currentSisLocationHistory != null)
+            {
+                if (string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
+                {
+                    short status = (short)Utility.GetValueFromDescription<ShipmentStatus>(currentSisLocationHistory.info.status);
+                    this.UpdateShipmentStatus(codeShipment, status);
+                }              
 
-            //  this.UpdateShipmentStatus(codeShipment, currentSisLocationHistory.info.status);
-            this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
-            Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
-            info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
-            List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
-            foreach (var item in historyList)
-            {
-                this.DeleteLocationActivityByLocationHistoryId(item.Id);
-            }
-            this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
-            if (currentSisLocationHistory!=null)
-            {
-                this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+                //this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
+                Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
+                info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
+                List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+                foreach (var item in historyList)
+                    {
+                        this.DeleteLocationActivityByLocationHistoryId(item.Id);
+                    }
+                    this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+                   
+                    this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
             }            
 
             return info;
