@@ -1515,7 +1515,8 @@ namespace PI.Business
 
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
