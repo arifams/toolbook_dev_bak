@@ -1448,7 +1448,7 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           shipment.Status == (short)ShipmentStatus.Pending &&
+                           shipment.Status == (short)ShipmentStatus.BookingConfirmation &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))
                            select shipment).ToList();
