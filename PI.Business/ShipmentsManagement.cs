@@ -1751,7 +1751,8 @@ namespace PI.Business
                             ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                             ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
 
-                        }
+                        },
+                        Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() }
                     };
                 }
             }
