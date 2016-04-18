@@ -599,7 +599,7 @@ namespace PI.Business
             {
                 if (shipment.Status != ((short)ShipmentStatus.Delivered))
                 {
-                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "telus", shipment.Id);
+                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
                 }
             }
 
