@@ -6,7 +6,6 @@
     app.factory('updateProfilefactory', function ($http) {
         return {
             updateProfileInfo: function (updatedProfile) {
-
                 return $http.post(serverBaseUrl + '/api/profile/UpdateProfile', updatedProfile);
             }
         }
@@ -108,6 +107,7 @@
                 //vm.t_languages;
                 vm.t_timezones;
                 vm.model = {};
+                vm.model.accountSettings = {};
                 vm.model.doNotUpdateAccountSettings = false;
 
                 vm.CheckMail = function () {
@@ -409,15 +409,12 @@
 
 
                 vm.loadAddressInfo = function () {
-                    debugger;
                     getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
                      .then(function successCallback(response) {
-                         debugger;
                          if (response.data.customerDetails != null) {
-                             debugger;
-                             vm.model.customerDetails = response.customerDetails;
+                            // vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             vm.model.companyDetails = response.companyDetails;
+                            // vm.model.companyDetails = response.data.companyDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                              vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
                              vm.changeCountry();
@@ -445,7 +442,7 @@
 
 
                 vm.loadAccountSettings = function () {
-
+                    debugger;
                     getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
                      .then(function successCallback(response) {
 
