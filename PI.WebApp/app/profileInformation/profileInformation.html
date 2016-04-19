@@ -53,11 +53,9 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="regnumbercompany" class="form-control" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.companyDetails.name" ng-required="profileCtrl.model.customerDetails.isCorporateAccount=='true'" ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit1) }" />
-                                        <div ng-messages="formUpdateProfileGeneral.companyname.$error" ng-show="formUpdateProfileGeneral.companyname.$dirty || profileCtrl.isSubmit1">
-                                            <label ng-message="required" class="error" for="firstname">Enter Company Name</label>
-                                            <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
-                                            <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                        <input type="text" name="regnumbercompany" class="form-control" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.companyDetails.companyCode"  ng-class="{ 'error': formUpdateProfileGeneral.regnumbercompany.$invalid && (formUpdateProfileGeneral.regnumbercompany.$dirty||profileCtrl.isSubmit1) }" />
+                                        <div ng-messages="formUpdateProfileGeneral.regnumbercompany.$error" ng-show="formUpdateProfileGeneral.regnumbercompany.$dirty || profileCtrl.isSubmit1">
+                                             <label ng-message="maxlength" class="error" for="regnumbercompany">Enter less than 100 characters</label>
                                         </div>
                                     </div>
                                 </div>
