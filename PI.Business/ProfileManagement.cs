@@ -68,7 +68,8 @@ namespace PI.Business
             currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
-          
+            currentProfile.CustomerDetails.JobCapacity = currentCustomer.JobCapacity;
+
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -246,6 +247,7 @@ namespace PI.Business
                 currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
                 currentCustomer.Password = updatedProfile.CustomerDetails.Password;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
+                currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
                 //set customer entity state as modified
                 //context.Customers.Add(currentCustomer);
                 context.SaveChanges();

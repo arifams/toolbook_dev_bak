@@ -190,10 +190,9 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="registrationnumbercompany" id="registrationnumbercompany" class="form-control" placeholder="Registration number company *" ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
+                                                <input type="text" name="registrationnumbercompany" id="registrationnumbercompany" class="form-control" placeholder="Registration number company *" ng-model="regCtrl.user.companycode" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
                                             </div>
-                                            <div ng-messages="formSignup.companyname.$error" ng-show="formSignup.companyname.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="companyname">Enter company name</label>
+                                            <div ng-messages="formSignup.companyname.$error" ng-show="formSignup.companyname.$dirty || regCtrl.isSubmit">                                               
                                                 <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
                                             </div>
                                         </div>
