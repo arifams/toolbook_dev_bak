@@ -32,31 +32,53 @@ namespace PI.Service.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllLanguages")]
-        public IQueryable<LanguageDto> GetAllLanguages()
+        [Route("GetAllAccountSettings")]
+        public ProfileDto GetAllAccountSettings(long customerId)
         {
             ProfileManagement userprofile = new ProfileManagement();
-            IQueryable<LanguageDto> languaes = userprofile.GetAllLanguages();
-            return languaes;
+            ProfileDto settings = userprofile.GetAccountSettings(customerId);
+
+            return settings;            
         }
 
-        [HttpGet]
-        [Route("GetAllCurrencies")]
-        public IQueryable<CurrencyDto> GetAllCurrencies()
-        {
-            ProfileManagement userprofile = new ProfileManagement();
-            IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
-            return currencies;
-        }
 
         [HttpGet]
-        [Route("GetAllTimezones")]
-        public IQueryable<TimeZoneDto> GetAllTimezones()
+        [Route("GetCustomerAddressDetails")]
+        public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
         {
             ProfileManagement userprofile = new ProfileManagement();
-            IQueryable<TimeZoneDto> timeZones = userprofile.GetAllTimeZones();
-            return timeZones;
+            ProfileDto addressDetails = userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId);
+
+            return addressDetails;
         }
+
+
+        //[HttpGet]
+        //[Route("GetAllLanguages")]
+        //public IQueryable<LanguageDto> GetAllLanguages()
+        //{
+        //    ProfileManagement userprofile = new ProfileManagement();
+        //    IQueryable<LanguageDto> languaes = userprofile.GetAllLanguages();
+        //    return languaes;
+        //}
+
+        //[HttpGet]
+        //[Route("GetAllCurrencies")]
+        //public IQueryable<CurrencyDto> GetAllCurrencies()
+        //{
+        //    ProfileManagement userprofile = new ProfileManagement();
+        //    IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
+        //    return currencies;
+        //}
+
+        //[HttpGet]
+        //[Route("GetAllTimezones")]
+        //public IQueryable<TimeZoneDto> GetAllTimezones()
+        //{
+        //    ProfileManagement userprofile = new ProfileManagement();
+        //    IQueryable<TimeZoneDto> timeZones = userprofile.GetAllTimeZones();
+        //    return timeZones;
+        //}
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

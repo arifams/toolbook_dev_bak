@@ -179,14 +179,14 @@ namespace PI.Business
                     {
                         currentRateSheetDetails.dg_accessible = "N";
                     }
-                    
+
                 }
                 else
                 {
                     currentRateSheetDetails.dg = "NO";
                 }
-               
-                
+
+
 
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
@@ -258,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-           // currentRateSheetDetails.dg = "NO";
-           // currentRateSheetDetails.dg_type = "";
+            // currentRateSheetDetails.dg = "NO";
+            // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -323,7 +323,7 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
-               
+
 
                 // If division and costcenter Ids are 0, then assign default costcenter and division.
                 if (addShipment.GeneralInformation.DivisionId == 0)
@@ -342,7 +342,7 @@ namespace PI.Business
                 }
 
                 long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
-                
+
                 if (addShipment.GeneralInformation.ShipmentCode != "0")
                 {
                     // If has parent shipment id, then add to previous shipment.
@@ -434,8 +434,8 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList,                       
-                        IsDG=addShipment.PackageDetails.IsDG,
+                        PackageProducts = packageProductList,
+                        IsDG = addShipment.PackageDetails.IsDG,
                         Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
                         DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
 
@@ -1053,6 +1053,12 @@ namespace PI.Business
                     }
                     result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
+
+                    #region Send Booking confirmation email, for successful shipments
+
+
+                    #endregion
+
                 }
 
                 context.SaveChanges();
@@ -1136,14 +1142,14 @@ namespace PI.Business
             SISIntegrationManager sisManager = new SISIntegrationManager();
             info info = new info();
             var currentSisLocationHistory = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
-         
+
             if (currentSisLocationHistory != null)
             {
                 if (string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
                     short status = (short)Utility.GetValueFromDescription<ShipmentStatus>(currentSisLocationHistory.info.status);
                     this.UpdateShipmentStatus(codeShipment, status);
-                }              
+                }
 
                 //this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
@@ -1151,13 +1157,13 @@ namespace PI.Business
                 List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
                 foreach (var item in historyList)
-                    {
-                        this.DeleteLocationActivityByLocationHistoryId(item.Id);
-                    }
-                    this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
-                   
-                    this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
-            }            
+                {
+                    this.DeleteLocationActivityByLocationHistoryId(item.Id);
+                }
+                this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+                this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+            }
 
             return info;
         }
@@ -1685,7 +1691,7 @@ namespace PI.Business
                         ShipTo = currentShipment.CommercialInvoice.ShipTo,
                         VatNo = currentShipment.CommercialInvoice.VatNo,
                         CustomerNo = currentShipment.CommercialInvoice.CustomerNo,
-                        InvoiceTo= currentShipment.CommercialInvoice.InvoiceTo,
+                        InvoiceTo = currentShipment.CommercialInvoice.InvoiceTo,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.CommercialInvoice.ShipmentService),
                         TermsOfPayment = currentShipment.CommercialInvoice.TermsOfPayment, //string.IsNullOrWhiteSpace(currentShipment.CommercialInvoice.TermsOfPayment) ? "FREE OF CHARGE" : currentShipment.CommercialInvoice.TermsOfPayment,
                         CountryOfOrigin = currentShipment.CommercialInvoice.CountryOfOrigin,
@@ -1747,7 +1753,7 @@ namespace PI.Business
                             currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
 
                         InvoiceNo = currentShipment.ShipmentCode,
-                       
+
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
                         TermsOfPayment = "FREE OF CHARGE",
 
@@ -1778,7 +1784,7 @@ namespace PI.Business
             }
 
 
-            
+
 
 
             return invocieDto;
@@ -1789,8 +1795,8 @@ namespace PI.Business
         {
             using (var context = new PIContext())
             {
-                var document = context.ShipmentDocument.Where(x=> x.Id == fileDetails.Id).SingleOrDefault();
-                
+                var document = context.ShipmentDocument.Where(x => x.Id == fileDetails.Id).SingleOrDefault();
+
                 context.ShipmentDocument.Remove(document);
                 context.SaveChanges();
             }
@@ -1857,7 +1863,7 @@ namespace PI.Business
                 context.CommercialInvoices.Add(invoice);
                 context.SaveChanges();
             }
-                return result;
+            return result;
         }
 
     }

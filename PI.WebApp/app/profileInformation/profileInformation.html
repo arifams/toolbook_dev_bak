@@ -8,7 +8,7 @@
                     <tab-heading>
                         GENERAL
                     </tab-heading>
-                    <form role="form" name="formUpdateProfileGeneral" ng-submit="formUpdateProfileGeneral.$valid && profileCtrl.updateProfile()" action="">
+                    <form role="form" name="formUpdateProfileGeneral" >
                         <div class="row">
 
                             <div class="col-md-2">
@@ -150,7 +150,7 @@
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
-                                                ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
+                                                ng-click="profileCtrl.updateProfile()">
                                             Save
                                         </button>
                                     </div>
@@ -159,11 +159,12 @@
                         </div>
                     </form>
                 </tab>
-                <tab>
+
+                <tab select="profileCtrl.loadAddressInfo()">
                     <tab-heading>
                         ADDRESS
                     </tab-heading>
-                    <form role="form" name="formUpdateProfileAddress" ng-submit="formUpdateProfileAddress.$valid && profileCtrl.updateProfile()">
+                    <form role="form" name="formUpdateProfileAddress">
                         <div class="row">
                             <div class="col-md-2">
                                 <label class="control-label">Country </label>
@@ -251,7 +252,7 @@
                                     <div class="append-icon">
                                         <input type="text" name="city" class="form-control" required ng-maxlength="100" ng-minlength="3"
                                                ng-model="profileCtrl.model.customerDetails.customerAddress.city" ng-class="{ 'error' : formUpdateProfileAddress.city.$invalid && (formUpdateProfileAddress.city.$dirty||profileCtrl.isSubmit2)}" />
-                                        <div ng-messages="formUpdateProfileAddress.city.$error" ng-show="formUpdateProfileAddress.city.$dirty ||profileCtrl.isSubmit2" ">
+                                        <div ng-messages="formUpdateProfileAddress.city.$error" ng-show="formUpdateProfileAddress.city.$dirty ||profileCtrl.isSubmit2">
                                             <label ng-message="required" class="error" for="city">
                                                 Enter City
                                             </label>
@@ -322,7 +323,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="vatnumber" class="form-control" 
+                                        <input type="text" name="vatnumber" class="form-control"
                                                ng-model="profileCtrl.model.companyDetails.vatNumber" maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfileAddress.vatnumber.$invalid && (formUpdateProfileAddress.vatnumber.$dirty||profileCtrl.isSubmit2) }">
                                         <div ng-messages="formUpdateProfileAddress.vatnumber.$error" ng-show="formUpdateProfileAddress.vatnumber.$dirty || profileCtrl.isSubmit2">
 
@@ -525,7 +526,8 @@
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
-                                                ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
+                                                ng-click="profileCtrl.updateProfile()">
+                                            <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
                                             Save
                                         </button>
                                     </div>
@@ -534,6 +536,7 @@
                         </div>
                     </form>
                 </tab>
+
                 <tab>
                     <tab-heading>
                         LOGIN DETAILS
@@ -606,7 +609,7 @@
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
-                                                   data-original-title="Your Password should be:"></i>
+                                       data-original-title="Your Password should be:"></i>
 
                                     <div ng-messages="formUpdateProfile.newpassword.$error" ng-show="formUpdateProfile.newpassword.$dirty || profileCtrl.isSubmit">
                                         <label ng-message="required" class="error" for="password">Enter your password</label>
@@ -653,7 +656,7 @@
                                 <div class="col-sm-8 col-md-9"></div>
                                 <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
-                                            ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
+                                            ng-click="profileCtrl.updateProfile()">
                                         Save
                                     </button>
                                 </div>
@@ -662,7 +665,8 @@
                     </div>
 
                 </tab>
-                <tab>
+
+                <tab select="profileCtrl.loadAccountSettings()">
                     <tab-heading>
                         ACCOUNT SETTINGS
                     </tab-heading>
@@ -676,9 +680,9 @@
                                     <div class="option-group">
 
                                         <!--<select id="defaultlanguage" name="defaultlanguage" class="defaultlanguage" required ng-model="profileCtrl.model.defaultLanguageId"
-                                                convert-to-number ng-options="language.id as language.languageName for language in profileCtrl.t_languages">
-                                            <option value=""></option>
-                                        </select>-->
+                                    convert-to-number ng-options="language.id as language.languageName for language in profileCtrl.t_languages">
+                                <option value=""></option>
+                            </select>-->
 
                                         <select name="mySelect" id="mySelect" class="form-control ng-pristine ng-valid ng-touched"
                                                 ng-options="option.languageName for option in  profileCtrl.languageList track by option.id"
@@ -695,8 +699,8 @@
                                 <div class="col-md-6">
                                     <div class="option-group">
                                         <!--<select id="defaultcurrency"
-                                        convert-to-number ng-options="currency.id as currency.currencyCode for currency in profileCtrl.t_currencies"
-                                        name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>-->
+                            convert-to-number ng-options="currency.id as currency.currencyCode for currency in profileCtrl.t_currencies"
+                            name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>-->
                                         <select name="defaultcurrency" id="defaultcurrency" class="form-control ng-pristine ng-valid ng-touched"
                                                 ng-options="option.currencyName for option in  profileCtrl.currencyList track by option.id"
                                                 ng-model="profileCtrl.defaultCurrency"></select>
@@ -777,7 +781,7 @@
                                 <div class="col-sm-8 col-md-9"></div>
                                 <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
-                                            ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">
+                                            ng-click="profileCtrl.updateProfile()">
                                         Save
                                     </button>
                                 </div>
@@ -786,6 +790,7 @@
                     </div>
 
                 </tab>
+
             </tabset>
 
         </div>

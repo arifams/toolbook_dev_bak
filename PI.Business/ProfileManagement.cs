@@ -25,9 +25,9 @@ namespace PI.Business
             currentProfile.CustomerDetails = new CustomerDto();
             currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
 
-            Address currentAddress;
-            AccountSettings currentAccountSettings;
-            NotificationCriteria currentnotificationCriteria;
+            // Address currentAddress;
+            //AccountSettings currentAccountSettings;
+            //NotificationCriteria currentnotificationCriteria;
 
             Customer currentCustomer = this.GetCustomerByUserId(username);
             ApplicationUser applicationUser = this.GetUserById(username);
@@ -51,7 +51,7 @@ namespace PI.Business
             {
                 currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
 
-                if (currentCostCenters != null && currentCostCenters.Count()==1)
+                if (currentCostCenters != null && currentCostCenters.Count() == 1)
                 {
                     currentCostCenter = currentCostCenters.FirstOrDefault();
                 }
@@ -68,7 +68,8 @@ namespace PI.Business
             currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
-          
+            currentProfile.CustomerDetails.AddressId = currentCustomer.AddressId;
+
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -89,58 +90,25 @@ namespace PI.Business
             {
                 currentProfile.CustomerDetails.IsCorporateAccount = currentTenant.IsCorporateAccount;
             }
-            currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
-            currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
-            currentnotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
 
-            if (currentCostCenter != null)
-            {
-                currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
-                currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
-                currentProfile.CompanyDetails.CostCenter.BillingAddressId = currentCostCenter.BillingAddressId;
-                currentProfile.CompanyDetails.CostCenter.PhoneNumber = currentCostCenter.PhoneNumber;
-
-                currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto();
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.Id = currentCostCenter.BillingAddress.Id;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.Number = currentCostCenter.BillingAddress.Number;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode = currentCostCenter.BillingAddress.ZipCode;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;
-                currentProfile.CompanyDetails.CostCenter.BillingAddress.Country = currentCostCenter.BillingAddress.Country;
-
-            }
-            //assign address values to the  Profile Dto
-            if (currentAddress != null)
-            {
-                currentProfile.CustomerDetails.CustomerAddress.Id = currentAddress.Id;
-                currentProfile.CustomerDetails.CustomerAddress.Country = currentAddress.Country;
-                currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentAddress.ZipCode;
-                currentProfile.CustomerDetails.CustomerAddress.Number = currentAddress.Number;
-                currentProfile.CustomerDetails.CustomerAddress.StreetAddress1 = currentAddress.StreetAddress1;
-                currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentAddress.StreetAddress2;
-                currentProfile.CustomerDetails.CustomerAddress.City = currentAddress.City;
-                currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
-            }
             //Assign Account setting values to the Profile Dto
-            if (currentAccountSettings != null)
-            {
-                currentProfile.DefaultLanguageId = currentAccountSettings.DefaultLanguageId;
-                currentProfile.DefaultCurrencyId = currentAccountSettings.DefaultCurrencyId;
-                currentProfile.DefaultTimeZoneId = currentAccountSettings.DefaultTimeZoneId;
-            }
+            //if (currentAccountSettings != null)
+            //{
+            //    currentProfile.DefaultLanguageId = currentAccountSettings.DefaultLanguageId;
+            //    currentProfile.DefaultCurrencyId = currentAccountSettings.DefaultCurrencyId;
+            //    currentProfile.DefaultTimeZoneId = currentAccountSettings.DefaultTimeZoneId;
+            //}
 
             //Assign Notofication criteria to the Profile Dto
-            if (currentnotificationCriteria != null)
-            {
-                currentProfile.BookingConfirmation = currentnotificationCriteria.BookingConfirmation;
-                currentProfile.PickupConfirmation = currentnotificationCriteria.PickupConfirmation;
-                currentProfile.ShipmentDelay = currentnotificationCriteria.ShipmentDelay;
-                currentProfile.ShipmentException = currentnotificationCriteria.ShipmentException;
-                currentProfile.NotifyNewSolution = currentnotificationCriteria.NotifyNewSolution;
-                currentProfile.NotifyDiscountOffer = currentnotificationCriteria.NotifyDiscountOffer;
-            }
+            //if (currentnotificationCriteria != null)
+            //{
+            //    currentProfile.BookingConfirmation = currentnotificationCriteria.BookingConfirmation;
+            //    currentProfile.PickupConfirmation = currentnotificationCriteria.PickupConfirmation;
+            //    currentProfile.ShipmentDelay = currentnotificationCriteria.ShipmentDelay;
+            //    currentProfile.ShipmentException = currentnotificationCriteria.ShipmentException;
+            //    currentProfile.NotifyNewSolution = currentnotificationCriteria.NotifyNewSolution;
+            //    currentProfile.NotifyDiscountOffer = currentnotificationCriteria.NotifyDiscountOffer;
+            //}
             return currentProfile;
         }
 
@@ -156,8 +124,8 @@ namespace PI.Business
             ApplicationUser currntUser;
             Company curentCompany;
             Tenant currentTenant;
-            CostCenter currentCostCenter=null;
-            IQueryable<CostCenter> currentCostCenters=null;
+            CostCenter currentCostCenter = null;
+            IQueryable<CostCenter> currentCostCenters = null;
             bool updateUserName = false;
 
 
@@ -190,26 +158,26 @@ namespace PI.Business
 
                 //check if there any users who has same email
                 if (currntUser.UserName != updatedProfile.CustomerDetails.Email)
-                {                    
-                        ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
-                        ApplicationUser updatedUser = new ApplicationUser();
-                        if (existingUser != null)
-                        {
-                            return -2;
-                        }
-                        else
-                        {
-                            var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
-                            user.UserName = updatedProfile.CustomerDetails.Email;
-                            user.Email= updatedProfile.CustomerDetails.Email;
-                            user.EmailConfirmed = false;
-                        }
-                        context.SaveChanges();
+                {
+                    ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
+                    ApplicationUser updatedUser = new ApplicationUser();
+                    if (existingUser != null)
+                    {
+                        return -2;
+                    }
+                    else
+                    {
+                        var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                        user.UserName = updatedProfile.CustomerDetails.Email;
+                        user.Email = updatedProfile.CustomerDetails.Email;
+                        user.EmailConfirmed = false;
+                    }
+                    context.SaveChanges();
                     updateUserName = true;
 
                 }
 
-            }            
+            }
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
@@ -227,7 +195,7 @@ namespace PI.Business
 
             currentCostCenters = this.GetCostCenterByCompanyId(curentCompany.Id);
 
-            if (currentCostCenters!=null && currentCostCenters.Count()==1)
+            if (currentCostCenters != null && currentCostCenters.Count() == 1)
             {
                 currentCostCenter = currentCostCenters.FirstOrDefault();
             }
@@ -331,7 +299,7 @@ namespace PI.Business
                     context.SaveChanges();
                 }
                 //Assign Account setting values to the Profile Dto
-                if (currentAccountSettings != null)
+                if (!updatedProfile.DoNotUpdateAccountSettings && currentAccountSettings != null)
                 {
                     currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
@@ -352,7 +320,7 @@ namespace PI.Business
 
                     //set account settings entity as modidied
                     context.AccountSettings.Add(newAccountSettings);
-                    context.SaveChanges(); 
+                    context.SaveChanges();
 
                 }
 
@@ -368,7 +336,7 @@ namespace PI.Business
                     currentNotificationCriteria.CreatedDate = DateTime.Now;
                     //set notification criteria entity as modified
 
-                    context.SaveChanges(); 
+                    context.SaveChanges();
                 }
                 else
                 {
@@ -398,7 +366,7 @@ namespace PI.Business
             {
                 return 1;
             }
-           
+
 
         }
 
@@ -442,7 +410,7 @@ namespace PI.Business
         //get address details by Id
         public Address GetAddressbyId(long addressId)
         {
-            using (PIContext context = PIContext.Get())
+            using (PIContext context = new PIContext())
             {
                 return context.Addresses.SingleOrDefault(a => a.Id == addressId);
             }
@@ -451,7 +419,7 @@ namespace PI.Business
         //get Account Settings by customer Id
         public AccountSettings GetAccountSettingByCustomerId(long customerId)
         {
-            using (PIContext context = PIContext.Get())
+            using (PIContext context = new PIContext())
             {
                 return context.AccountSettings.SingleOrDefault(s => s.CustomerId == customerId);
             }
@@ -460,7 +428,7 @@ namespace PI.Business
         //get the notofication criterias bt customer Id
         public NotificationCriteria GetNotificationCriteriaByCustomerId(long customerId)
         {
-            using (PIContext context = PIContext.Get())
+            using (PIContext context = new PIContext())
             {
                 return context.NotificationCriterias.SingleOrDefault(n => n.CustomerId == customerId);
             }
@@ -468,7 +436,7 @@ namespace PI.Business
 
         public Company GetCompanyByTenantId(long TenantId)
         {
-            using (PIContext context = PIContext.Get())
+            using (PIContext context = new PIContext())
             {
                 return context.Companies.SingleOrDefault(n => n.TenantId == TenantId);
             }
@@ -486,15 +454,15 @@ namespace PI.Business
         //get costcenter by company ID
         public IQueryable<CostCenter> GetCostCenterByCompanyId(long companyId)
         {
-            using (PIContext context =new PIContext())
+            using (PIContext context = new PIContext())
             {
                 // return context.CostCenters.Include("BillingAddress").(n => n.CompanyId == companyId);
 
                 var costCenters = from c in context.CostCenters
                                   where c.CompanyId == companyId
-                                  && c.IsDelete!=true
+                                  && c.IsDelete != true
                                   select c;
-                                  
+
                 return costCenters;
             }
 
@@ -509,9 +477,98 @@ namespace PI.Business
         }
 
 
+        public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
+        {
+            ProfileDto currentProfile = new ProfileDto();
+            currentProfile.CustomerDetails = new CustomerDto();
+            currentProfile.CompanyDetails = new CompanyDto();
+
+            Address currentAddress = this.GetAddressbyId(cusomerAddressId);
+
+            //assign address values to the  Profile Dto
+            if (currentAddress != null)
+            {
+                currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
+                currentProfile.CustomerDetails.CustomerAddress.Id = currentAddress.Id;
+                currentProfile.CustomerDetails.CustomerAddress.Country = currentAddress.Country;
+                currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentAddress.ZipCode;
+                currentProfile.CustomerDetails.CustomerAddress.Number = currentAddress.Number;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress1 = currentAddress.StreetAddress1;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentAddress.StreetAddress2;
+                currentProfile.CustomerDetails.CustomerAddress.City = currentAddress.City;
+                currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
+            }
+
+            IQueryable<CostCenter> currentCostCenters = this.GetCostCenterByCompanyId(companyId);
+            CostCenter currentCostCenter = null;
+
+            if (currentCostCenters != null && currentCostCenters.Count() == 1)
+            {
+                currentCostCenter = currentCostCenters.FirstOrDefault();
+            }
+
+            if (currentCostCenter != null)
+            {
+                currentProfile.CompanyDetails.CostCenter = new CostCenterDto();
+                currentProfile.CompanyDetails.CostCenter.Id = currentCostCenter.Id;
+                currentProfile.CompanyDetails.CostCenter.BillingAddressId = currentCostCenter.BillingAddressId;
+                currentProfile.CompanyDetails.CostCenter.PhoneNumber = currentCostCenter.PhoneNumber;
+
+                currentProfile.CompanyDetails.CostCenter.BillingAddress = new AddressDto();
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Id = currentCostCenter.BillingAddress.Id;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.City = currentCostCenter.BillingAddress.City;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Number = currentCostCenter.BillingAddress.Number;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode = currentCostCenter.BillingAddress.ZipCode;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.State = currentCostCenter.BillingAddress.State;
+                currentProfile.CompanyDetails.CostCenter.BillingAddress.Country = currentCostCenter.BillingAddress.Country;
+
+            }
+
+            return currentProfile;
+        }
+
+
+        public ProfileDto GetAccountSettings(long customerId)
+        {
+            ProfileDto profileDetails = new ProfileDto();
+            AccountSettingsDto accountSettings = new AccountSettingsDto();
+
+            AccountSettings dbSettings = GetAccountSettingByCustomerId(customerId);
+
+            if (dbSettings != null)
+            {
+                accountSettings.DefaultCurrencyId = dbSettings.DefaultCurrencyId;
+                accountSettings.DefaultLanguageId = dbSettings.DefaultLanguageId;
+                accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
+            }
+
+            accountSettings.Languages = GetAllLanguages();
+            accountSettings.Currencies = GetAllCurrencies();
+            accountSettings.TimeZones = GetAllTimeZones();
+
+            profileDetails.AccountSettings = accountSettings;
+            NotificationCriteria notifications = this.GetNotificationCriteriaByCustomerId(customerId);
+
+
+            if (notifications != null)
+            {
+                profileDetails.BookingConfirmation = notifications.BookingConfirmation;
+                profileDetails.PickupConfirmation = notifications.PickupConfirmation;
+                profileDetails.ShipmentDelay = notifications.ShipmentDelay;
+                profileDetails.ShipmentException = notifications.ShipmentException;
+                profileDetails.NotifyNewSolution = notifications.NotifyNewSolution;
+                profileDetails.NotifyDiscountOffer = notifications.NotifyDiscountOffer;
+            }
+
+            return profileDetails;
+        }
+
+
         //Get Account Setting Details
         //retrieve all languages
-        public IQueryable<LanguageDto> GetAllLanguages()
+        private IQueryable<LanguageDto> GetAllLanguages()
         {
             using (PIContext context = PIContext.Get())
             {
