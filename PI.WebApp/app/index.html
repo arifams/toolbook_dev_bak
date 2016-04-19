@@ -120,7 +120,7 @@
                         </div>
                     </div> -->
                     <ul class="nav nav-sidebar">
-                        <li class="nav-parent" ng-class="{ active  : isActive('/')}"><a href="#/"><span>DASHBOARD</span></a></li>
+                        <li class="nav-parent" ng-class="{ active  : isActive('/')}"><a href="#/"><i class="icon-home"></i><span>DASHBOARD</span></a></li>
                         <!--<li class="nav-parent" >
                             <a href="#"><i class="icon-bulb"></i><span>Mailbox</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
@@ -137,7 +137,7 @@
                         </li>
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
+                            <a href="#"><i class="icon-basket"></i><span>SHIPMENTS</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0"> ADD SHIPMENT</a></li>
                                 <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel"> PRINT LABEL</a></li>
@@ -148,7 +148,7 @@
                         </li>
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><span>BILLING & INVOICING</span> <span class="fa arrow"></span></a>
+                            <a href="#"><i class="icon-note"></i><span>BILLING & INVOICING</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('mailbox.html')}"><a href="#"> INVOICE</a></li>                                
 
@@ -156,7 +156,7 @@
                         </li>
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
+                            <a href="#"><i class="icon-user"></i><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> USER MANAGEMENT</a></li>
@@ -167,7 +167,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><span>REPORTS</span></a></li>
+                        <li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><i class="icon-docs"></i><span>REPORTS</span></a></li>
 
                         
                         <!--<li class="nav-parent">

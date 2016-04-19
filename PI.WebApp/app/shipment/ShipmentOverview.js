@@ -16,6 +16,7 @@
                vm.Consigneremail = '';
                vm.awb_URL = '';
 
+               vm.step = 3; //To Do - change this number with logic
 
                vm.openLabel = function (url) {
                    window.open(url);

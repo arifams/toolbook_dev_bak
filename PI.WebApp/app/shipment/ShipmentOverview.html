@@ -81,46 +81,48 @@
                             </div>
                         </div>
                <div class="row">
+          
                    <div class="row bs-wizard" style="border-bottom:0;">
-                       <div class="col-xs-2 bs-wizard-step complete">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 0 ? 'complete' : 'disabled'">
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar"></div></div>
-                           <a href="#" class="bs-wizard-dot"></a>
+                           <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar" ng-class="overviewShipCtrl.step==1 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 0 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">BOOKING CONFIRMATION</div>
                        </div>
-                       <div class="col-xs-2 bs-wizard-step complete">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 1 ? 'complete' : 'disabled'" >
                            <!-- complete -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress"><div class="progress-bar"></div></div>
-                           <a href="#" class="bs-wizard-dot"></a>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==2 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 1 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">PICKEDUP</div>
                        </div>
-                       <div class="col-xs-2 bs-wizard-step complete">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 2 ? 'complete' : 'disabled'">
                            <!-- complete -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress"><div class="progress-bar"></div></div>
-                           <a href="#" class="bs-wizard-dot"></a>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==3 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 2 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">IN-TRANSIT</div>
                        </div>
-                       <div class="col-xs-2 bs-wizard-step complete">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 3 ? 'complete' : 'disabled'">
                            <!-- active -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress"><div class="progress-bar width-half"></div></div>
-                           <a href="#" class="bs-wizard-dot"></a>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==4 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 3 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">DELIVERED</div>
                        </div>
-                       <div class="col-xs-2 bs-wizard-step disabled">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 4 ? 'complete' : 'disabled'">
                            <!-- active -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress"><div class="progress-bar"></div></div>
-                           <a href="#" class="bs-wizard-dot-small"></a>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==5 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.overviewShipCtrl.step > 4 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
                        </div>
-                       <div class="col-xs-2 bs-wizard-step disabled">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 5 ? 'complete' : 'disabled'">
                            <!-- active -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                           <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;"><div class="progress-bar"></div></div>
-                           <a href="#" class="bs-wizard-dot-small"></a>
+                           <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;">
+                           <div class="progress-bar" ng-class="overviewShipCtrl.step==6 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 5 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
                        </div>
 

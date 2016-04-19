@@ -1,4 +1,10 @@
-﻿.form-content {
+﻿/*index.html*/
+.sidebar-condensed:not(.sidebar-collapsed) .sidebar .sidebar-inner .nav-sidebar > li > a i {
+    	display:none;
+}
+
+
+.form-content {
     display:inline-block;
 }
 
@@ -23,27 +29,20 @@
     clear:both;
     height:1px;
 }
-.user-reg .form-control {
-    font-size:17px;
-    
-}
+
 .accType {
     font-weight:normal;
     font-size:16px;
 }
+.form-psw {
+   width:86%;
+   float:left; 
+}
 
-#jobcapcity1 {
-    width:25%;
-    float:left;
-}
-#jobcapcity2 {
-    width:72%;
-    float:right;
-}
 .append-icon .icon-question {
      font-size: 32px;
 }
-.glyphicon.glyphicon-circle-arrow-right {
+.glyphicon.glyphicon-circle-arrow-right, .glyphicon.glyphicon-circle-arrow-left {
     font-size: 23px;
    
 }
@@ -228,14 +227,13 @@
 }
 .lblborder {
     border: 1px solid #39A1B8;
-    border-right-color:#ffffff;
     font-weight:normal;
     font-size:12px;
+    margin-bottom:8px;
+    background-color:#ADD8E1;
+
 }
-.lblborder2 {
-    border: 1px solid #39A1B8;
-    border-left-color:#ffffff;
-}
+
 
 .bs-wizard {margin-top: 0px;}
 
@@ -245,9 +243,9 @@
 .bs-wizard > .bs-wizard-step + .bs-wizard-step {}
 .bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 11px;}
 .bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
-.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #1E6194; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #1E6194; top: 24px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;} 
 .bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #1E6194; border-radius: 50px; position: absolute; top: 8px; left: 8px; } 
-.bs-wizard > .bs-wizard-step > .progress {position: relative;height: 18px; box-shadow: none; margin: 20px 0;border-radius:0px; background:#BCBBBB;}
+.bs-wizard > .bs-wizard-step > .progress {position: relative;height: 18px; box-shadow: none;border-radius:0px; background:#BCBBBB;}
 .bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #319DB5;position: relative;border-radius:0px;}
 .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
 .bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:100%;}
@@ -260,7 +258,7 @@
 .bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
 
 .bs-wizard-dot-small {
-    content: ' '; width: 6%; height: 10%; background: #979595; border-radius: 100%; position: absolute; top: 45%; left: 50%;pointer-events: none;
+    content: ' '; width: 6%; height: 10%; background: #979595; border-radius: 100%; position: absolute; top: 30%; left: 50%;pointer-events: none;
 }
 
 .disabled-bar {
@@ -274,4 +272,36 @@
 }
 .heading {
     color:#0D4773;
+}
+.fontclr {
+    color:#505051;
+}
+.bg-label {
+    background-color:#fff;
+    color:#505051;
+    padding:10px 5px 10px 5px;
+    width:50%;
+}
+.bg-label-blue {
+    padding:10px 5px 10px 5px;
+    width:50%;
+    background-color:#ADD8E1;
+    float:right;
+    word-wrap:break-word;
+    display: block;
+    
+}
+@media only screen and (max-width: 500px) {
+.txtalign{
+   transform: rotate(-40deg);
+   line-height:12px;
+   }
+.bs-wizard > .bs-wizard-step > .bs-wizard-dot {
+    width:26px;
+    height:26px;
+    margin-top:-13px;
+    }
+}
+.control-label {
+    padding-top:10px;
 }
