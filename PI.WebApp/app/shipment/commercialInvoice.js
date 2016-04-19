@@ -29,7 +29,7 @@
             { "Id": 1, "Name": "USD" },
             { "Id": 2, "Name": "EUR" },
             { "Id": 3, "Name": "YEN" },
-            { "Id": 5, "Name": "GBP" }
+            { "Id": 4, "Name": "GBP" }
         ];
 
 

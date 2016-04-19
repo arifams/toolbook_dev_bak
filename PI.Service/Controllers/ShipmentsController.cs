@@ -22,6 +22,7 @@ using System.Configuration;
 using PI.Contract.DTOs.AddressBook;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using Microsoft.AspNet.Identity;
 
 namespace PI.Service.Controllers
 {
@@ -444,6 +445,34 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SaveCommercialInvoice(addShipment);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("RequestForQuote")]
+        public ShipmentOperationResult RequestForQuote(ShipmentDto addShipment)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            string quoteTemplate = shipment.RequestForQuote(addShipment);
+            // TODO: H - Change the staff user.
+            var adminUser = AppUserManager.FindByEmail("thomas@parcel.com");
+            //var adminUser = AppUserManager.FindByEmail("hp1@yopmail.com");
+            if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
+            {
+                AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
+
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.Success
+                };
+            }
+            else {
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.Error
+                };
+            }
+            
         }
     }
 }

@@ -89,4 +89,12 @@ namespace PI.Contract.Enums
         [Description("ADDRESS_BOOK")]
         AddressBook = 3
     }
+
+    public enum CurrencyType : short
+    {
+        USD = 1,
+        EURO,
+        YEN,
+        Pound
+    }
 }
