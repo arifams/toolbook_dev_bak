@@ -227,9 +227,9 @@
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
                     if (vm.defaultLanguage != undefined) {
-                        vm.model.defaultLanguageId = vm.defaultLanguage;
-                        vm.model.defaultCurrencyId = vm.defaultCurrency;
-                        vm.model.defaultTimeZoneId = vm.defaultTimezone;
+                        vm.model.defaultLanguageId = vm.defaultLanguage.id;
+                        vm.model.defaultCurrencyId = vm.defaultCurrency.id;
+                        vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
                     }
                     else {
                         vm.model.doNotUpdateAccountSettings = true;
