@@ -22,7 +22,8 @@ namespace PI.Contract.DTOs.Customer
         public bool IsCorporateAccount { get; set; }
         public AddressDto CustomerAddress { get; set; }
         public string CompanyName { get; set; }
-        
+        public string JobCapacity { get; set; }
+
         public bool IsCorpAddressUseAsBusinessAddress { get; set; }
 
         public string UserName { get; set; } // TODO: To be removed

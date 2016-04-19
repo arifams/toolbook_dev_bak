@@ -68,8 +68,9 @@ namespace PI.Business
             currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
+            currentProfile.CustomerDetails.JobCapacity = currentCustomer.JobCapacity;
             currentProfile.CustomerDetails.AddressId = currentCustomer.AddressId;
-
+          
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -158,26 +159,26 @@ namespace PI.Business
 
                 //check if there any users who has same email
                 if (currntUser.UserName != updatedProfile.CustomerDetails.Email)
-                {
-                    ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
-                    ApplicationUser updatedUser = new ApplicationUser();
-                    if (existingUser != null)
-                    {
-                        return -2;
-                    }
-                    else
-                    {
-                        var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
-                        user.UserName = updatedProfile.CustomerDetails.Email;
+                {                    
+                        ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
+                        ApplicationUser updatedUser = new ApplicationUser();
+                        if (existingUser != null)
+                        {
+                            return -2;
+                        }
+                        else
+                        {
+                            var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                            user.UserName = updatedProfile.CustomerDetails.Email;
                         user.Email = updatedProfile.CustomerDetails.Email;
-                        user.EmailConfirmed = false;
-                    }
-                    context.SaveChanges();
+                            user.EmailConfirmed = false;
+                        }
+                        context.SaveChanges();
                     updateUserName = true;
 
                 }
 
-            }
+            }            
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
@@ -214,6 +215,7 @@ namespace PI.Business
                 currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
                 currentCustomer.Password = updatedProfile.CustomerDetails.Password;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
+                currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
                 //set customer entity state as modified
                 //context.Customers.Add(currentCustomer);
                 context.SaveChanges();
@@ -320,7 +322,7 @@ namespace PI.Business
 
                     //set account settings entity as modidied
                     context.AccountSettings.Add(newAccountSettings);
-                    context.SaveChanges();
+                    context.SaveChanges(); 
 
                 }
 
@@ -336,7 +338,7 @@ namespace PI.Business
                     currentNotificationCriteria.CreatedDate = DateTime.Now;
                     //set notification criteria entity as modified
 
-                    context.SaveChanges();
+                    context.SaveChanges(); 
                 }
                 else
                 {
@@ -366,7 +368,7 @@ namespace PI.Business
             {
                 return 1;
             }
-
+           
 
         }
 
@@ -462,7 +464,7 @@ namespace PI.Business
                                   where c.CompanyId == companyId
                                   && c.IsDelete != true
                                   select c;
-
+                                  
                 return costCenters;
             }
 
