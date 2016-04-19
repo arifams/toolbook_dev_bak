@@ -891,11 +891,18 @@
                     </div>
                 </div>
                 <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
-                    <div class="col-sm-4"></div>
-                    <div class="col-sm-6">
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-4">
                         <label class="label label-danger">
-                            <strong>No Available rates for this shipment</strong>
+                            <strong>No Available rates for this shipment 
+                            </strong>
                         </label>
+                        <button class="btn btn-primary no-margin btn-sm" type="button" ng-click="shipmentCtrl.requestForQuote()" ng-disabled="!shipmentCtrl.isClickCalculateRate">Request for Quote</button> 
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="font-animation" ng-show="shipmentCtrl.addingRequestForQuote==true">
+                            <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
+                        </div>
                     </div>
                 </div>
 

@@ -22,6 +22,8 @@ using System.Configuration;
 using PI.Contract.DTOs.AddressBook;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
+using Microsoft.AspNet.Identity;
+using System.Text;
 
 namespace PI.Service.Controllers
 {
@@ -155,12 +157,26 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipment = new ShipmentsManagement();
             operationResult = shipment.SendShipmentDetails(sendShipmentDetails);
 
-            // Add shipment label to azure storage.
+            #region  Add shipment label to azure storage
+
             AzureFileManager media = new AzureFileManager();
             long tenantId = comapnyManagement.GettenantIdByUserId(sendShipmentDetails.UserId);
             media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.ShipmentLabel));
-
             var result = media.UploadFromFileURL(operationResult.LabelURL, operationResult.ShipmentId.ToString() + ".pdf");
+
+            #endregion
+
+
+            #region For Email Confirmaion
+
+            StringBuilder emailbody = new StringBuilder("user.TemplateLink");
+            //emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
+            //                            .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+
+            AppUserManager.SendEmailAsync(sendShipmentDetails.UserId, "Your account has been provisioned!", emailbody.ToString());
+
+            #endregion
+
 
             return operationResult;
         }
@@ -457,6 +473,34 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SaveCommercialInvoice(addShipment);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("RequestForQuote")]
+        public ShipmentOperationResult RequestForQuote(ShipmentDto addShipment)
+        {
+            ShipmentsManagement shipment = new ShipmentsManagement();
+            string quoteTemplate = shipment.RequestForQuote(addShipment);
+            // TODO: H - Change the staff user.
+            var adminUser = AppUserManager.FindByEmail("thomas@parcel.com");
+            //var adminUser = AppUserManager.FindByEmail("hp1@yopmail.com");
+            if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
+            {
+                AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
+
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.Success
+                };
+            }
+            else {
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.Error
+                };
+            }
+            
         }
     }
 }

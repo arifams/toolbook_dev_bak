@@ -19,5 +19,6 @@ namespace PI.Contract.Business
         void InsertShipmentDocument(FileUploadDto fileDetails);
         CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode);
         ShipmentOperationResult SaveCommercialInvoice(CommercialInvoiceDto addShipment);
+        string RequestForQuote(ShipmentDto addShipment);
     }
 }
