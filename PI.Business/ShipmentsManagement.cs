@@ -718,12 +718,13 @@ namespace PI.Business
             IList<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
             {
-                currentShipments = (from shipment in context.Shipments
-                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
-                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
-                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                    where shipment.DivisionId == divid
-                                    select shipment).ToList();
+                //currentShipments = (from shipment in context.Shipments
+                //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                //                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                //                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                //                    where shipment.DivisionId == divid
+                //                    select shipment).ToList();
+                currentShipments = context.Shipments.Where(x => x.DivisionId == divid).ToList();
 
             }
 
@@ -736,17 +737,42 @@ namespace PI.Business
             IList<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
             {
-                currentShipments = (from shipment in context.Shipments
-                                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
-                                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
-                                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
-                                    where shipment.CreatedBy == userId
-                                    select shipment).ToList();
+                //currentShipments = (from shipment in context.Shipments
+                //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
+                //                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
+                //                    join shipmentPackages in context.ShipmentPackages on shipment.ShipmentPackageId equals shipmentPackages.Id
+                //                    where shipment.CreatedBy == userId
+                //                    select shipment).ToList();
+
+                currentShipments= context.Shipments.Where(x => x.CreatedBy == userId).ToList();
 
             }
 
             return currentShipments;
         }
+
+        //get shipments by user ID and created date
+        public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
+        {
+            List<Shipment> currentShipments = null;
+            using (PIContext context = new PIContext())
+            {               
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName== carreer).ToList();
+            }
+            return currentShipments;
+        }
+
+        //get shipments by shipment reference
+        public List<Shipment> GetshipmentsByReference(string userId,string reference)
+        {
+            List<Shipment> currentShipments = null;
+            using (PIContext context = new PIContext())
+            {
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference)).ToList();
+            }
+            return currentShipments;
+        }
+
 
         public void UpdateShipmentStatus(string codeShipment, short status)
         {
@@ -1489,7 +1515,7 @@ namespace PI.Business
                             FirstName = item.ConsigneeAddress.FirstName,
                             LastName = item.ConsigneeAddress.LastName,
                             ContactName = item.ConsigneeAddress.ContactName,
-                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
                             Email = item.ConsigneeAddress.EmailAddress,
                             Number = item.ConsigneeAddress.Number
                         },
@@ -1504,7 +1530,7 @@ namespace PI.Business
                             FirstName = item.ConsignorAddress.FirstName,
                             LastName = item.ConsignorAddress.LastName,
                             ContactName = item.ConsignorAddress.ContactName,
-                            ContactNumber = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.PhoneNumber,
                             Email = item.ConsignorAddress.EmailAddress,
                             Number = item.ConsignorAddress.Number
                         }
@@ -1560,6 +1586,100 @@ namespace PI.Business
             return pagedRecord;
         }
 
+
+        public List<ShipmentDto> GetAllshipmentsForManifest(string userId, string date, string carreer, string reference)
+        {
+            List<Shipment> shipmentList = new List<Shipment>();
+            if (string.IsNullOrEmpty(reference))
+            {
+                shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, Convert.ToDateTime(date), carreer);
+            }
+            else
+            {
+                shipmentList = this.GetshipmentsByReference(userId, reference);
+            }
+           
+            List<ShipmentDto> shipments = new List<ShipmentDto>();
+
+            foreach (var item in shipmentList)
+            {
+                shipments.Add(new ShipmentDto
+                {
+                    AddressInformation = new ConsignerAndConsigneeInformationDto
+                    {
+                        Consignee = new ConsigneeDto
+                        {
+                            Address1 = item.ConsigneeAddress.StreetAddress1,
+                            Address2 = item.ConsigneeAddress.StreetAddress2,
+                            Postalcode = item.ConsigneeAddress.ZipCode,
+                            City = item.ConsigneeAddress.City,
+                            Country = item.ConsigneeAddress.Country,
+                            State = item.ConsigneeAddress.State,
+                            FirstName = item.ConsigneeAddress.FirstName,
+                            LastName = item.ConsigneeAddress.LastName,
+                            ContactName = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
+                            Email = item.ConsigneeAddress.EmailAddress,
+                            Number = item.ConsigneeAddress.Number
+                        },
+                        Consigner = new ConsignerDto
+                        {
+                            Address1 = item.ConsignorAddress.StreetAddress1,
+                            Address2 = item.ConsignorAddress.StreetAddress2,
+                            Postalcode = item.ConsignorAddress.ZipCode,
+                            City = item.ConsignorAddress.City,
+                            Country = item.ConsignorAddress.Country,
+                            State = item.ConsignorAddress.State,
+                            FirstName = item.ConsignorAddress.FirstName,
+                            LastName = item.ConsignorAddress.LastName,
+                            ContactName = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.PhoneNumber,
+                            Email = item.ConsignorAddress.EmailAddress,
+                            Number = item.ConsignorAddress.Number
+                        }
+                    },
+                    GeneralInformation = new GeneralInformationDto
+                    {
+                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                        DivisionId = item.DivisionId.GetValueOrDefault(),
+                        ShipmentCode = item.ShipmentCode,
+                        ShipmentMode = item.ShipmentMode,
+                        ShipmentName = item.ShipmentName,
+                        //ShipmentTermCode = item.ShipmentTermCode,
+                        //ShipmentTypeCode = item.ShipmentTypeCode,
+                        TrackingNumber = item.TrackingNumber,
+                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                    },
+                    PackageDetails = new PackageDetailsDto
+                    {
+                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                        HsCode = item.ShipmentPackage.HSCode,
+                        Instructions = item.ShipmentPackage.CarrierInstruction,
+                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                        TotalVolume = item.ShipmentPackage.TotalVolume,
+                        TotalWeight = item.ShipmentPackage.TotalWeight,
+                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                    },
+                    CarrierInformation = new CarrierInformationDto
+                    {
+                        CarrierName = item.CarrierName,
+                        serviceLevel = item.ServiceLevel,
+                        PickupDate = item.PickUpDate
+                    }
+
+                });
+            }
+            
+            return shipments;
+        }
 
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
