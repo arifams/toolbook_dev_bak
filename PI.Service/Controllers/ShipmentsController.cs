@@ -67,10 +67,10 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllCurrencies")]
-        public IQueryable<CurrencyDto> GetAllCurrencies()
+        public List<CurrencyDto> GetAllCurrencies()
         {
             ProfileManagement userprofile = new ProfileManagement();
-            IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
+            List<CurrencyDto> currencies = userprofile.GetAllCurrencies();
             return currencies;
         }
 

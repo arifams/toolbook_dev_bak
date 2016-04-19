@@ -13,11 +13,11 @@ namespace PI.Contract.DTOs.AccountSettings
         public short DefaultCurrencyId { get; set; }
         public short DefaultTimeZoneId { get; set; }
 
-        public IList<LanguageDto> Languages { get; set; }
+        public List<LanguageDto> Languages { get; set; }
 
-        public IList<CurrencyDto> Currencies { get; set; }
+        public List<CurrencyDto> Currencies { get; set; }
 
-        public IList<TimeZoneDto> TimeZones { get; set; }
+        public List<TimeZoneDto> TimeZones { get; set; }
 
     }
 }

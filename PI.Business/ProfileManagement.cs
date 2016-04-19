@@ -547,9 +547,9 @@ namespace PI.Business
                 accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
             }
 
-            accountSettings.Languages = GetAllLanguages().ToList();
-            accountSettings.Currencies = GetAllCurrencies().ToList();
-            accountSettings.TimeZones = GetAllTimeZones().ToList();
+            accountSettings.Languages = GetAllLanguages();
+            accountSettings.Currencies = GetAllCurrencies();
+            accountSettings.TimeZones = GetAllTimeZones();
 
             profileDetails.AccountSettings = accountSettings;
             NotificationCriteria notifications = this.GetNotificationCriteriaByCustomerId(customerId);
@@ -571,7 +571,7 @@ namespace PI.Business
 
         //Get Account Setting Details
         //retrieve all languages
-        private IQueryable<LanguageDto> GetAllLanguages()
+        private List<LanguageDto> GetAllLanguages()
         {
             using (PIContext context = PIContext.Get())
             {
@@ -582,12 +582,12 @@ namespace PI.Business
                                     LanguageCode = l.LanguageCode,
                                     LanguageName = l.LanguageName
                                 };
-                return languages;
+                return languages.ToList();
             }
         }
 
         //retrieve all currencies
-        public IQueryable<CurrencyDto> GetAllCurrencies()
+        public List<CurrencyDto> GetAllCurrencies()
         {
             using (PIContext context = PIContext.Get())
             {
@@ -598,12 +598,12 @@ namespace PI.Business
                                      CurrencyCode = c.CurrencyCode,
                                      CurrencyName = c.CurrencyName
                                  };
-                return currencies;
+                return currencies.ToList();
             }
         }
 
         //retrieve all TimeZones
-        public IQueryable<TimeZoneDto> GetAllTimeZones()
+        public List<TimeZoneDto> GetAllTimeZones()
         {
             using (PIContext context = PIContext.Get())
             {
@@ -614,7 +614,7 @@ namespace PI.Business
                                     TimeZoneCode = t.TimeZoneCode,
                                     CountryName = t.CountryName
                                 };
-                return timeZones;
+                return timeZones.ToList();
             }
         }
 
