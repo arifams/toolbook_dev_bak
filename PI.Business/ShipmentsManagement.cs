@@ -599,7 +599,7 @@ namespace PI.Business
             {
                 if (shipment.Status != ((short)ShipmentStatus.Delivered))
                 {
-                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "telus", shipment.Id);
+                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
                 }
             }
 
@@ -1548,7 +1548,8 @@ namespace PI.Business
 
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
                     {

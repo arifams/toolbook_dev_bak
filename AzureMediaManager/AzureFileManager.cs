@@ -9,6 +9,7 @@ using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System.Web;
 using System.IO;
+using System.Net;
 
 namespace AzureMediaManager
 {
@@ -91,11 +92,11 @@ namespace AzureMediaManager
                 imageUrl = imageBlob.Uri.ToString();
             }
 
-            if (imageBlob != null)
-            {
-                var queueMessage = new CloudQueueMessage(imageUrl);
-                await _imagesQueue.AddMessageAsync(queueMessage);
-            }
+            //if (imageBlob != null)
+            //{
+            //    var queueMessage = new CloudQueueMessage(imageUrl);
+            //    await _imagesQueue.AddMessageAsync(queueMessage);
+            //}
 
             return true;
         }
@@ -157,7 +158,13 @@ namespace AzureMediaManager
             // Retrieve reference to a blob. 
             var newFileBlob = _imagesBlobContainer.GetBlockBlobReference(newFileName);
 
-            await newFileBlob.StartCopyAsync(new Uri(sourceFileURL), null, null, null,null);
+            WebRequest req = HttpWebRequest.Create(sourceFileURL);
+            using (Stream stream = req.GetResponse().GetResponseStream())
+            {
+              await  newFileBlob.UploadFromStreamAsync(stream);
+            }
+        
+            //  await newFileBlob.StartCopyAsync(new Uri(sourceFileURL), null, null, null,null);
 
             return newFileBlob;
         }
