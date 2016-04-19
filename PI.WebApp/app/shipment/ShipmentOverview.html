@@ -1,154 +1,141 @@
 ﻿
-<div class="panel">
-    <!-- form start -->
-    <!-- Main content -->
-    <!-- /.box-header -->
-    <tabset>
-        <tab>
-            <tab-heading>
-                OVERVIEW
-            </tab-heading>
-
-            <div class="panel-content panel-border p-t-0">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3 class="heading"><strong>Shipment Details</strong></h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <!-- /.box-header -->
+            <tabset>
+                <tab>
+                    <tab-heading>
+                        OVERVIEW
+                    </tab-heading>
+                    
+                    <div class="panel-content panel-border p-t-0">
                         <div class="row">
-                            <div class="col-sm-6 p-r-0">
-                                <label class="form-control bg-white lblborder">TRACKING NUMBER</label>
+                            <div class="col-sm-12">
+                                <h3 class="heading"><strong>Shipment Details</strong></h3>
+                                            </div>
+                                        </div>
+
+
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                <div class="lblborder form-group">
+                                    <label class="bg-label m-b-0">
+                                        TRACKING NUMBER
+                                    </label>
+                                    <label class="m-b-0 bg-label-blue" disabled name="trackingNumber">
+                                        {{overviewShipCtrl.trakingNo}}
+                                    </label>
+                                                        </div>
+                                <div class="lblborder form-group">
+                                    <label class="bg-label m-b-0">
+                                        SHIPMENT ID
+                                    </label>
+                                    <label class="m-b-0 bg-label-blue" disabled name="shipmentId">
+                                        {{overviewShipCtrl.shipmentCode}}
+                                    </label>
+                                                        </div>
+                                <div class="lblborder form-group">
+                                    <label class="bg-label m-b-0">
+                                        CARRIER
+                                    </label>
+                                    <label class="m-b-0 bg-label-blue" disabled name="carrier">
+                                        {{overviewShipCtrl.carrier}}
+                                    </label>
+                                                        </div>
+                                <div class="lblborder form-group">
+                                    <label class="bg-label m-b-0">
+                                        ORDER SUBMITTED DATE
+                                    </label>
+                                    <label class="m-b-0 bg-label-blue" disabled name="orderSubmittedDate">
+                                        {{overviewShipCtrl.createdOn}}
+                                    </label>
+                                                    </div>
+                                <div class="lblborder form-group">
+                                    <label class="bg-label m-b-0">
+                                        SHIPMENT LABEL
+                                    </label>
+                                    <label class="m-b-0 bg-label-blue" disabled name="shipmentLabel">
+                                        
+                                    </label>
+                                                        </div>
+                                                        </div>
+                                                <div class="col-sm-6">
+                                                    <div class="panel panel-default map-panel">
+                                                        <div class="panel-body">
+                                                            <div class="row">
+                                                                <div class="col-sm-12">
+                                                <div class="map" id="simple-map" style="height:225px;"></div>
+                                                                </div>
+                                                            </div> 
+                                                        </div>
+                                                    </div>
+                                                </div>
                             </div>
-                            <div class="col-sm-6 p-l-0">
-                                <input type="text" disabled name="trackingNumber" class="form-control lblborder2" style="background-color:#ADD8E1;" value={{overviewShipCtrl.trakingNo}} />
-                            </div>
-                        </div>
+                                            </div>
+           <div class="panel-content panel-border p-t-0">
+            
                         <div class="row">
-                            <div class="col-sm-6 p-r-0">
-                                <label class="form-control bg-white lblborder">SHIPMENT ID</label>
-                            </div>
-                            <div class="col-sm-6 p-l-0">
-                                <input type="text" disabled name="shipmentId" class="form-control lblborder2" style="background-color:#ADD8E1;" value={{overviewShipCtrl.shipmentCode}} />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 p-r-0">
-                                <label class="form-control bg-white lblborder">CARRIER</label>
-                            </div>
-                            <div class="col-sm-6 p-l-0">
-                                <input type="text" disabled name="carrier" class="form-control lblborder2" style="background-color:#ADD8E1;" value={{overviewShipCtrl.carrier}} />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 p-r-0">
-                                <label class="form-control bg-white lblborder">ORDER SUBMITTED DATE</label>
-                            </div>
-                            <div class="col-sm-6 p-l-0">
-                                <input type="text" disabled name="orderSubmittedDate" class="form-control lblborder2" style="background-color:#ADD8E1;" value="{{overviewShipCtrl.createdOn}}" />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6 p-r-0">
-                                <label class="form-control bg-white lblborder">SHIPMENT LABEL</label>
-                            </div>
-                            <div class="col-sm-6 p-l-0">
-                                <!-- <input type="button"  name="shipmentLabel" class="form-control lblborder2" style="background-color:#ADD8E1;"
-                                         value="{{overviewShipCtrl.shipmentLabel}}" ng-click="overviewShipCtrl.openLabel(overviewShipCtrl.shipmentLabel)" />-->
-                                <a href="{{overviewShipCtrl.shipmentLabel}}" class="form-control lblborder2" style="background-color:#ADD8E1;">View Label</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="panel panel-default map-panel">
-                            <div class="panel-body">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="map" id="simple-map" style="height:195px;"></div>
-                                    </div>
-                                </div>
-                                <!--
-                                         <div class="panel-header">
-                                    <label class="form-control label-info">Current Packege Location</label>
-                                </div>
-                                      -->
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-            <div class="panel-content panel-border p-t-0">
-
-                <div class="row">
-                    <div class="col-sm-12">
+                            <div class="col-sm-12">
                         <h3 class="heading m-b-0 m-t-10"><strong>Shipment Status</strong></h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="row bs-wizard" style="border-bottom:0;">
-
-                        <div class="col-xs-2 bs-wizard-step complete">
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar"></div></div>
-                            <a href="#" class="bs-wizard-dot"></a>
-                            <div class="text-center bs-wizard-stepnum">BOOKING CONFIRMATION</div>
+                            </div>
                         </div>
+                            <div class="row">
+                                <div class="row bs-wizard" style="border-bottom:0;">
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                                        <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">BOOKING CONFIRMATION</div>
+                                    </div>
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>                                        
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">PICKEDUP</div>
+                                    </div>
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- complete -->
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">IN-TRANSIT</div>
+                                    </div>
+                                    <div class="col-xs-2 bs-wizard-step complete">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                                        <div class="progress"><div class="progress-bar width-half"></div></div>
+                                        <a href="#" class="bs-wizard-dot"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">DELIVERED</div>
+                                    </div>
+                                    <div class="col-xs-2 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                                        <div class="progress"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot-small"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
+                                    </div>
+                                    <div class="col-xs-2 bs-wizard-step disabled">
+                                        <!-- active -->
+                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                                        <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;"><div class="progress-bar"></div></div>
+                                        <a href="#" class="bs-wizard-dot-small"></a>
+                           <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
 
-                        <div class="col-xs-2 bs-wizard-step complete">
-                            <!-- complete -->
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress"><div class="progress-bar"></div></div>
-                            <a href="#" class="bs-wizard-dot"></a>
-                            <div class="text-center bs-wizard-stepnum">PICKEDUP</div>
-                        </div>
-
-                        <div class="col-xs-2 bs-wizard-step complete">
-                            <!-- complete -->
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress"><div class="progress-bar"></div></div>
-                            <a href="#" class="bs-wizard-dot"></a>
-                            <div class="text-center bs-wizard-stepnum">IN-TRANSIT</div>
-                        </div>
-
-                        <div class="col-xs-2 bs-wizard-step complete">
-                            <!-- active -->
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress"><div class="progress-bar width-half"></div></div>
-                            <a href="#" class="bs-wizard-dot"></a>
-                            <div class="text-center bs-wizard-stepnum">DELIVERED</div>
-                        </div>
-                        <div class="col-xs-2 bs-wizard-step disabled">
-                            <!-- active -->
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress"><div class="progress-bar"></div></div>
-                            <a href="#" class="bs-wizard-dot-small"></a>
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                        </div>
-                        <div class="col-xs-2 bs-wizard-step disabled">
-                            <!-- active -->
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                            <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;"><div class="progress-bar"></div></div>
-                            <a href="#" class="bs-wizard-dot-small"></a>
-                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                        </div>
-
-                    </div>
-                </div>
-
-
-
-            </div>
-            <div class="panel-content panel-border p-t-0">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3 class="heading"><strong>Tracking History</strong></h3>
-                    </div>
-                </div>
+                                
+                                    
+                                </div>
+            <div class="panel-content panel-border p-t-0">          
+                   <div class="row">
+                          <div class="col-sm-12">
+                             <h3 class="heading"><strong>Tracking History</strong></h3>
+                          </div>
+                 </div>
                 <div class="row">
                     <div class="col-sm-12 ">
                         <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
@@ -160,36 +147,38 @@
                                     <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
                                 </div>
                             </div>
-                        </div>
+                        </div>                                                   
                     </div>
+                </div> 
                 </div>
-            </div>
         </tab>
         <tab>
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
-            <div class="awb">
+            <div>
+              
+                <iframe ng-src='{{overviewShipCtrl.awb_URL}}' height="800" width="700"></iframe>
             </div>
         </tab>
-
         <tab>
-            <tab-heading>
-                CMR
-            </tab-heading>
-            <div class="cmr">
-            </div>
-        </tab>
+        <tab-heading>
+            CMR
+         </tab-heading>
+                    <div>
+                        <iframe src={{overviewShipCtrl.cmr_URL}} height="800" width="700"></iframe>
+                    </div>
+         </tab>
 
         <tab>
             <tab-heading>
                 COMMERCIAL INVOICE
             </tab-heading>
             <div class="panel-content panel-border">
-                <div ng-include="'shipment/commercialInvoice.html'"></div>
+                        <div ng-include="'shipment/commercialInvoice.html'"></div>
             </div>
 
-        </tab>
+            </tab>
 
         <tab>
             <tab-heading>
@@ -200,7 +189,7 @@
                 </div>
             </div>
 
-        </tab>
-    </tabset>
+            </tab>
+        </tabset>
 
 </div>

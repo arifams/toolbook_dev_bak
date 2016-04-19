@@ -47,10 +47,29 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-2 p-r-0 p-l-0">
+                                <label class="control-label p-t-0">Registration number company</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="regnumbercompany" class="form-control" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.companyDetails.name" ng-required="profileCtrl.model.customerDetails.isCorporateAccount=='true'" ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit1) }" />
+                                        <div ng-messages="formUpdateProfileGeneral.companyname.$error" ng-show="formUpdateProfileGeneral.companyname.$dirty || profileCtrl.isSubmit1">
+                                            <label ng-message="required" class="error" for="firstname">Enter Company Name</label>
+                                            <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
+                                            <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-2">
                                 <label class="control-label">Salutation </label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <div class="option-group">
                                         <select id="salutation" name="salutation" class="form-control ng-pristine ng-valid ng-touched" required
@@ -62,13 +81,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-2">
+                            <div class="col-md-1 p-l-0 p-r-0">
                                 <label class="control-label">First Name </label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="firstname" class="form-control"
@@ -81,6 +97,25 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-1 p-l-0 p-r-0">
+                                <label class="control-label">Last Name </label>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="lastname" class="form-control" minlength="4" required
+                                               ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.lastname.$invalid && (formUpdateProfile.lastname.$dirty||profileCtrl.isSubmit1) }">
+                                        <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="formUpdateProfileGeneral.lastname.$dirty ||profileCtrl.isSubmit1">
+                                            <label ng-message="required" class="error" for="lastname">Enter your last name</label>
+                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                            <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-2">
                                 <label class="control-label">Job Capacity</label><!-- change comapany name details into job capacity-->
                             </div>
@@ -92,25 +127,6 @@
                                             <label ng-message="required" class="error" for="firstname">Enter Company Name</label>
                                             <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
                                             <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-2">
-                                <label class="control-label">Last Name </label>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="lastname" class="form-control" minlength="4" required
-                                               ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.lastname.$invalid && (formUpdateProfile.lastname.$dirty||profileCtrl.isSubmit1) }">
-                                        <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="formUpdateProfileGeneral.lastname.$dirty ||profileCtrl.isSubmit1">
-                                            <label ng-message="required" class="error" for="lastname">Enter your last name</label>
-                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                            <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
                                         </div>
                                     </div>
                                 </div>
@@ -133,22 +149,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        
-                        <div class="row m-r-0">
-                            <a href="#" onclick="document.formUpdateProfileGeneral.submit();" ng-click="showContent=true && (formUpdateProfileGeneral.$valid?  profileCtrl.isSubmitForm1 = false : profileCtrl.isSubmitForm1 = true )"
-                               style="color:#247EB2;float:right;">
-                                <u class="m-r-5" style="float:left;">Next</u>
-                                <span class="glyphicon glyphicon-circle-arrow-right"></span>
-                            </a>
-                        </div>
+                        </div>                                              
                         <br><br>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
-                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
+                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfile()">
                                             Save
@@ -199,19 +206,6 @@
                             <div class="col-md-2">
                                 <label class="control-label">Street Name *</label>
                             </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="number" class="form-control" placeholder="Number"
-                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-minlength="3" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfile.number.$dirty||profileCtrl.isSubmit2) }">
-                                        <div ng-messages="formUpdateProfileAddress.number.$error" ng-show="formUpdateProfileAddress.number.$dirty||profileCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="number">Enter your number</label>
-                                            <label ng-message="maxlength" class="error" for="number">Enter less than 20 characters</label>
-                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="append-icon">
@@ -225,6 +219,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="number" class="form-control" placeholder="Number"
+                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-minlength="3" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfile.number.$dirty||profileCtrl.isSubmit2) }">
+                                        <div ng-messages="formUpdateProfileAddress.number.$error" ng-show="formUpdateProfileAddress.number.$dirty||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="number">Enter your number</label>
+                                            <label ng-message="maxlength" class="error" for="number">Enter less than 20 characters</label>
+                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -514,17 +522,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row  m-r-0">
-                            <a href="" ng-click="showContent=true && (formUpdateProfileAddress.$valid?  profileCtrl.isSubmitForm2 = false : profileCtrl.isSubmitForm2 = true )" style="color:#247EB2;float:right;">
-                                <u class="m-r-5" style="float: left;">Next</u>
-                                <span class="glyphicon glyphicon-circle-arrow-right"></span>
-                            </a>
-                        </div><br><br>
+                       
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
-                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
+                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfile()">
                                             <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
@@ -642,19 +645,11 @@
                             </div>
                         </div>
                     </div>
-
-
-                    <div class="row m-r-5">
-                        <a href="" ng-click="showContent=true" style="color:#247EB2;float:right;">
-                            <u class="m-r-5" style="float:left;">Next</u>
-                            <span class="glyphicon glyphicon-circle-arrow-right"></span>
-                        </a>
-                    </div><br><br>
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-8 col-md-9"></div>
-                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
+                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
                                             ng-click="profileCtrl.updateProfile()">
                                         Save
@@ -755,13 +750,13 @@
 
                             <div class="form-group">
                                 <p>
-                                    <strong>Subscribe to Offers,Deals & Promotions </strong>
+                                    <strong>Subscribe to Offers, Deals & Promotions </strong>
                                 </p>
                                 <div class="input-group">
                                     <div class="icheck-list">
                                         <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" icheck
-                                                   ng-model="profileCtrl.model.notifyNewSolution"> I would like to receive notofied on new solutions
+                                                   ng-model="profileCtrl.model.notifyNewSolution"> I would like to receive notified on new solutions
                                         </label>
                                         <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notediscount" icheck
@@ -779,7 +774,7 @@
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-8 col-md-9"></div>
-                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0">
+                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
                                             ng-click="profileCtrl.updateProfile()">
                                         Save

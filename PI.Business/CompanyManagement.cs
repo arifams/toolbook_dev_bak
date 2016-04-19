@@ -32,7 +32,7 @@ namespace PI.Business
                 //Add Tenant
                 Tenant tenant = new Tenant
                 {
-                    TenancyName = customerCompany.CompanyCode,
+                   // TenancyName = customerCompany.CompanyCode,
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                     IsActive = true,
@@ -51,6 +51,7 @@ namespace PI.Business
                     IsDelete = false,
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now,
+                    CompanyCode = customerCompany.CompanyCode
                 };
                 context.Companies.Add(company);
                 context.SaveChanges();

@@ -24,7 +24,9 @@
             getAvailableFilesForShipment: getAvailableFilesForShipment,
             deleteFile: deleteFile,
             saveCommercialInvoice: saveCommercialInvoice,
-            getProfileInfo: getProfileInfo
+            getProfileInfo: getProfileInfo,
+            getAllshipmentsForManifest: getAllshipmentsForManifest,
+            requestForQuote: requestForQuote
         };
 
         function getProfileInfo() {
@@ -35,6 +37,18 @@
             });
         }
 
+
+        function getAllshipmentsForManifest(date, carreer, reference) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllshipmentsForManifest', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid'),
+                    createdDate: date,
+                    carreer: carreer,
+                    reference: reference
+                }
+            });
+        }
 
         function getTeackAndTraceDetails(carrier, trackingNo) {
             return $http.get(serverBaseUrl + '/api/shipments/GetTrackAndTraceInfo', {
@@ -185,6 +199,11 @@
         function saveCommercialInvoice(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/SaveCommercialInvoice', shipmentDetail);
+        }
+
+        function requestForQuote(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/RequestForQuote', shipmentDetail);
         }
 
     }]);
