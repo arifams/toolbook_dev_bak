@@ -83,7 +83,8 @@ namespace PI.Business
                 currentProfile.CompanyDetails.COCNumber = currentCompany.COCNumber;
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
-                currentProfile.CustomerDetails.CompanyCode = currentCompany.CompanyCode;
+                currentProfile.CompanyDetails.CompanyCode = currentCompany.CompanyCode;
+               
 
             }
 
