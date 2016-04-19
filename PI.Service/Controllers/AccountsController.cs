@@ -289,23 +289,23 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
-                    //DateTime expires = DateTime.Now.AddDays(1);
-                    //var tokenHandler = new JwtSecurityTokenHandler();
-                    //X509Certificate2 cert = new X509Certificate2(Path.Combine(AssemblyDirectory, "private.localhost.pfx"), "localhost", X509KeyStorageFlags.MachineKeySet);
+                    ////DateTime expires = DateTime.Now.AddDays(1);
+                    ////var tokenHandler = new JwtSecurityTokenHandler();
+                   // X509Certificate2 cert = new X509Certificate2(Path.Combine(AssemblyDirectory, "private.localhost.pfx"), "localhost", X509KeyStorageFlags.MachineKeySet);
 
-                    //ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
-                    //{
-                    // new Claim(ClaimTypes.Name, user.Id),
-                    // new Claim("Id", user.Id),
-                    // new Claim("IsCorporateAccount", isCorporateAccount.ToString()),
-                    // new Claim(ClaimTypes.Role, roleName),
+                    ////ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
+                    ////{
+                    //// new Claim(ClaimTypes.Name, user.Id),
+                    //// new Claim("Id", user.Id),
+                    //// new Claim("IsCorporateAccount", isCorporateAccount.ToString()),
+                    //// new Claim(ClaimTypes.Role, roleName),
 
-                    // });
-                    ////create the token
-                    //var token = (JwtSecurityToken)tokenHandler.CreateToken(issuer: "http://localhost:5555/", audience: "http://localhost:5555/", subject: claimsIdentity, expires: expires, signingCredentials: new X509SigningCredentials(cert));
-                    //var tokenString = tokenHandler.WriteToken(token);
-                    ////return the token
-                    //return Ok<String>(tokenString);
+                    //// });
+                    //////create the token
+                    ////var token = (JwtSecurityToken)tokenHandler.CreateToken(issuer: "http://localhost:5555/", audience: "http://localhost:5555/", subject: claimsIdentity, expires: expires, signingCredentials: new X509SigningCredentials(cert));
+                    ////var tokenString = tokenHandler.WriteToken(token);
+                    //////return the token
+                    ////return Ok<String>(tokenString);
 
 
                     return Ok(new
@@ -394,6 +394,7 @@ namespace PI.Service.Controllers
                 return Path.GetDirectoryName(path);
             }
         }
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
