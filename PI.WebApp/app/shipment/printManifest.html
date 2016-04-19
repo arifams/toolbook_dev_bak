@@ -149,7 +149,7 @@
                                     <th>street</th>
                                     <th>city/zip/country</th>
                                     <th>Code/Service</th>
-                                    <th ng-show="manifestCtrl.isPackageEnable">Package | Description | Weight | Dim</th>
+                                    <th ng-show="manifestCtrl.isPackageEnable=='true'">Package | Description | Weight | Dim</th>
                                     <th>#</th>
                                     <th>Weight</th>
                                 </tr>
@@ -164,7 +164,7 @@
                                     <td>{{row.addressInformation.consignee.address1+ " "+ row.addressInformation.consignee.address2}}</td>
                                     <td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>
                                     <td>{{row.carrierInformation.serviceLevel}}</td>
-                                    <td ng-show="manifestCtrl.isPackageEnable">
+                                    <td ng-show="manifestCtrl.isPackageEnable=='true'">
                                         <div ng-repeat="item in row.packageDetails.productIngredients">
                                             {{item.quantity+"-"+ item.productType+" |"+item.description+" | "+item.weight+"|  ("+item.height+"x"+item.length+"x"+item.width+")" }}<br />
                                         </div>

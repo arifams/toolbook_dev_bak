@@ -11,7 +11,7 @@
                var SISURL = 'http://book.12send.com/taleus/admin-manifest.asp?'
                var userid = 'user@Mitrai.com';
                var password = 'Mitrai462';
-               vm.isPackageEnable = false;
+               vm.isPackageEnable = 'false';
                vm.isSubmit = false;
                vm.shipmentInfo = {};
                vm.consignerfname = "";
