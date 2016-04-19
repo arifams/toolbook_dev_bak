@@ -37,7 +37,7 @@
                    var printContents = document.getElementById(divName).innerHTML;
                    var popupWin = window.open('', '_blank', 'width=800,height=800');    
                    popupWin.document.open();
-                   popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" href="../global/css/style.css" /></head><body onload="window.print()">' + printContents + '</body></html>');
+                   popupWin.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css"/>   <link href="../global/css/style.css" rel="stylesheet">   <link href="../global/css/theme.css" rel="stylesheet"> <link href="../global/css/ui.css" rel="stylesheet"> </head><body onload="window.print()">' + printContents + '</body></html>');
                    popupWin.document.close();
                }
 
