@@ -179,14 +179,14 @@ namespace PI.Business
                     {
                         currentRateSheetDetails.dg_accessible = "N";
                     }
-                    
+
                 }
                 else
                 {
                     currentRateSheetDetails.dg = "NO";
                 }
-               
-                
+
+
 
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
@@ -258,8 +258,8 @@ namespace PI.Business
             //  currentRateSheetDetails.insurance_instruction = "N";
             currentRateSheetDetails.sort = "PRICE";
             // currentRateSheetDetails.inbound = "N"; 
-           // currentRateSheetDetails.dg = "NO";
-           // currentRateSheetDetails.dg_type = "";
+            // currentRateSheetDetails.dg = "NO";
+            // currentRateSheetDetails.dg_type = "";
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
@@ -296,7 +296,7 @@ namespace PI.Business
 
             return status;
         }
-
+        
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
 
@@ -323,7 +323,7 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
-               
+
 
                 // If division and costcenter Ids are 0, then assign default costcenter and division.
                 if (addShipment.GeneralInformation.DivisionId == 0)
@@ -342,7 +342,7 @@ namespace PI.Business
                 }
 
                 long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
-                
+
                 if (addShipment.GeneralInformation.ShipmentCode != "0")
                 {
                     // If has parent shipment id, then add to previous shipment.
@@ -434,8 +434,8 @@ namespace PI.Business
                         IsActive = true,
                         CreatedBy = addShipment.UserId,
                         CreatedDate = DateTime.Now,
-                        PackageProducts = packageProductList,                       
-                        IsDG=addShipment.PackageDetails.IsDG,
+                        PackageProducts = packageProductList,
+                        IsDG = addShipment.PackageDetails.IsDG,
                         Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
                         DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
 
@@ -1079,6 +1079,12 @@ namespace PI.Business
                     }
                     result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
+
+                    #region Send Booking confirmation email, for successful shipments
+
+
+                    #endregion
+
                 }
 
                 context.SaveChanges();
@@ -1162,14 +1168,14 @@ namespace PI.Business
             SISIntegrationManager sisManager = new SISIntegrationManager();
             info info = new info();
             var currentSisLocationHistory = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
-         
+
             if (currentSisLocationHistory != null)
             {
                 if (string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
                     short status = (short)Utility.GetValueFromDescription<ShipmentStatus>(currentSisLocationHistory.info.status);
                     this.UpdateShipmentStatus(codeShipment, status);
-                }              
+                }
 
                 //this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
@@ -1177,13 +1183,13 @@ namespace PI.Business
                 List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
                 foreach (var item in historyList)
-                    {
-                        this.DeleteLocationActivityByLocationHistoryId(item.Id);
-                    }
-                    this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
-                   
-                    this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
-            }            
+                {
+                    this.DeleteLocationActivityByLocationHistoryId(item.Id);
+                }
+                this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+                this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+            }
 
             return info;
         }
@@ -1805,7 +1811,7 @@ namespace PI.Business
                         ShipTo = currentShipment.CommercialInvoice.ShipTo,
                         VatNo = currentShipment.CommercialInvoice.VatNo,
                         CustomerNo = currentShipment.CommercialInvoice.CustomerNo,
-                        InvoiceTo= currentShipment.CommercialInvoice.InvoiceTo,
+                        InvoiceTo = currentShipment.CommercialInvoice.InvoiceTo,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.CommercialInvoice.ShipmentService),
                         TermsOfPayment = currentShipment.CommercialInvoice.TermsOfPayment, //string.IsNullOrWhiteSpace(currentShipment.CommercialInvoice.TermsOfPayment) ? "FREE OF CHARGE" : currentShipment.CommercialInvoice.TermsOfPayment,
                         CountryOfOrigin = currentShipment.CommercialInvoice.CountryOfOrigin,
@@ -1867,7 +1873,7 @@ namespace PI.Business
                             currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
 
                         InvoiceNo = currentShipment.ShipmentCode,
-                       
+
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
                         TermsOfPayment = "FREE OF CHARGE",
 
@@ -1898,7 +1904,7 @@ namespace PI.Business
             }
 
 
-            
+
 
 
             return invocieDto;
@@ -1909,8 +1915,8 @@ namespace PI.Business
         {
             using (var context = new PIContext())
             {
-                var document = context.ShipmentDocument.Where(x=> x.Id == fileDetails.Id).SingleOrDefault();
-                
+                var document = context.ShipmentDocument.Where(x => x.Id == fileDetails.Id).SingleOrDefault();
+
                 context.ShipmentDocument.Remove(document);
                 context.SaveChanges();
             }
@@ -1977,9 +1983,95 @@ namespace PI.Business
                 context.CommercialInvoices.Add(invoice);
                 context.SaveChanges();
             }
-                return result;
+            return result;
         }
 
+        public string RequestForQuote(ShipmentDto addShipment)
+        {
+            StringBuilder strTemplate = new StringBuilder();
+            string keyValueHtmlTemplate = "<span> <span class='name'>{0}:</span> <span class='value'>{1}</span> </span> <br>";
+
+            // Start the document
+            strTemplate.Append("<!DOCTYPE html><html><head><title></title><meta charset='utf-8' /> <style> .name{ width:200px;display:inline-block;font-weight:600;font-size:medium } .value{ font-style:italic; } table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 8px; } tr:nth-child(even){background-color: #f2f2f2} th {background-color: lightblue;color: white;} </style></head><body>");
+
+            // build the template
+
+            // General 
+            strTemplate.Append("<h1>Request For Quote</h1>");
+            strTemplate.Append("<h3>Shipment General Information</h3>");
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference",addShipment.GeneralInformation.ShipmentName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Product", addShipment.GeneralInformation.ShipmentMode);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Condition", addShipment.GeneralInformation.ShipmentServices);
+            strTemplate.Append("<br>");
+
+            // Consigner Address
+            strTemplate.Append("<h3>Consigner Address Information</h3>");
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "First Name", addShipment.AddressInformation.Consigner.FirstName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Last Name", addShipment.AddressInformation.Consigner.LastName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Country", addShipment.AddressInformation.Consigner.Country);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Postal/ZipCode", addShipment.AddressInformation.Consigner.Postalcode);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Number", addShipment.AddressInformation.Consigner.Number);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Street Name", addShipment.AddressInformation.Consigner.Address1);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Street Name 2", addShipment.AddressInformation.Consigner.Address2);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "City", addShipment.AddressInformation.Consigner.City);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "State Code", addShipment.AddressInformation.Consigner.State);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Email", addShipment.AddressInformation.Consigner.Email);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Contact Number", addShipment.AddressInformation.Consigner.ContactNumber);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Contact Name", addShipment.AddressInformation.Consigner.ContactName);
+            strTemplate.Append("<br>");
+
+            // Consignee Address
+            strTemplate.Append("<h3>Consignee Address Information</h3>");
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "First Name", addShipment.AddressInformation.Consignee.FirstName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Last Name", addShipment.AddressInformation.Consignee.LastName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Country", addShipment.AddressInformation.Consignee.Country);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Postal/ZipCode", addShipment.AddressInformation.Consignee.Postalcode);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Number", addShipment.AddressInformation.Consignee.Number);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Street Name", addShipment.AddressInformation.Consignee.Address1);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Street Name 2", addShipment.AddressInformation.Consignee.Address2);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "City", addShipment.AddressInformation.Consignee.City);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "State Code", addShipment.AddressInformation.Consignee.State);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Email", addShipment.AddressInformation.Consignee.Email);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Contact Number", addShipment.AddressInformation.Consignee.ContactNumber);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Contact Name", addShipment.AddressInformation.Consignee.ContactName);
+            strTemplate.Append("<br>");
+
+            // Package details
+            strTemplate.Append("<h3>Shipment Package Details</h3>");
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Shipment Description", addShipment.PackageDetails.ShipmentDescription);
+
+            strTemplate.Append("<h4>Product Details</h4>");
+            strTemplate.Append("<table>");
+            strTemplate.Append("<tr> <th>PRODUCT TYPE</th> <th>QUANTITY</th> <th>DESCRIPTION</th> <th>WEIGHT</th> <th>HEIGHT</th> <th>LENGTH</th> <th>WIDTH</th> </tr>");
+
+            foreach (var item in addShipment.PackageDetails.ProductIngredients)
+            {
+                strTemplate.AppendFormat("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> <td>{4}</td> <td>{5}</td> <td>{6}</td> </tr>", item.ProductType,item.Quantity,item.Description,
+                item.Weight,item.Height,item.Length,item.Width);
+            }
+            strTemplate.Append("</table><br>");
+
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "HS Code", addShipment.PackageDetails.HsCode);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Dangerous Good", addShipment.PackageDetails.IsDG ? "Yes" : "No");
+            if (addShipment.PackageDetails.IsDG)
+            {
+                strTemplate.AppendFormat(keyValueHtmlTemplate, "Dangerous Good type", addShipment.PackageDetails.DGType);
+                strTemplate.AppendFormat(keyValueHtmlTemplate, "Dangerous Good accessible", addShipment.PackageDetails.Accessibility ? "Yes" : "No");
+            }
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Preferred collection date", addShipment.PackageDetails.PreferredCollectionDate);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Carrier Instructions", addShipment.PackageDetails.Instructions);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Insurance", addShipment.PackageDetails.IsInsuared == "true" ? "Yes" : "No");
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Declared Value", addShipment.PackageDetails.DeclaredValue);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Currency format", ((CurrencyType)addShipment.PackageDetails.ValueCurrency).ToString());
+
+            strTemplate.Append("<br>");
+
+
+            strTemplate.Append("</body></html>");
+            // End the document
+
+            return strTemplate.ToString();
+        }
     }
 
 

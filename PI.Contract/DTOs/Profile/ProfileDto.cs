@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.Company;
+﻿using PI.Contract.DTOs.AccountSettings;
+using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using System;
@@ -23,16 +24,17 @@ namespace PI.Contract.DTOs.Profile
         public short DefaultCurrencyId { get; set; }
         public short DefaultTimeZoneId { get; set; }
 
+        public bool DoNotUpdateAccountSettings { get; set; }        
+
         /// user settings
         public string NewPassword { get; set; }       
-        public string OldPassword { get; set; }       
-
+        public string OldPassword { get; set; }      
 
         public CustomerDto CustomerDetails { get; set; }
         public CompanyDto CompanyDetails { get; set; }
+
+        public AccountSettingsDto AccountSettings { get; set; }
+
        
-
-
-
     }
 }

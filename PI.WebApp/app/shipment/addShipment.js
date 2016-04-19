@@ -50,7 +50,9 @@
         vm.consigneeAdded = false;
         vm.consignorAdded = false;
         vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
-       
+        vm.isClickCalculateRate = false;
+        vm.addingRequestForQuote = false;
+
         vm.loadConsignerInfo = function () {
             debugger;
             shipmentFactory.getProfileInfo().success(
@@ -418,7 +420,8 @@
 
                     } else {
                        vm.loadingRates = false;
-                      vm.ratesNotAvailable = true;
+                       vm.ratesNotAvailable = true;
+                       vm.isClickCalculateRate = true;
                   }
                     
                 }).error(function (error) {
@@ -773,6 +776,58 @@
                 vm.shipment.addressInformation.consignee.city = 'London';
                 vm.shipment.addressInformation.consignee.state = 'GL';
             }
+        };
+
+        vm.requestForQuote = function () {
+
+            vm.addingRequestForQuote = true;
+            var body = $("html, body");
+            
+            shipmentFactory.requestForQuote(vm.shipment).success(
+                            function (response) {
+                                vm.addingRequestForQuote = false;
+
+                                if (response.status == 2) {
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-success media fade in"><p>Successfully request the quote!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 6000,
+                                    });
+                                }
+                                else {
+                                    vm.addingRequestForQuote = false;
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while requesting the quote!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 6000,
+                                    });
+                                }
+                            }).error(function (error) {
+                                $('#panel-notif').noty({
+                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while requesting the quote!</p></div>',
+                                    layout: 'bottom-right',
+                                    theme: 'made',
+                                    animation: {
+                                        open: 'animated bounceInLeft',
+                                        close: 'animated bounceOutLeft'
+                                    },
+                                    timeout: 6000,
+                                });
+                            });
+
+
         };
 
     }]);

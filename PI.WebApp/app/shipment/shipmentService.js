@@ -25,7 +25,8 @@
             deleteFile: deleteFile,
             saveCommercialInvoice: saveCommercialInvoice,
             getProfileInfo: getProfileInfo,
-            getAllshipmentsForManifest: getAllshipmentsForManifest
+            getAllshipmentsForManifest: getAllshipmentsForManifest,
+            requestForQuote: requestForQuote
         };
 
         function getProfileInfo() {
@@ -198,6 +199,11 @@
         function saveCommercialInvoice(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/SaveCommercialInvoice', shipmentDetail);
+        }
+
+        function requestForQuote(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/RequestForQuote', shipmentDetail);
         }
 
     }]);

@@ -27,6 +27,7 @@
                vm.carrier = $location.search().CARRIER;
                vm.createdOn = $location.search().CREATED_ON;
                var shipmentId = '';
+
                var loadShipmentStatuses = function () {
                    debugger;
                    shipmentFactory.getLocationHistory(vm.shipment)
@@ -67,6 +68,8 @@
                    .error(function () {
                    })
                }
+
+
                //get the current shipment details
                var loadShipmentInfo = function () {
                    debugger;
@@ -93,11 +96,8 @@
                    })
                }
 
+
                loadShipmentInfo();
-
-
-
-
 
            }]);
 
