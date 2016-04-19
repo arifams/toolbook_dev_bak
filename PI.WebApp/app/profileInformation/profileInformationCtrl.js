@@ -415,9 +415,9 @@
                          debugger;
                          if (response.data.customerDetails != null) {
                              debugger;
-                             vm.model.customerDetails = response.customerDetails;
+                             vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             vm.model.companyDetails = response.companyDetails;
+                             vm.model.companyDetails = response.data.companyDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                              vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
                              vm.changeCountry();
@@ -445,7 +445,7 @@
 
 
                 vm.loadAccountSettings = function () {
-
+                    debugger;
                     getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
                      .then(function successCallback(response) {
 
