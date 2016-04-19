@@ -546,9 +546,9 @@ namespace PI.Business
                 accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
             }
 
-            accountSettings.Languages = GetAllLanguages();
-            accountSettings.Currencies = GetAllCurrencies();
-            accountSettings.TimeZones = GetAllTimeZones();
+            accountSettings.Languages = GetAllLanguages().ToList();
+            accountSettings.Currencies = GetAllCurrencies().ToList();
+            accountSettings.TimeZones = GetAllTimeZones().ToList();
 
             profileDetails.AccountSettings = accountSettings;
             NotificationCriteria notifications = this.GetNotificationCriteriaByCustomerId(customerId);
