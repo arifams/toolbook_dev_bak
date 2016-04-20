@@ -192,6 +192,22 @@ namespace PI.Service.Controllers
             return -1;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateProfileBillingAddress")]
+        public int UpdateProfileBillingAddress(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
 
+            var updatedStatus = userprofile.UpdateProfileBillingAddress(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+        
     }
 }

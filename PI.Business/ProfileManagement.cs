@@ -583,6 +583,88 @@ namespace PI.Business
             return 1;
         }
 
+        public int UpdateProfileBillingAddress(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            ApplicationUser currentUser;
+            using (PIContext context = new PIContext())
+            {
+                currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currentUser == null)
+                {
+                    return 0;
+                }
+            }
+
+            Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
+            if (currentTenant == null)
+            {
+                return 0;
+            }
+
+            Company curentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+
+            if (curentCompany == null)
+            {
+                return 0;
+            }
+
+            CostCenter currentCostCenter = null;
+            IList<CostCenter> currentCostCenters = this.GetCostCenterByCompanyId(curentCompany.Id).ToList();
+            if (currentCostCenters != null && currentCostCenters.Count() == 1)
+            {
+                currentCostCenter = currentCostCenters.Where(c => c.Type == "SYSTEM").FirstOrDefault();
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                // Updating basic customer details
+                currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
+                currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
+                context.SaveChanges();
+
+                if (currentCostCenter != null)
+                {
+                    Address BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
+                    if (BusinessAddress != null && updatedProfile.CompanyDetails.CostCenter != null &&
+                        updatedProfile.CompanyDetails.CostCenter.BillingAddress != null)
+                    {
+                        BusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        BusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        BusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        BusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        BusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        BusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        BusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
+
+                        context.SaveChanges();
+
+                    }
+                    else
+                    {
+                        Address newBusinessAddress = new Address();
+                        newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        newBusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
+                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+
+                        context.Addresses.Add(newBusinessAddress);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            return 1;
+        }
+
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {
