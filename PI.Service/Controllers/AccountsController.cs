@@ -402,6 +402,7 @@ namespace PI.Service.Controllers
             }
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
@@ -554,6 +555,15 @@ namespace PI.Service.Controllers
         public UserDto LoadUserManagement(string loggedInUser)
         {
             return companyManagement.LoadUserManagement(loggedInUser);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetLoggedInUserName")]
+        public string GetLoggedInUserName(string loggedInUserId)
+        {
+            return companyManagement.GetLoggedInUserName(loggedInUserId);
         }
     }
 }
