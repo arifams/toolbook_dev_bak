@@ -163,7 +163,9 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <a href="" ng-click="showContent=true" style="color:#247EB2;float:right;" ><u class="m-r-5" style="float: left;">Next</u>
+                                    <a href="" ng-click="(formSignup.$valid? showContent = true : isFormInvalid = true)" 
+                                       style="color:#247EB2;float:right;">
+                                        <u class="m-r-5" style="float: left;">Next</u>
                                         <span class="glyphicon glyphicon-circle-arrow-right"></span>
                                     </a>
                                 </div>
