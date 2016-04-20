@@ -42,15 +42,15 @@
 
                                var r = confirm("Are you sure you want to delete this shipment?");
                                if (r == true) {
-                                   divisionManagmentService.deleteDivision({ Id: row.id })
+                                   shipmentFactory.deleteShipment(row)
                                    .success(function (response) {
 
-                                       if (response == 1) {
-                                           var index = vm.rowCollection.indexOf(row);
-                                           if (index !== -1) {
-                                               vm.rowCollection.splice(index, 1);
-                                           }
-                                       }
+                                       //if (response == 1) {
+                                       //    //var index = vm.rowCollection.indexOf(row);
+                                       //    //if (index !== -1) {
+                                       //    //    vm.rowCollection.splice(index, 1);
+                                       //    //}
+                                       //}
                                    })
                                    .error(function () {
                                        debugger;

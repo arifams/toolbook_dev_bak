@@ -26,7 +26,8 @@
             saveCommercialInvoice: saveCommercialInvoice,
             getProfileInfo: getProfileInfo,
             getAllshipmentsForManifest: getAllshipmentsForManifest,
-            requestForQuote: requestForQuote
+            requestForQuote: requestForQuote,
+            deleteShipment: deleteShipment
         };
 
         function getProfileInfo() {
@@ -205,6 +206,22 @@
 
             return $http.post(serverBaseUrl + '/api/shipments/RequestForQuote', shipmentDetail);
         }
+
+        
+        function deleteShipment(shipmentDetail) {
+            debugger;
+            var dataToPass = {
+                trackingNumber: shipmentDetail.generalInformation.trackingNumber,
+                shipmentCode: shipmentDetail.generalInformation.shipmentCode,
+                carrierName: shipmentDetail.carrierInformation.carrierName
+            };
+            return $http({
+                url: serverBaseUrl + '/api/shipments/DeleteShipment',
+                method: "GET",
+                params: dataToPass
+            })
+        }
+
 
     }]);
     
