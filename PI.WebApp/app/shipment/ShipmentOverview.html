@@ -17,8 +17,8 @@
                                         </div>
 
 
-                                            <div class="row">
-                                                <div class="col-sm-6">
+                        <div class="row">
+                            <div class="col-sm-6">
                                 <div class="lblborder form-group">
                                     <label class="bg-label m-b-0">
                                         TRACKING NUMBER
@@ -26,7 +26,7 @@
                                     <label class="m-b-0 bg-label-blue" disabled name="trackingNumber">
                                         {{overviewShipCtrl.trakingNo}}
                                     </label>
-                                                        </div>
+                                </div>
                                 <div class="lblborder form-group">
                                     <label class="bg-label m-b-0">
                                         SHIPMENT ID
@@ -34,7 +34,7 @@
                                     <label class="m-b-0 bg-label-blue" disabled name="shipmentId">
                                         {{overviewShipCtrl.shipmentCode}}
                                     </label>
-                                                        </div>
+                                </div>
                                 <div class="lblborder form-group">
                                     <label class="bg-label m-b-0">
                                         CARRIER
@@ -42,7 +42,7 @@
                                     <label class="m-b-0 bg-label-blue" disabled name="carrier">
                                         {{overviewShipCtrl.carrier}}
                                     </label>
-                                                        </div>
+                                </div>
                                 <div class="lblborder form-group">
                                     <label class="bg-label m-b-0">
                                         ORDER SUBMITTED DATE
@@ -50,7 +50,7 @@
                                     <label class="m-b-0 bg-label-blue" disabled name="orderSubmittedDate">
                                         {{overviewShipCtrl.createdOn}}
                                     </label>
-                                                    </div>
+                                </div>
                                 <div class="lblborder form-group">
                                     <label class="bg-label m-b-0">
                                         SHIPMENT LABEL
@@ -58,20 +58,20 @@
                                     <label class="m-b-0 bg-label-blue" disabled name="shipmentLabel">
                                         
                                     </label>
-                                                        </div>
-                                                        </div>
-                                                <div class="col-sm-6">
-                                                    <div class="panel panel-default map-panel">
-                                                        <div class="panel-body">
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                <div class="map" id="simple-map" style="height:225px;"></div>
-                                                                </div>
-                                                            </div> 
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                </div>
                             </div>
+                            <div class="col-sm-6">
+                                <div class="panel panel-default map-panel">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="map" id="simple-map" style="height:225px;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                                             </div>
            <div class="panel-content panel-border p-t-0">
             
@@ -80,52 +80,54 @@
                         <h3 class="heading m-b-0 m-t-10"><strong>Shipment Status</strong></h3>
                             </div>
                         </div>
-                            <div class="row">
-                                <div class="row bs-wizard" style="border-bottom:0;">
-                                    <div class="col-xs-2 bs-wizard-step complete">
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                                        <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar"></div></div>
-                                        <a href="#" class="bs-wizard-dot"></a>
+               <div class="row">
+          
+                   <div class="row bs-wizard" style="border-bottom:0;">
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 0 ? 'complete' : 'disabled'">
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar" ng-class="overviewShipCtrl.step==1 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 0 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">BOOKING CONFIRMATION</div>
-                                    </div>
-                                    <div class="col-xs-2 bs-wizard-step complete">
-                                        <!-- complete -->
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>                                        
-                                        <div class="progress"><div class="progress-bar"></div></div>
-                                        <a href="#" class="bs-wizard-dot"></a>
+                       </div>
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 1 ? 'complete' : 'disabled'" >
+                           <!-- complete -->
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==2 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 1 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">PICKEDUP</div>
-                                    </div>
-                                    <div class="col-xs-2 bs-wizard-step complete">
-                                        <!-- complete -->
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                                        <div class="progress"><div class="progress-bar"></div></div>
-                                        <a href="#" class="bs-wizard-dot"></a>
+                       </div>
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 2 ? 'complete' : 'disabled'">
+                           <!-- complete -->
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==3 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 2 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">IN-TRANSIT</div>
-                                    </div>
-                                    <div class="col-xs-2 bs-wizard-step complete">
-                                        <!-- active -->
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                                        <div class="progress"><div class="progress-bar width-half"></div></div>
-                                        <a href="#" class="bs-wizard-dot"></a>
+                       </div>
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 3 ? 'complete' : 'disabled'">
+                           <!-- active -->
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==4 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 3 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">DELIVERED</div>
-                                    </div>
-                                    <div class="col-xs-2 bs-wizard-step disabled">
-                                        <!-- active -->
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                                        <div class="progress"><div class="progress-bar"></div></div>
-                                        <a href="#" class="bs-wizard-dot-small"></a>
+                       </div>
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 4 ? 'complete' : 'disabled'">
+                           <!-- active -->
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==5 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.overviewShipCtrl.step > 4 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
-                                    </div>
-                                    <div class="col-xs-2 bs-wizard-step disabled">
-                                        <!-- active -->
-                                        <div class="text-center bs-wizard-stepnum">&nbsp;</div>
-                                        <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;"><div class="progress-bar"></div></div>
-                                        <a href="#" class="bs-wizard-dot-small"></a>
+                       </div>
+                       <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 5 ? 'complete' : 'disabled'">
+                           <!-- active -->
+                           <div class="text-center bs-wizard-stepnum">&nbsp;</div>
+                           <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;">
+                           <div class="progress-bar" ng-class="overviewShipCtrl.step==6 ? 'width-half' : ''"></div></div>
+                           <a href="#" ng-class="overviewShipCtrl.step > 5 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
+                       </div>
+
+                   </div>
+               </div>
 
                                 
                                     
