@@ -113,8 +113,48 @@ namespace PI.Business
             //}
             return currentProfile;
         }
-        
-        
+
+        public ProfileDto getProfileByUserNameForShipment(string username)
+        {
+            ProfileDto currentProfile = new ProfileDto();
+            currentProfile.CustomerDetails = new CustomerDto();
+            currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
+
+            Address currentAddress;           
+
+            Customer currentCustomer = this.GetCustomerByUserId(username);
+            ApplicationUser applicationUser = this.GetUserById(username);
+                                 
+
+            //assigning basic customer details to Dto
+            currentProfile.CustomerDetails.Id = currentCustomer.Id;
+            currentProfile.CustomerDetails.UserId = currentCustomer.UserId;
+            currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
+            currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;
+            currentProfile.CustomerDetails.MiddleName = currentCustomer.MiddleName;
+            currentProfile.CustomerDetails.LastName = currentCustomer.LastName;
+            currentProfile.CustomerDetails.Email = currentCustomer.Email;
+            currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
+            currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
+            currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;           
+            currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
+           
+            //assign address values to the  Profile Dto
+            if (currentAddress != null)
+            {
+                currentProfile.CustomerDetails.CustomerAddress.Id = currentAddress.Id;
+                currentProfile.CustomerDetails.CustomerAddress.Country = currentAddress.Country;
+                currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentAddress.ZipCode;
+                currentProfile.CustomerDetails.CustomerAddress.Number = currentAddress.Number;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress1 = currentAddress.StreetAddress1;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentAddress.StreetAddress2;
+                currentProfile.CustomerDetails.CustomerAddress.City = currentAddress.City;
+                currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
+            }         
+
+            return currentProfile;
+        }
+
         //Update user profile detils
         public int updateProfileData(ProfileDto updatedProfile)
         {

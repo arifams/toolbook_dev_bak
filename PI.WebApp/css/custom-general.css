@@ -40,7 +40,7 @@
 }
 
 .append-icon .icon-question {
-     font-size: 32px;
+     font-size: 28px;
 }
 .glyphicon.glyphicon-circle-arrow-right, .glyphicon.glyphicon-circle-arrow-left {
     font-size: 23px;
@@ -304,4 +304,10 @@
 }
 .control-label {
     padding-top:10px;
+}
+@media only screen and (max-width: 50px) {
+.icon-align {
+    left:111px;    
+    }
+
 }

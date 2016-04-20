@@ -15,8 +15,9 @@
                var lng = 0;
                vm.Consigneremail = '';
                vm.awb_URL = '';
+              
 
-               vm.step = 3; //To Do - change this number with logic
+               //vm.step = 3; //To Do - change this number with logic
 
                vm.openLabel = function (url) {
                    window.open(url);
@@ -33,6 +34,10 @@
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
                        vm.locationHistory = data;
+
+                       if (vm.locationHistory.info!=null) {
+                           vm.step = vm.locationHistory.info.status;
+                       }                       
 
                        for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
                            lat = vm.locationHistory.history.items[i].location.geo.lat;
