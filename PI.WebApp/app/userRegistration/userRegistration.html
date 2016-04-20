@@ -41,16 +41,17 @@
                                         <div class="col-sm-8">
                                             <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name*" 
-                                                       required autofocus ng-model="regCtrl.user.firstname" ng-minlength="3" ng-maxlength="100" 
-                                                       ng-class="{ 'error': formSignup.firstname.$invalid && (formSignup.firstname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid) }" />
+                                                <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name*"
+                                                       required autofocus ng-model="regCtrl.user.firstname" ng-minlength="3" ng-maxlength="100"
+                                                       ng-class="{ 'error': formSignup.firstname.$invalid &&
+                                                       (formSignup.firstname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                
                                             </div>
-                                            <div ng-messages="formSignup.firstname.$error" ng-show="formSignup.firstname.$dirty || regCtrl.isSubmit ">
-                                                <label ng-message="required" class="error" for="firstname">Enter your first name</label>
-                                                <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
-                                                <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
-                                            </div>
+                                                <div ng-messages="formSignup.firstname.$error" ng-show="formSignup.firstname.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
+                                                    <label ng-message="required" class="error" for="firstname">Enter your first name</label>
+                                                    <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
+                                                    <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                                </div>
                                         </div>
                                         </div>
                                         
@@ -168,8 +169,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <a href="" ng-click="showContent=true" style="color:#247EB2;float:right;" >
-                                        <u class="m-r-5" style="float: left;" ng-click="formSignup.$valid? regCtrl.isfirstFormInvalid = false: true ">Next</u>
+                                    <a href="" ng-click="(formSignup.$valid? showContent=true : isfirstFormInvalid = true)" style="color:#247EB2;float:right;">
+                                        <u class="m-r-5" style="float: left;">Next</u>
                                         <span class="glyphicon glyphicon-circle-arrow-right"></span>
                                     </a>
                                 </div>
@@ -177,6 +178,7 @@
                         
                         </div><!--end Reg-stepOne -->
                         </form>
+
                     <form class="form-signup" role="form" id="form-signup-next" name="formSignupNext" ng-submit="formSignupNext.$valid && regCtrl.register();" ng-hide="regCtrl.isSentMail">
                         <div class="reg" id="reg-stepTwo" ng-show="showContent">
                             <div class="regheader"><strong>Customer</strong> Registration</div>
