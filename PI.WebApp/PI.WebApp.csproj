@@ -77,7 +77,6 @@
     <Content Include="app\admin\adminServices.js" />
     <Content Include="app\admin\loadAllCompanies.html" />
     <Content Include="app\admin\loadAllCompanies.js" />
-   
     <Content Include="app\directive\fileUploader.js" />
     <Content Include="app\shipment\AddressViewTemplate.html" />
     <Content Include="app\shipment\AddressViewTemplate.js" />
