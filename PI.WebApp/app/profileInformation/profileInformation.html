@@ -484,24 +484,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="control-label">Primary Email* </label>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="append-icon">
-
-                                        <input type="email" name="email" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.email" required ng-change="profileCtrl.CheckMail()"
-                                               ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.email.$invalid && (formUpdateProfile.email.$dirty||profileCtrl.isSubmit) }">
-                                        <div ng-messages="formUpdateProfile.email.$error" ng-show="formUpdateProfile.email.$dirty || profileCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="email">Enter your email address</label>
-                                            <label ng-message="email" class="error" for="email">Enter valid email address</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <label class="control-label">Secondary Email </label>
+                                <label class="control-label">Billing Email </label>
                             </div>
 
                             <div class="col-md-4">
