@@ -276,13 +276,6 @@ namespace PI.Service.Controllers
                     Message = "Username or Password is incorrect",
                     Result = -1
                 });
-            else if (!user.EmailConfirmed)
-                return Ok(new
-                {
-                    Id = "",
-                    Message = "Email hasn't confirmed. Please confirm the email before log to the system",
-                    Result = -1
-                });
 
             //var currentRoles = await this.AppUserManager.GetRolesAsync(user.Id);
             string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
@@ -327,10 +320,16 @@ namespace PI.Service.Controllers
                 else
                     return Ok(new
                     {
-                        Id = user.Id,
-                        Role = roleName,
-                        Result = -11 //You must have a confirmed email to log in
+                        Id = "",
+                        Message = "Email hasn't confirmed. Please confirm the email before log to the system",
+                        Result = -1
                     });
+                //return Ok(new
+                //{
+                //    Id = user.Id,
+                //    Role = roleName,
+                //    Result = -11 //You must have a confirmed email to log in
+                //});
             }
             else
             {
