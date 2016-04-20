@@ -665,6 +665,91 @@ namespace PI.Business
             return 1;
         }
 
+        public int UpdateProfileLoginDetails(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+
+            using (PIContext context = PIContext.Get())
+            {
+                currentCustomer.Password = updatedProfile.CustomerDetails.Password;
+                context.SaveChanges();
+            }
+
+            return 1;
+        }
+
+        public int UpdateProfileAccountSettings(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                AccountSettings currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
+                NotificationCriteria currentNotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
+
+                //Assign Account setting values to the Profile Dto
+                if (!updatedProfile.DoNotUpdateAccountSettings && currentAccountSettings != null)
+                {
+                    currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+
+                    //set account settings entity as modidied                   
+                    context.SaveChanges();
+                }
+                else
+                {
+                    AccountSettings newAccountSettings = new AccountSettings();
+                    newAccountSettings.CustomerId = currentCustomer.Id;
+                    newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    newAccountSettings.CreatedDate = DateTime.Now;
+
+                    //set account settings entity as modidied
+                    context.AccountSettings.Add(newAccountSettings);
+                    context.SaveChanges();
+                }
+
+                //Assign Notofication criteria to the Profile Dto
+                if (currentNotificationCriteria != null)
+                {
+                    currentNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    currentNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    currentNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    currentNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    currentNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    currentNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    currentNotificationCriteria.CreatedDate = DateTime.Now;
+                    //set notification criteria entity as modified
+
+                    context.SaveChanges();
+                }
+                else
+                {
+                    NotificationCriteria newNotificationCriteria = new NotificationCriteria();
+                    newNotificationCriteria.CustomerId = currentCustomer.Id;
+                    newNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    newNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    newNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    newNotificationCriteria.CreatedDate = DateTime.Now;
+                    //set notification criteria entity as modified
+                    context.NotificationCriterias.Add(newNotificationCriteria);
+                    context.SaveChanges(); //TODO:
+                }
+            }
+
+            return 1;
+        }
+
+
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {
