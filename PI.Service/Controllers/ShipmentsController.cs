@@ -483,8 +483,8 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipment = new ShipmentsManagement();
             string quoteTemplate = shipment.RequestForQuote(addShipment);
             // TODO: H - Change the staff user.
-            var adminUser = AppUserManager.FindByEmail("marlies@parcelinternational.com");
-            //var adminUser = AppUserManager.FindByEmail("hp1@yopmail.com");
+            var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+
             if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
             {
                 AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
