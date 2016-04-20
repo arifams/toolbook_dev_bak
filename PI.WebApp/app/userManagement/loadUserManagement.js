@@ -37,7 +37,7 @@
         vm.itemsByPage = 25;
         vm.rowCollection = [];
         // Add dumy record, since data loading is async.
-        vm.rowCollection.push(1);
+       // vm.rowCollection.push(1);
 
         vm.searchUsers = function () {
 

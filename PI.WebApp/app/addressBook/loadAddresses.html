@@ -12,14 +12,14 @@
 
             <div class="panel-header">
                 <!-- left column -->
-
+                <div class="panel-content panel-border">
                 <div class="box-body">
                     <div class="row">
 
                         <div class="col-sm-4">
                             <div class="form-group">
                                 <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
-                                       placeholder="Search by Names Addresses" />
+                                           placeholder="Search by Names" />
                             </div>
                         </div>
                         <div class="col-sm-2">
@@ -38,9 +38,9 @@
                         <div class="col-sm-3">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select id="addressStatus" name="addressStatus"
+                                        <select id="addressStatus" name="addressStatus" class="form-control"
                                             ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
-                                        <option value="">All</option>
+                                            <option value="">Status: All</option>
                                         <option value="True">Active</option>
                                         <option value="False">Inactive</option>
                                     </select>
@@ -90,7 +90,7 @@
                         </table>
                         <div id="panel-notif"></div>
 
-                        <div class="row" >
+                            <div class="row">
                             <label class="col-sm-1">Import/Export As</label>
                             <div class="col-sm-2">
                                 <select ng-model="addressCtrl.searchType" class="form-control" ng-init="addressCtrl.searchType = 'True'">
@@ -101,51 +101,51 @@
                             <div ng-show="addressCtrl.searchType=='False'">
                                
                                    
-                                    <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
-                                        </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
                                     </div>
+                                </div>
                                     <div class="col-sm-2">
-                                        <div class="form-group">
-                                            <ng-csv-import content="addressCtrl.csv.content"
-                                                           header="addressCtrl.csv.header"
-                                                           separator="addressCtrl.csv.separator"
-                                                           result="addressCtrl.csv.result"
-                                                           accept="addressCtrl.csv.accept"></ng-csv-import>
-                                        </div>
+                                    <div class="form-group">
+                                        <ng-csv-import content="addressCtrl.csv.content"
+                                                       header="addressCtrl.csv.header"
+                                                       separator="addressCtrl.csv.separator"
+                                                       result="addressCtrl.csv.result"
+                                                       accept="addressCtrl.csv.accept"></ng-csv-import>
                                     </div>
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
-                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
+                                </div>
                                
 
                                 <div class="col-sm-1">
                                     <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBookDetails.csv" download class="btn btn-default">Template</a>
-                                </div>
-                               
+                            </div>
+
                             </div>
 
                             <div ng-show="addressCtrl.searchType=='True'">
                               
                                     
+                                <div class="col-sm-2">
+                                    <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
+                                </div>
+                                
+                              
                                     <div class="col-sm-2">
-                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
-                                    </div>
-
-
+                                    <input type="file" ngf-select ng-model="document" name="file"
+                                           ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                                </div>
                                     <div class="col-sm-2">
-                                        <input type="file" ngf-select ng-model="document" name="file"
-                                               ngf-max-size="2MB" required ngf-model-invalid="errorFile">
-                                    </div>
-                                    <div class="col-sm-2">
-                                        <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
+                                    <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
                                         <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed">
-                                            <i class="fa fa-arrow-circle-o-up"></i> Import
-                                        </button>
-                                        {{errorMsg}}
-                                    </div>
-                               
+                                        <i class="fa fa-arrow-circle-o-up"></i> Import
+                                    </button>
+                                    {{errorMsg}}
+                                </div>
+
                                 <div class="col-sm-2">
                                     <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBook.xlsx" download class="btn btn-default">Template</a>
                                 </div>
@@ -155,6 +155,7 @@
                     </div>
 
                 </div>
+            </div>
             </div>
         </form>
     </div>
