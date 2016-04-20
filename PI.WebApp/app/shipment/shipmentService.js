@@ -30,7 +30,7 @@
         };
 
         function getProfileInfo() {
-            return $http.get(serverBaseUrl + '/api/profile/GetProfile', {
+            return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
                     userId: $window.localStorage.getItem('userGuid'),                  
                 }

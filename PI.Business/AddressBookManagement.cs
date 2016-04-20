@@ -472,7 +472,7 @@ namespace PI.Business
                     cell.Value = addressBook.AccountNumber;
                     
 
-                    ws.Row(rowIndex).Height = 120;
+                    ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width

@@ -47,7 +47,6 @@
 
         vm.login = function (user) {
 
-            debugger;
             if (vm.rememberme == true) {
                 $cookieStore.put('username', user.username);
                 $cookieStore.put('password', user.password);
@@ -82,9 +81,9 @@
 
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
-                 debugger;
+
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
-                     debugger;
+
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id); 
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
@@ -93,10 +92,26 @@
                      window.location = webBaseUrl + "/app/index.html";
                  }
                  else if (returnedResult.data.result == "-1") {
-                     vm.loginInvalid = true;
-                     vm.loginInvalidMessage = "Incorrect UserName/Password";
+                     //vm.loginInvalid = true;
+                     //vm.loginInvalidMessage = "Incorrect UserName/Password";
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
+
+                     $.noty.defaults.killer = true;
+
+                     noty({
+                         text: '<p style="font-size:medium">Error! </p>' + returnedResult.data.message,
+                         layout: 'topRight',
+                         type: 'warning',
+                         animation: {
+                             open: 'animated bounceInRight', // Animate.css class names
+                             //close: 'animated bounceInLeft', // Animate.css class names
+                             easing: 'swing', // unavailable - no need
+                             speed: 200 // unavailable - no need
+                         },
+                         closeWith: ['click']
+                     });
+
                  }
                  else if (returnedResult.data.result == "-2") {
                      vm.invalidToken = true;
@@ -110,22 +125,6 @@
                      $cookieStore.remove('password');
                  }
              },
-            //.then(function (result) {
-
-            //    if (result.data == "1" || result.data == "2") {
-
-            //        // TODO: To be coverted to a token.
-
-
-            //        window.location = webBaseUrl + "/app/index.html"; 
-            //    }
-            //    else if (result.data == "-1") {
-            //        vm.loginInvalid = true;
-            //    }
-            //    else if (result.data == "-2") {
-            //        vm.invalidToken = true;
-            //    }
-            //},
             function (error) {
 
                 console.log("failed");
@@ -141,7 +140,6 @@
 
             userManager.loginUser(vm.pwdReset, 'api/accounts/ResetForgetPassword')
              .then(function (returnedResult) {
-                 debugger;
 
                  if (returnedResult.data == "1") {
                      vm.passwordResetError = false;

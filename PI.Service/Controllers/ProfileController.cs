@@ -31,6 +31,17 @@ namespace PI.Service.Controllers
             return userprofile.getProfileByUserName(userId);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetProfileForShipment")]
+        public ProfileDto GetProfileForShipment([FromUri]string userId)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+            return userprofile.getProfileByUserNameForShipment(userId);
+        }
+
+        
+
         [HttpGet]
         [Route("GetAllAccountSettings")]
         public ProfileDto GetAllAccountSettings(long customerId)
