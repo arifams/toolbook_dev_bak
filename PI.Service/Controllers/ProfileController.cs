@@ -208,6 +208,51 @@ namespace PI.Service.Controllers
 
             return -1;
         }
-        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("updateProfileLoginDetails")]
+        public int updateProfileLoginDetails(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
+            {
+                IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
+                                                            profile.OldPassword,
+                                                           profile.NewPassword);
+                if (result.Errors != null && result.Errors.Count() > 0)
+                {
+                    return -3;
+                }
+            }
+
+            var updatedStatus = userprofile.UpdateProfileLoginDetails(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("updateProfileAccountSettings")]
+        public int updateProfileAccountSettings(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            var updatedStatus = userprofile.UpdateProfileAccountSettings(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
     }
 }

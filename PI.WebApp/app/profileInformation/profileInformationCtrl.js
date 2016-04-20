@@ -16,6 +16,12 @@
             },
             updateProfileBillingAddress: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/UpdateProfileBillingAddress', updatedProfile);
+            },
+            updateProfileLoginDetails: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/updateProfileLoginDetails', updatedProfile);
+            },
+            updateProfileAccountSettings: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/updateProfileAccountSettings', updatedProfile);
             }
         }
 
@@ -624,6 +630,148 @@
                         timeout: 3000,
                     });
 
+                }
+
+                vm.updateProfileLoginDetails = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
+
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+
+                        return;
+                    }
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+                                        
+                                        updateProfilefactory.updateProfileLoginDetails(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                }
+
+                vm.updateProfileAccountSettings = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    if (vm.defaultLanguage != undefined) {
+                        vm.model.defaultLanguageId = vm.defaultLanguage.id;
+                        vm.model.defaultCurrencyId = vm.defaultCurrency.id;
+                        vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
+                    }
+                    else {
+                        vm.model.doNotUpdateAccountSettings = true;
+                    }
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+
+                                        updateProfilefactory.updateProfileAccountSettings(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
                 }
 
                 // Response of Update Profile.
