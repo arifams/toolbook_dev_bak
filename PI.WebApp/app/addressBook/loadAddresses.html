@@ -12,135 +12,136 @@
 
             <div class="panel-header">
                 <!-- left column -->
+                <div class="panel-content panel-border">
+                    <div class="box-body">
+                        <div class="row">
 
-                <div class="box-body">
-                    <div class="row">
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
+                                           placeholder="Search by Names" />
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-large btn-primary" ng-click="addressCtrl.searchAddresses()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <label class="control-label">Filter by  </label>
+                                </div>
+                            </div>
 
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
-                                       placeholder="Search by Names Addresses" />
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="addressStatus" name="addressStatus" class="form-control"
+                                                ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
+                                            <option value="">Status: All</option>
+                                            <option value="True">Active</option>
+                                            <option value="False">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary" ng-click="addressCtrl.searchAddresses()">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            <div class="form-group">
-                                <label class="control-label">Filter by  </label>
-                            </div>
-                        </div>
 
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <div class="option-group">
-                                    <select id="addressStatus" name="addressStatus"
-                                            ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
-                                        <option value="">All</option>
-                                        <option value="True">Active</option>
-                                        <option value="False">Inactive</option>
+
+
+                        </div>
+                        <br />
+                        <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
+
+                        <div class="costCenterTable">
+
+                            <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th st-sort="name">Company</th>
+                                        <th>Name</th>
+                                        <th>Billing Address</th>
+                                        <th>Status</th>
+
+                                        <th>Edit</th>
+                                        <th>Delete</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in displayedCollection">
+                                        <td>{{row.companyName}}</td>
+                                        <td>{{row.fullName}}</td>
+                                        <td>{{row.fullAddress}}</td>
+                                        <td>{{row.isActive==true ?'Active':'Inactive'}}</td>
+
+                                        <td><a href="#/saveAddress/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                        <td><a ng-click="addressCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <div id="panel-notif"></div>
+
+                            <div class="row">
+                                <label class="col-sm-1">Import/Export As</label>
+                                <div class="col-sm-2">
+                                    <select ng-model="addressCtrl.searchType" class="form-control" ng-init="addressCtrl.searchType = 'True'">
+                                        <option value="True">EXCEL</option>
+                                        <option value="False">CSV</option>
                                     </select>
                                 </div>
+                                <div ng-show="addressCtrl.searchType=='False'">
+                                    <div class="col-sm-1"></div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="form-group">
+                                            <ng-csv-import content="addressCtrl.csv.content"
+                                                           header="addressCtrl.csv.header"
+                                                           separator="addressCtrl.csv.separator"
+                                                           result="addressCtrl.csv.result"
+                                                           accept="addressCtrl.csv.accept"></ng-csv-import>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
+                                    </div>
+                                </div>
+
+                                <div ng-show="addressCtrl.searchType=='True'">
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
+                                    </div>
+
+
+                                    <div class="col-sm-3">
+                                        <input type="file" ngf-select ng-model="document" name="file"
+                                               ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
+                                        <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed">
+                                            <i class="fa fa-arrow-circle-o-up"></i> Import
+                                        </button>
+                                        {{errorMsg}}
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
-
-
                     </div>
-                    <br />
-                    <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
-
-                    <div class="costCenterTable">
-
-                        <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th st-sort="name">Company</th>
-                                    <th>Name</th>
-                                    <th>Billing Address</th>
-                                    <th>Status</th>
-
-                                    <th>Edit</th>
-                                    <th>Delete</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="row in displayedCollection">
-                                    <td>{{row.companyName}}</td>
-                                    <td>{{row.fullName}}</td>
-                                    <td>{{row.fullAddress}}</td>
-                                    <td>{{row.isActive==true ?'Active':'Inactive'}}</td>
-
-                                    <td><a href="#/saveAddress/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
-                                    <td><a ng-click="addressCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <div id="panel-notif"></div>
-
-                        <div class="row" >
-                            <label class="col-sm-1">Import/Export As</label>
-                            <div class="col-sm-2">
-                                <select ng-model="addressCtrl.searchType" class="form-control" ng-init="addressCtrl.searchType = 'True'">
-                                    <option value="True">EXCEL</option>
-                                    <option value="False">CSV</option>
-                                </select>
-                            </div>
-                            <div ng-show="addressCtrl.searchType=='False'">
-                                <div class="col-sm-1"></div>
-                                <div class="col-sm-2">
-                                    <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
-                                    </div>
-                                </div>
-                                <div class="col-sm-3">
-                                    <div class="form-group">
-                                        <ng-csv-import content="addressCtrl.csv.content"
-                                                       header="addressCtrl.csv.header"
-                                                       separator="addressCtrl.csv.separator"
-                                                       result="addressCtrl.csv.result"
-                                                       accept="addressCtrl.csv.accept"></ng-csv-import>
-                                    </div>
-                                </div>
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">Import CSV</button>
-                                </div>
-                            </div>
-
-                            <div ng-show="addressCtrl.searchType=='True'">
-                                <div class="col-sm-2">
-                                    <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
-                                </div>
-                                
-                              
-                                <div class="col-sm-3">
-                                    <input type="file" ngf-select ng-model="document" name="file"
-                                           ngf-max-size="2MB" required ngf-model-invalid="errorFile">
-                                </div>
-                                <div class="col-sm-3">
-                                    <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
-                                    <button ng-click="addressCtrl.uploadFile(document)"  class="btn btn-primary btn-square btn-embossed">
-                                        <i class="fa fa-arrow-circle-o-up"></i> Import
-                                    </button>
-                                    {{errorMsg}}
-                                </div>
-
-                            </div>
-                        </div>                        
-                    </div>
-
                 </div>
             </div>
         </form>
