@@ -38,11 +38,12 @@
                        if (vm.locationHistory.info!=null) {
                            vm.step = vm.locationHistory.info.status;
                        }                       
+                       if (vm.locationHistory.history != null) {
+                           for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
+                               lat = vm.locationHistory.history.items[i].location.geo.lat;
+                               lng = vm.locationHistory.history.items[i].location.geo.lng;
 
-                       for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
-                           lat = vm.locationHistory.history.items[i].location.geo.lat;
-                           lng = vm.locationHistory.history.items[i].location.geo.lng;
-
+                           }
                        }
 
                        if ($("#simple-map").length) {

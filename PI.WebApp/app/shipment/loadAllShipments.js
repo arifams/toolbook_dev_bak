@@ -8,6 +8,8 @@
                            vm.statusButton = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
+                           vm.itemsByPage = 25; // Set page size    // 25
+                           vm.rowCollection = [];
 
                            vm.loadAllShipments = function (status) {
                                debugger;
@@ -22,7 +24,7 @@
                                     .success(
                                            function (responce) {
                                                debugger;
-                                               vm.shipmentList = responce.content;
+                                               vm.rowCollection = responce.content;
                                            }).error(function (error) {
                                                console.log("error occurd while retrieving shiments");
                                            });
@@ -34,6 +36,27 @@
                                vm.statusButton = status;
                                vm.loadAllShipments(status);
                            }
+                           
+                           // Delete row.
+                           vm.deleteById = function (row) {
+
+                               var r = confirm("Are you sure you want to delete this shipment?");
+                               if (r == true) {
+                                   divisionManagmentService.deleteDivision({ Id: row.id })
+                                   .success(function (response) {
+
+                                       if (response == 1) {
+                                           var index = vm.rowCollection.indexOf(row);
+                                           if (index !== -1) {
+                                               vm.rowCollection.splice(index, 1);
+                                           }
+                                       }
+                                   })
+                                   .error(function () {
+                                       debugger;
+                                   });
+                               }
+                           };
 
                            vm.loadAllShipments();
 
