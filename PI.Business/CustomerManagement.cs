@@ -5,9 +5,15 @@ using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.IdentityModel;
+using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using System.Reflection;
+using System.IdentityModel.Protocols.WSTrust;
 
 namespace PI.Business
 {
@@ -121,6 +127,36 @@ namespace PI.Business
                 }
                 return 0;
             }
+        }
+
+        public string GetJwtToken(string userdetails)
+        {
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityKey = this.GetBytes("anyoldrandomtext");
+            var now = DateTime.UtcNow;
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(
+                new[] { new Claim("User", userdetails) }, "JWT"),
+
+                TokenIssuerName = "self",
+                AppliesToAddress = "http://localhost:5555/",
+                Lifetime = new Lifetime(now, now.AddMinutes(60)),
+
+                SigningCredentials = new SigningCredentials(new InMemorySymmetricSecurityKey(securityKey),
+                "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256",
+                "http://www.w3.org/2001/04/xmlenc#sha256"),
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            var tokenString = tokenHandler.WriteToken(token);
+            return tokenString;
+        }
+
+        public byte[] GetBytes(string input)
+        {
+            var bytes = new byte[input.Length * sizeof(char)];
+            Buffer.BlockCopy(input.ToCharArray(), 0, bytes, 0, bytes.Length); return bytes;
         }
     }
 }

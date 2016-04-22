@@ -597,7 +597,7 @@ namespace PI.Business
             // Update retrieve shipment list status from SIS.
             foreach (var shipment in content)
             {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered))
+                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                 {
                     UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
                 }
