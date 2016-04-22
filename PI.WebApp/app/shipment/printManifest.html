@@ -51,7 +51,10 @@
                                                     <div class="col-sm-4">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
-                                                                <label><input type="radio" name="isPackageEnable" icheck ng-model="manifestCtrl.isPackageEnable" value="true"> Yes </label>
+                                                                <label>
+                                                                    <input type="radio" name="isPackageEnable" icheck
+                                                                           ng-model="manifestCtrl.isPackageEnable" value="true"> Yes
+                                                                </label>
                                                                 <label><input type="radio" name="isPackageEnable" icheck ng-model="manifestCtrl.isPackageEnable" value="false"> No </label>
                                                             </div>
                                                         </div>
@@ -63,14 +66,20 @@
                                                 <div>
                                                     <label class="col-sm-4 control-label"> Carrier *</label>
                                                     <div class="col-sm-4">
-                                                        <select class="form-control" ng-model="manifestCtrl.carrier">
+                                                        <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="true"
+                                                                ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
                                                             <option value="">Select Carrier</option>
                                                             <option value="UPS">UPS</option>
                                                             <option value="TNT">TNT</option>
                                                             <option value="DHL">DHL</option>
                                                             <option value="FEDEX">FEDEX</option>
                                                         </select>
+                                                        <div ng-messages="printmanifestform.manifestCarrier.$error"
+                                                             ng-show="printmanifestform.manifestCarrier.$dirty ||  manifestCtrl.isSubmit">
+                                                            <label ng-message="required" class="error">Carrier is required</label>
+                                                        </div>
                                                     </div>
+
                                                 </div>
 
                                             </div>
@@ -115,10 +124,10 @@
                             </div>
                         </form>
                         <div style="font-size:10px" ng-show="manifestCtrl.showManifest">
-                            <div class="form-group">                                
-                                    <input type="button" class="btn btn-primary" value="Back" ng-click="manifestCtrl.BacktoSearch()" />
+                            <div class="form-group">
+                                <input type="button" class="btn btn-primary" value="Back" ng-click="manifestCtrl.BacktoSearch()" />
                                 <input type="button" class="btn btn-primary" value="Print" ng-click="manifestCtrl.printManifest('manifest')" />
-                            
+
                             </div>
                             <div id="manifest">
                                 <div>
