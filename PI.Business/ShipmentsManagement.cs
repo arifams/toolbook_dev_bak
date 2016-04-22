@@ -1830,7 +1830,8 @@ namespace PI.Business
                         ImportBroker = currentShipment.CommercialInvoice.ImportBroker,
                         Note = currentShipment.CommercialInvoice.Note,
                         ValueCurrency = currentShipment.CommercialInvoice.ValueCurrency,
-                        Item = new InvoiceItemDto() { LineItems = invoiceItemLineList }
+                        Item = new InvoiceItemDto() { LineItems = invoiceItemLineList },
+                        HSCode = currentShipment.CommercialInvoice.HSCode
                     };
                 }
                 else
@@ -1908,7 +1909,9 @@ namespace PI.Business
                             ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
 
                         },
-                        Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() }
+                        Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() },
+                        VatNo = currentShipment.Division.Company.VATNumber,
+                        HSCode = currentShipment.ShipmentPackage.HSCode
                     };
                 }
             }
