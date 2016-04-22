@@ -27,6 +27,7 @@ namespace PI.Data.Entity
         public string Note { get; set; }
         public short ValueCurrency { get; set; }
         public long InvoiceItemId { get; set; }
+        public string HSCode { get; set; }
 
         [ForeignKey("InvoiceItemId")]
         public virtual InvoiceItem InvoiceItem { get; set; }
