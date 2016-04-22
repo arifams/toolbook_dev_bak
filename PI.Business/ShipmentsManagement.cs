@@ -597,7 +597,7 @@ namespace PI.Business
             // Update retrieve shipment list status from SIS.
             foreach (var shipment in content)
             {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered))
+                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                 {
                     UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
                 }
@@ -757,7 +757,7 @@ namespace PI.Business
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
             {               
-                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName== carreer).ToList();
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName== carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
             return currentShipments;
         }
@@ -768,7 +768,7 @@ namespace PI.Business
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
             {
-                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference)).ToList();
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference) && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
             return currentShipments;
         }
@@ -1155,7 +1155,7 @@ namespace PI.Business
             }
             else
             {
-                info.status = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId)).status;
+                info= UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
             }
             locationHistory.info = info;
@@ -1171,7 +1171,7 @@ namespace PI.Business
 
             if (currentSisLocationHistory != null)
             {
-                if (string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
+                if (!string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
                     short status = (short)Utility.GetValueFromDescription<ShipmentStatus>(currentSisLocationHistory.info.status);
                     this.UpdateShipmentStatus(codeShipment, status);
@@ -1179,7 +1179,9 @@ namespace PI.Business
 
                 //this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
-                info.status = Utility.GetEnumDescription((ShipmentStatus)currentShipment.Status);
+                info.status = currentShipment.Status.ToString();
+                info.system = currentSisLocationHistory.info.system;
+                
                 List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
                 foreach (var item in historyList)
@@ -1188,7 +1190,10 @@ namespace PI.Business
                 }
                 this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
-                this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+                if (currentSisLocationHistory.history != null)
+                {
+                    this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+                }
             }
 
             return info;
@@ -1234,11 +1239,17 @@ namespace PI.Business
                 foreach (var item in statusHistory.history.Items)
                 {
                     ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
-                    locationHistory.City = item.location.city;
-                    locationHistory.Country = item.location.country;
-                    locationHistory.ShipmentId = ShipmntId;
-                    locationHistory.Longitude = Convert.ToDouble(item.location.geo.lng);
-                    locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
+                    if (item.location!=null)
+                    {
+                        locationHistory.City =string.IsNullOrEmpty(item.location.city)?string.Empty: item.location.city;
+                        locationHistory.Country = string.IsNullOrEmpty(item.location.country)?string.Empty: item.location.country;
+                        if (item.location.geo != null)
+                        {
+                            locationHistory.Longitude = Convert.ToDouble(item.location.geo.lng);
+                            locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
+                        }
+                    }                   
+                    locationHistory.ShipmentId = ShipmntId;                                    
                     locationHistory.CreatedDate = DateTime.Now;
                     context.ShipmentLocationHistories.Add(locationHistory);
                     context.SaveChanges();
@@ -1248,7 +1259,7 @@ namespace PI.Business
                 {
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if (item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat)
+                        if ((his.location.geo!=null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) ||(string.IsNullOrEmpty(his.location.city)&&item.City.Equals(his.location.city)) )
                         {
                             foreach (var activityItems in his.activity.Items)
                             {
@@ -1651,6 +1662,7 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
+                        ShipmentReferenceName=item.ShipmentReferenceName,
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,

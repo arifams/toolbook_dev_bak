@@ -310,7 +310,7 @@ var MakeApp = angular
                  templateUrl: 'admin/loadAllCompanies.html',
            })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/loadShipments'
         });
   });
 

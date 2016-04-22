@@ -153,7 +153,7 @@
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
-                                                ng-click="profileCtrl.updateProfile()">
+                                                ng-click="profileCtrl.updateProfileGeneral()">
                                             Save
                                         </button>
                                     </div>
@@ -353,130 +353,68 @@
                                 </div>
                             </div>
                         </div>
-                        <div ng-hide="profileCtrl.multipleCostCenters">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <h3><strong>Billing Address</strong></h3>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="icheck-inline m-t-20">
-                                        <label>
-                                            <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="corpaddressasbilling"
-                                                   ng-model="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress"
-                                                   ng-change="profileCtrl.useCorpAddressAsBilling()"> Use corporate address as billing address
-                                        </label>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-md-9"></div>
+                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
+                                        <button class="btn btn-primary resize-btn" type="submit"
+                                                ng-click="profileCtrl.updateProfileAddress()">
+                                            <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
+                                            Save
+                                        </button>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                    </form>
+                </tab>
 
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label class="control-label">Country *</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="option-group">
-                                            <country-select id="billing_country" name="billing_country"
-                                                            ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.country" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress"
-                                                            class="form-control" ng-change="profileCtrl.changeBillingCountry()"></country-select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="control-label">Postal/Zip Code *</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_postalcode" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_postalcode.$invalid && (formUpdateProfile.billing_postalcode.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_postalcode.$error" ng-show="formUpdateProfile.billing_postalcode.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="billing_postalcode">Enter ZipCode</label>
-                                                <label ng-message="minlength" class="error" for="billing_postalcode">Enter at least 3 characters or more</label>
-                                                <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
-                                            </div>
-                                        </div>
-                                    </div>
+                <tab select="profileCtrl.loadAddressInfo()" ng-hide="profileCtrl.multipleCostCenters">
+                    <tab-heading>
+                        BILLING ADDRESS
+                    </tab-heading>
+                    <form role="form" name="formUpdateProfileAddress">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <h3><strong>Billing Address</strong></h3>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="icheck-inline m-t-20">
+                                    <label>
+                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="corpaddressasbilling"
+                                               ng-model="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress"
+                                               ng-change="profileCtrl.useCorpAddressAsBilling()"> Use corporate address as billing address
+                                    </label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label class="control-label">Street Name *</label>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_number" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.number" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_number.$invalid && (formUpdateProfile.billing_number.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_number.$error" ng-show="formUpdateProfile.billing_number.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="billing_postalcode">Enter Number</label>
-                                                <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-8">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_streetaddress1" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress1.$invalid && (formUpdateProfile.billing_streetaddress1.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_streetaddress1.$error" ng-show="formUpdateProfile.billing_streetaddress1.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="billing_streetaddress1">Enter Street Address1</label>
-                                                <label ng-message="maxlength" class="error" for="billing_streetaddress1">Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="billing_streetaddress1">Enter at least 3 characters or more</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
+                        </div>
 
-                                </div>
-                                <div class="col-md-10">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_streetaddress2" class="form-control"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress2.$invalid && (formUpdateProfile.billing_streetaddress2.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_streetaddress2.$error" ng-show="formUpdateProfile.billing_streetaddress2.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="maxlength" class="error" for="billing_streetaddress2">Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                            </div>
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">Country *</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <country-select id="billing_country" name="billing_country"
+                                                        ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.country" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress"
+                                                        class="form-control" ng-change="profileCtrl.changeBillingCountry()"></country-select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label class="control-label">City *</label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_city" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.city" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_city.$invalid && (formUpdateProfile.billing_city.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_city.$error" ng-show="formUpdateProfile.billing_city.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="billing_city">Enter City</label>
-                                                <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <label class="control-label">State </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="append-icon">
-                                            <input type="text" name="billing_state" class="form-control" ng-required="profileCtrl.isRequiredBillingState && !profileCtrl.multipleCostCenters" placeholder="State {{profileCtrl.isRequiredBillingState?'*':''}}"
-                                                   ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_state.$invalid && (formUpdateProfile.billing_state.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                            <div ng-messages="formUpdateProfile.billing_state.$error" ng-show="formUpdateProfile.billing_state.$dirty ||profileCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="billing_city">Enter State</label>
-                                                <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
-                                            </div>
+                            <div class="col-md-2">
+                                <label class="control-label">Postal/Zip Code *</label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="billing_postalcode" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_postalcode.$invalid && (formUpdateProfile.billing_postalcode.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_postalcode.$error" ng-show="formUpdateProfile.billing_postalcode.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="billing_postalcode">Enter ZipCode</label>
+                                            <label ng-message="minlength" class="error" for="billing_postalcode">Enter at least 3 characters or more</label>
+                                            <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
                                         </div>
                                     </div>
                                 </div>
@@ -484,24 +422,89 @@
                         </div>
                         <div class="row">
                             <div class="col-md-2">
-                                <label class="control-label">Primary Email* </label>
+                                <label class="control-label">Street Name *</label>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="billing_number" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.number" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_number.$invalid && (formUpdateProfile.billing_number.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_number.$error" ng-show="formUpdateProfile.billing_number.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="billing_postalcode">Enter Number</label>
+                                            <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
+                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="billing_streetaddress1" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress1.$invalid && (formUpdateProfile.billing_streetaddress1.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_streetaddress1.$error" ng-show="formUpdateProfile.billing_streetaddress1.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="billing_streetaddress1">Enter Street Address1</label>
+                                            <label ng-message="maxlength" class="error" for="billing_streetaddress1">Enter less than 100 characters</label>
+                                            <label ng-message="minlength" class="error" for="billing_streetaddress1">Enter at least 3 characters or more</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="billing_streetaddress2" class="form-control"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress2.$invalid && (formUpdateProfile.billing_streetaddress2.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_streetaddress2.$error" ng-show="formUpdateProfile.billing_streetaddress2.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="maxlength" class="error" for="billing_streetaddress2">Enter less than 100 characters</label>
+                                            <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">City *</label>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <div class="append-icon">
-
-                                        <input type="email" name="email" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.email" required ng-change="profileCtrl.CheckMail()"
-                                               ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.email.$invalid && (formUpdateProfile.email.$dirty||profileCtrl.isSubmit) }">
-                                        <div ng-messages="formUpdateProfile.email.$error" ng-show="formUpdateProfile.email.$dirty || profileCtrl.isSubmit">
-                                            <label ng-message="required" class="error" for="email">Enter your email address</label>
-                                            <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                        <input type="text" name="billing_city" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.city" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_city.$invalid && (formUpdateProfile.billing_city.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_city.$error" ng-show="formUpdateProfile.billing_city.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="billing_city">Enter City</label>
+                                            <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
+                                            <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <label class="control-label">Secondary Email </label>
+                                <label class="control-label">State </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="billing_state" class="form-control" ng-required="profileCtrl.isRequiredBillingState && !profileCtrl.multipleCostCenters" placeholder="State {{profileCtrl.isRequiredBillingState?'*':''}}"
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_state.$invalid && (formUpdateProfile.billing_state.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfile.billing_state.$error" ng-show="formUpdateProfile.billing_state.$dirty ||profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="billing_city">Enter State</label>
+                                            <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
+                                            <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">Billing Email </label>
                             </div>
 
                             <div class="col-md-4">
@@ -518,14 +521,14 @@
                                 </div>
                             </div>
                         </div>
-                       
+
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
-                                                ng-click="profileCtrl.updateProfile()">
+                                                ng-click="profileCtrl.updateProfileBillingAddress()">
                                             <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
                                             Save
                                         </button>
@@ -647,7 +650,7 @@
                                 <div class="col-sm-8 col-md-9"></div>
                                 <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
-                                            ng-click="profileCtrl.updateProfile()">
+                                            ng-click="profileCtrl.updateProfileLoginDetails()">
                                         Save
                                     </button>
                                 </div>
@@ -772,7 +775,7 @@
                                 <div class="col-sm-8 col-md-9"></div>
                                 <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                     <button class="btn btn-primary resize-btn" type="submit"
-                                            ng-click="profileCtrl.updateProfile()">
+                                            ng-click="profileCtrl.updateProfileAccountSettings()">
                                         Save
                                     </button>
                                 </div>

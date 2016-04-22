@@ -36,7 +36,7 @@
                                                 convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
                                                 name="costcenter" class="defaultcurrency form-control ng-pristine ng-valid ng-touched" ng-model="costcenter"
                                                 ng-change="selectDivisionforCostCenter()">
-                                            <option value="">All</option>
+                                            <option value="">Costcenter: All </option>
                                         </select>
                                     </div>
                                 </div>
@@ -47,7 +47,7 @@
                                     <div class="option-group">
                                         <select id="costcenters" name="costcenters" class="costcenters form-control ng-pristine ng-valid ng-touched"
                                                 ng-model="status" ng-change="selectActiveDivisions()">
-                                            <option value="">All</option>
+                                            <option value=""> Status: All </option>
                                             <option value="True">Active</option>
                                             <option value="False">Inactive</option>
                                         </select>

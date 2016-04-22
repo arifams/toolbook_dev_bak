@@ -139,6 +139,120 @@ namespace PI.Service.Controllers
             return -1;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateProfileGeneral")]
+        public int UpdateProfileGeneral(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            var updatedStatus = userprofile.UpdateProfileGeneral(profile);
+
+            if (updatedStatus == 3)
+            {
+                ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
+
+                #region For Email Confirmaion
+
+                string code = AppUserManager.GenerateEmailConfirmationToken(existingUser.Id);
+                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
+                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + existingUser.Id + "&code=" + code));
+
+                StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
+                emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
+                                             .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+                AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
+
+                #endregion
+
+            }
+
+            if (updatedStatus == 1 || updatedStatus == -2 || updatedStatus == 3)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateProfileAddress")]
+        public int UpdateProfileAddress(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            var updatedStatus = userprofile.UpdateProfileAddress(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateProfileBillingAddress")]
+        public int UpdateProfileBillingAddress(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            var updatedStatus = userprofile.UpdateProfileBillingAddress(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("updateProfileLoginDetails")]
+        public int updateProfileLoginDetails(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
+            {
+                IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
+                                                            profile.OldPassword,
+                                                           profile.NewPassword);
+                if (result.Errors != null && result.Errors.Count() > 0)
+                {
+                    return -3;
+                }
+            }
+
+            var updatedStatus = userprofile.UpdateProfileLoginDetails(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("updateProfileAccountSettings")]
+        public int updateProfileAccountSettings(ProfileDto profile)
+        {
+            ProfileManagement userprofile = new ProfileManagement();
+
+            var updatedStatus = userprofile.UpdateProfileAccountSettings(profile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
 
     }
 }

@@ -7,6 +7,21 @@
         return {
             updateProfileInfo: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/UpdateProfile', updatedProfile);
+            },
+            updateProfileGeneral: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/UpdateProfileGeneral', updatedProfile);
+            },
+            updateProfileAddress: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/UpdateProfileAddress', updatedProfile);
+            },
+            updateProfileBillingAddress: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/UpdateProfileBillingAddress', updatedProfile);
+            },
+            updateProfileLoginDetails: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/updateProfileLoginDetails', updatedProfile);
+            },
+            updateProfileAccountSettings: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/updateProfileAccountSettings', updatedProfile);
             }
         }
 
@@ -103,8 +118,7 @@
                 }
 
                 var vm = this;
-                //vm.t_currencies;
-                //vm.t_languages;
+
                 vm.t_timezones;
                 vm.model = {};
                 vm.model.accountSettings = {};
@@ -138,8 +152,6 @@
                     vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR' || vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
                 };
 
-                //vm.changeCountry();
-
                 vm.useCorpAddressAsBilling = function () {
 
                     if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
@@ -169,41 +181,13 @@
 
                         if (response != null) {
                             vm.model = response;
-                            debugger;
-
-                            //if (response.defaultCurrencyId != 0)
-                            //    vm.defaultCurrency = { id: response.defaultCurrencyId };
-                            //if (response.defaultLanguageId != 0)
-                            //    vm.defaultLanguage = { id: response.defaultLanguageId };
-                            //if (response.defaultTimeZoneId != 0)
-                            //    vm.defaultTimezone = { id: response.defaultTimeZoneId };
 
                             if (response.customerDetails != null) {
                                 debugger;
-                                //setting the account type
-                                // vm.iscorporate = response.data.customerDetails.isCorporateAccount;                            
+                                //setting the account type                        
                                 vm.model.customerDetails = response.customerDetails;
-                                //vm.model.customerDetails.customerAddress = response.customerDetails.customerAddress;
+
                                 vm.model.companyDetails = response.companyDetails;
-                                //vm.model.companyDetails.costCenter = response.companyDetails.costCenter;
-                                //vm.changeCountry();
-
-                                //if (response.companyDetails.costCenter != null) {
-                                //    vm.multipleCostCenters = false;
-                                //}
-                                //else {
-                                //    vm.multipleCostCenters = true;
-                                //}
-
-
-                                //if (response.companyDetails.costCenter != null &&
-                                //    response.companyDetails.costCenter.billingAddress != null) {
-
-                                //    vm.model.companyDetails.costCenter.billingAddress = response.companyDetails.costCenter.billingAddress;
-                                //    vm.changeBillingCountry();
-                                //}
-
-
 
                                 if (response.customerDetails.isCorporateAccount) {
                                     vm.model.customerDetails.isCorporateAccount = "true";
@@ -223,7 +207,7 @@
 
 
                 vm.updateProfile = function () {
-                    debugger;
+
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
                     if (vm.defaultLanguage != undefined) {
@@ -267,7 +251,7 @@
                                     addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
 
                                         $noty.close();
-                                        vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        *** This is an automatically generated email, please do not reply ***                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team</span>                </span>            </strong>        </h4>    </div>   </body></html>'
+                                        vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
                                         debugger;
                                         updateProfilefactory.updateProfileInfo(vm.model)
                                                         .success(function (responce) {
@@ -412,9 +396,9 @@
                     getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
                      .then(function successCallback(response) {
                          if (response.data.customerDetails != null) {
-                            // vm.model.customerDetails = response.data.customerDetails;
+                             // vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                            // vm.model.companyDetails = response.data.companyDetails;
+                             // vm.model.companyDetails = response.data.companyDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                              vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
                              vm.changeCountry();
@@ -439,7 +423,6 @@
                          //todo
                      });
                 }
-
 
                 vm.loadAccountSettings = function () {
                     debugger;
@@ -467,6 +450,410 @@
                      });
                 }
 
+
+                // Split the User Profile update to seperate sections.
+
+                vm.updateProfileGeneral = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+                                        vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
+
+                                        updateProfilefactory.updateProfileGeneral(vm.model)
+                                                .success(function (responce) {
+                                                    if (responce != null) {
+                                                        updateProfileResponse(responce);
+                                                    }
+
+                                                }).error(function (error) {
+
+                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                    });
+
+                                                    $('#panel-notif').noty({
+                                                        text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                        layout: 'bottom-right',
+                                                        theme: 'made',
+                                                        animation: {
+                                                            open: 'animated bounceInLeft',
+                                                            close: 'animated bounceOutLeft'
+                                                        },
+                                                        timeout: 3000,
+                                                    });
+                                                });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+
+                }
+
+                vm.updateProfileAddress = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+                                        
+                                        updateProfilefactory.updateProfileAddress(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+
+                }
+
+                vm.updateProfileBillingAddress = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+
+                                        updateProfilefactory.updateProfileBillingAddress(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+
+                }
+
+                vm.updateProfileLoginDetails = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
+
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+
+                        return;
+                    }
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+                                        
+                                        updateProfilefactory.updateProfileLoginDetails(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                }
+
+                vm.updateProfileAccountSettings = function () {
+
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    if (vm.defaultLanguage != undefined) {
+                        vm.model.defaultLanguageId = vm.defaultLanguage.id;
+                        vm.model.defaultCurrencyId = vm.defaultCurrency.id;
+                        vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
+                    }
+                    else {
+                        vm.model.doNotUpdateAccountSettings = true;
+                    }
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                        $noty.close();
+
+                                        updateProfilefactory.updateProfileAccountSettings(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                }
+
+                // Response of Update Profile.
+                function updateProfileResponse(response) {
+
+                    if (response == 1) {
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+
+                    }
+                    else if (response == 3) {
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-success media fade in"><p>We have send the username change confirmation email. Please confirm before login</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 5000,
+                        });
+                    }
+                    else if (response == -2) {
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
+                    else if (response == -3) {
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
+                    else {
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
+                }
 
             }]);
 

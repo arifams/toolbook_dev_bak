@@ -1,8 +1,24 @@
-﻿angular.module('newApp').controller('mainCtrl',
-    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', '$location','$window',
-function ($scope, applicationService, quickViewService, builderService, pluginsService, $location, $window) {
+﻿(function (app) {
 
-    
+    app.factory('userService', function ($http, $window) {
+    return {
+        getUserName: function () {
+            debugger;
+            return $http.get(serverBaseUrl + '/api/accounts/GetLoggedInUserName', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+        }
+    }
+
+});
+
+
+app.controller('mainCtrl',
+    ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', 'userService', '$location', '$window',
+function ($scope, applicationService, quickViewService, builderService, pluginsService, userService, $location, $window) {
+        
     $(document).ready(function () {
         
         applicationService.init();
@@ -36,10 +52,19 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
 
     });
 
+
+    
     //console.log($cookieStore.get("KEY"));
     $scope.isActive = function (viewLocation) {
         return viewLocation === $location.path();
     };
+
+    // Get user name
+    userService.getUserName()
+        .then(function successCallback(responce) {
+            $scope.userName = responce.data;
+        });
+
 
     if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
         window.location = webBaseUrl + "/app/userLogin/userLogin.html";
@@ -49,3 +74,6 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
     $scope.isCorporate = $window.localStorage.getItem('isCorporateAccount');
 
 }]);
+
+
+})(angular.module('newApp'));

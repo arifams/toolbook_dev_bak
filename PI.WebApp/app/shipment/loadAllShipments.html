@@ -90,7 +90,7 @@
                 </div>
 
                 <div>
-                    <table st-table="shipmentList" st-safe-src="rowCollection" class="table table-striped">
+                    <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
                         <thead>
                             <tr>
                                 <th st-sort="name">Order Submitted</th>
@@ -107,7 +107,7 @@
 
                         </thead>
                         <tbody>
-                            <tr ng-repeat="row in loadShipCtrl.shipmentList">
+                            <tr ng-repeat="row in shipmentList">
                                 <td>{{row.generalInformation.createdDate}}</td>
                                 <td>{{row.generalInformation.trackingNumber}}</td>
                                 <td>{{row.generalInformation.shipmentCode}}</td>
@@ -123,14 +123,14 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"  href="javascript:;
-                                       class="edit btn btn-sm btn-default">
+                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}" href="javascript:;
+                                       class=" edit btn btn-sm btn-default">
                                         <i class="icon-note"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <i class="icons-office-52" ng-hide="row.generalInformation.isEnableDelete"></i>
-                                    <a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;" ng-show="row.generalInformation.isEnableDelete">
+                                    <a ng-click="loadShipCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;" ng-show="row.generalInformation.isEnableDelete">
                                         <i class="icons-office-52"></i>
                                     </a>
                                 </td>

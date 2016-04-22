@@ -901,6 +901,23 @@ namespace PI.Business
 
         #region User Management
 
+        public string GetLoggedInUserName(string userId)
+        {
+            string userName = null;
+
+            using (PIContext context = new PIContext())
+            {
+                ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
+
+                if (user != null)
+                {
+                  userName =  user.FirstName; 
+                }
+            }
+
+            return userName;
+        }
+
 
         /// <summary>
         ///  Update LastLoginTime on every successful login.

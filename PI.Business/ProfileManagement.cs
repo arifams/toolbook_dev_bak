@@ -413,6 +413,343 @@ namespace PI.Business
 
         }
 
+        public int UpdateProfileGeneral(ProfileDto updatedProfile)
+        {
+            ApplicationUser currentUser;
+            bool updateUserName = false;
+
+            // Get customer from userId.
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+
+            if (currentCustomer == null)
+            {
+                // No customer found by user Id.
+                return 0;
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currentUser == null)
+                {
+                    return 0;
+                }
+
+                // Check user change email address.
+                if (currentUser.UserName != updatedProfile.CustomerDetails.Email)
+                {
+                    // Check if there any users who has same email
+                    ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
+                    if (existingUser != null)
+                    {
+                        // This email is already registered.
+                        return -2;
+                    }
+                    else
+                    {
+                        // Save in Users table.
+                        currentUser.UserName = updatedProfile.CustomerDetails.Email;
+                        currentUser.Email = updatedProfile.CustomerDetails.Email;
+                        currentUser.EmailConfirmed = false;
+                        updateUserName = true;
+                    }
+                }
+
+                // Save in Users table.
+                currentUser.Salutation = updatedProfile.CustomerDetails.Salutation;
+                currentUser.FirstName = updatedProfile.CustomerDetails.FirstName;
+                currentUser.LastName = updatedProfile.CustomerDetails.LastName;
+                context.SaveChanges();
+
+                // Save in Customer table.
+                currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
+                currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
+                currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
+                currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
+                currentCustomer.Email = updatedProfile.CustomerDetails.Email;
+                currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
+                context.SaveChanges();
+            }
+
+            Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
+            if (currentTenant == null)
+            {
+                return 0;
+            }
+
+            Company currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+            if (currentCompany == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                // Update the company
+                currentCompany.Name = updatedProfile.CompanyDetails.Name;
+                currentCompany.CompanyCode = updatedProfile.CustomerDetails.CompanyCode;
+                context.SaveChanges();
+
+                currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
+                context.SaveChanges();
+            }
+
+            if (updateUserName)
+            {
+                return 3;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+
+        public int UpdateProfileAddress(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            ApplicationUser currentUser;
+            using (PIContext context = new PIContext())
+            {
+                currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currentUser == null)
+                {
+                    return 0;
+                }
+            }
+
+            Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
+            if (currentTenant == null)
+            {
+                return 0;
+            }
+
+            Company currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+            if (currentCompany == null)
+            {
+                return 0;
+            }
+
+            CostCenter currentCostCenter = null;
+            IList<CostCenter> currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id).ToList();
+            if (currentCostCenters != null && currentCostCenters.Count() == 1)
+            {
+                currentCostCenter = currentCostCenters.Where(c => c.Type == "SYSTEM").FirstOrDefault();
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                // Update customer details.
+                currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
+                currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
+                context.SaveChanges();
+
+                if (currentCompany != null)
+                {
+                    currentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
+                    currentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
+                    context.SaveChanges();
+                }
+
+                if (currentCostCenter != null)
+                {
+                    var costCentercurrent = GetCostCenterById(currentCostCenter.Id);
+                    costCentercurrent.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
+                    context.SaveChanges();
+                }
+
+                Address currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
+
+                if (currentAddress != null)
+                {
+                    currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
+                    currentAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
+                    currentAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
+                    currentAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
+                    currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
+                    currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
+                    currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+
+                    //set address entity state as modified                   
+                    context.SaveChanges();
+                }
+            }
+
+            return 1;
+        }
+
+        public int UpdateProfileBillingAddress(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            ApplicationUser currentUser;
+            using (PIContext context = new PIContext())
+            {
+                currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currentUser == null)
+                {
+                    return 0;
+                }
+            }
+
+            Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
+            if (currentTenant == null)
+            {
+                return 0;
+            }
+
+            Company curentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+
+            if (curentCompany == null)
+            {
+                return 0;
+            }
+
+            CostCenter currentCostCenter = null;
+            IList<CostCenter> currentCostCenters = this.GetCostCenterByCompanyId(curentCompany.Id).ToList();
+            if (currentCostCenters != null && currentCostCenters.Count() == 1)
+            {
+                currentCostCenter = currentCostCenters.Where(c => c.Type == "SYSTEM").FirstOrDefault();
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                // Updating basic customer details
+                currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
+                currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
+                context.SaveChanges();
+
+                if (currentCostCenter != null)
+                {
+                    Address BusinessAddress = this.GetAddressbyId(currentCostCenter.BillingAddressId);
+                    if (BusinessAddress != null && updatedProfile.CompanyDetails.CostCenter != null &&
+                        updatedProfile.CompanyDetails.CostCenter.BillingAddress != null)
+                    {
+                        BusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        BusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        BusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        BusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        BusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        BusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        BusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
+
+                        context.SaveChanges();
+
+                    }
+                    else
+                    {
+                        Address newBusinessAddress = new Address();
+                        newBusinessAddress.Number = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Number;
+                        newBusinessAddress.StreetAddress1 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress1;
+                        newBusinessAddress.StreetAddress2 = updatedProfile.CompanyDetails.CostCenter.BillingAddress.StreetAddress2;
+                        newBusinessAddress.City = updatedProfile.CompanyDetails.CostCenter.BillingAddress.City;
+                        newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
+                        newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
+                        newBusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
+                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+
+                        context.Addresses.Add(newBusinessAddress);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            return 1;
+        }
+
+        public int UpdateProfileLoginDetails(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+
+            using (PIContext context = PIContext.Get())
+            {
+                currentCustomer.Password = updatedProfile.CustomerDetails.Password;
+                context.SaveChanges();
+            }
+
+            return 1;
+        }
+
+        public int UpdateProfileAccountSettings(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = PIContext.Get())
+            {
+                AccountSettings currentAccountSettings = this.GetAccountSettingByCustomerId(currentCustomer.Id);
+                NotificationCriteria currentNotificationCriteria = this.GetNotificationCriteriaByCustomerId(currentCustomer.Id);
+
+                //Assign Account setting values to the Profile Dto
+                if (!updatedProfile.DoNotUpdateAccountSettings && currentAccountSettings != null)
+                {
+                    currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+
+                    //set account settings entity as modidied                   
+                    context.SaveChanges();
+                }
+                else
+                {
+                    AccountSettings newAccountSettings = new AccountSettings();
+                    newAccountSettings.CustomerId = currentCustomer.Id;
+                    newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
+                    newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
+                    newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    newAccountSettings.CreatedDate = DateTime.Now;
+
+                    //set account settings entity as modidied
+                    context.AccountSettings.Add(newAccountSettings);
+                    context.SaveChanges();
+                }
+
+                //Assign Notofication criteria to the Profile Dto
+                if (currentNotificationCriteria != null)
+                {
+                    currentNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    currentNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    currentNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    currentNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    currentNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    currentNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    currentNotificationCriteria.CreatedDate = DateTime.Now;
+                    //set notification criteria entity as modified
+
+                    context.SaveChanges();
+                }
+                else
+                {
+                    NotificationCriteria newNotificationCriteria = new NotificationCriteria();
+                    newNotificationCriteria.CustomerId = currentCustomer.Id;
+                    newNotificationCriteria.BookingConfirmation = updatedProfile.BookingConfirmation;
+                    newNotificationCriteria.PickupConfirmation = updatedProfile.PickupConfirmation;
+                    newNotificationCriteria.ShipmentDelay = updatedProfile.ShipmentDelay;
+                    newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
+                    newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
+                    newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
+                    newNotificationCriteria.CreatedDate = DateTime.Now;
+                    //set notification criteria entity as modified
+                    context.NotificationCriterias.Add(newNotificationCriteria);
+                    context.SaveChanges(); //TODO:
+                }
+            }
+
+            return 1;
+        }
+
+
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {

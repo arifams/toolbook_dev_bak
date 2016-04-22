@@ -75,9 +75,10 @@
                     vm.shipmentInfo = responce;
 
                     vm.consignerfname=   vm.shipmentInfo[0].addressInformation.consigner.firstName;
-                    vm.consignerlname=   vm.shipmentInfo[0].addressInformation.consigner.lastName;
+                    vm.consignerlname = vm.shipmentInfo[0].addressInformation.consigner.lastName;
+                    vm.consignerzipCode = vm.shipmentInfo[0].addressInformation.consigner.postalcode;
                     vm.consignerAddress1=   vm.shipmentInfo[0].addressInformation.consigner.address1;
-                    vm.consignerAddress2=   vm.shipmentInfo[0].addressInformation.consigner.address2;
+                    vm.consignerAddress2 = vm.shipmentInfo[0].addressInformation.consigner.address2;                    
                     vm.consignernumber=   vm.shipmentInfo[0].addressInformation.consigner.number;
                     vm.consignerCity=   vm.shipmentInfo[0].addressInformation.consigner.city;
                     vm.consignerContact = vm.shipmentInfo[0].addressInformation.consigner.contactNumber;

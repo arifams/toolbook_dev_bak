@@ -15,8 +15,9 @@
                var lng = 0;
                vm.Consigneremail = '';
                vm.awb_URL = '';
+              
 
-               vm.step = 3; //To Do - change this number with logic
+               //vm.step = 3; //To Do - change this number with logic
 
                vm.openLabel = function (url) {
                    window.open(url);
@@ -34,9 +35,21 @@
                    .success(function (data) {
                        vm.locationHistory = data;
 
-                       for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
-                           lat = vm.locationHistory.history.items[i].location.geo.lat;
-                           lng = vm.locationHistory.history.items[i].location.geo.lng;
+                       if (vm.locationHistory.info!=null) {
+                           vm.step = vm.locationHistory.info.status;
+                       }                       
+                       if (vm.locationHistory.history!=null && vm.locationHistory.history.items.length > 0) {
+                           for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
+                               lat = vm.locationHistory.history.items[i].location.geo.lat;
+                               lng = vm.locationHistory.history.items[i].location.geo.lng;
+
+                           }
+                       }
+                       else {
+                           if (vm.locationHistory.info.system.consignor.geo != null) {
+                               lat = vm.locationHistory.info.system.consignor.geo.lat;
+                               lng = vm.locationHistory.info.system.consignor.geo.lng;
+                           }
 
                        }
 
@@ -69,6 +82,14 @@
                    })
                }
 
+               //
+               vm.printAwb = function (divId) {
+                   var printContents = document.getElementById(divId).innerHTML;
+                   var popupWin = window.open('', '_blank', 'width=800,height=800');
+                   popupWin.document.open();
+                   popupWin.document.write('<html><head></head><body onload="window.print()">' + printContents + '</body></html>');
+                   popupWin.document.close();
+               }
 
                //get the current shipment details
                var loadShipmentInfo = function () {
@@ -86,8 +107,8 @@
                        vm.cmr_URL = SISUrl2 + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
-                       $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="700"></iframe>').appendTo('.awb');
-                       $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="700"></iframe>').appendTo('.cmr');
+                       $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="867" width="700"></iframe>').appendTo('.awb');
+                       $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="800"></iframe>').appendTo('.cmr');
                      //  console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 

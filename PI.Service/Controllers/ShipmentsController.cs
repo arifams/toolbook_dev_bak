@@ -63,7 +63,7 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipment = new ShipmentsManagement();
             return shipment.SaveShipment(addShipment);
         }
-        
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllCurrencies")]
@@ -104,10 +104,10 @@ namespace PI.Service.Controllers
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new List<ShipmentDto>();
-            return pagedRecord = shipmentManagement.GetAllshipmentsForManifest(userId, createdDate, carreer, reference );
+            return pagedRecord = shipmentManagement.GetAllshipmentsForManifest(userId, createdDate, carreer, reference);
 
         }
-        
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
@@ -139,7 +139,7 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("DeleteShipment")]
-        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        public int DeleteShipment([FromUri]string shipmentCode, [FromUri]string trackingNumber, [FromUri]string carrierName)
         {
             ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName);
@@ -231,14 +231,14 @@ namespace PI.Service.Controllers
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadAddressBook(String userId)
         {
-            var responce= await Upload();
+            var responce = await Upload();
 
-            var urlJson =await responce.Content.ReadAsStringAsync();
+            var urlJson = await responce.Content.ReadAsStringAsync();
 
-            Result result =null;
-            result= JsonConvert.DeserializeObject<Result>(urlJson);
+            Result result = null;
+            result = JsonConvert.DeserializeObject<Result>(urlJson);
 
-           // string URL = "https://pidocuments.blob.core.windows.net:443/piblobstorage/TENANT_3/ADDRESS_BOOK/b39a9937-1c7c-4889-af62-aea78aaca524.xlsx";
+            // string URL = "https://pidocuments.blob.core.windows.net:443/piblobstorage/TENANT_3/ADDRESS_BOOK/b39a9937-1c7c-4889-af62-aea78aaca524.xlsx";
 
             AddressBookManagement addressManagement = new AddressBookManagement();
             addressManagement.UpdateAddressBookDatafromExcel(result.returnData, userId);
@@ -295,25 +295,25 @@ namespace PI.Service.Controllers
                 {
                     // Delete if a file already exists from the same userId
                     await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                        + "/" + (fileDetails.UserId + ".xls") );                
+                                        + "/" + (fileDetails.UserId + ".xls"));
                 }
                 catch (Exception ex) { }
 
                 try
                 {
-                // Delete if a file already exists from the same userId
-                try
-                {
-               await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
-                                        + "/" + (fileDetails.UserId + ".xlsx"));
+                    // Delete if a file already exists from the same userId
+                    try
+                    {
+                        await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                                 + "/" + (fileDetails.UserId + ".xlsx"));
+                    }
+                    catch (Exception ex) { }
                 }
-                catch (Exception ex) { }
-            }
                 catch (Exception)
                 {
-                   //to do
+                    //to do
                 }
-              
+
             }
             else
             {
@@ -342,7 +342,7 @@ namespace PI.Service.Controllers
             // Through the request response you can return an object to the Angular controller
             // You will be able to access this in the .success callback through its data attribute
             // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) 
+            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
                              + "/" + fileDetails.UploadedFileName;
 
 
@@ -365,7 +365,7 @@ namespace PI.Service.Controllers
             FileUploadDto fileUploadDto = new FileUploadDto();
 
             if (result.FormData.HasKeys())
-            {              
+            {
                 fileUploadDto.UserId = Uri.UnescapeDataString(result.FormData.GetValues(0).FirstOrDefault());
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
                 fileUploadDto.DocumentType = Utility.GetValueFromDescription<DocumentType>(docType);
@@ -427,7 +427,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAvailableFilesForShipment")]
-        public List<FileUploadDto> GetAvailableFilesForShipment(string shipmentCode,string userId)
+        public List<FileUploadDto> GetAvailableFilesForShipment(string shipmentCode, string userId)
         {
             return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
         }
@@ -450,8 +450,8 @@ namespace PI.Service.Controllers
         public void DeleteFile(FileUploadDto fileDetails)
         {
             try
-             {
-                 //shipmentManagement.(fileDelete.Id);
+            {
+                //shipmentManagement.(fileDelete.Id);
 
                 AzureFileManager media = new AzureFileManager();
                 media.InitializeStorage(fileDetails.TenantId.ToString(), "SHIPMENT_DOCUMENTS");//Utility.GetEnumDescription(fileDetails.DocumentType));
@@ -483,8 +483,8 @@ namespace PI.Service.Controllers
             ShipmentsManagement shipment = new ShipmentsManagement();
             string quoteTemplate = shipment.RequestForQuote(addShipment);
             // TODO: H - Change the staff user.
-            var adminUser = AppUserManager.FindByEmail("thomas@parcel.com");
-            //var adminUser = AppUserManager.FindByEmail("hp1@yopmail.com");
+            var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+
             if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
             {
                 AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
@@ -494,13 +494,14 @@ namespace PI.Service.Controllers
                     Status = Status.Success
                 };
             }
-            else {
+            else
+            {
                 return new ShipmentOperationResult()
                 {
                     Status = Status.Error
                 };
             }
-            
+
         }
     }
 }
