@@ -37,25 +37,53 @@
                                vm.loadAllShipments(status);
                            }
                            
-                           // Delete row.
+                          //delete shipment
                            vm.deleteById = function (row) {
 
-                               var r = confirm("Are you sure you want to delete this shipment?");
-                               if (r == true) {
-                                   shipmentFactory.deleteShipment(row)
-                                   .success(function (response) {
+                               $('#panel-notif').noty({
+                                   text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                                   buttons: [
+                                           {
+                                               addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
 
-                                       //if (response == 1) {
-                                       //    //var index = vm.rowCollection.indexOf(row);
-                                       //    //if (index !== -1) {
-                                       //    //    vm.rowCollection.splice(index, 1);
-                                       //    //}
-                                       //}
-                                   })
-                                   .error(function () {
-                                       debugger;
-                                   });
-                               }
+                                                   shipmentFactory.deleteShipment(row)
+                                                   .success(function (response) {
+                                                       if (response == 1) {
+                                                           location.reload();
+                                                           //var index = vm.rowCollection.indexOf(row);
+                                                           //if (index !== -1) {
+                                                           //    vm.rowCollection.splice(index, 1);
+                                                           //}
+                                                       }
+                                                   })
+                                       .error(function () {
+                                       })
+
+                                                   $noty.close();
+
+
+                                               }
+                                           },
+                                           {
+                                               addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+
+                                                   // updateProfile = false;
+                                                   $noty.close();
+                                                   return;
+                                                   // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                                               }
+                                           }
+                                   ],
+                                   layout: 'bottom-right',
+                                   theme: 'made',
+                                   animation: {
+                                       open: 'animated bounceInLeft',
+                                       close: 'animated bounceOutLeft'
+                                   },
+                                   timeout: 3000,
+                               });
+
+
                            };
 
                            vm.loadAllShipments();

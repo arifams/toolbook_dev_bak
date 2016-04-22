@@ -108,7 +108,7 @@
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
                        $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="867" width="700"></iframe>').appendTo('.awb');
-                       $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="900" width="800"></iframe>').appendTo('.cmr');
+                       $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="4500" width="800"></iframe>').appendTo('.cmr');
                      //  console.log(vm.shipmentLabel);
                        loadShipmentStatuses();
 
