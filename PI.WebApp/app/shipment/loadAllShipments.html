@@ -100,8 +100,8 @@
                                 <th>Origin City</th>
                                 <th>Destination City</th>
                                 <th>Status</th>
-                                <th>Edit</th>
                                 <th>View</th>
+                                <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
 
@@ -116,21 +116,21 @@
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td>{{row.generalInformation.status}}</td>
                                 <td>
-                                    <i class="icon-note" ng-hide="row.generalInformation.isEnableEdit"></i>
-                                    <a href="#/addShipment/{{row.generalInformation.shipmentCode}}"
-                                       class="edit btn btn-sm btn-default" ng-show="row.generalInformation.isEnableEdit">
-                                        <i class="icon-note"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}" href="javascript:;
+                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class=" edit btn btn-sm btn-default">
-                                        <i class="icon-note"></i>
+                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <i class="icons-office-52" ng-hide="row.generalInformation.isEnableDelete"></i>
-                                    <a ng-click="loadShipCtrl.deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;" ng-show="row.generalInformation.isEnableDelete">
+                                    <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentCode}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="icon-note" style="color:blue"></i>
+                                    </a>
+                                </td>
+                               
+                                <td >
+                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)" 
+                                       class="delete btn btn-sm btn-danger" href="javascript:;">
                                         <i class="icons-office-52"></i>
                                     </a>
                                 </td>
