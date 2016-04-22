@@ -66,7 +66,7 @@
                                                 <div>
                                                     <label class="col-sm-4 control-label"> Carrier *</label>
                                                     <div class="col-sm-4">
-                                                        <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="true"
+                                                        <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
                                                                 ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
                                                             <option value="">Select Carrier</option>
                                                             <option value="UPS">UPS</option>
@@ -253,6 +253,12 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4" ng-show="manifestCtrl.showError">
+                        <label class="label label-danger"> Please Enter Correct Details</label>
+                    </div>
                 </div>
             </div>
 
