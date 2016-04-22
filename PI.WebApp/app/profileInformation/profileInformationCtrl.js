@@ -71,13 +71,13 @@
 
     });
 
-
+    
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$parsers.unshift(function (viewValue, $scope) {
-                    var noMatch = viewValue != scope.formUpdateProfile.newpassword.$viewValue;
+                    var noMatch = viewValue != scope.formUpdateProfileLogin.newpassword.$viewValue;
                     ctrl.$setValidity('noMatch', !noMatch);
                     return viewValue;
                 })
@@ -96,9 +96,9 @@
                     ctrl.$setValidity('noValidPassword', res);
 
                     // if change the password when having confirmation password, check match and give error.
-                    if (scope.formUpdateProfile.newpassword_c.$viewValue != '') {
-                        var noMatch = viewValue != scope.formUpdateProfile.newpassword_c.$viewValue;
-                        scope.formUpdateProfile.newpassword_c.$setValidity('noMatch', !noMatch);
+                    if (scope.formUpdateProfileLogin.newpassword_c.$viewValue != '') {
+                        var noMatch = viewValue != scope.formUpdateProfileLogin.newpassword_c.$viewValue;
+                        scope.formUpdateProfileLogin.newpassword_c.$setValidity('noMatch', !noMatch);
                     }
 
                     return viewValue;
@@ -637,7 +637,7 @@
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
                     var body = $("html, body");
-
+                    debugger;
                     if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
 
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
@@ -671,6 +671,7 @@
                                         updateProfilefactory.updateProfileLoginDetails(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null) {
+                                                                debugger;
                                                                 updateProfileResponse(responce);
                                                             }
                                                         }).error(function (error) {
@@ -776,6 +777,8 @@
 
                 // Response of Update Profile.
                 function updateProfileResponse(response) {
+
+                    var body = $("html, body");
 
                     if (response == 1) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
