@@ -158,7 +158,13 @@
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
-            <div class="awb">
+            <div class="row">
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <input type="button" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.printAwb('awb')" />
+                </div>
+            </div>
+            <div class="awb" id="awb">
               
             </div>
         </tab>
