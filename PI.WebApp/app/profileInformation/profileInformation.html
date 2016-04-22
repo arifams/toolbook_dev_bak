@@ -47,7 +47,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 p-r-0 p-l-0">
+                            <!--<div class="col-md-2 p-r-0 p-l-0">
                                 <label class="control-label p-t-0">Registration number company</label>
                             </div>
                             <div class="col-md-4">
@@ -59,8 +59,20 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>-->
+                            <div class="col-md-2 p-r-0 p-l-0">
+                                <label class="control-label p-t-0">Job Capacity</label>
                             </div>
-                            
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="jobcapacity" class="form-control" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.customerDetails.jobCapacity" ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit1) }" />
+                                        <div ng-messages="formUpdateProfileGeneral.jobcapacity.$error" ng-show="formUpdateProfileGeneral.jobcapacity.$dirty || profileCtrl.isSubmit1">
+                                            <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="row">
@@ -102,7 +114,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="lastname" class="form-control" minlength="4" required
-                                               ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.lastname.$invalid && (formUpdateProfile.lastname.$dirty||profileCtrl.isSubmit1) }">
+                                               ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.lastname.$invalid && (formUpdateProfileBillingAddress.lastname.$dirty||profileCtrl.isSubmit1) }">
                                         <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="formUpdateProfileGeneral.lastname.$dirty ||profileCtrl.isSubmit1">
                                             <label ng-message="required" class="error" for="lastname">Enter your last name</label>
                                             <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
@@ -114,8 +126,8 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-2">
-                                <label class="control-label">Job Capacity</label><!-- change comapany name details into job capacity-->
+                            <!--<div class="col-md-2">
+                                <label class="control-label">Job Capacity</label>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -126,7 +138,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="col-md-2">
                                 <label class="control-label">Email Address </label>
                             </div>
@@ -219,7 +231,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="number" class="form-control" placeholder="Number"
-                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-minlength="3" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfile.number.$dirty||profileCtrl.isSubmit2) }">
+                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-minlength="3" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfileBillingAddress.number.$dirty||profileCtrl.isSubmit2) }">
                                         <div ng-messages="formUpdateProfileAddress.number.$error" ng-show="formUpdateProfileAddress.number.$dirty||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="number">Enter your number</label>
                                             <label ng-message="maxlength" class="error" for="number">Enter less than 20 characters</label>
@@ -292,7 +304,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="phonenumber" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.phoneNumber" ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfile.phonenumber.$invalid && (formUpdateProfile.phonenumber.$dirty||profileCtrl.isSubmit) }">
+                                               ng-model="profileCtrl.model.customerDetails.phoneNumber" ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfileBillingAddress.phonenumber.$invalid && (formUpdateProfileBillingAddress.phonenumber.$dirty||profileCtrl.isSubmit) }">
                                         <div ng-messages="formUpdateProfileAddress.phonenumber.$error" ng-show="formUpdateProfileAddress.phonenumber.$dirty || profileCtrl.isSubmit2">
                                             <label ng-message="required" class="error" for="phonenumber">Enter Phone Number</label>
                                             <label ng-message="notValidPhoneNo" class="error" for="phonenumber">Enter valid phone number</label>
@@ -374,7 +386,7 @@
                     <tab-heading>
                         BILLING ADDRESS
                     </tab-heading>
-                    <form role="form" name="formUpdateProfileAddress">
+                    <form role="form" name="formUpdateProfileBillingAddress">
                         <div class="row">
                             <div class="col-md-4">
                                 <h3><strong>Billing Address</strong></h3>
@@ -410,8 +422,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_postalcode" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_postalcode.$invalid && (formUpdateProfile.billing_postalcode.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_postalcode.$error" ng-show="formUpdateProfile.billing_postalcode.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_postalcode.$invalid && (formUpdateProfileBillingAddress.billing_postalcode.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_postalcode.$error" ng-show="formUpdateProfileBillingAddress.billing_postalcode.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="billing_postalcode">Enter ZipCode</label>
                                             <label ng-message="minlength" class="error" for="billing_postalcode">Enter at least 3 characters or more</label>
                                             <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
@@ -428,8 +440,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_number" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.number" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_number.$invalid && (formUpdateProfile.billing_number.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_number.$error" ng-show="formUpdateProfile.billing_number.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.number" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_number.$invalid && (formUpdateProfileBillingAddress.billing_number.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_number.$error" ng-show="formUpdateProfileBillingAddress.billing_number.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="billing_postalcode">Enter Number</label>
                                             <label ng-message="maxlength" class="error" for="billing_postalcode">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
@@ -441,8 +453,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_streetaddress1" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress1.$invalid && (formUpdateProfile.billing_streetaddress1.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_streetaddress1.$error" ng-show="formUpdateProfile.billing_streetaddress1.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_streetaddress1.$invalid && (formUpdateProfileBillingAddress.billing_streetaddress1.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_streetaddress1.$error" ng-show="formUpdateProfileBillingAddress.billing_streetaddress1.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="billing_streetaddress1">Enter Street Address1</label>
                                             <label ng-message="maxlength" class="error" for="billing_streetaddress1">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="billing_streetaddress1">Enter at least 3 characters or more</label>
@@ -459,8 +471,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_streetaddress2" class="form-control"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.billing_streetaddress2.$invalid && (formUpdateProfile.billing_streetaddress2.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_streetaddress2.$error" ng-show="formUpdateProfile.billing_streetaddress2.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_streetaddress2.$invalid && (formUpdateProfileBillingAddress.billing_streetaddress2.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_streetaddress2.$error" ng-show="formUpdateProfileBillingAddress.billing_streetaddress2.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="maxlength" class="error" for="billing_streetaddress2">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
                                         </div>
@@ -476,8 +488,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_city" class="form-control" ng-required="!profileCtrl.multipleCostCenters"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.city" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_city.$invalid && (formUpdateProfile.billing_city.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_city.$error" ng-show="formUpdateProfile.billing_city.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.city" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_city.$invalid && (formUpdateProfileBillingAddress.billing_city.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_city.$error" ng-show="formUpdateProfileBillingAddress.billing_city.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="billing_city">Enter City</label>
                                             <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
@@ -492,8 +504,8 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="billing_state" class="form-control" ng-required="profileCtrl.isRequiredBillingState && !profileCtrl.multipleCostCenters" placeholder="State {{profileCtrl.isRequiredBillingState?'*':''}}"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfile.billing_state.$invalid && (formUpdateProfile.billing_state.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
-                                        <div ng-messages="formUpdateProfile.billing_state.$error" ng-show="formUpdateProfile.billing_state.$dirty ||profileCtrl.isSubmit">
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_state.$invalid && (formUpdateProfileBillingAddress.billing_state.$dirty||profileCtrl.isSubmit) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress">
+                                        <div ng-messages="formUpdateProfileBillingAddress.billing_state.$error" ng-show="formUpdateProfileBillingAddress.billing_state.$dirty ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="billing_city">Enter State</label>
                                             <label ng-message="maxlength" class="error" for="billing_city">Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="billing_city">Enter at least 3 characters or more</label>
@@ -511,9 +523,9 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="email" name="secondaryemail" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.secondaryEmail" ng-change="profileCtrl.CheckMail()" ng-maxlength="100" ng-class="{ 'error': formUpdateProfile.secondaryemail.$invalid && (formUpdateProfile.secondaryemail.$dirty||profileCtrl.isSubmit) || profileCtrl.invalidEmail}">
+                                               ng-model="profileCtrl.model.customerDetails.secondaryEmail" ng-change="profileCtrl.CheckMail()" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.secondaryemail.$invalid && (formUpdateProfileBillingAddress.secondaryemail.$dirty||profileCtrl.isSubmit) || profileCtrl.invalidEmail}">
 
-                                        <div ng-messages="formUpdateProfile.secondaryemail.$error" ng-show="formUpdateProfile.secondaryemail.$dirty || profileCtrl.isSubmit">
+                                        <div ng-messages="formUpdateProfileBillingAddress.secondaryemail.$error" ng-show="formUpdateProfileBillingAddress.secondaryemail.$dirty || profileCtrl.isSubmit">
                                             <label ng-message="email" class="error" for="email">Enter valid email address</label>
                                         </div>
                                         <label ng-show="profileCtrl.invalidEmail" class="error" for="email">Enter value different from primary email address</label>
@@ -544,68 +556,69 @@
                         LOGIN DETAILS
                     </tab-heading>
 
+                    <form role="form" name="formUpdateProfileLogin">
 
 
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="control-label">Email Address </label>
-                        </div>
-                        <div class="col-md-10">
-                            <div class="form-group">
-                                <div class="append-icon">
-                                    <input type="email" name="emailaddress" class="form-control"
-                                           ng-model="profileCtrl.model.customerDetails.email" required disabled>
-                                    <label ng-show="updateprofile.model.emailaddress.$invalid && !updateprofile.model.emailaddress.$pristine && !updateprofile.model.emailaddress.$error.required" class="error">Enter a valid email.</label>
-                                    <label ng-show="updateprofile.model.emailaddress.$error.required && updateprofile.model.emailaddress.$dirty" class="error">Email is required</label>
-
-                                </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">Email Address </label>
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="icheck-inline">
-                                <label>
-                                    <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="changeLogin" ng-change="profileCtrl.clearPassword()"
-                                           ng-model="profileCtrl.model.changeLoginData" /> Update Password
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="control-label">Enter Old Password </label>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="append-icon">
-                                    <input type="password" name="oldpassword" class="form-control" ng-maxlength="100"
-                                           placeholder="Enter Old Password" ng-model="profileCtrl.model.oldPassword" ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfile.oldpassword.$invalid && (formUpdateProfile.oldpassword.$dirty||profileCtrl.isSubmit) }">
-                                    <i class="icon-user"></i>
-                                    <div ng-messages="formUpdateProfile.oldpassword.$error" ng-show="formUpdateProfile.oldpassword.$dirty || profileCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="oldpassword">ReEnter your password</label>
-                                        <label ng-message="noMatch" class="error" for="oldpassword">2 passwords must be the same</label>
-                                        <label ng-message="maxlength" class="error" for="oldpassword">Enter less than 100 characters</label>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="email" name="emailaddress" class="form-control"
+                                               ng-model="profileCtrl.model.customerDetails.email" required disabled>
+                                        <label ng-show="updateprofile.model.emailaddress.$invalid && !updateprofile.model.emailaddress.$pristine && !updateprofile.model.emailaddress.$error.required" class="error">Enter a valid email.</label>
+                                        <label ng-show="updateprofile.model.emailaddress.$error.required && updateprofile.model.emailaddress.$dirty" class="error">Email is required</label>
+
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <label class="control-label">Create New Password </label>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="icheck-inline">
+                                    <label>
+                                        <input type="checkbox" data-checkbox="icheckbox_square-blue" icheck name="changeLogin" ng-change="profileCtrl.clearPassword()"
+                                               ng-model="profileCtrl.model.changeLoginData" /> Update Password
+                                    </label>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="append-icon">
-                                    <input type="password" name="newpassword" ng-minlength="8" ng-maxlength="20"
-                                           class="form-control" placeholder="Enter new password" ng-maxlenght="100"
-                                           ng-model="profileCtrl.model.newPassword"
-                                           ng-required="profileCtrl.model.changeLoginData" ng-enable="profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfile.newpassword.$invalid && (formUpdateProfile.newpassword.$dirty||profileCtrl.isSubmit) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData">
-                                    <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
-                                       data-placement="top"
-                                       data-html="true"
-                                       data-content="- At least 8 characters long. <br>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">Enter Old Password </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="password" name="oldpassword" class="form-control" ng-maxlength="100"
+                                               placeholder="Enter Old Password" ng-model="profileCtrl.model.oldPassword" ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfileLogin.oldpassword.$invalid && (formUpdateProfileLogin.oldpassword.$dirty||profileCtrl.isSubmit) }">
+                                        <i class="icon-user"></i>
+                                        <div ng-messages="formUpdateProfileLogin.oldpassword.$error" ng-show="formUpdateProfileLogin.oldpassword.$dirty || profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="oldpassword">ReEnter your password</label>
+                                            <label ng-message="noMatch" class="error" for="oldpassword">2 passwords must be the same</label>
+                                            <label ng-message="maxlength" class="error" for="oldpassword">Enter less than 100 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label class="control-label">Create New Password </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="password" name="newpassword" ng-minlength="8" ng-maxlength="20"
+                                               class="form-control" placeholder="Enter new password" ng-maxlenght="100"
+                                               ng-model="profileCtrl.model.newPassword"
+                                               ng-required="profileCtrl.model.changeLoginData" ng-enable="profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfileLogin.newpassword.$invalid && (formUpdateProfileLogin.newpassword.$dirty||profileCtrl.isSubmit) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData">
+                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                           data-placement="top"
+                                           data-html="true"
+                                           data-content="- At least 8 characters long. <br>
                                                                - Should at least  contain;
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
@@ -613,52 +626,54 @@
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
                                        data-original-title="Your Password should be:"></i>
 
-                                    <div ng-messages="formUpdateProfile.newpassword.$error" ng-show="formUpdateProfile.newpassword.$dirty || profileCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="password">Enter your password</label>
-                                        <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
-                                        <label ng-message="maxlength" class="error" for="password">Enter less than 100 characters</label>
+                                        <div ng-messages="formUpdateProfileLogin.newpassword.$error" ng-show="formUpdateProfileLogin.newpassword.$dirty || profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="password">Enter your password</label>
+                                            <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
+                                            <label ng-message="maxlength" class="error" for="password">Enter less than 100 characters</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
+                        <div class="row">
 
-                        <div class="col-md-2">
-                            <label class="control-label">Confirm Password </label>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <div class="append-icon">
-                                    <input type="password" ng-minlength="8" ng-maxlength="20"
-                                           name="newpassword_c" class="form-control"
-                                           placeholder="Re-enter new password" ng-maxlenght="100"
-                                           ng-model="profileCtrl.model.confirmPassword" valid-password-c ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfile.newpassword_c.$invalid && (formUpdateProfile.newpassword_c.$dirty||profileCtrl.isSubmit) }">
-                                    <i class="icon-user"></i>
-                                    <div ng-messages="formUpdateProfile.newpassword_c.$error" ng-show="formUpdateProfile.newpassword_c.$dirty || profileCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="newpassword_c">ReEnter your password</label>
-                                        <label ng-message="noMatch" class="error" for="newpassword_c">2 passwords must be the same</label>
-                                        <label ng-message="maxlength" class="error" for="newpassword_c">Enter less than 100 characters</label>
+                            <div class="col-md-2">
+                                <label class="control-label">Confirm Password </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="password" ng-minlength="8" ng-maxlength="20"
+                                               name="newpassword_c" class="form-control"
+                                               placeholder="Re-enter new password" ng-maxlenght="100"
+                                               ng-model="profileCtrl.model.confirmPassword" valid-password-c ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfileLogin.newpassword_c.$invalid && (formUpdateProfileLogin.newpassword_c.$dirty||profileCtrl.isSubmit) }">
+                                        <i class="icon-user"></i>
+                                        <div ng-messages="formUpdateProfileLogin.newpassword_c.$error" ng-show="formUpdateProfileLogin.newpassword_c.$dirty || profileCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="newpassword_c">ReEnter your password</label>
+                                            <label ng-message="noMatch" class="error" for="newpassword_c">2 passwords must be the same</label>
+                                            <label ng-message="maxlength" class="error" for="newpassword_c">Enter less than 100 characters</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <div class="col-sm-8 col-md-9"></div>
-                                <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                    <button class="btn btn-primary resize-btn" type="submit"
-                                            ng-click="profileCtrl.updateProfileLoginDetails()">
-                                        Save
-                                    </button>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-md-9"></div>
+                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
+                                        <button class="btn btn-primary resize-btn" type="submit"
+                                                ng-click="profileCtrl.updateProfileLoginDetails()">
+                                            Save
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                </tab>
+                    </form>
+
+</tab>
 
                 <tab select="profileCtrl.loadAccountSettings()">
                     <tab-heading>
@@ -793,7 +808,7 @@
 
             <div class="col-lg-12 portlets">
                 <div class="panel">
-                <form role="form" name="formUpdateProfile" ng-submit="formUpdateProfile.$valid && profileCtrl.updateProfile()" >
+                <form role="form" name="formUpdateProfileBillingAddress" ng-submit="formUpdateProfileBillingAddress.$valid && profileCtrl.updateProfile()" >
                         <div class="panel-header">
                             <div class="row">
                                 <div class="col-md-8"></div>

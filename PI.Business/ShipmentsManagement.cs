@@ -604,7 +604,7 @@ namespace PI.Business
             }
 
             // Get new updated shipment list again.
-            content = (from shipment in Shipments
+            var updatedtContent = (from shipment in Shipments
                        where shipment.IsDelete == false &&
                        (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                        (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
@@ -614,7 +614,7 @@ namespace PI.Business
                        !shipment.IsParent
                        select shipment).ToList();
 
-            foreach (var item in content)
+            foreach (var item in updatedtContent)
             {
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -659,8 +659,6 @@ namespace PI.Business
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
-                        //ShipmentTermCode = item.ShipmentTermCode,
-                        //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
