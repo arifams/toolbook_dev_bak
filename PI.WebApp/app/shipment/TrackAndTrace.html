@@ -48,15 +48,15 @@
 
                                   <div class="panel panel-default map-panel">
                                       <div class="panel-body">  
-                                          <div class="row">
+                                          <div class="row" ng-show="!trackCtrl.trackingNotFound" >
                                               <div class="col-sm-12">
                                                   <div class="map" id="simple-map"></div>
                                               </div>
                                           </div>
                                           <div class="panel-header">
-                                              <label class="form-control label-info">Current Packege Location</label>
+                                              <label class="form-control label-info" ng-show="!trackCtrl.trackingNotFound">Current Packege Location</label>
                                               <div class="row" ng-show="trackCtrl.trackingNotFound">
-                                                  <label class="form-control">
+                                                  <label class="label label-warning">
                                                       Please check the Tracking Number and try Again
                                                   </label>
                                               </div>
