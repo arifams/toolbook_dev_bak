@@ -930,7 +930,7 @@
                         <tbody>
                             <tr ng-repeat="row in shipmentCtrl.displayedCollection">
                                 <td>{{row.carrier_name+ " "+ row.transport_mode}}</td>
-                                <td>{{row.currency+" "+row.price}}</td>
+                                <td>{{row.currency+" "+     parseFloat(row.price).toFixed(2)  }}</td>
                                 <td>{{row.delivery_date}}</td>
                                 <td>{{row.price_detail.description}}</td>
                                 <td>{{row.transit_time}}</td>

@@ -14,14 +14,17 @@
                var lat = 0;
                var lng = 0;
                vm.shipmentMode = 'EXPRESS';
+               vm.searching = false;
               
 
                vm.LoadTrackAndTracecDate = function () {
+                   vm.searching = true;
                    var shipmentMode = vm.shipmentMode;
                    var carrier = vm.carrier;
                    var trackingNo = vm.trackingNumber;
                    if (shipmentMode == null || carrier == null || trackingNo==null) {
                        vm.missingFields = true;
+                       vm.searching = false;
                       
                    } else {
                        vm.missingFields = false;
@@ -36,6 +39,7 @@
                                        lng = vm.trackingData.history.items[i].location.geo.lng;
 
                                    }
+
                                   
                                } else {
                                    if (vm.trackingData.info.system.consignor.geo!=null) {
@@ -48,8 +52,11 @@
 
                                
                                }
+
+                               vm.searching = false;
                            } else {
                                vm.trackingNotFound = true;
+                               vm.searching = false;
                            }
 
                            if ($("#simple-map").length) {
