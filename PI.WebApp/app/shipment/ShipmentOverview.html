@@ -161,7 +161,7 @@
             <div class="row">
                 <div class="col-sm-10"></div>
                 <div class="col-sm-2">
-                    <input type="button" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.printAwb('awb')" />
+                    <input type="button" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('awb')" />
                 </div>
             </div>
             <div class="awb" id="awb">
@@ -182,7 +182,11 @@
                 COMMERCIAL INVOICE
             </tab-heading>
             <div class="panel-content panel-border">
-                        <div ng-include="'shipment/commercialInvoice.html'"></div>
+                <div class="col-sm-10"></div>
+                <div class="col-sm-2">
+                    <input type="button" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('invoice')" />
+                </div>
+                        <div ng-include="'shipment/commercialInvoice.html'" id="invoice"></div>
             </div>
 
             </tab>
