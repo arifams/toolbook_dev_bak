@@ -11,6 +11,7 @@
                var SISURL = 'http://book.12send.com/taleus/admin-manifest.asp?'
                var userid = 'user@Mitrai.com';
                var password = 'Mitrai462';
+               var career = null;
                vm.isPackageEnable = 'false';
                vm.isSubmit = false;
                vm.shipmentInfo = {};
@@ -49,7 +50,7 @@
                vm.clickSpecific = function () {
                    vm.specific = true;
                    vm.Date = '';
-                   career = null;
+                   //career = null;
                }
 
 
@@ -57,7 +58,7 @@
                vm.GenerateManifest = function () {
                    vm.showEdit = false;
                    vm.isSubmit = true;                   
-                   var career=vm.carrier;
+                   career=vm.carrier;
 
                    if (vm.Date == null && career==null) {
                        vm.Date = '';
