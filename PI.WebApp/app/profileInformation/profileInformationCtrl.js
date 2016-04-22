@@ -71,13 +71,13 @@
 
     });
 
-
+    
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$parsers.unshift(function (viewValue, $scope) {
-                    var noMatch = viewValue != scope.formUpdateProfile.newpassword.$viewValue;
+                    var noMatch = viewValue != scope.formUpdateProfileLogin.newpassword.$viewValue;
                     ctrl.$setValidity('noMatch', !noMatch);
                     return viewValue;
                 })
@@ -96,9 +96,9 @@
                     ctrl.$setValidity('noValidPassword', res);
 
                     // if change the password when having confirmation password, check match and give error.
-                    if (scope.formUpdateProfile.newpassword_c.$viewValue != '') {
-                        var noMatch = viewValue != scope.formUpdateProfile.newpassword_c.$viewValue;
-                        scope.formUpdateProfile.newpassword_c.$setValidity('noMatch', !noMatch);
+                    if (scope.formUpdateProfileLogin.newpassword_c.$viewValue != '') {
+                        var noMatch = viewValue != scope.formUpdateProfileLogin.newpassword_c.$viewValue;
+                        scope.formUpdateProfileLogin.newpassword_c.$setValidity('noMatch', !noMatch);
                     }
 
                     return viewValue;
@@ -183,7 +183,6 @@
                             vm.model = response;
 
                             if (response.customerDetails != null) {
-                                debugger;
                                 //setting the account type                        
                                 vm.model.customerDetails = response.customerDetails;
 
@@ -252,7 +251,7 @@
 
                                         $noty.close();
                                         vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
-                                        debugger;
+                                        
                                         updateProfilefactory.updateProfileInfo(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null) {
@@ -372,7 +371,7 @@
                                 },
                                 {
                                     addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
-                                        debugger;
+                                        
                                         // updateProfile = false;
                                         $noty.close();
                                         return;
@@ -395,6 +394,7 @@
                 vm.loadAddressInfo = function () {
                     getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
                      .then(function successCallback(response) {
+                         
                          if (response.data.customerDetails != null) {
                              // vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
@@ -425,10 +425,10 @@
                 }
 
                 vm.loadAccountSettings = function () {
-                    debugger;
+                    
                     getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
                      .then(function successCallback(response) {
-
+                         
                          vm.languageList = response.data.accountSettings.languages;
                          vm.defaultLanguage = response.data.accountSettings.languages[0];
 
@@ -438,12 +438,19 @@
                          vm.timezoneList = response.data.accountSettings.timeZones;
                          vm.defaultTimezone = response.data.accountSettings.timeZones[0];
 
-                         if (response.data.defaultCurrencyId != 0)
-                             vm.defaultCurrency = { id: response.defaultCurrencyId };
-                         if (response.data.defaultLanguageId != 0)
-                             vm.defaultLanguage = { id: response.defaultLanguageId };
-                         if (response.data.defaultTimeZoneId != 0)
-                             vm.defaultTimezone = { id: response.defaultTimeZoneId };
+                         if (response.data.accountSettings.defaultCurrencyId != 0)
+                             vm.defaultCurrency = { id: response.data.accountSettings.defaultCurrencyId };
+                         if (response.data.accountSettings.defaultLanguageId != 0)
+                             vm.defaultLanguage = { id: response.data.accountSettings.defaultLanguageId };
+                         if (response.data.accountSettings.defaultTimeZoneId != 0)
+                             vm.defaultTimezone = { id: response.data.accountSettings.defaultTimeZoneId };
+
+                         vm.model.bookingConfirmation = response.data.bookingConfirmation;
+                         vm.model.pickupConfirmation= response.data.pickupConfirmation;
+                         vm.model.shipmentDelay= response.data.shipmentDelay;
+                         vm.model.shipmentException= response.data.shipmentException;
+                         vm.model.notifyNewSolution= response.data.notifyNewSolution;
+                         vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
 
                      }, function errorCallback(response) {
                          //todo
@@ -776,6 +783,8 @@
 
                 // Response of Update Profile.
                 function updateProfileResponse(response) {
+
+                    var body = $("html, body");
 
                     if (response == 1) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {

@@ -14,13 +14,17 @@
                var lat = 0;
                var lng = 0;
                vm.shipmentMode = 'EXPRESS';
+               vm.searching = false;
+              
 
                vm.LoadTrackAndTracecDate = function () {
+                   vm.searching = true;
                    var shipmentMode = vm.shipmentMode;
                    var carrier = vm.carrier;
                    var trackingNo = vm.trackingNumber;
                    if (shipmentMode == null || carrier == null || trackingNo==null) {
                        vm.missingFields = true;
+                       vm.searching = false;
                       
                    } else {
                        vm.missingFields = false;
@@ -36,69 +40,49 @@
 
                                    }
 
-
-                                   if ($("#simple-map").length) {
-                                       simple_map = new GMaps({
-                                           el: '#simple-map',
-                                           lat: lat,
-                                           lng: lng,
-                                           zoomControl: true,
-                                           zoomControlOpt: {
-                                               style: 'SMALL',
-                                               position: 'TOP_LEFT'
-                                           },
-                                           panControl: false,
-                                           streetViewControl: false,
-                                           mapTypeControl: false,
-                                           overviewMapControl: false
-                                       });
-                                       simple_map.addMarker({
-                                           lat: lat,
-                                           lng: lng,
-                                           title: 'Marker with InfoWindow',
-                                           infoWindow: {
-                                               content: '<p>Here we are!</p>'
-                                           }
-                                       });
-                                   }
+                                  
                                } else {
                                    if (vm.trackingData.info.system.consignor.geo!=null) {
                                        lat = vm.trackingData.info.system.consignor.geo.lat;
                                        lng = vm.trackingData.info.system.consignor.geo.lng;
-
-                                       if ($("#simple-map").length) {
-                                           simple_map = new GMaps({
-                                               el: '#simple-map',
-                                               lat: lat,
-                                               lng: lng,
-                                               zoomControl: true,
-                                               zoomControlOpt: {
-                                                   style: 'SMALL',
-                                                   position: 'TOP_LEFT'
-                                               },
-                                               panControl: false,
-                                               streetViewControl: false,
-                                               mapTypeControl: false,
-                                               overviewMapControl: false
-                                           });
-                                           simple_map.addMarker({
-                                               lat: lat,
-                                               lng: lng,
-                                               title: 'Marker with InfoWindow',
-                                               infoWindow: {
-                                                   content: '<p>Here we are!</p>'
-                                               }
-                                           });
-                                       }
+                                       
                                    } else {
                                        vm.trackingNotFound = true;
                                    }
 
                                
                                }
+
+                               vm.searching = false;
                            } else {
                                vm.trackingNotFound = true;
-                           }                          
+                               vm.searching = false;
+                           }
+
+                           if ($("#simple-map").length) {
+                               simple_map = new GMaps({
+                                   el: '#simple-map',
+                                   lat: lat,
+                                   lng: lng,
+                                   zoomControl: true,
+                                   zoomControlOpt: {
+                                       style: 'SMALL',
+                                       position: 'TOP_LEFT'
+                                   },
+                                   panControl: false,
+                                   streetViewControl: false,
+                                   mapTypeControl: false,
+                                   overviewMapControl: false
+                               });
+                               simple_map.addMarker({
+                                   lat: lat,
+                                   lng: lng,
+                                   title: 'Marker with InfoWindow',
+                                   infoWindow: {
+                                       content: '<p>Here we are!</p>'
+                                   }
+                               });
+                           }
 
 
                        })
