@@ -439,7 +439,7 @@
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;               
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
-                vm.shipment.carrierInformation.deliveryTime = row.delivery_time;
+                vm.shipment.carrierInformation.deliveryTime = row.delivery_date;
                 vm.shipment.carrierInformation.price =parseFloat(row.price).toFixed(2);
                 if (vm.shipment.packageDetails.isInsuared=='true') {
                     insurance = (row.price * 0.011).toFixed(2);
