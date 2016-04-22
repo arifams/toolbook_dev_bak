@@ -117,11 +117,14 @@
                                 </div>
 
 
-                                <div class="col-sm-4">
-                                    <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}}</label><br />
-                                    <label> {{manifestCtrl.consignerAddress1}}</label><br />
-                                    <label> {{manifestCtrl.consignerAddress2}}</label><br />
-                                    <label> {{manifestCtrl.consignernumber +" "+manifestCtrl.consignerCity}}</label><br />
+                                <div class="col-sm-3">
+                                    <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}},</label><br />
+                                    <label>{{manifestCtrl.consignerzipCode}},</label><br />
+                                    <label>{{manifestCtrl.consignernumber +","+manifestCtrl.consignerAddress1}},</label><br />
+                                    <div ng-show="manifestCtrl.consignerAddress2!=''">
+                                        <label>{{manifestCtrl.consignerAddress2}},</label><br />
+                                    </div>                                    
+                                    <label> {{manifestCtrl.consignerCity}}</label><br />
                                 </div>
                             </div>
                             <div class="row">
@@ -161,7 +164,7 @@
                                     <td>{{row.generalInformation.trackingNumber}}</td>
                                     <td>{{row.generalInformation.costCenterId}}</td>
                                     <td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}} </td>
-                                    <td>{{row.addressInformation.consignee.address1+ " "+ row.addressInformation.consignee.address2}}</td>
+                                    <td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>
                                     <td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>
                                     <td>{{row.carrierInformation.serviceLevel}}</td>
                                     <td ng-show="manifestCtrl.isPackageEnable=='true'">
@@ -191,7 +194,7 @@
                             <div class="row">
 
                                 <div class="col-sm-3">
-                                    <label>Date:.............................</label>
+                                    <label>Date:  {{manifestCtrl.Date}}</label>
                                 </div>
 
                                 <div class="col-sm-3">
@@ -202,10 +205,15 @@
                                     <label> Address</label>
                                 </div>
                                 <div class="col-sm-3">
-                                    <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}}</label><br />
-                                    <label> {{manifestCtrl.consignerAddress1}}</label><br />
-                                    <label> {{manifestCtrl.consignerAddress2}}</label><br />
-                                    <label> {{manifestCtrl.consignernumber +" "+manifestCtrl.consignerCity}}</label><br />
+                                    <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}},</label><br />
+                                     <label>{{manifestCtrl.consignerzipCode}},</label><br />
+                                    <label>{{manifestCtrl.consignernumber +","+manifestCtrl.consignerAddress1}},</label><br/>                                 
+                                    
+                                    <div ng-show="manifestCtrl.consignerAddress2!=''">
+                                        <label>{{manifestCtrl.consignerAddress2}},</label><br />
+                                    </div>  
+                                                                      
+                                    <label> {{manifestCtrl.consignerCity}}</label><br />
                                 </div>
                             </div>
                             <div class="row">
