@@ -1660,6 +1660,7 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
+                        ShipmentReferenceName=item.ShipmentReferenceName,
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
