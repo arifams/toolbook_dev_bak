@@ -204,7 +204,8 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company name " ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companyname" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
+                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company name *"
+                                                        ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companyname" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
                                             </div>
                                             <div ng-messages="formSignupNext.companyname.$error" ng-show="formSignupNext.companyname.$dirty || regCtrl.isSubmit">
                                                 <label ng-message="required" class="error" for="companyname">Enter company name</label>
