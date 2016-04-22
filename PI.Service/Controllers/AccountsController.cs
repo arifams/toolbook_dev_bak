@@ -138,7 +138,7 @@ namespace PI.Service.Controllers
             emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
-            AppUserManager.SendEmail(user.Id, "Your account has been provisioned!", emailbody.ToString());
+            AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 
             #endregion
 
@@ -530,7 +530,7 @@ namespace PI.Service.Controllers
                 emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
                                             .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
-                AppUserManager.SendEmail(result.UserId, "Your account has been provisioned!", emailbody.ToString());
+                AppUserManager.SendEmail(result.UserId, "Parcel International – Activate your account", emailbody.ToString());
 
                 #endregion
             }
