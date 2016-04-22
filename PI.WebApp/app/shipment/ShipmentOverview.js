@@ -83,7 +83,7 @@
                }
 
                //
-               vm.printAwb = function (divId) {
+               vm.print = function (divId) {
                    var printContents = document.getElementById(divId).innerHTML;
                    var popupWin = window.open('', '_blank', 'width=800,height=800');
                    popupWin.document.open();
