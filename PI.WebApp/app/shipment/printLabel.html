@@ -1,4 +1,4 @@
-﻿<div>
+<div>
     <div class="header">
        
     </div>
@@ -7,6 +7,7 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
+        <div class="panel-content panel-border">
         <form class="form-horizontal" name="printLabelForm">
             <!-- /.box-header -->
 
@@ -16,17 +17,13 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                                                   
-
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="btn-group form-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
                                            ng-model="printCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
-                                   
-
-                            <div class="col-md-4" >
+                            <!--<div class="col-md-4" >
                                 <div class="form-group">
                                     <input ng-model="printCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Tracking Number/ Shipment Ref Number" />
@@ -39,7 +36,22 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </div>
+                            </div>-->
+                            <div class="col-md-2"></div>
+                            <div class="col-md-6">
+                                <div class="form-group input-group">
+                                    <input ng-model="printCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
+                                           placeholder="Tracking Number/ Shipment Ref Number" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="printCtrl.loadAllShipments()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
                             </div>
+                            
+
+
                         </div>
                     </div>
                     <br />
@@ -92,6 +104,7 @@
 
             </div>
         </form>
+        </div>
     </div>
 
 </div>

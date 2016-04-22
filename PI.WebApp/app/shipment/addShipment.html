@@ -157,15 +157,13 @@
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="shipmentCtrl.searchAddressesConsignor()">
                                     <i class="fa fa-search"></i>
                                 </button>
-                            </span>
-
-                           
+                            </span> 
                         </div>
-                                <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
-                                    <label class="error">Searsh criteria does not match with any saved address details</label>
-                            </div>
-                                <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
-                                    <label class="error">Add text before search</label>
+                        <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
+                            <label class="error">Searsh criteria does not match with any saved address details</label>
+                        </div>
+                        <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
+                            <label class="error">Add text before search</label>
                         </div>
                         <div class="form-group">
                             <label class="form-label">Consignor </label>
@@ -894,7 +892,7 @@
                         </div>
                     </div>
                     <div class="col-sm-3">
-                        <button class="btn btn-primary no-margin" type="button" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
+                        <button class="btn btn-primary no-margin" style="float:right;" type="button" ng-click="shipmentCtrl.calculateRates()">Calculate Rates</button>
                     </div>
                 </div>
                 <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
@@ -994,21 +992,23 @@
                                 </table>
                             </div>
                             <div class="row">
-                                <div class="col-sm-5"></div>
+                                <div class="col-sm-10"></div>
                                 <div class="col-sm-2">
-                                    <button class="btn btn-primary " ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
+                                    <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
+                                        <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-2 p-r-0">
+                                    <button class="btn btn-primary pull-right " ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
                                 </div>
 
                                 <div class="col-sm-2">
                                     <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Invoice</button>
 
                                 </div>
-                                <div class="col-sm-1">
-                                    <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
-                                        <label><i class="fa fa-spinner faa-spin animated"></i> Adding...</label>
-                                    </div>
-                                </div>
-
                                 <div class="col-sm-2">
                                     <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Online</button>
                                 </div>
