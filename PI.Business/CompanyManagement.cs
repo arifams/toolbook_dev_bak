@@ -32,7 +32,7 @@ namespace PI.Business
                 //Add Tenant
                 Tenant tenant = new Tenant
                 {
-                   // TenancyName = customerCompany.CompanyCode,
+                    // TenancyName = customerCompany.CompanyCode,
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now,
                     IsActive = true,
@@ -188,6 +188,7 @@ namespace PI.Business
             }
 
             pagedRecord.Content = new List<CostCenterDto>();
+            bool isBusinessOwner = IsLoggedInAsBusinessOwner(userId);
 
             using (var context = new PIContext())
             {
@@ -195,6 +196,7 @@ namespace PI.Business
                                         .Where(x => x.CompanyId == currentcompany.Id &&
                                                      x.Type == "USER" &&
                                                      x.IsDelete == false &&
+                                                    (isBusinessOwner || (!isBusinessOwner && x.DivisionCostCenters.Any(d => d.Divisions.UserInDivisions.Any(u => u.IsActive && u.UserId == userId)))) &&
                                                     (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
                                                     (type == "0" || x.IsActive.ToString() == type) &&
                                                     (divisionId == 0 || x.DivisionCostCenters.Any(cd => cd.DivisionId == divisionId && cd.IsDelete == false))
@@ -385,9 +387,14 @@ namespace PI.Business
                             CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         },
                         IsActive = costCenter.Status == 1 ? true : false,
-                        DivisionCostCenters = divcostList
                     };
                     context.CostCenters.Add(newCostCenter);
+                    context.SaveChanges();
+
+                    divcostList.ToList().ForEach(x=> x.CostCenterId = newCostCenter.Id);
+                    context.DivisionCostCenters.AddRange(divcostList);
+                    context.SaveChanges();
+
 
                 }
                 else
@@ -434,9 +441,11 @@ namespace PI.Business
                     // TODO: Add Assigned Devisions
                     // TODO: Need to handle prevent remove default cost center in div.
                     context.DivisionCostCenters.AddRange(divcostList);
+
+                    context.SaveChanges();
+
                 }
 
-                context.SaveChanges();
             }
 
             return 1;
@@ -617,18 +626,20 @@ namespace PI.Business
         {
             var pagedRecord = new PagedList();
             Company currentcompany = this.GetCompanyByUserId(userId);
+            bool isBusinessOwner = IsLoggedInAsBusinessOwner(userId);
+
             if (currentcompany == null)
             {
                 return pagedRecord;
             }
-
             pagedRecord.Content = new List<DivisionDto>();
 
             using (var context = new PIContext())
             {
                 var content = context.Divisions.Include("DivisionCostCenters")
-                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER"
-                                                    && x.IsDelete == false &&
+                                        .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER" &&
+                                                    x.IsDelete == false &&
+                                                    (isBusinessOwner || !isBusinessOwner && x.UserInDivisions.Any(d => d.IsActive && d.UserId == userId)) &&
                                                     (string.IsNullOrEmpty(searchtext) || x.Name.Contains(searchtext)) &&
                                                     (type == "0" || x.IsActive.ToString() == type) &&
                                                     (costCenterId == 0 || x.DivisionCostCenters.Any(cd => cd.CostCenterId == costCenterId && cd.IsDelete == false))
@@ -663,7 +674,7 @@ namespace PI.Business
                         Status = item.Status,
                         StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
-                        NumberOfUsers = item.UserInDivisions.ToList().Count(),
+                        NumberOfUsers = item.UserInDivisions.Where(x => x.DivisionId==item.Id && x.IsActive).ToList().Count() + 1, //Add the business owner since he is not in the UserInDivisions table.
                         AssosiatedCostCentersForGrid = assosiatedCostCentersForGrid
                     });
                 }
@@ -901,6 +912,18 @@ namespace PI.Business
 
         #region User Management
 
+
+        public bool IsLoggedInAsBusinessOwner(string userId)
+        {
+            using (var context = new PIContext())
+            {
+                string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
+                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
+
+                return (roleName == "BusinessOwner") ? true : false;
+            }
+        }
+
         public string GetLoggedInUserName(string userId)
         {
             string userName = null;
@@ -911,7 +934,7 @@ namespace PI.Business
 
                 if (user != null)
                 {
-                  userName =  user.FirstName; 
+                    userName = user.FirstName;
                 }
             }
 
@@ -1181,7 +1204,8 @@ namespace PI.Business
                     IList<UserInDivision> udList = context.UsersInDivisions.Where(ud => ud.UserId == appUser.Id && ud.IsActive && !ud.IsDelete).ToList();
 
                     // Removed division list which unselect
-                    udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.DivisionId) && (div.IsActive = false)).ToList();
+                    udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.DivisionId)).ToList().ForEach
+                                                                    (dc => { dc.IsActive = false; dc.IsDelete = true; }); ;
 
                     context.SaveChanges();
 
@@ -1367,9 +1391,9 @@ namespace PI.Business
 
                 foreach (var item in content)
                 {
-                  
+
                     int userCount = context.UsersInDivisions.Where(x => x.Divisions.CompanyId == item.Company.Id)
-                                    .Select(x=> x.UserId).ToList().Count();
+                                    .Select(x => x.UserId).ToList().Count();
 
                     int shipmentCount = context.Shipments.Where(x => x.Division.CompanyId == item.Company.Id && x.IsActive)
                                     .Select(x => x.Id).ToList().Count();
