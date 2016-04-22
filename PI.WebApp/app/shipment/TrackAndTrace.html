@@ -12,12 +12,12 @@
         <div class="panel-body">
                       <div class="panel-content">
                           <div class="row">
-                              <div class="col-sm-3">
+                              <div class="col-sm-2">
                                   <select class="form-control" ng-model="trackCtrl.shipmentMode"  >
                                       <option value="EXPRESS">EXPRESS</option>
                                   </select>
                               </div>
-                              <div class="col-sm-3">
+                              <div class="col-sm-2">
                                   <select class="form-control" ng-model="trackCtrl.carrier">
                                       <option value="">Select Carrier</option>
                                       <option value="UPS">UPS</option>
@@ -26,8 +26,8 @@
                                       <option value="FEDEX">FEDEX</option>                                     
                                   </select>
                               </div>
-                              <div class="col-sm-6">
-                                  <div class="col-sm-5" >
+                              <div class="col-sm-7">
+                                  <div class="col-sm-6">
                                       <div class="form-group">
                                           <input ng-model="trackCtrl.trackingNumber" name="trackingNumber" type="text" class="form-control"
                                                  placeholder="Tracking Number" />
@@ -40,6 +40,11 @@
                                               <i class="fa fa-search"></i>
                                           </button>
                                       </div>
+                                  </div>                                  
+                              </div>
+                              <div class="col-sm-1">
+                                  <div class="font-animation" ng-show="trackCtrl.searching==true">
+                                      <label><i class="fa fa-spinner faa-spin animated"></i> Searching...</label>
                                   </div>
                               </div>
                           </div>
