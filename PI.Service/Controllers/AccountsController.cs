@@ -13,6 +13,7 @@ using PI.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IdentityModel.Protocols.WSTrust;
 using System.IdentityModel.Tokens;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using System.Web.Script.Serialization;
 
 namespace PI.Service.Controllers
 {
@@ -138,7 +140,7 @@ namespace PI.Service.Controllers
             emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
                                         .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
-            AppUserManager.SendEmail(user.Id, "Your account has been provisioned!", emailbody.ToString());
+            AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 
             #endregion
 
@@ -289,31 +291,18 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
-                    ////DateTime expires = DateTime.Now.AddDays(1);
-                    ////var tokenHandler = new JwtSecurityTokenHandler();
-                   // X509Certificate2 cert = new X509Certificate2(Path.Combine(AssemblyDirectory, "private.localhost.pfx"), "localhost", X509KeyStorageFlags.MachineKeySet);
+                    string userDetails = "{userId:"+ user.Id+",userRole:"+ roleName +"}";
 
-                    ////ClaimsIdentity claimsIdentity = new ClaimsIdentity(new[]
-                    ////{
-                    //// new Claim(ClaimTypes.Name, user.Id),
-                    //// new Claim("Id", user.Id),
-                    //// new Claim("IsCorporateAccount", isCorporateAccount.ToString()),
-                    //// new Claim(ClaimTypes.Role, roleName),
-
-                    //// });
-                    //////create the token
-                    ////var token = (JwtSecurityToken)tokenHandler.CreateToken(issuer: "http://localhost:5555/", audience: "http://localhost:5555/", subject: claimsIdentity, expires: expires, signingCredentials: new X509SigningCredentials(cert));
-                    ////var tokenString = tokenHandler.WriteToken(token);
-                    //////return the token
-                    ////return Ok<String>(tokenString);
-
+                    CustomerManagement customerManagement = new CustomerManagement();
+                    string _token = customerManagement.GetJwtToken(userDetails);
 
                     return Ok(new
                     {
                         Id = user.Id,
                         Role = roleName,
                         Result = 1,
-                        IsCorporateAccount = isCorporateAccount
+                        IsCorporateAccount = isCorporateAccount,
+                        token= _token
                     });
                 }
 
@@ -338,13 +327,18 @@ namespace PI.Service.Controllers
                 {
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
+                    CustomerManagement customerManagement = new CustomerManagement();
+                    string userDetails = "{userId:" + user.Id + ",userRole:" + roleName + "}";
+
+                    string _token = customerManagement.GetJwtToken(userDetails);
 
                     return Ok(new
                     {
                         Id = user.Id,
                         Role = roleName,
                         Result = 2,
-                        IsCorporateAccount = isCorporateAccount
+                        IsCorporateAccount = isCorporateAccount,
+                        token= _token
                     });
                 }
                 else
@@ -380,28 +374,20 @@ namespace PI.Service.Controllers
                 });
             else
             {   //set last logon time as current datetime
+               
                 companyManagement.UpdateLastLoginTime(user.Id);
                 return Ok(new
                 {
                     Id = user.Id,
                     Role = roleName,
-                    Result = 1,                  
+                    Result = 1,
+                    
+                                      
                 });
             }
         }
 
-        public static string AssemblyDirectory
-        {
-            get
-            {
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-            }
-        }
-
-
+       
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
@@ -530,7 +516,7 @@ namespace PI.Service.Controllers
                 emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
                                             .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
 
-                AppUserManager.SendEmail(result.UserId, "Your account has been provisioned!", emailbody.ToString());
+                AppUserManager.SendEmail(result.UserId, "Parcel International – Activate your account", emailbody.ToString());
 
                 #endregion
             }
