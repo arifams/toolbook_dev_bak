@@ -27,7 +27,8 @@ var MakeApp = angular
     'angularjs-datetime-picker',
     'daterangepicker',
     'ngDialog',
-    'ngFileUpload'
+    'ngFileUpload',
+    'angular-jwt'
   ])
   .config(function ($routeProvider) {
       $routeProvider

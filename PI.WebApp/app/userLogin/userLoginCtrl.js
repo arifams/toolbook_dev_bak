@@ -88,7 +88,7 @@
                      $window.localStorage.setItem('userGuid', returnedResult.data.id); 
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
                      $window.localStorage.setItem('isCorporateAccount', returnedResult.data.isCorporateAccount);
-                     $window.localStorage.setItem('token', returnedResult.data.token);
+                     $window.localStorage.setItem('token', returnedResult.data.token);                   
 
                      window.location = webBaseUrl + "/app/index.html";
                  }
