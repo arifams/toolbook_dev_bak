@@ -988,14 +988,46 @@
             .then(function (result)
             {
                 if (result.data == "1") {
+                    vm.alreadySubmitted = false;
                     vm.isSentMail = true;
                 }
                 else if (result.data == "-2") {
-                    vm.isEmailNotValid = true;
+                    //vm.isEmailNotValid = true;
+                    vm.alreadySubmitted = false;
+                    $.noty.defaults.killer = true;
+
+                    noty({
+                        text: '<p style="font-size:medium">Error! </p>' + 'Email address is already in use.',
+                        layout: 'topRight',
+                        type: 'error', //warning
+                        animation: {
+                            open: 'animated bounceInRight', // Animate.css class names
+                            close: { height: 'toggle' }, // Animate.css class names
+                            easing: 'swing', // unavailable - no need
+                            speed: 200 // unavailable - no need
+                        },
+                        timeout: 4000
+                    });
                 }
                 else { 
                     // Other issues.
-                    vm.isServerError = true;
+                    //vm.isServerError = true;
+                    vm.alreadySubmitted = false;
+
+                    $.noty.defaults.killer = true;
+
+                    noty({
+                        text: '<p style="font-size:medium">Error! </p>' + 'Error occured while processing registration',
+                        layout: 'topRight',
+                        type: 'error',
+                        animation: {
+                            open: 'animated bounceInRight', // Animate.css class names
+                            close: { height: 'toggle' }, // Animate.css class names
+                            easing: 'swing', // unavailable - no need
+                            speed: 200 // unavailable - no need
+                        },
+                        timeout: 4000
+                    });
                 }
             },
             function (error) {

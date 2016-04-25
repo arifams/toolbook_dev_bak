@@ -27,6 +27,7 @@
                vm.reference = "";
                vm.specific = false;
                vm.referencedropdown = 'reference';
+               vm.showError = false;
 
 
                vm.BacktoSearch = function () {
@@ -89,6 +90,9 @@
                    }
                  
                }).error(function (error) {
+                   vm.showEdit = true;
+                   vm.showError = true;
+
                    console.log("error occurd while retrieving customer details");
                });
                }
