@@ -132,16 +132,18 @@ namespace PI.Business
         public string GetJwtToken(string userdetails)
         {
 
+           
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityKey = this.GetBytes("anyoldrandomtext");
             var now = DateTime.UtcNow;
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(
-                new[] { new Claim("User", userdetails) }, "JWT"),
+                new[] { new Claim("User", userdetails) ,new Claim("Role", "BusinessOwner") }, "JWT"),
 
                 TokenIssuerName = "self",
                 AppliesToAddress = "http://localhost:5555/",
+                
                 Lifetime = new Lifetime(now, now.AddMinutes(60)),
 
                 SigningCredentials = new SigningCredentials(new InMemorySymmetricSecurityKey(securityKey),
