@@ -30,7 +30,7 @@ var MakeApp = angular
     'ngFileUpload',
     'angular-jwt'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
       $routeProvider
         //.when('/', {
         //    templateUrl: 'dashboard/dashboard.html',
@@ -313,6 +313,12 @@ var MakeApp = angular
         .otherwise({
             redirectTo: '/loadShipments'
         });
+
+      jwtInterceptorProvider.tokenGetter = function () {
+          return localStorage.getItem('token');
+      };
+
+      $httpProvider.interceptors.push('jwtInterceptor');
   });
 
 
