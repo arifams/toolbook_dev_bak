@@ -9,9 +9,14 @@
         };
     })
 
-    app.factory('loadAddressBookFactory', function ($http, $routeParams, $window) {
+    app.factory('loadAddressBookFactory', function ($http, $routeParams, $window, jwtHelper) {
         return {
             loadAddressInfo: function () {
+                var token= $window.localStorage.getItem('token')
+                
+                var tokenPayload = jwtHelper.decodeToken(token);
+
+
                 return $http.get(serverBaseUrl + '/api/AddressBook/LoadAddress', {
                     params: {
                         id: $routeParams.id,
