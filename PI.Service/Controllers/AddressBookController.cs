@@ -31,7 +31,7 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetSerchedAddressList")]
         public PagedList GetSerchedAddressList(string userId, string searchtext = "")
@@ -50,7 +50,7 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        [CustomAuthorize]
         [HttpPost]
         [Route("SaveAddress")]
         public int SaveAddress([FromBody] AddressBookDto address)

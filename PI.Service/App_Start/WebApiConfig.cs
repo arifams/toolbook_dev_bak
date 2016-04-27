@@ -24,17 +24,20 @@ namespace PI.Service
             );
 
 
-            CustomerManagement cust = new CustomerManagement();
-            var securityKey = cust.GetBytes("anyoldrandomtext");
-            var builder = new SecurityTokenBuilder();
-            var jwtHandler = new JwtAuthenticationMessageHandler
-            {
-                AllowedAudience = "http://localhost:5555/",
-                Issuer = "self",
-                SigningToken = builder.CreateFromKey(securityKey)
-            };
+            //CustomerManagement cust = new CustomerManagement();
+            //var securityKey = cust.GetBytes("anyoldrandomtext");
+            //var builder = new SecurityTokenBuilder();
+            //var jwtHandler = new JwtAuthenticationMessageHandler
+            //{
+            //    AllowedAudience = "http://localhost:5555/",
+            //    Issuer = "self",
+            //    SigningToken = builder.CreateFromKey(securityKey)
+            //};
 
-            config.MessageHandlers.Add(jwtHandler);
+            //config.MessageHandlers.Add(jwtHandler);
+
+            config.Filters.Add(new CustomAuthorizeAttribute());
+
         }
     }
 }

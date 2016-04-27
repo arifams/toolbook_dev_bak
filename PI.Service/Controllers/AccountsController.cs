@@ -291,7 +291,7 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
-                    string userDetails = "{userId:"+ user.Id+",userRole:"+ roleName +"}";
+                    string userDetails = user.Id;
 
                     CustomerManagement customerManagement = new CustomerManagement();
                     string _token = customerManagement.GetJwtToken(userDetails);
