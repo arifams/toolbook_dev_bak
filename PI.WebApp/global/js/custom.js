@@ -8,7 +8,7 @@ var serverBaseUrl = 'http://piserviceprod.azurewebsites.net';
 // Web base url
 //var webBaseUrl = 'http://localhost:49995';
 //var webBaseUrl = 'http://pibookingservice.azurewebsites.net';
-var webBaseUrl = 'http://piwebprod.azurewebsites.net';
+var webBaseUrl = 'http://www.parcelinternational.net';
 
 var SISUrl='http://book.12send.com/taleus/';
 
