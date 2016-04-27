@@ -130,27 +130,7 @@ namespace PI.Business
         }
 
         public string GetJwtToken(string userdetails)
-        {
-            //var tokenHandler = new JwtSecurityTokenHandler();
-            //var securityKey = this.GetBytes("anyoldrandomtext");
-            //var now = DateTime.UtcNow;
-            //var tokenDescriptor = new SecurityTokenDescriptor
-            //{
-            //    Subject = new ClaimsIdentity(
-            //    new[] { new Claim("User", userdetails) ,new Claim("Role", "BusinessOwner") }, "JWT"),
-
-            //    TokenIssuerName = "self",
-            //    AppliesToAddress = "http://localhost:5555/",
-
-            //    Lifetime = new Lifetime(now, now.AddMinutes(60)),
-
-            //    SigningCredentials = new SigningCredentials(new InMemorySymmetricSecurityKey(securityKey),
-            //    "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256",
-            //    "http://www.w3.org/2001/04/xmlenc#sha256"),
-            //};
-            //var token = tokenHandler.CreateToken(tokenDescriptor);
-            //var tokenString = tokenHandler.WriteToken(token);
-            //return tokenString;
+        {           
             
             var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
             var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
