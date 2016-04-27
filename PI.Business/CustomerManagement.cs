@@ -129,7 +129,7 @@ namespace PI.Business
             }
         }
 
-        public string GetJwtToken(string userdetails)
+        public string GetJwtToken(string userid, string role)
         {           
             
             var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
@@ -139,8 +139,8 @@ namespace PI.Business
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>()
               {
-                   new Claim(ClaimTypes.UserData, userdetails),
-                   new Claim(ClaimTypes.Role, "Administrator"),
+                   new Claim("UserId", userid),
+                   new Claim(ClaimTypes.Role, role),
               }, "Custom");
 
             var securityTokenDescriptor = new SecurityTokenDescriptor()
