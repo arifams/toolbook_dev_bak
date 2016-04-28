@@ -929,6 +929,20 @@ namespace PI.Business
             return profileDetails;
         }
 
+        //get role name by Id
+       public string GetRoleNameById(string id)
+        {
+            var roleName="";
+
+            using (PIContext context= new PIContext())
+            {
+                roleName = (from n in context.Roles
+                       where n.Id.Equals(id)
+                       select n.Name).FirstOrDefault();
+            }
+            return roleName;
+        }
+
 
         //Get Account Setting Details
         //retrieve all languages

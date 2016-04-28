@@ -291,10 +291,10 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
-                    string userDetails = "{userId:"+ user.Id+",userRole:"+ roleName +"}";
+                    string userId = user.Id;
 
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string _token = customerManagement.GetJwtToken(userDetails);
+                    string _token = customerManagement.GetJwtToken(userId, roleName);
 
                     return Ok(new
                     {
@@ -328,9 +328,9 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string userDetails = "{userId:" + user.Id + ",userRole:" + roleName + "}";
+                    string userId = user.Id;
 
-                    string _token = customerManagement.GetJwtToken(userDetails);
+                    string _token = customerManagement.GetJwtToken(userId, roleName);
 
                     return Ok(new
                     {
