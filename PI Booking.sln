@@ -21,8 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.WebApp", "PI.WebApp\PI.W
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.AzureFileStorageManager", "AzureMediaManager\PI.AzureFileStorageManager.csproj", "{272B5E98-13CC-4EB1-8C55-64519E5931FF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDeployWebApp", "TestDeployWebApp\TestDeployWebApp.csproj", "{C308F092-7DDB-46BA-ACC5-6BFE0AEE65F3}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,10 +63,6 @@ Global
 		{272B5E98-13CC-4EB1-8C55-64519E5931FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{272B5E98-13CC-4EB1-8C55-64519E5931FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{272B5E98-13CC-4EB1-8C55-64519E5931FF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C308F092-7DDB-46BA-ACC5-6BFE0AEE65F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C308F092-7DDB-46BA-ACC5-6BFE0AEE65F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C308F092-7DDB-46BA-ACC5-6BFE0AEE65F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C308F092-7DDB-46BA-ACC5-6BFE0AEE65F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
