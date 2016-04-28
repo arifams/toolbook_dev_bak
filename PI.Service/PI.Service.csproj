@@ -203,6 +203,10 @@
     </Content>
     <None Include="Properties\PublishProfiles\PIBooking.pubxml" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
+    <None Include="Properties\PublishProfiles\PIServiceProd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIServiceProd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
