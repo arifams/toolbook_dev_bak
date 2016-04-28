@@ -89,7 +89,7 @@
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
                      $window.localStorage.setItem('userRole', returnedResult.data.role);                    
 
-                     window.location = webBaseUrl + "/app/index.html";
+                     window.location = webBaseUrl + "/index.html";
                  }
                  else if (returnedResult.data.result == "-1") {
                      vm.loginInvalid = true;
@@ -100,22 +100,6 @@
                 
                 
              },
-            //.then(function (result) {
-
-            //    if (result.data == "1" || result.data == "2") {
-
-            //        // TODO: To be coverted to a token.
-
-
-            //        window.location = webBaseUrl + "/app/index.html"; 
-            //    }
-            //    else if (result.data == "-1") {
-            //        vm.loginInvalid = true;
-            //    }
-            //    else if (result.data == "-2") {
-            //        vm.invalidToken = true;
-            //    }
-            //},
             function (error) {
 
                 console.log("failed");
