@@ -93,7 +93,7 @@
             
             userManager.loginUser(user, 'api/accounts/resetForgetPasswordConfirm')
              .then(function (returnedResult) {
-                 debugger;
+                 
                  if (returnedResult.data == "1") {
                      vm.successReset = true;
                      $timeout(function () {

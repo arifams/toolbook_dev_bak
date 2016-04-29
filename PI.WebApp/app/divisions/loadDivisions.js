@@ -107,7 +107,7 @@
                     }
                 })
                 .error(function () {
-                    debugger;
+                    
                 });
             }
         };

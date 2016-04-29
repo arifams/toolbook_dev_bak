@@ -10,7 +10,7 @@
             
 
             $scope.uploadFile = function (file) {
-                debugger;
+                
                 file.upload = Upload.upload({
                     url: serverBaseUrl + '/api/Shipments/upload',
                     data: {
@@ -23,7 +23,7 @@
 
                 file.upload.then(function (response) {
                     $timeout(function () {
-                        debugger;
+                        
                         file.result = response.data;
                         //deleteFile();
                         $scope.document = null;
@@ -40,7 +40,7 @@
 
         
             $scope.deleteFile = function (file) {
-                debugger;
+                
                 shipmentFactory.deleteFile(file)
                 .success(function (result) {
 
@@ -62,12 +62,12 @@
 
 
             $scope.loadAllUploadedFiles = function () {
-                debugger;
+                
                 $scope.shipmentId = $scope.overviewShipCtrl.shipmentCode;
                 shipmentFactory.getAvailableFilesForShipment($scope.shipmentId, userId)
                                 .success(
                                         function (responce) {
-                                            debugger;
+                                            
                                             $scope.fileList = [];
                                             $scope.fileList = responce;
                                         }).error(function (error) {

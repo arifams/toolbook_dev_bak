@@ -176,7 +176,7 @@
         }
 
         function getAvailableFilesForShipment(shipmentId, userId) {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/shipments/GetAvailableFilesForShipment', {
                 params: {
                     userId: userId,
@@ -209,7 +209,7 @@
 
         
         function deleteShipment(shipmentDetail) {
-            debugger;
+            
             var dataToPass = {
                 trackingNumber: shipmentDetail.generalInformation.trackingNumber,
                 shipmentCode: shipmentDetail.generalInformation.shipmentCode,

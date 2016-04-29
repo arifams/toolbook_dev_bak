@@ -560,7 +560,7 @@ $(function() {
 
                  if (responce==1) {
                      setTimeout(function () {
-                         window.location.href = "../../app/index.html";
+                         window.location.href = "../../index.html";
                      }, 2000);
                  }
                  else if (responce == -1) {
