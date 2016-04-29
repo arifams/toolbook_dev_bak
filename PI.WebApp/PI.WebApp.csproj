@@ -72,6 +72,7 @@
     <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\adminLogin\adminLogin.html" />
     <Content Include="app\adminLogin\adminLoginCtrl.js" />
+    <Content Include="app\index.html" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />
     <Content Include="app\admin\adminServices.js" />
@@ -1330,7 +1331,6 @@
     <Content Include="app\divisions\loadDivisions.js" />
     <Content Include="app\divisions\saveDivision.html" />
     <Content Include="app\divisions\saveDivision.js" />
-    <Content Include="index.html" />
     <Content Include="app\mailApp.js" />
     <Content Include="app\mailbox.html" />
     <Content Include="app\mainCtrl.js" />
