@@ -17,12 +17,12 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-
+    [CustomAuthorize]
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {
         //get profile details on profile page on load
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpGet]
         [Route("GetProfile")]
         public ProfileDto GetProfile([FromUri]string userId)
@@ -31,7 +31,7 @@ namespace PI.Service.Controllers
             return userprofile.getProfileByUserName(userId);
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpGet]
         [Route("GetProfileForShipment")]
         public ProfileDto GetProfileForShipment([FromUri]string userId)
@@ -42,7 +42,7 @@ namespace PI.Service.Controllers
 
         
 
-        [HttpGet]
+        [HttpGet]        
         [Route("GetAllAccountSettings")]
         public ProfileDto GetAllAccountSettings(long customerId)
         {
@@ -52,7 +52,7 @@ namespace PI.Service.Controllers
             return settings;            
         }
 
-
+        
         [HttpGet]
         [Route("GetCustomerAddressDetails")]
         public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
@@ -91,7 +91,7 @@ namespace PI.Service.Controllers
         //    return timeZones;
         //}
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpPost]
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
@@ -139,7 +139,7 @@ namespace PI.Service.Controllers
             return -1;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpPost]
         [Route("UpdateProfileGeneral")]
         public int UpdateProfileGeneral(ProfileDto profile)
@@ -175,7 +175,7 @@ namespace PI.Service.Controllers
             return -1;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpPost]
         [Route("UpdateProfileAddress")]
         public int UpdateProfileAddress(ProfileDto profile)
@@ -192,7 +192,7 @@ namespace PI.Service.Controllers
             return -1;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpPost]
         [Route("UpdateProfileBillingAddress")]
         public int UpdateProfileBillingAddress(ProfileDto profile)
@@ -209,7 +209,7 @@ namespace PI.Service.Controllers
             return -1;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpPost]
         [Route("updateProfileLoginDetails")]
         public int updateProfileLoginDetails(ProfileDto profile)
@@ -237,7 +237,7 @@ namespace PI.Service.Controllers
             return -1;
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpPost]
         [Route("updateProfileAccountSettings")]
         public int updateProfileAccountSettings(ProfileDto profile)

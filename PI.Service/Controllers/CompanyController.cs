@@ -15,7 +15,7 @@ using PI.Contract.DTOs.Common;
 
 namespace PI.Service.Controllers
 {
-
+    [CustomAuthorize]
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {

@@ -14,13 +14,13 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
+    [CustomAuthorize]
     [RoutePrefix("api/AddressBook")]
     public class AddressBookController : BaseApiController
     {
         AddressBookManagement addressBookManagement = new AddressBookManagement();
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpGet]
         [Route("GetAllAddressBookDetailsByFilter")]
         public PagedList GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",

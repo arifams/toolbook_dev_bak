@@ -27,6 +27,7 @@ using System.Text;
 
 namespace PI.Service.Controllers
 {
+    [CustomAuthorize]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {

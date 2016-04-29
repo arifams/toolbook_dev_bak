@@ -292,9 +292,26 @@ namespace PI.Service.Controllers
                     companyManagement.UpdateLastLoginTime(user.Id);
 
                     string userId = user.Id;
+                    long tenantId = 0;
+                    long companyId = 0;
+                    var userName = string.Empty;
+
+                    ProfileManagement profileManagement = new ProfileManagement();
+
+                    var profile = profileManagement.GetUserById(userId);
+                    if (profile != null)
+                    {
+                        tenantId = profile.TenantId;
+                        userName = profile.UserName;
+                        var company = profileManagement.GetCompanyByTenantId(tenantId);
+                        if (company != null)
+                        {
+                            companyId = company.Id;
+                        }
+                    }
 
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string _token = customerManagement.GetJwtToken(userId, roleName);
+                    string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
                     {
@@ -328,9 +345,26 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string userId = user.Id;
+                    ProfileManagement profileManagement = new ProfileManagement();
 
-                    string _token = customerManagement.GetJwtToken(userId, roleName);
+                    string userId = user.Id;
+                    long tenantId = 0;
+                    long companyId = 0;
+                    var userName = string.Empty;
+
+                    var profile = profileManagement.GetUserById(userId);
+                    if (profile!=null)
+                    {
+                        tenantId = profile.TenantId;
+                        userName = profile.UserName;
+                        var company = profileManagement.GetCompanyByTenantId(tenantId);
+                        if (company!=null)
+                        {
+                            companyId = company.Id;
+                        }
+                    }
+                   
+                    string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
                     {
@@ -371,18 +405,44 @@ namespace PI.Service.Controllers
                     Id = "",
                     Role = roleName,
                     Result = -1
+                    
+
                 });
             else
             {   //set last logon time as current datetime
-               
+
+                CustomerManagement customerManagement = new CustomerManagement();
+                ProfileManagement profileManagement = new ProfileManagement();
+
+                string userId = user.Id;
+                long tenantId = 0;
+                long companyId = 0;
+                var userName = string.Empty;
+
+                var profile = profileManagement.GetUserById(userId);
+                if (profile != null)
+                {
+                    tenantId = profile.TenantId;
+                    userName = profile.UserName;
+                    var company = profileManagement.GetCompanyByTenantId(tenantId);
+                    if (company != null)
+                    {
+                        companyId = company.Id;
+                    }
+                }
+
+                string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
+
+
+
                 companyManagement.UpdateLastLoginTime(user.Id);
                 return Ok(new
                 {
                     Id = user.Id,
                     Role = roleName,
                     Result = 1,
-                    
-                                      
+                    token = _token
+
                 });
             }
         }

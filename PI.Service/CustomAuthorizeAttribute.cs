@@ -36,6 +36,8 @@ namespace PI.Service
 
         private bool AuthorizeRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
+            var roles=this.Roles;
+
             var signedtoken = actionContext.Request.Headers.Authorization.Parameter;
             var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
             var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
@@ -91,8 +93,21 @@ namespace PI.Service
                 var roleId = user.Roles.FirstOrDefault().RoleId;
                 var role = prof.GetRoleNameById(roleId);
                 
-                if (!string.IsNullOrEmpty(role)&& !string.IsNullOrEmpty(tokenobjects.role) && role.Equals(tokenobjects.role))
+                if (!string.IsNullOrEmpty(role)&& !string.IsNullOrEmpty(tokenobjects.role) && role.Equals(tokenobjects.role) )
                 {
+                   if (!string.IsNullOrEmpty(roles) )
+                   {
+                    if (roles.Equals(tokenobjects.role))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                  
+                   }
+                   
                     return true;
                 }
                 else
