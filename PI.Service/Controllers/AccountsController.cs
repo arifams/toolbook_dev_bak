@@ -35,14 +35,14 @@ namespace PI.Service.Controllers
     {
         CompanyManagement companyManagement = new CompanyManagement();
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
@@ -57,7 +57,7 @@ namespace PI.Service.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -173,7 +173,7 @@ namespace PI.Service.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -192,7 +192,7 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
@@ -219,7 +219,7 @@ namespace PI.Service.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}/roles")]
         [HttpPut]
         public IHttpActionResult AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
