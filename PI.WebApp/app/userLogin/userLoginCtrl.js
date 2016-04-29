@@ -90,7 +90,7 @@
                      $window.localStorage.setItem('isCorporateAccount', returnedResult.data.isCorporateAccount);
                      $window.localStorage.setItem('token', returnedResult.data.token);                   
 
-                     window.location = webBaseUrl + "/index.html";
+                     window.location = webBaseUrl + "/app/index.html";
                  }
                  else if (returnedResult.data.result == "-1") {
                      //vm.loginInvalid = true;
