@@ -35,7 +35,7 @@
 
                    costCenterSaveFactory.saveCostCenter(vm.model)
                    .success(function (result) {
-                       debugger;
+                       
                        if (result == -1) {
 
                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {});
@@ -100,7 +100,7 @@
                        }
                        else {
                            vm.changeCountry();
-                           debugger;
+                           
                            //Add selected sites
                            angular.forEach(vm.model.allDivisions, function (availableDivision) {
                                if (availableDivision.isAssigned) {
@@ -110,7 +110,7 @@
                        }
                    })
                    .error(function () {
-                       debugger;
+                       
                    })
                }
 

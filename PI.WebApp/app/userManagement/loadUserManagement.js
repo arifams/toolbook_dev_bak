@@ -11,7 +11,7 @@
                
                 vm.divisionList = response.data.divisions;
                 vm.roleList = response.data.roles;
-                debugger;
+                
             }, function errorCallback(response) {
                 //todo
             });
@@ -49,12 +49,12 @@
             var searchText = vm.searchText;
             var status = (vm.status == undefined || vm.status == "" || vm.status == "All") ? 0 : vm.status;
 
-            debugger;
+            
             userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)
                 .then(function successCallback(responce) {
 
                     vm.rowCollection = responce.data.content;
-                    debugger;
+                    
                 }, function errorCallback(response) {
                     //todo
                 });

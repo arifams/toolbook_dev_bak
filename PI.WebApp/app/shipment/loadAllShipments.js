@@ -12,7 +12,7 @@
                            vm.rowCollection = [];
 
                            vm.loadAllShipments = function (status) {
-                               debugger;
+                               
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -23,7 +23,7 @@
                                shipmentFactory.loadAllShipments(status, startDate, endDate, number, source, destination)
                                     .success(
                                            function (responce) {
-                                               debugger;
+                                               
                                                vm.rowCollection = responce.content;
                                            }).error(function (error) {
                                                console.log("error occurd while retrieving shiments");

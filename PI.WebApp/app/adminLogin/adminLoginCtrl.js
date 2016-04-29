@@ -47,7 +47,7 @@
 
         vm.login = function (user) {
 
-            debugger;
+            
             if (vm.rememberme == true) {
                 $cookieStore.put('username', user.username);
                 $cookieStore.put('password', user.password);
@@ -82,9 +82,9 @@
 
             userManager.loginUser(user, 'api/accounts/LoginAdmin')
              .then(function (returnedResult) {
-                 debugger;
+                 
                  if (returnedResult.data.result == "1") {
-                     debugger;
+                     
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
                      $window.localStorage.setItem('userRole', returnedResult.data.role);                    
@@ -115,7 +115,7 @@
 
             userManager.loginUser(vm.pwdReset, 'api/accounts/ResetForgetPassword')
              .then(function (returnedResult) {
-                 debugger;
+                 
 
                  if (returnedResult.data == "1") {
                      vm.passwordResetError = false;

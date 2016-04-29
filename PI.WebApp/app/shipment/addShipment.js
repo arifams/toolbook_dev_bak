@@ -54,7 +54,7 @@
         vm.addingRequestForQuote = false;
 
         vm.loadConsignerInfo = function () {
-            debugger;
+            
             shipmentFactory.getProfileInfo().success(
                function (responce) {
                    if (responce != null) {
@@ -157,7 +157,7 @@
         shipmentFactory.loadAllCurrencies()
             .success(
                function (responce) {
-                   debugger;
+                   
                    vm.currencies = responce;
                }).error(function (error) {
                    console.log("error occurd while retrieving currencies");
@@ -202,13 +202,13 @@
         vm.selectDivision = function () {
             var divisionId = vm.shipment.generalInformation.divisionId;
             vm.costcenterList = {};
-            debugger;
+            
 
             //  loadAssignedCostCenters
             if (divisionId != '') {
                 shipmentFactory.loadAssignedCostCenters(divisionId).success(
                function (responce) {
-                   debugger;
+                   
 
                    if (responce.length>0) {
                        vm.costcenterList = responce;
@@ -601,11 +601,11 @@
         vm.payOnline = function () {
             //vm.addingShipment = true;
             var body = $("html, body");
-            debugger;
+            
             vm.shipment.generalInformation.shipmentPaymentTypeId = 2; // Payment type is Online.
             shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {
-                                debugger;
+                                
                                 if (response.status == 2) {
                                     // Successfully saved in db.
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
@@ -648,7 +648,7 @@
                                     //    });
                                 //}
                             }).error(function (error) {
-                                debugger;
+                                
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
                                     layout: 'bottom-right',

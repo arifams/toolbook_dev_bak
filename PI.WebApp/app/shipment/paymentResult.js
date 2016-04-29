@@ -20,7 +20,7 @@
                    var statusKeyValue = splittedValues[0].split('=');
                    var hashKeyValue = splittedValues[4].split('=');
                    var saleIdKeyValue = splittedValues[5].split('=');
-                   debugger;
+                   
                    var sendShipmentData = {
                        shipmentId: $window.localStorage.getItem('shipmentId'),
                        userId: $window.localStorage.getItem('userGuid'),
@@ -33,7 +33,7 @@
                    console.log(sendShipmentData);
                    shipmentFactory.sendShipmentDetails(sendShipmentData).success(
                             function (response) {
-                                debugger;
+                                
                                 vm.showLabel = false;
                                 console.log('response');
                                 console.log(response);

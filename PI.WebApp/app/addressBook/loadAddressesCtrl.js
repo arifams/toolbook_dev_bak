@@ -327,7 +327,7 @@
 
 
         vm.uploadFile = function (file) {
-            debugger;
+            
             file.upload = Upload.upload({
                 url: serverBaseUrl + '/api/Shipments/UploadAddressBook',
                 data: {
