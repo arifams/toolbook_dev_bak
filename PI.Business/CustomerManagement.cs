@@ -14,11 +14,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using System.Reflection;
 using System.IdentityModel.Protocols.WSTrust;
+using System.Configuration;
 
 namespace PI.Business
 {
     public class CustomerManagement : ICustomerManagement
     {
+        public string WebURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BaseWebURL"].ToString();
+            }
+        }
+
+        public string ServiceURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ServiceURL"].ToString();
+            }
+        }
+
         public Customer GetCustomerById(long id)
         {
             using (var context = PIContext.Get())
@@ -148,8 +165,8 @@ namespace PI.Business
 
             var securityTokenDescriptor = new SecurityTokenDescriptor()
             {
-                AppliesToAddress = "http://localhost:49995/",
-                TokenIssuerName = "http://localhost:55555/",
+                AppliesToAddress = WebURL,
+                TokenIssuerName = ServiceURL,
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
             };

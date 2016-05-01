@@ -49,7 +49,7 @@
         vm.shipment.packageDetails.accessibility = 'true';
         vm.consigneeAdded = false;
         vm.consignorAdded = false;
-        vm.backUrl = webBaseUrl + '/index.html#/PaymentResult';
+        vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
         vm.isClickCalculateRate = false;
         vm.addingRequestForQuote = false;
 
@@ -566,7 +566,7 @@
                                     //    timeout: 6000,
                                     //});
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
-                                    window.location = webBaseUrl + "/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";
+                                    window.location = webBaseUrl + "/app/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";
                                 }
                                 else {
                                     vm.addingShipment = false;

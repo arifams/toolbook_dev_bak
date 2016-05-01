@@ -5,6 +5,7 @@ using PI.Data.Entity.Identity;
 using PI.Service.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,22 @@ namespace PI.Service
 {
     public class CustomAuthorizeAttribute: AuthorizeAttribute
     {
+        public string WebURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BaseWebURL"].ToString();
+            }
+        }
+
+        public string ServiceURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ServiceURL"].ToString();
+            }
+        }
+
         //overriding on authorization method
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
@@ -46,12 +63,11 @@ namespace PI.Service
              {
                 ValidAudiences = new string[]
              {
-                 "http://localhost:49995/"
+                 WebURL
              },
                 ValidIssuers = new string[]
             {
-                "http://localhost:55555/"
-
+                ServiceURL
             },
                 IssuerSigningKey = signingKey
             };

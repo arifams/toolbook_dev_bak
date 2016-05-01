@@ -12,7 +12,7 @@ using System.Web.Http;
 namespace PI.Service.Controllers
 {
 
-    [Authorize(Roles = "Admin")]
+    [CustomAuthorize]
     [RoutePrefix("api/roles")]
     public class RolesController : BaseApiController
     {
