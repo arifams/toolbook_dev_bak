@@ -309,6 +309,9 @@ var MakeApp = angular
            .when('/CustomerMangement', {
                templateUrl: 'app/admin/loadAllCompanies.html',
            })
+            .when('/AdminMangement', {
+                templateUrl: 'app/admin/ImportRateSheet.html',
+            })
         .otherwise({
             redirectTo: '/loadShipments'
         });

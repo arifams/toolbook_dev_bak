@@ -100,6 +100,11 @@
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\LongIdBaseEntity.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
+    <Compile Include="Entity\RateEngine\Carrier.cs" />
+    <Compile Include="Entity\RateEngine\Rate.cs" />
+    <Compile Include="Entity\RateEngine\TariffType.cs" />
+    <Compile Include="Entity\RateEngine\TransmitTime.cs" />
+    <Compile Include="Entity\RateEngine\Zone.cs" />
     <Compile Include="Entity\Shipment\Invoice\CommercialInvoice.cs" />
     <Compile Include="Entity\Shipment\Invoice\InvoiceItem.cs" />
     <Compile Include="Entity\Shipment\Invoice\InvoiceItemLine.cs" />

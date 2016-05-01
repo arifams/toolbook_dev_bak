@@ -1,0 +1,81 @@
+﻿<div ng-controller="loadRateSheetCtrl as vm">
+    <h2 class="box-title">
+        Upload Rate Sheet
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal">
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <!-- left column -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="col-sm-4">
+                                <input type="file" ngf-select ng-model="document" name="file"
+                                       ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                            </div>
+                            <div class="col-sm-2" >
+                                <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
+                                <button ng-click="vm.uploadRateSheet(document)" class="btn btn-primary btn-square btn-embossed">
+                                    <i class="fa fa-arrow-circle-o-up"></i> Import Excel
+                                </button>
+                                {{errorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div>
+                        <!--<table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Created Date</th>
+                                    <th st-sort="name">First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Corporate Name</th>
+                                    <th>City</th>
+                                    <th>Number Of Users</th>
+                                    <th>Active Shipments</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in vm.displayedCollection">
+                                    <td>{{row.createdDate}}</td>
+                                    <td>{{row.firstName}}</td>
+                                    <td>{{row.lastName}}</td>
+                                    <td>{{row.corporateName}}</td>
+                                    <td>{{row.city}}</td>
+                                    <td>{{row.assignedUserCount}}</td>
+                                    <td>{{row.activeShipments}}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.changeCompanyStatus(row)">
+                                            {{ (row.status ? 'Deactivate'  : 'Activate') }}
+                                        </button>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>-->
+
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+</div>

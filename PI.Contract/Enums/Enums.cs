@@ -87,7 +87,9 @@ namespace PI.Contract.Enums
         [Description("SHIPMENT_LABEL")]
         ShipmentLabel = 2,
         [Description("ADDRESS_BOOK")]
-        AddressBook = 3
+        AddressBook = 3,
+        [Description("RATE_SHEET")]
+        RateSheet = 4
     }
 
     public enum CurrencyType : short
