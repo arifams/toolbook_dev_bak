@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity.RateEngine
 {
-    public class TariffType
+    public class TariffType:LongIdBaseEntity
     {
         public string TarrifName { get; set; }
-
     }
 }

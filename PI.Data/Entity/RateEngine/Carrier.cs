@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,7 @@ namespace PI.Data.Entity.RateEngine
 
         public string CarrierNameLong { get; set; }
 
-        public string CarrierType { get; set; }
+        public CarrierType CarrierType { get; set; }
 
         public string ServiceLevel { get; set; }
 

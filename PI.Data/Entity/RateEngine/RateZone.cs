@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity.RateEngine
 {
-    public class TransmitTime : LongIdBaseEntity
+    public class RateZone : LongIdBaseEntity
     {
-        public long CarrierId { get; set; }
-        public Carrier Carrier { get; set; }
-
-        public string CountryFrom { get; set; }
-
-        public string CountryTo { get; set; }
+        public long RateId { get; set; }
+        public virtual Rate Rate { get; set; }
 
         public long ZoneId { get; set; }
         public virtual Zone Zone { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

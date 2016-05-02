@@ -100,12 +100,6 @@ namespace PI.Contract.Enums
         Pound
     }
 
-    public enum ShippingInbound : short
-    {
-        No = 1,
-        Yes
-    }
-
     public enum CarrierType : short
     {
         Express = 1,

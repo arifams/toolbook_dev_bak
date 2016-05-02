@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,23 +9,19 @@ namespace PI.Data.Entity.RateEngine
 {
     public class Rate : LongIdBaseEntity
     {
-        public string Carrier { get; set; }
-
-        public string ServiceLevel { get; set; }
-
-        public string ServiceType { get; set; }
-
         public string CountryFrom { get; set; }
 
-        public string Inbound { get; set; }
+        public bool IsInbound { get; set; }
+
+        public ProductType Service { get; set; }
 
         public double WeightMin { get; set; }
 
         public double WeightMax { get; set; }
 
-        public string Currency { get; set; }
+        public CurrencyType Currency { get; set; }
 
-        public string CalculationMethod { get; set; }
+        public RatesCalculationMethod CalculationMethod { get; set; }
 
         public int VolumeFactor { get; set; }
 
@@ -32,11 +29,16 @@ namespace PI.Data.Entity.RateEngine
 
         public double MaxWeightPerPiece { get; set; }
 
-        public string SellOrBuy { get; set; }
-
-        public string TariffType { get; set; }
+        public RatesSell SellOrBuy { get; set; }
 
         public double MaxDimension { get; set; }
 
+        public long CarrierId { get; set; }
+        public virtual Carrier Carrier { get; set; }
+
+        public long TariffTypeId { get; set; }
+        public virtual TariffType TariffType { get; set; }
+
+        public IList<RateZone> RateZoneList { get; set; }
     }
 }
