@@ -14,8 +14,10 @@ namespace PI.Data.Entity.RateEngine
         public string CountryFrom { get; set; }
 
         public string CountryTo { get; set; }
-
+        
         public long ZoneId { get; set; }
         public virtual Zone Zone { get; set; }
+
+        public virtual IList<TransitTimeProduct> TransitTimeProductList { get; set; }
     }
 }
