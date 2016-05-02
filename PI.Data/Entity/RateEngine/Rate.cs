@@ -15,9 +15,9 @@ namespace PI.Data.Entity.RateEngine
 
         public ProductType Service { get; set; }
 
-        public double WeightMin { get; set; }
+        public decimal WeightMin { get; set; }
 
-        public double WeightMax { get; set; }
+        public decimal WeightMax { get; set; }
 
         public CurrencyType Currency { get; set; }
 
@@ -25,13 +25,13 @@ namespace PI.Data.Entity.RateEngine
 
         public int VolumeFactor { get; set; }
 
-        public double MaxLength { get; set; }
+        public decimal MaxLength { get; set; }
 
-        public double MaxWeightPerPiece { get; set; }
+        public decimal MaxWeightPerPiece { get; set; }
 
         public RatesSell SellOrBuy { get; set; }
 
-        public double MaxDimension { get; set; }
+        public decimal MaxDimension { get; set; }
 
         public long CarrierId { get; set; }
         public virtual Carrier Carrier { get; set; }
