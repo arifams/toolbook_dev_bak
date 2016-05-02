@@ -99,4 +99,33 @@ namespace PI.Contract.Enums
         YEN,
         Pound
     }
+
+    public enum ShippingInbound : short
+    {
+        No = 1,
+        Yes
+    }
+
+    public enum CarrierType : short
+    {
+        Express = 1,
+        [Description("Air Freight")]
+        AirFreight,
+        [Description("Sea Freight")]
+        SeaFreight,
+        [Description("Road Freight")]
+        RoadFreight
+    }
+
+    public enum RatesCalculationMethod : short
+    {
+        WEIGHT = 1,
+        KG
+    }
+
+    public enum RatesSell : short
+    {
+        Sell =1,
+        Buy
+    }
 }
