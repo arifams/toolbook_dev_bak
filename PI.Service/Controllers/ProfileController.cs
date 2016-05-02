@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using PI.Business;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Profile;
 using PI.Data.Entity.Identity;
@@ -21,13 +22,15 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {
+        IProfileManagement userprofile = new ProfileManagement();
+
         //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpGet]
         [Route("GetProfile")]
         public ProfileDto GetProfile([FromUri]string userId)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+            //ProfileManagement userprofile = new ProfileManagement();
             return userprofile.getProfileByUserName(userId);
         }
 
@@ -36,7 +39,7 @@ namespace PI.Service.Controllers
         [Route("GetProfileForShipment")]
         public ProfileDto GetProfileForShipment([FromUri]string userId)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+           // ProfileManagement userprofile = new ProfileManagement();
             return userprofile.getProfileByUserNameForShipment(userId);
         }
 
@@ -46,7 +49,7 @@ namespace PI.Service.Controllers
         [Route("GetAllAccountSettings")]
         public ProfileDto GetAllAccountSettings(long customerId)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+            //ProfileManagement userprofile = new ProfileManagement();
             ProfileDto settings = userprofile.GetAccountSettings(customerId);
 
             return settings;            
@@ -57,7 +60,7 @@ namespace PI.Service.Controllers
         [Route("GetCustomerAddressDetails")]
         public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+           // ProfileManagement userprofile = new ProfileManagement();
             ProfileDto addressDetails = userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId);
 
             return addressDetails;
@@ -96,7 +99,7 @@ namespace PI.Service.Controllers
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
         {
-             ProfileManagement userprofile = new ProfileManagement();
+            // ProfileManagement userprofile = new ProfileManagement();
             
 
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
@@ -144,7 +147,7 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileGeneral")]
         public int UpdateProfileGeneral(ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+           // ProfileManagement userprofile = new ProfileManagement();
 
             var updatedStatus = userprofile.UpdateProfileGeneral(profile);
 
@@ -180,7 +183,7 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileAddress")]
         public int UpdateProfileAddress(ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+           // ProfileManagement userprofile = new ProfileManagement();
 
             var updatedStatus = userprofile.UpdateProfileAddress(profile);
 
@@ -197,7 +200,7 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileBillingAddress")]
         public int UpdateProfileBillingAddress(ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+           // ProfileManagement userprofile = new ProfileManagement();
 
             var updatedStatus = userprofile.UpdateProfileBillingAddress(profile);
 
@@ -214,7 +217,7 @@ namespace PI.Service.Controllers
         [Route("updateProfileLoginDetails")]
         public int updateProfileLoginDetails(ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+         //   ProfileManagement userprofile = new ProfileManagement();
 
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
@@ -242,7 +245,7 @@ namespace PI.Service.Controllers
         [Route("updateProfileAccountSettings")]
         public int updateProfileAccountSettings(ProfileDto profile)
         {
-            ProfileManagement userprofile = new ProfileManagement();
+          //  ProfileManagement userprofile = new ProfileManagement();
 
             var updatedStatus = userprofile.UpdateProfileAccountSettings(profile);
 

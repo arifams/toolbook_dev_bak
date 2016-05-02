@@ -1,4 +1,5 @@
 ﻿using PI.Business;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.ImportAddress;
@@ -18,7 +19,7 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/AddressBook")]
     public class AddressBookController : BaseApiController
     {
-        AddressBookManagement addressBookManagement = new AddressBookManagement();
+        IAddressBookManagement addressBookManagement = new AddressBookManagement();
         
         [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpGet]

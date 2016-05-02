@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Excel;
 using PI.Data.Entity.RateEngine;
+using PI.Contract.Business;
+
 namespace PI.Business
 {
-    public class AdministrationManagment
+    public class AdministrationManagment : IAdministrationManagment
     {
 
         public bool ImportRateSheetExcel(string URI)

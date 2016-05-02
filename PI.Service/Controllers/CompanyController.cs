@@ -12,6 +12,7 @@ using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.Customer;
 using PI.Service.Models;
 using PI.Contract.DTOs.Common;
+using PI.Contract.Business;
 
 namespace PI.Service.Controllers
 {
@@ -19,7 +20,7 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
-        CompanyManagement companyManagement = new CompanyManagement();
+        ICompanyManagement companyManagement = new CompanyManagement();
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

@@ -24,15 +24,17 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using Microsoft.AspNet.Identity;
 using System.Text;
+using PI.Contract.Business;
 
 namespace PI.Service.Controllers
 {
     [CustomAuthorize]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
-    {
-        CompanyManagement comapnyManagement = new CompanyManagement();
-        ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+    {        
+
+        ICompanyManagement comapnyManagement = new CompanyManagement();
+        IShipmentManagement shipmentManagement = new ShipmentsManagement();
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

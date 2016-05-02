@@ -20,5 +20,8 @@ namespace PI.Contract.Business
         CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode);
         ShipmentOperationResult SaveCommercialInvoice(CommercialInvoiceDto addShipment);
         string RequestForQuote(ShipmentDto addShipment);
+        List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId);
+        void DeleteFileInDB(FileUploadDto fileDetails);
     }
+
 }

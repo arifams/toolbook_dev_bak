@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using PI.Business;
+using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
@@ -33,7 +34,9 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-        CompanyManagement companyManagement = new CompanyManagement();
+       
+
+        ICompanyManagement companyManagement = new CompanyManagement();
 
         [CustomAuthorize]
         [Route("users")]

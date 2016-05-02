@@ -56,6 +56,14 @@
       <HintPath>..\packages\JwtAuthForWebAPI.2.0.7\lib\net45\JwtAuthForWebAPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LightInject, Version=3.0.2.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.3.0.2.7\lib\net45\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LightInject.WebApi, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.WebApi.1.0.0.4\lib\net45\LightInject.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
@@ -191,6 +199,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HttpRequestMessageHandler.cs" />
+    <Compile Include="HttpRequestMessageStorage.cs" />
+    <Compile Include="LightInject\LightInject.cs" />
+    <Compile Include="LightInject\WebApi\LightInject.WebApi.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
