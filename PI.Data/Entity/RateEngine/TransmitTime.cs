@@ -8,15 +8,16 @@ namespace PI.Data.Entity.RateEngine
 {
     public class TransmitTime : LongIdBaseEntity
     {
-        public string CarrierName { get; set; }
-
-        public string ServiceLevel { get; set; }
+        public long CarrierId { get; set; }
+        public Carrier Carrier { get; set; }
 
         public string CountryFrom { get; set; }
 
         public string CountryTo { get; set; }
+        
+        public long ZoneId { get; set; }
+        public virtual Zone Zone { get; set; }
 
-        public string ZoneName { get; set; }
-      
+        public virtual IList<TransitTimeProduct> TransitTimeProductList { get; set; }
     }
 }

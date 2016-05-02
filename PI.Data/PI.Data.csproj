@@ -102,7 +102,9 @@
     <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\RateEngine\Carrier.cs" />
     <Compile Include="Entity\RateEngine\Rate.cs" />
+    <Compile Include="Entity\RateEngine\RateZone.cs" />
     <Compile Include="Entity\RateEngine\TariffType.cs" />
+    <Compile Include="Entity\RateEngine\TransitTimeProduct.cs" />
     <Compile Include="Entity\RateEngine\TransmitTime.cs" />
     <Compile Include="Entity\RateEngine\Zone.cs" />
     <Compile Include="Entity\Shipment\Invoice\CommercialInvoice.cs" />

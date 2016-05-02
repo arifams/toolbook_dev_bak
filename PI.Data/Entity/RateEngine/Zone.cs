@@ -8,10 +8,6 @@ namespace PI.Data.Entity.RateEngine
 {
     public class Zone : LongIdBaseEntity
     {
-        public string CarrierName { get; set; }
-
-        public string ServiceLevel { get; set; }
-
         public string CountryFrom { get; set; }
 
         public string CountryTo { get; set; }
@@ -22,8 +18,12 @@ namespace PI.Data.Entity.RateEngine
 
         public string LocationTo { get; set; }
 
-        public string Inbound { get; set; }
+        public bool IsInbound { get; set; }
 
-        public string TariffType { get; set; }
+        public long CarrierId { get; set; }
+        public Carrier Carrier { get; set; }
+
+        public long TariffTypeId { get; set; }
+        public virtual TariffType TariffType { get; set; }
     }
 }
