@@ -119,7 +119,7 @@ namespace PI.Service.Controllers
             var opResult = await media.Upload(stream, imageFileNameInFull);
 
 
-            if (fileDetails.DocumentType != DocumentType.AddressBook)
+            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet)
             {
                 // Insert document record to DB.
                 ShipmentsManagement shipmentManagement = new ShipmentsManagement();

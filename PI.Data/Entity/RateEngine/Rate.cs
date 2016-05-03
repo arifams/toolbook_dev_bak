@@ -39,6 +39,6 @@ namespace PI.Data.Entity.RateEngine
         public long TariffTypeId { get; set; }
         public virtual TariffType TariffType { get; set; }
 
-        public IList<RateZone> RateZoneList { get; set; }
+        public virtual IList<RateZone> RateZoneList { get; set; }
     }
 }

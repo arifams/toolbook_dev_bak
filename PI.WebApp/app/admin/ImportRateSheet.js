@@ -24,12 +24,12 @@
 
                     var body = $("html, body");
                     if (response.statusText = 'OK') {
-
+                        console.log('then ok');
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' Address records added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + ' Rates records added successfully.' + '</p></div>',
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
@@ -55,11 +55,38 @@
 
                     $timeout(function () {
                         file.result = response.data;
+                        console.log('$timeout ok');
                         deleteFile();
                     });
                 }, function (response) {
-                    if (response.status > 0)
+                    if (response.status > 0) {
+                        var body = $("html, body");
                         vm.errorMsg = response.status + ': ' + response.data;
+                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                        });
+
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-error media fade in"><p>' + ' Error occured.' + '</p></div>',
+                            buttons: [
+                                    {
+                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            $route.reload();
+                                            $noty.close();
+
+
+                                        }
+                                    }
+
+                            ],
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
                 }, function (evt) {
                     // Math.min is to fix IE which reports 200% sometimes
                     file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));

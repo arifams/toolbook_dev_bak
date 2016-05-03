@@ -1,6 +1,7 @@
 ﻿using PI.Contract.Business;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract.Enums;
 using PI.Data;
 using System;
 using System.Collections.Generic;
@@ -77,9 +78,68 @@ namespace PI.Business
             // of object that is being deserialized.
             XmlSerializer mySerializer =
             new XmlSerializer(typeof(ShipmentcostList));
-            
+
             // Call the Deserialize method and cast to the object type.       
             myObject = (ShipmentcostList)mySerializer.Deserialize(new StringReader(doc1.OuterXml.ToString()));
+
+            using (PIContext context = new PIContext())
+            {
+                var weight = decimal.Parse(rateParameters.weight);
+                var maxWeight = decimal.Parse(rateParameters.max_weight);
+                var productType = (ProductType)Enum.Parse(typeof(ProductType), rateParameters.package, true);
+                var currencyType = (CurrencyType)Enum.Parse(typeof(CurrencyType), rateParameters.code_currency.ToUpper(), true);
+                var maxLength = decimal.Parse(rateParameters.max_length);
+                var sellOrBuy = RatesSell.Sell;
+                var max_dimension = decimal.Parse(rateParameters.max_dimension);
+                var volume = int.Parse(rateParameters.volume);
+                var volumeFactor = (rateParameters.volume_unit == "cm" ? volume / 5000 : (volume * 2.54) / 5000);
+
+                var result = context.Rate.Where(x => x.CountryFrom == rateParameters.country_from
+                                                    && x.IsInbound == (rateParameters.inbound == "N" ? false : true)
+                                                    && x.Service == productType
+                                                    && (x.WeightMin <= weight && x.WeightMax >= maxWeight)
+                                                    && x.Currency == currencyType
+                    // && x.VolumeFactor == volumeFactor
+                                                    && x.MaxLength >= maxLength
+                    ////x.MaxWeightPerPiece > rateParameters.we
+                                                    && x.SellOrBuy >= sellOrBuy
+                                                    && x.MaxDimension >= max_dimension
+                                                    ).ToList();
+
+                for (int i = 0; i < result.Count; i++)
+                {
+                    var td = (result[i].RateZoneList == null) ? null : result[i].RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
+                            z.Zone.CountryTo == rateParameters.country_to &&
+                          int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode) &&
+                          int.Parse(rateParameters.postcode) <= int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[1]) &&
+                          int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
+                          int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault();
+
+
+                }
+
+                // Add rates from XRates for USPS
+                result.ForEach(rate => myObject.Items.Add(new Shipmentcost
+                  {
+                      Carrier_name = rate.Carrier.CarrierName,
+                      Transport_mode = rate.Carrier.CarrierType.ToString(),
+                      Service_level = rate.Carrier.ServiceLevel,
+                      // Tariff_text = rate.TariffType.ToString(),
+                      // Tariff_type = "?",
+                      // Pickup_date = "",
+                      Currency = rate.Currency.ToString(),
+                      Price = (rate.RateZoneList.Count == 0) ? null : rate.RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
+                          z.Zone.CountryTo == rateParameters.country_to &&
+                             int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode) &&
+                             int.Parse(rateParameters.postcode) <= int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[1]) &&
+                             int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
+                             int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault().Price.ToString(),
+                      Delivery_date = "",
+                      Price_detail = new Price_detail { Description = "2" },
+                      // Transit_time = rate.t
+                  }));
+
+            }
 
             // Set rate calculate url.
             if (IsSendShipmentDebugData == "true")
@@ -92,7 +152,7 @@ namespace PI.Business
         {
             // Working sample xml data
             // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
-            
+
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
@@ -123,7 +183,7 @@ namespace PI.Business
             // Sample url with data send format
             //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
-            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURL,SISUserName,SISPassword, shipmentCode);
+            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURL, SISUserName, SISPassword, shipmentCode);
 
             WebRequest webRequest = WebRequest.Create(deleteURL);
             webRequest.Method = "POST";
@@ -156,11 +216,11 @@ namespace PI.Business
         public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
         {
             //TODO change the web url to production 
-           string userID = SISUserName;
-           string password = SISPassword;
+            string userID = SISUserName;
+            string password = SISPassword;
             StatusHistoryResponce statusHistoryResponce = null;
-          // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
-             string URL = "http://parcelinternational.pro/status/"+carrier+ "/"+trackingNumber;
+            // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+            string URL = "http://parcelinternational.pro/status/" + carrier + "/" + trackingNumber;
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
@@ -187,7 +247,7 @@ namespace PI.Business
                     statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
                 }
 
-                
+
             }
             return statusHistoryResponce;
         }

@@ -24,6 +24,10 @@ namespace PI.Data.Entity.RateEngine
         public Carrier Carrier { get; set; }
 
         public long TariffTypeId { get; set; }
+
         public virtual TariffType TariffType { get; set; }
+
+        public IList<TransmitTime> TransmitTimeList { get; set; }
+
     }
 }
