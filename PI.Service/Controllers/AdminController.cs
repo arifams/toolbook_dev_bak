@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PI.Business;
 using PI.Common;
 using PI.Contract.Business;
+using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.Enums;
@@ -42,9 +43,9 @@ namespace PI.Service.Controllers
 
             result = JsonConvert.DeserializeObject<Result>(urlJson);
 
-            adminManagement.ImportRateSheetExcel(result.returnData);
+           OperationResult opResult = adminManagement.ImportRateSheetExcel(result.returnData);
 
-             return this.Request.CreateResponse(HttpStatusCode.OK);
+            return this.Request.CreateResponse(opResult.Status == Status.Success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
         }
 
 
