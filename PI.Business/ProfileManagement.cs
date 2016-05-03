@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.AccountSettings;
+﻿using PI.Contract.Business;
+using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
@@ -16,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace PI.Business
 {
-    public class ProfileManagement
+    public class ProfileManagement: IProfileManagement
     {
 
         //get the profile details

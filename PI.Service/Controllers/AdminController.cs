@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using PI.Business;
 using PI.Common;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.Enums;
@@ -22,7 +23,12 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Admin")]
     public class AdminController : ApiController
     {
-        AdministrationManagment adminManagement = new AdministrationManagment();
+        IAdministrationManagment adminManagement = new AdministrationManagment();
+
+        public AdminController(IAdministrationManagment adminmanagement)
+        {
+            this.adminManagement = adminmanagement;
+        }
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
