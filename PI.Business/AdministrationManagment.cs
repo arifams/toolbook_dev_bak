@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Office.Interop.Excel;
 using PI.Data.Entity.RateEngine;
+using PI.Common;
+using PI.Contract.Enums;
+
 namespace PI.Business
 {
     public class AdministrationManagment
@@ -59,7 +62,7 @@ namespace PI.Business
 
                     newCarrier = new Carrier
                     {
-                        CarrierType = MyValues.GetValue(1, 2).ToString(),
+                        CarrierType = (CarrierType)Enum.Parse(typeof(CarrierType),MyValues.GetValue(1, 2).ToString(),true ),
                         ServiceLevel = MyValues.GetValue(1, 3).ToString(),
                         CarrierName = MyValues.GetValue(1, 4).ToString(),
                         CarrierNameLong = MyValues.GetValue(1, 5).ToString(),
@@ -98,24 +101,23 @@ namespace PI.Business
 
                     System.Array MyValues = (System.Array)MySheet.get_Range("A" +
                        index.ToString(), "T" + index.ToString()).Cells.Value;
-
+                    
                     newRate = new Rate
                     {
-                        ServiceLevel = MyValues.GetValue(1, 2).ToString(),
-                        Carrier = MyValues.GetValue(1, 3).ToString(),
+                        Carrier = context.Carrier.Where(c => c.ServiceLevel == MyValues.GetValue(1, 2).ToString() && c.CarrierName == MyValues.GetValue(1, 3).ToString()).FirstOrDefault(),
                         CountryFrom = MyValues.GetValue(1, 4).ToString(),
-                        Inbound = MyValues.GetValue(1, 5).ToString(),
-                        ServiceType = MyValues.GetValue(1, 6).ToString(),
-                        WeightMin = Convert.ToDouble(MyValues.GetValue(1, 7).ToString()),
-                        WeightMax = Convert.ToDouble(MyValues.GetValue(1, 8).ToString()),
-                        Currency = MyValues.GetValue(1, 9).ToString(),
-                        CalculationMethod = MyValues.GetValue(1, 10).ToString(),
+                        IsInbound = string.Equals(MyValues.GetValue(1, 5).ToString(), "Yes",StringComparison.InvariantCultureIgnoreCase),
+                        Service = (ProductType) Enum.Parse(typeof(ProductType), MyValues.GetValue(1, 6).ToString(), true),
+                        WeightMin = Convert.ToDecimal(MyValues.GetValue(1, 7).ToString()),
+                        WeightMax = Convert.ToDecimal(MyValues.GetValue(1, 8).ToString()),
+                        Currency = (CurrencyType)Enum.Parse(typeof(CurrencyType), MyValues.GetValue(1, 9).ToString(), true),
+                        CalculationMethod = (RatesCalculationMethod)Enum.Parse(typeof(RatesCalculationMethod), MyValues.GetValue(1, 10).ToString(), true),
                         VolumeFactor = Convert.ToInt32(MyValues.GetValue(1, 11).ToString()),
-                        MaxLength = Convert.ToDouble(MyValues.GetValue(1, 12).ToString()),
-                        MaxWeightPerPiece = Convert.ToDouble(MyValues.GetValue(1, 13).ToString()),
-                        SellOrBuy = MyValues.GetValue(1, 14).ToString(),
-                        TariffType = MyValues.GetValue(1, 19).ToString(),
-                        MaxDimension = Convert.ToDouble(MyValues.GetValue(1, 20).ToString()),
+                        MaxLength = Convert.ToDecimal(MyValues.GetValue(1, 12).ToString()),
+                        MaxWeightPerPiece = Convert.ToDecimal(MyValues.GetValue(1, 13).ToString()),
+                        SellOrBuy = (RatesSell)Enum.Parse(typeof(RatesSell), MyValues.GetValue(1, 14).ToString(), true),
+                        TariffType = context.TariffType.Where(t => t.TarrifName == MyValues.GetValue(1, 19).ToString()).FirstOrDefault(),
+                        MaxDimension = Convert.ToDecimal(MyValues.GetValue(1, 20).ToString()),
                         CreatedBy = "1",//userId,
                         CreatedDate = DateTime.Now
                     };
@@ -152,15 +154,14 @@ namespace PI.Business
 
                     newZone = new Zone
                     {
-                        ServiceLevel = MyValues.GetValue(1, 2).ToString(),
-                        CarrierName = MyValues.GetValue(1, 3).ToString(),
+                        Carrier = context.Carrier.Where(c => c.ServiceLevel == MyValues.GetValue(1, 2).ToString() && c.CarrierName == MyValues.GetValue(1, 3).ToString()).FirstOrDefault(),
                         CountryFrom = MyValues.GetValue(1, 4).ToString(),
                         CountryTo = MyValues.GetValue(1, 5).ToString(),
                         ZoneName = MyValues.GetValue(1, 6).ToString(),
                         LocationFrom = MyValues.GetValue(1, 7).ToString(),
                         LocationTo = MyValues.GetValue(1, 8).ToString(),
-                        TariffType = MyValues.GetValue(1, 9).ToString(),
-                        Inbound = MyValues.GetValue(1, 10).ToString(),
+                        TariffType = context.TariffType.Where(t => t.TarrifName == MyValues.GetValue(1, 9).ToString()).FirstOrDefault(),
+                        IsInbound = string.Equals(MyValues.GetValue(1, 10).ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
                         CreatedBy = "1",//userId,
                         CreatedDate = DateTime.Now
                     };
@@ -195,13 +196,21 @@ namespace PI.Business
                     System.Array MyValues = (System.Array)MySheet.get_Range("A" +
                        index.ToString(), "H" + index.ToString()).Cells.Value;
 
+                    IList<TransitTimeProduct> transitTimeProdList = new List<TransitTimeProduct>();
+
+                    if (!string.IsNullOrWhiteSpace(MyValues.GetValue(1, 7).ToString()))
+                        transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(MyValues.GetValue(1, 7).ToString()), CreatedDate = DateTime.Now });
+
+                    if (!string.IsNullOrWhiteSpace(MyValues.GetValue(1, 8).ToString()))
+                        transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Box, Days = Convert.ToInt16(MyValues.GetValue(1, 8).ToString()), CreatedDate = DateTime.Now });
+
                     newTransmitTime = new TransmitTime
                     {
-                        ServiceLevel = MyValues.GetValue(1, 2).ToString(),
-                        CarrierName = MyValues.GetValue(1, 3).ToString(),
+                        Carrier = context.Carrier.Where(c => c.ServiceLevel == MyValues.GetValue(1, 2).ToString() && c.CarrierName == MyValues.GetValue(1, 3).ToString()).FirstOrDefault(),
                         CountryFrom = MyValues.GetValue(1, 4).ToString(),
                         CountryTo = MyValues.GetValue(1, 5).ToString(),
-                        ZoneName = MyValues.GetValue(1, 6).ToString(),                      
+                        Zone = context.Zone.Where(z => z.ZoneName == MyValues.GetValue(1, 6).ToString()).FirstOrDefault(),    
+                        TransitTimeProductList = transitTimeProdList,
                         CreatedBy = "1",//userId,
                         CreatedDate = DateTime.Now
                     };
