@@ -1,16 +1,20 @@
-﻿using Microsoft.Owin;
+﻿
+using LightInject;
+using Microsoft.Owin;
 using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using PI.Business;
+using PI.Contract.Business;
 using PI.Data;
 using PI.Service.Providers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Web;
 using System.Web.Configuration;
@@ -20,14 +24,37 @@ namespace PI.Service
 {
     public class Startup
     {
+        public ServiceContainer container = new ServiceContainer();
+
 
         public void Configuration(IAppBuilder app)
-        {
+        {            
+
             HttpConfiguration httpConfig = new HttpConfiguration();
 
-            ConfigureOAuthTokenGeneration(app);
+            //creating light inject controller
+           
+            container.RegisterApiControllers();
+            container.EnableWebApi(httpConfig);
+            container.ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider();
+            
+            //var handler = new HttpRequestMessageHandler();
+            //httpConfig.MessageHandlers.Insert(0, handler);
+            //container.Register<Func<HttpRequestMessage>>(factory => () => handler.GetCurrentMessage());
 
-          //  ConfigureOAuthTokenConsumption(app);
+            container.Register<IShipmentManagement, ShipmentsManagement>();
+            container.Register<IAddressBookManagement, AddressBookManagement>();
+            container.Register<IAdministrationManagment, AdministrationManagment>();
+            container.Register<ICarrierIntegrationManager, SISIntegrationManager>();
+            container.Register<ICompanyManagement, CompanyManagement>();
+            container.Register<ICustomerManagement, CustomerManagement>();
+            container.Register<IProfileManagement, ProfileManagement>();
+
+            httpConfig.DependencyResolver = new LightInjectResolver(container);
+            //registering the dependencies           
+            
+            ConfigureOAuthTokenGeneration(app);
+            //ConfigureOAuthTokenConsumption(app);
 
             ConfigureWebApi(httpConfig);
 

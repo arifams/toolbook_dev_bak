@@ -9,9 +9,11 @@ using PI.Data.Entity.RateEngine;
 using PI.Common;
 using PI.Contract.Enums;
 
+using PI.Contract.Business;
+
 namespace PI.Business
 {
-    public class AdministrationManagment
+    public class AdministrationManagment : IAdministrationManagment
     {
 
         public bool ImportRateSheetExcel(string URI)
