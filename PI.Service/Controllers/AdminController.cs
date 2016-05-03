@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PI.Business;
 using PI.Common;
 using PI.Contract.Business;
+using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.Enums;
@@ -21,7 +22,7 @@ namespace PI.Service.Controllers
 {
     [CustomAuthorize]
     [RoutePrefix("api/Admin")]
-    public class AdminController :  BaseApiController
+    public class AdminController : BaseApiController
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
 
@@ -29,7 +30,6 @@ namespace PI.Service.Controllers
         //{
         //    this.adminManagement = adminmanagementa;
         //}
-
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
@@ -43,9 +43,9 @@ namespace PI.Service.Controllers
 
             result = JsonConvert.DeserializeObject<Result>(urlJson);
 
-            adminManagement.ImportRateSheetExcel(result.returnData);
+           OperationResult opResult = adminManagement.ImportRateSheetExcel(result.returnData);
 
-             return this.Request.CreateResponse(HttpStatusCode.OK);
+            return this.Request.CreateResponse(opResult.Status == Status.Success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
         }
 
 

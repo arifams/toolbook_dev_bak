@@ -7,7 +7,6 @@
             var vm = this;
 
             vm.uploadRateSheet = function (file) {
-                debugger;
                 file.upload = Upload.upload({
                     url: serverBaseUrl + '/api/Admin/UploadRateSheet',
                     data: {
@@ -24,7 +23,7 @@
 
                     var body = $("html, body");
                     if (response.statusText = 'OK') {
-                        console.log('then ok');
+
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                         });
 
@@ -59,6 +58,8 @@
                         deleteFile();
                     });
                 }, function (response) {
+                    console.log('Response of rate sheet: ');
+                    console.log(response);
                     if (response.status > 0) {
                         var body = $("html, body");
                         vm.errorMsg = response.status + ': ' + response.data;
