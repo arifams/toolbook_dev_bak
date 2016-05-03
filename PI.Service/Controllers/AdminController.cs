@@ -22,14 +22,14 @@ namespace PI.Service.Controllers
 {
     [CustomAuthorize]
     [RoutePrefix("api/Admin")]
-    public class AdminController : ApiController
+    public class AdminController : BaseApiController
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
 
-        public AdminController(IAdministrationManagment adminmanagement)
-        {
-            this.adminManagement = adminmanagement;
-        }
+        //public AdminController(IAdministrationManagment adminmanagementa)
+        //{
+        //    this.adminManagement = adminmanagementa;
+        //}
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
