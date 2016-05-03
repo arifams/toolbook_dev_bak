@@ -25,6 +25,11 @@ namespace PI.Service.Controllers
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
 
+        public AdminController(IAdministrationManagment adminmanagement)
+        {
+            this.adminManagement = adminmanagement;
+        }
+
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
         {

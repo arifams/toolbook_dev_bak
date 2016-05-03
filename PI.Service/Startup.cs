@@ -24,22 +24,35 @@ namespace PI.Service
 {
     public class Startup
     {
-        //creating light inject controller
-        
+        public ServiceContainer container = new ServiceContainer();
+
 
         public void Configuration(IAppBuilder app)
         {            
 
             HttpConfiguration httpConfig = new HttpConfiguration();
 
-            var container = new ServiceContainer();
+            //creating light inject controller
+           
             container.RegisterApiControllers();
             container.EnableWebApi(httpConfig);
             container.ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider();
-            var handler = new HttpRequestMessageHandler();
-            httpConfig.MessageHandlers.Insert(0, handler);
-            container.Register<Func<HttpRequestMessage>>(factory => () => handler.GetCurrentMessage());
+            
+            //var handler = new HttpRequestMessageHandler();
+            //httpConfig.MessageHandlers.Insert(0, handler);
+            //container.Register<Func<HttpRequestMessage>>(factory => () => handler.GetCurrentMessage());
 
+            container.Register<IShipmentManagement, ShipmentsManagement>();
+            container.Register<IAddressBookManagement, AddressBookManagement>();
+            container.Register<IAdministrationManagment, AdministrationManagment>();
+            container.Register<ICarrierIntegrationManager, SISIntegrationManager>();
+            container.Register<ICompanyManagement, CompanyManagement>();
+            container.Register<ICustomerManagement, CustomerManagement>();
+            container.Register<IProfileManagement, ProfileManagement>();
+
+            httpConfig.DependencyResolver = new LightInjectResolver(container);
+            //registering the dependencies           
+            
             ConfigureOAuthTokenGeneration(app);
             //ConfigureOAuthTokenConsumption(app);
 

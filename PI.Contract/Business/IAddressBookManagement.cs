@@ -18,5 +18,6 @@ namespace PI.Contract.Business
         int ImportAddressBook(IList<ImportAddressDto> addressDetails, string userId);
         AddressBookDto GetAddressBookDtoById(long Id);
         byte[] GetAddressBookDetailsByUserId(string userId);
+        bool UpdateAddressBookDatafromExcel(string URI, string userId);
     }
 }

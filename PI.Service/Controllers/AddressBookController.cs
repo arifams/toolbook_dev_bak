@@ -19,8 +19,14 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/AddressBook")]
     public class AddressBookController : BaseApiController
     {
-        IAddressBookManagement addressBookManagement = new AddressBookManagement();
-        
+        IAddressBookManagement addressBookManagement;
+
+        public AddressBookController(IAddressBookManagement addressbookmanagement)
+        {
+            this.addressBookManagement = addressbookmanagement;
+        }
+
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpGet]
         [Route("GetAllAddressBookDetailsByFilter")]

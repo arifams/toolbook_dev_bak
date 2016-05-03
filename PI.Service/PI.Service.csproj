@@ -201,6 +201,7 @@
     </Compile>
     <Compile Include="HttpRequestMessageHandler.cs" />
     <Compile Include="HttpRequestMessageStorage.cs" />
+    <Compile Include="LightInjectResolver.cs" />
     <Compile Include="LightInject\LightInject.cs" />
     <Compile Include="LightInject\WebApi\LightInject.WebApi.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />

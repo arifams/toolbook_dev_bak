@@ -22,7 +22,12 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {
-        IProfileManagement userprofile = new ProfileManagement();
+        IProfileManagement userprofile;
+
+        public ProfileController(IProfileManagement userprofilemanagement)
+        {
+            this.userprofile = userprofilemanagement;
+        }
 
         //get profile details on profile page on load
         [EnableCors(origins: "*", headers: "*", methods: "*")]       

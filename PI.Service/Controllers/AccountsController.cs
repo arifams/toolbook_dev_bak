@@ -34,9 +34,13 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-       
+        ICompanyManagement companyManagement;
 
-        ICompanyManagement companyManagement = new CompanyManagement();
+        public AccountsController(ICompanyManagement companymanagement)
+        {
+            this.companyManagement = companymanagement;
+        }        
+       
 
         [CustomAuthorize]
         [Route("users")]
@@ -103,7 +107,7 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
-                CompanyController companyManagement = new CompanyController();
+                //CompanyController companyManagement = new CompanyController();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user

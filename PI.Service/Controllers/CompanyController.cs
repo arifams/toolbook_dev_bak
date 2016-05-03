@@ -20,7 +20,12 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
-        ICompanyManagement companyManagement = new CompanyManagement();
+        ICompanyManagement companyManagement;
+
+        public CompanyController(ICompanyManagement companymanagement)
+        {
+            this.companyManagement = companymanagement;
+        }
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

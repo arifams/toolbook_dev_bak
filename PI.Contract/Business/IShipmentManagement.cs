@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.FileUpload;
+﻿using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System;
@@ -22,6 +23,17 @@ namespace PI.Contract.Business
         string RequestForQuote(ShipmentDto addShipment);
         List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId);
         void DeleteFileInDB(FileUploadDto fileDetails);
+        PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? startDate, DateTime? endDate,
+                                              string number, string source, string destination);
+        List<ShipmentDto> GetAllshipmentsForManifest(string userId, string date, string carreer, string reference);
+
+        PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
+                                               string number);
+        ShipmentDto GetshipmentById(string shipmentId);
+        int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName);
+        StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);
+
+
     }
 
 }
