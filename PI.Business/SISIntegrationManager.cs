@@ -135,7 +135,7 @@ namespace PI.Business
                              int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
                              int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault().Price.ToString(),
                       Delivery_date = "",
-                      Price_detail = new Price_detail { Description = "2" },
+                      Price_detail = new Price_detail { Description = "" },
                       // Transit_time = rate.t
                   }));
 
