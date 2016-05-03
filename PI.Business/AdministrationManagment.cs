@@ -23,9 +23,22 @@ namespace PI.Business
 
             MyApp = new Application();
             MyApp.Visible = false;
-            MyBook = MyApp.Workbooks.Open(URI);
 
-            OperationResult result = InsertCarrierDetails(MyBook);
+            OperationResult result = new OperationResult();
+            try
+            {
+                MyBook = MyApp.Workbooks.Open(URI);
+            }
+            catch (Exception ex)
+            {
+                result.Status = Status.Error;
+                result.Message = ex.ToString();
+            }
+
+            if (result.Status != Status.Success)
+                return result;
+
+            result = InsertCarrierDetails(MyBook);
             if (result.Status != Status.Success)
                 return result;
 
