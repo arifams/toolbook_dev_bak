@@ -184,11 +184,12 @@ namespace PI.Business
             MySheet = (Worksheet)MyBook.Sheets[4]; // Explicit cast is not required here
             lastRow = MySheet.Cells.SpecialCells(XlCellType.xlCellTypeLastCell).Row;
 
+            IList<TransitTimeProduct> transitTimeProdList;
+
             //readin from excel
 
             using (PIContext context = new PIContext())
             {
-
                 for (int index = 2; index <= lastRow; index++)
                 {
                     TransmitTime newTransmitTime = null;
@@ -196,7 +197,7 @@ namespace PI.Business
                     System.Array MyValues = (System.Array)MySheet.get_Range("A" +
                        index.ToString(), "H" + index.ToString()).Cells.Value;
 
-                    IList<TransitTimeProduct> transitTimeProdList = new List<TransitTimeProduct>();
+                    transitTimeProdList = new List<TransitTimeProduct>();
 
                     if (!string.IsNullOrWhiteSpace(MyValues.GetValue(1, 7).ToString()))
                         transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(MyValues.GetValue(1, 7).ToString()), CreatedDate = DateTime.Now });
