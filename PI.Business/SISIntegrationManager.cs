@@ -129,7 +129,7 @@ namespace PI.Business
 
                       Price = (result[i].RateZoneList.Count == 0 || rateZoneResult == null) ? null : rateZoneResult.Price.ToString(),
                       Delivery_date = (DateTime.Parse(rateParameters.date_pickup)
-                                      .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MM-yyyy"),
+                                      .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MMM-yyyy"),
                       Pickup_date = rateParameters.date_pickup,
                       Price_detail = new Price_detail { Description = result[i].Carrier.CarrierName + ", " + result[i].Carrier.ServiceLevel },
                       Transit_time = (transitTime != null) ? transitTime.Days.ToString() +" days" : null
