@@ -35,9 +35,7 @@ namespace PI.Business
                 result.Message = ex.ToString();
             }
 
-            if (result.Status != Status.Success)
-                return result;
-
+       
             result = InsertCarrierDetails(MyBook);
             if (result.Status != Status.Success)
                 return result;

@@ -86,7 +86,7 @@ namespace PI.Business
             {
                 var weight = decimal.Parse(rateParameters.weight);
                 var maxWeight = decimal.Parse(rateParameters.max_weight);
-                var productType = (ProductType)Enum.Parse(typeof(ProductType), rateParameters.package, true);
+                var productType = (ProductType)Enum.Parse(typeof(ProductType), rateParameters.package == "DIVERSE" ? "Box" : rateParameters.package, true);
                 var currencyType = (CurrencyType)Enum.Parse(typeof(CurrencyType), rateParameters.code_currency.ToUpper(), true);
                 var maxLength = decimal.Parse(rateParameters.max_length);
                 var sellOrBuy = RatesSell.Sell;
@@ -97,47 +97,66 @@ namespace PI.Business
                 var result = context.Rate.Where(x => x.CountryFrom == rateParameters.country_from
                                                     && x.IsInbound == (rateParameters.inbound == "N" ? false : true)
                                                     && x.Service == productType
-                                                    && (x.WeightMin <= weight && x.WeightMax >= maxWeight)
+                                                    && (x.WeightMin <= weight && x.WeightMax > weight)
                                                     && x.Currency == currencyType
                     // && x.VolumeFactor == volumeFactor
                                                     && x.MaxLength >= maxLength
                     ////x.MaxWeightPerPiece > rateParameters.we
                                                     && x.SellOrBuy >= sellOrBuy
                                                     && x.MaxDimension >= max_dimension
-                                                    ).ToList();
+                                                    ).Distinct().ToList();
 
                 for (int i = 0; i < result.Count; i++)
                 {
-                    var td = (result[i].RateZoneList == null) ? null : result[i].RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
+                    var rateZoneResult = (result[i].RateZoneList == null) ? null : result[i].RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
                             z.Zone.CountryTo == rateParameters.country_to &&
                           int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode) &&
                           int.Parse(rateParameters.postcode) <= int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[1]) &&
                           int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
                           int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault();
 
+                    var transitTime = rateZoneResult.Zone.TransmitTimeList.Where(t => t.CarrierId == result[i].CarrierId)
+                                      .Select(x => x.TransitTimeProductList.Where(p => p.ProductType == productType).SingleOrDefault()).SingleOrDefault();
 
+                  myObject.Items.Add(new Shipmentcost
+                  {
+                      Carrier_name = result[i].Carrier.CarrierName,
+                      Transport_mode = result[i].Carrier.CarrierType.ToString(),
+                      Service_level = result[i].Carrier.ServiceLevel,
+                      // Tariff_text = rate.TariffType.ToString(),
+                      // Tariff_type = "?",                      
+                      Currency = result[i].Currency.ToString(),
+
+                      Price = (result[i].RateZoneList.Count == 0 || rateZoneResult == null) ? null : rateZoneResult.Price.ToString(),
+                      Delivery_date = (DateTime.Parse(rateParameters.date_pickup)
+                                      .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MM-yyyy"),
+                      Pickup_date = rateParameters.date_pickup,
+                      Price_detail = new Price_detail { Description = result[i].Carrier.CarrierName + ", " + result[i].Carrier.ServiceLevel },
+                      Transit_time = (transitTime != null) ? transitTime.Days.ToString() +" days" : null
+                  });
                 }
 
                 // Add rates from XRates for USPS
-                result.ForEach(rate => myObject.Items.Add(new Shipmentcost
-                  {
-                      Carrier_name = rate.Carrier.CarrierName,
-                      Transport_mode = rate.Carrier.CarrierType.ToString(),
-                      Service_level = rate.Carrier.ServiceLevel,
-                      // Tariff_text = rate.TariffType.ToString(),
-                      // Tariff_type = "?",
-                      // Pickup_date = "",
-                      Currency = rate.Currency.ToString(),
-                      Price = (rate.RateZoneList.Count == 0) ? null : rate.RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
-                          z.Zone.CountryTo == rateParameters.country_to &&
-                             int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode) &&
-                             int.Parse(rateParameters.postcode) <= int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[1]) &&
-                             int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
-                             int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault().Price.ToString(),
-                      Delivery_date = "",
-                      Price_detail = new Price_detail { Description = "" },
-                      // Transit_time = rate.t
-                  }));
+                //result.ForEach(rate => myObject.Items.Add(new Shipmentcost
+                //  {
+                //      Carrier_name = rate.Carrier.CarrierName,
+                //      Transport_mode = rate.Carrier.CarrierType.ToString(),
+                //      Service_level = rate.Carrier.ServiceLevel,
+                //      // Tariff_text = rate.TariffType.ToString(),
+                //      // Tariff_type = "?",
+                //      // Pickup_date = "",
+                //      Currency = rate.Currency.ToString(),
+
+                //      Price = (rate.RateZoneList.Count == 0) ? null : rate.RateZoneList.Where(z => z.Zone.CountryFrom == rateParameters.country_from &&
+                //             z.Zone.CountryTo == rateParameters.country_to &&
+                //             int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode) &&
+                //             int.Parse(rateParameters.postcode) <= int.Parse(z.Zone.LocationFrom.Split(new char[] { '-' })[1]) &&
+                //             int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[0]) <= int.Parse(rateParameters.postcode_delivery) &&
+                //             int.Parse(rateParameters.postcode_delivery) <= int.Parse(z.Zone.LocationTo.Split(new char[] { '-' })[1])).FirstOrDefault().Price.ToString(),
+                //      Delivery_date = "",
+                //      Price_detail = new Price_detail { Description = rate.Carrier.CarrierName + ", " + rate.Carrier.ServiceLevel },
+                //      // Transit_time = //rate.Zon
+                //  }));
 
             }
 
