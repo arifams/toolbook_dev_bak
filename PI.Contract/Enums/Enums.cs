@@ -86,7 +86,7 @@ namespace PI.Contract.Enums
         Shipment = 1,
         [Description("SHIPMENT_LABEL")]
         ShipmentLabel = 2,
-        [Description("ADDRESS_BOOK")]
+        [Description("AddressBook")]
         AddressBook = 3,
         [Description("RATE_SHEET")]
         RateSheet = 4
