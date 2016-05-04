@@ -1020,7 +1020,7 @@
             </div>
 </form>
 </div>
-            <form action="https://secure.paylane.com/order/cart.html" method="post" id="paylane_form">
+            <form action="http://parcelinternational.pro/payment" method="post" id="paylane_form">
                 <input type="hidden" name="amount" value={{shipmentCtrl.paylane.amount}} />
                 <input type="hidden" name="currency" value={{shipmentCtrl.paylane.currency}} />
                 <input type="hidden" name="merchant_id" value={{shipmentCtrl.paylane.merchantId}} />
@@ -1030,6 +1030,7 @@
                 <input type="hidden" name="back_url" value={{shipmentCtrl.backUrl}} />
                 <input type="hidden" name="language" value="en" />
                 <input type="hidden" name="hash" value={{shipmentCtrl.paylane.hash}} />
+                <input type="hidden" name="country_to" value={{shipmentCtrl.shipment.addressInformation.consignee.country}} />
 
                 <input type="hidden" name="customer_name" value={{shipmentCtrl.shipment.addressInformation.consigner.name}} />
                 <input type="hidden" name="customer_email" value={{shipmentCtrl.shipment.addressInformation.consigner.email}} />

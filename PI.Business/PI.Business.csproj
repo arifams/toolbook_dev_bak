@@ -116,6 +116,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressBookManagement.cs" />
+    <Compile Include="AdministrationManagment.cs" />
     <Compile Include="ApplicationRoleManager.cs" />
     <Compile Include="ApplicationUserManager.cs" />
     <Compile Include="SISIntegrationManager.cs" />

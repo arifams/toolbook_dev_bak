@@ -14,11 +14,28 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using System.Reflection;
 using System.IdentityModel.Protocols.WSTrust;
+using System.Configuration;
 
 namespace PI.Business
 {
     public class CustomerManagement : ICustomerManagement
     {
+        public string WebURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["BaseWebURL"].ToString();
+            }
+        }
+
+        public string ServiceURL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ServiceURL"].ToString();
+            }
+        }
+
         public Customer GetCustomerById(long id)
         {
             using (var context = PIContext.Get())
@@ -129,28 +146,35 @@ namespace PI.Business
             }
         }
 
-        public string GetJwtToken(string userdetails)
-        {
+        public string GetJwtToken(string userid, string role,string tenantId,string userName,string companyId)
+        {           
+            
+            var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
+            var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
+            var signingCredentials = new SigningCredentials(signingKey,
+                SecurityAlgorithms.HmacSha256Signature, SecurityAlgorithms.Sha256Digest);
+
+            var claimsIdentity = new ClaimsIdentity(new List<Claim>()
+              {
+                   new Claim("UserId", userid),
+                   new Claim(ClaimTypes.Role, role),
+                   new Claim("TenantId",tenantId ),
+                   new Claim("UserName", userName),
+                   new Claim("CompanyId",companyId )
+              }, "Custom");
+
+            var securityTokenDescriptor = new SecurityTokenDescriptor()
+            {
+                AppliesToAddress = WebURL,
+                TokenIssuerName = ServiceURL,
+                Subject = claimsIdentity,
+                SigningCredentials = signingCredentials,
+            };
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityKey = this.GetBytes("anyoldrandomtext");
-            var now = DateTime.UtcNow;
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(
-                new[] { new Claim("User", userdetails) }, "JWT"),
-
-                TokenIssuerName = "self",
-                AppliesToAddress = "http://localhost:5555/",
-                Lifetime = new Lifetime(now, now.AddMinutes(60)),
-
-                SigningCredentials = new SigningCredentials(new InMemorySymmetricSecurityKey(securityKey),
-                "http://www.w3.org/2001/04/xmldsig-more#hmac-sha256",
-                "http://www.w3.org/2001/04/xmlenc#sha256"),
-            };
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            var tokenString = tokenHandler.WriteToken(token);
-            return tokenString;
+            var plainToken = tokenHandler.CreateToken(securityTokenDescriptor);
+            var signedAndEncodedToken = tokenHandler.WriteToken(plainToken);
+            return signedAndEncodedToken;
         }
 
         public byte[] GetBytes(string input)

@@ -1,4 +1,5 @@
 ﻿using PI.Business;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.ImportAddress;
@@ -14,13 +15,19 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
+    [CustomAuthorize]
     [RoutePrefix("api/AddressBook")]
     public class AddressBookController : BaseApiController
     {
-        AddressBookManagement addressBookManagement = new AddressBookManagement();
-        
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        IAddressBookManagement addressBookManagement;
+
+        public AddressBookController(IAddressBookManagement addressbookmanagement)
+        {
+            this.addressBookManagement = addressbookmanagement;
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpGet]
         [Route("GetAllAddressBookDetailsByFilter")]
         public PagedList GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",
@@ -31,7 +38,7 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("GetSerchedAddressList")]
         public PagedList GetSerchedAddressList(string userId, string searchtext = "")
@@ -50,7 +57,7 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        [CustomAuthorize]
         [HttpPost]
         [Route("SaveAddress")]
         public int SaveAddress([FromBody] AddressBookDto address)

@@ -11,7 +11,7 @@
 
 
         function getAllComapnies(searchText, status) {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/Company/GetAllComapnies', {
                 params: {
                     status: status,
@@ -23,7 +23,7 @@
 
 
         function changeCompanyStatus(companyDetail) {
-            debugger;
+            
             return $http.post(serverBaseUrl + '/api/Company/ChangeCompanyStatus', companyDetail);
         }
 

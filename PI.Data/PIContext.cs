@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PI.Data.Entity;
+using PI.Data.Entity.RateEngine;
 
 namespace PI.Data
 {
@@ -54,7 +55,17 @@ namespace PI.Data
         public DbSet<ShipmentDocument> ShipmentDocument { get; set; }
 
         public DbSet<CommercialInvoice> CommercialInvoices { get; set; }
+        
+        public DbSet<Carrier> Carrier { get; set; }
 
+        public DbSet<Rate> Rate { get; set; }
+
+        public DbSet<Zone> Zone { get; set; }
+
+        public DbSet<TransmitTime> TransmitTime { get; set; }
+
+        public DbSet<TariffType> TariffType { get; set; }
+        
         public PIContext()
             : base("name=PIBookingConnectionString")
         {

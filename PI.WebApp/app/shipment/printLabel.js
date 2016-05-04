@@ -12,7 +12,7 @@
                vm.datePicker.date = { startDate: null, endDate: null };
 
                vm.loadAllShipments = function (status) {
-                   debugger;
+                   
                   
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -21,7 +21,7 @@
                    shipmentFactory.loadAllPendingShipments(startDate, endDate, number)
                         .success(
                                function (responce) {
-                                   debugger;
+                                   
                                    vm.shipmentList = responce.content;
                                }).error(function (error) {
                                    console.log("error occurd while retrieving shiments");

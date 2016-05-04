@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Newtonsoft.Json.Linq;
 using PI.Business;
+using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
@@ -33,16 +34,22 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-        CompanyManagement companyManagement = new CompanyManagement();
+        ICompanyManagement companyManagement;
 
-        [Authorize(Roles = "Admin")]
+        public AccountsController(ICompanyManagement companymanagement)
+        {
+            this.companyManagement = companymanagement;
+        }        
+       
+
+        [CustomAuthorize]
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
             return Ok(this.AppUserManager.Users.ToList().Select(u => this.TheModelFactory.Create(u)));
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}", Name = "GetUserById")]
         public async Task<IHttpActionResult> GetUser(string Id)
         {
@@ -57,7 +64,7 @@ namespace PI.Service.Controllers
 
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{username}")]
         public async Task<IHttpActionResult> GetUserByName(string username)
         {
@@ -100,7 +107,7 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
-                CompanyController companyManagement = new CompanyController();
+                //CompanyController companyManagement = new CompanyController();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user
@@ -173,7 +180,7 @@ namespace PI.Service.Controllers
             }
         }
 
-        [Authorize]
+        [CustomAuthorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
@@ -192,7 +199,7 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}")]
         public async Task<IHttpActionResult> DeleteUser(string id)
         {
@@ -219,7 +226,7 @@ namespace PI.Service.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        [CustomAuthorize]
         [Route("user/{id:guid}/roles")]
         [HttpPut]
         public IHttpActionResult AssignRolesToUser([FromUri] string id, [FromBody] string[] rolesToAssign)
@@ -291,10 +298,27 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
 
-                    string userDetails = "{userId:"+ user.Id+",userRole:"+ roleName +"}";
+                    string userId = user.Id;
+                    long tenantId = 0;
+                    long companyId = 0;
+                    var userName = string.Empty;
+
+                    ProfileManagement profileManagement = new ProfileManagement();
+
+                    var profile = profileManagement.GetUserById(userId);
+                    if (profile != null)
+                    {
+                        tenantId = profile.TenantId;
+                        userName = profile.UserName;
+                        var company = profileManagement.GetCompanyByTenantId(tenantId);
+                        if (company != null)
+                        {
+                            companyId = company.Id;
+                        }
+                    }
 
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string _token = customerManagement.GetJwtToken(userDetails);
+                    string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
                     {
@@ -328,9 +352,26 @@ namespace PI.Service.Controllers
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
                     CustomerManagement customerManagement = new CustomerManagement();
-                    string userDetails = "{userId:" + user.Id + ",userRole:" + roleName + "}";
+                    ProfileManagement profileManagement = new ProfileManagement();
 
-                    string _token = customerManagement.GetJwtToken(userDetails);
+                    string userId = user.Id;
+                    long tenantId = 0;
+                    long companyId = 0;
+                    var userName = string.Empty;
+
+                    var profile = profileManagement.GetUserById(userId);
+                    if (profile!=null)
+                    {
+                        tenantId = profile.TenantId;
+                        userName = profile.UserName;
+                        var company = profileManagement.GetCompanyByTenantId(tenantId);
+                        if (company!=null)
+                        {
+                            companyId = company.Id;
+                        }
+                    }
+                   
+                    string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
                     {
@@ -371,18 +412,44 @@ namespace PI.Service.Controllers
                     Id = "",
                     Role = roleName,
                     Result = -1
+                    
+
                 });
             else
             {   //set last logon time as current datetime
-               
+
+                CustomerManagement customerManagement = new CustomerManagement();
+                ProfileManagement profileManagement = new ProfileManagement();
+
+                string userId = user.Id;
+                long tenantId = 0;
+                long companyId = 0;
+                var userName = string.Empty;
+
+                var profile = profileManagement.GetUserById(userId);
+                if (profile != null)
+                {
+                    tenantId = profile.TenantId;
+                    userName = profile.UserName;
+                    var company = profileManagement.GetCompanyByTenantId(tenantId);
+                    if (company != null)
+                    {
+                        companyId = company.Id;
+                    }
+                }
+
+                string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
+
+
+
                 companyManagement.UpdateLastLoginTime(user.Id);
                 return Ok(new
                 {
                     Id = user.Id,
                     Role = roleName,
                     Result = 1,
-                    
-                                      
+                    token = _token
+
                 });
             }
         }

@@ -52,6 +52,22 @@
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="JwtAuthForWebAPI, Version=2.0.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JwtAuthForWebAPI.2.0.7\lib\net45\JwtAuthForWebAPI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LightInject, Version=3.0.2.7, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.3.0.2.7\lib\net45\LightInject.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="LightInject.WebApi, Version=1.0.0.4, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\LightInject.WebApi.1.0.0.4\lib\net45\LightInject.WebApi.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.2\lib\net40-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -172,15 +188,22 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="Controllers\AddressBookController.cs" />
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ShipmentsController.cs" />
     <Compile Include="Controllers\User\UserController.cs" />
+    <Compile Include="CustomAuthorizeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="HttpRequestMessageHandler.cs" />
+    <Compile Include="HttpRequestMessageStorage.cs" />
+    <Compile Include="LightInjectResolver.cs" />
+    <Compile Include="LightInject\LightInject.cs" />
+    <Compile Include="LightInject\WebApi\LightInject.WebApi.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\ModelFactory.cs" />
     <Compile Include="Models\RoleBindingModels.cs" />
@@ -195,6 +218,10 @@
     </Content>
     <None Include="Properties\PublishProfiles\PIBooking.pubxml" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
+    <None Include="Properties\PublishProfiles\PIServiceProd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIServiceProd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

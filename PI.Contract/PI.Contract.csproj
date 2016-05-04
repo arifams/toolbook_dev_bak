@@ -45,9 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\IAddressBookManagement.cs" />
+    <Compile Include="Business\IAdministrationManagment.cs" />
     <Compile Include="Business\ICarrierIntegrationManager.cs" />
     <Compile Include="Business\ICompanyManagement.cs" />
     <Compile Include="Business\ICustomerManagement.cs" />
+    <Compile Include="Business\IProfileManagement.cs" />
     <Compile Include="Business\IShipmentManagement.cs" />
     <Compile Include="DTOs\AccountSettings\AccountSettingsDto.cs" />
     <Compile Include="DTOs\AccountSettings\CurrencyDto.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
     <Compile Include="DTOs\FileUpload\FileUploadDto.cs" />
     <Compile Include="DTOs\ImportAddress\ImportAddressDto.cs" />
+    <Compile Include="DTOs\JWT.cs" />
     <Compile Include="DTOs\OperationResult.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="DTOs\Division\DivisionDto.cs" />

@@ -72,6 +72,9 @@
     <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\adminLogin\adminLogin.html" />
     <Content Include="app\adminLogin\adminLoginCtrl.js" />
+    <Content Include="app\admin\ImportRateSheet.html" />
+    <Content Include="app\admin\ImportRateSheet.js" />
+    <Content Include="app\index.html" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />
     <Content Include="app\admin\adminServices.js" />
@@ -1308,6 +1311,8 @@
     <Content Include="plugins\angular-jwt-master\package.json" />
     <Content Include="plugins\angular-jwt-master\README.md" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1328,7 +1333,6 @@
     <Content Include="app\divisions\loadDivisions.js" />
     <Content Include="app\divisions\saveDivision.html" />
     <Content Include="app\divisions\saveDivision.js" />
-    <Content Include="app\index.html" />
     <Content Include="app\mailApp.js" />
     <Content Include="app\mailbox.html" />
     <Content Include="app\mainCtrl.js" />

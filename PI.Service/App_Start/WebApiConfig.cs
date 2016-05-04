@@ -1,4 +1,6 @@
-﻿using System;
+﻿using JwtAuthForWebAPI;
+using PI.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -12,7 +14,6 @@ namespace PI.Service
             // Web API configuration and services
 
             config.EnableCors();
-
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -21,6 +22,22 @@ namespace PI.Service
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+
+            //CustomerManagement cust = new CustomerManagement();
+            //var securityKey = cust.GetBytes("anyoldrandomtext");
+            //var builder = new SecurityTokenBuilder();
+            //var jwtHandler = new JwtAuthenticationMessageHandler
+            //{
+            //    AllowedAudience = "http://localhost:5555/",
+            //    Issuer = "self",
+            //    SigningToken = builder.CreateFromKey(securityKey)
+            //};
+
+            //config.MessageHandlers.Add(jwtHandler);
+
+            config.Filters.Add(new CustomAuthorizeAttribute());
+
         }
     }
 }

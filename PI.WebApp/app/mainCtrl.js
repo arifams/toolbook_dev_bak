@@ -3,7 +3,7 @@
     app.factory('userService', function ($http, $window) {
     return {
         getUserName: function () {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/accounts/GetLoggedInUserName', {
                 params: {
                     loggedInUserId: $window.localStorage.getItem('userGuid')

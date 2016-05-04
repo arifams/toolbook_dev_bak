@@ -35,7 +35,7 @@
 
         //calculating the total volume and total weight
         vm.calculateTotal = function () {
-            debugger;
+            
             vm.shipment.item.totalPrice = 0.0;
 
             for (var i = 0; i < vm.shipment.item.lineItems.length; i++) {

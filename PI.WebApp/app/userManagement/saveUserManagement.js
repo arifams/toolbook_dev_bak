@@ -49,12 +49,12 @@
                 
                 vm.user = data;
                 
-                debugger;
+                
                 vm.user.assignedDivisionIdList = [];
                 if (vm.user.id == 0 || vm.user.id == null) {
                     // New user.
                     vm.user.assignedRoleName = vm.user.roles[0].roleName;
-                    debugger;
+                    
                     vm.user.isActive = 'true';
                     vm.user.salutation = 'Mr';
                 }
@@ -74,7 +74,7 @@
                 }
             })
             .error(function () {
-                debugger;
+                
             })
         }
 
@@ -88,7 +88,7 @@
 
             userManagementFactory.saveUser(vm.user)
             .success(function (result) {
-                debugger;
+                
                 if (result == -1) {
 
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
@@ -128,7 +128,7 @@
         }
 
         vm.toggleDivisionSelection = function (division) {
-            debugger;
+            
             var idx = vm.user.assignedDivisionIdList.indexOf(division.id);
             // is currently selected
             if (idx > -1) {

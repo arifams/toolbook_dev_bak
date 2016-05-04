@@ -87,7 +87,9 @@ namespace PI.Contract.Enums
         [Description("SHIPMENT_LABEL")]
         ShipmentLabel = 2,
         [Description("ADDRESS_BOOK")]
-        AddressBook = 3
+        AddressBook = 3,
+        [Description("RATE_SHEET")]
+        RateSheet = 4
     }
 
     public enum CurrencyType : short
@@ -96,5 +98,28 @@ namespace PI.Contract.Enums
         EURO,
         YEN,
         Pound
+    }
+
+    public enum CarrierType : short
+    {
+        Express = 1,
+        [Description("Air Freight")]
+        AirFreight,
+        [Description("Sea Freight")]
+        SeaFreight,
+        [Description("Road Freight")]
+        RoadFreight
+    }
+
+    public enum RatesCalculationMethod : short
+    {
+        WEIGHT = 1,
+        KG
+    }
+
+    public enum RatesSell : short
+    {
+        Sell =1,
+        Buy
     }
 }
