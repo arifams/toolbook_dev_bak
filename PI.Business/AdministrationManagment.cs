@@ -105,7 +105,7 @@ namespace PI.Business
                 catch (Exception ex)
                 {
                     opResult.Status = Status.Error;
-                    opResult.Message = ex.ToString();
+                    opResult.Message = "Carrier :" + ex.ToString();
                 }
             }
 
@@ -193,7 +193,7 @@ namespace PI.Business
                 catch (Exception ex)
                 {
                     opResult.Status = Status.Error;
-                    opResult.Message = ex.ToString();
+                    opResult.Message = "Rate :" + ex.ToString();
                 }
             }
 
@@ -255,7 +255,7 @@ namespace PI.Business
                 catch (Exception ex)
                 {
                     opResult.Status = Status.Error;
-                    opResult.Message = ex.ToString();
+                    opResult.Message = "Zone :" + ex.ToString();
                 }
             }
 
@@ -325,7 +325,7 @@ namespace PI.Business
                 catch (Exception ex)
                 {
                     opResult.Status = Status.Error;
-                    opResult.Message = ex.ToString();
+                    opResult.Message = "Transmit :" + ex.ToString();
                 }
             }
 
