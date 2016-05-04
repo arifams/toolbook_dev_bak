@@ -72,25 +72,10 @@ namespace PI.Common
             return (text ?? string.Empty).Trim();
         }
 
-        public SLExcelData ReadExcel(string excelurl)
+        public SLExcelData ReadExcel(string excelurl, int workSheetId = 1)
         {
             var data = new SLExcelData();
-
-            //Stream stream = File.Open(excelurl, FileMode.Open);
-
-            // Check if the file is excel
-            //if (stream.ContentLength <= 0)
-            //{
-            //    data.Status.Message = "You uploaded an empty file";
-            //    return data;
-            //}
-
-            //if (file.ContentType != "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-            //{
-            //    data.Status.Message = "Please upload a valid excel file of version 2007 and above";
-            //    return data;
-            //}
-
+          
             // Open the excel document
             WorkbookPart workbookPart;
             List<Row> rows;
@@ -101,8 +86,8 @@ namespace PI.Common
                 workbookPart = document.WorkbookPart;
 
                 var sheets = workbookPart.Workbook.Descendants<Sheet>();
-                var sheet = sheets.First();
-                data.SheetName = sheet.Name;
+                var sheet = sheets.Where(x => x.Id == "rId" + workSheetId).First();
+                //data.SheetName = sheet.Name;
 
                 var workSheet = ((WorksheetPart)workbookPart.GetPartById(sheet.Id)).Worksheet;
                 var columns = workSheet.Descendants<Columns>().FirstOrDefault();
