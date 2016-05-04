@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
@@ -497,58 +498,61 @@ namespace PI.Business
         //update addressBook details with records in excel
         public bool UpdateAddressBookDatafromExcel(string URI, string userId)
         {
-           Excel.Workbook MyBook = null;
-           Excel.Application MyApp = null;
-           Excel.Worksheet MySheet = null;
-           int lastRow = 0;
+            SLExcelReader s = new SLExcelReader();
 
-            MyApp = new Excel.Application();
-            MyApp.Visible = false;
-            MyBook = MyApp.Workbooks.Open(URI);
-            MySheet = (Excel.Worksheet)MyBook.Sheets[1]; // Explicit cast is not required here
-            lastRow = MySheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
+            SLExcelData sss = s.ReadExcel(URI);
 
-            //readin from excel
-            List<AddressBook> AddressList = new List<AddressBook>();
-            for (int index = 7; index <= lastRow; index++)
+            List<AddressBook> addressList = new List<AddressBook>();
+
+            if (sss.DataRows.Count == 0)
             {
-                System.Array MyValues = (System.Array)MySheet.get_Range("A" +
-                   index.ToString(), "M" + index.ToString()).Cells.Value;
-                AddressList.Add(new AddressBook
-                {
-                    Salutation = MyValues.GetValue(1, 1).ToString(),
-                    FirstName = MyValues.GetValue(1, 2).ToString(),
-                    LastName = MyValues.GetValue(1, 3).ToString(),
-                    CompanyName = MyValues.GetValue(1, 4).ToString(),
-                    ZipCode = MyValues.GetValue(1, 5).ToString(),
-                    Number = MyValues.GetValue(1, 6).ToString(),
-                    StreetAddress1 = MyValues.GetValue(1, 7).ToString(),
-                    StreetAddress2 = MyValues.GetValue(1, 8).ToString(),
-                    State = MyValues.GetValue(1, 9).ToString(),
-                    EmailAddress = MyValues.GetValue(1, 10).ToString(),
-                    PhoneNumber = MyValues.GetValue(1, 11).ToString(),
-                    Country = MyValues.GetValue(1, 12).ToString(),
-                    AccountNumber = MyValues.GetValue(1, 13).ToString(),
-                    CreatedBy = userId,
-                    UserId = userId,
-                    CreatedDate = DateTime.Now
+                return false;
+            }
+            foreach (var item in sss.DataRows)
+            {
 
-                });
+                if (item.Count!=0)
+                {
+                     var detailsarray = item.ToArray();
+                        if (detailsarray.Length!=0)
+                        {
+                        addressList.Add(new AddressBook()
+                        {
+                            Salutation = detailsarray[0].ToString(),
+                            FirstName = detailsarray[1].ToString(),
+                            LastName = detailsarray[2].ToString(),
+                            CompanyName = detailsarray[3].ToString(),
+                            ZipCode = detailsarray[4].ToString(),
+                            Number = detailsarray[5].ToString(),
+                            StreetAddress1 = detailsarray[6].ToString(),
+                            StreetAddress2 = detailsarray[7].ToString(),
+                            State = detailsarray[8].ToString(),
+                            EmailAddress = detailsarray[9].ToString(),
+                            PhoneNumber = detailsarray[10].ToString(),
+                            Country = detailsarray[11].ToString(),
+                            AccountNumber = detailsarray[12].ToString(),
+                            CreatedBy = userId,
+                            CreatedDate = DateTime.Now,
+                            UserId= userId,
+                            IsActive=true
+                        });
+                        }               
+                  
+
+                }            
+
             }
 
-
-            using (PIContext context=new PIContext())
-            {
-                foreach (var addrerss in AddressList)
-                {
-                    context.AddressBooks.Add(addrerss);
-                    context.SaveChanges();
-                }
+            using (PIContext context = new PIContext())
+            {                
+                context.AddressBooks.AddRange(addressList);
+                context.SaveChanges();
             }
-
             return true;
+        }
 
+          
     }
 
     }
-}
+

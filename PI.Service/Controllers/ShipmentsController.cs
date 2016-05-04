@@ -31,7 +31,7 @@ namespace PI.Service.Controllers
     [CustomAuthorize]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
-    {        
+    {
 
         ICompanyManagement comapnyManagement = new CompanyManagement();
         IShipmentManagement shipmentManagement = new ShipmentsManagement();
@@ -43,7 +43,7 @@ namespace PI.Service.Controllers
         //    this.comapnyManagement = companymanagement;
         //    this.shipmentManagement = shipmentmanagement;
         //    this.addressManagement = addressmanagement;
-        //} 
+        //}
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -240,27 +240,17 @@ namespace PI.Service.Controllers
         //        //throw;
         //    }
         //}
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadAddressBook(String userId)
         {
-            var responce = await Upload();
+            var responce = await UploadAddressBook();
 
             var urlJson = await responce.Content.ReadAsStringAsync();
 
             Result result = null;
             result = JsonConvert.DeserializeObject<Result>(urlJson);
 
-            // string URL = "https://pidocuments.blob.core.windows.net:443/piblobstorage/TENANT_3/ADDRESS_BOOK/b39a9937-1c7c-4889-af62-aea78aaca524.xlsx";
-
-          //  AddressBookManagement addressManagement = new AddressBookManagement();
             addressManagement.UpdateAddressBookDatafromExcel(result.returnData, userId);
-
-            //DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(Result));
-            //Result result = (Result)serializer.;
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -365,6 +355,23 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
+
+
+        [HttpPost]
+        public async Task<HttpResponseMessage> UploadAddressBook()
+        {
+            if (!Request.Content.IsMimeMultipartContent())
+            {
+                this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+            }
+
+            var provider = GetMultipartProvider();
+            var result = await Request.Content.ReadAsMultipartAsync(provider);
+
+            string returnData = result.FileData.First().LocalFileName;
+
+            return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
+        }
 
         public MultipartFormDataStreamProvider GetMultipartProvider()
         {
