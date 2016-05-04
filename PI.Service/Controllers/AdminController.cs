@@ -17,6 +17,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
@@ -31,19 +32,30 @@ namespace PI.Service.Controllers
         //    this.adminManagement = adminmanagementa;
         //}
 
-        [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpPost]
+      // This is from System.Web.Http, and not from System.Web.Mvc
+        [Route("UploadRateSheet")]
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
         {
+             OperationResult opResult = new OperationResult();
+             try
+             {
+                 var responce = await Upload();
 
-            var responce = await Upload();
+                 Result result = null;
+                 var urlJson = await responce.Content.ReadAsStringAsync();
 
+                 result = JsonConvert.DeserializeObject<Result>(urlJson);
 
-            Result result = null;
-            var urlJson = await responce.Content.ReadAsStringAsync();
-
-            result = JsonConvert.DeserializeObject<Result>(urlJson);
-
-           OperationResult opResult = adminManagement.ImportRateSheetExcel(result.returnData);
+                 opResult = adminManagement.ImportRateSheetExcel(result.returnData);
+             }
+             catch (Exception ex)
+             {
+                 opResult.Status = Status.Error;
+                 opResult.Message = "Controller  :" + ex.ToString();
+             }
 
             return this.Request.CreateResponse(opResult.Status == Status.Success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
         }
