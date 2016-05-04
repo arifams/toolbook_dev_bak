@@ -31,19 +31,19 @@ namespace PI.Service.Controllers
     [CustomAuthorize]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
-    {        
+    {
 
-        ICompanyManagement comapnyManagement;
-        IShipmentManagement shipmentManagement;
-        IAddressBookManagement addressManagement;
+        ICompanyManagement comapnyManagement = new CompanyManagement();
+        IShipmentManagement shipmentManagement = new ShipmentsManagement();
+        IAddressBookManagement addressManagement = new AddressBookManagement();
 
 
-        public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
-        {
-            this.comapnyManagement = companymanagement;
-            this.shipmentManagement = shipmentmanagement;
-            this.addressManagement = addressmanagement;
-        }
+        //public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
+        //{
+        //    this.comapnyManagement = companymanagement;
+        //    this.shipmentManagement = shipmentmanagement;
+        //    this.addressManagement = addressmanagement;
+        //}
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

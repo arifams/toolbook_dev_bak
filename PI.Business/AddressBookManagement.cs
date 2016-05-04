@@ -501,11 +501,58 @@ namespace PI.Business
             SLExcelReader s = new SLExcelReader();
 
             SLExcelData sss = s.ReadExcel(URI);
-            
 
+            List<AddressBook> addressList = new List<AddressBook>();
+
+            if (sss.DataRows.Count == 0)
+            {
+                return false;
+            }
+            foreach (var item in sss.DataRows)
+            {
+
+                if (item.Count!=0)
+                {
+                     var detailsarray = item.ToArray();
+                        if (detailsarray.Length!=0)
+                        {
+                        addressList.Add(new AddressBook()
+                        {
+                            Salutation = detailsarray[0].ToString(),
+                            FirstName = detailsarray[1].ToString(),
+                            LastName = detailsarray[2].ToString(),
+                            CompanyName = detailsarray[3].ToString(),
+                            ZipCode = detailsarray[4].ToString(),
+                            Number = detailsarray[5].ToString(),
+                            StreetAddress1 = detailsarray[6].ToString(),
+                            StreetAddress2 = detailsarray[7].ToString(),
+                            State = detailsarray[8].ToString(),
+                            EmailAddress = detailsarray[9].ToString(),
+                            PhoneNumber = detailsarray[10].ToString(),
+                            Country = detailsarray[11].ToString(),
+                            AccountNumber = detailsarray[12].ToString(),
+                            CreatedBy = userId,
+                            CreatedDate = DateTime.Now,
+                            UserId= userId,
+                            IsActive=true
+                        });
+                        }               
+                  
+
+                }            
+
+            }
+
+            using (PIContext context = new PIContext())
+            {                
+                context.AddressBooks.AddRange(addressList);
+                context.SaveChanges();
+            }
             return true;
+        }
 
+          
     }
 
     }
-}
+
