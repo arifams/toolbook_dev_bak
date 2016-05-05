@@ -27,7 +27,7 @@ namespace PI.Data.Entity.RateEngine
 
         public virtual TariffType TariffType { get; set; }
 
-        public IList<TransmitTime> TransmitTimeList { get; set; }
+        public virtual IList<TransmitTime> TransmitTimeList { get; set; }
 
     }
 }
