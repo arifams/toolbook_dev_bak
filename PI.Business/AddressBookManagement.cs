@@ -153,7 +153,7 @@ namespace PI.Business
                         currentAddress.StreetAddress2 = list["streetAddress2"];
                         currentAddress.City = list["city"];
                         currentAddress.State = list["state"];
-                        currentAddress.IsActive = Convert.ToBoolean(list["isActive"]);
+                        currentAddress.IsActive = true;
                         currentAddress.CreatedDate = DateTime.Now;
 
 

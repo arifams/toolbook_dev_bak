@@ -30,7 +30,8 @@ var MakeApp = angular
     'ngFileUpload',
     'angular-jwt'
   ])
-  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
+  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider ) {
+    
       $routeProvider
         //.when('/', {
         //    templateUrl: 'dashboard/dashboard.html',
@@ -310,19 +311,36 @@ var MakeApp = angular
            .when('/CustomerMangement', {
                templateUrl: 'admin/loadAllCompanies.html',
            })
-           .when('/AdminMangement', {
+           .when('/AdminMangement', {               
                 templateUrl: 'admin/ImportRateSheet.html',
             })
-        .otherwise({
-            redirectTo: '/loadShipments'
+        .otherwise({          
+           
+            // redirectTo: '/loadShipments'
+            resolve: {
+                factory: checkRouting
+            }
         });
+
 
       jwtInterceptorProvider.tokenGetter = function () {
           return localStorage.getItem('token');
       };
 
       $httpProvider.interceptors.push('jwtInterceptor');
-  });
+  })
+
+var checkRouting = function ($location) {
+    var role=localStorage.getItem('userRole')
+    if (role != 'Admin') {
+        $location.path('/loadShipments');
+    } else {
+        $location.path('/CustomerMangement');
+    }
+    return true;
+   
+};
+
 
 
 // Route State Load Spinner(used on page or content load)
@@ -349,3 +367,4 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
         };
     }
 ])
+
