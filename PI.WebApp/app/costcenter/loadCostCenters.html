@@ -13,48 +13,48 @@
                 <div class="panel-content panel-border">
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group input-group">
-                                    <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="Search by Cost Center Name" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary" ng-click="searchCostCenters()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div> 
-                            </div>
-                                                     
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="control-label">Filter by  </label>
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <div class="form-group input-group">
+                                        <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                               placeholder="Search by Cost Center Name" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-large btn-primary" ng-click="searchCostCenters()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="option-group">
-                                        <select id="costcenter"
-                                                convert-to-number ng-options="divi.id as divi.name for divi in divisionList" class="form-control ng-pristine ng-valid ng-touched"
-                                                name="divisions" ng-model="selectedDivision" ng-change="selectDivisionforCostCenter()">
-                                            <option value="">Division: All</option>
-                                        </select>
+                                <div class="col-md-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Filter by  </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select id="costcenter"
+                                                    convert-to-number ng-options="divi.id as divi.name for divi in divisionList" class="form-control ng-pristine ng-valid ng-touched"
+                                                    name="divisions" ng-model="selectedDivision" ng-change="selectDivisionforCostCenter()">
+                                                <option value="">Division: All</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select id="costcentersStatus" name="costcentersStatus" class="form-control ng-pristine ng-valid ng-touched"
+                                                    ng-model="status" ng-change="selectActiveCostCenters()">
+                                                <option value="">Status: All</option>
+                                                <option value="True">Active</option>
+                                                <option value="False">Inactive</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="option-group">
-                                        <select id="costcentersStatus" name="costcentersStatus" class="form-control ng-pristine ng-valid ng-touched"
-                                                ng-model="status" ng-change="selectActiveCostCenters()">
-                                            <option value="">Status: All</option>
-                                            <option value="True">Active</option>
-                                            <option value="False">Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
                         </div>
                         <br />
                         <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->

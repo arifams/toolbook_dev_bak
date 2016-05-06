@@ -1,13 +1,13 @@
 ﻿<div ng-controller="saveAddressCtrl as addressCtrl">
-    <h2 class="box-title" ng-hide="addressCtrl.model.id > 0"> Add Address &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadAddresses" class="btn btn-primary active pull-right" role="button">Manage Address</a></h2>
-    <h2 class="box-title" ng-show="addressCtrl.model.id > 0"> Edit Address &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadAddresses" class="btn btn-primary active pull-right" role="button">Manage Address</a></h2>
+    <h2 class="box-title" ng-hide="addressCtrl.model.id > 0"> Add Address<a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
+    <h2 class="box-title" ng-show="addressCtrl.model.id > 0"> Edit Address<a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
 
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
         <form class="form-horizontal" name="saveAddressForm" novalidate>
             <!-- /.box-header -->
-            <div class="panel-header">
+            <div class="panel-content panel-border">
                 <div class="row">
                     <div class="col-xs-12">
                         <!-- left column -->                      
@@ -28,9 +28,9 @@
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Salutation *</label>
-                            <div class="col-sm-8">                               
+                            <div class="col-sm-2">                               
                                     <div class="option-group">
-                                        <select id="salutation" name="salutation" class="salutation" required ng-model="addressCtrl.model.salutation" >
+                                        <select id="salutation" name="salutation" class="salutation form-control" required ng-model="addressCtrl.model.salutation" >
                                             <option value="Mr" selected="selected">Mr</option>
                                             <option value="Mrs">Mrs</option>
                                             <option value="Ms">Ms</option>

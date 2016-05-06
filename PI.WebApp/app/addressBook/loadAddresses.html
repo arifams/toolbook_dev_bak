@@ -1,7 +1,7 @@
 ﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
     <h2 class="box-title">
-        Manage Address Book &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveAddress/0"
-                                                       class="btn btn-primary active pull-right" role="button">Add Address</a>
+        Manage Address Book
+        <a role="button" style="width:auto;"  class="btn btn-primary active pull-right" href="#saveAddress/0">Add Address</a>
     </h2>
 
     <div class="panel">
@@ -15,46 +15,38 @@
                 <div class="panel-content panel-border">
                 <div class="box-body">
                     <div class="row">
-
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
+                        <div class="col-sm-12">
+                            <div class="col-sm-6">
+                                <div class="form-group input-group">
+                                    <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
                                            placeholder="Search by Names" />
-                            </div>
-                        </div>
-                        <div class="col-sm-2">
-                            <div class="form-group">
-                                <button type="button" class="btn btn-large btn-primary" ng-click="addressCtrl.searchAddresses()">
-                                    <i class="fa fa-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-sm-1">
-                            <div class="form-group">
-                                <label class="control-label">Filter by  </label>
-                            </div>
-                        </div>
-
-                        <div class="col-sm-3">
-                            <div class="form-group">
-                                <div class="option-group">
-                                        <select id="addressStatus" name="addressStatus" class="form-control"
-                                            ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
-                                            <option value="">Status: All</option>
-                                        <option value="True">Active</option>
-                                        <option value="False">Inactive</option>
-                                    </select>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="addressCtrl.searchAddresses()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
                                 </div>
                             </div>
+                            <div class="col-sm-2 p-l-40">
+                                <div class="form-group">
+                                    <label class="control-label">Filter by  </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <div class="option-group">
+                                        <select id="addressStatus" name="addressStatus" class="form-control"
+                                                ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
+                                            <option value="">Status: All</option>
+                                            <option value="True">Active</option>
+                                            <option value="False">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>   
                         </div>
-
-
-
                     </div>
-                    <div class="row">
-                       
-                       
-                    </div>
+                   
                     <div  class="row">
                         <div class="col-sm-2">
                             <select class="form-control" ng-model="addressCtrl.docType" ng-init="addressCtrl.docType = 'export'">
