@@ -315,7 +315,7 @@ var MakeApp = angular
                 templateUrl: 'admin/ImportRateSheet.html',
             })
           .when('/shipmentManagement', { /* To Do: loadShipCtrl  is temporary used for this controller */
-              templateUrl: 'shipment/shipmentManagement.html',
+              templateUrl: 'shipment/shipmentMgt.html',
               controller: 'loadShipmentsCtrl',/* To Do: replace this controller */
               controllerAs: 'loadShipCtrl'
           })
