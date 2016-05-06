@@ -30,7 +30,8 @@ var MakeApp = angular
     'ngFileUpload',
     'angular-jwt'
   ])
-  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
+  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider ) {
+    
       $routeProvider
         //.when('/', {
         //    templateUrl: 'dashboard/dashboard.html',
@@ -312,22 +313,39 @@ var MakeApp = angular
            })
            .when('/AdminMangement', {
                 templateUrl: 'admin/ImportRateSheet.html',
-           })
+            })
           .when('/shipmentManagement', { /* To Do: loadShipCtrl  is temporary used for this controller */
               templateUrl: 'shipment/shipmentManagement.html',
               controller: 'loadShipmentsCtrl',/* To Do: replace this controller */
               controllerAs: 'loadShipCtrl'
           })
         .otherwise({
-            redirectTo: '/loadShipments'
+           
+            // redirectTo: '/loadShipments'
+            resolve: {
+                factory: checkRouting
+            }
         });
+
 
       jwtInterceptorProvider.tokenGetter = function () {
           return localStorage.getItem('token');
       };
 
       $httpProvider.interceptors.push('jwtInterceptor');
-  });
+  })
+
+var checkRouting = function ($location) {
+    var role=localStorage.getItem('userRole')
+    if (role != 'Admin') {
+        $location.path('/loadShipments');
+    } else {
+        $location.path('/CustomerMangement');
+    }
+    return true;
+   
+};
+
 
 
 // Route State Load Spinner(used on page or content load)
@@ -354,3 +372,4 @@ MakeApp.directive('ngSpinnerLoader', ['$rootScope',
         };
     }
 ])
+

@@ -35,29 +35,40 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpPost]
-      // This is from System.Web.Http, and not from System.Web.Mvc
+        // This is from System.Web.Http, and not from System.Web.Mvc
         [Route("UploadRateSheet")]
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
         {
-             OperationResult opResult = new OperationResult();
-             try
-             {
-                 var responce = await Upload();
+            OperationResult opResult = new OperationResult();
+            try
+            {
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+                }
 
-                 Result result = null;
-                 var urlJson = await responce.Content.ReadAsStringAsync();
+                var provider = GetMultipartProvider();
+                var result = await Request.Content.ReadAsMultipartAsync(provider);
 
-                 result = JsonConvert.DeserializeObject<Result>(urlJson);
+                string returnData = result.FileData.First().LocalFileName;
+                var response = this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
 
-                 opResult = adminManagement.ImportRateSheetExcel(result.returnData);
-             }
-             catch (Exception ex)
-             {
-                 opResult.Status = Status.Error;
-                 opResult.Message = "Controller  :" + ex.ToString();
-             }
+                var urlJson = await response.Content.ReadAsStringAsync();
+
+                Result deSelizalizedObject = null;
+                deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
+
+                opResult = adminManagement.ImportRateSheetExcel(deSelizalizedObject.returnData);
+            }
+            catch (Exception ex)
+            {
+                opResult.Status = Status.Error;
+                opResult.Message = "Controller  :" + ex.ToString();
+            }
 
             return this.Request.CreateResponse(opResult.Status == Status.Success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
+            ///////////////////////
+
         }
 
 

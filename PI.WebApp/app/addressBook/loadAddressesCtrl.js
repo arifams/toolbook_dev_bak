@@ -333,7 +333,7 @@
                 data: {
                     file: file,
                     userId: $window.localStorage.getItem('userGuid'),
-                    documentType: "AddressBook",                   
+                    documentType: "AddressBook",
                 },
                 params: {
                     userId: $window.localStorage.getItem('userGuid'),

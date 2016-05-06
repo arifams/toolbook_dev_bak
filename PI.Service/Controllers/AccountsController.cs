@@ -35,10 +35,13 @@ namespace PI.Service.Controllers
     public class AccountsController : BaseApiController
     {
         ICompanyManagement companyManagement;
+        ICustomerManagement customerManagement;
 
-        public AccountsController(ICompanyManagement companymanagement)
+        public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement)
         {
             this.companyManagement = companymanagement;
+            this.customerManagement = customermanagement;
+
         }        
        
 
@@ -317,7 +320,7 @@ namespace PI.Service.Controllers
                         }
                     }
 
-                    CustomerManagement customerManagement = new CustomerManagement();
+                   // CustomerManagement customerManagement = new CustomerManagement();
                     string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
@@ -351,7 +354,7 @@ namespace PI.Service.Controllers
                 {
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTime(user.Id);
-                    CustomerManagement customerManagement = new CustomerManagement();
+                   // CustomerManagement customerManagement = new CustomerManagement();
                     ProfileManagement profileManagement = new ProfileManagement();
 
                     string userId = user.Id;
@@ -418,7 +421,7 @@ namespace PI.Service.Controllers
             else
             {   //set last logon time as current datetime
 
-                CustomerManagement customerManagement = new CustomerManagement();
+               // CustomerManagement customerManagement = new CustomerManagement();
                 ProfileManagement profileManagement = new ProfileManagement();
 
                 string userId = user.Id;
