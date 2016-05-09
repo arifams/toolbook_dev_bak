@@ -41,6 +41,7 @@ namespace PI.Contract.Business
                                          string sortBy = "Id", string sortDirection = "asc");
         CostCenterDto GetCostCentersById(long id, string userId);
         long GettenantIdByUserId(string userid);
+        PagedList GetAllComapniesForAdminSearch(string searchtext);
 
     }
 }

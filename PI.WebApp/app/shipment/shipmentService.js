@@ -27,7 +27,10 @@
             getProfileInfo: getProfileInfo,
             getAllshipmentsForManifest: getAllshipmentsForManifest,
             requestForQuote: requestForQuote,
-            deleteShipment: deleteShipment
+            deleteShipment: deleteShipment,
+            loadAllcompanies: loadAllcompanies,
+            loadAllshipmentsForCompany: loadAllshipmentsForCompany,
+            loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch
         };
 
         function getProfileInfo() {
@@ -147,6 +150,39 @@
             });
         }
       
+        function loadAllcompanies(searchtext) {
+            return $http.get(serverBaseUrl + '/api/Company/GetAllComapniesForAdminSearch', {
+                params: {
+                    searchText: searchtext
+                }
+            });
+
+        }
+
+
+        function loadAllshipmentsForCompany(companyID) {
+            
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipmentByCompanyId', {
+                params: {
+                    companyId: companyID
+                }
+            });
+        }
+
+        function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
+            debugger;
+            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
+                params: {
+                    companyId: companyId,
+                    status: status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,
+                    source: source,
+                    destination: destination
+                }
+            });
+        }
 
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {

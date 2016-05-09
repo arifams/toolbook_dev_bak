@@ -1416,6 +1416,64 @@ namespace PI.Business
             }
         }
 
+        /// <summary>
+        /// Get all divisions by given filter criteria
+        /// </summary>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="sortDirection"></param>
+        /// <returns></returns>
+        public PagedList GetAllComapniesForAdminSearch(string searchtext)
+        {
+            var pagedRecord = new PagedList();
+
+            pagedRecord.Content = new List<CustomerListDto>();
+
+            using (var context = new PIContext())
+            {
+                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                var content = (from customer in context.Customers
+                               join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                               where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                               customer.IsDelete == false &&                               
+                               (string.IsNullOrEmpty(searchtext) || customer.FirstName.Contains(searchtext) || customer.LastName.Contains(searchtext)
+                                 || comapny.Name.Contains(searchtext))
+                               select new
+                               {
+                                   Customer = customer,
+                                   Company = comapny
+                               }).ToList();
+
+                foreach (var item in content)
+                {
+
+                    int userCount = context.UsersInDivisions.Where(x => x.Divisions.CompanyId == item.Company.Id)
+                                    .Select(x => x.UserId).ToList().Count();
+
+                    int shipmentCount = context.Shipments.Where(x => x.Division.CompanyId == item.Company.Id && x.IsActive)
+                                    .Select(x => x.Id).ToList().Count();
+
+                    pagedRecord.Content.Add(new CustomerListDto
+                    {
+                        Id = item.Company.Id,
+                        FirstName = item.Customer.FirstName,
+                        LastName = item.Customer.LastName,
+                        CorporateName = item.Company.Name,
+                        City = item.Customer.CustomerAddress.City,
+                        Status = item.Company.IsActive,
+                        CreatedDate = item.Customer.CreatedDate.ToString("dd/MM/yyyy"),
+                        ActiveShipments = shipmentCount,
+                        AssignedUserCount = ++userCount
+                    });
+                }
+
+                return pagedRecord;
+            }
+        }
+
 
         public bool ChangeCompanyStatus(long comapnyId)
         {

@@ -85,6 +85,8 @@
     <Content Include="app\shipment\AddressViewTemplate.js" />
     <Content Include="app\shipment\addShipment.html" />
     <Content Include="app\shipment\addShipment.js" />
+    <Content Include="app\shipment\CompanyViewTemplate.html" />
+    <Content Include="app\shipment\CompanyViewTemplate.js" />
     <Content Include="app\shipment\loadAllShipments.js" />
     <Content Include="app\shipment\paymentResult.html" />
     <Content Include="app\shipment\paymentResult.js" />
@@ -96,6 +98,8 @@
     <Content Include="app\shipment\printManifest.js" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
+    <Content Include="app\shipment\shipmentManagement.html" />
+    <Content Include="app\shipment\shipmentManagement.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />
     <Content Include="app\shipment\ShipmentOverview.js" />
     <Content Include="app\shipment\shipmentService.js" />

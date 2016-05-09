@@ -316,8 +316,8 @@ var MakeApp = angular
             })
           .when('/shipmentManagement', { /* To Do: loadShipCtrl  is temporary used for this controller */
               templateUrl: 'shipment/shipmentManagement.html',
-              controller: 'loadShipmentsCtrl',/* To Do: replace this controller */
-              controllerAs: 'loadShipCtrl'
+              controller: 'shipmentManageCtrl',/* To Do: replace this controller */
+              controllerAs: 'manageShipCtrl'
           })
         .otherwise({
            
