@@ -12,11 +12,28 @@
 
 
         //set selected address details
-        $scope.selectCompany = function (address) {
-   
+        $scope.selectCompany = function (company) {
+            debugger;
+            $scope.manageShipCtrl.CompanyId = company.id;
 
+            shipmentFactory.loadAllshipmentsForCompany(company.id).success(
+              
+                                  function (responce) {
+                                      debugger;
+                                      if (responce.content.length > 0) {
+                                          $scope.manageShipCtrl.rowCollection = responce.content;
+                                          $scope.manageShipCtrl.closeWindow();
+                                          $scope.manageShipCtrl.noShipments = false;
+                                         
+                                      } else {
+                                          $scope.manageShipCtrl.noShipments = true;
+                                          $scope.manageShipCtrl.closeWindow();
+                                      }
+                                  }).error(function (error) {
+
+                                      console.log("error occurd while retrieving Addresses");
+                                  });
         }
-
     }]);
 
 

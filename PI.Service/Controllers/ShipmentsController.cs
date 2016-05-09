@@ -111,6 +111,17 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
+        [Route("GetAllShipmentByCompanyId")]
+        public PagedList GetAllShipmentByCompanyId(string companyId)
+        {
+            var pagedRecord = new PagedList();
+            return pagedRecord = shipmentManagement.GetAllShipmentByCompanyId(companyId);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
         [Route("GetAllshipmentsForManifest")]
         public List<ShipmentDto> GetAllshipmentsForManifest(string userId, string createdDate, string carreer, string reference)
         {

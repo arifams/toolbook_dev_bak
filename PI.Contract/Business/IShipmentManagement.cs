@@ -32,6 +32,7 @@ namespace PI.Contract.Business
         ShipmentDto GetshipmentById(string shipmentId);
         int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName);
         StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);
+        PagedList GetAllShipmentByCompanyId(string companyId);
 
 
     }

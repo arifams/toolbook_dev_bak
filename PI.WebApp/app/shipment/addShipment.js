@@ -53,6 +53,10 @@
         vm.isClickCalculateRate = false;
         vm.addingRequestForQuote = false;
 
+        vm.closeWindow = function () {
+            ngDialog.close()
+        }
+
         vm.loadConsignerInfo = function () {
             
             shipmentFactory.getProfileInfo().success(

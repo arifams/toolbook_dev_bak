@@ -28,7 +28,8 @@
             getAllshipmentsForManifest: getAllshipmentsForManifest,
             requestForQuote: requestForQuote,
             deleteShipment: deleteShipment,
-            loadAllcompanies: loadAllcompanies
+            loadAllcompanies: loadAllcompanies,
+            loadAllshipmentsForCompany: loadAllshipmentsForCompany
         };
 
         function getProfileInfo() {
@@ -157,6 +158,15 @@
 
         }
 
+
+        function loadAllshipmentsForCompany(companyID) {
+            
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipmentByCompanyId', {
+                params: {
+                    companyId: companyID
+                }
+            });
+        }
 
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {

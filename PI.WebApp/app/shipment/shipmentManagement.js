@@ -5,7 +5,14 @@
                        function ($scope, $location, $window, shipmentFactory, ngDialog, $controller) {
 
                            var vm = this;
-                           vm.searchText = '';                          
+                           vm.searchText = '';
+                           vm.CompanyId = '';
+                           vm.rowCollection = [];
+                           vm.noShipments = false;
+
+                           vm.closeWindow = function () {
+                               ngDialog.close()
+                           }
                      
                            vm.loadAllCompanies = function () {
 
