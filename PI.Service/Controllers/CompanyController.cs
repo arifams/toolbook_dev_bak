@@ -178,6 +178,15 @@ namespace PI.Service.Controllers
             return companyManagement.GetAllComapnies(status, searchText);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllComapniesForAdminSearch")]
+        public PagedList GetAllComapniesForAdmin(string searchText = null)
+        {
+            return companyManagement.GetAllComapniesForAdminSearch( searchText);
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]

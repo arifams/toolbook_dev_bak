@@ -27,7 +27,8 @@
             getProfileInfo: getProfileInfo,
             getAllshipmentsForManifest: getAllshipmentsForManifest,
             requestForQuote: requestForQuote,
-            deleteShipment: deleteShipment
+            deleteShipment: deleteShipment,
+            loadAllcompanies: loadAllcompanies
         };
 
         function getProfileInfo() {
@@ -147,6 +148,15 @@
             });
         }
       
+        function loadAllcompanies(searchtext) {
+            return $http.get(serverBaseUrl + '/api/Company/GetAllComapniesForAdminSearch', {
+                params: {
+                    searchText: searchtext
+                }
+            });
+
+        }
+
 
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {

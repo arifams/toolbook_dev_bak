@@ -171,7 +171,7 @@
                             </ul>
                         </li>
 
-                        <li class="nav-parent" ng-hide="currentRole == 'Admin'">
+                        <li class="nav-parent" ng-show="currentRole == 'Admin'">
                             <a href="#"><i class="icon-basket"></i><span>SHIPMENT CONTROL CENTER</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
@@ -1336,6 +1336,7 @@
         <script src="shipment/TrackAndTrace.js"></script>
         <script src="shipment/printLabel.js"></script>
         <script src="shipment/PreviewLabelTemplate.js"></script>
+        <script src="shipment/shipmentManagement.js"></script>
         <script src="shipment/printManifest.js"></script>
         <script src="shipment/shipmentDocuments.js"></script>
         <script src="admin/adminServices.js"></script>
