@@ -299,7 +299,7 @@ namespace PI.Service.Controllers
                 if (AppUserManager.IsEmailConfirmed(user.Id))
                 {
                     //set last logon time as current datetime
-                    companyManagement.UpdateLastLoginTime(user.Id);
+                    companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
 
                     string userId = user.Id;
                     long tenantId = 0;
@@ -353,7 +353,7 @@ namespace PI.Service.Controllers
                 if (result.Succeeded)
                 {
                     //set last logon time as current datetime
-                    companyManagement.UpdateLastLoginTime(user.Id);
+                    companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
                    // CustomerManagement customerManagement = new CustomerManagement();
                     ProfileManagement profileManagement = new ProfileManagement();
 
@@ -445,7 +445,7 @@ namespace PI.Service.Controllers
 
 
 
-                companyManagement.UpdateLastLoginTime(user.Id);
+                companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
                 return Ok(new
                 {
                     Id = user.Id,

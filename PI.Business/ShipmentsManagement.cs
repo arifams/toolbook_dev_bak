@@ -296,7 +296,7 @@ namespace PI.Business
 
             return status;
         }
-        
+
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
 
@@ -495,7 +495,7 @@ namespace PI.Business
                 try
                 {
                     context.Shipments.Add(newShipment);
-                    context.SaveChanges();
+                    context.SaveChanges();                    
 
                     result.ShipmentId = newShipment.Id;
                     result.Status = Status.Success;
@@ -507,6 +507,19 @@ namespace PI.Business
                     result.ShipmentId = 0;
                     result.Status = Status.Error;
                 }
+
+                //Add Audit Trail Record
+                context.AuditTrail.Add(new AuditTrail
+                {
+                    ReferenceId = newShipment.Id,
+                    AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ? 
+                                        AppFunctionality.EditShipment: AppFunctionality.AddShipment,
+                    Result = result.Status.ToString(),
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.Now
+                });
+                context.SaveChanges();
+
             }
 
             return result;
@@ -605,14 +618,14 @@ namespace PI.Business
 
             // Get new updated shipment list again.
             var updatedtContent = (from shipment in Shipments
-                       where shipment.IsDelete == false &&
-                       (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
-                       (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                       (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                       (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
-                       !shipment.IsParent
-                       select shipment).ToList();
+                                   where shipment.IsDelete == false &&
+                                   (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                                   (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                   (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                                   (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                                   (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
+                                   !shipment.IsParent
+                                   select shipment).ToList();
 
             foreach (var item in updatedtContent)
             {
@@ -742,7 +755,7 @@ namespace PI.Business
                 //                    where shipment.CreatedBy == userId
                 //                    select shipment).ToList();
 
-                currentShipments= context.Shipments.Where(x => x.CreatedBy == userId).ToList();
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId).ToList();
 
             }
 
@@ -754,14 +767,14 @@ namespace PI.Business
         {
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
-            {               
-                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName== carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
+            {
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
             return currentShipments;
         }
 
         //get shipments by shipment reference
-        public List<Shipment> GetshipmentsByReference(string userId,string reference)
+        public List<Shipment> GetshipmentsByReference(string userId, string reference)
         {
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
@@ -1153,7 +1166,7 @@ namespace PI.Business
             }
             else
             {
-                info= UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
+                info = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
             }
             locationHistory.info = info;
@@ -1179,7 +1192,7 @@ namespace PI.Business
                 Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = currentShipment.Status.ToString();
                 info.system = currentSisLocationHistory.info.system;
-                
+
                 List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
 
                 foreach (var item in historyList)
@@ -1237,17 +1250,17 @@ namespace PI.Business
                 foreach (var item in statusHistory.history.Items)
                 {
                     ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
-                    if (item.location!=null)
+                    if (item.location != null)
                     {
-                        locationHistory.City =string.IsNullOrEmpty(item.location.city)?string.Empty: item.location.city;
-                        locationHistory.Country = string.IsNullOrEmpty(item.location.country)?string.Empty: item.location.country;
+                        locationHistory.City = string.IsNullOrEmpty(item.location.city) ? string.Empty : item.location.city;
+                        locationHistory.Country = string.IsNullOrEmpty(item.location.country) ? string.Empty : item.location.country;
                         if (item.location.geo != null)
                         {
                             locationHistory.Longitude = Convert.ToDouble(item.location.geo.lng);
                             locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
                         }
-                    }                   
-                    locationHistory.ShipmentId = ShipmntId;                                    
+                    }
+                    locationHistory.ShipmentId = ShipmntId;
                     locationHistory.CreatedDate = DateTime.Now;
                     context.ShipmentLocationHistories.Add(locationHistory);
                     context.SaveChanges();
@@ -1257,7 +1270,7 @@ namespace PI.Business
                 {
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if ((his.location.geo!=null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) ||(string.IsNullOrEmpty(his.location.city)&&item.City.Equals(his.location.city)) )
+                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
                         {
                             foreach (var activityItems in his.activity.Items)
                             {
@@ -1613,7 +1626,7 @@ namespace PI.Business
             {
                 shipmentList = this.GetshipmentsByReference(userId, reference);
             }
-           
+
             List<ShipmentDto> shipments = new List<ShipmentDto>();
 
             foreach (var item in shipmentList)
@@ -1660,7 +1673,7 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = item.ShipmentMode,
                         ShipmentName = item.ShipmentName,
-                        ShipmentReferenceName=item.ShipmentReferenceName,
+                        ShipmentReferenceName = item.ShipmentReferenceName,
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
@@ -1693,7 +1706,7 @@ namespace PI.Business
 
                 });
             }
-            
+
             return shipments;
         }
 
@@ -2012,7 +2025,7 @@ namespace PI.Business
             // General 
             strTemplate.Append("<h1>Request For Quote</h1>");
             strTemplate.Append("<h3>Shipment General Information</h3>");
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference",addShipment.GeneralInformation.ShipmentName);
+u            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference", addShipment.GeneralInformation.ShipmentName);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Product", addShipment.GeneralInformation.ShipmentMode);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Condition", addShipment.GeneralInformation.ShipmentServices);
             strTemplate.Append("<br>");
@@ -2059,8 +2072,8 @@ namespace PI.Business
 
             foreach (var item in addShipment.PackageDetails.ProductIngredients)
             {
-                strTemplate.AppendFormat("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> <td>{4}</td> <td>{5}</td> <td>{6}</td> </tr>", item.ProductType,item.Quantity,item.Description,
-                item.Weight,item.Height,item.Length,item.Width);
+                strTemplate.AppendFormat("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> <td>{4}</td> <td>{5}</td> <td>{6}</td> </tr>", item.ProductType, item.Quantity, item.Description,
+                item.Weight, item.Height, item.Length, item.Width);
             }
             strTemplate.Append("</table><br>");
 

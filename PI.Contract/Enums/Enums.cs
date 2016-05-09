@@ -122,4 +122,16 @@ namespace PI.Contract.Enums
         Sell =1,
         Buy
     }
+
+    public enum AppFunctionality : short
+    {
+        UserRegistration = 1,
+        UserLogin,        
+        AddShipment,
+        EditShipment,
+        AddUser,
+        EditUser,
+        UserManagement
+    }
+
 }
