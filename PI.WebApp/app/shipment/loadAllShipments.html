@@ -10,7 +10,7 @@
         <form class="form-horizontal" name="loadShipmentsForm">
             <!-- /.box-header -->
 
-            <div class="panel-header">
+            <div class="panel-content panel-border p-10">
                 <!-- left column -->
 
                 <div class="box-body">
@@ -117,7 +117,7 @@
                                 <td>{{row.generalInformation.status}}</td>
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                       class=" edit btn btn-sm btn-default">
+                                       class="edit btn btn-sm btn-default">
                                         <i class="fa fa-hand-o-right" style="color:blue"></i>
                                     </a>
                                 </td>

@@ -46,13 +46,13 @@
                                 </div>
 
                             </div>
-                        <div class="col-md-3">
+                            <div class="col-md-3">
                                 <div class="btn-group form-group">
                                     <input datetime-picker class="form-control date-picker" type="text"
                                            ng-model="manageShipCtrl.datePicker" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <div class="btn-group form-group">
                                     <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
                                         <option value="True">Search By: Number</option>
@@ -74,7 +74,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-4" ng-show="searchType == 'True'">
+                            <div class="col-md-4" ng-show="searchType == 'True'" style="float:right;">
                                 <div class="form-group input-group">
                                     <input ng-model="manageShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Tracking Number/ Shipment Ref Number" />
@@ -87,7 +87,7 @@
                                 
                             </div> 
                         </div>
-                      <div class="row">
+                     <div class="row">
                          <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped">
                              <thead>
                                  <tr>
@@ -98,8 +98,8 @@
                                      <th>Origin City</th>
                                      <th>Destination City</th>
                                      <th>Status</th>
-                                     <th>View</th>
                                      <th>Edit</th>
+                                     <th>View</th>
                                      <th>Delete</th>
                                  </tr>
 
@@ -112,12 +112,23 @@
                                      <td>{{row.carrierInformation.carrierName}}</td>
                                      <td>{{row.addressInformation.consigner.city}}</td>
                                      <td>{{row.addressInformation.consignee.city}}</td>
-                                     <td>{{row.generalInformation.status}}</td>
                                      <td>
-                                         <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                            class=" edit btn btn-sm btn-default">
-                                             <i class="fa fa-hand-o-right" style="color:blue"></i>
-                                         </a>
+                                         <div class="btn-group">
+                                             <button data-toggle="dropdown" class="btn btn-white dropdown-toggle" type="button" aria-expanded="false">
+                                                 Select
+                                                 <span class="caret"></span>
+                                             </button>
+                                             <span class="dropdown-arrow"></span>
+                                             <ul role="menu" class="dropdown-menu">
+                                                 <li>
+                                                     <a href="#">Confirmed</a>
+                                                 </li>
+                                                 <li>
+                                                     <a href="#">In Tranist</a>
+                                                 </li>
+
+                                             </ul>
+                                         </div>
                                      </td>
                                      <td>
                                          <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentCode}}"
@@ -125,7 +136,12 @@
                                              <i class="icon-note" style="color:blue"></i>
                                          </a>
                                      </td>
-
+                                     <td>
+                                         <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
+                                            class="edit btn btn-sm btn-default">
+                                             <i class="fa fa-eye" style="color:blue"></i>
+                                         </a>
+                                     </td>                                   
                                      <td>
                                          <a ng-show="row.generalInformation.isEnableDelete" ng-click="manageShipCtrl.deleteById(row)"
                                             class="delete btn btn-sm btn-danger" href="javascript:;">
@@ -152,7 +168,13 @@
                     </tab-heading>
                     <form role="form" name="formBulkUpdate">
                         <div class="row">
-                           
+                            <div class="file col-sm-6">
+                                <div class="option-group">
+                                    <span class="file-button btn-primary">Choose File</span>
+                                    <input type="file" required="" onchange="document.getElementById('uploader').value = this.value;" id="file" name="file" class="custom-file" aria-required="true">
+                                    <input type="text" readonly="" placeholder="no file selected" id="uploader" class="form-control">
+                                </div>
+                            </div>
                         </div>
                        
                     </form>
