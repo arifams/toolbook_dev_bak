@@ -120,7 +120,7 @@ namespace PI.Business
 
                   myObject.Items.Add(new Shipmentcost
                   {
-                      Carrier_name = result[i].Carrier.CarrierName,
+                      Carrier_name = result[i].Carrier.Carrier.Name,
                       Transport_mode = result[i].Carrier.CarrierType.ToString(),
                       Service_level = result[i].Carrier.ServiceLevel,
                       // Tariff_text = rate.TariffType.ToString(),
@@ -131,7 +131,7 @@ namespace PI.Business
                       Delivery_date = (DateTime.Parse(rateParameters.date_pickup)
                                       .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MMM-yyyy"),
                       Pickup_date = rateParameters.date_pickup,
-                      Price_detail = new Price_detail { Description = result[i].Carrier.CarrierName + ", " + result[i].Carrier.ServiceLevel },
+                      Price_detail = new Price_detail { Description = result[i].Carrier.Carrier.Name + ", " + result[i].Carrier.ServiceLevel },
                       Transit_time = (transitTime != null) ? transitTime.Days.ToString() +" days" : null
                   });
                 }

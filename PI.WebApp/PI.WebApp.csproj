@@ -116,10 +116,13 @@
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="css\custom-general.css" />
+    <Content Include="global\css\compressed-styles.css" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
+    <Content Include="js\sec_1.js" />
+    <Content Include="js\sec_2-v1.js" />
     <Content Include="packages.config" />
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />

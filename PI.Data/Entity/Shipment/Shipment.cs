@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -16,13 +17,12 @@ namespace PI.Data.Entity
         public string ShipmentCode { get; set; }
         public long? DivisionId { get; set; }
         public long? CostCenterId { get; set; }
-        public string ShipmentMode { get; set; }
+        public CarrierType ShipmentMode { get; set; }
         public short ShipmentService { get; set; }
         //public string ShipmentTypeCode { get; set; }        
         //public string ShipmentTermCode { get; set; }
 
-        [MaxLength(200)]
-        public string CarrierName { get; set; }
+        //public string CarrierName { get; set; }
         public string TarriffType { get; set; }
         public string TariffText { get; set; }
         public string ServiceLevel {get;set;}
@@ -69,6 +69,9 @@ namespace PI.Data.Entity
         public virtual ShipmentPayment ShipmentPayment { get; set; }
 
         public virtual CommercialInvoice CommercialInvoice { get; set; }
+
+        public short CarrierId { get; set; }
+        public virtual Carrier Carrier { get; set; }
 
         #endregion
     }   

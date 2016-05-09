@@ -360,11 +360,9 @@ namespace PI.Business
                     ShipmentCode = null, //addShipmentResponse.CodeShipment,
                     DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
                     CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
-                    ShipmentMode = addShipment.GeneralInformation.ShipmentMode,
+                    ShipmentMode = (CarrierType) Enum.Parse(typeof(CarrierType), addShipment.GeneralInformation.ShipmentMode,true),
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
-                    //ShipmentTypeCode = addShipment.GeneralInformation.ShipmentTypeCode,
-                    //ShipmentTermCode = addShipment.GeneralInformation.ShipmentTermCode,
-                    CarrierName = addShipment.CarrierInformation.CarrierName,
+                    Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
                     TrackingNumber = null, //addShipmentResponse.Awb,
                     CreatedBy = addShipment.UserId,
                     CreatedDate = DateTime.Now,
@@ -599,7 +597,7 @@ namespace PI.Business
             {
                 if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                 {
-                    UpdateLocationHistory(shipment.CarrierName, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
                 }
             }
 
@@ -656,7 +654,7 @@ namespace PI.Business
                         CostCenterId = item.CostCenterId.GetValueOrDefault(),
                         DivisionId = item.DivisionId.GetValueOrDefault(),
                         ShipmentCode = item.ShipmentCode,
-                        ShipmentMode = item.ShipmentMode,
+                        ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
@@ -684,7 +682,7 @@ namespace PI.Business
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
-                        CarrierName = item.CarrierName,
+                        CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate
                     }
@@ -755,7 +753,7 @@ namespace PI.Business
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
             {               
-                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.CarrierName== carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.Carrier.Name== carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
             return currentShipments;
         }
@@ -866,7 +864,7 @@ namespace PI.Business
                     CostCenterId = currentShipment.CostCenterId.GetValueOrDefault(),
                     DivisionId = currentShipment.DivisionId.GetValueOrDefault(),
                     ShipmentCode = currentShipment.ShipmentCode,
-                    ShipmentMode = currentShipment.ShipmentMode,
+                    ShipmentMode = Enum.GetName(typeof(CarrierType), currentShipment.ShipmentMode),
                     ShipmentName = currentShipment.ShipmentName,
                     ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
@@ -895,7 +893,7 @@ namespace PI.Business
                 },
                 CarrierInformation = new CarrierInformationDto
                 {
-                    CarrierName = currentShipment.CarrierName,
+                    CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
                     PickupDate = currentShipment.PickUpDate
                 }
@@ -993,7 +991,7 @@ namespace PI.Business
                     },
                     CarrierInformation = new CarrierInformationDto()
                     {
-                        CarrierName = shipment.CarrierName,
+                        CarrierName = shipment.Carrier.Name,
                         serviceLevel = shipment.ServiceLevel,
                         Price = shipment.ShipmentPackage.CarrierCost,
                         Insurance = shipment.ShipmentPackage.InsuranceCost,
@@ -1555,7 +1553,7 @@ namespace PI.Business
                         CostCenterId = item.CostCenterId.GetValueOrDefault(),
                         DivisionId = item.DivisionId.GetValueOrDefault(),
                         ShipmentCode = item.ShipmentCode,
-                        ShipmentMode = item.ShipmentMode,
+                        ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
@@ -1585,7 +1583,7 @@ namespace PI.Business
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
-                        CarrierName = item.CarrierName,
+                        CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate
                     }
@@ -1658,7 +1656,7 @@ namespace PI.Business
                         CostCenterId = item.CostCenterId.GetValueOrDefault(),
                         DivisionId = item.DivisionId.GetValueOrDefault(),
                         ShipmentCode = item.ShipmentCode,
-                        ShipmentMode = item.ShipmentMode,
+                        ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
                         ShipmentReferenceName=item.ShipmentReferenceName,
                         //ShipmentTermCode = item.ShipmentTermCode,
@@ -1686,7 +1684,7 @@ namespace PI.Business
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
-                        CarrierName = item.CarrierName,
+                        CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate
                     }
@@ -1890,7 +1888,7 @@ namespace PI.Business
 
                         CountryOfOrigin = currentShipment.ConsignorAddress.Country,
                         CountryOfDestination = currentShipment.ConsigneeAddress.Country,
-                        ModeOfTransport = currentShipment.CarrierName + " " + currentShipment.ServiceLevel + " " + currentShipment.TrackingNumber,
+                        ModeOfTransport = currentShipment.Carrier.Name + " " + currentShipment.ServiceLevel + " " + currentShipment.TrackingNumber,
                         ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                         PackageDetails = new PackageDetailsDto
                         {
@@ -2084,6 +2082,16 @@ namespace PI.Business
             // End the document
 
             return strTemplate.ToString();
+        }
+
+        public string ShipmentReport(string customerId, short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            //using (PIContext context = new PIContext())
+            //{
+            //    IList<Shipment> shipmentList = context.Shipments.Where(sh => sh.ca)
+            //}
+            
+            return "";
         }
     }
 
