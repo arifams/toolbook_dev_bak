@@ -1,0 +1,32 @@
+﻿
+<div>
+
+    <table st-table="companyCollection" class="table table-striped">
+        <thead>
+            <tr>
+                <th>Corporate Name </th>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in companyCollection">
+                <td>{{row.corporateName}}</td>
+                <td>{{row.firstName}}</td>
+                <td>{{row.lastName}}</td>
+                <td><a ng-click="selectCompany(row)" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="5" class="text-center">
+                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+
+</div>

@@ -28,7 +28,7 @@
 
                                 <div dropdown="" class="btn-group">
                                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
-                                        Status : <!--{{manageShipCtrl.statusButton}}-->
+                                        Status : {{manageShipCtrl.statusButton}}
                                         <span class="caret"></span>
                                     </button>
                                     <span class="dropdown-arrow"></span>
@@ -46,10 +46,10 @@
                                 </div>
 
                             </div>
-                            <div class="col-md-3">
+                        <div class="col-md-3">
                                 <div class="btn-group form-group">
-                                    <input date-range-picker class="form-control date-picker" type="text"
-                                           ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
+                                    <input datetime-picker class="form-control date-picker" type="text"
+                                           ng-model="manageShipCtrl.datePicker" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -87,8 +87,8 @@
                                 
                             </div> 
                         </div>
-                     <div class="row">
-                         <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
+                      <div class="row">
+                         <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped">
                              <thead>
                                  <tr>
                                      <th st-sort="name">Order Submitted</th>
@@ -127,7 +127,7 @@
                                      </td>
 
                                      <td>
-                                         <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)"
+                                         <a ng-show="row.generalInformation.isEnableDelete" ng-click="manageShipCtrl.deleteById(row)"
                                             class="delete btn btn-sm btn-danger" href="javascript:;">
                                              <i class="icons-office-52"></i>
                                          </a>
