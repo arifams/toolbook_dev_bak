@@ -36,13 +36,13 @@
                                     <span class="dropdown-arrow"></span>
                                     <ul role="menu" class="dropdown-menu">
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')">All</a>
+                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')">All</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')">Active</a>
+                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')">Active</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
+                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -50,8 +50,8 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="btn-group form-group">
-                                    <input datetime-picker class="form-control date-picker" type="text"
-                                           ng-model="manageShipCtrl.datePicker" placeholder="Search By: Pickup Date" />
+                                    <input date-range-picker class="form-control date-picker" type="text"
+                                           ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -81,7 +81,7 @@
                                     <input ng-model="manageShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Tracking Number/ Shipment Ref Number" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadAllShipments()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
