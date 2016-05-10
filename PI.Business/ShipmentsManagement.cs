@@ -2104,9 +2104,8 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                var content = (from shipment in context.Shipments
-                               join division in context.Divisions on shipment.DivisionId equals division.Id
-                               where division.CompanyId.ToString() == companyId
+                var content = (from shipment in context.Shipments                              
+                               where shipment.Division.CompanyId.ToString() == companyId
                                select shipment).ToList();
 
                 foreach (var item in content)
@@ -2209,9 +2208,8 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                var content = (from shipment in context.Shipments
-                               join division in context.Divisions on shipment.DivisionId equals division.Id
-                               where division.CompanyId.ToString() == companyId &&
+                var content = (from shipment in context.Shipments                              
+                               where  shipment.Division.CompanyId.ToString() == companyId &&
                                (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
