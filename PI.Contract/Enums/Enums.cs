@@ -122,4 +122,10 @@ namespace PI.Contract.Enums
         Sell =1,
         Buy
     }
+
+    public enum ReportType : short
+    {
+        Excel = 1,
+        CSV
+    }
 }

@@ -7,12 +7,8 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity.RateEngine
 {
-    public class Carrier : LongIdBaseEntity
+    public class CarrierService : LongIdBaseEntity
     {
-        public string CarrierName { get; set; }
-
-        public string CarrierNameLong { get; set; }
-
         public CarrierType CarrierType { get; set; }
 
         public string ServiceLevel { get; set; }
@@ -21,5 +17,7 @@ namespace PI.Data.Entity.RateEngine
 
         public string CarrierAccountNumber { get; set; }
 
+        public short CarrierId { get; set; }
+        public Carrier Carrier { get; set; }
     }
 }

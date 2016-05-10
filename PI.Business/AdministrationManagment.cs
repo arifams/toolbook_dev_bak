@@ -11,6 +11,7 @@ using PI.Contract.Enums;
 
 using PI.Contract.Business;
 using PI.Contract.DTOs;
+using PI.Data.Entity;
 
 namespace PI.Business
 {
@@ -47,7 +48,7 @@ namespace PI.Business
         private OperationResult InsertCarrierDetails(SLExcelReader excelReader, string URI)
         {
             OperationResult opResult = new OperationResult();
-            List<Carrier> carrierList = new List<Carrier>();
+            List<CarrierService> carrierList = new List<CarrierService>();
 
             SLExcelData excelData = excelReader.ReadExcel(URI, 1);
             try
@@ -65,12 +66,18 @@ namespace PI.Business
 
                         if (cellArray.Length != 0)
                         {
-                            carrierList.Add(new Carrier()
+                            carrierList.Add(new CarrierService()
                             {
                                 CarrierType = (CarrierType)Enum.Parse(typeof(CarrierType), cellArray[1].ToString(), true),
                                 ServiceLevel = cellArray[2].ToString(),
-                                CarrierName = cellArray[3].ToString(),
-                                CarrierNameLong = cellArray[4].ToString(),
+                                Carrier = new Carrier()
+                                {
+                                    CarrierNameLong = cellArray[4].ToString(),
+                                    Name = cellArray[3].ToString(),
+                                    CreatedBy = "1",
+                                    CreatedDate = DateTime.Now,
+                                    IsActive = true
+                                },
                                 CarrierCountryCode = cellArray[5].ToString(),
                                 CarrierAccountNumber = cellArray[6].ToString(),
                                 CreatedBy = "1",//userId,
@@ -82,7 +89,7 @@ namespace PI.Business
 
                 using (PIContext context = new PIContext())
                 {
-                    context.Carrier.AddRange(carrierList);
+                    context.CarrierService.AddRange(carrierList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
                 }
             }
@@ -148,7 +155,7 @@ namespace PI.Business
 
                                 rateList.Add(new Rate
                                 {
-                                    Carrier = context.Carrier.Where(c => c.ServiceLevel == service && c.CarrierName == carriername).FirstOrDefault(),
+                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
                                     CountryFrom = cellArray[3].ToString(),
                                     IsInbound = string.Equals(cellArray[4].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
                                     Service = (ProductType)Enum.Parse(typeof(ProductType), cellArray[5].ToString(), true),
@@ -220,7 +227,7 @@ namespace PI.Business
 
                                 zoneList.Add(new Zone
                                 {
-                                    Carrier = context.Carrier.Where(c => c.ServiceLevel == service && c.CarrierName == carriername).FirstOrDefault(),
+                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
                                     CountryFrom = cellArray[3].ToString(),
                                     CountryTo = cellArray[4].ToString(),
                                     ZoneName = cellArray[5].ToString(),
@@ -295,7 +302,7 @@ namespace PI.Business
 
                                 transmitTimeList.Add(new TransmitTime()
                                 {
-                                    Carrier = context.Carrier.Where(c => c.ServiceLevel == service && c.CarrierName == carriername).FirstOrDefault(),
+                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
                                     CountryFrom = cellArray[3].ToString(),
                                     CountryTo = cellArray[4].ToString(),
                                     Zone = context.Zone.Where(z => z.ZoneName == zoneName).FirstOrDefault(),

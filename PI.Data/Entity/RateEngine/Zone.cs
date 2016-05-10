@@ -21,7 +21,7 @@ namespace PI.Data.Entity.RateEngine
         public bool IsInbound { get; set; }
 
         public long CarrierId { get; set; }
-        public Carrier Carrier { get; set; }
+        public CarrierService Carrier { get; set; }
 
         public long TariffTypeId { get; set; }
 

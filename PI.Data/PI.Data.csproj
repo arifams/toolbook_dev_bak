@@ -100,13 +100,14 @@
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\LongIdBaseEntity.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
-    <Compile Include="Entity\RateEngine\Carrier.cs" />
+    <Compile Include="Entity\RateEngine\CarrierService.cs" />
     <Compile Include="Entity\RateEngine\Rate.cs" />
     <Compile Include="Entity\RateEngine\RateZone.cs" />
     <Compile Include="Entity\RateEngine\TariffType.cs" />
     <Compile Include="Entity\RateEngine\TransitTimeProduct.cs" />
     <Compile Include="Entity\RateEngine\TransmitTime.cs" />
     <Compile Include="Entity\RateEngine\Zone.cs" />
+    <Compile Include="Entity\Shipment\Carrier.cs" />
     <Compile Include="Entity\Shipment\Invoice\CommercialInvoice.cs" />
     <Compile Include="Entity\Shipment\Invoice\InvoiceItem.cs" />
     <Compile Include="Entity\Shipment\Invoice\InvoiceItemLine.cs" />
@@ -135,6 +136,10 @@
     <Compile Include="Migrations\201603100322470_Initial Shipment entities.Designer.cs">
       <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs" />
+    <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
+      <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -162,6 +167,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201603100322470_Initial Shipment entities.resx">
       <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.resx">
+      <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

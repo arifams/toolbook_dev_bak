@@ -549,6 +549,14 @@ namespace PI.Service.Controllers
             }
 
         }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("ShipmentReport")]
+        public string ShipmentReport(string customerId,short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null)
+        {
+            return null;
+        }
     }
 }
 
