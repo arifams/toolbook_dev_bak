@@ -87,7 +87,8 @@
                      
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
-                     $window.localStorage.setItem('userRole', returnedResult.data.role);                    
+                     $window.localStorage.setItem('userRole', returnedResult.data.role);
+                     $window.localStorage.setItem('token', returnedResult.data.token);
 
                      window.location = webBaseUrl + "/app/index.html";
                  }

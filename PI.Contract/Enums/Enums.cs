@@ -123,6 +123,12 @@ namespace PI.Contract.Enums
         Buy
     }
 
+    public enum ReportType : short
+    {
+        Excel = 1,
+        CSV
+    }
+
     public enum AppFunctionality : short
     {
         UserRegistration = 1,

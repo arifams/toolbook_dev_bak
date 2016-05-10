@@ -28,7 +28,10 @@
             getAllshipmentsForManifest: getAllshipmentsForManifest,
             requestForQuote: requestForQuote,
             deleteShipment: deleteShipment,
-            loadAllcompanies: loadAllcompanies
+            loadAllcompanies: loadAllcompanies,
+            loadAllshipmentsForCompany: loadAllshipmentsForCompany,
+            loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch,
+            deleteShipmentbyAdmin: deleteShipmentbyAdmin
         };
 
         function getProfileInfo() {
@@ -158,6 +161,30 @@
         }
 
 
+        function loadAllshipmentsForCompany(companyID) {
+            
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipmentByCompanyId', {
+                params: {
+                    companyId: companyID
+                }
+            });
+        }
+
+        function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
+            debugger;
+            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
+                params: {
+                    companyId: companyId,
+                    status: status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,
+                    source: source,
+                    destination: destination
+                }
+            });
+        }
+
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
@@ -223,7 +250,8 @@
             var dataToPass = {
                 trackingNumber: shipmentDetail.generalInformation.trackingNumber,
                 shipmentCode: shipmentDetail.generalInformation.shipmentCode,
-                carrierName: shipmentDetail.carrierInformation.carrierName
+                carrierName: shipmentDetail.carrierInformation.carrierName,
+                isAdmin: false
             };
             return $http({
                 url: serverBaseUrl + '/api/shipments/DeleteShipment',
@@ -231,6 +259,23 @@
                 params: dataToPass
             })
         }
+
+
+        function deleteShipmentbyAdmin(shipmentDetail) {
+
+            var dataToPass = {
+                trackingNumber: shipmentDetail.generalInformation.trackingNumber,
+                shipmentCode: shipmentDetail.generalInformation.shipmentCode,
+                carrierName: shipmentDetail.carrierInformation.carrierName,
+                isAdmin: true
+            };
+            return $http({
+                url: serverBaseUrl + '/api/shipments/DeleteShipment',
+                method: "GET",
+                params: dataToPass
+            })
+        }
+
 
 
     }]);

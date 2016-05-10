@@ -2,6 +2,7 @@
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,10 +31,13 @@ namespace PI.Contract.Business
         PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
                                                string number);
         ShipmentDto GetshipmentById(string shipmentId);
-        int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName);
+        int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin);
         StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);
+        PagedList GetAllShipmentByCompanyId(string companyId);
+        PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                          string number = null, string source = null, string destination = null);
 
-
+        string ShipmentReport(string customerId, short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null);
     }
 
 }
