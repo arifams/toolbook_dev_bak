@@ -37,9 +37,9 @@
         <!--<link href="../global/plugins/input-text/style.min.css" rel="stylesheet" />-->
         <!--<link href="../global/plugins/font-awesome-animation/font-awesome-animation.min.css" rel="stylesheet" />-->
         <!--<link href="../plugins/angularjs-datetime-picker/angularjs-datetime-picker.css" rel="stylesheet"/>-->
-       <!--<link href="../plugins/ngDialog-master/css/ngDialog.min.css" rel="stylesheet"/>-->
-        <!--<link href="../plugins/ngDialog-master/css/ngDialog-theme-plain.css" rel="stylesheet" />-->
-        <!--<link href="../plugins/ngDialog-master/css/ngDialog-theme-default.min.css" rel="stylesheet" />-->
+       <link href="../plugins/ngDialog-master/css/ngDialog.min.css" rel="stylesheet"/>
+        <link href="../plugins/ngDialog-master/css/ngDialog-theme-plain.css" rel="stylesheet" />
+        <link href="../plugins/ngDialog-master/css/ngDialog-theme-default.min.css" rel="stylesheet" />-->
         
      
 
@@ -170,11 +170,11 @@
                             </ul>
                         </li>
 
-                        <li class="nav-parent" ng-show="currentRole == 'Admin'">
-                            <a href="#"><i class="icon-screen-desktop"></i><span>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
+                        <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-hide="currentRole == 'Admin'">
+                            <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
+                            <!--<ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li> 
-                            </ul>
+                            </ul>-->
                         </li>
                         <!--<li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><i class="icon-docs"></i><span>REPORTS</span></a></li>-->
 
@@ -1248,7 +1248,7 @@
         <!--<script src="http://maps.google.com/maps/api/js?sensor=true"></script>-->
         <script src="../global/plugins/google-maps/gmaps.js"></script>
         <!--<script src="../global/plugins/google-maps/markerclusterer.js"></script>-->
-        <!--<script src="../plugins/ngDialog-master/js/ngDialog.js"></script>-->
+        <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
         <!--<script src="../plugins/angular-jwt-master/dist/angular-jwt.js"></script>-->
         <!--<script src="../global/plugins/ng-file-upload/ng-file-upload-shim.min.js"></script>-->
         <!--<script src="../global/plugins/ng-file-upload/ng-file-upload.min.js"></script>-->
@@ -1339,6 +1339,8 @@
         <script src="admin/adminServices.js"></script>
         <script src="admin/loadAllCompanies.js"></script>
         <script src="admin/ImportRateSheet.js"></script>
+        <script src="shipment/CompanyViewTemplate.js"></script>
+
 
 
         <!-- END CUSTOM ANGULARJS SCRIPTS -->

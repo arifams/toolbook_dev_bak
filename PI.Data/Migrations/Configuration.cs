@@ -142,6 +142,13 @@ namespace PI.Data.Migrations
                 new Entity.WeightMetric() { Id = 1, Name = "cm", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
                 new Entity.WeightMetric() { Id = 2, Name = "m", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.Now }
                 );
+
+            context.Carrier.AddOrUpdate(
+                new Entity.Carrier() {Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
+            );
         }
     }
 }

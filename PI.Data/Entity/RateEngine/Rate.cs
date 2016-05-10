@@ -34,7 +34,7 @@ namespace PI.Data.Entity.RateEngine
         public decimal MaxDimension { get; set; }
 
         public long CarrierId { get; set; }
-        public virtual Carrier Carrier { get; set; }
+        public virtual CarrierService Carrier { get; set; }
 
         public long TariffTypeId { get; set; }
         public virtual TariffType TariffType { get; set; }

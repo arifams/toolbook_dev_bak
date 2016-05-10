@@ -56,6 +56,8 @@ namespace PI.Data
 
         public DbSet<CommercialInvoice> CommercialInvoices { get; set; }
         
+        public DbSet<CarrierService> CarrierService { get; set; }
+
         public DbSet<Carrier> Carrier { get; set; }
 
         public DbSet<Rate> Rate { get; set; }
