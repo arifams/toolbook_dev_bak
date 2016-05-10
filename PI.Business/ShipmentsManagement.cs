@@ -2142,7 +2142,7 @@ namespace PI.Business
                             CostCenterId = item.CostCenterId.GetValueOrDefault(),
                             DivisionId = item.DivisionId.GetValueOrDefault(),
                             ShipmentCode = item.ShipmentCode,
-                            ShipmentMode = item.ShipmentMode,
+                            ShipmentMode = item.ShipmentMode.ToString(),
                             ShipmentName = item.ShipmentName,
                             //ShipmentTermCode = item.ShipmentTermCode,
                             //ShipmentTypeCode = item.ShipmentTypeCode,
@@ -2172,7 +2172,7 @@ namespace PI.Business
                         },
                         CarrierInformation = new CarrierInformationDto
                         {
-                            CarrierName = item.CarrierName,
+                            CarrierName = item.Carrier.Name,
                             serviceLevel = item.ServiceLevel,
                             PickupDate = item.PickUpDate
                         }
@@ -2253,7 +2253,7 @@ namespace PI.Business
                             CostCenterId = item.CostCenterId.GetValueOrDefault(),
                             DivisionId = item.DivisionId.GetValueOrDefault(),
                             ShipmentCode = item.ShipmentCode,
-                            ShipmentMode = item.ShipmentMode,
+                            ShipmentMode = item.ShipmentMode.ToString(),
                             ShipmentName = item.ShipmentName,
                             //ShipmentTermCode = item.ShipmentTermCode,
                             //ShipmentTypeCode = item.ShipmentTypeCode,
@@ -2283,7 +2283,7 @@ namespace PI.Business
                         },
                         CarrierInformation = new CarrierInformationDto
                         {
-                            CarrierName = item.CarrierName,
+                            CarrierName = item.Carrier.Name,
                             serviceLevel = item.ServiceLevel,
                             PickupDate = item.PickUpDate
                         }
