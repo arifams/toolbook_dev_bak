@@ -339,7 +339,6 @@ namespace PI.Business
             {
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
 
-                // Inactivate/activate company
                 if (comapny != null)
                 {
                     comapny.IsInvoiceEnabled = !comapny.IsInvoiceEnabled;

@@ -141,6 +141,10 @@
     <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605101023437_Ph2 - Add Rate Engine with Update Carrier.cs" />
+    <Compile Include="Migrations\201605101023437_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
+      <DependentUpon>201605101023437_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -171,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.resx">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605101023437_Ph2 - Add Rate Engine with Update Carrier.resx">
+      <DependentUpon>201605101023437_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
