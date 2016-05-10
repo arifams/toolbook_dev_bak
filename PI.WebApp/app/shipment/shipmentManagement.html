@@ -54,7 +54,7 @@
                                            ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="btn-group form-group">
                                     <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
                                         <option value="True">Search By: Number</option>
@@ -72,8 +72,13 @@
                             <div class="col-md-2" ng-show="searchType == 'False'">
                                 <div class="btn-group form-group">
                                     <input style="border:1px solid rgba(70, 72, 73, 0.22)" ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                           placeholder="Destination City/Country" />
+                                           placeholder="Destination City/Country" />                                    
                                 </div>
+                            </div>
+                            <div class="col-md-1" ng-show="searchType == 'False'">
+                                <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
+                                    <i class="fa fa-search"></i>
+                                </button>
                             </div>
 
                             <div class="col-md-4" ng-show="searchType == 'True'" style="float:right;">
