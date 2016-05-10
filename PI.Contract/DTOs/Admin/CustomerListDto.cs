@@ -20,6 +20,8 @@ namespace PI.Contract.DTOs.Admin
 
         public bool Status { get; set; }
 
+        public bool IsInvoiceEnabled { get; set; }        
+
         public int AssignedUserCount { get; set; }
 
         public int ActiveShipments { get; set; }

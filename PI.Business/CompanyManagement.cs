@@ -1434,6 +1434,7 @@ namespace PI.Business
                         Status = item.Company.IsActive,
                         CreatedDate = item.Customer.CreatedDate.ToString("dd/MM/yyyy"),
                         ActiveShipments = shipmentCount,
+                        IsInvoiceEnabled = item.Company.IsInvoiceEnabled,
                         AssignedUserCount = ++userCount
                     });
                 }

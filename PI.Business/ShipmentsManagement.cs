@@ -511,7 +511,7 @@ namespace PI.Business
                 //Add Audit Trail Record
                 context.AuditTrail.Add(new AuditTrail
                 {
-                    ReferenceId = newShipment.Id,
+                    ReferenceId = newShipment.Id.ToString(),
                     AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ? 
                                         AppFunctionality.EditShipment: AppFunctionality.AddShipment,
                     Result = result.Status.ToString(),
@@ -1752,7 +1752,7 @@ namespace PI.Business
 
         public CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
         {
-            ShipmentDto currentShipmentDto = null;
+
             Shipment currentShipment = null;
             long tenantId = 0;
             CommercialInvoiceDto invocieDto = null;
@@ -2025,7 +2025,7 @@ namespace PI.Business
             // General 
             strTemplate.Append("<h1>Request For Quote</h1>");
             strTemplate.Append("<h3>Shipment General Information</h3>");
-u            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference", addShipment.GeneralInformation.ShipmentName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference", addShipment.GeneralInformation.ShipmentName);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Product", addShipment.GeneralInformation.ShipmentMode);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Condition", addShipment.GeneralInformation.ShipmentServices);
             strTemplate.Append("<br>");

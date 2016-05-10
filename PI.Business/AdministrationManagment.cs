@@ -320,5 +320,29 @@ namespace PI.Business
             return opResult;
         }
 
+
+        /// <summary>
+        /// Manage invoice payment setting
+        /// </summary>
+        /// <param name="comapnyId"></param>
+        /// <returns></returns>
+        public bool ManageInvoicePaymentSetting(long comapnyId)
+        {
+            using (var context = new PIContext())
+            {
+                var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
+
+                // Inactivate/activate company
+                if (comapny != null)
+                {
+                    comapny.IsInvoiceEnabled = !comapny.IsInvoiceEnabled;
+                    context.SaveChanges();
+                }
+
+                return comapny.IsInvoiceEnabled;
+            }
+        }
+
+
     }
 }

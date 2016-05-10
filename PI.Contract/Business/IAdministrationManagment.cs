@@ -10,5 +10,13 @@ namespace PI.Contract.Business
     public interface IAdministrationManagment
     {
         OperationResult ImportRateSheetExcel(string URI);
+
+
+        /// <summary>
+        /// Manage invoice payment setting
+        /// </summary>
+        /// <param name="comapnyId"></param>
+        /// <returns></returns>
+        bool ManageInvoicePaymentSetting(long comapnyId);
     }
 }
