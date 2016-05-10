@@ -30,8 +30,8 @@ var MakeApp = angular
     'ngFileUpload',
     'angular-jwt'
   ])
-  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider ) {
-    
+  .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
+
       $routeProvider
         //.when('/', {
         //    templateUrl: 'dashboard/dashboard.html',
@@ -312,15 +312,18 @@ var MakeApp = angular
                templateUrl: 'admin/loadAllCompanies.html',
            })
            .when('/AdminMangement', {
-                templateUrl: 'admin/ImportRateSheet.html',
-            })
+               templateUrl: 'admin/ImportRateSheet.html',
+           })
           .when('/shipmentManagement', { /* To Do: loadShipCtrl  is temporary used for this controller */
               templateUrl: 'shipment/shipmentManagement.html',
               controller: 'shipmentManageCtrl',/* To Do: replace this controller */
               controllerAs: 'manageShipCtrl'
           })
+           .when('/ShipmentReports', {
+               templateUrl: 'reports/ShipmentReport.html',
+           })
         .otherwise({
-           
+
             // redirectTo: '/loadShipments'
             resolve: {
                 factory: checkRouting
@@ -336,14 +339,14 @@ var MakeApp = angular
   })
 
 var checkRouting = function ($location) {
-    var role=localStorage.getItem('userRole')
+    var role = localStorage.getItem('userRole')
     if (role != 'Admin') {
         $location.path('/loadShipments');
     } else {
         $location.path('/CustomerMangement');
     }
     return true;
-   
+
 };
 
 

@@ -15,6 +15,7 @@ using Microsoft.AspNet.Identity;
 using System.Reflection;
 using System.IdentityModel.Protocols.WSTrust;
 using System.Configuration;
+using PI.Contract.Enums;
 
 namespace PI.Business
 {
@@ -44,15 +45,16 @@ namespace PI.Business
             }
         }
 
-        public int SaveCustomer(CustomerDto customer)
+        public int SaveCustomer(CustomerDto customer, bool isCustomerRegistration = false)
         {
+            Customer newCustomer = null;
             try
             {
                 using (var context = PIContext.Get())
                 {
                     if (customer.Id == 0)
                     {
-                        Customer newCustomer = new Customer()
+                        newCustomer = new Customer()
                         {
                             FirstName = customer.FirstName,
                             MiddleName = customer.MiddleName,
@@ -81,7 +83,8 @@ namespace PI.Business
                                 CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                             }
                         };
-                        context.Customers.Add(newCustomer);
+                        context.Customers.Add(newCustomer);                     
+
                     }
                     else
                     {
@@ -108,6 +111,19 @@ namespace PI.Business
                         existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
                     }
                     context.SaveChanges();
+
+                    //Add Audit Trail Record for customer Registrations
+                    if (customer.Id == 0 && isCustomerRegistration)
+                    {                        
+                        context.AuditTrail.Add(new AuditTrail
+                        {
+                            ReferenceId = newCustomer.Id.ToString(),
+                            AppFunctionality = AppFunctionality.UserRegistration,
+                            Result = "SUCCESS",
+                            CreatedBy = "1",
+                            CreatedDate = DateTime.Now
+                        });
+                    }
                 }
             }
             catch (DbEntityValidationException e)
@@ -135,10 +151,10 @@ namespace PI.Business
         {
             using (var context = PIContext.Get())
             {
-                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserName == customer.UserName && 
+                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserName == customer.UserName &&
                     c.Password == customer.Password);
 
-                if(existingCustomer != null)
+                if (existingCustomer != null)
                 {
                     return 1;
                 }
@@ -146,9 +162,9 @@ namespace PI.Business
             }
         }
 
-        public string GetJwtToken(string userid, string role,string tenantId,string userName,string companyId)
-        {           
-            
+        public string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId)
+        {
+
             var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
             var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
             var signingCredentials = new SigningCredentials(signingKey,

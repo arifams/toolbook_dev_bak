@@ -128,4 +128,16 @@ namespace PI.Contract.Enums
         Excel = 1,
         CSV
     }
+
+    public enum AppFunctionality : short
+    {
+        UserRegistration = 1,
+        UserLogin,        
+        AddShipment,
+        EditShipment,
+        AddUser,
+        EditUser,
+        UserManagement
+    }
+
 }

@@ -12,6 +12,56 @@
                            vm.statusButton = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
+
+
+
+                           vm.deleteById = function (row) {
+
+                               $('#panel-notif').noty({
+                                   text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                                   buttons: [
+                                           {
+                                               addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                                   shipmentFactory.deleteShipmentbyAdmin(row)
+                                                   .success(function (response) {
+                                                       if (response == 1) {
+                                                           location.reload();
+                                                           //var index = vm.rowCollection.indexOf(row);
+                                                           //if (index !== -1) {
+                                                           //    vm.rowCollection.splice(index, 1);
+                                                           //}
+                                                       }
+                                                   })
+                                       .error(function () {
+                                       })
+
+                                                   $noty.close();
+
+
+                                               }
+                                           },
+                                           {
+                                               addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+
+                                                   // updateProfile = false;
+                                                   $noty.close();
+                                                   return;
+                                                   // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                                               }
+                                           }
+                                   ],
+                                   layout: 'bottom-right',
+                                   theme: 'made',
+                                   animation: {
+                                       open: 'animated bounceInLeft',
+                                       close: 'animated bounceOutLeft'
+                                   },
+                                   timeout: 3000,
+                               });
+
+
+                           };
                           
                            vm.loadShipmentsBySearch = function (status) {
 

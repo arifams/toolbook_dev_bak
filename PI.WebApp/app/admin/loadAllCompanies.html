@@ -79,7 +79,11 @@
                                         <button type="button"  class="btn btn-large btn-primary" ng-click="vm.changeCompanyStatus(row)">
                                             {{ (row.status ? 'Deactivate'  : 'Activate') }}
                                         </button>
-
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.changeInvoiceSetting(row)">
+                                            {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
+                                        </button>
                                     </td>
                                 </tr>
                             </tbody>

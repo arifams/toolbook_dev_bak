@@ -505,6 +505,19 @@ namespace PI.Business
                     result.ShipmentId = 0;
                     result.Status = Status.Error;
                 }
+
+                //Add Audit Trail Record
+                context.AuditTrail.Add(new AuditTrail
+                {
+                    ReferenceId = newShipment.Id.ToString(),
+                    AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ? 
+                                        AppFunctionality.EditShipment: AppFunctionality.AddShipment,
+                    Result = result.Status.ToString(),
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.Now
+                });
+                context.SaveChanges();
+
             }
 
             return result;
@@ -740,7 +753,7 @@ namespace PI.Business
                 //                    where shipment.CreatedBy == userId
                 //                    select shipment).ToList();
 
-                currentShipments= context.Shipments.Where(x => x.CreatedBy == userId).ToList();
+                currentShipments = context.Shipments.Where(x => x.CreatedBy == userId).ToList();
 
             }
 
@@ -759,7 +772,7 @@ namespace PI.Business
         }
 
         //get shipments by shipment reference
-        public List<Shipment> GetshipmentsByReference(string userId,string reference)
+        public List<Shipment> GetshipmentsByReference(string userId, string reference)
         {
             List<Shipment> currentShipments = null;
             using (PIContext context = new PIContext())
@@ -1118,12 +1131,18 @@ namespace PI.Business
         }
 
         //Delete shipment
-        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin)
         {
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
-
+            if (isAdmin)
+            {
+                sisManager.DeleteShipment(shipmentCode);
+                return 1;
+            }
+            else
+            {
             if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
             {
                 sisManager.DeleteShipment(shipmentCode);
@@ -1133,6 +1152,9 @@ namespace PI.Business
             {
                 return 2;
             }
+
+        }
+
         }
 
         //get the location history list 
@@ -1151,7 +1173,7 @@ namespace PI.Business
             }
             else
             {
-                info= UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
+                info = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
             }
             locationHistory.info = info;
@@ -1235,10 +1257,10 @@ namespace PI.Business
                 foreach (var item in statusHistory.history.Items)
                 {
                     ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
-                    if (item.location!=null)
+                    if (item.location != null)
                     {
-                        locationHistory.City =string.IsNullOrEmpty(item.location.city)?string.Empty: item.location.city;
-                        locationHistory.Country = string.IsNullOrEmpty(item.location.country)?string.Empty: item.location.country;
+                        locationHistory.City = string.IsNullOrEmpty(item.location.city) ? string.Empty : item.location.city;
+                        locationHistory.Country = string.IsNullOrEmpty(item.location.country) ? string.Empty : item.location.country;
                         if (item.location.geo != null)
                         {
                             locationHistory.Longitude = Convert.ToDouble(item.location.geo.lng);
@@ -1255,7 +1277,7 @@ namespace PI.Business
                 {
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if ((his.location.geo!=null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) ||(string.IsNullOrEmpty(his.location.city)&&item.City.Equals(his.location.city)) )
+                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
                         {
                             foreach (var activityItems in his.activity.Items)
                             {
@@ -1658,7 +1680,7 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
-                        ShipmentReferenceName=item.ShipmentReferenceName,
+                        ShipmentReferenceName = item.ShipmentReferenceName,
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
@@ -1737,7 +1759,7 @@ namespace PI.Business
 
         public CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
         {
-            ShipmentDto currentShipmentDto = null;
+
             Shipment currentShipment = null;
             long tenantId = 0;
             CommercialInvoiceDto invocieDto = null;
@@ -2010,7 +2032,7 @@ namespace PI.Business
             // General 
             strTemplate.Append("<h1>Request For Quote</h1>");
             strTemplate.Append("<h3>Shipment General Information</h3>");
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference",addShipment.GeneralInformation.ShipmentName);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Reference", addShipment.GeneralInformation.ShipmentName);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Product", addShipment.GeneralInformation.ShipmentMode);
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Condition", addShipment.GeneralInformation.ShipmentServices);
             strTemplate.Append("<br>");
@@ -2057,8 +2079,8 @@ namespace PI.Business
 
             foreach (var item in addShipment.PackageDetails.ProductIngredients)
             {
-                strTemplate.AppendFormat("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> <td>{4}</td> <td>{5}</td> <td>{6}</td> </tr>", item.ProductType,item.Quantity,item.Description,
-                item.Weight,item.Height,item.Length,item.Width);
+                strTemplate.AppendFormat("<tr> <td>{0}</td> <td>{1}</td> <td>{2}</td> <td>{3}</td> <td>{4}</td> <td>{5}</td> <td>{6}</td> </tr>", item.ProductType, item.Quantity, item.Description,
+                item.Weight, item.Height, item.Length, item.Width);
             }
             strTemplate.Append("</table><br>");
 
@@ -2095,9 +2117,8 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                var content = (from shipment in context.Shipments
-                               join division in context.Divisions on shipment.DivisionId equals division.Id
-                               where division.CompanyId.ToString() == companyId
+                var content = (from shipment in context.Shipments                              
+                               where shipment.Division.CompanyId.ToString() == companyId
                                select shipment).ToList();
 
                 foreach (var item in content)
@@ -2200,9 +2221,8 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                var content = (from shipment in context.Shipments
-                               join division in context.Divisions on shipment.DivisionId equals division.Id
-                               where division.CompanyId.ToString() == companyId &&
+                var content = (from shipment in context.Shipments                              
+                               where  shipment.Division.CompanyId.ToString() == companyId &&
                                (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&

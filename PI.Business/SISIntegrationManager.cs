@@ -99,6 +99,9 @@ namespace PI.Business
                                                     && x.Service == productType
                                                     && (x.WeightMin <= weight && x.WeightMax > weight)
                                                     && x.Currency == currencyType
+
+
+
                     // && x.VolumeFactor == volumeFactor
                                                     && x.MaxLength >= maxLength
                     ////x.MaxWeightPerPiece > rateParameters.we

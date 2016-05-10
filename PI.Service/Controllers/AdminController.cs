@@ -5,6 +5,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
+using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.Enums;
 using System;
@@ -212,5 +213,14 @@ namespace PI.Service.Controllers
             return fileData.Headers.ContentDisposition.FileName;
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ManageInvoicePaymentSetting")]
+        public bool ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
+        {
+            return adminManagement.ManageInvoicePaymentSetting(copmany.Id);
+        }
     }
 }

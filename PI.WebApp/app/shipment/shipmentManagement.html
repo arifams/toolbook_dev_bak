@@ -122,14 +122,14 @@
                                          </a>
                                      </td>
                                      <td>
-                                         <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentCode}}"
+                                         <a  href="#/addShipment/{{row.generalInformation.shipmentCode}}"
                                             class="edit btn btn-sm btn-default">
                                              <i class="icon-note" style="color:blue"></i>
                                          </a>
                                      </td>
 
                                      <td>
-                                         <a ng-show="row.generalInformation.isEnableDelete" ng-click="manageShipCtrl.deleteById(row)"
+                                         <a  ng-click="manageShipCtrl.deleteById(row)"
                                             class="delete btn btn-sm btn-danger" href="javascript:;">
                                              <i class="icons-office-52"></i>
                                          </a>
@@ -166,7 +166,7 @@
                 </tab>
 
             </tabset>
-
+            <div id="panel-notif"></div>
         </div>
     </div>
    
