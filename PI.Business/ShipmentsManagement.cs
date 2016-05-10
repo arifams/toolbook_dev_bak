@@ -1118,21 +1118,30 @@ namespace PI.Business
         }
 
         //Delete shipment
-        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName)
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin)
         {
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
-
-            if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
+            if (isAdmin)
             {
                 sisManager.DeleteShipment(shipmentCode);
                 return 1;
             }
             else
             {
-                return 2;
+                if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
+                {
+                    sisManager.DeleteShipment(shipmentCode);
+                    return 1;
+                }
+                else
+                {
+                    return 2;
+                }
+
             }
+           
         }
 
         //get the location history list 
