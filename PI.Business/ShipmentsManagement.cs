@@ -783,6 +783,25 @@ namespace PI.Business
         }
 
 
+        //update shipment status manually only by admin
+        public int UpdateshipmentStatusManually(string codeShipment, string status)
+        {
+            using (PIContext context = new PIContext())
+            {
+                var shipment = (from shipmentinfo in context.Shipments
+                                where shipmentinfo.ShipmentCode == codeShipment
+                                select shipmentinfo).FirstOrDefault();
+                if (shipment != null)
+                {
+                    shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
+                    shipment.ManualStatusUpdatedDate = DateTime.Now;
+                }
+                context.SaveChanges();
+                return 1;
+            }
+
+        }
+
         public void UpdateShipmentStatus(string codeShipment, short status)
         {
             using (PIContext context = new PIContext())

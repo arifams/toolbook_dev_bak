@@ -38,6 +38,7 @@ namespace PI.Contract.Business
                                           string number = null, string source = null, string destination = null);
 
         string ShipmentReport(string customerId, short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null);
+        int UpdateshipmentStatusManually(string codeShipment, string status);
     }
 
 }

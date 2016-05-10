@@ -31,7 +31,8 @@
             loadAllcompanies: loadAllcompanies,
             loadAllshipmentsForCompany: loadAllshipmentsForCompany,
             loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch,
-            deleteShipmentbyAdmin: deleteShipmentbyAdmin
+            deleteShipmentbyAdmin: deleteShipmentbyAdmin,
+            UpdateshipmentStatusManually: UpdateshipmentStatusManually
         };
 
         function getProfileInfo() {
@@ -87,6 +88,12 @@
 
             return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
         }
+
+        function UpdateshipmentStatusManually(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/UpdateshipmentStatusManually', shipmentDetail);
+        }
+        
 
         function getLocationHistory(shipmentDetail) {
 
