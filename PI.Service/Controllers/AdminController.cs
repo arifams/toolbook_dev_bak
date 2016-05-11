@@ -28,7 +28,7 @@ namespace PI.Service.Controllers
     public class AdminController : BaseApiController
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
-
+        IAddressBookManagement addressBookManagement = new AddressBookManagement();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
         //    this.adminManagement = adminmanagementa;
