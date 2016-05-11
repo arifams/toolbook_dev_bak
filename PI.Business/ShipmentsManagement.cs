@@ -5,6 +5,7 @@ using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
+using PI.Contract.DTOs.Report;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
 using PI.Data;
@@ -2328,8 +2329,8 @@ namespace PI.Business
                 var roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                 
                 var roleName = context.Roles.Where(r => r.Id == roleId).FirstOrDefault().Name;
-                
-                IList<Shipment> shipmentList = new List<Shipment>();
+
+                IList<Shipment> shipmentList = null;
 
                 if (roleName == "Admin" || roleName == "BusinessOwner" )
                 {
@@ -2356,6 +2357,13 @@ namespace PI.Business
                     ).ToList();
                 }
 
+                if (shipmentList != null)
+                {
+                    // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
+                    ShipmentReportDto reportDto = new ShipmentReportDto();
+
+
+                }
             }
 
             return "";
