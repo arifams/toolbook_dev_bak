@@ -37,7 +37,8 @@ namespace PI.Contract.Business
         PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                           string number = null, string source = null, string destination = null);
 
-        string ShipmentReport(string customerId, short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null);
+        string ShipmentReport(string userId, string languageId, ReportType reportType, short carrierId = 0, long companyId = 0, DateTime? startDate = null, DateTime? endDate = null);       
+        int UpdateshipmentStatusManually(string codeShipment, string status);
     }
 
 }

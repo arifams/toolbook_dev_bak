@@ -7,13 +7,13 @@ namespace PI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Ph2AddRateEnginewithUpdateCarrier : IMigrationMetadata
+    public sealed partial class Ph2AddInvoicesettingAndShipmentChanges : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Ph2AddRateEnginewithUpdateCarrier));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Ph2AddInvoicesettingAndShipmentChanges));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605101023437_Ph2 - Add Rate Engine with Update Carrier"; }
+            get { return "201605101034423_Ph2 - Add Invoice setting And Shipment Changes"; }
         }
         
         string IMigrationMetadata.Source

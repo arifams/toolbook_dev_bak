@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
@@ -222,5 +223,22 @@ namespace PI.Service.Controllers
         {
             return adminManagement.ManageInvoicePaymentSetting(copmany.Id);
         }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetShipmentDetails")]
+        public HttpResponseMessage GetShipmentDetails([FromUri]string userId)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
+            result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+
+
+        }
+
     }
 }

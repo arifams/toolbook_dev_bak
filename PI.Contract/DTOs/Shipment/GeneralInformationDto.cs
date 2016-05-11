@@ -47,5 +47,7 @@ namespace PI.Contract.DTOs.Shipment
         public bool IsEnableDelete { get; set; }
 
         public string ShipmentReferenceName { get; set; }
+
+        public string ManualStatusUpdatedDate { get; set; }
     }
 }
