@@ -2301,13 +2301,43 @@ namespace PI.Business
         }
 
 
-        public string ShipmentReport(string customerId, short carrierId, string languageId, ReportType reportType, DateTime? startDate = null, DateTime? endDate = null)
+        public string ShipmentReport(string userId, string languageId, ReportType reportType, short carrierId = 0, long companyId = 0, DateTime? startDate = null, DateTime? endDate = null)
         {
-            //using (PIContext context = new PIContext())
-            //{
-            //    IList<Shipment> shipmentList = context.Shipments.Where(sh => sh.ca)
-            //}
-            
+            using (PIContext context = new PIContext())
+            {
+                var roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
+                
+                var roleName = context.Roles.Where(r => r.Id == roleId).FirstOrDefault().Name;
+                
+                IList<Shipment> shipmentList = new List<Shipment>();
+
+                if (roleName == "Admin" || roleName == "BusinessOwner" )
+                {
+                    if (roleName == "BusinessOwner")
+                    {
+                        CompanyManagement companyManagement = new CompanyManagement();
+                        companyId = companyManagement.GetCompanyByUserId(userId).Id;
+                    }
+
+                    shipmentList =
+                        context.Shipments.Where(s => s.Division.CompanyId == companyId ||
+                        (carrierId != 0 && s.CarrierId == carrierId) ||
+                        (startDate != null && startDate <= s.PickUpDate) ||
+                        (endDate != null && s.PickUpDate <= endDate)
+                    ).ToList();
+                }
+                else if (roleName == "Manager")
+                {
+                    shipmentList =
+                        context.Shipments.Where(s => s.Division.UserInDivisions.Any(u => u.UserId == userId) ||
+                        (carrierId != 0 && s.CarrierId == carrierId) ||
+                        (startDate != null && startDate <= s.PickUpDate) ||
+                        (endDate != null && s.PickUpDate <= endDate)
+                    ).ToList();
+                }
+
+            }
+
             return "";
         }
     }
