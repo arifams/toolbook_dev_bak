@@ -170,7 +170,7 @@
                             </ul>
                         </li>
 
-                        <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-hide="currentRole == 'Admin'">
+                        <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
                             <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
                             <!--<ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li> 

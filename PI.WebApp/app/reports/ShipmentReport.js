@@ -16,13 +16,49 @@
     });
 
 
-    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce',
-                  function ($scope, $location, ShipmentReportFactory, $window, $sce) {
+    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce','shipmentFactory','ngDialog','$controller',
+                  function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller) {
                       var vm = this;
                       vm.stream = {};
-                      vm.blaa = function () {
-                          debugger;
+                      vm.CompanyId = '';
+                      vm.searchText = '';
+                      vm.emptySearch = false;
+
+
+                      vm.closeWindow = function () {
+                               ngDialog.close()
+                           }
+
+                      vm.loadAllCompanies = function (search) {
+                          var from = 'shipReportCtrl'
+
+                          shipmentFactory.loadAllcompanies(search).success(
+                             function (responce) {
+                                 if (responce.content.length > 0) {
+
+                                     ngDialog.open({
+                                         scope: $scope,
+                                         template: '/app/shipment/CompanyViewTemplate.html',
+                                         className: 'ngdialog-theme-default',
+                                         controller: $controller('companyListCtrl', {
+                                             $scope: $scope,
+                                             searchList: responce.content,
+                                             from: from
+                                         })
+
+                                     });
+
+
+                                 } else {                                    
+                                     vm.emptySearch = true;
+                                 }
+                             }).error(function (error) {
+
+                                 console.log("error occurd while retrieving Addresses");
+                             });
+
                       }
+
 
                       vm.exportCSV = function () {
                           debugger;
