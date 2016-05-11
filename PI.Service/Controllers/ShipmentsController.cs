@@ -77,6 +77,14 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateshipmentStatusManually")]
+        public int UpdateshipmentStatusManually([FromBody]ShipmentDto addShipment)
+        {
+            return shipmentManagement.UpdateshipmentStatusManually(addShipment.GeneralInformation.ShipmentCode, addShipment.GeneralInformation.Status);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllCurrencies")]
         public List<CurrencyDto> GetAllCurrencies()
@@ -559,6 +567,7 @@ namespace PI.Service.Controllers
 
             return "";
         }
+   
     }
 }
 
