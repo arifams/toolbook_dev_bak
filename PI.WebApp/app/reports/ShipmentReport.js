@@ -13,11 +13,11 @@
                 });
             }
         };
-    })
+    });
 
 
-    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce','shipmentFactory', 'ngDialog', '$controller',
-                  function ($scope, $location, ShipmentReportFactory, $window, shipmentFactory, ngDialog, $controller) {
+    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce',
+                  function ($scope, $location, ShipmentReportFactory, $window, $sce) {
                       var vm = this;
                       vm.stream = {};
 
