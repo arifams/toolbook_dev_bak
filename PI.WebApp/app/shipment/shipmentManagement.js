@@ -25,11 +25,8 @@
                                                    shipmentFactory.UpdateshipmentStatusManually(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           location.reload();
-                                                           //var index = vm.rowCollection.indexOf(row);
-                                                           //if (index !== -1) {
-                                                           //    vm.rowCollection.splice(index, 1);
-                                                           //}
+                                                          // location.reload();
+                                                          vm.loadShipmentsBySearch();
                                                        }
                                                    })
                                        .error(function () {
