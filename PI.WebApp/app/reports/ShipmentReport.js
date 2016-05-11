@@ -20,7 +20,9 @@
                   function ($scope, $location, ShipmentReportFactory, $window, $sce) {
                       var vm = this;
                       vm.stream = {};
-
+                      vm.blaa = function () {
+                          debugger;
+                      }
 
                       vm.exportCSV = function () {
                           debugger;

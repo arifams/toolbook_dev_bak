@@ -2340,7 +2340,9 @@ namespace PI.Business
         }
 
 
-        public string ShipmentReport(string userId, string languageId, ReportType reportType, short carrierId = 0, long companyId = 0, DateTime? startDate = null, DateTime? endDate = null)
+        public string ShipmentReport(string userId, string languageId, ReportType reportType, 
+                                     short carrierId = 0, long companyId = 0, DateTime? startDate = null, 
+                                     DateTime? endDate = null)
         {
             using (PIContext context = new PIContext())
             {
@@ -2348,7 +2350,7 @@ namespace PI.Business
                 
                 var roleName = context.Roles.Where(r => r.Id == roleId).FirstOrDefault().Name;
                 
-                IList<Shipment> shipmentList = new List<Shipment>();
+                List<Shipment> shipmentList = new List<Shipment>();
 
                 if (roleName == "Admin" || roleName == "BusinessOwner" )
                 {
@@ -2375,6 +2377,7 @@ namespace PI.Business
                     ).ToList();
                 }
 
+                //shipmentList.ForEach( x=> new )
             }
 
             return "";

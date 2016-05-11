@@ -321,6 +321,7 @@ var MakeApp = angular
           })
            .when('/ShipmentReports', {
                templateUrl: 'reports/ShipmentReport.html',
+               controller: 'shipReportCtrl'
            })
         .otherwise({
 
