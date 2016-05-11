@@ -32,7 +32,7 @@
                                             <div class="col-sm-4 prepend-icon">
                                                 <input datetime-picker name="datetimepicker"
                                                        class="date-picker form-control hasDatepicker"
-                                                       ng-model="ShipReportCtrl.dateFrom"
+                                                       ng-model="shipReportCtrl.dateFrom"
                                                        date-format="dd-MMM-yyyy" date-only />
                                                 <i class="icon-calendar"></i>
                                             </div>
@@ -40,7 +40,7 @@
                                             <div class="col-sm-4 prepend-icon">
                                                 <input datetime-picker name="datetimepicker"
                                                        class="date-picker form-control hasDatepicker"
-                                                       ng-model="ShipReportCtrl.dateTo"
+                                                       ng-model="shipReportCtrl.dateTo"
                                                        date-format="dd-MMM-yyyy" date-only />
                                                 <i class="icon-calendar"></i>
                                             </div>
@@ -53,9 +53,8 @@
                                         <label class="col-sm-2 control-label">Carrier</label>
                                         <div class="col-sm-10">
                                             <select class="form-control"
-                                                    convert-to-number ng-options="divi.id as divi.name for divi in shipmentCtrl.divisionList"
-                                                    ng-model="shipmentCtrl.shipment.generalInformation.divisionId"
-                                                    ng-change="shipmentCtrl.selectDivision()">
+                                                    convert-to-number ng-options="divi.id as divi.name for divi in shipReportCtrl.carrierList"
+                                                    ng-model="shipReportCtrl.carrierId">
                                                 <option value="">-Select a carrier-</option>
                                             </select>
                                         </div>
@@ -77,7 +76,7 @@
 
                                 <div class="col-sm-2" ng-show="shipReportCtrl.searchTypeExport=='CSV'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="shipReportCtrl.ExportExcel()"
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="shipReportCtrl.exportCSV()"
                                                 ng-csv="shipReportCtrl.exportcollection"
                                                 filename="ShipmentDetailsReport.csv">
                                             Export CSV
@@ -87,7 +86,7 @@
 
                                 <div class="col-sm-2" ng-show="shipReportCtrl.searchTypeExport=='EXCEL'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="shipReportCtrl.ExportExcel()">
+                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="shipReportCtrl.exportExcel()">
                                             Export Excel
                                         </button>
                                     </div>
