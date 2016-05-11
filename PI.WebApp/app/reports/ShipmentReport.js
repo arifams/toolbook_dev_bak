@@ -69,6 +69,7 @@
 
 
                       vm.exportExcel = function () {
+                          debugger;
                           ShipmentReportFactory.exportShipmentReport()
                           .success(function (data, status, headers) {
 
