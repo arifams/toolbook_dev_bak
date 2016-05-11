@@ -15,7 +15,8 @@
 
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group input-group">
                                     <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control"
                                            placeholder="Search by First Name or Last Name" />
@@ -26,13 +27,13 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-md-6 p-r-0">
-                                <div class="col-md-3">
+                            <div class="col-sm-6 p-r-0">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <label class="control-label text-center">Filter by  </label>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <div class="option-group">
                                             <select convert-to-number ng-options="role.id as role.roleName for role in loadUserCtrl.roleList"
@@ -42,7 +43,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <div class="option-group">
                                             <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
@@ -52,7 +53,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-sm-3">
                                     <div class="form-group">
                                         <div class="option-group">
                                             <select name="status"
@@ -64,6 +65,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                            </div>
                         <br />

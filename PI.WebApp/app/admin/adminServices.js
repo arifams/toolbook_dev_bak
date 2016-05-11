@@ -6,7 +6,8 @@
 
         return {
             getAllComapnies: getAllComapnies,
-            changeCompanyStatus: changeCompanyStatus
+            changeCompanyStatus: changeCompanyStatus,
+            manageInvoicePaymentSetting: manageInvoicePaymentSetting
         };
 
 
@@ -19,12 +20,17 @@
                 }
             });
         }
-
-
+        
 
         function changeCompanyStatus(companyDetail) {
             
             return $http.post(serverBaseUrl + '/api/Company/ChangeCompanyStatus', companyDetail);
+        }
+
+
+        function manageInvoicePaymentSetting(companyDetail) {
+
+            return $http.post(serverBaseUrl + '/api/Admin/ManageInvoicePaymentSetting', companyDetail);
         }
 
     }]);

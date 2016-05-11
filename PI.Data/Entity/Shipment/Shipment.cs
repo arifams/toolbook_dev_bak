@@ -43,6 +43,8 @@ namespace PI.Data.Entity
 
         public short ShipmentPaymentTypeId { get; set; }
 
+        public DateTime? ManualStatusUpdatedDate { get; set; }
+
         #region Navigation properties
 
         // General Information - Navigations

@@ -89,6 +89,7 @@
     <Compile Include="Entity\AccountSettings.cs" />
     <Compile Include="Entity\Address.cs" />
     <Compile Include="Entity\AddressBook.cs" />
+    <Compile Include="Entity\AuditTrail.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
     <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\CostCenter.cs" />
@@ -140,6 +141,10 @@
     <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs" />
+    <Compile Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.Designer.cs">
+      <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -170,6 +175,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.resx">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.resx">
+      <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -167,17 +167,14 @@
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions"> DIVISION MANAGEMENT</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters"> COST CENTER MANAGEMENT</a></li>
                                 <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses"> ADDRESS BOOK</a></li>
-
                             </ul>
                         </li>
 
-                        <li class="nav-parent" ng-show="currentRole == 'Admin'">
-                            <a href="#"><i class="icon-basket"></i><span>SHIPMENT CONTROL CENTER</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
-                                
-                                
-                            </ul>
+                        <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-hide="currentRole == 'Admin'">
+                            <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
+                            <!--<ul class="children collapse" style="background-color:#0D4773;">
+                                <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li> 
+                            </ul>-->
                         </li>
                         <!--<li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><i class="icon-docs"></i><span>REPORTS</span></a></li>-->
 

@@ -116,6 +116,7 @@
     <None Include=".bin\bower.cmd" />
     <None Include=".bin\git.cmd" />
     <None Include=".bin\node.cmd" />
+    <Content Include="app\reports\ShipmentReport.html" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTypes.json" />
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />

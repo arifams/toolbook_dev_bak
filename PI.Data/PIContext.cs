@@ -67,6 +67,8 @@ namespace PI.Data
         public DbSet<TransmitTime> TransmitTime { get; set; }
 
         public DbSet<TariffType> TariffType { get; set; }
+
+        public DbSet<AuditTrail> AuditTrail { get; set; }
         
         public PIContext()
             : base("name=PIBookingConnectionString")

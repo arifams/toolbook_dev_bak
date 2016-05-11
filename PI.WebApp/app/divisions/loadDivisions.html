@@ -12,49 +12,50 @@
                 <div class="panel-content panel-border">
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group input-group">
-                                    <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="Search by Division Name" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div> 
-                            </div>
-                            
-                            <div class="col-md-1">
-                                <div class="form-group">
-                                    <label class="control-label">Filter by  </label>
-                                </div>
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="option-group">
-                                        <select id="costcenter"
-                                                convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
-                                                name="costcenter" class="defaultcurrency form-control ng-pristine ng-valid ng-touched" ng-model="costcenter"
-                                                ng-change="selectDivisionforCostCenter()">
-                                            <option value="">Costcenter: All </option>
-                                        </select>
+                            <div class="col-sm-12">
+                                <div class="col-sm-6">
+                                    <div class="form-group input-group">
+                                        <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                               placeholder="Search by Division Name" />
+                                        <span class="input-group-btn">
+                                            <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <div class="option-group">
-                                        <select id="costcenters" name="costcenters" class="costcenters form-control ng-pristine ng-valid ng-touched"
-                                                ng-model="status" ng-change="selectActiveDivisions()">
-                                            <option value=""> Status: All </option>
-                                            <option value="True">Active</option>
-                                            <option value="False">Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
 
+                                <div class="col-sm-1">
+                                    <div class="form-group">
+                                        <label class="control-label">Filter by  </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select id="costcenter"
+                                                    convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
+                                                    name="costcenter" class="defaultcurrency form-control ng-pristine ng-valid ng-touched" ng-model="costcenter"
+                                                    ng-change="selectDivisionforCostCenter()">
+                                                <option value="">Costcenter: All </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1"></div>
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <div class="option-group">
+                                            <select id="costcenters" name="costcenters" class="costcenters form-control ng-pristine ng-valid ng-touched"
+                                                    ng-model="status" ng-change="selectActiveDivisions()">
+                                                <option value=""> Status: All </option>
+                                                <option value="True">Active</option>
+                                                <option value="False">Inactive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <br />
 
@@ -80,7 +81,7 @@
                                     <td><span ng-bind-html="renderHtml(row.assosiatedCostCentersForGrid)"></span></td>
                                     <td>{{row.numberOfUsers}}</td>
                                     <td>{{row.statusString}}</td>
-                                    <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                                    <td><a href="#/saveDivision/{{row.id}}" class="edit btn btn-sm btn-default" ><i class="icon-note"></i></a></td>
                                     <td><a ng-click="deleteById(row)" class="delete btn btn-sm btn-danger" href="javascript:;"><i class="icons-office-52"></i></a></td>
                                 </tr>
                             </tbody>

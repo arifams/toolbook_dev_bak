@@ -8,6 +8,7 @@ using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
+using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
@@ -946,7 +947,7 @@ namespace PI.Business
         ///  Update LastLoginTime on every successful login.
         /// </summary>
         /// <param name="userId"></param>
-        public void UpdateLastLoginTime(string userId)
+        public void UpdateLastLoginTimeAndAduitTrail(string userId)
         {
             using (PIContext context = new PIContext())
             {
@@ -957,6 +958,18 @@ namespace PI.Business
                     user.LastLoginTime = DateTime.Now;
                     context.SaveChanges();
                 }
+
+
+                //Add Audit Trail Record 
+                context.AuditTrail.Add(new AuditTrail
+                {
+                    ReferenceId = user.Id.ToString(),
+                    AppFunctionality = AppFunctionality.UserLogin,
+                    Result = "SUCCESS",
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.Now
+                });
+                
             }
         }
 
@@ -1228,6 +1241,18 @@ namespace PI.Business
 
                     context.UsersInDivisions.AddRange(userDivisionList);
                     context.SaveChanges();
+
+
+                    //Add Audit Trail Record
+                    context.AuditTrail.Add(new AuditTrail
+                    {
+                        ReferenceId = appUser.Id,
+                        AppFunctionality = string.IsNullOrEmpty(userDto.Id)? AppFunctionality.AddUser : AppFunctionality.EditUser,
+                        Result = "SUCCESS",
+                        CreatedBy = "1",
+                        CreatedDate = DateTime.Now
+                    });
+                    context.SaveChanges();
                 }
 
                 result.IsSucess = true;
@@ -1235,6 +1260,7 @@ namespace PI.Business
                 return result;
             }
         }
+
 
         public UserDto LoadUserManagement(string loggedInUser)
         {
@@ -1408,6 +1434,7 @@ namespace PI.Business
                         Status = item.Company.IsActive,
                         CreatedDate = item.Customer.CreatedDate.ToString("dd/MM/yyyy"),
                         ActiveShipments = shipmentCount,
+                        IsInvoiceEnabled = item.Company.IsInvoiceEnabled,
                         AssignedUserCount = ++userCount
                     });
                 }
@@ -1502,7 +1529,18 @@ namespace PI.Business
 
 
                 userList.ForEach(x => x.IsActive = false);
+                context.SaveChanges();
 
+
+                //Add Audit Trail Record
+                context.AuditTrail.Add(new AuditTrail
+                {
+                    ReferenceId = comapny.Id.ToString(),
+                    AppFunctionality = AppFunctionality.UserManagement,
+                    Result = "SUCCESS",
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.Now
+                });
                 context.SaveChanges();
 
                 return comapny.IsActive;
