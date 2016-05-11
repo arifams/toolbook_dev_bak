@@ -3,7 +3,7 @@ namespace PI.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Ph2AddRateEnginewithUpdateCarrier : DbMigration
+    public partial class Ph2AddInvoicesettingAndShipmentChanges : DbMigration
     {
         public override void Up()
         {
