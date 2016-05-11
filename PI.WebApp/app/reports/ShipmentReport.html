@@ -1,4 +1,4 @@
-﻿<div ng-controller="ShipReportCtrl">
+﻿<div ng-controller="shipReportCtrl">
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
@@ -17,7 +17,7 @@
                                             <input ng-model="searchText" name="searchText" type="text" class="form-control"
                                                    placeholder="Enter Company Name, Business Owner First Name or Last Name" />
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
+                                                <button type="button" class="btn btn-large btn-primary" ng-click="">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </span>
@@ -30,13 +30,17 @@
                                         <label class="col-sm-2 control-label">Invoice Date Range</label>
                                         <div class="col-sm-10">
                                             <div class="col-sm-4 prepend-icon">
-                                                <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="date-picker form-control hasDatepicker" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal"
+                                                <input datetime-picker name="datetimepicker"
+                                                       class="date-picker form-control hasDatepicker"
+                                                       ng-model="ShipReportCtrl.dateFrom"
                                                        date-format="dd-MMM-yyyy" date-only />
                                                 <i class="icon-calendar"></i>
                                             </div>
                                             <div class="col-sm-2"></div>
                                             <div class="col-sm-4 prepend-icon">
-                                                <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="date-picker form-control hasDatepicker" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal"
+                                                <input datetime-picker name="datetimepicker"
+                                                       class="date-picker form-control hasDatepicker"
+                                                       ng-model="ShipReportCtrl.dateTo"
                                                        date-format="dd-MMM-yyyy" date-only />
                                                 <i class="icon-calendar"></i>
                                             </div>
@@ -61,7 +65,7 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Report Type</label>
-                                        <div class="col-sm-10">                                           
+                                        <div class="col-sm-10">
                                             <select ng-model="addressCtrl.searchTypeImport" class="form-control" ng-init="addressCtrl.searchTypeImport = 'EXCEL'">
                                                 <option value="EXCEL">EXCEL</option>
                                                 <option value="CSV">CSV</option>
@@ -70,11 +74,22 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <button type="submit" ng-click=""
-                                            class="btn btn-app pull-right">
-                                        <i class="fa fa-save"></i> Export
-                                    </button>
+                                <div class="col-sm-2" ng-show="shipReportCtrl.searchTypeExport=='CSV'">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="shipReportCtrl.ExportExcel()"
+                                                ng-csv="shipReportCtrl.exportcollection"
+                                                filename="ShipmentDetailsReport.csv">
+                                            Export CSV
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-2" ng-show="shipReportCtrl.searchTypeExport=='EXCEL'">
+                                    <div class="form-group">
+                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="shipReportCtrl.ExportExcel()">
+                                            Export Excel
+                                        </button>
+                                    </div>
                                 </div>
 
                                 <div id="panel-notif"></div>
