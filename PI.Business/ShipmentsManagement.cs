@@ -2376,13 +2376,104 @@ namespace PI.Business
                     ).ToList();
                 }
 
-                if (shipmentList != null)
+                // If empty list, return empty list by message result is empty.
+                if (shipmentList == null)
+                    return null;
+
+                // Update retrieve shipment list status from SIS.
+                foreach (var shipment in shipmentList)
                 {
-                    // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
-                    ShipmentReportDto reportDto = new ShipmentReportDto();
-
-
+                    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
+                    {
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                    }
                 }
+
+                // Get updated list again.
+                var UpdatedShipmentList = context.Shipments.Where(sh => shipmentList.Any(s => s.Id == sh.Id)).ToList();
+
+                // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
+                IList<ShipmentReportDto> reportList = new List<ShipmentReportDto>();
+
+                foreach (var item in UpdatedShipmentList)
+                {
+                    reportList.Add(new ShipmentReportDto
+                    {
+                        AddressInformation = new ConsignerAndConsigneeInformationDto
+                        {
+                            Consignee = new ConsigneeDto
+                            {
+                                Address1 = item.ConsigneeAddress.StreetAddress1,
+                                Address2 = item.ConsigneeAddress.StreetAddress2,
+                                Postalcode = item.ConsigneeAddress.ZipCode,
+                                City = item.ConsigneeAddress.City,
+                                Country = item.ConsigneeAddress.Country,
+                                State = item.ConsigneeAddress.State,
+                                FirstName = item.ConsigneeAddress.FirstName,
+                                LastName = item.ConsigneeAddress.LastName,
+                                ContactName = item.ConsigneeAddress.ContactName,
+                                ContactNumber = item.ConsigneeAddress.ContactName,
+                                Email = item.ConsigneeAddress.EmailAddress,
+                                Number = item.ConsigneeAddress.Number
+                            },
+                            Consigner = new ConsignerDto
+                            {
+                                Address1 = item.ConsignorAddress.StreetAddress1,
+                                Address2 = item.ConsignorAddress.StreetAddress2,
+                                Postalcode = item.ConsignorAddress.ZipCode,
+                                City = item.ConsignorAddress.City,
+                                Country = item.ConsignorAddress.Country,
+                                State = item.ConsignorAddress.State,
+                                FirstName = item.ConsignorAddress.FirstName,
+                                LastName = item.ConsignorAddress.LastName,
+                                ContactName = item.ConsignorAddress.ContactName,
+                                ContactNumber = item.ConsignorAddress.ContactName,
+                                Email = item.ConsignorAddress.EmailAddress,
+                                Number = item.ConsignorAddress.Number
+                            }
+                        },
+                        GeneralInformation = new GeneralInformationDto
+                        {
+                            CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                            DivisionId = item.DivisionId.GetValueOrDefault(),
+                            ShipmentCode = item.ShipmentCode,
+                            ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
+                            ShipmentName = item.ShipmentName,
+                            ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
+                            TrackingNumber = item.TrackingNumber,
+                            CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                            Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                            IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
+                            IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
+                        },
+                        PackageDetails = new PackageDetailsDto
+                        {
+                            CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                            VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                            Count = item.ShipmentPackage.PackageProducts.Count,
+                            DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                            HsCode = item.ShipmentPackage.HSCode,
+                            Instructions = item.ShipmentPackage.CarrierInstruction,
+                            IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                            TotalVolume = item.ShipmentPackage.TotalVolume,
+                            TotalWeight = item.ShipmentPackage.TotalWeight,
+                            ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                            PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                            ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                            ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                        },
+                        CarrierInformation = new CarrierInformationDto
+                        {
+                            CarrierName = item.Carrier.Name,
+                            serviceLevel = item.ServiceLevel,
+                            PickupDate = item.PickUpDate
+                        }
+
+                    });
+                }
+
+
             }
 
             return "";
