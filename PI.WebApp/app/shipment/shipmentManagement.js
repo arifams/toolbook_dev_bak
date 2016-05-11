@@ -145,6 +145,7 @@
                            }
                      
                            vm.loadAllCompanies = function () {
+                               var from = 'manageShipCtrl'
 
                                shipmentFactory.loadAllcompanies(vm.searchText).success(
                                   function (responce) {
@@ -156,7 +157,8 @@
                                               className: 'ngdialog-theme-default',
                                               controller: $controller('companyListCtrl', {
                                                   $scope: $scope,
-                                                  searchList: responce.content                                             
+                                                  searchList: responce.content,
+                                                  from: from
                                               })
 
                                           });
