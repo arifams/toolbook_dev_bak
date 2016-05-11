@@ -13,23 +13,18 @@
 
         //set selected address details
         $scope.selectCompany = function (company) {
-            debugger;
-            $scope.manageShipCtrl.CompanyId = company.id;
+            debugger;         
 
-            if (from == 'shipReportCtrl') {
-                if (responce.content.length > 0) {
+            if (from == 'shipReportCtrl') {                
                    
-                    $scope.shipReportCtrl.closeWindow();                    
-                    $scope.shipReportCtrl.CompanyId = company.id;
-
-                } else {
-                    $scope.shipReportCtrl.noShipments = true;
-                    $scope.shipReportCtrl.closeWindow();
-                }
+                $scope.shipCtrl.closeWindow();
+                $scope.shipCtrl.CompanyId = company.id;
+                
             }
 
 
             if (from == 'manageShipCtrl') {
+                $scope.manageShipCtrl.CompanyId = company.id;
                 shipmentFactory.loadAllshipmentsForCompany(company.id).success(
 
                                       function (responce) {

@@ -16,16 +16,23 @@
     });
 
 
-    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce',
-                  function ($scope, $location, ShipmentReportFactory, $window, $sce) {
+    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce','shipmentFactory','ngDialog','$controller',
+                  function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller) {
                       var vm = this;
                       vm.stream = {};
+                      vm.CompanyId = '';
+                      vm.searchText = '';
+                      vm.emptySearch = false;
 
 
-                      vm.loadAllCompanies = function () {
+                      vm.closeWindow = function () {
+                               ngDialog.close()
+                           }
+
+                      vm.loadAllCompanies = function (search) {
                           var from = 'shipReportCtrl'
 
-                          shipmentFactory.loadAllcompanies(vm.searchText).success(
+                          shipmentFactory.loadAllcompanies(search).success(
                              function (responce) {
                                  if (responce.content.length > 0) {
 
@@ -42,9 +49,8 @@
                                      });
 
 
-                                 } else {
-                                     vm.addressDetailsEmpty = true;
-                                     vm.emptySearch = false;
+                                 } else {                                    
+                                     vm.emptySearch = true;
                                  }
                              }).error(function (error) {
 

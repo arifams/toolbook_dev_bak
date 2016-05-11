@@ -1,4 +1,4 @@
-﻿<div ng-controller="shipReportCtrl">
+﻿<div ng-controller="shipReportCtrl as vm">
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
@@ -14,10 +14,10 @@
                                     <div class="form-group">
                                         <label class="col-sm-2 control-label">Customer</label>
                                         <div class="col-sm-10">
-                                            <input ng-model="searchText" name="searchText" type="text" class="form-control"
+                                            <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
                                                    placeholder="Enter Company Name, Business Owner First Name or Last Name" />
                                             <span class="input-group-btn">
-                                                <button type="button" class="btn btn-large btn-primary" ng-click="ShipReportCtrl.loadAllCompanies()">
+                                                <button type="button" class="btn btn-large btn-primary" ng-click="vm.loadAllCompanies(vm.searchText)">
                                                     <i class="fa fa-search"></i>
                                                 </button>
                                             </span>
