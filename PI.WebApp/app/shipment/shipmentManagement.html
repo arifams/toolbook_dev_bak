@@ -70,7 +70,7 @@
                                 <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
                                     <div class="btn-group">
                                         <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                           placeholder="Destination City/Country" />
+                                           placeholder="Destination City/Country" />                                    
                                 </div>
                             </div>
                                 <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
@@ -87,7 +87,7 @@
                             </div> 
                             
                         </div>
-                     <div class="row">
+                     <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
                       
 
                          <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped">
@@ -114,7 +114,23 @@
                                      <td>{{row.carrierInformation.carrierName}}</td>
                                      <td>{{row.addressInformation.consigner.city}}</td>
                                      <td>{{row.addressInformation.consignee.city}}</td>
-                                     <td>{{row.generalInformation.status}}</td>
+
+                                     <td>
+                                         <div class="option-group">
+                                             <select id="salutation" name="salutation" class="salutation form-control"  ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
+                                                 <option value="Error">Error</option>
+                                                 <option value="Pending">Pending</option>
+                                                 <option value="Booking confirmation">Booking Confirmation</option>
+                                                 <option value="Pickup">Pickup</option>
+                                                 <option value="Transit">Transit</option>
+                                                 <option value="OutForDelivery">OutForDelivery</option>
+                                                 <option value="Delivered">Delivered</option>
+                                                 <option value="Deleted">Deleted</option>
+                                                 <option value="Exception">Exception</option>
+
+                                             </select>
+                                         </div>
+                                     </td>
                                      <td>
                                          <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                             class="edit btn btn-sm btn-default">
