@@ -72,6 +72,7 @@
     <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\adminLogin\adminLogin.html" />
     <Content Include="app\adminLogin\adminLoginCtrl.js" />
+    <Content Include="app\admin\customerManagement12.html" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
     <Content Include="app\index.html" />

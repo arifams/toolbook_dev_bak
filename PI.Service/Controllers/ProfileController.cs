@@ -18,7 +18,7 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-    [CustomAuthorize]
+    //[CustomAuthorize]
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {

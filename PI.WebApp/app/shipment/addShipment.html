@@ -996,15 +996,14 @@
                                 <div class="row">
                                     <div class="col-sm-6"></div>
                                     <div class="col-sm-2 p-r-0">
-                                        <button class="btn btn-primary pull-right " ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
-                                    </div>
-
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Invoice</button>
-
+                                        <button class="btn btn-primary pull-right" ng-click="shipmentCtrl.previousBtnClicked()">Previous</button>
                                     </div>
                                     <div class="col-sm-2">
-                                        <button class="btn btn-primary " type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Online</button>
+                                        <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Online</button>
+                                    </div>
+
+                                    <div class="col-sm-2" ng-show="shipmentCtrl.isInvoicePaymentEnabled">
+                                        <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected">Pay via Invoice</button>
                                     </div>
                                 </div>
                             </fieldset>

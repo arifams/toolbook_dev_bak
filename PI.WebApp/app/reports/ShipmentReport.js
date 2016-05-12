@@ -4,10 +4,16 @@
 
     app.factory('ShipmentReportFactory', function ($http, $window) {
         return {
-            exportShipmentReport: function () {
-                return $http.get(serverBaseUrl + '/api/Admin/GetShipmentDetails', {
+            exportShipmentReport: function (carrierId, companyId, startDate, endDate) {
+                return $http.get(serverBaseUrl + '/api/shipments/GetShipmentDetails', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid')
+                        userId: $window.localStorage.getItem('userGuid'),
+                        languageId: "",
+                        reportType: 1,
+                        carrierId: carrierId,
+                        companyId: companyId,
+                        startDate: startDate,
+                        endDate: endDate
                     },
                     responseType: 'arraybuffer'
                 });
@@ -16,203 +22,233 @@
     });
 
 
-    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce','shipmentFactory','ngDialog','$controller',
-                  function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller) {
-                      var vm = this;
-                      vm.stream = {};
-                      vm.CompanyId = '';
-                      vm.searchText = '';
-                      vm.emptySearch = false;
+    app.factory('ShipmentReportCSVFactory', function ($http, $window) {
+        return {
+            exportShipmentReportcsv: function (carrierId, companyId, startDate, endDate) {
+                return $http.get(serverBaseUrl + '/api/shipments/GetShipmentDetailsForCSV', {
+                    params: {
+                        userId: $window.localStorage.getItem('userGuid'),
+                        languageId: "",
+                        reportType: 1,
+                        carrierId: carrierId,
+                        companyId: companyId,
+                        startDate: startDate,
+                        endDate: endDate
+                    }
+                });
+            }
+        };
+    });
 
 
-                      vm.closeWindow = function () {
-                               ngDialog.close()
-                           }
 
-                      vm.loadAllCompanies = function (search) {
-                          var from = 'shipReportCtrl'
+    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce', 'shipmentFactory',
+                                     'ngDialog', '$controller', 'ShipmentReportCSVFactory',
+    function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller,
+        ShipmentReportCSVFactory) {
 
-                          shipmentFactory.loadAllcompanies(search).success(
-                             function (responce) {
-                                 if (responce.content.length > 0) {
+        var vm = this;
+        vm.stream = {};
+        vm.selectedCompanyId = '';
+        vm.searchText = '';
+        vm.emptySearch = false;
 
-                                     ngDialog.open({
-                                         scope: $scope,
-                                         template: '/app/shipment/CompanyViewTemplate.html',
-                                         className: 'ngdialog-theme-default',
-                                         controller: $controller('companyListCtrl', {
-                                             $scope: $scope,
-                                             searchList: responce.content,
-                                             from: from
-                                         })
+        vm.isAdmin = ($window.localStorage.getItem('userRole') == "Admin") ? true : false;
+        
+        vm.closeWindow = function () {
+            ngDialog.close()
+        }
 
-                                     });
+        vm.loadAllCompanies = function (search) {
+            var from = 'shipReportCtrl'
 
+            shipmentFactory.loadAllcompanies(search).success(
+               function (responce) {
+                   debugger;
+                   if (responce.content.length > 0) {
 
-                                 } else {                                    
-                                     vm.emptySearch = true;
-                                 }
-                             }).error(function (error) {
+                       ngDialog.open({
+                           scope: $scope,
+                           template: '/app/shipment/CompanyViewTemplate.html',
+                           className: 'ngdialog-theme-default',
+                           controller: $controller('companyListCtrl', {
+                               $scope: $scope,
+                               searchList: responce.content,
+                               from: from
+                           })
 
-                                 console.log("error occurd while retrieving Addresses");
-                             });
-
-                      }
-
-
-                      vm.exportCSV = function () {
-                          debugger;
-                          // Get values from view.
-                          var userId = $window.localStorage.getItem('userGuid');
-                          var type = (vm.state == undefined) ? "" : vm.state;
-                          var searchText = vm.searchText;
-
-                          ShipmentReportFactory.exportShipmentReport(userId, searchText, type)
-                              .then(function successCallback(responce) {
-
-                                  //adding headers for export csv file
-                                  var headers = {};
-                                  headers.id = "Id";
-                                  headers.companyName = "companyName";
-                                  headers.userId = "userId";
-                                  headers.salutation = "salutation";
-                                  headers.firstName = "firstName";
-                                  headers.lastName = "lastName";
-                                  headers.emailAddress = "emailAddress";
-                                  headers.phoneNumber = "phoneNumber";
-                                  headers.accountNumber = "accountNumber";
-                                  headers.fullName = "fullName";
-                                  headers.fullAddress = "fullAddress";
-
-                                  headers.country = "country";
-                                  headers.zipCode = "zipCode";
-                                  headers.number = "number";
-                                  headers.streetAddress1 = "streetAddress1";
-                                  headers.streetAddress2 = "streetAddress2";
-                                  headers.city = "city";
-                                  headers.state = "state";
-                                  headers.isActive = "isActive";
-
-                                  vm.exportcollection = [];
-                                  vm.exportcollection.push(headers);
-
-                                  $.each(responce.data.content, function (index, value) {
-                                      vm.exportcollection.push(value);
-                                  });
-                              },
-                              function errorCallback(response) {
-                                  //todo
-                              });
-                      };
+                       });
 
 
-                      vm.exportExcel = function () {
-                          debugger;
-                          ShipmentReportFactory.exportShipmentReport()
-                          .success(function (data, status, headers) {
+                   } else {
+                       vm.emptySearch = true;
+                   }
+               }).error(function (error) {
 
-                              var octetStreamMime = 'application/octet-stream';
-                              var success = false;
+                   console.log("error occurd while retrieving Addresses");
+               });
 
-                              // Get the headers
-                              headers = headers();
+        }
 
-                              // Get the filename from the x-filename header or default to "download.bin"
-                              var filename = headers['x-filename'] || 'ShipmentDetailsReport.xlsx';
+        vm.exportExcel = function () {
+            debugger;
+            var carrierId = vm.carrierId;
+            var companyId = cm.selectedCompanyId;
+            var startDate = vm.dateFrom;
+            var endDate = vm.dateTo;
 
-                              // Determine the content type from the header or default to "application/octet-stream"
-                              var contentType = headers['content-type'] || octetStreamMime;
+            ShipmentReportFactory.exportShipmentReport(carrierId, companyId, startDate, endDate)
+            .success(function (data, status, headers) {
 
-                              try {
-                                  // Try using msSaveBlob if supported
-                                  console.log("Trying saveBlob method ...");
-                                  var blob = new Blob([data], { type: contentType });
-                                  if (navigator.msSaveBlob)
-                                      navigator.msSaveBlob(blob, filename);
-                                  else {
-                                      // Try using other saveBlob implementations, if available
-                                      var saveBlob = navigator.webkitSaveBlob || navigator.mozSaveBlob || navigator.saveBlob;
-                                      if (saveBlob === undefined) throw "Not supported";
-                                      saveBlob(blob, filename);
-                                  }
-                                  console.log("saveBlob succeeded");
-                                  success = true;
-                              } catch (ex) {
-                                  console.log("saveBlob method failed with the following exception:");
-                                  console.log(ex);
-                              }
+                var octetStreamMime = 'application/octet-stream';
+                var success = false;
 
-                              if (!success) {
-                                  // Get the blob url creator
-                                  var urlCreator = window.URL || window.webkitURL || window.mozURL || window.msURL;
-                                  if (urlCreator) {
-                                      // Try to use a download link
-                                      var link = document.createElement('a');
-                                      if ('download' in link) {
-                                          // Try to simulate a click
-                                          try {
-                                              // Prepare a blob URL
-                                              console.log("Trying download link method with simulated click ...");
-                                              var blob = new Blob([data], { type: contentType });
-                                              var url = urlCreator.createObjectURL(blob);
-                                              link.setAttribute('href', url);
+                // Get the headers
+                headers = headers();
 
-                                              // Set the download attribute (Supported in Chrome 14+ / Firefox 20+)
-                                              link.setAttribute("download", filename);
+                // Get the filename from the x-filename header or default to "download.bin"
+                var filename = headers['x-filename'] || 'ShipmentDetailsReport.xlsx';
 
-                                              // Simulate clicking the download link
-                                              var event = document.createEvent('MouseEvents');
-                                              event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-                                              link.dispatchEvent(event);
-                                              console.log("Download link method with simulated click succeeded");
-                                              success = true;
+                // Determine the content type from the header or default to "application/octet-stream"
+                var contentType = headers['content-type'] || octetStreamMime;
 
-                                          } catch (ex) {
-                                              console.log("Download link method with simulated click failed with the following exception:");
-                                              console.log(ex);
-                                          }
-                                      }
+                try {
+                    // Try using msSaveBlob if supported
+                    console.log("Trying saveBlob method ...");
+                    var blob = new Blob([data], { type: contentType });
+                    if (navigator.msSaveBlob)
+                        navigator.msSaveBlob(blob, filename);
+                    else {
+                        // Try using other saveBlob implementations, if available
+                        var saveBlob = navigator.webkitSaveBlob || navigator.mozSaveBlob || navigator.saveBlob;
+                        if (saveBlob === undefined) throw "Not supported";
+                        saveBlob(blob, filename);
+                    }
+                    console.log("saveBlob succeeded");
+                    success = true;
+                } catch (ex) {
+                    console.log("saveBlob method failed with the following exception:");
+                    console.log(ex);
+                }
 
-                                      if (!success) {
-                                          // Fallback to window.location method
-                                          try {
-                                              // Prepare a blob URL
-                                              // Use application/octet-stream when using window.location to force download
-                                              console.log("Trying download link method with window.location ...");
-                                              var blob = new Blob([data], { type: octetStreamMime });
-                                              var url = urlCreator.createObjectURL(blob);
-                                              window.location = url;
-                                              console.log("Download link method with window.location succeeded");
-                                              success = true;
-                                          } catch (ex) {
-                                              console.log("Download link method with window.location failed with the following exception:");
-                                              console.log(ex);
-                                          }
-                                      }
+                if (!success) {
+                    // Get the blob url creator
+                    var urlCreator = window.URL || window.webkitURL || window.mozURL || window.msURL;
+                    if (urlCreator) {
+                        // Try to use a download link
+                        var link = document.createElement('a');
+                        if ('download' in link) {
+                            // Try to simulate a click
+                            try {
+                                // Prepare a blob URL
+                                console.log("Trying download link method with simulated click ...");
+                                var blob = new Blob([data], { type: contentType });
+                                var url = urlCreator.createObjectURL(blob);
+                                link.setAttribute('href', url);
 
-                                  }
-                              }
+                                // Set the download attribute (Supported in Chrome 14+ / Firefox 20+)
+                                link.setAttribute("download", filename);
 
-                              if (!success) {
-                                  // Fallback to window.open method
-                                  console.log("No methods worked for saving the arraybuffer, using last resort window.open");
-                                  window.open(httpPath, '_blank', '');
-                              }
-                          })
-                        .error(function (data, status) {
-                            console.log("Request failed with status: " + status);
+                                // Simulate clicking the download link
+                                var event = document.createEvent('MouseEvents');
+                                event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+                                link.dispatchEvent(event);
+                                console.log("Download link method with simulated click succeeded");
+                                success = true;
 
-                            // Optionally write the error out to scope
-                            $scope.errorDetails = "Request failed with status: " + status;
-                        });
-                      }
+                            } catch (ex) {
+                                console.log("Download link method with simulated click failed with the following exception:");
+                                console.log(ex);
+                            }
+                        }
 
+                        if (!success) {
+                            // Fallback to window.location method
+                            try {
+                                // Prepare a blob URL
+                                // Use application/octet-stream when using window.location to force download
+                                console.log("Trying download link method with window.location ...");
+                                var blob = new Blob([data], { type: octetStreamMime });
+                                var url = urlCreator.createObjectURL(blob);
+                                window.location = url;
+                                console.log("Download link method with window.location succeeded");
+                                success = true;
+                            } catch (ex) {
+                                console.log("Download link method with window.location failed with the following exception:");
+                                console.log(ex);
+                            }
+                        }
 
-                      $scope.renderHtml = function (html_code) {
-                          return $sce.trustAsHtml(html_code);
-                      };
+                    }
+                }
 
+                if (!success) {
+                    // Fallback to window.open method
+                    console.log("No methods worked for saving the arraybuffer, using last resort window.open");
+                    window.open(httpPath, '_blank', '');
+                }
+            })
+          .error(function (data, status) {
+              console.log("Request failed with status: " + status);
 
-                  }]);
+              // Optionally write the error out to scope
+              $scope.errorDetails = "Request failed with status: " + status;
+          });
+        }
+        
+        $scope.renderHtml = function (html_code) {
+            return $sce.trustAsHtml(html_code);
+        };
+
+        //vm.getalldata = function () {
+        //    debugger;
+        //    var carrierId = 1;
+        //    var companyId = 1;
+        //    var startDate = "";
+        //    var endDate = "";        
+
+        //    ShipmentReportCSVFactory.exportShipmentReportcsv(carrierId, companyId, startDate, endDate)
+        //        .then(function successCallback(responce) {
+
+        //            //adding headers for export csv file
+        //            var headers = {};
+        //            headers.id = "Id";
+        //            headers.companyName = "companyName";
+        //            headers.userId = "userId";
+        //            headers.salutation = "salutation";
+        //            headers.firstName = "firstName";
+        //            headers.lastName = "lastName";
+        //            headers.emailAddress = "emailAddress";
+        //            headers.phoneNumber = "phoneNumber";
+        //            headers.accountNumber = "accountNumber";
+        //            headers.fullName = "fullName";
+        //            headers.fullAddress = "fullAddress";
+
+        //            headers.country = "country";
+        //            headers.zipCode = "zipCode";
+        //            headers.number = "number";
+        //            headers.streetAddress1 = "streetAddress1";
+        //            headers.streetAddress2 = "streetAddress2";
+        //            headers.city = "city";
+        //            headers.state = "state";
+        //            headers.isActive = "isActive";
+
+        //            vm.exportcollection = [];
+        //            vm.exportcollection.push(headers);
+
+        //            $.each(responce.data, function (index, value) {
+        //                debugger;
+        //                vm.exportcollection.push(value);
+        //            });
+
+        //            debugger;
+        //            angular.element('#csvSelector').triggerHandler('click');
+        //        },
+        //        function errorCallback(response) {
+        //            //todo
+        //        });
+        //};
+        
+    }]);
 
 })(angular.module('newApp'));

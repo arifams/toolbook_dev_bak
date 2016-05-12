@@ -24,7 +24,9 @@ namespace PI.Contract.DTOs.Profile
         public short DefaultCurrencyId { get; set; }
         public short DefaultTimeZoneId { get; set; }
 
-        public bool DoNotUpdateAccountSettings { get; set; }        
+        public bool DoNotUpdateAccountSettings { get; set; }
+
+        public bool IsInvoicePaymentEnabled { get; set; } 
 
         /// user settings
         public string NewPassword { get; set; }       
@@ -34,6 +36,8 @@ namespace PI.Contract.DTOs.Profile
         public CompanyDto CompanyDetails { get; set; }
 
         public AccountSettingsDto AccountSettings { get; set; }
+
+
 
        
     }

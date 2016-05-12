@@ -76,7 +76,7 @@
                            vm.shipment.addressInformation.consigner.state = responce.customerDetails.customerAddress.state;
                            vm.shipment.addressInformation.consigner.email = responce.customerDetails.email;
                            vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;
-
+                           vm.isInvoicePaymentEnabled = responce.isInvoicePaymentEnabled;
                        }
                    }
                  
