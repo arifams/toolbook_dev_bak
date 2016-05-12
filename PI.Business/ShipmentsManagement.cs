@@ -3,6 +3,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PI.Common;
 using PI.Contract.Business;
+using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.FileUpload;
@@ -2360,23 +2361,30 @@ namespace PI.Business
                 ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                 // Set headings.
-                ws.Cells["A6"].Value = "Salutation";
-                ws.Cells["B6"].Value = "First Name";
-                ws.Cells["C6"].Value = "Last Name";
-                ws.Cells["D6"].Value = "Company Name";
-                ws.Cells["E6"].Value = "Zip Code";
-                ws.Cells["F6"].Value = "Number";
-                ws.Cells["G6"].Value = "Street Address1";
-                ws.Cells["H6"].Value = "Street Address2";
-                ws.Cells["I6"].Value = "State";
-                ws.Cells["J6"].Value = "Email Adderess";
-                ws.Cells["K6"].Value = "Phone Number";
-                ws.Cells["L6"].Value = "Country";
-                ws.Cells["M6"].Value = "Account Number";
-
+                ws.Cells["A6"].Value = "Shipment Code";
+                ws.Cells["B6"].Value = "Shipment Mode";
+                ws.Cells["C6"].Value = "Consignor FirstName";
+                ws.Cells["D6"].Value = "Consignor LastName";
+                ws.Cells["E6"].Value = "Consignor Postalcode";
+                ws.Cells["F6"].Value = "Consignor Country";
+                ws.Cells["G6"].Value = "Created Date";
+                ws.Cells["H6"].Value = "Pickup Date";
+                ws.Cells["I6"].Value = "Delivery Date";
+                ws.Cells["J6"].Value = "Shipment Description";
+                ws.Cells["K6"].Value = "Status";
+                ws.Cells["L6"].Value = "Tracking Number";
+                ws.Cells["M6"].Value = "CarrierName";
+                ws.Cells["N6"].Value = "Consignee Country";
+                ws.Cells["O6"].Value = "Consignee Postalcode";
+                ws.Cells["P6"].Value = "Price";
+                ws.Cells["Q6"].Value = "Currency";
+                ws.Cells["R6"].Value = "Total Weight";
+                ws.Cells["S6"].Value = "Total Volume";
+                ws.Cells["T6"].Value = "Shipment TermCode";
+                ws.Cells["U6"].Value = "Package Count";
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:M6"])
+                using (ExcelRange rng = ws.Cells["A6:U6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -2410,32 +2418,67 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 6];
                     cell.Value = shipment.ConsignorCountry;
 
+                    cell = ws.Cells[rowIndex, 7];
+                    cell.Value = shipment.CreatedDate;
+
+                    cell = ws.Cells[rowIndex, 8];
+                    cell.Value = shipment.PickupDate;
+
+                    cell = ws.Cells[rowIndex, 9];
+                    cell.Value = shipment.PreferredCollectionDate; ////
+
+                    cell = ws.Cells[rowIndex, 10];
+                    cell.Value = shipment.ShipmentDescription;
+
+                    cell = ws.Cells[rowIndex, 11];
+                    cell.Value = shipment.Status;
+
+                    cell = ws.Cells[rowIndex, 12];
+                    cell.Value = shipment.TrackingNumber;
+
+                    cell = ws.Cells[rowIndex, 13];
+                    cell.Value = shipment.CarrierName;
+
+                    cell = ws.Cells[rowIndex, 14];
+                    cell.Value = shipment.ConsigneeCountry;
+
+                    cell = ws.Cells[rowIndex, 15];
+                    cell.Value = shipment.ConsigneePostalcode;
+
+                    cell = ws.Cells[rowIndex, 16];
+                    cell.Value = shipment.Price;
+
+                    cell = ws.Cells[rowIndex, 17];
+                    cell.Value = shipment.ValueCurrency;
+
+                    cell = ws.Cells[rowIndex, 18];
+                    cell.Value = shipment.TotalVolume;
+
+                    cell = ws.Cells[rowIndex, 19];
+                    cell.Value = shipment.TotalWeight;
+
+                    cell = ws.Cells[rowIndex, 20];
+                    cell.Value = shipment.ShipmentTermCode;
+
+                    cell = ws.Cells[rowIndex, 21];
+                    cell.Value = shipment.Count;
+
                     ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width
-                ws.Column(1).Width = 25;
-                ws.Column(2).Width = 25;
-                ws.Column(3).Width = 25;
-                ws.Column(4).Width = 25;
-                ws.Column(5).Width = 25;
-                ws.Column(6).Width = 22;
-                ws.Column(7).Width = 25;
-                ws.Column(8).Width = 25;
-                ws.Column(9).Width = 20;
-                ws.Column(10).Width = 20;
-                ws.Column(11).Width = 20;
-                ws.Column(12).Width = 20;
-                ws.Column(13).Width = 20;
-
+                for (int i = 1; i < 22; i++)
+                {
+                    ws.Column(i).Width = 25;
+                }
+               
                 return excel.GetAsByteArray();
             }
         }
 
 
-        public List<ShipmentReportDto> ShipmentReport(string userId, string languageId, ReportType reportType,
-                                  short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                  DateTime? endDate = null)
+        public List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+                                                      DateTime? endDate = null)
         {
 
             List<ShipmentReportDto> reportList = new List<ShipmentReportDto>();
@@ -2457,27 +2500,27 @@ namespace PI.Business
                     }
 
                     shipmentList =
-                        context.Shipments.Where(s => s.Division.CompanyId == companyId ||
-                        (carrierId != 0 && s.CarrierId == carrierId) ||
-                        (startDate != null && startDate <= s.PickUpDate) ||
-                        (endDate != null && s.PickUpDate <= endDate)
+                        context.Shipments.Where(s => s.Division.CompanyId == companyId &&
+                        (carrierId == 0 || s.CarrierId == carrierId) &&
+                        (startDate == null || startDate <= s.PickUpDate) &&
+                        (endDate == null || s.PickUpDate <= endDate)
                     ).ToList();
                 }
                 else if (roleName == "Manager")
                 {
                     shipmentList =
-                        context.Shipments.Where(s => s.Division.UserInDivisions.Any(u => u.UserId == userId) ||
-                        (carrierId != 0 && s.CarrierId == carrierId) ||
-                        (startDate != null && startDate <= s.PickUpDate) ||
-                        (endDate != null && s.PickUpDate <= endDate)
+                        context.Shipments.Where(s => s.Division.UserInDivisions.Any(u => u.UserId == userId) &&
+                        (carrierId == 0 || s.CarrierId == carrierId) &&
+                        (startDate == null || startDate <= s.PickUpDate) &&
+                        (endDate == null || s.PickUpDate <= endDate)
                     ).ToList();
                 }
 
                 // If empty list, return empty list by message result is empty.
-                if (shipmentList == null)
+                if (shipmentList == null || shipmentList.Count == 0)
                     return null;
 
-                // Update retrieve shipment list status from SIS.
+                // Update retrieved shipment list status from SIS.
                 foreach (var shipment in shipmentList)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
@@ -2568,12 +2611,11 @@ namespace PI.Business
         }
 
 
-        public byte[] ShipmentReportForExcel(string userId, string languageId, ReportType reportType,
-                                     short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+        public byte[] ShipmentReportForExcel(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
                                      DateTime? endDate = null)
         {
 
-            var shipments = ShipmentReport(userId, languageId, reportType, carrierId, companyId, startDate, endDate = null);
+            var shipments = ShipmentReport(userId, carrierId, companyId, startDate, endDate = null);
 
             byte[] stream = this.GenerateExcelSheetForShipmentReport(shipments);
             return stream;
@@ -2581,8 +2623,19 @@ namespace PI.Business
         }
 
 
+        public List<CarrierDto> LoadAllCarriers()
+        {
+            List<CarrierDto> carriers = new List<CarrierDto>(); 
 
+            using (PIContext context = new PIContext())
+            {
+                var carrierList = context.Carrier.ToList();
 
+                carrierList.ForEach(x => carriers.Add(new CarrierDto { Id = x.Id, Name = x.Name }));
+            }
+
+            return carriers;
+        }
 
 
     }

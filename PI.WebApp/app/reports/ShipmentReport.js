@@ -8,8 +8,6 @@
                 return $http.get(serverBaseUrl + '/api/shipments/GetShipmentDetails', {
                     params: {
                         userId: $window.localStorage.getItem('userGuid'),
-                        languageId: "",
-                        reportType: 1,
                         carrierId: carrierId,
                         companyId: companyId,
                         startDate: startDate,
@@ -28,8 +26,6 @@
                 return $http.get(serverBaseUrl + '/api/shipments/GetShipmentDetailsForCSV', {
                     params: {
                         userId: $window.localStorage.getItem('userGuid'),
-                        languageId: "",
-                        reportType: 1,
                         carrierId: carrierId,
                         companyId: companyId,
                         startDate: startDate,
@@ -40,12 +36,19 @@
         };
     });
 
+    app.factory('CarrierFactory', function ($http, $window) {
+        return {
+            loadAllCarriers: function () {
+                return $http.get(serverBaseUrl + '/api/shipments/LoadAllCarriers');
+            }
+        };
+    });
 
 
     app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce', 'shipmentFactory',
-                                     'ngDialog', '$controller', 'ShipmentReportCSVFactory',
+                                     'ngDialog', '$controller', 'ShipmentReportCSVFactory', 'CarrierFactory',
     function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller,
-        ShipmentReportCSVFactory) {
+        ShipmentReportCSVFactory, CarrierFactory) {
 
         var vm = this;
         vm.stream = {};
@@ -54,7 +57,16 @@
         vm.emptySearch = false;
 
         vm.isAdmin = ($window.localStorage.getItem('userRole') == "Admin") ? true : false;
-        
+
+
+        var loadAllCarriers = function () {
+            CarrierFactory.loadAllCarriers().success(
+            function (response) {
+                vm.carrierList = response;
+                debugger;
+            });
+        }
+
         vm.closeWindow = function () {
             ngDialog.close()
         }
@@ -93,7 +105,7 @@
         vm.exportExcel = function () {
             debugger;
             var carrierId = vm.carrierId;
-            var companyId = cm.selectedCompanyId;
+            var companyId = vm.selectedCompanyId == "" ? null : vm.selectedCompanyId;
             var startDate = vm.dateFrom;
             var endDate = vm.dateTo;
 
@@ -195,11 +207,13 @@
               $scope.errorDetails = "Request failed with status: " + status;
           });
         }
-        
+
         $scope.renderHtml = function (html_code) {
             return $sce.trustAsHtml(html_code);
         };
 
+
+        loadAllCarriers();
         //vm.getalldata = function () {
         //    debugger;
         //    var carrierId = 1;
@@ -248,7 +262,7 @@
         //            //todo
         //        });
         //};
-        
+
     }]);
 
 })(angular.module('newApp'));

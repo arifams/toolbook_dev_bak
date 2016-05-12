@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.Common;
+﻿using PI.Contract.DTOs.Carrier;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Report;
@@ -41,14 +42,14 @@ namespace PI.Contract.Business
         int UpdateshipmentStatusManually(string codeShipment, string status);
 
 
-        byte[] ShipmentReportForExcel(string userId, string languageId, ReportType reportType,
-                                   short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+        byte[] ShipmentReportForExcel(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
                                    DateTime? endDate = null);
 
 
-        List<ShipmentReportDto> ShipmentReport(string userId, string languageId, ReportType reportType,
-                                  short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+        List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
                                   DateTime? endDate = null);
+
+        List<CarrierDto> LoadAllCarriers();
 
     }
 

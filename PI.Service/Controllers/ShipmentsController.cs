@@ -27,6 +27,7 @@ using System.Text;
 using PI.Contract.Business;
 using System.Net.Http.Headers;
 using PI.Contract.DTOs.Report;
+using PI.Contract.DTOs.Carrier;
 
 namespace PI.Service.Controllers
 {
@@ -565,12 +566,11 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetShipmentDetails")]
-        public HttpResponseMessage GetShipmentDetails(string userId, string languageId, int reportType,
-                                   short carrierId = 0, long companyId = 1, DateTime? startDate = null,
-                                   DateTime? endDate = null)
+        public HttpResponseMessage GetShipmentDetails(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+                                                      DateTime? endDate = null)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(shipmentManagement.ShipmentReportForExcel(userId, languageId,ReportType.Excel, carrierId,
+            result.Content = new ByteArrayContent(shipmentManagement.ShipmentReportForExcel(userId, carrierId,
                                                                                             companyId, startDate, endDate));
             result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -578,18 +578,29 @@ namespace PI.Service.Controllers
         }
 
 
-            [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpGet]
-        [Route("GetShipmentDetailsForCSV")]
-        public List<ShipmentReportDto>  GetShipmentDetailsForCSV(string userId, string languageId, int reportType,
-                                   short carrierId = 0, long companyId = 1, DateTime? startDate = null,
-                                   DateTime? endDate = null)
-        {
-            return shipmentManagement.ShipmentReport(userId, languageId, ReportType.Excel, carrierId, companyId, startDate, endDate);            
-        }
+        //    [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //// [Authorize]
+        //[HttpGet]
+        //[Route("GetShipmentDetailsForCSV")]
+        //public List<ShipmentReportDto>  GetShipmentDetailsForCSV(string userId, string languageId, int reportType,
+        //                           short carrierId = 0, long companyId = 1, DateTime? startDate = null,
+        //                           DateTime? endDate = null)
+        //{
+        //    return shipmentManagement.ShipmentReport(userId, languageId, ReportType.Excel, carrierId, companyId, startDate, endDate);            
+        //}
    
+
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("LoadAllCarriers")]
+        public List<CarrierDto> LoadAllCarriers()
+        {
+            return shipmentManagement.LoadAllCarriers();            
+        }
+
     }
+
 }
 
 
