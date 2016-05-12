@@ -183,6 +183,13 @@
                            <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
         </ul>-->
                         </li>
+
+                        <li ng-class="{ active  : isActive('/InvoiceandBilling')}" ng-show="currentRole != 'Admin'">
+                            <a href="#InvoiceandBilling"><i class="icon-screen-desktop"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                            <!--<ul class="children collapse" style="background-color:#0D4773;">
+                           <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
+        </ul>-->
+                        </li>
                         <!--<li class="nav-parent" ng-class="{ active  : isActive('/layout-api')}"><a href="#"><i class="icon-docs"></i><span>REPORTS</span></a></li>-->
 
                         
@@ -1349,6 +1356,7 @@
         <script src="shipment/CompanyViewTemplate.js"></script>
         <script src="reports/ShipmentReport.js"></script>
         <script src="admin/BillingandInvoicing.js"></script>
+        <script src="billingandInvoicing/CustomerBillingandInvoicing.js"></script>
 
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 

@@ -4,13 +4,13 @@
 
 (function (app) {
 
-    app.controller('BillingandInvoicingCtrl',
-       ['$location', '$window', 'shipmentFactory',
-           function ($location, $window, shipmentFactory) {
+    app.controller('CustomerBillingandInvoicingCtrl',
+       ['$location', '$window', 
+           function ($location, $window) {
                var vm = this;
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
-           
+
 
            }]);
 

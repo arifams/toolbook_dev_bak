@@ -328,6 +328,12 @@ var MakeApp = angular
               controller: 'BillingandInvoicingCtrl',
               controllerAs:'invoiceCtrl'
           })
+          .when('/InvoiceandBilling', {
+              templateUrl: 'billingandInvoicing/CustomerBillingandInvoicing.html',
+              controller: 'CustomerBillingandInvoicingCtrl',
+              controllerAs:'customerinvoiceCtrl'
+
+          })
         .otherwise({
 
             // redirectTo: '/loadShipments'
