@@ -4,6 +4,18 @@
 
     app.factory('shipmentFactory', ['$http', '$routeParams', '$window', function ($http, $routeParams, $window) {
 
+        var userId = '';
+        var createdBy = '';
+        if ($window.localStorage.getItem('userRole') == 'Admin') {
+            debugger;
+            createdBy = $window.localStorage.getItem('userGuid');
+            userId = $window.localStorage.getItem('businessOwnerId');
+        } else {
+            createdBy = $window.localStorage.getItem('userGuid');
+            userId = $window.localStorage.getItem('userGuid');
+
+        }
+
         return {
             calculateRates: calculateRates,
             loadAllDivisions: loadAllDivisions,
@@ -32,13 +44,16 @@
             loadAllshipmentsForCompany: loadAllshipmentsForCompany,
             loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch,
             deleteShipmentbyAdmin: deleteShipmentbyAdmin,
-            UpdateshipmentStatusManually: UpdateshipmentStatusManually
+            UpdateshipmentStatusManually: UpdateshipmentStatusManually,
+            GetBusinessOwneridbyCompanyId, GetBusinessOwneridbyCompanyId
         };
 
         function getProfileInfo() {
+            debugger;
             return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),                  
+                    // userId: $window.localStorage.getItem('userGuid'),
+                    userId: userId,
                 }
             });
         }
@@ -48,7 +63,8 @@
 
             return $http.get(serverBaseUrl + '/api/shipments/GetAllshipmentsForManifest', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),
+                   // userId: $window.localStorage.getItem('userGuid'),
+                    userId: userId,
                     createdDate: date,
                     carreer: carreer,
                     reference: reference
@@ -73,7 +89,8 @@
         function loadAddressBookDetails(searchText) {
             return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),
+                    // userId: $window.localStorage.getItem('userGuid'),
+                    userId: userId,
                     searchText: searchText
                 }
             });
@@ -92,8 +109,7 @@
         function UpdateshipmentStatusManually(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/UpdateshipmentStatusManually', shipmentDetail);
-        }
-        
+        }        
 
         function getLocationHistory(shipmentDetail) {
 
@@ -110,7 +126,8 @@
          
              return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid')
+                        // userId: $window.localStorage.getItem('userGuid')
+                        userId: userId,
                     }
              });
             
@@ -121,7 +138,8 @@
 
             return $http.get(serverBaseUrl + '/api/Company/GetAssignedDivisions', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid')
+                    //userId: $window.localStorage.getItem('userGuid')
+                    userId: userId,
                 }
             });
 
@@ -177,6 +195,16 @@
             });
         }
 
+
+        function GetBusinessOwneridbyCompanyId(companyId) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetBusinessOwneridbyCompanyId', {
+                params: {
+                    companyId: companyId
+                }
+            });
+        }
+
         function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
             debugger;
             return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
@@ -196,7 +224,8 @@
         function loadAllShipments(status, startDate, endDate, number, source, destination) {
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
-                userId: $window.localStorage.getItem('userGuid'),
+                 // userId: $window.localStorage.getItem('userGuid'),
+                userId: userId,
                 status: status,
                 startDate: startDate,
                     endDate: endDate,
@@ -211,7 +240,8 @@
 
             return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
                 params: {
-                    userId: $window.localStorage.getItem('userGuid'),                   
+                   // userId: $window.localStorage.getItem('userGuid'),
+                    userId: userId,
                     startDate: startDate,
                     endDate: endDate,
                     number: number,                   

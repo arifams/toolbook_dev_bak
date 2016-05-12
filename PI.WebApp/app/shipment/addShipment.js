@@ -52,6 +52,7 @@
         vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
         vm.isClickCalculateRate = false;
         vm.addingRequestForQuote = false;
+       
 
         vm.closeWindow = function () {
             ngDialog.close()
@@ -98,6 +99,7 @@
         //get the user and corporate status
         vm.currentRole = $window.localStorage.getItem('userRole');
         vm.isCorporate = $window.localStorage.getItem('isCorporateAccount');
+        
 
         vm.productTypes = [{ "Id": "Document", "Name": "Document" },
                                         { "Id": "Pallet", "Name": "Pallet" },
@@ -169,7 +171,7 @@
 
 
         //load the division list
-        if (vm.currentRole == "BusinessOwner" || vm.currentRole == "Admin") {
+        if (vm.currentRole == "BusinessOwner") {
             // shipmentFactory.
             shipmentFactory.loadAllDivisions().success(
                function (responce) {
@@ -551,6 +553,18 @@
             vm.addingShipment = true;
             var body = $("html, body");
             vm.shipment.generalInformation.shipmentPaymentTypeId = 1; // Payment type is Invoice.
+
+            
+            vm.shipment.generalInformation.createdBy = $window.localStorage.getItem('userGuid');
+            debugger;
+            if ($window.localStorage.getItem('userRole') == 'Admin') {
+                vm.shipment.userId = $window.localStorage.getItem('businessOwnerId');                
+               
+            } else {               
+                vm.shipment.userId = $window.localStorage.getItem('userGuid');
+            }
+            
+           
 
             shipmentFactory.saveShipment(vm.shipment).success(
                             function (response) {

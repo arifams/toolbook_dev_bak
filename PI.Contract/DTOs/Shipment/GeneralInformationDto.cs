@@ -49,5 +49,7 @@ namespace PI.Contract.DTOs.Shipment
         public string ShipmentReferenceName { get; set; }
 
         public string ManualStatusUpdatedDate { get; set; }
+
+        
     }
 }
