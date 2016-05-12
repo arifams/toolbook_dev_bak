@@ -16,9 +16,10 @@
             debugger;         
 
             if (from == 'shipReportCtrl') {                
-                debugger;
-                $scope.vm.selectedCompanyId = company.id;
-                $scope.vm.closeWindow();                
+                   
+                $scope.shipCtrl.closeWindow();
+                $scope.shipCtrl.CompanyId = company.id;
+                
             }
 
 
@@ -32,6 +33,16 @@
                                               $scope.manageShipCtrl.closeWindow();
                                               $scope.manageShipCtrl.noShipments = false;
                                               $scope.manageShipCtrl.CompanyId = company.id;
+                                              debugger;
+                                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
+                                               function (responce) {
+                                                   $window.localStorage.setItem('businessOwnerId', responce);
+                                              
+                                               }).error(
+                                               function (error) {
+                                              
+                                                   console.log("error occurd while retrieving business owner Id");
+                                               });
 
                                           } else {
                                               $scope.manageShipCtrl.noShipments = true;

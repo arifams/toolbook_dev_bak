@@ -42,6 +42,7 @@ namespace PI.Contract.Business
         CostCenterDto GetCostCentersById(long id, string userId);
         long GettenantIdByUserId(string userid);
         PagedList GetAllComapniesForAdminSearch(string searchtext);
+        string GetBusinessOwneridbyCompanyId(string companyId);
 
     }
 }

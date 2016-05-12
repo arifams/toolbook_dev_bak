@@ -24,8 +24,8 @@
                             <div class="col-sm-3">
                                 <label class="label-danger" ng-show="manageShipCtrl.noShipments"> No shipments Available for selected Company</label>
                             </div>
-                            <div class="col-sm-3">
-                                <button class="btn btn-primary"  style="float:right;">Add Shipment</button>
+                            <div class="col-sm-3" ng-show="manageShipCtrl.CompanyId!=''">
+                                <a class="btn btn-primary"  style="float:right;" href="#addShipment/0">Add Shipment</a>
                         </div>
                         </div>
                         <div class="row" ng-show="manageShipCtrl.CompanyId!=''">

@@ -1547,6 +1547,23 @@ namespace PI.Business
             }
         }
 
+        public string GetBusinessOwneridbyCompanyId(string companyId)
+        {
+            string userId = string.Empty;
+            using (PIContext context= new PIContext())
+            {
+                var tenantId = context.Companies.Where(x => x.Id.ToString() == companyId).SingleOrDefault().TenantId;
+                string BusinessOwnerId= context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                userId = (from user in context.Users
+                            where user.TenantId == tenantId
+                            && user.Roles.FirstOrDefault().RoleId == BusinessOwnerId
+                          select user.Id).SingleOrDefault();                
+            }
+
+            return userId;
+        }
+
         #endregion
 
 

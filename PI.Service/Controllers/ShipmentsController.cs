@@ -129,6 +129,14 @@ namespace PI.Service.Controllers
             return pagedRecord = shipmentManagement.GetAllShipmentByCompanyId(companyId);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetBusinessOwneridbyCompanyId")]
+        public string GetBusinessOwneridbyCompanyId(string companyId)
+        {
+            return comapnyManagement.GetBusinessOwneridbyCompanyId(companyId);
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
