@@ -72,9 +72,12 @@
     <Content Include="app\addressBook\saveAddressCtrl.js" />
     <Content Include="app\adminLogin\adminLogin.html" />
     <Content Include="app\adminLogin\adminLoginCtrl.js" />
-    <Content Include="app\admin\customerManagement12.html" />
+    <Content Include="app\admin\BillingandInvoicing.html" />
+    <Content Include="app\admin\BillingandInvoicing.js" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
+    <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.html" />
+    <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.js" />
     <Content Include="app\index.html" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipment\commercialInvoice.html" />

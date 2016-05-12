@@ -21,14 +21,14 @@
                                     </span>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <label class="label-danger" ng-show="manageShipCtrl.noShipments"> No shipments Available for selected Company</label>
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-sm-3">
                                 <button class="btn btn-primary"  style="float:right;">Add Shipment</button>
                         </div>
                         </div>
-                        <div class="row">
+                        <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
                                              <div class="col-sm-2 form-group">
                                                  <div dropdown="" class="btn-group">
                                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
@@ -49,7 +49,7 @@
                                     </ul>
                                 </div>
                             </div>
-                                <div class="col-sm-3 form-group">
+                                <div class="col-sm-2 form-group">
                                     <div class="btn-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
                                            ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
@@ -72,8 +72,16 @@
                                 <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
                                     <div class="btn-group">
                                         <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                           placeholder="Destination City/Country" />
-                                </div>
+                                           placeholder="Destination City/Country" />                                        
+                                </div>                               
+
+                            </div>
+                            <div class="col-sm-1 form-group" ng-show="searchType == 'False'">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
                             </div>
                                 <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
                                     <div class="input-group">

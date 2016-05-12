@@ -323,6 +323,17 @@ var MakeApp = angular
                templateUrl: 'reports/ShipmentReport.html',
                controller: 'shipReportCtrl'
            })
+          .when('/InvoiceandBillingAdmin', {
+              templateUrl: 'admin/BillingandInvoicing.html',
+              controller: 'BillingandInvoicingCtrl',
+              controllerAs:'invoiceCtrl'
+          })
+          .when('/InvoiceandBilling', {
+              templateUrl: 'billingandInvoicing/CustomerBillingandInvoicing.html',
+              controller: 'CustomerBillingandInvoicingCtrl',
+              controllerAs:'customerinvoiceCtrl'
+
+          })
         .otherwise({
 
             // redirectTo: '/loadShipments'

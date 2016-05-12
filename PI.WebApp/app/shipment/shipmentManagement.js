@@ -124,6 +124,7 @@
                                         vm.noShipments = false;
 
                                     } else {
+                                        debugger;
                                         vm.noShipments = true;
                                         vm.rowCollection = [];
                                     }
@@ -151,6 +152,7 @@
                                   function (responce) {
                                       if (responce.content.length > 0) {
 
+                                          vm.noShipments = false;
                                           ngDialog.open({
                                               scope: $scope,
                                               template: '/app/shipment/CompanyViewTemplate.html',
@@ -165,7 +167,7 @@
 
 
                                       } else {
-                                          vm.addressDetailsEmpty = true;
+                                          vm.noShipments = true;
                                           vm.emptySearch = false;
                                       }
                                   }).error(function (error) {
