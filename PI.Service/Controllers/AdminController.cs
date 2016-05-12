@@ -23,12 +23,11 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-    [CustomAuthorize]
+    //[CustomAuthorize]
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
-        IAddressBookManagement addressBookManagement = new AddressBookManagement();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
         //    this.adminManagement = adminmanagementa;
@@ -222,22 +221,6 @@ namespace PI.Service.Controllers
         public bool ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
         {
             return adminManagement.ManageInvoicePaymentSetting(copmany.Id);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpGet]
-        [Route("GetShipmentDetails")]
-        public HttpResponseMessage GetShipmentDetails([FromUri]string userId)
-        {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
-            result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            return result;
-
-
         }
 
     }

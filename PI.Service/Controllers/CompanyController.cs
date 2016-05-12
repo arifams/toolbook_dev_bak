@@ -16,7 +16,7 @@ using PI.Contract.Business;
 
 namespace PI.Service.Controllers
 {
-    [CustomAuthorize]
+   // [CustomAuthorize]
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {

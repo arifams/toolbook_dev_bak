@@ -140,7 +140,7 @@ namespace PI.Business
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;           
             currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
-           
+
             //assign address values to the  Profile Dto
             if (currentAddress != null)
             {
@@ -152,8 +152,11 @@ namespace PI.Business
                 currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentAddress.StreetAddress2;
                 currentProfile.CustomerDetails.CustomerAddress.City = currentAddress.City;
                 currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
-            }         
+            }
 
+           var curentCompany = this.GetCompanyByTenantId(currentCustomer.User.TenantId);
+
+           currentProfile.IsInvoicePaymentEnabled = curentCompany.IsInvoiceEnabled; 
             return currentProfile;
         }
 
