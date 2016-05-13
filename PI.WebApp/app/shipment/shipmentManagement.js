@@ -70,7 +70,8 @@
                                                    shipmentFactory.deleteShipmentbyAdmin(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           location.reload();
+                                                           
+                                                           row.generalInformation.status = 'Deleted';
                                                            //var index = vm.rowCollection.indexOf(row);
                                                            //if (index !== -1) {
                                                            //    vm.rowCollection.splice(index, 1);

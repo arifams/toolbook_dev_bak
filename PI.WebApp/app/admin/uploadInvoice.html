@@ -1,0 +1,39 @@
+﻿<div>
+    <h2 class="box-title">
+        Upload Rate Sheet
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal">
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <!-- left column -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="col-sm-6">
+                                <input type="file" ngf-select ng-model="document" name="file" ngf-multiple multiple
+                                       ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                            </div>
+                            <div class="col-sm-6">
+                                <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
+                                <button ng-click="uploadInvoice(document)" class="btn btn-primary btn-square btn-embossed">
+                                    <i class="fa fa-arrow-circle-o-up"></i> Import Invoice
+                                </button>
+                                {{errorMsg}}
+                            </div>
+                        </div>
+                    </div>
+                    <br />                  
+                    <div id="panel-notif"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
