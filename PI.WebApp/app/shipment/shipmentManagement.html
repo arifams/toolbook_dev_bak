@@ -1,211 +1,179 @@
 ﻿<div ng-init="">
-
+    <h2> Customer Shipments</h2>
     <div class="panel">
-
         <div class="panel-content panel-border">
-            <tabset class="tab-fade-in">
-                <tab>
-                    <tab-heading>
-                        Shipments
-                    </tab-heading>
-                    <form role="form" name="formShipmentManagement">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group input-group">
-                                    <input ng-model="manageShipCtrl.searchText" name="shipmentNumber" type="text" class="form-control"
-                                           placeholder="Enter campany name,business owners first or last name " />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadAllCompanies()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="col-sm-3">
-                                <label class="label-danger" ng-show="manageShipCtrl.noShipments"> No shipments Available for selected Company</label>
-                            </div>
-                            <div class="col-sm-3" ng-show="manageShipCtrl.CompanyId!=''">
-                                <a class="btn btn-primary"  style="float:right;" href="#addShipment/0">Add Shipment</a>
+            <form role="form" name="formShipmentManagement">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group input-group">
+                            <input ng-model="manageShipCtrl.searchText" name="shipmentNumber" type="text" class="form-control"
+                                   placeholder="Enter campany name,business owners first or last name " />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadAllCompanies()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
                         </div>
+                    </div>
+                    <div class="col-sm-2">
+                        <label class="label-danger" ng-show="manageShipCtrl.noShipments" style="color:white">  No shipments available for the selected company/ customer</label>
+                    </div>
+                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
+                        <a class="btn btn-primary" href="#addShipment/0">Add Shipment</a>
+                    </div>
+                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
+                        <button class="btn btn-primary" ng-click="manageShipCtrl.shipmentSyncWithSIS()"> Refresh </button>
+                    </div>
+                </div>
+                <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
+                    <div class="col-sm-2 form-group">
+                        <div dropdown="" class="btn-group">
+                            <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                                Status : {{manageShipCtrl.statusButton}}
+                                <span class="caret"></span>
+                            </button>
+                            <span class="dropdown-arrow"></span>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')">All</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')">Active</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
-                                             <div class="col-sm-2 form-group">
-                                                 <div dropdown="" class="btn-group">
-                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
-                                        Status : {{manageShipCtrl.statusButton}}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <span class="dropdown-arrow"></span>
-                                    <ul role="menu" class="dropdown-menu">
-                                        <li>
-                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')">All</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')">Active</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                                <div class="col-sm-2 form-group">
-                                    <div class="btn-group">
-                                    <input date-range-picker class="form-control date-picker" type="text"
-                                           ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
-                                </div>
-                            </div>
-                                <div class="col-sm-3 form-group">
-                                    <div class="btn-group">
-                                    <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
-                                        <option value="True">Search By: Number</option>
-                                        <option value="False">Search By: Location</option>
-                                    </select>
-                                </div>
-                            </div>
-                                <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                                <div class="btn-group form-group">
-                                        <input ng-model="manageShipCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
-                                           placeholder="Origin City/Country" />
-                                </div>
-                            </div>
-                                <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                                    <div class="btn-group">
-                                        <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                           placeholder="Destination City/Country" />                                        
-                                </div>                               
-
-                            </div>
-                            <div class="col-sm-1 form-group" ng-show="searchType == 'False'">
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                                <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
-                                    <div class="input-group">
-                                    <input ng-model="manageShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
-                                           placeholder="Tracking Number/ Shipment Ref Number" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                                
-                            </div> 
-                            
+                    </div>
+                    <div class="col-sm-2 form-group">
+                        <div class="btn-group">
+                            <input date-range-picker class="form-control date-picker" type="text"
+                                   ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                         </div>
-                     <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
-                      
-
-                         <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped ship-mgt">
-                             <thead>
-                                 <tr>
-                                     <th st-sort="name">Order Submitted</th>
-                                     <th>Tracking Number</th>
-                                     <th>Shipment ID</th>
-                                     <th>Carrier</th>
-                                     <th>Origin City</th>
-                                     <th>Destination City</th>
-                                     <th>Status</th>
-                                     <th>View</th>
-                                     <th>Edit</th>
-                                     <th>Delete</th>
-                                 </tr>
-
-                             </thead>
-                             <tbody>
-                                 <tr ng-repeat="row in shipmentList">
-                                     <td>{{row.generalInformation.createdDate}}</td>
-                                     <td>{{row.generalInformation.trackingNumber}}</td>
-                                     <td>{{row.generalInformation.shipmentCode}}</td>
-                                     <td>{{row.carrierInformation.carrierName}}</td>
-                                     <td>{{row.addressInformation.consigner.city}}</td>
-                                     <td>{{row.addressInformation.consignee.city}}</td>
-
-                                     <td>
-                                         <div class="option-group">
-                                             <select id="salutation" name="salutation" class="salutation form-control"  ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
-                                                 <option value="Error">Error</option>
-                                                 <option value="Pending">Pending</option>
-                                                 <option value="BookingConfirmation">Booking Confirmation</option>
-                                                 <option value="Pickup">Pickup</option>
-                                                 <option value="Transit">Transit</option>
-                                                 <option value="OutForDelivery">Out For Delivery</option>
-                                                 <option value="Delivered">Delivered</option>
-                                                 <option value="Deleted">Deleted</option>
-                                                 <option value="Exception">Exception</option>
-
-                                             </select>
-                                         </div>
-                                     </td>
-                                     <td>
-                                         <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                            class="edit btn btn-sm btn-default">
-                                             <i class="fa fa-hand-o-right" style="color:blue"></i>
-                                         </a>
-                                     </td>
-                                     <td>
-                                         <a  href="#/addShipment/{{row.generalInformation.shipmentCode}}"
-                                            class="edit btn btn-sm btn-default">
-                                             <i class="icon-note" style="color:blue"></i>
-                                         </a>
-                                     </td>
-
-                                     <td>
-                                         <a  ng-click="manageShipCtrl.deleteById(row)"
-                                            class="delete btn btn-sm btn-danger" href="javascript:;">
-                                             <i class="icons-office-52"></i>
-                                         </a>
-                                     </td>
-                                 </tr>
-                             </tbody>
-                             <tfoot>
-                                 <tr>
-                                     <td colspan="5" class="text-center">
-                                         <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                     </td>
-                                 </tr>
-                             </tfoot>
-                         </table>
-                     </div>
-                    </form>
-                </tab>
-
-                <tab select="">
-                    <tab-heading>
-                        Bulk Update
-                    </tab-heading>
-                    <form role="form" name="formBulkUpdate">
-                        <div class="row">
-                            <div class="file col-sm-6">
-                                <div class="option-group">
-                                    <span class="file-button btn-primary">Select File</span>
-                                    <input type="file" required="" onchange="document.getElementById('uploader').value = this.value;" id="file" name="file" class="custom-file" aria-required="true">
-                                    <input type="text" readonly="" placeholder="select a file to upload" id="uploader" class="form-control">
-                                </div>
-                            </div>
+                    </div>
+                    <div class="col-sm-3 form-group">
+                        <div class="btn-group">
+                            <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
+                                <option value="True">Search By: Number</option>
+                                <option value="False">Search By: Location</option>
+                            </select>
                         </div>
-                        <div class="row m-t-20">
-                            <div class="col-sm-6 form-group">
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
-                                        
+                    </div>
+                    <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
+                        <div class="btn-group form-group">
+                            <input ng-model="manageShipCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
+                                   placeholder="Origin City/Country" />
+                        </div>
+                    </div>
+                    <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
+                        <div class="btn-group">
+                            <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
+                                   placeholder="Destination City/Country" />
+                        </div>
+
+                    </div>
+                    <div class="col-sm-1 form-group" ng-show="searchType == 'False'">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                    <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
+                        <div class="input-group">
+                            <input ng-model="manageShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
+                                   placeholder="Tracking Number/ Shipment Ref Number" />
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
+
+
+                    <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped ship-mgt">
+                        <thead>
+                            <tr>
+                                <th st-sort="name">Order Submitted</th>
+                                <th>Tracking Number</th>
+                                <th>Shipment ID</th>
+                                <th>Carrier</th>
+                                <th>Origin City</th>
+                                <th>Destination City</th>
+                                <th>Status</th>
+                                <th>View</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in shipmentList">
+                                <td>{{row.generalInformation.createdDate}}</td>
+                                <td>{{row.generalInformation.trackingNumber}}</td>
+                                <td>{{row.generalInformation.shipmentCode}}</td>
+                                <td>{{row.carrierInformation.carrierName}}</td>
+                                <td>{{row.addressInformation.consigner.city}}</td>
+                                <td>{{row.addressInformation.consignee.city}}</td>
+
+                                <td>
+                                    <div class="option-group">
+                                        <select id="salutation" name="salutation" class="salutation form-control" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
+                                            <option value="Error">Error</option>
+                                            <option value="Pending">Pending</option>
+                                            <option value="BookingConfirmation">Booking Confirmation</option>
+                                            <option value="Pickup">Pickup</option>
+                                            <option value="Transit">Transit</option>
+                                            <option value="OutForDelivery">Out For Delivery</option>
+                                            <option value="Delivered">Delivered</option>
+                                            <option value="Deleted">Deleted</option>
+                                            <option value="Exception">Exception</option>
+
+                                        </select>
                                     </div>
-                                </div>
-                            </div>                       
-                        </div>
-                    </form>
-                </tab>
+                                </td>
+                                <td>
+                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="#/addShipment/{{row.generalInformation.shipmentCode}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="icon-note" style="color:blue"></i>
+                                    </a>
+                                </td>
 
-            </tabset>
+                                <td>
+                                    <a ng-click="manageShipCtrl.deleteById(row)"
+                                       class="delete btn btn-sm btn-danger" href="javascript:;">
+                                        <i class="icons-office-52"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </form>
             <div id="panel-notif"></div>
         </div>
     </div>
-   
-   
+
+
 
 
     <div class="footer">

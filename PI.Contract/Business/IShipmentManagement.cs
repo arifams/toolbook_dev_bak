@@ -51,6 +51,10 @@ namespace PI.Contract.Business
 
         List<CarrierDto> LoadAllCarriers();
 
+
+        PagedList GetShipmentForCompanyAndSyncWithSIS(long companyId);
+
+
     }
 
 }
