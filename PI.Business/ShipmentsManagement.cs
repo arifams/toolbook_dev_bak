@@ -2156,6 +2156,118 @@ namespace PI.Business
             return strTemplate.ToString();
         }
 
+        public PagedList GetShipmentForCompanyAndSyncWithSIS(long companyId)
+        {
+            int page = 1;
+            int pageSize = 10;
+            var pagedRecord = new PagedList();
+
+            pagedRecord.Content = new List<ShipmentDto>();
+
+            using (var context = new PIContext())
+            {
+                var content = (from shipment in context.Shipments
+                               where shipment.Division.CompanyId == companyId
+                               select shipment).ToList();
+
+            // Update retrieve shipment list status from SIS.
+            foreach (var shipment in content)
+            {
+                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
+                {
+                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                }
+            }
+
+                foreach (var item in content)
+                {
+                    pagedRecord.Content.Add(new ShipmentDto
+                    {
+                        AddressInformation = new ConsignerAndConsigneeInformationDto
+                        {
+                            Consignee = new ConsigneeDto
+                            {
+                                Address1 = item.ConsigneeAddress.StreetAddress1,
+                                Address2 = item.ConsigneeAddress.StreetAddress2,
+                                Postalcode = item.ConsigneeAddress.ZipCode,
+                                City = item.ConsigneeAddress.City,
+                                Country = item.ConsigneeAddress.Country,
+                                State = item.ConsigneeAddress.State,
+                                FirstName = item.ConsigneeAddress.FirstName,
+                                LastName = item.ConsigneeAddress.LastName,
+                                ContactName = item.ConsigneeAddress.ContactName,
+                                ContactNumber = item.ConsigneeAddress.PhoneNumber,
+                                Email = item.ConsigneeAddress.EmailAddress,
+                                Number = item.ConsigneeAddress.Number
+                            },
+                            Consigner = new ConsignerDto
+                            {
+                                Address1 = item.ConsignorAddress.StreetAddress1,
+                                Address2 = item.ConsignorAddress.StreetAddress2,
+                                Postalcode = item.ConsignorAddress.ZipCode,
+                                City = item.ConsignorAddress.City,
+                                Country = item.ConsignorAddress.Country,
+                                State = item.ConsignorAddress.State,
+                                FirstName = item.ConsignorAddress.FirstName,
+                                LastName = item.ConsignorAddress.LastName,
+                                ContactName = item.ConsignorAddress.ContactName,
+                                ContactNumber = item.ConsignorAddress.PhoneNumber,
+                                Email = item.ConsignorAddress.EmailAddress,
+                                Number = item.ConsignorAddress.Number
+                            }
+                        },
+                        GeneralInformation = new GeneralInformationDto
+                        {
+                            CostCenterId = item.CostCenterId.GetValueOrDefault(),
+                            DivisionId = item.DivisionId.GetValueOrDefault(),
+                            ShipmentCode = item.ShipmentCode,
+                            ShipmentMode = item.ShipmentMode.ToString(),
+                            ShipmentName = item.ShipmentName,
+                            //ShipmentTermCode = item.ShipmentTermCode,
+                            //ShipmentTypeCode = item.ShipmentTypeCode,
+
+
+                            TrackingNumber = item.TrackingNumber,
+                            CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                            Status = ((ShipmentStatus)item.Status).ToString(),
+                            ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
+                        },
+                        PackageDetails = new PackageDetailsDto
+                        {
+                            CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                            VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
+                            Count = item.ShipmentPackage.PackageProducts.Count,
+                            DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
+                            HsCode = item.ShipmentPackage.HSCode,
+                            Instructions = item.ShipmentPackage.CarrierInstruction,
+                            IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
+                            TotalVolume = item.ShipmentPackage.TotalVolume,
+                            TotalWeight = item.ShipmentPackage.TotalWeight,
+                            ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                            PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
+                            ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
+                            ShipmentDescription = item.ShipmentPackage.PackageDescription
+
+                        },
+                        CarrierInformation = new CarrierInformationDto
+                        {
+                            CarrierName = item.Carrier.Name,
+                            serviceLevel = item.ServiceLevel,
+                            PickupDate = item.PickUpDate
+                        }
+
+                    });
+                }
+
+                pagedRecord.TotalRecords = content.Count();
+                pagedRecord.CurrentPage = page;
+                pagedRecord.PageSize = pageSize;
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+                return pagedRecord;
+            }
+        }
+
 
         public PagedList GetAllShipmentByCompanyId(string companyId)
         {
@@ -2259,6 +2371,7 @@ namespace PI.Business
                 return pagedRecord;
             }
         }
+
 
         public PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
@@ -2661,7 +2774,7 @@ namespace PI.Business
             }
 
             return carriers;
-        }
+        }       
 
 
     }

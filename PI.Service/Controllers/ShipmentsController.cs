@@ -53,7 +53,7 @@ namespace PI.Service.Controllers
         [Route("GetRatesforShipment")]
         public ShipmentcostList GetRatesforShipment([FromBody]ShipmentDto currentShipment)
         {
-          //  ShipmentsManagement shipment = new ShipmentsManagement();
+            //  ShipmentsManagement shipment = new ShipmentsManagement();
             return shipmentManagement.GetRateSheet(currentShipment);
         }
 
@@ -102,7 +102,7 @@ namespace PI.Service.Controllers
         [Route("GetHashForPayLane")]
         public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
         {
-          //  ShipmentsManagement shipment = new ShipmentsManagement();
+            //  ShipmentsManagement shipment = new ShipmentsManagement();
             return shipmentManagement.GetHashForPayLane(payLaneDto);
         }
 
@@ -113,7 +113,7 @@ namespace PI.Service.Controllers
         public PagedList GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();
             return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, number, source, destination);
 
@@ -142,11 +142,11 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("loadAllShipmentsFromCompanyAndSearch")]
-        public PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null,DateTime? startDate = null, DateTime? endDate = null,
+        public PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
         {
             var pagedRecord = new PagedList();
-            return pagedRecord = shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId,status, startDate, endDate, number, source, destination);
+            return pagedRecord = shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination);
 
         }
 
@@ -156,7 +156,7 @@ namespace PI.Service.Controllers
         [Route("GetAllshipmentsForManifest")]
         public List<ShipmentDto> GetAllshipmentsForManifest(string userId, string createdDate, string carreer, string reference)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new List<ShipmentDto>();
             return pagedRecord = shipmentManagement.GetAllshipmentsForManifest(userId, createdDate, carreer, reference);
 
@@ -170,7 +170,7 @@ namespace PI.Service.Controllers
         public PagedList GetAllPendingShipments(string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                                 string number = null)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();
             return pagedRecord = shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number);
 
@@ -184,7 +184,7 @@ namespace PI.Service.Controllers
         [Route("GetShipmentbyId")]
         public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentId);
             return currentshipment;
         }
@@ -195,7 +195,7 @@ namespace PI.Service.Controllers
         [Route("DeleteShipment")]
         public int DeleteShipment([FromUri]string shipmentCode, [FromUri]string trackingNumber, [FromUri]string carrierName, bool isAdmin)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin);
 
         }
@@ -208,7 +208,7 @@ namespace PI.Service.Controllers
             ShipmentOperationResult operationResult = new ShipmentOperationResult();
 
             // Make payment and send shipment to SIS.
-           // ShipmentsManagement shipment = new ShipmentsManagement();
+            // ShipmentsManagement shipment = new ShipmentsManagement();
             operationResult = shipmentManagement.SendShipmentDetails(sendShipmentDetails);
 
             #region  Add shipment label to azure storage
@@ -377,7 +377,7 @@ namespace PI.Service.Controllers
             if (fileDetails.DocumentType != DocumentType.AddressBook)
             {
                 // Insert document record to DB.
-               // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+                // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
                 shipmentManagement.InsertShipmentDocument(fileDetails);
 
                 //Delete the temporary saved file.
@@ -503,7 +503,7 @@ namespace PI.Service.Controllers
         [Route("GetshipmentByShipmentCodeForInvoice")]
         public CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
         {
-           // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+            // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             CommercialInvoiceDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
             return currentshipment;
         }
@@ -545,7 +545,7 @@ namespace PI.Service.Controllers
         [Route("RequestForQuote")]
         public ShipmentOperationResult RequestForQuote(ShipmentDto addShipment)
         {
-           // ShipmentsManagement shipment = new ShipmentsManagement();
+            // ShipmentsManagement shipment = new ShipmentsManagement();
             string quoteTemplate = shipmentManagement.RequestForQuote(addShipment);
             // TODO: H - Change the staff user.
             var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
@@ -596,17 +596,29 @@ namespace PI.Service.Controllers
         //{
         //    return shipmentManagement.ShipmentReport(userId, languageId, ReportType.Excel, carrierId, companyId, startDate, endDate);            
         //}
-   
 
-        
+
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("LoadAllCarriers")]
         public List<CarrierDto> LoadAllCarriers()
         {
-            return shipmentManagement.LoadAllCarriers();            
+            return shipmentManagement.LoadAllCarriers();
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetShipmentForCompanyAndSyncWithSIS")]
+        public PagedList GetShipmentForCompanyAndSyncWithSIS(long companyId)
+        {
+            var pagedRecord = new PagedList();
+            pagedRecord = shipmentManagement.GetShipmentForCompanyAndSyncWithSIS(companyId);
+
+            return pagedRecord;
+
+        }
     }
 
 }

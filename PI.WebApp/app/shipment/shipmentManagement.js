@@ -149,6 +149,8 @@
                            vm.loadAllCompanies = function () {
                                var from = 'manageShipCtrl'
 
+                               vm.rowCollection = [];
+
                                shipmentFactory.loadAllcompanies(vm.searchText).success(
                                   function (responce) {
                                       if (responce.content.length > 0) {
@@ -179,6 +181,22 @@
                            }
 
 
+                           vm.shipmentSyncWithSIS = function () {
+                               debugger;
+                               
+                               shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
+                                  function (responce) {
+                                      if (responce.content.length > 0) {
+                                          vm.rowCollection = responce.content;
+                                      } else {
+                                          vm.noShipments = true;
+                                          vm.emptySearch = false;
+                                      }
+                                  }).error(function (error) {
+                                          console.log("error occurd while retrieving Addresses");
+                                  });
+
+                           }
 
 
        

@@ -45,7 +45,8 @@
             loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch,
             deleteShipmentbyAdmin: deleteShipmentbyAdmin,
             UpdateshipmentStatusManually: UpdateshipmentStatusManually,
-            GetBusinessOwneridbyCompanyId, GetBusinessOwneridbyCompanyId
+            GetBusinessOwneridbyCompanyId: GetBusinessOwneridbyCompanyId,
+            getShipmentForCompanyAndSyncWithSIS: GetShipmentForCompanyAndSyncWithSIS,
         };
 
         function getProfileInfo() {
@@ -204,6 +205,17 @@
                 }
             });
         }
+
+
+        function GetShipmentForCompanyAndSyncWithSIS(companyId) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentForCompanyAndSyncWithSIS', {
+                params: {
+                    companyId: companyId
+                }
+            });
+        }
+
 
         function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
             debugger;
