@@ -1160,23 +1160,49 @@ namespace PI.Business
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
-            if (isAdmin)
+            using (PIContext context = new PIContext())
             {
-                sisManager.DeleteShipment(shipmentCode);
-                return 1;
-            }
-            else
-            {
-                if (sisManager.GetShipmentStatus(URL, shipmentCode) == "")
+                var currentShipment = (from shipment in context.Shipments
+                                       where shipment.ShipmentCode == shipmentCode
+                                       select shipment).SingleOrDefault();
+
+                if (isAdmin)
                 {
-                    sisManager.DeleteShipment(shipmentCode);
+                        sisManager.DeleteShipment(shipmentCode);                        
+                        currentShipment.Status = (short)ShipmentStatus.Deleted;
+                        context.SaveChanges();
+                   
                     return 1;
                 }
                 else
                 {
-                    return 2;
-                }
+                    if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
+                    {
+                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, "taleus", currentShipment.Id);
 
+                        var updatedShipment = (from shipment in context.Shipments
+                                               where shipment.ShipmentCode == shipmentCode
+                                               select shipment).SingleOrDefault();
+
+                        if (updatedShipment.Status!= ((short)ShipmentStatus.Delivered))
+                        {
+                            sisManager.DeleteShipment(shipmentCode);
+                            updatedShipment.Status = (short)ShipmentStatus.Deleted;
+                            context.SaveChanges();
+                            return 1;
+                        }
+                        else
+                        {
+                            return 2;
+                        }
+                        
+                    }
+                    else
+                    {
+                        return 2;
+                    }
+
+                }
             }
 
         }
