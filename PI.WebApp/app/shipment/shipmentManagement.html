@@ -18,14 +18,14 @@
                     <div class="col-sm-2">
                         <label class="label-danger" ng-show="manageShipCtrl.noShipments" style="color:white">  No shipments available for the selected company/ customer</label>
                     </div>
-                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
+                    <div class="col-sm-2"> <!--ng-show="manageShipCtrl.CompanyId!=''">-->
                         <a class="btn btn-primary" href="#addShipment/0">Add Shipment</a>
                     </div>
-                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
+                    <div class="col-sm-2"> <!--ng-show="manageShipCtrl.CompanyId!=''">-->
                         <button class="btn btn-primary" ng-click="manageShipCtrl.shipmentSyncWithSIS()"> Refresh </button>
                     </div>
                 </div>
-                <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
+                <div class="row"> <!--ng-show="manageShipCtrl.CompanyId!=''">-->
                     <div class="col-sm-2 form-group">
                         <div dropdown="" class="btn-group">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
