@@ -1,7 +1,9 @@
 ﻿<div>
-    <div ng-show="shipmentCtrl.editShipmentCode != null && 
-                  shipmentCtrl.editShipmentCode != '' && 
-                  shipmentCtrl.editShipmentCode != undefined" class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
+    <div ng-show="shipmentCtrl.currentRole == 'Admin' && 
+                  shipmentCtrl.editShipmentCode != null &&
+                  shipmentCtrl.editShipmentCode != '' &&
+                  shipmentCtrl.editShipmentCode != undefined" 
+         class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
         <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 
         <strong style="font-style:italic">
@@ -9,20 +11,21 @@
             <span style="text-transform:uppercase">
                 {{shipmentCtrl.customerFirstName}} &nbsp
                 {{shipmentCtrl.customerLastName}}
-            </span>  Shipment Code -{{ shipmentCtrl.editShipmentCode}} "
-           
+            </span> , Shipment Code -{{ shipmentCtrl.editShipmentCode}} "
+
         </strong>
     </div>
     
-    <div ng-show="shipmentCtrl.shipment.generalInformation.shipmentCode == '0'"
-        class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
+    <div ng-show="shipmentCtrl.currentRole == 'Admin' &&
+                  shipmentCtrl.shipment.generalInformation.shipmentCode == '0'"
+         class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
         <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
         <strong style="font-style:italic">
-            Adding shipment for customer: 
+            Adding shipment for customer:
             <span style="text-transform:uppercase">
                 &nbsp"{{shipmentCtrl.customerFirstName}} &nbsp
                 {{shipmentCtrl.customerLastName}}"
-            </span>  
+            </span>
 
         </strong>
     </div>
