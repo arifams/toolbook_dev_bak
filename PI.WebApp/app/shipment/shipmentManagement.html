@@ -15,19 +15,17 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2 form-group p-0">
                         <label class="label-danger" ng-show="manageShipCtrl.noShipments" style="color:white">  No shipments available for the selected company/ customer</label>
                     </div>
-                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
-                        <a class="btn btn-primary" href="#addShipment/0">Add Shipment</a>
-                    </div>
-                    <div class="col-sm-2" ng-show="manageShipCtrl.CompanyId!=''">
-                        <button class="btn btn-primary" ng-click="manageShipCtrl.shipmentSyncWithSIS()"> Refresh </button>
+                    <div class="col-sm-4 form-group p-0" ng-show="manageShipCtrl.CompanyId!=''">
+                        <a class="btn btn-primary" style="float:right" href="#addShipment/0">Add Shipment</a>
+                        <button class="btn btn-primary" style="float:right" ng-click="manageShipCtrl.shipmentSyncWithSIS()"> Refresh </button>
                     </div>
                 </div>
                 <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
-                    <div class="col-sm-2 form-group">
-                        <div dropdown="" class="btn-group">
+                    <div class="col-sm-2">
+                        <div dropdown="" class="btn-group form-group">
                             <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                                 Status : {{manageShipCtrl.statusButton}}
                                 <span class="caret"></span>
@@ -46,44 +44,54 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-2 form-group">
-                        <div class="btn-group">
-                            <input date-range-picker class="form-control date-picker" type="text"
+                    <div class="col-sm-3">
+                        <div class="btn-group form-group">
+                            <input date-range-picker class="form-control p-l-5" type="text"
                                    ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                         </div>
                     </div>
-                    <div class="col-sm-3 form-group">
-                        <div class="btn-group">
-                            <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
+                    <div class="col-sm-2 p-0">
+                        <div class="btn-group form-group">
+                            <select ng-model="searchType" class="form-control p-l-5" ng-init="searchType = 'True'"
+                                    ng-change="manageShipCtrl.rowCollection = [];
+                                                manageShipCtrl.originCityCountry = null;
+                                                manageShipCtrl.desCityCountry = null;
+                                                manageShipCtrl.shipmentNumber = null;">
                                 <option value="True">Search By: Number</option>
                                 <option value="False">Search By: Location</option>
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                        <div class="btn-group form-group">
+                  
+
+                    <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
+                        <div class="form-group">
                             <input ng-model="manageShipCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
-                                   placeholder="Origin City/Country" />
+                                   placeholder="Origin City/Country" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
                     </div>
-                    <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                        <div class="btn-group">
-                            <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                   placeholder="Destination City/Country" />
+                    <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
+                        <div class="form-group">
+                            <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control p-l-5"
+                                   placeholder="Destination City/Country" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
 
                     </div>
-                    <div class="col-sm-1 form-group" ng-show="searchType == 'False'">
+                    <div class="col-sm-1 form-group p-0" ng-show="searchType == 'False'">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
                                 <i class="fa fa-search"></i>
                             </button>
                         </span>
                     </div>
-                    <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
-                        <div class="input-group">
-                            <input ng-model="manageShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
-                                   placeholder="Tracking Number/ Shipment Ref Number" />
+                    <div ng-show="searchType == 'True'">
+                        <div class="col-sm-4 p-0" style="">
+                            <div class="form-group">
+                                <input type="text" placeholder="Tracking Number/ Shipment Ref Number" class="form-control ng-pristine ng-untouched ng-valid"
+                                       name="shipmentNumber" ng-model="manageShipCtrl.shipmentNumber">
+                            </div>
+                        </div>
+                        <div class="col-sm-1 p-0">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadShipmentsBySearch()">
                                     <i class="fa fa-search"></i>

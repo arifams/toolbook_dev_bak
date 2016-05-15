@@ -2564,7 +2564,7 @@ namespace PI.Business
                     cell.Value = shipment.PickupDate;
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = shipment.PreferredCollectionDate; ////
+                    cell.Value = shipment.DeliveryTime; ////
 
                     cell = ws.Cells[rowIndex, 10];
                     cell.Value = shipment.ShipmentDescription;
@@ -2738,7 +2738,8 @@ namespace PI.Business
                         //CarrierInformation                       
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate == null? null : DateTime.Parse(item.PickUpDate.ToString()).ToString("dd/MM/yyyy"),
+                        DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd/MM/yyyy")
 
                     });
                 }
