@@ -745,6 +745,7 @@
         
         vm.shipment.generalInformation.shipmentCode = "0";
         if ($routeParams.id != "0") {
+            vm.editShipmentCode = $routeParams.id;
             loadShipmentInfo($routeParams.id);
         }
 
