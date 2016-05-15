@@ -131,13 +131,18 @@
                             </ul>
                         </li>-->
 
+                        <li ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
+                            <a href="#CustomerMangement"><span>CUSTOMER MANAGEMENT</span></a>
+                        </li>
+
+                        <li ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
+                            <a href="#AdminMangement"><span>RATE MANAGEMENT</span></a>         
+                        </li>
+
                         <li class="nav-parent" ng-show="currentRole == 'Admin'">
-                            <a href="#"><span>ADMIN SETTINGS</span> <span class="fa arrow"></span></a>
+                            <a href="#"><span>REPORTS</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/AdminMangement')}"><a href="#AdminMangement"> Upload RateSheets </a></li>
-                            </ul>
-                            <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/CustomerMangement')}"><a href="#CustomerMangement"> Customer Management</a></li>
+                                <li ng-class="{ active  : isActive('/ShipmentReports')}"><a href="#ShipmentReports"> SHIPMENT REPORT</a></li>
                             </ul>
                         </li>
 

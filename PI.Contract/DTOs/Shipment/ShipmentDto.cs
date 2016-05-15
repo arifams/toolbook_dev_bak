@@ -13,5 +13,6 @@ namespace PI.Contract.DTOs.Shipment
         public PackageDetailsDto PackageDetails { get; set; }
         public CarrierInformationDto CarrierInformation { get; set; }
         public string UserId { get; set; }
+        public string CreatedBy { get; set; }
     }
 }

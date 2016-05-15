@@ -316,7 +316,7 @@ namespace PI.Business
                 var packageProductList = new List<PackageProduct>();
                 addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
                 {
-                    CreatedBy = addShipment.UserId,
+                    CreatedBy = addShipment.CreatedBy,
                     CreatedDate = DateTime.Now,
                     IsActive = true,
                     IsDelete = false,
@@ -369,7 +369,7 @@ namespace PI.Business
                     ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
                     Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
                     TrackingNumber = null, //addShipmentResponse.Awb,
-                    CreatedBy = addShipment.UserId,
+                    CreatedBy = addShipment.CreatedBy,
                     CreatedDate = DateTime.Now,
                     ServiceLevel = addShipment.CarrierInformation.serviceLevel,
                     TarriffType = addShipment.CarrierInformation.tarriffType,
@@ -395,7 +395,7 @@ namespace PI.Business
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
                         ContactName = addShipment.AddressInformation.Consignee.ContactName,
                         IsActive = true,
-                        CreatedBy = addShipment.UserId,
+                        CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
                     },
                     ConsignorAddress = new ShipmentAddress
@@ -413,7 +413,7 @@ namespace PI.Business
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                         ContactName = addShipment.AddressInformation.Consigner.ContactName,
                         IsActive = true,
-                        CreatedBy = addShipment.UserId,
+                        CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
                     },
                     ShipmentPackage = new ShipmentPackage()
@@ -435,7 +435,7 @@ namespace PI.Business
                         WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                         VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
                         IsActive = true,
-                        CreatedBy = addShipment.UserId,
+                        CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now,
                         PackageProducts = packageProductList,
                         IsDG = addShipment.PackageDetails.IsDG,
@@ -462,7 +462,7 @@ namespace PI.Business
                         EmailAddress = addShipment.AddressInformation.Consigner.Email,
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                         IsActive = true,
-                        CreatedBy = addShipment.UserId,
+                        CreatedBy = addShipment.CreatedBy,
                         UserId = addShipment.UserId,
                         CreatedDate = DateTime.Now
                     };
@@ -487,7 +487,7 @@ namespace PI.Business
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
                         IsActive = true,
-                        CreatedBy = addShipment.UserId,
+                        CreatedBy = addShipment.CreatedBy,
                         UserId = addShipment.UserId,
                         CreatedDate = DateTime.Now
                     };

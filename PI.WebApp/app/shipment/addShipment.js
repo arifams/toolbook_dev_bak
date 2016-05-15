@@ -68,6 +68,9 @@
                                                      //assigning customer address info to consigner details
                            vm.shipment.addressInformation.consigner.firstName = responce.customerDetails.firstName;
                            vm.shipment.addressInformation.consigner.lastName = responce.customerDetails.lastName;
+                           vm.customerFirstName = responce.customerDetails.firstName;
+                           vm.customerLastName = responce.customerDetails.lastName;
+
                            vm.shipment.addressInformation.consigner.country = responce.customerDetails.customerAddress.country;
                            vm.shipment.addressInformation.consigner.postalcode = responce.customerDetails.customerAddress.zipCode;
                            vm.shipment.addressInformation.consigner.number = responce.customerDetails.customerAddress.number
@@ -555,7 +558,7 @@
             vm.shipment.generalInformation.shipmentPaymentTypeId = 1; // Payment type is Invoice.
 
             
-            vm.shipment.generalInformation.createdBy = $window.localStorage.getItem('userGuid');
+            vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
             debugger;
             if ($window.localStorage.getItem('userRole') == 'Admin') {
                 vm.shipment.userId = $window.localStorage.getItem('businessOwnerId');                

@@ -17,9 +17,8 @@
 
             if (from == 'shipReportCtrl') {                
                    
-                $scope.shipCtrl.closeWindow();
-                $scope.shipCtrl.CompanyId = company.id;
-                
+                $scope.vm.selectedCompanyId = company.id;
+                $scope.vm.closeWindow();                
             }
 
 
