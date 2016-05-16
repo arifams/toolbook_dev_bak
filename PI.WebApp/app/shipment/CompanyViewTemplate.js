@@ -46,6 +46,15 @@
                                           } else {
                                               $scope.manageShipCtrl.noShipments = true;
                                               $scope.manageShipCtrl.closeWindow();
+                                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
+                                              function (responce) {
+                                                  $window.localStorage.setItem('businessOwnerId', responce);
+
+                                              }).error(
+                                              function (error) {
+
+                                                  console.log("error occurd while retrieving business owner Id");
+                                              });
                                           }
 
 

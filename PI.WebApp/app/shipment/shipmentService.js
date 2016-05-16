@@ -6,15 +6,20 @@
 
         var userId = '';
         var createdBy = '';
-        if ($window.localStorage.getItem('userRole') == 'Admin') {
-            debugger;
-            createdBy = $window.localStorage.getItem('userGuid');
-            userId = $window.localStorage.getItem('businessOwnerId');
-        } else {
-            createdBy = $window.localStorage.getItem('userGuid');
-            userId = $window.localStorage.getItem('userGuid');
 
+
+        function setLoginUserID() {
+            debugger;
+            if ($window.localStorage.getItem('userRole') == 'Admin') {
+                debugger;
+                createdBy = $window.localStorage.getItem('userGuid');
+                userId = $window.localStorage.getItem('businessOwnerId');
+            } else {
+                createdBy = $window.localStorage.getItem('userGuid');
+                userId = $window.localStorage.getItem('userGuid');
+            }
         }
+        
 
         return {
             calculateRates: calculateRates,
@@ -51,6 +56,7 @@
 
         function getProfileInfo() {
             debugger;
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
                     // userId: $window.localStorage.getItem('userGuid'),
@@ -61,7 +67,7 @@
 
 
         function getAllshipmentsForManifest(date, carreer, reference) {
-
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllshipmentsForManifest', {
                 params: {
                    // userId: $window.localStorage.getItem('userGuid'),
@@ -88,6 +94,7 @@
         }
 
         function loadAddressBookDetails(searchText) {
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/AddressBook/GetSerchedAddressList', {
                 params: {
                     // userId: $window.localStorage.getItem('userGuid'),
@@ -124,7 +131,7 @@
        
         //get all divisions for business owners
         function loadAllDivisions() {
-         
+            setLoginUserID();
              return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
                     params: {
                         // userId: $window.localStorage.getItem('userGuid')
@@ -136,7 +143,7 @@
 
         //get the assigned divisions for other users
         function loadAssignedDivisions() {
-
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/Company/GetAssignedDivisions', {
                 params: {
                     //userId: $window.localStorage.getItem('userGuid')
@@ -234,6 +241,7 @@
 
 
         function loadAllShipments(status, startDate, endDate, number, source, destination) {
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
                  // userId: $window.localStorage.getItem('userGuid'),
@@ -249,7 +257,7 @@
         }
 
         function loadAllPendingShipments(startDate, endDate, number) {
-
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
                 params: {
                    // userId: $window.localStorage.getItem('userGuid'),
@@ -262,7 +270,7 @@
         }
 
         function getAvailableFilesForShipment(shipmentId, userId) {
-            
+            setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAvailableFilesForShipment', {
                 params: {
                     userId: userId,

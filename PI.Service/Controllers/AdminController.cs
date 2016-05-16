@@ -176,7 +176,7 @@ namespace PI.Service.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpPost]
         // This is from System.Web.Http, and not from System.Web.Mvc
-        [Route("UploadRateSheet")]
+        [Route("UploadInvoice")]
         public async Task<HttpResponseMessage> UploadInvoice()
         {
             if (!Request.Content.IsMimeMultipartContent())
