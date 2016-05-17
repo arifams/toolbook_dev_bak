@@ -213,9 +213,15 @@ namespace PI.Service.Controllers
                 // Make absolute link
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-              //  var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);             
+                var codeshipment = invoiceDetails[0];
+                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+                var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
+
+                if (currentShipment != null)
+                {
+                    var tenantId = currentShipment.Division.Company.TenantId;             
               
-              //  fileDetails.TenantId = tenantId;
+                   fileDetails.TenantId = tenantId;
 
                 if (fileDetails.DocumentType == DocumentType.Invoice)
                 {
@@ -227,7 +233,7 @@ namespace PI.Service.Controllers
                     try
                     {
                         // Delete if a file already exists from the same userId
-                        await media.Delete(baseUrl+ Utility.GetEnumDescription(fileDetails.DocumentType)
+                        await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
                                             + "/" + (originalFileName));
                     }
                     catch (Exception ex) { }
@@ -256,24 +262,18 @@ namespace PI.Service.Controllers
                 // Through the request response you can return an object to the Angular controller
                 // You will be able to access this in the .success callback through its data attribute
                 // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-                var returnData = baseUrl + Utility.GetEnumDescription(fileDetails.DocumentType)
+                var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
                                  + "/" + fileDetails.UploadedFileName;
+                              
 
-
-
-                var codeshipment = invoiceDetails[0];
-                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-                var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
-
-                if (currentShipment != null)
-                {
+               
                     
                         InvoiceDto invoiceDetail = new InvoiceDto()
                         {
                             ShipmentId = currentShipment.Id,
                             InvoiceNumber = invoiceDetails[1],
                             InvoiceValue = invoiceDetails[2],
-                            InvoiceStatus = InvoiceStatus.Pending.ToString(),
+                            InvoiceStatus = (short)InvoiceStatus.Pending,
                             CreatedBy = fileDetails.UserId,
                             URL = returnData
                         };

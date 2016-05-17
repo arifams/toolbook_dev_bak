@@ -358,25 +358,22 @@ namespace PI.Business
             {
                 
                     Invoice invoice = new Invoice()
-                {
-                    InvoiceNumber = invoiceDetails.InvoiceNumber,
-                    ShipmentId = invoiceDetails.ShipmentId,
-                    InvoiceValue =Convert.ToDecimal(invoiceDetails.InvoiceValue),
-                    CreatedBy = invoiceDetails.CreatedBy.ToString(),
-                    InvoiceStatus =Convert.ToInt16(invoiceDetails.InvoiceStatus),
-                    CreatedDate = DateTime.Now,
-                    URL = invoiceDetails.URL
-                    
+                    {
+                        InvoiceNumber = invoiceDetails.InvoiceNumber,
+                        ShipmentId = invoiceDetails.ShipmentId,
+                        InvoiceValue = Convert.ToDecimal(invoiceDetails.InvoiceValue),
+                        CreatedBy = invoiceDetails.CreatedBy.ToString(),
+                        InvoiceStatus = invoiceDetails.InvoiceStatus,
+                        CreatedDate = DateTime.Now,
+                        URL = invoiceDetails.URL
 
-                };
-                
-                context.Invoices.Add(invoice);
-               
+
+                    };
+
+                    context.Invoices.Add(invoice);
                     context.SaveChanges();
-                    invoiceSaved = true;
-
-               
-                
+                    invoiceSaved = true;           
+             
             }
             return invoiceSaved;
 

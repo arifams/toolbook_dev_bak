@@ -16,7 +16,7 @@ namespace PI.Contract.DTOs.Invoice
 
         public string InvoiceValue { get; set; }
 
-        public string InvoiceStatus { get; set; }
+        public short InvoiceStatus { get; set; }
 
         public string CreatedBy { get; set; }
 
