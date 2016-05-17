@@ -1328,6 +1328,8 @@
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
