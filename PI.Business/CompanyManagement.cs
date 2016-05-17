@@ -1507,20 +1507,21 @@ namespace PI.Business
             using (var context = new PIContext())
             {
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
-
+                bool isActivate = !comapny.IsActive;
+             
                 // Inactivate/activate company
                 if (comapny != null)
                 {
-                    comapny.IsActive = !comapny.IsActive;
+                    comapny.IsActive = isActivate;
                     context.SaveChanges();
                 }
 
                 //ToDo: Inactivate/activate Users, divisions, cost centers
                 var divisions = context.Divisions.Where(x => x.CompanyId == comapnyId).ToList();
-                divisions.ForEach(x => x.IsActive = false);
+                divisions.ForEach(x => x.IsActive = isActivate);
 
                 var costCenters = context.CostCenters.Where(x => x.CompanyId == comapnyId).ToList();
-                costCenters.ForEach(x => x.IsActive = false);
+                costCenters.ForEach(x => x.IsActive = isActivate);
 
                 var userList = (from user in context.Users
                                 join comapnyNew in context.Companies on user.TenantId equals comapnyNew.TenantId
@@ -1528,7 +1529,7 @@ namespace PI.Business
                                 select user).ToList();
 
 
-                userList.ForEach(x => x.IsActive = false);
+                userList.ForEach(x => x.IsActive = isActivate);
                 context.SaveChanges();
 
 
