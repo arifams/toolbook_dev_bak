@@ -12,6 +12,7 @@ using PI.Contract.Enums;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Data.Entity;
+using PI.Contract.DTOs.Invoice;
 
 namespace PI.Business
 {
@@ -347,6 +348,38 @@ namespace PI.Business
 
                 return comapny.IsInvoiceEnabled;
             }
+        }
+
+
+        public bool SaveInvoiceDetails(InvoiceDto invoiceDetails)
+        {
+            bool invoiceSaved = false;
+            using (PIContext context= new PIContext())
+            {
+                
+                    Invoice invoice = new Invoice()
+                {
+                    InvoiceNumber = invoiceDetails.InvoiceNumber,
+                    ShipmentId = invoiceDetails.ShipmentId,
+                    InvoiceValue =Convert.ToDecimal(invoiceDetails.InvoiceValue),
+                    CreatedBy = invoiceDetails.CreatedBy.ToString(),
+                    InvoiceStatus =Convert.ToInt16(invoiceDetails.InvoiceStatus),
+                    CreatedDate = DateTime.Now,
+                    URL = invoiceDetails.URL
+                    
+
+                };
+                
+                context.Invoices.Add(invoice);
+               
+                    context.SaveChanges();
+                    invoiceSaved = true;
+
+               
+                
+            }
+            return invoiceSaved;
+
         }
 
 

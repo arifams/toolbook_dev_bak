@@ -89,7 +89,9 @@ namespace PI.Contract.Enums
         [Description("AddressBook")]
         AddressBook = 3,
         [Description("RATE_SHEET")]
-        RateSheet = 4
+        RateSheet = 4,
+        [Description("INVOICE")]
+        Invoice=5
     }
 
     public enum CurrencyType : short
@@ -138,6 +140,14 @@ namespace PI.Contract.Enums
         AddUser,
         EditUser,
         UserManagement
+    }
+
+    public enum InvoiceStatus : short
+    {
+        Pending=1,
+        Paid,
+        Disputed
+
     }
 
 }

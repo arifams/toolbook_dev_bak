@@ -9,10 +9,10 @@
             $scope.uploadInvoice = function (file) {
                 file.upload = Upload.upload({
                     url: serverBaseUrl + '/api/Admin/UploadInvoice',
-                    data: {
-                        file: file,
+                    data: {                        
                         userId: $window.localStorage.getItem('userGuid'),
-                        documentType: "RATE_SHEET",
+                        documentType: "INVOICE",
+                        file: file,
                     },
                     params: {
                         userId: $window.localStorage.getItem('userGuid'),

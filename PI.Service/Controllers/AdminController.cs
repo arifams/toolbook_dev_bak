@@ -7,6 +7,7 @@ using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.FileUpload;
+using PI.Contract.DTOs.Invoice;
 using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
@@ -187,93 +188,107 @@ namespace PI.Service.Controllers
             var provider = GetMultipartProvider();
             var result = await Request.Content.ReadAsMultipartAsync(provider);
 
-            // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
-            // so this is how you can get the original file name
-            var originalFileName = GetDeserializedFileName(result.FileData.First());
-
-            // uploadedFileInfo object will give you some additional stuff like file length,
-            // creation time, directory name, a few filesystem methods etc..
-            var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
-
-            // Remove this line as well as GetFormData method if you're not
-            // sending any form data with your upload request
-            var fileDetails = GetFormData<FileUploadDto>(result);
-
-            // Convert to stream            
-            Stream stream = File.OpenRead(uploadedFileInfo.FullName);
-
-            AzureFileManager media = new AzureFileManager();
-            CompanyManagement companyManagement = new CompanyManagement();
-            string imageFileNameInFull = null;
-            // Make absolute link
-            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-
-            var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
-            fileDetails.TenantId = tenantId;
-
-            if (fileDetails.DocumentType == DocumentType.AddressBook)
+            foreach (var invoice in result.FileData)
             {
-                var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
-                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
+                // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
+                // so this is how you can get the original file name
+                var originalFileName = GetDeserializedFileName(invoice);
 
-                imageFileNameInFull = string.Format("{0}.{1}", fileDetails.UserId, fileExtention);
-                fileDetails.UploadedFileName = imageFileNameInFull;
-                try
-                {
-                    // Delete if a file already exists from the same userId
-                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                        + "/" + (fileDetails.UserId + ".xls"));
-                }
-                catch (Exception ex) { }
+                string[] invoiceDetails = originalFileName.Split('_');
 
-                try
+                // uploadedFileInfo object will give you some additional stuff like file length,
+                // creation time, directory name, a few filesystem methods etc..
+                var uploadedFileInfo = new FileInfo(invoice.LocalFileName);
+
+                // Remove this line as well as GetFormData method if you're not
+                // sending any form data with your upload request
+                var fileDetails = GetFormData<FileUploadDto>(result);
+
+                // Convert to stream            
+                Stream stream = File.OpenRead(uploadedFileInfo.FullName);
+
+                AzureFileManager media = new AzureFileManager();
+                CompanyManagement companyManagement = new CompanyManagement();
+                string imageFileNameInFull = null;
+                // Make absolute link
+                string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
+
+              //  var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);             
+              
+              //  fileDetails.TenantId = tenantId;
+
+                if (fileDetails.DocumentType == DocumentType.Invoice)
                 {
-                    // Delete if a file already exists from the same userId
+                    var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
+                    string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
+
+                    imageFileNameInFull = string.Format("{0}.{1}", fileDetails.UserId, originalFileName);
+                    fileDetails.UploadedFileName = originalFileName;
                     try
                     {
-                        await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                                 + "/" + (fileDetails.UserId + ".xlsx"));
+                        // Delete if a file already exists from the same userId
+                        await media.Delete(baseUrl+ Utility.GetEnumDescription(fileDetails.DocumentType)
+                                            + "/" + (originalFileName));
                     }
                     catch (Exception ex) { }
+
                 }
-                catch (Exception)
+                else
                 {
-                    //to do
+                    imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
+                    fileDetails.ClientFileName = originalFileName;
+                    fileDetails.UploadedFileName = imageFileNameInFull;
                 }
 
-            }
-            else
-            {
-                imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
-                fileDetails.ClientFileName = originalFileName;
-                fileDetails.UploadedFileName = imageFileNameInFull;
-            }
-
-            media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-            var opResult = await media.Upload(stream, imageFileNameInFull);
+                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                var opResult = await media.Upload(stream, imageFileNameInFull);
 
 
-            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet)
-            {
                 // Insert document record to DB.
-                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-                shipmentManagement.InsertShipmentDocument(fileDetails);
+                //ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+              //  shipmentManagement.InsertShipmentDocument(fileDetails);
 
                 //Delete the temporary saved file.
                 if (File.Exists(uploadedFileInfo.FullName))
                 {
                     System.IO.File.Delete(uploadedFileInfo.FullName);
                 }
+                // Through the request response you can return an object to the Angular controller
+                // You will be able to access this in the .success callback through its data attribute
+                // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
+                var returnData = baseUrl + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                 + "/" + fileDetails.UploadedFileName;
+
+
+
+                var codeshipment = invoiceDetails[0];
+                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
+                var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
+
+                if (currentShipment != null)
+                {
+                    
+                        InvoiceDto invoiceDetail = new InvoiceDto()
+                        {
+                            ShipmentId = currentShipment.Id,
+                            InvoiceNumber = invoiceDetails[1],
+                            InvoiceValue = invoiceDetails[2],
+                            InvoiceStatus = InvoiceStatus.Pending.ToString(),
+                            CreatedBy = fileDetails.UserId,
+                            URL = returnData
+                        };
+
+                        AdministrationManagment adminManagement = new AdministrationManagment();
+                        if (!adminManagement.SaveInvoiceDetails(invoiceDetail))
+                        {
+                            return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+                        }                               
+
+                }
+
             }
 
-            // Through the request response you can return an object to the Angular controller
-            // You will be able to access this in the .success callback through its data attribute
-            // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                             + "/" + fileDetails.UploadedFileName;
-
-
-            return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
+            return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
         public MultipartFormDataStreamProvider GetMultipartProvider()
@@ -304,6 +319,8 @@ namespace PI.Service.Controllers
 
             return fileUploadDto;
         }
+
+        
 
         private string GetDeserializedFileName(MultipartFileData fileData)
         {
