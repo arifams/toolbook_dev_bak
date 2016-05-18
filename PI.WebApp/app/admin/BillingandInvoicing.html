@@ -126,10 +126,10 @@
 
                                         <td>
                                             <div class="option-group">
-                                                <select id="salutation" name="salutation" class="salutation form-control" ng-model="row.invoiceStatus" ng-change="invoiceCtrl.updateInvoiceStatus(row)">
-                                                    <option value="1">Pending</option>
-                                                    <option value="2">Paid</option>
-                                                    <option value="3">Disputed</option>                                                  
+                                                <select id="status" name="status" class="status form-control" ng-model="row.invoiceStatus"  ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                                    <option value=1>Pending</option>
+                                                    <option value=2>Paid</option>
+                                                    <option value=3>Disputed</option>                                                  
 
                                                 </select>
                                             </div>
