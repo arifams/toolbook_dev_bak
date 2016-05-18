@@ -49,6 +49,7 @@
     <Compile Include="Business\ICarrierIntegrationManager.cs" />
     <Compile Include="Business\ICompanyManagement.cs" />
     <Compile Include="Business\ICustomerManagement.cs" />
+    <Compile Include="Business\IInvoiceMangement.cs" />
     <Compile Include="Business\IProfileManagement.cs" />
     <Compile Include="Business\IShipmentManagement.cs" />
     <Compile Include="DTOs\AccountSettings\AccountSettingsDto.cs" />

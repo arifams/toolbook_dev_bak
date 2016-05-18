@@ -363,7 +363,7 @@ namespace PI.Business
                         ShipmentId = invoiceDetails.ShipmentId,
                         InvoiceValue = Convert.ToDecimal(invoiceDetails.InvoiceValue),
                         CreatedBy = invoiceDetails.CreatedBy.ToString(),
-                        InvoiceStatus = invoiceDetails.InvoiceStatus,
+                        InvoiceStatus = (InvoiceStatus)invoiceDetails.InvoiceStatus,
                         CreatedDate = DateTime.Now,
                         URL = invoiceDetails.URL
 
