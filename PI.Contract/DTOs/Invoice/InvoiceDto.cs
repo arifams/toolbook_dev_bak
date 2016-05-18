@@ -12,13 +12,17 @@ namespace PI.Contract.DTOs.Invoice
 
         public string InvoiceNumber { get; set; }
 
+        public string ShipmentReference { get; set; }
+
         public long? ShipmentId { get; set; }
 
-        public string InvoiceValue { get; set; }
+        public decimal InvoiceValue { get; set; }
 
         public short InvoiceStatus { get; set; }
 
         public string CreatedBy { get; set; }
+
+        public string InvoiceDate { get; set; }
 
         public string BusinessOwner { get; set; }
 

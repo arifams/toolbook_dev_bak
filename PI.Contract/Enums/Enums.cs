@@ -144,6 +144,7 @@ namespace PI.Contract.Enums
 
     public enum InvoiceStatus : short
     {
+        None = 0,
         Pending=1,
         Paid,
         Disputed

@@ -119,6 +119,8 @@
     <Compile Include="AdministrationManagment.cs" />
     <Compile Include="ApplicationRoleManager.cs" />
     <Compile Include="ApplicationUserManager.cs" />
+    <Compile Include="CommonLogic.cs" />
+    <Compile Include="InvoiceMangement.cs" />
     <Compile Include="SISIntegrationManager.cs" />
     <Compile Include="CompanyManagement.cs" />
     <Compile Include="CustomerManagement.cs" />

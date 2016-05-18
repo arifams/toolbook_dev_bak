@@ -330,7 +330,7 @@ var MakeApp = angular
           })
           .when('/InvoiceandBilling', {
               templateUrl: 'billingandInvoicing/CustomerBillingandInvoicing.html',
-              controller: 'CustomerBillingandInvoicingCtrl',
+              controller: 'customerinvoiceCtrl',
               controllerAs:'customerinvoiceCtrl'
 
           })

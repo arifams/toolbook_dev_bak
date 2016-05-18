@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -14,8 +15,8 @@ namespace PI.Data.Entity
         public long? ShipmentId { get; set; }
 
         public decimal InvoiceValue { get; set; }
-        
-        public short InvoiceStatus { get; set; }
+
+        public InvoiceStatus InvoiceStatus { get; set; }
 
         public string URL { get; set; }
 

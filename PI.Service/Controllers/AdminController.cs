@@ -273,7 +273,7 @@ namespace PI.Service.Controllers
                         {
                             ShipmentId = currentShipment.Id,
                             InvoiceNumber = invoiceDetails[1],
-                            InvoiceValue = invoiceDetails[2],
+                            InvoiceValue = decimal.Parse(invoiceDetails[2]),
                             InvoiceStatus = (short)InvoiceStatus.Pending,
                             CreatedBy = fileDetails.UserId,
                             URL = returnData

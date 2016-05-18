@@ -191,6 +191,7 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\ShipmentsController.cs" />
