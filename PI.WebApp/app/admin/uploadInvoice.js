@@ -21,6 +21,7 @@
 
                 file.upload.then(function (response) {
 
+                    debugger;
                     var body = $("html, body");
                     if (response.statusText = 'OK') {
 
@@ -32,6 +33,7 @@
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            $scope.invoiceCtrl.closeWindow();
                                             $route.reload();
                                             $noty.close();
 

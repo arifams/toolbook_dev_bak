@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs;
+using PI.Contract.DTOs.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,6 @@ namespace PI.Contract.Business
         /// <param name="comapnyId"></param>
         /// <returns></returns>
         bool ManageInvoicePaymentSetting(long comapnyId);
+        PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate, string shipmentnumber, string businessowner, string invoicenumber);
     }
 }

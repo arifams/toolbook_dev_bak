@@ -5,6 +5,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.Invoice;
@@ -341,6 +342,20 @@ namespace PI.Service.Controllers
         public bool ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
         {
             return adminManagement.ManageInvoicePaymentSetting(copmany.Id);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // [Authorize]        
+        [Route("GetAllInvoices")]
+        public PagedList GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                         string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
+        {
+            var pagedRecord = new PagedList();
+            return pagedRecord = adminManagement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
+
         }
 
     }

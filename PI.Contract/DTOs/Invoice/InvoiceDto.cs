@@ -20,6 +20,10 @@ namespace PI.Contract.DTOs.Invoice
 
         public string CreatedBy { get; set; }
 
+        public string BusinessOwner { get; set; }
+
+        public string CompanyName { get; set; }
+
         public string URL { get; set; }
     }
 }
