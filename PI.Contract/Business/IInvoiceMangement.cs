@@ -23,6 +23,22 @@ namespace PI.Contract.Business
         PagedList GetAllInvoicesByCustomer(string status, string userId, DateTime? startDate, DateTime? endDate,
                                            string shipmentNumber, string invoiceNumber);
 
+
+        /// <summary>
+        /// Get all invoices for Admin management
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="userId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="shipmentnumber"></param>
+        /// <param name="businessowner"></param>
+        /// <param name="invoicenumber"></param>
+        /// <returns></returns>
+        PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,
+                                       string shipmentnumber, string businessowner, string invoicenumber);
+
+
         /// <summary>
         /// Pay an invoice
         /// </summary>

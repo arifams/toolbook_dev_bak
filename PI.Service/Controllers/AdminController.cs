@@ -30,6 +30,7 @@ namespace PI.Service.Controllers
     public class AdminController : BaseApiController
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
+        IInvoiceMangement invoiceMangement = new InvoiceMangement();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
         //    this.adminManagement = adminmanagementa;
@@ -328,7 +329,7 @@ namespace PI.Service.Controllers
                                          string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
         {
             var pagedRecord = new PagedList();
-            return pagedRecord = adminManagement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
+            return pagedRecord = invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
 
         }
 
