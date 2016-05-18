@@ -224,36 +224,12 @@ namespace PI.Service.Controllers
               
                    fileDetails.TenantId = tenantId;
 
-                if (fileDetails.DocumentType == DocumentType.Invoice)
-                {
-                    var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
-                    string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
-
-                    imageFileNameInFull = string.Format("{0}.{1}", fileDetails.UserId, originalFileName);
-                    fileDetails.UploadedFileName = originalFileName;
-                    try
-                    {
-                        // Delete if a file already exists from the same userId
-                        await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                            + "/" + (originalFileName));
-                    }
-                    catch (Exception ex) { }
-
-                }
-                else
-                {
                     imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
                     fileDetails.ClientFileName = originalFileName;
                     fileDetails.UploadedFileName = imageFileNameInFull;
-                }
 
                 media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
                 var opResult = await media.Upload(stream, imageFileNameInFull);
-
-
-                // Insert document record to DB.
-                //ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-              //  shipmentManagement.InsertShipmentDocument(fileDetails);
 
                 //Delete the temporary saved file.
                 if (File.Exists(uploadedFileInfo.FullName))
@@ -267,8 +243,6 @@ namespace PI.Service.Controllers
                                  + "/" + imageFileNameInFull;
                               
 
-               
-                    
                         InvoiceDto invoiceDetail = new InvoiceDto()
                         {
                             ShipmentId = currentShipment.Id,
