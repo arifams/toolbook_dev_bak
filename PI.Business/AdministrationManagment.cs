@@ -414,7 +414,7 @@ namespace PI.Business
                         {
                             Id = invoice.Id,
                             InvoiceNumber = invoice.InvoiceNumber,
-                            InvoiceStatus = (short)invoice.InvoiceStatus,
+                            InvoiceStatus =invoice.InvoiceStatus.ToString(),
                             InvoiceValue = invoice.InvoiceValue,
                             ShipmentId = invoice.ShipmentId,
                             ShipmentReference=invoice.Shipment.ShipmentCode,
@@ -453,7 +453,7 @@ namespace PI.Business
                         ShipmentId = invoiceDetails.ShipmentId,
                         InvoiceValue = Convert.ToDecimal(invoiceDetails.InvoiceValue),
                         CreatedBy = invoiceDetails.CreatedBy.ToString(),
-                        InvoiceStatus = (InvoiceStatus)invoiceDetails.InvoiceStatus,
+                        InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus.ToString()) ,
                         CreatedDate = DateTime.Now,
                         URL = invoiceDetails.URL
 

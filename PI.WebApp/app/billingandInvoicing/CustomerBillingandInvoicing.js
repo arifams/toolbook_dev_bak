@@ -7,9 +7,15 @@
         return {
             getAllInvoicesByCustomer: getAllInvoicesByCustomer,
             payInvoice: payInvoice,
-            disputeInvoice: disputeInvoice
+            disputeInvoice: disputeInvoice,
+            disputeInvoice, disputeInvoice
         };
 
+
+
+        function disputeInvoice(invoice) {
+
+        }
 
         function getAllInvoicesByCustomer(status, startDate, endDate, shipmentNumber, invoiceNumber) {
 
@@ -39,11 +45,17 @@
 
     }]);
 
-    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory',
-                    function ($location, $window, customerInvoiceFactory) {
+    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope',
+                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller,$scope) {
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
+
+
+                        vm.closeWindow = function () {
+                            ngDialog.close()
+                        }
+
 
 
                         vm.loadInvoicesBySearch = function (status) {
@@ -67,7 +79,9 @@
                         vm.loadInvoicesByStatus = function (status) {
                             vm.loadInvoicesBySearch(status);
                         };
+                        
 
+                        vm.loadInvoicesBySearch();
 
                         vm.payInvoice = function (row) {
                             var statusChange = confirm("Are you sure you need to pay this invoice ?");
@@ -86,17 +100,61 @@
 
                         vm.disputeInvoice = function (row) {
 
-                            var statusChange = confirm("Are you sure you need to dispute this invoice ?");
+                           // var statusChange = confirm("Are you sure you need to dispute this invoice ?");
 
-                            if (statusChange == true) {
-                                customerInvoiceFactory.disputeInvoice({ Id: row.id })
-                                    .success(function (response) {
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-success media fade in"><p>Are you want to Dispute the Invoice:' + row.invoiceNumber + '?</p></div>',
+                                buttons: [
+                                        {
+                                            addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                                ngDialog.open({
+                                                    scope: $scope,
+                                                    template: '/app/billingandInvoicing/DisputeInvoice.html',
+                                                    className: 'ngdialog-theme-plain custom-width',
+                                                    controller: $controller('disputeInvoiceCtrl', {
+                                                        $scope: $scope,
+                                                        invoice: row                                                        
+                                                    })
+
+                                                });
+                                          
+
+                                                $noty.close();
+
+
+                                            }
+                                        },
+                                        {
+                                            addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+
+                                                // updateProfile = false;
+                                                $noty.close();
+                                                return;
+                                                // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                                            }
+                                        }
+                                ],
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 3000,
+                            });
+
+
+
+                            //if (statusChange == true) {
+                            //    customerInvoiceFactory.disputeInvoice({ Id: row.id })
+                            //        .success(function (response) {
                                         
-                                        row.invoiceStatus = response;
-                                    })
-                                    .error(function () {
-                                    })
-                            }
+                            //            row.invoiceStatus = response;
+                            //        })
+                            //        .error(function () {
+                            //        })
+                            //}
                         };
 
                     }]);

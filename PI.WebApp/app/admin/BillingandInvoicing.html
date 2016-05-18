@@ -51,14 +51,14 @@
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
-                                    <select ng-model="searchType" class="form-control" ng-init="searchType = 1">
-                                        <option value="1" >Search By: Shipment Reference</option>
-                                        <option value="2">Search By: Business Owner</option>
-                                        <option value="3">Search By: InvoiceNumber</option>
+                                    <select ng-model="invoiceCtrl.searchType" class="form-control" ng-init="invoiceCtrl.searchType = 'ShipmentReference'">
+                                        <option value="ShipmentReference"  >Search By: Shipment Reference</option>
+                                        <option value="BusinessOwner">Search By: Business Owner</option>
+                                        <option value="InvoiceNumber">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
                             </div>                           
-                            <div class="col-sm-4 form-group" ng-show="searchType == '1'">
+                            <div class="col-sm-4 form-group" ng-show="searchType == 'ShipmentReference'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Tracking Number/ Shipment Ref Number" />
@@ -71,7 +71,7 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == '2'">
+                            <div class="col-sm-4 form-group" ng-show="searchType == 'BusinessOwner'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
@@ -83,7 +83,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == '3'">
+                            <div class="col-sm-4 form-group" ng-show="searchType == 'InvoiceNumber'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
@@ -126,10 +126,10 @@
 
                                         <td>
                                             <div class="option-group">
-                                                <select id="status" name="status" class="status form-control" ng-model="row.invoiceStatus"  ng-change="invoiceCtrl.updateInvoiceStatus(row)">
-                                                    <option value=1>Pending</option>
-                                                    <option value=2>Paid</option>
-                                                    <option value=3>Disputed</option>                                                  
+                                                <select id="status" name="status" class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Disputed">Disputed</option>                                                  
 
                                                 </select>
                                             </div>
