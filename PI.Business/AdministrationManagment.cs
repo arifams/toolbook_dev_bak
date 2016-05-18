@@ -417,10 +417,12 @@ namespace PI.Business
                             InvoiceStatus = (short)invoice.InvoiceStatus,
                             InvoiceValue = invoice.InvoiceValue,
                             ShipmentId = invoice.ShipmentId,
+                            ShipmentReference=invoice.Shipment.ShipmentCode,
                             URL = invoice.URL,
                             BusinessOwner = businessOwner,
                             CompanyName = corporateName,
-                            CreatedBy = invoice.CreatedBy
+                            CreatedBy = invoice.CreatedBy,
+                            InvoiceDate=invoice.CreatedDate.ToString()
 
                         });
 

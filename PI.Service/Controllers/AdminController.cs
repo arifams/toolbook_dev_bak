@@ -74,7 +74,7 @@ namespace PI.Service.Controllers
             ///////////////////////
 
         }
-
+        
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
         {
@@ -221,44 +221,44 @@ namespace PI.Service.Controllers
 
                 if (currentShipment != null)
                 {
-                    var tenantId = currentShipment.Division.Company.TenantId;
-
-                    fileDetails.TenantId = tenantId;
+                    var tenantId = currentShipment.Division.Company.TenantId;             
+              
+                   fileDetails.TenantId = tenantId;
 
                     imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
                     fileDetails.ClientFileName = originalFileName;
                     fileDetails.UploadedFileName = imageFileNameInFull;
 
-                    media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-                    var opResult = await media.Upload(stream, imageFileNameInFull);
+                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                var opResult = await media.Upload(stream, imageFileNameInFull);
 
-                    //Delete the temporary saved file.
-                    if (File.Exists(uploadedFileInfo.FullName))
-                    {
-                        System.IO.File.Delete(uploadedFileInfo.FullName);
-                    }
-                    // Through the request response you can return an object to the Angular controller
-                    // You will be able to access this in the .success callback through its data attribute
-                    // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-                    var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                     + "/" + fileDetails.UploadedFileName;
+                //Delete the temporary saved file.
+                if (File.Exists(uploadedFileInfo.FullName))
+                {
+                    System.IO.File.Delete(uploadedFileInfo.FullName);
+                }
+                // Through the request response you can return an object to the Angular controller
+                // You will be able to access this in the .success callback through its data attribute
+                // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
+                var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                 + "/" + imageFileNameInFull;
+                              
 
+                        InvoiceDto invoiceDetail = new InvoiceDto()
+                        {
+                            ShipmentId = currentShipment.Id,
+                            InvoiceNumber = invoiceDetails[1],
+                            InvoiceValue = decimal.Parse(invoiceDetails[2]),
+                            InvoiceStatus = (short)InvoiceStatus.Pending,
+                            CreatedBy = fileDetails.UserId,
+                            URL = returnData
+                        };
 
-                    InvoiceDto invoiceDetail = new InvoiceDto()
-                    {
-                        ShipmentId = currentShipment.Id,
-                        InvoiceNumber = invoiceDetails[1],
-                        InvoiceValue = decimal.Parse(invoiceDetails[2]),
-                        InvoiceStatus = (short)InvoiceStatus.Pending,
-                        CreatedBy = fileDetails.UserId,
-                        URL = returnData
-                    };
-
-                    AdministrationManagment adminManagement = new AdministrationManagment();
-                    if (!adminManagement.SaveInvoiceDetails(invoiceDetail))
-                    {
-                        return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-                    }
+                        AdministrationManagment adminManagement = new AdministrationManagment();
+                        if (!adminManagement.SaveInvoiceDetails(invoiceDetail))
+                        {
+                            return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+                        }                               
 
                 }
 
@@ -296,7 +296,7 @@ namespace PI.Service.Controllers
             return fileUploadDto;
         }
 
-
+        
 
         private string GetDeserializedFileName(MultipartFileData fileData)
         {

@@ -97,7 +97,8 @@
                             </div>
 
                         </div>
-                        <div class="row" ng-show="manageShipCtrl.CompanyId!=''">
+                        <div class="row" >
+
 
                             <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-striped ship-mgt">
                                 <thead>
@@ -110,7 +111,7 @@
                                         <th>Invoice Value</th>
                                         <th>Invoice Status</th>
                                         <th>View</th>
-
+                                      
                                     </tr>
 
                                 </thead>
@@ -118,17 +119,26 @@
                                     <tr ng-repeat="row in shipmentList">
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
-                                        <td>{{row.companyName}}</td>                                       
+                                        <td>{{row.companyName}}</td>                                        
                                         <td>{{row.shipmentReference}}</td>
                                         <td>{{row.invoiceNumber}}</td>
-                                        <td>{{row.invoiceValue}}</td>
-                                        <td>{{row.invoiceStatus}}</td>
+                                        <td>{{row.invoiceValue}}</td>                                        
+
+                                        <td>
+                                            <div class="option-group">
+                                                <select id="salutation" name="salutation" class="salutation form-control" ng-model="row.invoiceStatus" ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                                    <option value="1">Pending</option>
+                                                    <option value="2">Paid</option>
+                                                    <option value="3">Disputed</option>                                                  
+
+                                                </select>
+                                            </div>
+                                        </td>
                                         <td style="text-align:center">
                                             <a href='{{row.url}}' class="edit btn btn-sm btn-default">
                                                 <i class="glyphicon glyphicon-download-alt"></i>
                                             </a>
-                                        </td>                                        
-
+                                        </td>                                
                                     </tr>
                                 </tbody>
                                 <tfoot>
