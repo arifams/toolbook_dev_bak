@@ -89,7 +89,7 @@
                             <td>{{row.invoiceStatus}}</td>
                             <td>
                                 <!--if invoiceStatus == 'Pending'-->
-                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 1"
+                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 'Pending'"
                                         ng-click="customerinvoiceCtrl.payInvoice(row)">
                                     Pay
                                 </button>
@@ -100,7 +100,7 @@
                                 </a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 1"
+                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 'Pending'"
                                         ng-click="customerinvoiceCtrl.disputeInvoice(row)">
                                     Dispute
                                 </button>

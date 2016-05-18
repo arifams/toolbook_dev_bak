@@ -1,0 +1,47 @@
+﻿
+<div>
+    <h2 class="box-title">
+       Dispute Invoice
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal">
+            <!-- /.box-header -->
+
+            <div class="panel-header">
+                <!-- left column -->
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <textarea ng-model="disputecomment" name="disputecomment" class="form-horizontal" rows="10" cols="70"
+                                           ></textarea>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-4"></div>
+                                <div class="col-sm-4">
+
+                                    <button ng-click="cancelDispute()"  class="btn btn-primary btn-square btn-embossed">Cancel</button>
+
+                                </div> 
+                                <div class="col-sm-4">
+                                    <button ng-click="disputeInvoice()"  class="btn btn-primary btn-square btn-embossed">Confirm</button>
+
+                                </div> 
+                            </div>
+                           
+                        </div>
+                    </div>
+                    <br />
+                    <div id="panel-notif"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

@@ -76,7 +76,7 @@ namespace PI.Business
                         InvoiceDate = item.CreatedDate.ToString("dd/MM/yyyy"),
                         InvoiceNumber = item.InvoiceNumber,
                         InvoiceValue = item.InvoiceValue,
-                        InvoiceStatus = (short)item.InvoiceStatus,
+                        InvoiceStatus =item.InvoiceStatus.ToString(),
                         URL = item.URL
                     });
                 }
@@ -170,9 +170,10 @@ namespace PI.Business
                         {
                             Id = item.Invoice.Id,
                             InvoiceNumber = item.Invoice.InvoiceNumber,
-                            InvoiceStatus = (short)item.Invoice.InvoiceStatus,
+                            InvoiceStatus = item.Invoice.InvoiceStatus.ToString(),
                             InvoiceValue = item.Invoice.InvoiceValue,
                             ShipmentId = item.Invoice.ShipmentId,
+                            ShipmentReference=item.Invoice.Shipment.ShipmentCode,                            
                             URL = item.Invoice.URL,
                             BusinessOwner = item.Customer.FirstName+ " " + item.Customer.LastName,
                             CompanyName = item.Company.Name,

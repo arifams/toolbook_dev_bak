@@ -18,7 +18,7 @@ namespace PI.Contract.DTOs.Invoice
 
         public decimal InvoiceValue { get; set; }
 
-        public short InvoiceStatus { get; set; }
+        public string InvoiceStatus { get; set; }
 
         public string CreatedBy { get; set; }
 
@@ -30,6 +30,10 @@ namespace PI.Contract.DTOs.Invoice
 
         public string URL { get; set; }
 
+        public string DisputeComment { get; set; }
+
+
         public string CreditNoteURL { get; set; }
     }
+
 }
