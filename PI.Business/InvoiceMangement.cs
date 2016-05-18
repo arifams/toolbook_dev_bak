@@ -213,7 +213,7 @@ namespace PI.Business
                     ShipmentId = invoiceDetails.ShipmentId,
                     InvoiceValue = invoiceDetails.InvoiceValue,
                     CreatedBy = invoiceDetails.CreatedBy.ToString(),
-                    InvoiceStatus = (InvoiceStatus)invoiceDetails.InvoiceStatus,
+                    InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL
 

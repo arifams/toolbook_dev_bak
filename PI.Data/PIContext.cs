@@ -46,9 +46,7 @@ namespace PI.Data
         public DbSet<PaymentType> PaymentTypes { get; set; }
         public DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
         public DbSet<LocationActivity> LocationActivities { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<CreditNote> CreditNotes { get; set; } 
-
+   
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }
         public DbSet<ShipmentPayment> ShipmentPayments { get; set; }
@@ -69,7 +67,14 @@ namespace PI.Data
         public DbSet<TariffType> TariffType { get; set; }
 
         public DbSet<AuditTrail> AuditTrail { get; set; }
+
+       public DbSet<Invoice> Invoices { get; set; }
         
+        public DbSet<CreditNote> CreditNotes { get; set; }
+
+        public DbSet<InvoiceDisputeHistory> InvoiceDisputeHistory { get; set; } 
+
+
         public PIContext()
             : base("name=PIBookingConnectionString")
         {
