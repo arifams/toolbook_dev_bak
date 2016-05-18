@@ -264,7 +264,7 @@ namespace PI.Service.Controllers
                 // You will be able to access this in the .success callback through its data attribute
                 // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
                 var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                 + "/" + fileDetails.UploadedFileName;
+                                 + "/" + imageFileNameInFull;
                               
 
                
