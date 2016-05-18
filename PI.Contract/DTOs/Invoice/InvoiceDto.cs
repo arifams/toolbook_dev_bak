@@ -29,5 +29,7 @@ namespace PI.Contract.DTOs.Invoice
         public string CompanyName { get; set; }
 
         public string URL { get; set; }
+
+        public string CreditNoteURL { get; set; }
     }
 }

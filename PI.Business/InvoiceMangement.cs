@@ -176,7 +176,9 @@ namespace PI.Business
                             URL = item.Invoice.URL,
                             BusinessOwner = item.Customer.FirstName+ " " + item.Customer.LastName,
                             CompanyName = item.Company.Name,
-                            InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy")
+                            InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
+                            CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
+                                            item.Invoice.creditNoteList.OrderByDescending(x=> x.CreatedDate).FirstOrDefault().URL
                         });                    
                 }
 
@@ -191,5 +193,82 @@ namespace PI.Business
 
 
         }
+
+
+        /// <summary>
+        /// Save uploaded invoice details
+        /// </summary>
+        /// <param name="invoiceDetails"></param>
+        /// <returns></returns>
+        public bool SaveInvoiceDetails(InvoiceDto invoiceDetails)
+        {
+            bool invoiceSaved = false;
+            using (PIContext context = new PIContext())
+            {
+
+                Invoice invoice = new Invoice()
+                {
+                    InvoiceNumber = invoiceDetails.InvoiceNumber,
+                    ShipmentId = invoiceDetails.ShipmentId,
+                    InvoiceValue = invoiceDetails.InvoiceValue,
+                    CreatedBy = invoiceDetails.CreatedBy.ToString(),
+                    InvoiceStatus = (InvoiceStatus)invoiceDetails.InvoiceStatus,
+                    CreatedDate = DateTime.Now,
+                    URL = invoiceDetails.URL
+
+
+                };
+
+                context.Invoices.Add(invoice);
+                context.SaveChanges();
+                invoiceSaved = true;
+
+            }
+            return invoiceSaved;
+
+        }
+
+
+        /// <summary>
+        /// Save uploaded Credit Note details
+        /// </summary>
+        /// <param name="creditNoteDetails"></param>
+        /// <returns></returns>
+        public bool SaveCreditNoteDetails(InvoiceDto creditNoteDetails)
+        {
+            using (PIContext context = new PIContext())
+            {
+                try
+                {
+                    CreditNote creditNote = new CreditNote()
+                    {
+                        CreditNoteNumber = creditNoteDetails.InvoiceNumber,
+                        InvoiceId = creditNoteDetails.Id,
+                        CreditNoteValue = creditNoteDetails.InvoiceValue,
+                        CreatedBy = creditNoteDetails.CreatedBy,
+                        CreatedDate = DateTime.Now,
+                        URL = creditNoteDetails.URL
+                    };
+
+                    context.CreditNotes.Add(creditNote);
+                    context.SaveChanges();
+
+                    // Update Invoice status and value.
+                    var invoice = context.Invoices.Where(x => x.Id == creditNoteDetails.Id).SingleOrDefault();
+                    invoice.InvoiceValue = (invoice.InvoiceValue - creditNote.CreditNoteValue);
+                    invoice.InvoiceStatus = (invoice.InvoiceValue == creditNote.CreditNoteValue) ? 
+                                             InvoiceStatus.Paid : InvoiceStatus.Pending;
+                    context.SaveChanges();
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    return false;
+                }
+
+            }
+        }
+
     }
 }
