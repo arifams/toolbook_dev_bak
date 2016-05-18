@@ -56,7 +56,7 @@
 
                             customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, shipmentNumber, invoiceNumber)
                                 .then(function successCallback(responce) {
-
+                                  
                                     vm.rowCollection = responce.data.content;
 
                                 }, function errorCallback(response) {
@@ -75,7 +75,8 @@
                             if (statusChange == true) {
                                 customerInvoiceFactory.payInvoice({ Id: row.id })
                                     .success(function (response) {
-                                        row.status = response;
+                                    
+                                        row.invoiceStatus = response;
                                     })
                                     .error(function () {
                                     })
@@ -83,14 +84,15 @@
                         };
 
 
-                        vm.changeInvoiceStatus = function (row) {
+                        vm.disputeInvoice = function (row) {
 
                             var statusChange = confirm("Are you sure you need to dispute this invoice ?");
 
                             if (statusChange == true) {
                                 customerInvoiceFactory.disputeInvoice({ Id: row.id })
                                     .success(function (response) {
-                                        row.status = response;
+                                        
+                                        row.invoiceStatus = response;
                                     })
                                     .error(function () {
                                     })
