@@ -18,8 +18,6 @@
            
             return $http.get(serverBaseUrl + '/api/admin/GetAllInvoices', {
                 params: {
-                    
-                   // userId: userId,
                     status: status,
                     userId: $window.localStorage.getItem('userGuid'),
                     startDate: startDate,

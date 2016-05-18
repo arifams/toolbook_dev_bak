@@ -54,7 +54,6 @@ namespace PI.Business
                 {
                     // Supervises
                     invoiceList = context.Invoices.Where(x => x.Shipment.Division.UserInDivisions.Any(u => u.UserId == userId)).ToList();
-
                 }
                 else
                 {
@@ -121,6 +120,76 @@ namespace PI.Business
 
                 return invoice.InvoiceStatus;
             }
+        }
+
+
+        /// <summary>
+        /// Get all invoices for Admin management
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="userId"></param>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <param name="shipmentnumber"></param>
+        /// <param name="businessowner"></param>
+        /// <param name="invoicenumber"></param>
+        /// <returns></returns>
+        public PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,
+                                       string shipmentnumber, string businessowner, string invoicenumber)
+        {
+            var pagedRecord = new PagedList();
+            int page = 1;
+            int pageSize = 10;
+            pagedRecord.Content = new List<InvoiceDto>();
+
+            using (PIContext context = new PIContext())
+            {            
+                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                var content = (from customer in context.Customers
+                                 join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                                 join invoice in context.Invoices on comapny.Id equals invoice.Shipment.Division.CompanyId
+                                 where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                                 customer.IsDelete == false &&
+                                 (string.IsNullOrEmpty(businessowner) || customer.FirstName.Contains(businessowner) || customer.LastName.Contains(businessowner)) &&
+                                 (string.IsNullOrEmpty(status) || status == invoice.InvoiceStatus.ToString()) &&
+                                 (string.IsNullOrEmpty(invoicenumber) || invoicenumber.Contains(invoice.InvoiceNumber.ToString())) &&
+                                 (string.IsNullOrEmpty(shipmentnumber) || shipmentnumber.Contains(invoice.Shipment.ShipmentCode.ToString())) &&
+                                 (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
+                                 select new
+                                 {
+                                     Customer = customer,
+                                     Company = comapny,
+                                     Invoice = invoice
+                                 }).ToList();
+
+                //removing unmatched company invoices according to the business owners
+                foreach (var item in content)
+                {                    
+                        pagedRecord.Content.Add(new InvoiceDto
+                        {
+                            Id = item.Invoice.Id,
+                            InvoiceNumber = item.Invoice.InvoiceNumber,
+                            InvoiceStatus = (short)item.Invoice.InvoiceStatus,
+                            InvoiceValue = item.Invoice.InvoiceValue,
+                            ShipmentId = item.Invoice.ShipmentId,
+                            URL = item.Invoice.URL,
+                            BusinessOwner = item.Customer.FirstName+ " " + item.Customer.LastName,
+                            CompanyName = item.Company.Name,
+                            InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy")
+                        });                    
+                }
+
+            }
+
+            pagedRecord.TotalRecords = pagedRecord.Content.Count;
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            return pagedRecord;
+
+
         }
     }
 }

@@ -351,7 +351,8 @@ namespace PI.Business
             }
         }
 
-        public PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,string shipmentnumber,string businessowner,string invoicenumber)
+        public PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,
+                                        string shipmentnumber,string businessowner,string invoicenumber)
         {
             var pagedRecord = new PagedList();
             int page = 1;
