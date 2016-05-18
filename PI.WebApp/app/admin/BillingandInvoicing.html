@@ -32,10 +32,13 @@
                                             <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('All')">All</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Active')">Active</a>
+                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Pending')">Pending</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Completed')">Completed</a>
+                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Paid')">Paid</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Disputed')">Disputed</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -48,28 +51,42 @@
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
-                                    <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
-                                        <option value="True">Search By: Shipment Reference</option>
-                                        <option value="False">Search By: Location</option>
+                                    <select ng-model="searchType" class="form-control" ng-init="searchType = 1">
+                                        <option value="1" >Search By: Shipment Reference</option>
+                                        <option value="2">Search By: Business Owner</option>
+                                        <option value="3">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                                <div class="btn-group form-group">
-                                    <input ng-model="invoiceCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
-                                           placeholder="Origin City/Country" />
-                                </div>
-                            </div>
-                            <div class="col-sm-2 form-group" ng-show="searchType == 'False'">
-                                <div class="btn-group">
-                                    <input ng-model="invoiceCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control"
-                                           placeholder="Destination City/Country" />
-                                </div>
-                            </div>
-                            <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
+                            </div>                           
+                            <div class="col-sm-4 form-group" ng-show="searchType == '1'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Tracking Number/ Shipment Ref Number" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="col-sm-4 form-group" ng-show="searchType == '2'">
+                                <div class="input-group">
+                                    <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
+                                           placeholder="Business Owner" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4 form-group" ng-show="searchType == '3'">
+                                <div class="input-group">
+                                    <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
+                                           placeholder="Invoice Number" />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
                                             <i class="fa fa-search"></i>

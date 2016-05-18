@@ -24,6 +24,10 @@ namespace PI.Contract.DTOs.Invoice
 
         public string InvoiceDate { get; set; }
 
+        public string BusinessOwner { get; set; }
+
+        public string CompanyName { get; set; }
+
         public string URL { get; set; }
     }
 }

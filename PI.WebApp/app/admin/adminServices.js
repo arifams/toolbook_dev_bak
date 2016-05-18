@@ -7,8 +7,29 @@
         return {
             getAllComapnies: getAllComapnies,
             changeCompanyStatus: changeCompanyStatus,
-            manageInvoicePaymentSetting: manageInvoicePaymentSetting
+            manageInvoicePaymentSetting: manageInvoicePaymentSetting,
+            loadAllInvoices:loadAllInvoices
         };
+
+
+
+
+        function loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber) {
+           
+            return $http.get(serverBaseUrl + '/api/admin/GetAllInvoices', {
+                params: {
+                    
+                   // userId: userId,
+                    status: status,
+                    userId: $window.localStorage.getItem('userGuid'),
+                    startDate: startDate,
+                    endDate: endDate,
+                    shipmentnumber: shipmentnumber,
+                    businessowner: businessowner,
+                    invoicenumber: invoicenumber
+                }
+            });
+        }
 
 
         function getAllComapnies(searchText, status) {

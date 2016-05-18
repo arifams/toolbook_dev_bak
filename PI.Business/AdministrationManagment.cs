@@ -13,6 +13,7 @@ using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Data.Entity;
 using PI.Contract.DTOs.Invoice;
+using PI.Contract.DTOs.Common;
 
 namespace PI.Business
 {
@@ -350,6 +351,92 @@ namespace PI.Business
             }
         }
 
+        public PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,string shipmentnumber,string businessowner,string invoicenumber)
+        {
+            var pagedRecord = new PagedList();
+            int page = 1;
+            int pageSize = 10;
+            pagedRecord.Content = new List<InvoiceDto>();
+
+            using (PIContext context = new PIContext())
+            {
+                var content = (from invoice in context.Invoices
+                               where invoice.IsDelete == false &&
+                               (string.IsNullOrEmpty(status) || status == invoice.InvoiceStatus.ToString()) &&
+                               (string.IsNullOrEmpty(invoicenumber) || invoicenumber.Contains(invoice.InvoiceNumber.ToString())) &&
+                               (string.IsNullOrEmpty(shipmentnumber) || shipmentnumber.Contains(invoice.Shipment.ShipmentCode.ToString())) &&
+                               (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
+                               select invoice).ToList();                
+               
+                    string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                    var companies = (from customer in context.Customers
+                                     join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                                     where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                                     customer.IsDelete == false &&
+                                     (string.IsNullOrEmpty(businessowner) || customer.FirstName.Contains(businessowner) || customer.LastName.Contains(businessowner))
+                                     select new
+                                     {
+                                         Customer = customer,
+                                         Company = comapny
+                                     }).ToList();
+
+                //removing unmatched company invoices according to the business owners
+                foreach (var invoice in content)
+                {
+                    var matched = false;
+                    var businessOwner = string.Empty;
+                    var corporateName = string.Empty;
+
+                    foreach (var company in companies)
+                    {
+                        if (invoice.Shipment.Division.CompanyId != company.Company.Id)
+                        {
+                            matched = false;
+                        }
+                        else
+                        {
+                            businessOwner = company.Customer.FirstName +" "+company.Customer.LastName;
+                            corporateName = company.Company.Name;
+                            matched = true;
+                            break;
+                        }
+                    }
+
+                    if (!matched)
+                    {
+                        content.Remove(invoice);
+                    }
+                    else
+                    {
+                        pagedRecord.Content.Add(new InvoiceDto
+                        {
+                            Id = invoice.Id,
+                            InvoiceNumber = invoice.InvoiceNumber,
+                            InvoiceStatus = invoice.InvoiceStatus,
+                            InvoiceValue = invoice.InvoiceValue.ToString(),
+                            ShipmentId = invoice.ShipmentId,
+                            URL = invoice.URL,
+                            BusinessOwner = businessOwner,
+                            CompanyName = corporateName,
+                            CreatedBy = invoice.CreatedBy
+
+                        });
+
+                    }
+                }                       
+
+            }
+
+            pagedRecord.TotalRecords = pagedRecord.Content.Count;
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            return pagedRecord;
+
+
+        }
 
         public bool SaveInvoiceDetails(InvoiceDto invoiceDetails)
         {
