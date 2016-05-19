@@ -6,19 +6,19 @@
             <tabset class="tab-fade-in">
                 <tab select="invoiceCtrl.loadAllInvoices()">
                     <tab-heading>
-                        All Invoices
+                        ALL INVOICES
                     </tab-heading>
-                    <form role="form" name="formAllInvoices">   
+                    <form role="form" name="formAllInvoices">
                         <div class="row">
-                             <div class="col-sm-10"></div>
-                            <div class="col-sm-2">                             
-                                
+                            <div class="col-sm-10"></div>
+                            <div class="col-sm-2">
+
                                 <div class="col-sm-3">
                                     <button class="btn btn-primary" style="float:right;" ng-click="invoiceCtrl.uploadInvoice('invoice')">Add Invoice</button>
-                                </div>                        
+                                </div>
                             </div>
-                        </div>     
-                                       
+                        </div>
+
                         <div class="row">
                             <div class="col-sm-2 form-group">
                                 <div dropdown="" class="btn-group">
@@ -52,12 +52,12 @@
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
                                     <select ng-model="invoiceCtrl.searchType" class="form-control" ng-init="invoiceCtrl.searchType = 'ShipmentReference'">
-                                        <option value="ShipmentReference"  >Search By: Shipment Reference</option>
+                                        <option value="ShipmentReference">Search By: Shipment Reference</option>
                                         <option value="BusinessOwner">Search By: Business Owner</option>
                                         <option value="InvoiceNumber">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
-                            </div>                           
+                            </div>
                             <div class="col-sm-4 form-group" ng-show="searchType == 'ShipmentReference'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
@@ -110,8 +110,8 @@
                                         <th>Invoice Number</th>
                                         <th>Invoice Value</th>
                                         <th>Invoice Status</th>
-                                        <th>View</th>
-                                      
+                                        <th>View Invoice</th>
+
                                     </tr>
 
                                 </thead>
@@ -119,17 +119,17 @@
                                     <tr ng-repeat="row in shipmentList">
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
-                                        <td>{{row.companyName}}</td>                                        
+                                        <td>{{row.companyName}}</td>
                                         <td>{{row.shipmentReference}}</td>
                                         <td>{{row.invoiceNumber}}</td>
-                                        <td>{{row.invoiceValue}}</td>                                        
+                                        <td>{{row.invoiceValue}}</td>
 
                                         <td>
                                             <div class="option-group">
                                                 <select id="status" name="status" class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
                                                     <option value="Pending">Pending</option>
                                                     <option value="Paid">Paid</option>
-                                                    <option value="Disputed">Disputed</option>                                                  
+                                                    <option value="Disputed">Disputed</option>
 
                                                 </select>
                                             </div>
@@ -138,7 +138,7 @@
                                             <a href='{{row.url}}' class="edit btn btn-sm btn-default">
                                                 <i class="glyphicon glyphicon-download-alt"></i>
                                             </a>
-                                        </td>                                
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -155,7 +155,7 @@
 
                 <tab select="invoiceCtrl.loadDisputedInvoices()">
                     <tab-heading>
-                        Disputed Invoices
+                       DISPUTED INVOICES
                     </tab-heading>
                     <form role="form">
                         <div class="row">
@@ -226,7 +226,8 @@
                                         <th>Invoice Number</th>
                                         <th>Invoice Value</th>
                                         <th>Invoice Status</th>
-                                        <th>Credit Note</th>
+                                        <th>Upload Credit Note</th>   
+                                        <th>View Credit Note</th>                                                                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -239,17 +240,23 @@
                                         <td>{{row.invoiceValue}}</td>
                                         <td>
                                             <div class="option-group">
-                                                <select class="salutation form-control" ng-model="row.invoiceStatus" ng-change="invoiceCtrl.updateInvoiceStatus(row)">
-                                                    <option value="1">Pending</option>
-                                                    <option value="2">Paid</option>
-                                                    <option value="3">Disputed</option>
+                                                <select class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Paid">Paid</option>
+                                                    <option value="Disputed">Disputed</option>
+
                                                 </select>
                                             </div>
-                                        </td>
+                                        </td>                                       
                                         <td style="text-align:center">
                                             <a class="edit btn btn-sm btn-default" ng-click="invoiceCtrl.uploadInvoice('creditNote', row.id)">
                                                 <i class="glyphicon glyphicon-circle-arrow-up"></i>
-                                </a>
+                                            </a>
+                                        </td>
+                                        <td style="text-align:center">
+                                            <a href='{{row.creditNoteURL}}' class="edit btn btn-sm btn-default" ng-show="row.creditNoteURL != null">
+                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
