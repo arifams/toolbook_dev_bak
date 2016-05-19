@@ -31,7 +31,6 @@
 
 
                vm.loadAllInvoices = function (status, from) {
-                   debugger;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -42,7 +41,6 @@
                    adminFactory.loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber)
                         .success(
                                function (responce) {
-                                   debugger;                                   
                                    if (from == 'fromDisputed')
                                    {
                                        vm.rowCollectionDisputed  = responce.content;

@@ -46,24 +46,24 @@
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
-                                           ng-model="invoiceCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
+                                           ng-model="invoiceCtrl.datePicker.date" placeholder="Search By: Invoice Date" />
                                 </div>
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
-                                    <select ng-model="invoiceCtrl.searchType" class="form-control" ng-init="invoiceCtrl.searchType = 'ShipmentReference'">
+                                    <select ng-model="searchTypeInvoice" class="form-control" ng-init="searchTypeInvoice = 'ShipmentReference'">
                                         <option value="ShipmentReference">Search By: Shipment Reference</option>
                                         <option value="BusinessOwner">Search By: Business Owner</option>
                                         <option value="InvoiceNumber">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4 form-group" ng-show="searchType == 'ShipmentReference'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'ShipmentReference'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
-                                           placeholder="Tracking Number/ Shipment Ref Number" />
+                                           placeholder="Shipment Ref Number" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
@@ -71,24 +71,24 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == 'BusinessOwner'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'BusinessOwner'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == 'InvoiceNumber'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'InvoiceNumber'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
@@ -167,19 +167,19 @@
                             </div>
                             <div class="col-sm-3 form-group">
                                 <div class="btn-group">
-                                    <select ng-model="searchType" class="form-control" ng-init="searchType = 1">
+                                    <select ng-model="searchTypeDispute" class="form-control" ng-init="searchTypeDispute = '1'">
                                         <option value="1">Search By: Shipment Reference</option>
                                         <option value="2">Search By: Business Owner</option>
                                         <option value="3">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4 form-group" ng-show="searchType == '1'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '1'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Shipment Ref Number" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadDisputedInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
@@ -187,24 +187,24 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == '2'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '2'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadDisputedInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchType == '3'">
+                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '3'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadShipmentsBySearch()">
+                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadDisputedInvoices()">
                                             <i class="fa fa-search"></i>
                                         </button>
                                     </span>
