@@ -9,6 +9,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Microsoft.AspNet.Identity;
 
 namespace PI.Service.Controllers
 {
@@ -52,8 +53,23 @@ namespace PI.Service.Controllers
         [Route("DisputeInvoice")]
         public InvoiceStatus DisputeInvoice([FromBody] InvoiceDto invoice)
         {
-            return invoiceMangement.DisputeInvoice(invoice);
-        }
+            var result = invoiceMangement.DisputeInvoice(invoice);
+            var subject = "Dispute invoice :" + invoice.ShipmentReference.ToString() + "_" + invoice.InvoiceNumber.ToString();
 
+            //sending the dispute infomation email to the admin
+            if (result == InvoiceStatus.Disputed)
+            {
+                string emailTemplate = invoiceMangement.GetDisputeInvoiceEmailTemplate(invoice);
+                
+                var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+
+                if (adminUser != null && !string.IsNullOrWhiteSpace(emailTemplate))
+                {
+                    AppUserManager.SendEmail(adminUser.Id, subject, emailTemplate);
+                }
+
+            }
+            return result;
+        }
     }
 }

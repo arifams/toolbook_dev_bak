@@ -71,5 +71,10 @@ namespace PI.Contract.Business
         /// <returns></returns>
         bool SaveCreditNoteDetails(InvoiceDto creditNoteDetails);
 
+        /// <summary>
+        /// Get disputed invoice confirmation email to admin
+        /// </summary>
+        /// <param name="invoice
+        string GetDisputeInvoiceEmailTemplate(InvoiceDto invoice);
     }
 }
