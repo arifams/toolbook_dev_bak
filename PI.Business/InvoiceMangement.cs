@@ -190,8 +190,8 @@ namespace PI.Business
                                  customer.IsDelete == false &&
                                  (string.IsNullOrEmpty(businessowner) || customer.FirstName.Contains(businessowner) || customer.LastName.Contains(businessowner)) &&
                                  (string.IsNullOrEmpty(status) || status == invoice.InvoiceStatus.ToString()) &&
-                                 (string.IsNullOrEmpty(invoicenumber) || invoicenumber.Contains(invoice.InvoiceNumber.ToString())) &&
-                                 (string.IsNullOrEmpty(shipmentnumber) || shipmentnumber.Contains(invoice.Shipment.ShipmentCode.ToString())) &&
+                                 (string.IsNullOrEmpty(invoicenumber) || invoice.InvoiceNumber.Contains(invoicenumber)) &&
+                                 (string.IsNullOrEmpty(shipmentnumber) || invoice.Shipment.ShipmentCode.Contains(shipmentnumber)) &&
                                  (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
                                  select new
                                  {
