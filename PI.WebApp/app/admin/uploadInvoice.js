@@ -5,7 +5,8 @@
     app.controller('uploadInvoiceCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout', 'fromMethod','invoiceId',
     function ($route, $scope, $location, $window, Upload, $timeout, fromMethod,invoiceId) {
             var vm = this;
-
+            $scope.from = fromMethod;
+            debugger;
             $scope.uploadInvoice = function (file) {
                 debugger;
                 if (fromMethod == 'creditNote') {

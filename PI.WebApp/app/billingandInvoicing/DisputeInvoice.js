@@ -5,6 +5,7 @@
     app.controller('disputeInvoiceCtrl', ['$route', '$scope', '$location', '$window', '$timeout', 'invoice', 'customerInvoiceFactory',
         function ($route, $scope, $location, $window, $timeout, invoice, customerInvoiceFactory) {
             var vm = this;
+            $scope.isSubmit = false;
 
             $scope.cancelDispute = function () {
                 $scope.customerinvoiceCtrl.closeWindow();

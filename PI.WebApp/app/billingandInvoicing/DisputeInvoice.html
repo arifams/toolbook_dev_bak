@@ -7,20 +7,31 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <form class="form-horizontal">
+        <form class="form-horizontal"   name="disputeInvoiceForm" novalidate>
             <!-- /.box-header -->
 
             <div class="panel-header">
                 <!-- left column -->
 
                 <div class="box-body">
+
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <textarea ng-model="$parent.disputecomment" name="disputecomment" class="form-horizontal" rows="10" cols="70"
-                                           ></textarea>
+                                <div class="col-sm-8">
+                                    <strong>Please insert the reason for disputing the invoice</strong>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <textarea ng-model="$parent.disputecomment" name="disputecomment" class="form-horizontal" rows="10" cols="70" required
+                                           ></textarea>
+                                    <div ng-messages="disputeInvoiceForm.disputecomment.$error"
+                                         ng-show="disputeInvoiceForm.disputecomment.$dirty || $parent.isSubmit">
+                                        <label ng-message="required" class="error" for="divisionName">Dispute comment is required</label>
+                                    </div>
+                                </div>
+                               
                             </div>
                             <div class="row">
                                 <div class="col-sm-4"></div>
@@ -30,11 +41,11 @@
 
                                 </div> 
                                 <div class="col-sm-4">
-                                    <button ng-click="disputeInvoice()"  class="btn btn-primary btn-square btn-embossed">Confirm</button>
+                                    <button  type="submit" ng-click="(disputeInvoiceForm.$valid ? disputeInvoice(): $parent.isSubmit = true)"  class="btn btn-primary btn-square btn-embossed">Confirm</button>
 
                                 </div> 
                             </div>
-                           
+                         
                         </div>
                     </div>
                     <br />
