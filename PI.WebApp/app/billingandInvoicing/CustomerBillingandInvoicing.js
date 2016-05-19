@@ -7,15 +7,9 @@
         return {
             getAllInvoicesByCustomer: getAllInvoicesByCustomer,
             payInvoice: payInvoice,
-            disputeInvoice: disputeInvoice,
-            disputeInvoice, disputeInvoice
+            disputeInvoice: disputeInvoice
+           
         };
-
-
-
-        function disputeInvoice(invoice) {
-
-        }
 
         function getAllInvoicesByCustomer(status, startDate, endDate, shipmentNumber, invoiceNumber) {
 
@@ -40,6 +34,7 @@
 
         function disputeInvoice(invoiceDetail) {
 
+            invoiceDetail.createdBy = $window.localStorage.getItem('userGuid');
             return $http.post(serverBaseUrl + '/api/Customer/DisputeInvoice', invoiceDetail);
         }
 
@@ -107,6 +102,7 @@
                                 buttons: [
                                         {
                                             addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                                row.disputeComment = '';
 
                                                 ngDialog.open({
                                                     scope: $scope,

@@ -52,7 +52,7 @@ namespace PI.Service.Controllers
         [Route("DisputeInvoice")]
         public InvoiceStatus DisputeInvoice([FromBody] InvoiceDto invoice)
         {
-            return invoiceMangement.DisputeInvoice(invoice.Id);
+            return invoiceMangement.DisputeInvoice(invoice);
         }
 
     }

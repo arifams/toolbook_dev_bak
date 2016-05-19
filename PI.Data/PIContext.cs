@@ -47,6 +47,7 @@ namespace PI.Data
         public DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
         public DbSet<LocationActivity> LocationActivities { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceDisputeHistory> InvoiceDisputeHistories { get; set; }
 
         public DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public DbSet<WeightMetric> WeightMetrics { get; set; }

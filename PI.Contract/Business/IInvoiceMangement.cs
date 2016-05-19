@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.Invoice;
 using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
@@ -52,7 +53,7 @@ namespace PI.Contract.Business
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <returns></returns>
-        InvoiceStatus DisputeInvoice(long invoiceId);
+        InvoiceStatus DisputeInvoice(InvoiceDto invoice);
 
     }
 }

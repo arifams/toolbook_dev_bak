@@ -109,16 +109,26 @@ namespace PI.Business
         /// </summary>
         /// <param name="invoiceId"></param>
         /// <returns></returns>
-        public InvoiceStatus DisputeInvoice(long invoiceId)
+        public InvoiceStatus DisputeInvoice(InvoiceDto invoice)
         {
             using (var context = new PIContext())
             {
-                var invoice = context.Invoices.Where(i => i.Id == invoiceId).SingleOrDefault();
-                invoice.InvoiceStatus = InvoiceStatus.Disputed;
+                var currentinvoice = context.Invoices.Where(i => i.Id == invoice.Id).SingleOrDefault();
+                currentinvoice.InvoiceStatus = InvoiceStatus.Disputed;
 
+                InvoiceDisputeHistory history = new InvoiceDisputeHistory()
+                {
+                    InvoiceId = invoice.Id,
+                    DisputeComment = invoice.DisputeComment,
+                    CreatedDate = DateTime.Now,
+                    CreatedBy= invoice.CreatedBy
+
+                };
+
+                context.InvoiceDisputeHistories.Add(history);
                 context.SaveChanges();
 
-                return invoice.InvoiceStatus;
+                return currentinvoice.InvoiceStatus;
             }
         }
 

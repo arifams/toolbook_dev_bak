@@ -99,6 +99,7 @@
     <Compile Include="Entity\DivisionCostCenter.cs" />
     <Compile Include="Entity\Identity\ApplicationUser.cs" />
     <Compile Include="Entity\Invoice.cs" />
+    <Compile Include="Entity\InvoiceDisputeHistory.cs" />
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\LongIdBaseEntity.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
