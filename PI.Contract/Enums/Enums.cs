@@ -91,7 +91,9 @@ namespace PI.Contract.Enums
         [Description("RATE_SHEET")]
         RateSheet = 4,
         [Description("INVOICE")]
-        Invoice=5
+        Invoice = 5,
+        [Description("CREDIT_NOTE")]
+        CreditNote,
     }
 
     public enum CurrencyType : short

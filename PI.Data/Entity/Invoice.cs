@@ -22,5 +22,8 @@ namespace PI.Data.Entity
 
         [ForeignKey("ShipmentId")]
         public virtual Shipment Shipment { get; set; }
+
+        public virtual ICollection<CreditNote> creditNoteList { get; set; }
+
     }
 }

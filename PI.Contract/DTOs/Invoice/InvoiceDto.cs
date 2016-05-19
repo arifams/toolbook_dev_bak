@@ -32,6 +32,8 @@ namespace PI.Contract.DTOs.Invoice
 
         public string DisputeComment { get; set; }
 
+
+        public string CreditNoteURL { get; set; }
     }
 
 }

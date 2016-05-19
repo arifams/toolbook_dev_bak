@@ -55,5 +55,21 @@ namespace PI.Contract.Business
         /// <returns></returns>
         InvoiceStatus DisputeInvoice(InvoiceDto invoice);
 
+
+        /// <summary>
+        /// Save uploaded invoice details
+        /// </summary>
+        /// <param name="invoiceDetails"></param>
+        /// <returns></returns>
+        bool SaveInvoiceDetails(InvoiceDto invoiceDetails);
+
+        
+        /// <summary>
+        /// Save uploaded Credit Note details
+        /// </summary>
+        /// <param name="creditNoteDetails"></param>
+        /// <returns></returns>
+        bool SaveCreditNoteDetails(InvoiceDto creditNoteDetails);
+
     }
 }

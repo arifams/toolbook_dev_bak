@@ -70,6 +70,13 @@ namespace PI.Data
 
         public DbSet<AuditTrail> AuditTrail { get; set; }
         
+       public DbSet<Invoice> Invoices { get; set; }
+        
+        public DbSet<CreditNote> CreditNotes { get; set; }
+
+        public DbSet<InvoiceDisputeHistory> InvoiceDisputeHistory { get; set; } 
+
+
         public PIContext()
             : base("name=PIBookingConnectionString")
         {

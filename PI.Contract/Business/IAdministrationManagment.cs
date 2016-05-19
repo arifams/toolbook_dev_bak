@@ -19,6 +19,6 @@ namespace PI.Contract.Business
         /// <param name="comapnyId"></param>
         /// <returns></returns>
         bool ManageInvoicePaymentSetting(long comapnyId);
-        PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate, string shipmentnumber, string businessowner, string invoicenumber);
+
     }
 }

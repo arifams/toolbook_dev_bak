@@ -15,22 +15,22 @@
                    ngDialog.close()
                }
 
-               vm.uploadInvoice = function () {
-
+               vm.uploadInvoice = function (fromMethod, invoiceId) {
+                   debugger;
                    ngDialog.open({
                        scope: $scope,
                        template: '/app/admin/uploadInvoice.html',
                        className: 'ngdialog-theme-plain custom-width',
                        controller: $controller('uploadInvoiceCtrl', {
                            $scope: $scope,
-                           
-                       })                      
-
+                           fromMethod: fromMethod,
+                           invoiceId: invoiceId
+                       })                     
                    });
                }
 
 
-               vm.loadAllInvoices = function (status) {
+               vm.loadAllInvoices = function (status, from) {
                    debugger;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
@@ -42,12 +42,22 @@
                    adminFactory.loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber)
                         .success(
                                function (responce) {
-                                   debugger;
-                                   vm.rowCollection = responce.content;
+                                   debugger;                                   
+                                   if (from == 'fromDisputed')
+                                   {
+                                       vm.rowCollectionDisputed  = responce.content;
+                                   }
+                                   else {
+                                       vm.rowCollection = responce.content;
+                                   }
                                }).error(function (error) {
                                    console.log("error occurd while retrieving shiments");
                                });
 
+               }
+
+               vm.loadDisputedInvoices = function () {
+                   vm.loadAllInvoices('Disputed', 'fromDisputed');
                }
 
                vm.loadInvoicesByStatus = function (status) {

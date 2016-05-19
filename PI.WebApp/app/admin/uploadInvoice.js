@@ -2,22 +2,42 @@
 
 (function (app) {
 
-    app.controller('uploadInvoiceCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout',
-        function ($route, $scope, $location, $window, Upload, $timeout) {
+    app.controller('uploadInvoiceCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout', 'fromMethod','invoiceId',
+    function ($route, $scope, $location, $window, Upload, $timeout, fromMethod,invoiceId) {
             var vm = this;
 
             $scope.uploadInvoice = function (file) {
-                file.upload = Upload.upload({
-                    url: serverBaseUrl + '/api/Admin/UploadInvoice',
-                    data: {                        
-                        userId: $window.localStorage.getItem('userGuid'),
-                        documentType: "INVOICE",
-                        file: file,
-                    },
-                    params: {
-                        userId: $window.localStorage.getItem('userGuid'),
-                    }
-                });
+                debugger;
+                if (fromMethod == 'creditNote') {
+
+                    file.upload = Upload.upload({
+                        url: serverBaseUrl + '/api/Admin/UploadInvoice',
+                        data: {
+                            userId: $window.localStorage.getItem('userGuid'),
+                            documentType: "CREDIT_NOTE",
+                            invoiceId : invoiceId,
+                            file: file,
+                        },
+                        params: {
+                            userId: $window.localStorage.getItem('userGuid'),
+                        }
+                    });
+                }
+                else {
+                    debugger;
+                    file.upload = Upload.upload({
+                        url: serverBaseUrl + '/api/Admin/UploadInvoice',
+                        data: {
+                            userId: $window.localStorage.getItem('userGuid'),
+                            documentType: "INVOICE",
+                            file: file,
+                        },
+                        params: {
+                            userId: $window.localStorage.getItem('userGuid'),
+                        }
+                    });
+                }
+
 
                 file.upload.then(function (response) {
 

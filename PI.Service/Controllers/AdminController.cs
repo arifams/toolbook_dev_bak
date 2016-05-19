@@ -254,11 +254,22 @@ namespace PI.Service.Controllers
                             URL = returnData
                         };
 
-                        AdministrationManagment adminManagement = new AdministrationManagment();
-                        if (!adminManagement.SaveInvoiceDetails(invoiceDetail))
+                    if (fileDetails.DocumentType == DocumentType.Invoice)
+                    {
+                        if (!invoiceMangement.SaveInvoiceDetails(invoiceDetail))
+                        {
+                            return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+                        }
+                    }
+                    else if (fileDetails.DocumentType == DocumentType.CreditNote)
+                    {
+                        invoiceDetail.Id = long.Parse(fileDetails.CodeReference);
+
+                        if (!invoiceMangement.SaveCreditNoteDetails(invoiceDetail))
                         {
                             return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
                         }                               
+                    }
 
                 }
 
