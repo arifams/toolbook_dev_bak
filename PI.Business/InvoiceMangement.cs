@@ -256,6 +256,7 @@ namespace PI.Business
 
                     // Update Invoice status and value.
                     var invoice = context.Invoices.Where(x => x.Id == creditNoteDetails.Id).SingleOrDefault();
+
                     invoice.InvoiceValue = (invoice.InvoiceValue - creditNote.CreditNoteValue);
                     invoice.InvoiceStatus = (invoice.InvoiceValue == creditNote.CreditNoteValue) ? 
                                              InvoiceStatus.Paid : InvoiceStatus.Pending;
