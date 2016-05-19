@@ -76,5 +76,8 @@ namespace PI.Contract.Business
         /// </summary>
         /// <param name="invoice
         string GetDisputeInvoiceEmailTemplate(InvoiceDto invoice);
+        
+        byte[] ExportInvoiceReport(List<InvoiceDto> invoiceList, bool isAdmin = false);
+
     }
 }

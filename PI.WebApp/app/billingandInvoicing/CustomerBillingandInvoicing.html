@@ -66,7 +66,11 @@
                 </div>
             </div>
             <div>
-
+                <br />
+                <button type="button" class="btn btn-large btn-primary no-margin"
+                        ng-click="customerinvoiceCtrl.exportInvoiceReport()">
+                    Export
+                </button>
                 <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-striped">
                     <thead>
                         <tr>
