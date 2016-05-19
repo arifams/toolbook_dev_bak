@@ -1,6 +1,6 @@
 ﻿<div>
     <h2 class="box-title">
-        Upload Rate Sheet
+        Upload Invoice
     </h2>
 
     <div class="panel">
@@ -13,14 +13,15 @@
                 <!-- left column -->
 
                 <div class="box-body">
-                    <div class="row">
-                        <div class="col-sm-12">
+                    <div class="row">   
+                        <div class="col-md-12">
 
-                            <div class="col-sm-6">
+                            <div class="col-md-6">
                                 <input type="file" ngf-select ng-model="document" name="file" ngf-multiple multiple
                                        ngf-max-size="2MB" required ngf-model-invalid="errorFile">
                             </div>
-                            <div class="col-sm-6">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-4">
                                 <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
                                 <button ng-click="uploadInvoice(document)" class="btn btn-primary btn-square btn-embossed">
                                     <i class="fa fa-arrow-circle-o-up"></i> Import Invoice
