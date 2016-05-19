@@ -394,7 +394,7 @@ namespace PI.Business
                     }
 
                     // Set width
-                    for (int i = 1; i < 7; i++)
+                    for (int i = 1; i < 8; i++)
                     {
                         ws.Column(i).Width = 25;
                     }

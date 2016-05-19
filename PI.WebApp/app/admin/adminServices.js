@@ -8,7 +8,8 @@
             getAllComapnies: getAllComapnies,
             changeCompanyStatus: changeCompanyStatus,
             manageInvoicePaymentSetting: manageInvoicePaymentSetting,
-            loadAllInvoices:loadAllInvoices
+            loadAllInvoices: loadAllInvoices,
+            exportInvoiceDetailsReport: exportInvoiceDetailsReport
         };
 
 
@@ -26,6 +27,15 @@
                     businessowner: businessowner,
                     invoicenumber: invoicenumber
                 }
+            });
+        }
+
+        function exportInvoiceDetailsReport(invoiceList) {
+            return $http({
+                url: serverBaseUrl + '/api/admin/ExportInvoiceReport',
+                data: invoiceList,
+                method: "POST",
+                responseType: 'arraybuffer'
             });
         }
 

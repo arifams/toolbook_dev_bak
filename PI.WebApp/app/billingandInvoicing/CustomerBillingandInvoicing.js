@@ -97,7 +97,7 @@
                                           headers = headers();
 
                                           // Get the filename from the x-filename header or default to "download.bin"
-                                          var filename = headers['x-filename'] || 'InvoiceReport.xlsx';
+                                          var filename = headers['x-filename'] || 'MyInvoiceReport.xlsx';
 
                                           // Determine the content type from the header or default to "application/octet-stream"
                                           var contentType = headers['content-type'] || octetStreamMime;

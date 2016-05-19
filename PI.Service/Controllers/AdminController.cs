@@ -344,5 +344,20 @@ namespace PI.Service.Controllers
 
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ExportInvoiceReport")]
+        public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList,true));
+
+            result.Content.Headers.Add("x-filename", "InvoiceReport.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+        }
+
     }
 }

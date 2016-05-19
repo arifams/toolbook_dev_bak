@@ -99,7 +99,11 @@
                         </div>
                         <div class="row">
 
-
+                            <br />
+                            <button type="button" class="btn btn-large btn-primary no-margin"
+                                    ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
+                                Export
+                            </button>
                             <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-striped ship-mgt">
                                 <thead>
                                     <tr>
@@ -212,10 +216,8 @@
 
                             </div>
 
-                        </div>
-                        <div class="row">
-
-
+                        </div>                       
+                        <div class="row">                            
                             <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-striped ship-mgt">
                                 <thead>
                                     <tr>
