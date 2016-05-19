@@ -68,9 +68,8 @@ namespace PI.Data
 
         public DbSet<TariffType> TariffType { get; set; }
 
-        public DbSet<AuditTrail> AuditTrail { get; set; }
-        
-       public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<AuditTrail> AuditTrail { get; set; }       
+     
         
         public DbSet<CreditNote> CreditNotes { get; set; }
 
