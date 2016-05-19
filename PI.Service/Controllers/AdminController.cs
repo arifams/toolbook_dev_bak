@@ -196,7 +196,7 @@ namespace PI.Service.Controllers
                 // so this is how you can get the original file name
                 var originalFileName = GetDeserializedFileName(invoice);
 
-                string[] invoiceDetails = originalFileName.Split('_');
+                string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
 
                 // uploadedFileInfo object will give you some additional stuff like file length,
                 // creation time, directory name, a few filesystem methods etc..
