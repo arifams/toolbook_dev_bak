@@ -152,6 +152,10 @@
     <Compile Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.Designer.cs">
       <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605200551243_Billing and Invoicing.cs" />
+    <Compile Include="Migrations\201605200551243_Billing and Invoicing.Designer.cs">
+      <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.resx">
       <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605200551243_Billing and Invoicing.resx">
+      <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
