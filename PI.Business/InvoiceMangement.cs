@@ -144,15 +144,12 @@ namespace PI.Business
             strTemplate.Append("<!DOCTYPE html><html><head><title></title><meta charset='utf-8' /> <style> .name{ width:200px;display:inline-block;font-weight:600;font-size:medium } .value{ font-style:italic; } table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 8px; } tr:nth-child(even){background-color: #f2f2f2} th {background-color: lightblue;color: white;} </style></head><body>");
 
             // General 
-            strTemplate.Append("<h1>Dispute Invoice:"+ invoice.ShipmentReference.ToString()+"_"+invoice.InvoiceNumber.ToString()+ "</h1>");
-            strTemplate.Append("<br>");
-            strTemplate.Append("<br>");
             strTemplate.Append("<h3>Dear Admin</h3>");
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Shipment Reference", invoice.ShipmentReference.ToString());
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoice Number", invoice.InvoiceNumber.ToString());
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoiced Date", invoice.InvoiceDate.ToString());
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Shipment Reference: ", invoice.ShipmentReference);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoice Number: ", invoice.InvoiceNumber);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoiced Date: ", invoice.InvoiceDate);
             strTemplate.Append("<br>");
-            strTemplate.Append("<h3>Customer responce,reason for dispute: </h3>");
+            strTemplate.Append("<h3>Customer responce/reason for dispute: </h3>");
             strTemplate.Append("<span class='value'>" + invoice.DisputeComment.ToString() +"</span> </span>");
             strTemplate.Append("<br>");
 

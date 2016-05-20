@@ -7,41 +7,40 @@
             <div class="row">
                 <div class="col-sm-2 form-group">
                     <div dropdown="" class="btn-group">
-                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <button type="button" class="btn btn-primary dropdown-toggle ng-binding p-0" data-toggle="dropdown" style="min-width:140px;">
                             Status : {{customerinvoiceCtrl.statusButton}}
                         </button>
                         <span class="dropdown-arrow"></span>
                         <ul role="menu" class="dropdown-menu">
                             <li>
-                                <a href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('All')">All</a>
+                                <a class="ng-pristine ng-untouched ng-valid" href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('All')">All</a>
                             </li>
                             <li>
-                                <a href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Pending')">Pending</a>
+                                <a class="ng-pristine ng-untouched ng-valid" href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Pending')">Pending</a>
                             </li>
                             <li>
-                                <a href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Paid')">Paid</a>
+                                <a class="ng-pristine ng-untouched ng-valid" href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Paid')">Paid</a>
                             </li>
                             <li>
-                                <a href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Disputed')">Disputed</a>
+                                <a class="ng-pristine ng-untouched ng-valid" href="javascript:;" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Disputed')">Disputed</a>
                             </li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-sm-3">
+                <div class="col-sm-2 p-0">
                     <div class="btn-group form-group">
-                        <input date-range-picker class="form-control p-l-5" type="text"
-                               ng-model="customerinvoiceCtrl.datePicker.date" placeholder="Search By: Invoice Date" />
+                        <input type="text" placeholder="Search By: Invoice Date" ng-model="customerinvoiceCtrl.datePicker.date" class="form-control p-l-5 p-r-5 ng-pristine ng-untouched ng-valid ng-isolate-scope" date-range-picker="">
                     </div>
                 </div>               
-                <div class="col-sm-3 form-group">
-                    <div class="btn-group">
-                        <select ng-model="searchType" class="form-control" ng-init="searchType = 'True'">
+                <div class="col-sm-3 form-group p-r-5">
+                    <div class="btn-group m-0">
+                        <select ng-model="searchType" class="form-control ng-pristine ng-untouched ng-valid" ng-init="searchType = 'True'">
                             <option value="True">Search By: Shipment Reference</option>
                             <option value="False">Search By: Invoice Number</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4 form-group" ng-show="searchType == 'True'">
+                <div class="col-sm-3 form-group p-0" ng-show="searchType == 'True'">
                     <div class="input-group">
                         <input ng-model="customerinvoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                placeholder="Shipment Ref Number" />
@@ -52,7 +51,7 @@
                         </span>
                     </div>
                 </div>
-                <div class="col-sm-4 form-group" ng-show="searchType == 'False'">
+                <div ng-show="searchType == 'False'" class="col-sm-3 form-group ng-hide p-0">
                     <div class="input-group">
                         <input ng-model="customerinvoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                placeholder="Invoice Number" />
@@ -64,13 +63,13 @@
                         </span>
                     </div>
                 </div>
+
+                <div class="col-md-1">
+                    <button ng-click="customerinvoiceCtrl.exportInvoiceReport()" class="btn btn-large btn-primary no-margin" type="button">
+                        <i class="glyphicon glyphicon-download-alt"></i>Export
+                    </button>
+                </div>
             </div>
-            <div>
-                <br />
-                <button type="button" class="btn btn-large btn-primary no-margin"
-                        ng-click="customerinvoiceCtrl.exportInvoiceReport()">
-                    Export
-                </button>
                 <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-striped">
                     <thead>
                         <tr>

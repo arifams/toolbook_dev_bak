@@ -58,14 +58,14 @@ namespace PI.Service.Controllers
         public InvoiceStatus DisputeInvoice([FromBody] InvoiceDto invoice)
         {
             var result = invoiceMangement.DisputeInvoice(invoice);
-            var subject = "Dispute invoice :" + invoice.ShipmentReference.ToString() + "_" + invoice.InvoiceNumber.ToString();
+            var subject = "Dispute invoice :" + invoice.ShipmentReference + "_" + invoice.InvoiceNumber;
 
             //sending the dispute infomation email to the admin
             if (result == InvoiceStatus.Disputed)
             {
                 string emailTemplate = invoiceMangement.GetDisputeInvoiceEmailTemplate(invoice);
-                
-                var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+
+                var adminUser = AppUserManager.FindByEmail("support@parcelinternational.com");
 
                 if (adminUser != null && !string.IsNullOrWhiteSpace(emailTemplate))
                 {

@@ -46,15 +46,16 @@
                     var body = $("html, body");
                     if (response.statusText = 'OK') {
 
+                        $scope.invoiceCtrl.closeWindow();
+
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' Rates records added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + ' File(s) added successfully.' + '</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
-                                            $scope.invoiceCtrl.closeWindow();
+                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {                                     
                                             $route.reload();
                                             $noty.close();
 

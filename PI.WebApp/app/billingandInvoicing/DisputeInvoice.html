@@ -30,22 +30,18 @@
                                          ng-show="disputeInvoiceForm.disputecomment.$dirty || $parent.isSubmit">
                                         <label ng-message="required" class="error" for="divisionName">Dispute comment is required</label>
                                     </div>
-                                </div>
-                               
+                                </div>                               
                             </div>
                             <div class="row">
-                                <div class="col-sm-4"></div>
-                                <div class="col-sm-4">
-
-                                    <button ng-click="cancelDispute()"  class="btn btn-primary btn-square btn-embossed">Cancel</button>
-
-                                </div> 
-                                <div class="col-sm-4">
-                                    <button  type="submit" ng-click="(disputeInvoiceForm.$valid ? disputeInvoice(): $parent.isSubmit = true)"  class="btn btn-primary btn-square btn-embossed">Confirm</button>
-
-                                </div> 
+                                <div class="col-sm-6"></div>
+                                <div class="col-sm-6">
+                                    <button ng-click="cancelDispute()" class="btn btn-primary pull-right">Cancel</button>
+                                    <button type="submit" ng-click="(disputeInvoiceForm.$valid ? disputeInvoice(): $parent.isSubmit = true)"
+                                            class="btn btn-primary pull-right">
+                                        Confirm
+                                    </button>
+                                </div>
                             </div>
-                         
                         </div>
                     </div>
                     <br />
