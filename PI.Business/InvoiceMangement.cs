@@ -88,6 +88,26 @@ namespace PI.Business
             }
         }
 
+
+        /// <summary>
+        /// Update invoice status
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns></returns>
+        public InvoiceStatus UpdateInvoiceStatus(InvoiceDto invoiceDto)
+        {
+            using (var context = new PIContext())
+            {
+                var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
+                invoice.InvoiceStatus = (InvoiceStatus)Enum.Parse( typeof(InvoiceStatus), invoiceDto.InvoiceStatus,true);
+
+                context.SaveChanges();
+
+                return invoice.InvoiceStatus;
+            }
+        }
+
+
         /// <summary>
         /// Pay an invoice
         /// </summary>
@@ -253,8 +273,6 @@ namespace PI.Business
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL
-
-
                 };
 
                 context.Invoices.Add(invoice);

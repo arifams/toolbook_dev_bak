@@ -359,5 +359,17 @@ namespace PI.Service.Controllers
             return result;
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("UpdateInvoiceStatus")]
+        public string UpdateInvoiceStatus([FromBody] InvoiceDto invoice)
+        {
+            var status = invoiceMangement.UpdateInvoiceStatus(invoice);
+
+            return status.ToString();
+        }
+
     }
 }

@@ -164,6 +164,69 @@
                                   });
                }
 
+               vm.updateInvoiceStatus = function (row) {
+                  
+                   var body = $("html, body");
+                   body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                   });
+
+                   $('#panel-notif').noty({
+                       text: '<div class="alert alert-success media fade in"><p>Are you want to update the invoice status?</p></div>',
+                       buttons: [
+                               {
+                                   addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+
+                                       $noty.close();
+                                       
+                                       adminFactory.updateInvoiceStatus(row)
+                                                  .success(
+                                                         function (responce) {
+                                                             debugger;
+                                                             row.invoiceStatus = responce;
+                                                             $('#panel-notif').noty({
+                                                                 text: '<div class="alert alert-success media fade in"><p>' + ' Invoice updated successfully.' + '</p></div>',
+                                                                 buttons: [
+                                                                         {
+                                                                             addClass: 'btn btn-primary', text: 'Yes', onClick: function ($noty) {                                                      
+                                                                                 $noty.close();
+                                                                             }
+                                                                         }
+
+                                                                 ],
+                                                                 layout: 'bottom-right',
+                                                                 theme: 'made',
+                                                                 animation: {
+                                                                     open: 'animated bounceInLeft',
+                                                                     close: 'animated bounceOutLeft'
+                                                                 },
+                                                                 timeout: 3000,
+                                                             });
+                                                         }).error(function (error) {
+                                                             console.log("error occurd while retrieving shiments");
+                                                         });
+            
+                                   }
+                               },
+                               {
+                                   addClass: 'btn btn-danger', text: 'No', onClick: function ($noty) {
+                                       
+                                       $noty.close();
+                                       return;
+                                   }
+                               }
+                       ],
+                       layout: 'bottom-right',
+                       theme: 'made',
+                       animation: {
+                           open: 'animated bounceInLeft',
+                           close: 'animated bounceOutLeft'
+                       },
+                       timeout: 3000,
+                   });
+
+               }
+
+              
                vm.loadAllInvoices();
 
 

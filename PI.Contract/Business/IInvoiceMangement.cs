@@ -63,7 +63,7 @@ namespace PI.Contract.Business
         /// <returns></returns>
         bool SaveInvoiceDetails(InvoiceDto invoiceDetails);
 
-        
+
         /// <summary>
         /// Save uploaded Credit Note details
         /// </summary>
@@ -76,8 +76,15 @@ namespace PI.Contract.Business
         /// </summary>
         /// <param name="invoice
         string GetDisputeInvoiceEmailTemplate(InvoiceDto invoice);
-        
+
         byte[] ExportInvoiceReport(List<InvoiceDto> invoiceList, bool isAdmin = false);
+
+        /// <summary>
+        /// Update invoice status
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns></returns>
+        InvoiceStatus UpdateInvoiceStatus(InvoiceDto invoiceDto);
 
     }
 }

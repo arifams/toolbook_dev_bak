@@ -9,7 +9,8 @@
             changeCompanyStatus: changeCompanyStatus,
             manageInvoicePaymentSetting: manageInvoicePaymentSetting,
             loadAllInvoices: loadAllInvoices,
-            exportInvoiceDetailsReport: exportInvoiceDetailsReport
+            exportInvoiceDetailsReport: exportInvoiceDetailsReport,
+            updateInvoiceStatus: updateInvoiceStatus
         };
 
 
@@ -60,6 +61,11 @@
         function manageInvoicePaymentSetting(companyDetail) {
 
             return $http.post(serverBaseUrl + '/api/Admin/ManageInvoicePaymentSetting', companyDetail);
+        }
+
+        function updateInvoiceStatus(invoice) {
+
+            return $http.post(serverBaseUrl + '/api/Admin/UpdateInvoiceStatus', invoice);
         }
 
     }]);
