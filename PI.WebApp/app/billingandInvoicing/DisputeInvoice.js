@@ -25,7 +25,7 @@
                                         {
                                             addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
                                                 $scope.customerinvoiceCtrl.closeWindow();
-                                                $route.reload();
+                                               // $route.reload();
                                                 $noty.close();
 
 
