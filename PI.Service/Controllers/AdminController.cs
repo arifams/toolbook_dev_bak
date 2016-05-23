@@ -44,6 +44,7 @@ namespace PI.Service.Controllers
         public async Task<HttpResponseMessage> UploadRateSheet(string userId)
         {
             OperationResult opResult = new OperationResult();
+            HttpResponseMessage uploadResult = new HttpResponseMessage();
             try
             {
                 if (!Request.Content.IsMimeMultipartContent())
@@ -53,6 +54,7 @@ namespace PI.Service.Controllers
 
                 var provider = GetMultipartProvider();
                 var result = await Request.Content.ReadAsMultipartAsync(provider);
+                uploadResult = await this.Upload(result);
 
                 string returnData = result.FileData.First().LocalFileName;
                 var response = this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
@@ -70,22 +72,22 @@ namespace PI.Service.Controllers
                 opResult.Message = "Controller  :" + ex.ToString();
             }
 
-            return this.Request.CreateResponse(opResult.Status == Status.Success ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
+            return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode==HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
             ///////////////////////
 
         }
         
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
-        public async Task<HttpResponseMessage> Upload()
+        public async Task<HttpResponseMessage> Upload(MultipartFormDataStreamProvider results)
         {
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            var provider = GetMultipartProvider();
-            var result = await Request.Content.ReadAsMultipartAsync(provider);
-
+             // var provider = GetMultipartProvider();
+            //var result = await Request.Content.ReadAsMultipartAsync(provider);
+            var result = results;
             // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
             // so this is how you can get the original file name
             var originalFileName = GetDeserializedFileName(result.FileData.First());
