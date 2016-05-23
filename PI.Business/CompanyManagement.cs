@@ -879,23 +879,7 @@ namespace PI.Business
             }
 
         }
-     
-
-        public long GettenantIdByUserId(string userid)
-        {
-            ApplicationUser currentuser = null;
-            using (PIContext context = new PIContext())
-            {
-                currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
-            }
-            if (currentuser == null)
-            {
-                return 0;
-            }
-
-            return currentuser.TenantId;
-        }
-
+    
 
         #endregion
 
@@ -1119,7 +1103,7 @@ namespace PI.Business
         /// <returns></returns>
         public UserResultDto SaveUser(UserDto userDto)
         {
-            long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
+            long tenantId = commonLogics.GetTenantIdByUserId(userDto.LoggedInUserId);
 
             UserResultDto result = new UserResultDto();
 
@@ -1282,7 +1266,7 @@ namespace PI.Business
         public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-            long tenantId = this.GettenantIdByUserId(userId);
+            long tenantId = commonLogics.GetTenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 

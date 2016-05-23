@@ -31,6 +31,7 @@ namespace PI.Service.Controllers
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
         IInvoiceMangement invoiceMangement = new InvoiceMangement();
+        CommonLogic commonLogic = new CommonLogic();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
         //    this.adminManagement = adminmanagementa;
@@ -103,13 +104,12 @@ namespace PI.Service.Controllers
             // Convert to stream            
             Stream stream = File.OpenRead(uploadedFileInfo.FullName);
 
-            AzureFileManager media = new AzureFileManager();
-            CompanyManagement companyManagement = new CompanyManagement();
+            AzureFileManager media = new AzureFileManager();           
             string imageFileNameInFull = null;
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-            var tenantId = companyManagement.GettenantIdByUserId(fileDetails.UserId);
+            var tenantId = commonLogic.GetTenantIdByUserId(fileDetails.UserId);
             fileDetails.TenantId = tenantId;
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)

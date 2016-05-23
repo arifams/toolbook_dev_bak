@@ -1499,10 +1499,8 @@ namespace PI.Business
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
-            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-
-            CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(userId);
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];           
+            var tenantId = commonLogics.GetTenantIdByUserId(userId);
 
             using (var context = new PIContext())
             {

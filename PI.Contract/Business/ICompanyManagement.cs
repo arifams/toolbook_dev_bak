@@ -39,8 +39,7 @@ namespace PI.Contract.Business
         PagedList GetAllComapnies(string status, string searchtext);
         PagedList GetAllCostCenters(long divisionId, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
                                          string sortBy = "Id", string sortDirection = "asc");
-        CostCenterDto GetCostCentersById(long id, string userId);
-        long GettenantIdByUserId(string userid);
+        CostCenterDto GetCostCentersById(long id, string userId);       
         PagedList GetAllComapniesForAdminSearch(string searchtext);
         string GetBusinessOwneridbyCompanyId(string companyId);
 

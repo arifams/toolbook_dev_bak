@@ -39,7 +39,7 @@ namespace PI.Service.Controllers
         ICompanyManagement comapnyManagement = new CompanyManagement();
         IShipmentManagement shipmentManagement = new ShipmentsManagement();
         IAddressBookManagement addressManagement = new AddressBookManagement();
-
+        CommonLogic commonLogic = new CommonLogic();
 
         //public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
         //{
@@ -214,7 +214,7 @@ namespace PI.Service.Controllers
             #region  Add shipment label to azure storage
 
             AzureFileManager media = new AzureFileManager();
-            long tenantId = comapnyManagement.GettenantIdByUserId(sendShipmentDetails.UserId);
+            long tenantId = commonLogic.GetTenantIdByUserId(sendShipmentDetails.UserId);
             media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.ShipmentLabel));
             var result = media.UploadFromFileURL(operationResult.LabelURL, operationResult.ShipmentId.ToString() + ".pdf");
 
@@ -329,7 +329,7 @@ namespace PI.Service.Controllers
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-            var tenantId = comapnyManagement.GettenantIdByUserId(fileDetails.UserId);
+            var tenantId = commonLogic.GetTenantIdByUserId(fileDetails.UserId);
             fileDetails.TenantId = tenantId;
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)
