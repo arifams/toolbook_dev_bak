@@ -1,5 +1,6 @@
 ﻿using PI.Data;
 using PI.Data.Entity;
+using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,5 +42,26 @@ namespace PI.Business
                return context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
            }
        }
+
+
+       /// <summary>
+       /// Get Tenant by UserId
+       /// </summary>
+       /// <param name="userid"></param>
+       /// <returns></returns>
+       public long GetTenantIdByUserId(string userid)
+       {
+           ApplicationUser currentuser = null;
+           using (PIContext context = new PIContext())
+           {
+               currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
+           }
+           if (currentuser == null)
+           {
+               return 0;
+           }
+           return currentuser.TenantId;
+       }
+
     }
 }
