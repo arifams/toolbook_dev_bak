@@ -8,6 +8,7 @@
             $scope.isSubmit = false;
 
             $scope.cancelDispute = function () {
+                $scope.disputecomment = "";
                 $scope.customerinvoiceCtrl.closeWindow();
             }
 
@@ -19,12 +20,12 @@
                         if (responce == 3) {                         
                                 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>' + ' Rates records added successfully.' + '</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>' + ' Invoice disputed successfully.' + '</p></div>',
                                 buttons: [
                                         {
                                             addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
                                                 $scope.customerinvoiceCtrl.closeWindow();
-                                                $route.reload();
+                                               // $route.reload();
                                                 $noty.close();
 
 

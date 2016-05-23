@@ -10,6 +10,10 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net;
+using Newtonsoft.Json.Linq;
 
 namespace PI.Service.Controllers
 {
@@ -54,14 +58,14 @@ namespace PI.Service.Controllers
         public InvoiceStatus DisputeInvoice([FromBody] InvoiceDto invoice)
         {
             var result = invoiceMangement.DisputeInvoice(invoice);
-            var subject = "Dispute invoice :" + invoice.ShipmentReference.ToString() + "_" + invoice.InvoiceNumber.ToString();
+            var subject = "Dispute invoice :" + invoice.ShipmentReference + "_" + invoice.InvoiceNumber;
 
             //sending the dispute infomation email to the admin
             if (result == InvoiceStatus.Disputed)
             {
                 string emailTemplate = invoiceMangement.GetDisputeInvoiceEmailTemplate(invoice);
-                
-                var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+
+                var adminUser = AppUserManager.FindByEmail("support@parcelinternational.com");
 
                 if (adminUser != null && !string.IsNullOrWhiteSpace(emailTemplate))
                 {
@@ -70,6 +74,21 @@ namespace PI.Service.Controllers
 
             }
             return result;
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ExportInvoiceReport")]
+        public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList));
+
+            result.Content.Headers.Add("x-filename", "MyInvoiceReport.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;          
         }
     }
 }

@@ -11,12 +11,11 @@
                     <form role="form" name="formAllInvoices">
                         <div class="row">
                             <div class="col-sm-10"></div>
-                            <div class="col-sm-2">
-
-                                <div class="col-sm-3">
+                           
+                                <div class="col-sm-2">
                                     <button class="btn btn-primary" style="float:right;" ng-click="invoiceCtrl.uploadInvoice('invoice')">Add Invoice</button>
                                 </div>
-                            </div>
+                           
                         </div>
 
                         <div class="row">
@@ -43,22 +42,21 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-sm-3 form-group">
-                                <div class="btn-group">
-                                    <input date-range-picker class="form-control date-picker" type="text"
-                                           ng-model="invoiceCtrl.datePicker.date" placeholder="Search By: Invoice Date" />
+                            <div class="col-sm-2 form-group p-0">
+                                <div class="btn-group m-0">
+                                    <input type="text" style="" date-range-picker="" class="form-control date-picker ng-pristine ng-valid ng-isolate-scope ng-touched p-l-5" ng-model="invoiceCtrl.datePicker.date" placeholder="Search By: Invoice Date">
                                 </div>
                             </div>
-                            <div class="col-sm-3 form-group">
-                                <div class="btn-group">
-                                    <select ng-model="searchTypeInvoice" class="form-control" ng-init="searchTypeInvoice = 'ShipmentReference'">
+                            <div class="col-sm-3 form-group p-r-0">
+                                <div class="btn-group m-0">
+                                    <select ng-model="searchTypeInvoice" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched p-r-0 p-l-0" ng-init="searchTypeInvoice = 'ShipmentReference'">
                                         <option value="ShipmentReference">Search By: Shipment Reference</option>
                                         <option value="BusinessOwner">Search By: Business Owner</option>
                                         <option value="InvoiceNumber">Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'ShipmentReference'">
+                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'ShipmentReference'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Shipment Ref Number" />
@@ -71,7 +69,7 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'BusinessOwner'">
+                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'BusinessOwner'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
@@ -83,7 +81,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchTypeInvoice == 'InvoiceNumber'">
+                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'InvoiceNumber'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
@@ -95,22 +93,29 @@
                                 </div>
 
                             </div>
-
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-large btn-primary no-margin"
+                                        ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
+                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                    Export
+                                </button>
+                            </div>
                         </div>
                         <div class="row">
 
-
+                         
+                            
                             <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-striped ship-mgt">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name">Invoice Date</th>
-                                        <th>Business Owner</th>
-                                        <th>Corporate Name</th>
-                                        <th>Shipment References</th>
-                                        <th>Invoice Number</th>
-                                        <th>Invoice Value</th>
-                                        <th>Invoice Status</th>
-                                        <th>View Invoice</th>
+                                        <th st-sort="name" width="12%">Invoice Date</th>
+                                        <th width="14%">Business Owner</th>
+                                        <th width="13%">Corporate Name</th>
+                                        <th width="12%">Shipment References</th>
+                                        <th width="12%">Invoice Number</th>
+                                        <th width="12%">Invoice Value</th>
+                                        <th width="13%">Invoice Status</th>
+                                        <th width="12%">View Invoice</th>
 
                                     </tr>
 
@@ -125,7 +130,7 @@
                                         <td>{{row.invoiceValue}}</td>
 
                                         <td>
-                                            <div class="option-group">
+                                            <div class="option-group p-0">
                                                 <select id="status" name="status" class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
                                                     <option value="Pending">Pending</option>
                                                     <option value="Paid">Paid</option>
@@ -159,13 +164,13 @@
                     </tab-heading>
                     <form role="form">
                         <div class="row">
-                            <div class="col-sm-5 form-group">
+                            <div class="col-sm-5 form-group p-0">
                                 <div class="btn-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
                                            ng-model="invoiceCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
                                 </div>
                             </div>
-                            <div class="col-sm-3 form-group">
+                            <div class="col-sm-3 form-group p-0">
                                 <div class="btn-group">
                                     <select ng-model="searchTypeDispute" class="form-control" ng-init="searchTypeDispute = '1'">
                                         <option value="1">Search By: Shipment Reference</option>
@@ -174,7 +179,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '1'">
+                            <div class="col-sm-4 form-group p-0" ng-show="searchTypeDispute == '1'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="Shipment Ref Number" />
@@ -187,7 +192,7 @@
 
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '2'">
+                            <div class="col-sm-4 form-group p-0" ng-show="searchTypeDispute == '2'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
@@ -199,7 +204,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-sm-4 form-group" ng-show="searchTypeDispute == '3'">
+                            <div class="col-sm-4 form-group p-0" ng-show="searchTypeDispute == '3'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
@@ -212,22 +217,20 @@
 
                             </div>
 
-                        </div>
-                        <div class="row">
-
-
+                        </div>                       
+                        <div class="row">                            
                             <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-striped ship-mgt">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name">Invoice Date</th>
-                                        <th>Business Owner</th>
-                                        <th>Corporate Name</th>
-                                        <th>Shipment References</th>
-                                        <th>Invoice Number</th>
-                                        <th>Invoice Value</th>
-                                        <th>Invoice Status</th>
-                                        <th>Upload Credit Note</th>   
-                                        <th>View Credit Note</th>                                                                           
+                                        <th st-sort="name" width="11%">Invoice Date</th>
+                                        <th width="11%">Business Owner</th>
+                                        <th width="11%">Corporate Name</th>
+                                        <th width="11%">Shipment References</th>
+                                        <th width="11%">Invoice Number</th>
+                                        <th width="10%">Invoice Value</th>
+                                        <th width="13%">Invoice Status</th>
+                                        <th width="11%">Upload Credit Note</th>   
+                                        <th width="11%">View Credit Note</th>                                                                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -239,7 +242,7 @@
                                         <td>{{row.invoiceNumber}}</td>
                                         <td>{{row.invoiceValue}}</td>
                                         <td>
-                                            <div class="option-group">
+                                            <div class="option-group p-0">
                                                 <select class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
                                                     <option value="Pending">Pending</option>
                                                     <option value="Paid">Paid</option>

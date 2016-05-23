@@ -1,4 +1,6 @@
-﻿using PI.Contract.Business;
+﻿using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
@@ -7,6 +9,7 @@ using PI.Data;
 using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -85,6 +88,26 @@ namespace PI.Business
             }
         }
 
+
+        /// <summary>
+        /// Update invoice status
+        /// </summary>
+        /// <param name="invoiceId"></param>
+        /// <returns></returns>
+        public InvoiceStatus UpdateInvoiceStatus(InvoiceDto invoiceDto)
+        {
+            using (var context = new PIContext())
+            {
+                var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
+                invoice.InvoiceStatus = (InvoiceStatus)Enum.Parse( typeof(InvoiceStatus), invoiceDto.InvoiceStatus,true);
+
+                context.SaveChanges();
+
+                return invoice.InvoiceStatus;
+            }
+        }
+
+
         /// <summary>
         /// Pay an invoice
         /// </summary>
@@ -141,15 +164,12 @@ namespace PI.Business
             strTemplate.Append("<!DOCTYPE html><html><head><title></title><meta charset='utf-8' /> <style> .name{ width:200px;display:inline-block;font-weight:600;font-size:medium } .value{ font-style:italic; } table { border-collapse: collapse; width: 100%; } th, td { text-align: left; padding: 8px; } tr:nth-child(even){background-color: #f2f2f2} th {background-color: lightblue;color: white;} </style></head><body>");
 
             // General 
-            strTemplate.Append("<h1>Dispute Invoice:"+ invoice.ShipmentReference.ToString()+"_"+invoice.InvoiceNumber.ToString()+ "</h1>");
-            strTemplate.Append("<br>");
-            strTemplate.Append("<br>");
             strTemplate.Append("<h3>Dear Admin</h3>");
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Shipment Reference", invoice.ShipmentReference.ToString());
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoice Number", invoice.InvoiceNumber.ToString());
-            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoiced Date", invoice.InvoiceDate.ToString());
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Shipment Reference: ", invoice.ShipmentReference);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoice Number: ", invoice.InvoiceNumber);
+            strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoiced Date: ", invoice.InvoiceDate);
             strTemplate.Append("<br>");
-            strTemplate.Append("<h3>Customer responce,reason for dispute: </h3>");
+            strTemplate.Append("<h3>Customer responce/reason for dispute: </h3>");
             strTemplate.Append("<span class='value'>" + invoice.DisputeComment.ToString() +"</span> </span>");
             strTemplate.Append("<br>");
 
@@ -253,8 +273,6 @@ namespace PI.Business
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL
-
-
                 };
 
                 context.Invoices.Add(invoice);
@@ -310,6 +328,96 @@ namespace PI.Business
 
             }
         }
+
+
+        public byte[] ExportInvoiceReport(List<InvoiceDto> invoiceList, bool isAdmin = false)
+        {
+            byte[] stream = this.generateExcelSheetForInvoiceReport(invoiceList, isAdmin);
+            return stream;
+        }
+
+
+
+        private byte[] generateExcelSheetForInvoiceReport(List<InvoiceDto> invoiceList, bool isAdmin)
+        {
+            using (ExcelPackage excel = new ExcelPackage())
+            {
+                //Create the worksheet
+                ExcelWorksheet ws = excel.Workbook.Worksheets.Add("Invoices");
+
+                //Merging cells and create a center heading for out table
+                ws.Cells[2, 1].Value = "Invoice Report";
+                ws.Cells[2, 1, 2, 8].Merge = true;
+                ws.Cells[2, 1, 2, 8].Style.Font.Bold = true;
+                ws.Cells[2, 1, 2, 8].Style.Font.Size = 15;
+                ws.Cells[2, 1, 2, 8].Style.Font.Name = "Calibri";
+                ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+
+                // Set headings.
+                ws.Cells["A6"].Value = "INVOICE NUMBER";
+                ws.Cells["B6"].Value = "INVOICE DATE";
+                ws.Cells["C6"].Value = "SHIPMENT REFERENCE";
+                ws.Cells["D6"].Value = "INVOICE VALUE";
+                ws.Cells["E6"].Value = "INVOICE STATUS";              
+                ws.Cells["F6"].Value = isAdmin ? "BUSINESS OWNER" : null;
+                ws.Cells["G6"].Value = isAdmin ? "CORPORATE NAME" : null;
+
+                string endingCell = isAdmin ? "G6" : "E6";
+
+                //Format the header for columns.
+                using (ExcelRange rng = ws.Cells["A6:" + endingCell])
+                {
+                    rng.Style.Font.Bold = true;
+                    rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
+                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(Color.White);
+                }
+
+                //ws.Cells["A6:H6"].AutoFitColumns();
+
+                // Set data.
+                int rowIndex = 6;
+
+                if (invoiceList != null)
+                {
+                    foreach (var invoice in invoiceList) // Adding Data into rows
+                    {
+                        rowIndex++;
+
+                        var cell = ws.Cells[rowIndex, 1];
+                        cell.Value = invoice.InvoiceNumber;
+
+                        cell = ws.Cells[rowIndex, 2];
+                        cell.Value = invoice.InvoiceDate;
+
+                        cell = ws.Cells[rowIndex, 3];
+                        cell.Value = invoice.ShipmentReference;
+
+                        cell = ws.Cells[rowIndex, 4];
+                        cell.Value = invoice.InvoiceValue;
+
+                        cell = ws.Cells[rowIndex, 5];
+                        cell.Value = invoice.InvoiceStatus;
+
+                        cell = ws.Cells[rowIndex, 6];
+                        cell.Value = invoice.BusinessOwner;
+
+                        cell = ws.Cells[rowIndex, 7];
+                        cell.Value = invoice.CompanyName;            
+
+                        ws.Row(rowIndex).Height = 25;
+                    }
+
+                    // Set width
+                    for (int i = 1; i < 8; i++)
+                    {
+                        ws.Column(i).Width = 25;
+                    }
+                }
+                return excel.GetAsByteArray();
+            }
+        }
+
 
     }
 }

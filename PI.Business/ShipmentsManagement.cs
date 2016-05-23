@@ -2489,7 +2489,7 @@ namespace PI.Business
             using (ExcelPackage excel = new ExcelPackage())
             {
                 //Create the worksheet
-                ExcelWorksheet ws = excel.Workbook.Worksheets.Add("Addrerss Book");
+                ExcelWorksheet ws = excel.Workbook.Worksheets.Add("Shipments");
 
                 //Merging cells and create a center heading for out table
                 ws.Cells[2, 1].Value = "Shipment Details";

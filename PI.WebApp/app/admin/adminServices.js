@@ -8,7 +8,9 @@
             getAllComapnies: getAllComapnies,
             changeCompanyStatus: changeCompanyStatus,
             manageInvoicePaymentSetting: manageInvoicePaymentSetting,
-            loadAllInvoices:loadAllInvoices
+            loadAllInvoices: loadAllInvoices,
+            exportInvoiceDetailsReport: exportInvoiceDetailsReport,
+            updateInvoiceStatus: updateInvoiceStatus
         };
 
 
@@ -26,6 +28,15 @@
                     businessowner: businessowner,
                     invoicenumber: invoicenumber
                 }
+            });
+        }
+
+        function exportInvoiceDetailsReport(invoiceList) {
+            return $http({
+                url: serverBaseUrl + '/api/admin/ExportInvoiceReport',
+                data: invoiceList,
+                method: "POST",
+                responseType: 'arraybuffer'
             });
         }
 
@@ -50,6 +61,11 @@
         function manageInvoicePaymentSetting(companyDetail) {
 
             return $http.post(serverBaseUrl + '/api/Admin/ManageInvoicePaymentSetting', companyDetail);
+        }
+
+        function updateInvoiceStatus(invoice) {
+
+            return $http.post(serverBaseUrl + '/api/Admin/UpdateInvoiceStatus', invoice);
         }
 
     }]);
