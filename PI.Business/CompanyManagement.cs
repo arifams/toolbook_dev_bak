@@ -25,6 +25,8 @@ namespace PI.Business
     public class CompanyManagement : ICompanyManagement
     {
         #region Create Comapny Details with default settings
+        CommonLogic commonLogics = new CommonLogic();
+
 
         public long CreateCompanyDetails(CustomerDto customerCompany)
         {
@@ -115,7 +117,7 @@ namespace PI.Business
         public IList<CostCenterDto> GetAllCostCentersForCompany(string userId)
         {
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
                 return null;
@@ -182,7 +184,7 @@ namespace PI.Business
                                          string sortBy = "Id", string sortDirection = "asc")
         {
             var pagedRecord = new PagedList();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
                 return pagedRecord;
@@ -333,7 +335,7 @@ namespace PI.Business
         /// <returns></returns>
         public int SaveCostCenter(CostCenterDto costCenter)
         {
-            long comapnyId = this.GetCompanyByUserId(costCenter.UserId).Id;
+            long comapnyId = commonLogics.GetCompanyByUserId(costCenter.UserId).Id;
 
             using (var context = new PIContext())
             {
@@ -363,7 +365,7 @@ namespace PI.Business
 
                 if (costCenter.Id == 0)
                 {
-                    Company comp = GetCompanyByUserId(costCenter.UserId);
+                    Company comp = commonLogics.GetCompanyByUserId(costCenter.UserId);
 
                     CostCenter newCostCenter = new CostCenter()
                     {
@@ -499,7 +501,7 @@ namespace PI.Business
         public IList<DivisionDto> GetAllActiveDivisionsForCompany(string userId)
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
                 return null;
@@ -526,7 +528,7 @@ namespace PI.Business
         public IList<DivisionDto> GetAllActiveDivisionsOfUser(string userId)
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
                 return null;
@@ -563,7 +565,7 @@ namespace PI.Business
         public List<DivisionDto> GetAllDivisionsForCompany(string userId)
         {
             List<DivisionDto> divisionList = new List<DivisionDto>();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             if (currentcompany == null)
             {
                 return null;
@@ -626,7 +628,7 @@ namespace PI.Business
                                          string sortBy = "CustomerID", string sortDirection = "asc")
         {
             var pagedRecord = new PagedList();
-            Company currentcompany = this.GetCompanyByUserId(userId);
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
             bool isBusinessOwner = IsLoggedInAsBusinessOwner(userId);
 
             if (currentcompany == null)
@@ -719,7 +721,7 @@ namespace PI.Business
         public DivisionDto GetDivisionById(long id, string userId)
         {
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
-            long companyId = GetCompanyByUserId(userId).Id;
+            long companyId = commonLogics.GetCompanyByUserId(userId).Id;
 
             using (var context = new PIContext())
             {
@@ -772,7 +774,7 @@ namespace PI.Business
         /// <returns></returns>
         public int SaveDivision(DivisionDto division)
         {
-            long comapnyId = GetCompanyByUserId(division.UserId).Id;
+            long comapnyId = commonLogics.GetCompanyByUserId(division.UserId).Id;
             using (var context = PIContext.Create())
             {
                 var isSpaceOrEmpty = String.IsNullOrWhiteSpace(division.Description);
@@ -877,36 +879,7 @@ namespace PI.Business
             }
 
         }
-
-        public Company GetCompanyByUserId(string userId)
-        {
-            long tenantId = this.GettenantIdByUserId(userId);
-            if (tenantId == 0)
-            {
-                return null;
-            }
-            using (PIContext context = PIContext.Get())
-            {
-                return context.Companies.SingleOrDefault(n => n.TenantId == tenantId);
-            }
-
-        }
-
-        public long GettenantIdByUserId(string userid)
-        {
-            ApplicationUser currentuser = null;
-            using (PIContext context = new PIContext())
-            {
-                currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
-            }
-            if (currentuser == null)
-            {
-                return 0;
-            }
-
-            return currentuser.TenantId;
-        }
-
+    
 
         #endregion
 
@@ -1130,7 +1103,7 @@ namespace PI.Business
         /// <returns></returns>
         public UserResultDto SaveUser(UserDto userDto)
         {
-            long tenantId = this.GettenantIdByUserId(userDto.LoggedInUserId);
+            long tenantId = commonLogics.GetTenantIdByUserId(userDto.LoggedInUserId);
 
             UserResultDto result = new UserResultDto();
 
@@ -1293,7 +1266,7 @@ namespace PI.Business
         public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-            long tenantId = this.GettenantIdByUserId(userId);
+            long tenantId = commonLogics.GetTenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 

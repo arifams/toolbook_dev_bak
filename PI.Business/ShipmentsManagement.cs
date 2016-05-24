@@ -27,10 +27,13 @@ namespace PI.Business
 {
     public class ShipmentsManagement : IShipmentManagement
     {
+        CommonLogic commonLogics = new CommonLogic();
+
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
         {
             SISIntegrationManager sisManager = new SISIntegrationManager();
             RateSheetParametersDto currentRateSheetDetails = new RateSheetParametersDto();
+            
 
             if (currentShipment == null)
             {
@@ -305,9 +308,8 @@ namespace PI.Business
         public ShipmentOperationResult SaveShipment(ShipmentDto addShipment)
         {
 
-            ShipmentOperationResult result = new ShipmentOperationResult();
-            CompanyManagement companyManagement = new CompanyManagement();
-            Company currentcompany = companyManagement.GetCompanyByUserId(addShipment.UserId);
+            ShipmentOperationResult result = new ShipmentOperationResult();           
+            Company currentcompany = commonLogics.GetCompanyByUserId(addShipment.UserId);
             long sysDivisionId = 0;
             long sysCostCenterId = 0;
 
@@ -576,7 +578,7 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = this.GetUserRoleById(userId);
+            string role = commonLogics.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
@@ -715,17 +717,7 @@ namespace PI.Business
 
             return pagedRecord;
         }
-
-        public string GetUserRoleById(string userId)
-        {
-            using (PIContext context = new PIContext())
-            {
-                string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
-                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
-                return roleName;
-            }
-
-        }
+       
 
         public IList<Shipment> GetshipmentsByDivisionId(long divid)
         {
@@ -1127,9 +1119,8 @@ namespace PI.Business
 
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
         {
-            List<DivisionDto> divisionList = new List<DivisionDto>();
-            CompanyManagement companyManagement = new CompanyManagement();
-            Company currentcompany = companyManagement.GetCompanyByUserId(userId);
+            List<DivisionDto> divisionList = new List<DivisionDto>();           
+            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
 
             if (currentcompany == null)
             {
@@ -1508,10 +1499,8 @@ namespace PI.Business
         {
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
-            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-
-            CompanyManagement companyManagement = new CompanyManagement();
-            var tenantId = companyManagement.GettenantIdByUserId(userId);
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];           
+            var tenantId = commonLogics.GetTenantIdByUserId(userId);
 
             using (var context = new PIContext())
             {
@@ -1552,7 +1541,7 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = this.GetUserRoleById(userId);
+            string role = commonLogics.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
@@ -2633,9 +2622,8 @@ namespace PI.Business
                 if (roleName == "Admin" || roleName == "BusinessOwner")
                 {
                     if (roleName == "BusinessOwner")
-                    {
-                        CompanyManagement companyManagement = new CompanyManagement();
-                        companyId = companyManagement.GetCompanyByUserId(userId).Id;
+                    {                        
+                        companyId = commonLogics.GetCompanyByUserId(userId).Id;
                     }
 
                     shipmentList =
