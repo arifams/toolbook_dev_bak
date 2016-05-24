@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: app/profileInformation/profileInformation.html:15
+msgid "Account Type"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:44
+msgid "Enter at least 3 characters or more"
+msgstr ""
+
+#: app/mailbox.html:46
+msgid "Inbox"
+msgstr ""
+
+#: app/index.html:350
+msgid "Language"
+msgstr ""
+
+#: app/shipment/addShipment.html:58
+msgid "Purchase order or description of the shipment"
+msgstr ""
