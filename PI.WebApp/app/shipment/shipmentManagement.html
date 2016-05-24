@@ -7,7 +7,7 @@
                     <div class="col-sm-6">
                         <div class="form-group input-group">
                             <input ng-model="manageShipCtrl.searchText" name="shipmentNumber" type="text" class="form-control"
-                                   placeholder="Enter campany name,business owner's first or last name " />
+                                   placeholder={{'Enter campany name,business owner's first or last name'|translate}} />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadAllCompanies()">
                                     <i class="fa fa-search"></i>
@@ -16,10 +16,10 @@
                         </div>
                     </div>
                     <div class="col-sm-2 form-group p-0">
-                        <label class="label-danger" ng-show="manageShipCtrl.noShipments" style="color:white">  No shipments available for the selected company/ customer</label>
+                        <label class="label-danger" ng-show="manageShipCtrl.noShipments" style="color:white" translate>  No shipments available for the selected company/ customer</label>
                     </div>
                     <div class="col-sm-4 form-group p-0" ng-show="manageShipCtrl.CompanyId!=''">
-                        <a class="btn btn-primary" style="float:right" href="#addShipment/0">Add Shipment</a>
+                        <a class="btn btn-primary" style="float:right" href="#addShipment/0" translate>Add Shipment</a>
                         <button class="btn btn-primary" style="float:right" ng-click="manageShipCtrl.shipmentSyncWithSIS()"> Refresh </button>
                     </div>
                 </div>
@@ -33,13 +33,13 @@
                             <span class="dropdown-arrow"></span>
                             <ul role="menu" class="dropdown-menu">
                                 <li>
-                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')">All</a>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('All')" translate>All</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')">Active</a>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Active')" translate>Active</a>
                                 </li>
                                 <li>
-                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')">Completed</a>
+                                    <a href="javascript:;" ng-model="manageShipCtrl.status" ng-click="manageShipCtrl.loadShipmentsByStatus('Completed')" translate>Completed</a>
                                 </li>
                             </ul>
                         </div>
@@ -47,7 +47,7 @@
                     <div class="col-sm-3">
                         <div class="btn-group form-group">
                             <input date-range-picker class="form-control p-l-5" type="text"
-                                   ng-model="manageShipCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
+                                   ng-model="manageShipCtrl.datePicker.date" placeholder={{'Search By: Pickup Date'|translate}} />
                         </div>
                     </div>
                     <div class="col-sm-2 p-0">
@@ -57,8 +57,8 @@
                                                 manageShipCtrl.originCityCountry = null;
                                                 manageShipCtrl.desCityCountry = null;
                                                 manageShipCtrl.shipmentNumber = null;">
-                                <option value="True">Search By: Number</option>
-                                <option value="False">Search By: Location</option>
+                                <option value="True" translate>Search By: Number</option>
+                                <option value="False" translate>Search By: Location</option>
                             </select>
                         </div>
                     </div>
@@ -67,13 +67,13 @@
                     <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
                         <div class="form-group">
                             <input ng-model="manageShipCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
-                                   placeholder="Origin City/Country" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
+                                   placeholder={{Origin City/Country|translate}} style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
                     </div>
                     <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
                         <div class="form-group">
                             <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control p-l-5"
-                                   placeholder="Destination City/Country" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
+                                   placeholder={{Destination City/Country|translate}} style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
 
                     </div>
@@ -87,7 +87,7 @@
                     <div ng-show="searchType == 'True'">
                         <div class="col-sm-4 p-0" style="">
                             <div class="form-group">
-                                <input type="text" placeholder="Tracking Number/ Shipment Ref Number" class="form-control ng-pristine ng-untouched ng-valid"
+                                <input type="text" placeholder={{Tracking Number/ Shipment Ref Number|translate}} class="form-control ng-pristine ng-untouched ng-valid"
                                        name="shipmentNumber" ng-model="manageShipCtrl.shipmentNumber">
                             </div>
                         </div>
@@ -108,16 +108,16 @@
                     <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-striped ship-mgt">
                         <thead>
                             <tr>
-                                <th st-sort="name">Order Submitted</th>
-                                <th>Tracking Number</th>
-                                <th>Shipment ID</th>
-                                <th>Carrier</th>
-                                <th>Origin City</th>
-                                <th>Destination City</th>
-                                <th>Status</th>
-                                <th>View</th>
-                                <th>Edit</th>
-                                <th>Delete</th>
+                                <th st-sort="name" translate>Order Submitted</th>
+                                <th translate>Tracking Number</th>
+                                <th translate>Shipment ID</th>
+                                <th translate>Carrier</th>
+                                <th translate>Origin City</th>
+                                <th translate>Destination City</th>
+                                <th translate>Status</th>
+                                <th translate>View</th>
+                                <th translate>Edit</th>
+                                <th translate>Delete</th>
                             </tr>
 
                         </thead>
@@ -133,15 +133,15 @@
                                 <td>
                                     <div class="option-group">
                                         <select id="salutation" name="salutation" class="salutation form-control" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
-                                            <option value="Error">Error</option>
-                                            <option value="Pending">Pending</option>
-                                            <option value="BookingConfirmation">Booking Confirmation</option>
-                                            <option value="Pickup">Pickup</option>
-                                            <option value="Transit">Transit</option>
-                                            <option value="OutForDelivery">Out For Delivery</option>
-                                            <option value="Delivered">Delivered</option>
-                                            <option value="Deleted">Deleted</option>
-                                            <option value="Exception">Exception</option>
+                                            <option value="Error" translate>Error</option>
+                                            <option value="Pending" translate>Pending</option>
+                                            <option value="BookingConfirmation" translate>Booking Confirmation</option>
+                                            <option value="Pickup" translate>Pickup</option>
+                                            <option value="Transit" translate>Transit</option>
+                                            <option value="OutForDelivery" translate>Out For Delivery</option>
+                                            <option value="Delivered" translate>Delivered</option>
+                                            <option value="Deleted" translate>Deleted</option>
+                                            <option value="Exception" translate>Exception</option>
 
                                         </select>
                                     </div>

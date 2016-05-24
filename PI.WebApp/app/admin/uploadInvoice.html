@@ -1,8 +1,8 @@
 ﻿<div>
-    <h3 class="box-title" ng-show="from=='invoice'">
+    <h3 class="box-title" ng-show="from=='invoice'" translate>
         Upload Invoice
     </h3>
-    <h3 class="box-title" ng-show="from=='creditNote'">
+    <h3 class="box-title" ng-show="from=='creditNote'" translate>
         Upload Credit Note
     </h3>
 
@@ -25,9 +25,9 @@
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-4">
-                                <button ng-click="document = null" ng-show="document" class="btn btn-primary">Remove</button>
+                                <button ng-click="document = null" ng-show="document" class="btn btn-primary" translate>Remove</button>
                                 <button ng-click="uploadInvoice(document)" class="btn btn-primary" ng-disabled="!document">
-                                    <i class="fa fa-arrow-circle-o-up"></i> Import {{from}}
+                                    <i class="fa fa-arrow-circle-o-up"></i> <translate>Import</translate> <translate>{{from}}</translate>
                                 </button>
                                 {{errorMsg}}
                             </div>

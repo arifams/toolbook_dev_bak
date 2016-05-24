@@ -1,6 +1,6 @@
 ﻿<div>
-    <h2 translate class="box-title" ng-hide="saveUserCtrl.user.id > 0"> Add User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage User</a></h2>
-    <h2 translate class="box-title" ng-show="saveUserCtrl.user.id > 0"> Edit User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage User</a></h2>
+    <h2 class="box-title" ng-hide="saveUserCtrl.user.id > 0" translate> Add User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage User</a></h2>
+    <h2 class="box-title" ng-show="saveUserCtrl.user.id > 0" translate> Edit User &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage User</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -26,9 +26,9 @@
                                                 <div class="option-group">
 
                                                     <select id="salutation" name="salutation" class="form-control ng-pristine ng-valid ng-touched" required ng-model="saveUserCtrl.user.salutation">
-                                                        <option value="Mr">Mr</option>
-                                                        <option value="Mrs">Mrs</option>
-                                                        <option value="Ms">Ms</option>
+                                                        <option value="Mr" translate>Mr</option>
+                                                        <option value="Mrs" translate>Mrs</option>
+                                                        <option value="Ms" translate>Ms</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -108,12 +108,12 @@
                                                        data-placement="top"
                                                        data-html="true"
                                                        data-content="- At least 8 characters long. <br>
-                                        - Should at least contain ;
-                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
-                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
-                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
-                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
-                                           data-original-title="Your Password should be:"></i>
+                                        - <translate>Should at least contain</translate> ;
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One lowercase letter.</translate>
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One uppercase letter.</translate>
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One special character.</translate>
+                                        <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One digit.</translate>"
+                                           data-original-title="{{'Your Password should be'|translate}}:"></i>
                                                     <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || saveUserCtrl.isSubmit">
                                                         <label ng-message="required" class="error" for="password" translate>Enter your password</label>
                                                         <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
@@ -181,8 +181,8 @@
                                                         <div class="form-group">
                                                             <div class="input-group">
                                                                 <div class="icheck-inline">
-                                                                    <label translate><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck> Active</label>
-                                                                    <label translate><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck> Inactive</label>
+                                                                    <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck translate> Active</label>
+                                                                    <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck translate> Inactive</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -193,12 +193,12 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <button ng-click="saveUserCtrl.close()" class="btn btn-primary btn-app pull-right" translate>
-                                            <i class="fa fa-close"></i> Close
+                                        <button ng-click="saveUserCtrl.close()" class="btn btn-primary btn-app pull-right">
+                                            <i class="fa fa-close"></i> <translate>Close</translate>
                                         </button>
                                         <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
-                                                class="btn btn-primary btn-app pull-right" translate>
-                                            <i class="fa fa-save"></i> Save
+                                                class="btn btn-primary btn-app pull-right">
+                                            <i class="fa fa-save"></i> <translate>Save</translate>
                                         </button>
                                     </div>
                                     <div id="panel-notif"></div>

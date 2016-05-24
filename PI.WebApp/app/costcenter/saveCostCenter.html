@@ -59,7 +59,7 @@
                                 
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label" translate><h3>Billing Address</h3></label>
+                                        <label class="col-sm-2 control-label"><h3 translate>Billing Address</h3></label>
                                         <div class="col-sm-10">
                                         </div>
                                     </div>
@@ -195,8 +195,8 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
-                                                                <label translate><input type="radio" name="activeRadio" ng-model="vm.model.status" value="1" icheck> Active</label>
-                                                                <label translate><input type="radio" name="inactiveRadio" ng-model="vm.model.status" value="2" icheck> Inactive</label>
+                                                                <label><input type="radio" name="activeRadio" ng-model="vm.model.status" value="1" icheck translate> Active</label>
+                                                                <label><input type="radio" name="inactiveRadio" ng-model="vm.model.status" value="2" icheck translate> Inactive</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -209,11 +209,11 @@
                                 <div class="row">
                                     <div class="col-sm-12 form-group p-l-30">
                                         
-                                            <button ng-click="vm.close()" class="btn btn-primary btn-app pull-right" translate>
-                                                <i class="fa fa-close"></i> Close
+                                            <button ng-click="vm.close()" class="btn btn-primary btn-app pull-right">
+                                                <i class="fa fa-close"></i> <translate>Close</translate>
                                             </button>
-                                            <button ng-click="(saveCostCenterForm.$valid ? vm.saveCostCenter() : vm.isSubmit = true)" class="btn btn-primary btn-app pull-right" type="submit" translate>
-                                                <i class="fa fa-save"></i> Save
+                                            <button ng-click="(saveCostCenterForm.$valid ? vm.saveCostCenter() : vm.isSubmit = true)" class="btn btn-primary btn-app pull-right" type="submit">
+                                                <i class="fa fa-save"></i> <translate>Save</translate>
                                             </button>
                                        
                                     </div>

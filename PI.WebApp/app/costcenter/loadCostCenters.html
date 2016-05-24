@@ -36,7 +36,7 @@
                                             <select id="costcenter"
                                                     convert-to-number ng-options="divi.id as divi.name for divi in divisionList" class="form-control ng-pristine ng-valid ng-touched"
                                                     name="divisions" ng-model="selectedDivision" ng-change="selectDivisionforCostCenter()">
-                                                <option value="">Division: All</option>
+                                                <option value="" translate>Division: All</option>
                                             </select>
                                         </div>
                                     </div>
@@ -47,9 +47,9 @@
                                         <div class="option-group">
                                             <select id="costcentersStatus" name="costcentersStatus" class="form-control ng-pristine ng-valid ng-touched"
                                                     ng-model="status" ng-change="selectActiveCostCenters()">
-                                                <option value="">Status: All</option>
-                                                <option value="True">Active</option>
-                                                <option value="False">Inactive</option>
+                                                <option value="" translate>Status: All</option>
+                                                <option value="True" translate>Active</option>
+                                                <option value="False" translate>Inactive</option>
                                             </select>
                                         </div>
                                     </div>
