@@ -1,6 +1,10 @@
 ﻿<div ng-controller="saveDivisionCtrl as divCtrl">
-    <h2 class="box-title" ng-hide="divCtrl.model.id > 0" translate> Add Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
-    <h2 class="box-title" ng-show="divCtrl.model.id > 0" translate> Edit Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
+    <h2 class="box-title" ng-hide="divCtrl.model.id > 0" > <translate>Add Division </translate>
+    &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a>
+</h2>
+    <h2 class="box-title" ng-show="divCtrl.model.id > 0" > <translate>Edit Division </translate> 
+    &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" 
+                                style="width:auto;" role="button"> <translate>Manage Division</translate> </a></h2>
     
     <div class="panel">
         <!-- form start -->
@@ -28,8 +32,8 @@
                                                                         (saveDivisionForm.divisionName.$dirty|| divCtrl.isSubmit) }" />
                                             <div ng-messages="saveDivisionForm.divisionName.$error"
                                                  ng-show="saveDivisionForm.divisionName.$dirty || divCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="divisionName">Division Name is required</label>
-                                                <label ng-message="maxlength" class="error" for="divisionName">Max length should be 200 characters</label>
+                                                <label ng-message="required" class="error" for="divisionName" translate>Division Name is required</label>
+                                                <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 200 characters</label>
                                             </div>
                                         </div>
 
@@ -70,8 +74,10 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
-                                                                <label translate><input type="radio" name="activeRadio" ng-model="divCtrl.model.status" value="1" icheck> Active</label>
-                                                                <label translate><input type="radio" name="inactiveRadio" ng-model="divCtrl.model.status" value="2" icheck> Inactive</label>
+                                                                <label><input type="radio" name="activeRadio" ng-model="divCtrl.model.status" value="1" icheck> 
+                                                                <translate>Active</translate></label>
+                                                                <label><input type="radio" name="inactiveRadio" ng-model="divCtrl.model.status" value="2" icheck> 
+                                                                    <translate>Inactive</translate></label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -84,11 +90,12 @@
                                 <div class="row">
                                     <div class="col-sm-12 form-group p-l-30">
 
-                                        <button ng-click="divCtrl.close()" class="btn btn-primary btn-app pull-right" translate>
-                                            <i class="fa fa-close"></i> Close
+                                        <button ng-click="divCtrl.close()" class="btn btn-primary btn-app pull-right">
+                                            <i class="fa fa-close"></i> <translate>Close</translate>
                                         </button>
-                                        <button ng-click="(saveDivisionForm.$valid ? divCtrl.saveDivision() : divCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right" type="submit" translate>
-                                            <i class="fa fa-save"></i> Save
+                                        <button ng-click="(saveDivisionForm.$valid ? divCtrl.saveDivision() : divCtrl.isSubmit = true)" 
+                                                class="btn btn-primary btn-app pull-right" type="submit">
+                                            <i class="fa fa-save"></i><translate>Save</translate> 
                                         </button>
 
                                     </div>

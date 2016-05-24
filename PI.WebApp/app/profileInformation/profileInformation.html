@@ -8,7 +8,7 @@
                     <tab-heading translate>
                         GENERAL
                     </tab-heading>
-                    <form role="form" name="formUpdateProfileGeneral" >
+                    <form role="form" name="formUpdateProfileGeneral">
                         <div class="row">
 
                             <div class="col-md-2">
@@ -133,7 +133,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="jobcapacity" class="form-control" ng-minlength="3" ng-maxlength="100" ng-model="profileCtrl.model.customerDetails.jobCapacity" ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit1) }" />
-                                        <div ng-messages="formUpdateProfileGeneral.jobcapacity.$error" ng-show="formUpdateProfileGeneral.jobcapacity.$dirty || profileCtrl.isSubmit1">                                           
+                                        <div ng-messages="formUpdateProfileGeneral.jobcapacity.$error" ng-show="formUpdateProfileGeneral.jobcapacity.$dirty || profileCtrl.isSubmit1">
                                            <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
                                         </div>
                                     </div>
@@ -157,16 +157,16 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>                                              
+                        </div>
                         <br><br>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button translate class="btn btn-primary resize-btn" type="submit"
+                                        <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfileGeneral()">
-                                            Save
+                                            <translate>Save</translate>
                                         </button>
                                     </div>
                                 </div>
@@ -240,7 +240,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-md-2">
@@ -673,7 +673,7 @@
 
                     </form>
 
-</tab>
+                </tab>
 
                 <tab select="profileCtrl.loadAccountSettings()">
                     <tab-heading translate>
@@ -689,9 +689,9 @@
                                     <div class="option-group">
 
                                         <!--<select id="defaultlanguage" name="defaultlanguage" class="defaultlanguage" required ng-model="profileCtrl.model.defaultLanguageId"
-                                    convert-to-number ng-options="language.id as language.languageName for language in profileCtrl.t_languages">
-                                <option value=""></option>
-                            </select>-->
+                                                convert-to-number ng-options="language.id as language.languageName for language in profileCtrl.t_languages">
+                                            <option value=""></option>
+                                        </select>-->
 
                                         <select name="mySelect" id="mySelect" class="form-control ng-pristine ng-valid ng-touched"
                                                 ng-options="option.languageName for option in  profileCtrl.languageList track by option.id"
@@ -708,8 +708,8 @@
                                 <div class="col-md-6">
                                     <div class="option-group">
                                         <!--<select id="defaultcurrency"
-                            convert-to-number ng-options="currency.id as currency.currencyCode for currency in profileCtrl.t_currencies"
-                            name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>-->
+                                        convert-to-number ng-options="currency.id as currency.currencyCode for currency in profileCtrl.t_currencies"
+                                        name="defaultcurrency" class="defaultcurrency" required ng-model="profileCtrl.model.defaultCurrencyId"></select>-->
                                         <select name="defaultcurrency" id="defaultcurrency" class="form-control ng-pristine ng-valid ng-touched"
                                                 ng-options="option.currencyName for option in  profileCtrl.currencyList track by option.id"
                                                 ng-model="profileCtrl.defaultCurrency"></select>
@@ -735,27 +735,27 @@
 
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <p translate>
-                                    <strong>Notify me on status changes:</strong>
+                                <p>
+                                    <strong translate>Notify me on status changes:</strong>
                                 </p>
                                 <div class="input-group">
                                     <div class="icheck-list">
 
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" name="bookingConfirmation" data-checkbox="icheckbox_square-blue" icheck
-                                                   ng-model="profileCtrl.model.bookingConfirmation">Booking Confirmation
+                                                   ng-model="profileCtrl.model.bookingConfirmation"> <translate>Booking Confirmation</translate>
                                         </label>
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" name="pickupConfirmation" data-checkbox="icheckbox_square-blue" icheck
-                                                   ng-model="profileCtrl.model.pickupConfirmation"> Pickup Confirmation 
+                                                   ng-model="profileCtrl.model.pickupConfirmation"> <translate>Pickup Confirmation </translate>
                                         </label>
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" name="shipmentDelay" data-checkbox="icheckbox_square-blue" icheck
-                                                   ng-model="profileCtrl.model.shipmentDelay">Shipment delays
+                                                   ng-model="profileCtrl.model.shipmentDelay"><translate>Shipment delays</translate>
                                         </label>
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" name="shipmentException" data-checkbox="icheckbox_square-blue" icheck
-                                                   ng-model="profileCtrl.model.shipmentException"> Shipment exceptions
+                                                   ng-model="profileCtrl.model.shipmentException"> <translate>Shipment exceptions</translate>
                                         </label>
                                     </div>
                                 </div>
@@ -763,18 +763,20 @@
 
 
                             <div class="form-group">
-                                <p translate>
-                                    <strong>Subscribe to Offers, Deals & Promotions </strong>
+                                <p>
+                                    <strong translate>Subscribe to Offers, Deals & Promotions </strong>
                                 </p>
                                 <div class="input-group">
                                     <div class="icheck-list">
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" icheck
-                                                   ng-model="profileCtrl.model.notifyNewSolution"> I would like to receive notified on new solutions
+                                                   ng-model="profileCtrl.model.notifyNewSolution">
+                                            <translate>would like to receive notified on new solutions</translate>
                                         </label>
-                                        <label translate>
+                                        <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notediscount" icheck
-                                                   ng-model="profileCtrl.model.notifyDiscountOffer"> I would like to be notified of discounts & offers
+                                                   ng-model="profileCtrl.model.notifyDiscountOffer">
+                                            <translate> I would like to be notified of discounts & offers </translate>
                                         </label>
                                     </div>
                                 </div>
@@ -844,16 +846,5 @@
         <div id="panel-notif"></div>
 
 
-    </div>
-
-
-    <div class="footer">
-
-        <div class="copyright">
-            <p class="pull-left sm-pull-reset">
-                <span >Parcel International</span>
-            </p>
-
-        </div>
     </div>
 </div>

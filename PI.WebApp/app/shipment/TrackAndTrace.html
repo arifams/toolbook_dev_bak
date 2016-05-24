@@ -26,7 +26,8 @@
                                 <input ng-model="trackCtrl.trackingNumber" name="trackingNumber" type="text" class="form-control"
                                        placeholder="T" {{'tracking Number'|translate}}/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="trackCtrl.LoadTrackAndTracecDate()">
+                                    <button type="button" class="btn btn-large btn-primary no-margin" 
+                                            ng-click="trackCtrl.LoadTrackAndTracecDate()">
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
@@ -51,7 +52,8 @@
                         </div>-->
                         <div class="col-sm-1">
                             <div class="font-animation" ng-show="trackCtrl.searching==true">
-                                <label translate><i class="fa fa-spinner faa-spin animated"></i> Searching...</label>
+                                <label><i class="fa fa-spinner faa-spin animated"></i> 
+                                    <translate> Searching... </translate></label>
                             </div>
                         </div>
                     

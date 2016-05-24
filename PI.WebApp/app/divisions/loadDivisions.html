@@ -1,5 +1,9 @@
 ﻿<div ng-controller="loadDivisionsCtrl">
-    <h2 class="box-title" translate> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" style="width:auto" role="button"> Add Division</a></h2>
+    <h2 class="box-title"> <translate>Manage Divisions</translate>
+    &nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" 
+       style="width:auto" role="button"><translate> Add Division</translate></a>
+</h2>
 
     <div class="panel">
         <!-- form start -->
@@ -37,7 +41,7 @@
                                                     convert-to-number ng-options="costcenter.id as costcenter.name for costcenter in costCenters"
                                                     name="costcenter" class="defaultcurrency form-control ng-pristine ng-valid ng-touched" ng-model="costcenter"
                                                     ng-change="selectDivisionforCostCenter()">
-                                                <option value="">Costcenter: All </option>
+                                                <option value="" translate>Costcenter: All </option>
                                             </select>
                                         </div>
                                     </div>
@@ -48,9 +52,9 @@
                                         <div class="option-group">
                                             <select id="costcenters" name="costcenters" class="costcenters form-control ng-pristine ng-valid ng-touched"
                                                     ng-model="status" ng-change="selectActiveDivisions()">
-                                                <option value=""> Status: All </option>
-                                                <option value="True">Active</option>
-                                                <option value="False">Inactive</option>
+                                                <option value="" translate> Status: All </option>
+                                                <option value="True" translate>Active</option>
+                                                <option value="False" translate>Inactive</option>
                                             </select>
                                         </div>
                                     </div>

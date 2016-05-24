@@ -41,11 +41,14 @@
                                                     <div class="col-sm-5">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
-                                                                <label translate>
+                                                                <label>
                                                                     <input type="radio" name="isPackageEnable" icheck
-                                                                           ng-model="manifestCtrl.isPackageEnable" value="true"> Yes
+                                                                           ng-model="manifestCtrl.isPackageEnable" value="true"> 
+                                                                    <translate>Yes</translate>
                                                                 </label>
-                                                                <label translate><input type="radio" name="isPackageEnable" icheck ng-model="manifestCtrl.isPackageEnable" value="false"> No </label>
+                                                                <label><input type="radio" name="isPackageEnable" 
+                                                                icheck ng-model="manifestCtrl.isPackageEnable" value="false">
+                                                                    <translate>No</translate> </label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -82,7 +85,9 @@
                                                         </select>
                                                     </div>
                                                     <div class="col-sm-4">
-                                                        <input type="text" ng-model="manifestCtrl.reference" class="form-control" name="shipreference" ng-required="manifestCtrl.specific" ng-class="{ 'error': printmanifestform.shipreference.$invalid && (printmanifestform.shipreference.$dirty|| manifestCtrl.isSubmit) }" />
+                                                        <input type="text" ng-model="manifestCtrl.reference" class="form-control" name="shipreference" 
+                                                               ng-required="manifestCtrl.specific"
+                                                               ng-class="{ 'error': printmanifestform.shipreference.$invalid && (printmanifestform.shipreference.$dirty|| manifestCtrl.isSubmit) }" />
                                                         <div ng-messages="printmanifestform.shipreference.$error"
                                                              ng-show="printmanifestform.shipreference.$dirty || manifestCtrl.isSubmit">
                                                             <label ng-message="required" class="error" for="shipmentreference" translate>Reference is Required</label>
@@ -100,7 +105,9 @@
                             <div class="form-group">
                                 <div>
                                     <div class="col-sm-8">
-                                        <button type="submit" class="btn btn-primary btn-app pull-right" ng-click="(printmanifestform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSubmit=true)" translate>Generate</button>
+                                        <button type="submit" class="btn btn-primary btn-app pull-right"
+                                                 ng-click="(printmanifestform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSubmit=true)" translate>
+                                        Generate</button>
                                     </div>
                                     <div class="col-sm-4"></div>
                                 </div>
@@ -140,7 +147,7 @@
                                         </div>
 
                                         <div class="col-sm-4">
-                                            <label translate>{{manifestCtrl.carrier}} Express End-of-Day Manifest {{manifestCtrl.Date}}</label>
+                                           {{manifestCtrl.carrier}}  <label translate>Express End-of-Day Manifest </label> {{manifestCtrl.Date}}
                                         </div>
                                     </div>
                                 </div>
@@ -198,7 +205,7 @@
                                     <div class="row">
 
                                         <div class="col-sm-3">
-                                            <label translate> <translate> Date</translate> : {{manifestCtrl.Date}}</label>
+                                             <translate> Date</translate> : {{manifestCtrl.Date}}
                                         </div>
 
                                         <div class="col-sm-3">
