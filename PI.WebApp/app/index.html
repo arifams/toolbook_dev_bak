@@ -168,32 +168,32 @@
                         </li>-->
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                            <a href="#"><i class="icon-user"></i><span>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
+                            <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse" style="background-color:#0D4773;">
-                                <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation"> PROFILE INFORMATION</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement"> USER MANAGEMENT</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions"> DIVISION MANAGEMENT</a></li>
-                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters"> COST CENTER MANAGEMENT</a></li>
-                                <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses"> ADDRESS BOOK</a></li>
+                                <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
+                                <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>
+                                <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
                             </ul>
                         </li>
 
                         <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
-                            <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
+                            <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
                             <!--<ul class="children collapse" style="background-color:#0D4773;">
                                 <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li> 
                             </ul>-->
                         </li>
 
                         <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}" ng-show="currentRole == 'Admin'">
-                            <a href="#InvoiceandBillingAdmin"><i class="icon-screen-desktop"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                            <a href="#InvoiceandBillingAdmin"><i class="icon-screen-desktop"></i><span translate>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
                             <!--<ul class="children collapse" style="background-color:#0D4773;">
                            <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
         </ul>-->
                         </li>
 
                         <li ng-class="{ active  : isActive('/InvoiceandBilling')}" ng-show="currentRole != 'Admin'">
-                            <a href="#InvoiceandBilling"><i class="icon-screen-desktop"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                            <a href="#InvoiceandBilling"><i class="icon-screen-desktop"></i><span >BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
                             <!--<ul class="children collapse" style="background-color:#0D4773;">
                            <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
         </ul>-->
@@ -333,7 +333,7 @@
                 <div class="topbar">
                     <div class="header-left">
                         <div class="topnav">
-                            <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
+                            <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span translate>Menu</span></span></a>
                             <ul class="nav nav-icons">
                                 <!--<li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
                                 <li><a href="mailbox.html"><span class="octicon octicon-mail-read"></span></a></li>
@@ -545,8 +545,8 @@
                                         <a data-target="#"><i class="icon-settings"></i><span>Account Settings</span></a> 
                                     </li>-->
                                     <li>
-                                        <a href="../app/userLogin/userLogin.html" ng-show="currentRole != 'Admin'" ><i class="icon-logout"></i><span>Logout</span></a>
-                                        <a href="../app/adminLogin/adminLogin.html" ng-show="currentRole == 'Admin'"><i class="icon-logout"></i><span>Logout</span></a>
+                                        <a href="../app/userLogin/userLogin.html" ng-show="currentRole != 'Admin'" ><i class="icon-logout"></i><span translate>Logout</span></a>
+                                        <a href="../app/adminLogin/adminLogin.html" ng-show="currentRole == 'Admin'"><i class="icon-logout"></i><span translate>Logout</span></a>
                                     </li>
                                 </ul>
                             </li>
