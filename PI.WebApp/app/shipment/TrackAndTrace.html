@@ -1,7 +1,7 @@
 ﻿
 <div>
     <div class="header">
-        <h2>Shipment:Track and Trace</h2>
+        <h2 translate>Shipment:Track and Trace</h2>
     </div>
 
     <div class="panel">
@@ -9,22 +9,22 @@
                     <div class="row">
                         <div class="col-sm-3 form-group">
                             <select class="form-control" ng-model="trackCtrl.shipmentMode">
-                                <option value="EXPRESS">EXPRESS</option>
+                                <option value="EXPRESS" translate>EXPRESS</option>
                             </select>
                         </div>
                         <div class="col-sm-3 form-group">
                             <select class="form-control" ng-model="trackCtrl.carrier">
-                                <option value="">Select Carrier</option>
-                                <option value="UPS">UPS</option>
-                                <option value="TNT">TNT</option>
-                                <option value="DHL">DHL</option>
-                                <option value="FEDEX">FEDEX</option>
+                                <option value="" translate>Select Carrier</option>
+                                <option value="UPS" translate>UPS</option>
+                                <option value="TNT" translate>TNT</option>
+                                <option value="DHL" translate>DHL</option>
+                                <option value="FEDEX" translate>FEDEX</option>
                             </select>
                         </div>
                         <div class="col-md-6 p-r-10">
                             <div class="form-group input-group">
                                 <input ng-model="trackCtrl.trackingNumber" name="trackingNumber" type="text" class="form-control"
-                                       placeholder="Tracking Number" />
+                                       placeholder="T" {{'tracking Number'|translate}}/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-large btn-primary no-margin" ng-click="trackCtrl.LoadTrackAndTracecDate()">
                                         <i class="fa fa-search"></i>
@@ -51,7 +51,7 @@
                         </div>-->
                         <div class="col-sm-1">
                             <div class="font-animation" ng-show="trackCtrl.searching==true">
-                                <label><i class="fa fa-spinner faa-spin animated"></i> Searching...</label>
+                                <label translate><i class="fa fa-spinner faa-spin animated"></i> Searching...</label>
                             </div>
                         </div>
                     
@@ -71,14 +71,14 @@
                                         </div>
                                     </div>
                                     <div class="panel-header">
-                                        <label class="form-control label-info" ng-show="!trackCtrl.trackingNotFound">Current Packege Location</label>
+                                        <label class="form-control label-info" ng-show="!trackCtrl.trackingNotFound" translate>Current Packege Location</label>
                                         <div class="row" ng-show="trackCtrl.trackingNotFound">
-                                            <label class="label label-warning">
+                                            <label class="label label-warning" translate>
                                                 Please check the Tracking Number and try Again
                                             </label>
                                         </div>
                                         <div class="row" ng-show="trackCtrl.missingFields">
-                                            <label class="form-control label-danger">
+                                            <label class="form-control label-danger" translate>
                                                 Fill the request Details correctly
                                             </label>
                                         </div>

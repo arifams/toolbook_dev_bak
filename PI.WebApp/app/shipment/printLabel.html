@@ -20,7 +20,7 @@
                             <div class="col-md-4">
                                 <div class="btn-group form-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
-                                           ng-model="printCtrl.datePicker.date" placeholder="Search By: Pickup Date" />
+                                           ng-model="printCtrl.datePicker.date" placeholder={{'Search By: Pickup Date'|translate}} />
                                 </div>
                             </div>
                             <!--<div class="col-md-4" >
@@ -41,7 +41,7 @@
                             <div class="col-md-6">
                                 <div class="form-group input-group">
                                     <input ng-model="printCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
-                                           placeholder="Tracking Number/ Shipment Ref Number" />
+                                           placeholder=""{{'Tracking Number/ Shipment Ref Number'|translate}} />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary no-margin" ng-click="printCtrl.loadAllShipments()">
                                             <i class="fa fa-search"></i>
@@ -62,14 +62,14 @@
                     <table st-table="shipmentList" st-safe-src="rowCollection" class="table table-striped">
                         <thead>
                             <tr>
-                                <th st-sort="name">Order Submitted</th>
-                                <th>Tracking Number</th>
-                                <th>Shipment ID</th>
-                                <th>Carrier</th>
-                                <th>Origin City</th>
-                                <th>Destination City</th>
+                                <th st-sort="name" translate>Order Submitted</th>
+                                <th translate>Tracking Number</th>
+                                <th translate>Shipment ID</th>
+                                <th translate>Carrier</th>
+                                <th translate>Origin City</th>
+                                <th translate>Destination City</th>
                                                                
-                                <th>Preview</th>
+                                <th translate>Preview</th>
                                 
                             </tr>
 
