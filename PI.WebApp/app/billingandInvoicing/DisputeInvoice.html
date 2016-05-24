@@ -1,6 +1,6 @@
 ﻿
 <div>
-    <h2 class="box-title">
+    <h2 class="box-title" translate>
        Dispute Invoice
     </h2>
 
@@ -19,7 +19,7 @@
                         <div class="col-sm-12">
                             <div class="row">
                                 <div class="col-sm-8">
-                                    <strong>Please insert the reason for disputing the invoice</strong>
+                                    <strong translate>Please insert the reason for disputing the invoice</strong>
                                 </div>
                             </div>
                             <div class="row">
@@ -28,16 +28,16 @@
                                            ></textarea>
                                     <div ng-messages="disputeInvoiceForm.disputecomment.$error"
                                          ng-show="disputeInvoiceForm.disputecomment.$dirty || $parent.isSubmit">
-                                        <label ng-message="required" class="error" for="divisionName">Dispute comment is required</label>
+                                        <label ng-message="required" class="error" for="divisionName" translate>Dispute comment is required</label>
                                     </div>
                                 </div>                               
                             </div>
                             <div class="row">
                                 <div class="col-sm-6"></div>
                                 <div class="col-sm-6">
-                                    <button ng-click="cancelDispute()" class="btn btn-primary pull-right">Cancel</button>
+                                    <button ng-click="cancelDispute()" class="btn btn-primary pull-right" translate>Cancel</button>
                                     <button type="submit" ng-click="(disputeInvoiceForm.$valid ? disputeInvoice(): $parent.isSubmit = true)"
-                                            class="btn btn-primary pull-right">
+                                            class="btn btn-primary pull-right" translate>
                                         Confirm
                                     </button>
                                 </div>

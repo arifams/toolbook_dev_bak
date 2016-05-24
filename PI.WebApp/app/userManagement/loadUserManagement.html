@@ -1,7 +1,7 @@
 ﻿<div>
     <h2 class="box-title" translate>
         Manage Users &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveUserManagement/0"
-                                                       class="btn btn-primary active pull-right" role="button">Add User</a>
+                                                       class="btn btn-primary active pull-right" role="button" translate>Add User</a>
     </h2>
 
     <div class="panel">
@@ -38,7 +38,7 @@
                                         <div class="option-group">
                                             <select convert-to-number ng-options="role.id as role.roleName for role in loadUserCtrl.roleList"
                                                     name="role" ng-model="loadUserCtrl.role" ng-change="loadUserCtrl.selectRole()" class="form-control ng-pristine ng-valid ng-touched">
-                                                <option value="">All</option>
+                                                <option value="" translate>All</option>
                                             </select>
                                         </div>
                                     </div>
@@ -48,7 +48,7 @@
                                         <div class="option-group">
                                             <select convert-to-number ng-options="divi.id as divi.name for divi in loadUserCtrl.divisionList"
                                                     name="divisions" ng-model="loadUserCtrl.selectedDivision" ng-change="loadUserCtrl.selectDivision()" class="form-control ng-pristine ng-valid ng-touched">
-                                                <option value="">All</option>
+                                                <option value="" translate>All</option>
                                             </select>
                                         </div>
                                     </div>
@@ -58,9 +58,9 @@
                                         <div class="option-group">
                                             <select name="status"
                                                     ng-model="loadUserCtrl.status" ng-change="loadUserCtrl.selectActiveUsers()" class="form-control ng-pristine ng-valid ng-touched">
-                                                <option value="All">All</option>
-                                                <option value="True">Active</option>
-                                                <option value="False">Inactive</option>
+                                                <option value="All" translate>All</option>
+                                                <option value="True" translate>Active</option>
+                                                <option value="False" translate>Inactive</option>
                                             </select>
                                         </div>
                                     </div>
