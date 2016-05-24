@@ -12,11 +12,11 @@
 
                     <div class="box-body">
                         <div class="row" ng-show="vm.isAdmin">
-                            <label class="col-sm-2 control-label">Customer</label>
+                            <label class="col-sm-2 control-label"  translate>Customer</label>
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="Enter Company Name, Business Owner First Name or Last Name" />
+                                           placeholder={{'Enter Company Name, Business Owner First Name or Last Name'|translate}} />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary no-margin" 
                                                 ng-click="vm.loadAllCompanies(vm.searchText)">
@@ -28,7 +28,7 @@
                         </div>
 
                         <div class="row">
-                            <label class="col-sm-2 control-label">Pickup Date Range</label>
+                            <label class="col-sm-2 control-label" translate>Pickup Date Range</label>
                             <div class="col-sm-10 form-group">
                                 <div class="col-sm-4 prepend-icon">
                                     <input datetime-picker name="datetimepicker"
@@ -51,13 +51,13 @@
                         </div>
 
                         <div class="row form-group">
-                            <label class="col-sm-2 control-label">Carrier</label>
+                            <label class="col-sm-2 control-label" translate>Carrier</label>
                             <div class="col-sm-10">
                                 <select class="form-control"
                                         convert-to-number ng-options="divi.id as divi.name for divi in vm.carrierList"
                                         ng-model="vm.carrierId"
                                         ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''">
-                                    <option value="">-Select a carrier-</option>
+                                    <option value="" translate>-Select a carrier-</option>
 
                                 </select>
 
@@ -94,7 +94,7 @@
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <button class="btn btn-primary pull-right" ng-click="vm.exportExcel()" ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''">
+                                    <button class="btn btn-primary pull-right" ng-click="vm.exportExcel()" ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''" translate>
                                         Export
                                     </button>
                                 </div>

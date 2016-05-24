@@ -5,14 +5,14 @@
         <!-- /.box-header -->
             <tabset>
                 <tab>
-                    <tab-heading>
+                    <tab-heading translate>
                         OVERVIEW
                     </tab-heading>
                     
                     <div class="panel-content panel-border p-t-0">
                         <div class="row">
                             <div class="col-sm-12">
-                                <h3 class="heading"><strong>Shipment Details</strong></h3>
+                                <h3 class="heading"><strong translate>Shipment Details</strong></h3>
                                             </div>
                                         </div>
 
@@ -20,7 +20,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="lblborder form-group">
-                                    <label class="bg-label m-b-0">
+                                    <label class="bg-label m-b-0" translate>
                                         TRACKING NUMBER
                                     </label>
                                     <label class="m-b-0 bg-label-blue" disabled name="trackingNumber">
@@ -28,7 +28,7 @@
                                     </label>
                                 </div>
                                 <div class="lblborder form-group">
-                                    <label class="bg-label m-b-0">
+                                    <label class="bg-label m-b-0" translate>
                                         SHIPMENT ID
                                     </label>
                                     <label class="m-b-0 bg-label-blue" disabled name="shipmentId">
@@ -36,7 +36,7 @@
                                     </label>
                                 </div>
                                 <div class="lblborder form-group">
-                                    <label class="bg-label m-b-0">
+                                    <label class="bg-label m-b-0" translate>
                                         CARRIER
                                     </label>
                                     <label class="m-b-0 bg-label-blue" disabled name="carrier">
@@ -44,7 +44,7 @@
                                     </label>
                                 </div>
                                 <div class="lblborder form-group">
-                                    <label class="bg-label m-b-0">
+                                    <label class="bg-label m-b-0" translate>
                                         ORDER SUBMITTED DATE
                                     </label>
                                     <label class="m-b-0 bg-label-blue" disabled name="orderSubmittedDate">
@@ -52,10 +52,10 @@
                                     </label>
                                 </div>
                                 <div class="lblborder form-group">
-                                    <label class="bg-label m-b-0">
+                                    <label class="bg-label m-b-0" translate>
                                         SHIPMENT LABEL
                                     </label>
-                                    <label class="m-b-0 bg-label-blue" disabled name="shipmentLabel" ng-click="overviewShipCtrl.openLabel(overviewShipCtrl.shipmentLabel)" >
+                                    <label class="m-b-0 bg-label-blue" disabled name="shipmentLabel" ng-click="overviewShipCtrl.openLabel(overviewShipCtrl.shipmentLabel)" translate>
                                        Click here to view
                                     </label>
                                 </div>
@@ -77,7 +77,7 @@
             
                         <div class="row">
                             <div class="col-sm-12">
-                        <h3 class="heading m-b-0 m-t-10"><strong>Shipment Status</strong></h3>
+                        <h3 class="heading m-b-0 m-t-10"><strong translate>Shipment Status</strong></h3>
                             </div>
                         </div>
                <div class="row">
@@ -87,28 +87,28 @@
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress" style="border-bottom-left-radius:5px;border-top-left-radius:5px;"><div class="progress-bar" ng-class="overviewShipCtrl.step==3 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 2 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
-                           <div class="text-center bs-wizard-stepnum txtalign">BOOKING CONFIRMATION</div>
+                           <div class="text-center bs-wizard-stepnum txtalign" translate>BOOKING CONFIRMATION</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 3 ? 'complete' : 'disabled'" >
                            <!-- complete -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==4 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 3 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
-                           <div class="text-center bs-wizard-stepnum txtalign">PICKEDUP</div>
+                           <div class="text-center bs-wizard-stepnum txtalign" translate>PICKEDUP</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 4 ? 'complete' : 'disabled'">
                            <!-- complete -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==5 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 4 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
-                           <div class="text-center bs-wizard-stepnum txtalign">IN-TRANSIT</div>
+                           <div class="text-center bs-wizard-stepnum txtalign" translate>IN-TRANSIT</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 6 ? 'complete' : 'disabled'">
                            <!-- active -->
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==7 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 6 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
-                           <div class="text-center bs-wizard-stepnum txtalign">DELIVERED</div>
+                           <div class="text-center bs-wizard-stepnum txtalign" translate>DELIVERED</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 7 ? 'complete' : 'disabled'">
                            <!-- active -->
@@ -135,7 +135,7 @@
             <div class="panel-content panel-border p-t-0">          
                    <div class="row">
                           <div class="col-sm-12">
-                             <h3 class="heading"><strong>Tracking History</strong></h3>
+                             <h3 class="heading"><strong translate>Tracking History</strong></h3>
                           </div>
                  </div>
                 <div class="row">
@@ -178,7 +178,7 @@
          </tab>
 
         <tab>
-            <tab-heading>
+            <tab-heading translate>
                 COMMERCIAL INVOICE
             </tab-heading>
             <div class="panel-content panel-border">
@@ -192,7 +192,7 @@
             </tab>
 
         <tab>
-            <tab-heading>
+            <tab-heading translate>
                 DOCUMENTS
             </tab-heading>
             <div ng-include="'shipment/shipmentDocuments.html'">
