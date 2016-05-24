@@ -1,6 +1,6 @@
 ﻿<div>
-    <h2 class="box-title"> Manage Cost Centers &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveCostcenter/0"
-   class="btn btn-primary active pull-right" style="width:auto;" role="button">Add  Cost Center</a></h2>
+    <h2 class="box-title" translate> Manage Cost Centers &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveCostcenter/0"
+   class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Add  Cost Center</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -17,7 +17,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group input-group">
                                         <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                               placeholder="Search by Cost Center Name" />
+                                               placeholder="{{'Search by Cost Center Name' | translate}}" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-large btn-primary" ng-click="searchCostCenters()">
                                                 <i class="fa fa-search"></i>
@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-1">
                                     <div class="form-group">
-                                        <label class="control-label">Filter by  </label>
+                                        <label class="control-label" translate>Filter by  </label>
                                     </div>
                                 </div>
                                 <div class="col-md-2">
@@ -64,12 +64,12 @@
                             <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name">Cost Center</th>
-                                        <th>Assigned Divisions</th>
-                                        <th>Billing Address</th>
-                                        <th>Status</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
+                                        <th st-sort="name" translate>Cost Center</th>
+                                        <th translate>Assigned Divisions</th>
+                                        <th translate>Billing Address</th>
+                                        <th translate>Status</th>
+                                        <th translate>Edit</th>
+                                        <th translate>Delete</th>
                                     </tr>
 
                                 </thead>

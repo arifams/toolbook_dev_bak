@@ -1,5 +1,5 @@
 ﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
-    <h2 class="box-title">
+    <h2 class="box-title" translate>
         Manage Address Book
         <a role="button" style="width:auto;"  class="btn btn-primary active pull-right" href="#saveAddress/0">Add Address</a>
     </h2>
@@ -19,7 +19,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group input-group">
                                     <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="Search by Names" />
+                                           placeholder="{{'Search by Names' | translate}}" />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary no-margin" ng-click="addressCtrl.searchAddresses()">
                                             <i class="fa fa-search"></i>
@@ -29,7 +29,7 @@
                             </div>
                             <div class="col-sm-2 p-l-40">
                                 <div class="form-group">
-                                    <label class="control-label">Filter by  </label>
+                                    <label class="control-label" translate>Filter by  </label>
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='CSV'">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()">
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()" translate>
                                             <i class="fa fa-arrow-circle-o-up"></i>Import CSV
                                         </button>
                                     </div>
@@ -88,8 +88,8 @@
                                                ngf-max-size="2MB" required ngf-model-invalid="errorFile">
                                     </div>
                                     <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='EXCEL'">
-                                        <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
-                                        <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed">
+                                        <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed" translate>Remove</button>
+                                        <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed" translate>
                                             <i class="fa fa-arrow-circle-o-up"></i> Import Excel
                                         </button>
                                         {{errorMsg}}
@@ -108,13 +108,13 @@
                                 </div>
                                 <div class="col-sm-2" ng-show="addressCtrl.searchTypeExport=='CSV'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">Export CSV</button>
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv" translate>Export CSV</button>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2" ng-show="addressCtrl.searchTypeExport=='EXCEL'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()">Export Excel</button>
+                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()" translate>Export Excel</button>
                                     </div>
                                 </div>
                             </div>
@@ -130,13 +130,13 @@
                         <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th st-sort="name">Company</th>
-                                    <th>Name</th>
-                                    <th>Billing Address</th>
-                                    <th>Status</th>
+                                    <th st-sort="name" translate>Company</th>
+                                    <th translate>Name</th>
+                                    <th translate>Billing Address</th>
+                                    <th translate>Status</th>
 
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th translate>Edit</th>
+                                    <th translate>Delete</th>
                                 </tr>
 
                             </thead>

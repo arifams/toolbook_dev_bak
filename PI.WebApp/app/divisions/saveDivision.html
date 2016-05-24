@@ -1,6 +1,6 @@
 ﻿<div ng-controller="saveDivisionCtrl as divCtrl">
-    <h2 class="box-title" ng-hide="divCtrl.model.id > 0"> Add Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
-    <h2 class="box-title" ng-show="divCtrl.model.id > 0"> Edit Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
+    <h2 class="box-title" ng-hide="divCtrl.model.id > 0" translate> Add Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
+    <h2 class="box-title" ng-show="divCtrl.model.id > 0" translate> Edit Division &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a></h2>
     
     <div class="panel">
         <!-- form start -->
@@ -16,12 +16,12 @@
                             <div class="box-body">
                                 <div class="form-group">
                                     <div class="col-sm-12">
-                                        <span style="font-style:italic">  * Indicates mandatory fields.</span>
+                                        <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label">Division Name *</label>
+                                        <label class="col-sm-2 control-label" translate>Division Name *</label>
                                         <div class="col-sm-10">
                                             <input ng-model="divCtrl.model.name" type="text" name="divisionName" class="form-control" ng-required="true"
                                                    ng-maxlength="200" ng-class="{ 'error': saveDivisionForm.divisionName.$invalid &&
@@ -37,7 +37,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label">Division Description</label>
+                                        <label class="col-sm-2 control-label" translate>Division Description</label>
                                         <div class="col-sm-10">
                                             <input ng-model="divCtrl.model.description" type="text" class="form-control" />
                                         </div>
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 form-group" ng-show="divCtrl.model.assosiatedCostCenters.length > 0">
-                                        <label class="col-sm-2 control-label">Default Cost Center * </label>
+                                        <label class="col-sm-2 control-label" translate>Default Cost Center * </label>
                                         <div class="col-sm-10">
                                             <div ng-repeat="costCent in divCtrl.model.assosiatedCostCenters">
                                                 <input name="{{costCent.id}}" type="radio"
@@ -62,7 +62,7 @@
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
                                         <div class="col-sm-2">
-                                            <label class="control-label">Status </label>
+                                            <label class="control-label" translate>Status </label>
                                         </div>
                                         <div class="col-sm-10 p-l-30">
                                             <div class="skin skin-minimal">
@@ -70,8 +70,8 @@
                                                     <div class="form-group">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
-                                                                <label><input type="radio" name="activeRadio" ng-model="divCtrl.model.status" value="1" icheck> Active</label>
-                                                                <label><input type="radio" name="inactiveRadio" ng-model="divCtrl.model.status" value="2" icheck> Inactive</label>
+                                                                <label translate><input type="radio" name="activeRadio" ng-model="divCtrl.model.status" value="1" icheck> Active</label>
+                                                                <label translate><input type="radio" name="inactiveRadio" ng-model="divCtrl.model.status" value="2" icheck> Inactive</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -84,10 +84,10 @@
                                 <div class="row">
                                     <div class="col-sm-12 form-group p-l-30">
 
-                                        <button ng-click="divCtrl.close()" class="btn btn-primary btn-app pull-right">
+                                        <button ng-click="divCtrl.close()" class="btn btn-primary btn-app pull-right" translate>
                                             <i class="fa fa-close"></i> Close
                                         </button>
-                                        <button ng-click="(saveDivisionForm.$valid ? divCtrl.saveDivision() : divCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right" type="submit">
+                                        <button ng-click="(saveDivisionForm.$valid ? divCtrl.saveDivision() : divCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right" type="submit" translate>
                                             <i class="fa fa-save"></i> Save
                                         </button>
 
