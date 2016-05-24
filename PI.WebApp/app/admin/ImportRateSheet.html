@@ -1,5 +1,5 @@
 ﻿<div ng-controller="loadRateSheetCtrl as vm">
-    <h2 class="box-title">
+    <h2 class="box-title" translate>
         Upload Rate Sheet
     </h2>
 
@@ -24,7 +24,7 @@
                             <div class="col-sm-2" >
                                 <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed">Remove</button>
                                 <button ng-click="vm.uploadRateSheet(document)" class="btn btn-primary btn-square btn-embossed">
-                                    <i class="fa fa-arrow-circle-o-up"></i> Import Excel
+                                    <i class="fa fa-arrow-circle-o-up"></i> <translate> Import Excel </translate>
                                 </button>
                                 {{errorMsg}}
                             </div>

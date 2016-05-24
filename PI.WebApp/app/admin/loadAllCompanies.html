@@ -1,5 +1,5 @@
 ﻿<div ng-controller="loadCompaniesCtrl as vm">
-    <h2 class="box-title">
+    <h2 class="box-title" translate>
         Manage Customers
     </h2>
 
@@ -18,20 +18,23 @@
                             <div class="col-md-12">
                                 <div class="col-sm-2 form-group">
                                     <div dropdown="" class="btn-group btn-block">
-                                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
-                                            Status : {{vm.statusButton}}
+                                        <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" >
+                                          <translate>Status</translate>  :  {{vm.statusButton}}
                                             <span class="caret"></span>
                                         </button>
                                         <span class="dropdown-arrow"></span>
                                         <ul class="dropdown-menu" role="menu">
                                             <li>
-                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('All')">All</a>
+                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('All')">
+                                                <translate>All</translate> </a>
                                             </li>
                                             <li>
-                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('true')">Active</a>
+                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('true')">
+                                                    <translate>Active</translate></a>
                                             </li>
                                             <li>
-                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('false')">InActive</a>
+                                                <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('false')">
+                                                    <translate>InActive</translate></a>
                                             </li>
                                         </ul>
                                     </div>
@@ -42,7 +45,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group input-group">
                                         <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
-                                               placeholder="Search by First Name, Last Name or Corporate Name" />
+                                               placeholder= "{{'Search by First Name, Last Name or Corporate Name'| translate}}"  />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-large btn-primary" ng-click="vm.searchComapnies()">
                                                 <i class="fa fa-search"></i>
@@ -57,15 +60,15 @@
                             <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th>Created Date</th>
-                                        <th st-sort="name">First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Corporate Name</th>
-                                        <th>City</th>
-                                        <th>Number Of Users</th>
-                                        <th>Active Shipments</th>
-                                        <th>Status</th>
-                                        <th>Invoice Payment</th>
+                                        <th translate>Created Date</th>
+                                        <th st-sort="name" translate>First Name</th>
+                                        <th translate>Last Name</th>
+                                        <th translate>Corporate Name</th>
+                                        <th translate>City</th>
+                                        <th translate>Number Of Users</th>
+                                        <th translate>Active Shipments</th>
+                                        <th translate>Status</th>
+                                        <th translate>Invoice Payment</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -81,13 +84,13 @@
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block"
                                                     ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-danger' : 'btn-primary'">
-                                                {{ (row.status ? 'Deactivate'  : 'Activate') }}
-                                            </button>
+                                                <translate> {{ (row.status ? 'Deactivate' : 'Activate') }} </translate>
+</button>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)">
-                                                {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
-                                            </button>
+                                                <translate>{{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }} </translate>
+</button>
                                         </td>
                                     </tr>
                                 </tbody>
