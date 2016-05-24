@@ -1,5 +1,5 @@
 ﻿<div>
-    <h2 class="box-title">
+    <h2 class="box-title" translate>
         Manage Users &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveUserManagement/0"
                                                        class="btn btn-primary active pull-right" role="button">Add User</a>
     </h2>
@@ -19,7 +19,7 @@
                             <div class="col-sm-6">
                                 <div class="form-group input-group">
                                     <input ng-model="loadUserCtrl.searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="Search by First Name or Last Name" />
+                                           placeholder="{{'Search by First Name or Last Name' | translate}}" />
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary" ng-click="loadUserCtrl.searchUsers()">
                                             <i class="fa fa-search"></i>
@@ -30,7 +30,7 @@
                             <div class="col-sm-6 p-r-0">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <label class="control-label text-center">Filter by  </label>
+                                        <label class="control-label text-center" translate>Filter by  </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
@@ -75,12 +75,12 @@
                             <table st-table="loadUserCtrl.displayedCollection" st-safe-src="loadUserCtrl.rowCollection" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name">First Name</th>
-                                        <th>Last Name</th>
-                                        <th>Role</th>
-                                        <th>Assigned Division(s)</th>
-                                        <th>Last Visit Date</th>
-                                        <th>Status</th>
+                                        <th st-sort="name" translate>First Name</th>
+                                        <th translate>Last Name</th>
+                                        <th translate>Role</th>
+                                        <th translate>Assigned Division(s)</th>
+                                        <th translate>Last Visit Date</th>
+                                        <th translate>Status</th>
                                         <th></th>
                                     </tr>
                                 </thead>

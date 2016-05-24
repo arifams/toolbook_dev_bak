@@ -1,5 +1,5 @@
 ﻿<div ng-controller="loadDivisionsCtrl">
-    <h2 class="box-title"> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" style="width:auto" role="button"> Add Division</a></h2>
+    <h2 class="box-title" translate> Manage Divisions &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" style="width:auto" role="button"> Add Division</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -16,7 +16,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group input-group">
                                         <input ng-model="searchText" name="searchText" type="text" class="form-control"
-                                               placeholder="Search by Division Name" />
+                                               placeholder="{{'Search by Division Name' | translate}}" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-large btn-primary" ng-click="searchDivisions()">
                                                 <i class="fa fa-search"></i>
@@ -27,7 +27,7 @@
 
                                 <div class="col-sm-1">
                                     <div class="form-group">
-                                        <label class="control-label">Filter by  </label>
+                                        <label class="control-label" translate>Filter by  </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-2">
@@ -66,12 +66,12 @@
                         <table st-table="displayedCollection" st-safe-src="rowCollection" class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th st-sort="name">Division</th>
-                                    <th>Assigned Cost Centers</th>
-                                    <th>Number Of Users</th>
-                                    <th>Status</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th st-sort="name" translate>Division</th>
+                                    <th translate>Assigned Cost Centers</th>
+                                    <th translate>Number Of Users</th>
+                                    <th translate>Status</th>
+                                    <th translate>Edit</th>
+                                    <th translate>Delete</th>
                                 </tr>
 
                             </thead>

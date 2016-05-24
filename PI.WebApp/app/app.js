@@ -28,7 +28,8 @@ var MakeApp = angular
     'daterangepicker',
     'ngDialog',
     'ngFileUpload',
-    'angular-jwt'
+    'angular-jwt',
+    'gettext'
   ])
   .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
 
@@ -361,6 +362,12 @@ var checkRouting = function ($location) {
 
 };
 
+
+MakeApp.run(function (gettextCatalog) {
+
+    gettextCatalog.setCurrentLanguage('nl');
+    gettextCatalog.debug = true;
+});
 
 
 // Route State Load Spinner(used on page or content load)
