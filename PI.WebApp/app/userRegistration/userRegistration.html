@@ -22,7 +22,7 @@
                     <i class="user-img icons-faces-users-03"></i>
                     <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-hide="regCtrl.isSentMail">
                         <div class="reg" id="reg-stepOne" ng-show="showContent != true">
-                          <div class="regheader"><strong>Customer</strong> Registration</div>
+                          <div class="regheader"><strong translate>Customer</strong><translate>Registration</translate> </div>
                             <div class="reg-contentwrapper">
                                 <div class="row">                                   
                                     <div class="col-sm-12 p-l-0 p-r-0">
@@ -31,9 +31,9 @@
                                                 <div class="option-group">
                                                     <select id="salutation" name="salutation" class="form-control ng-pristine ng-valid ng-touched" required
                                                             ng-model="regCtrl.user.salutation">
-                                                        <option value="Mr">Mr</option>
-                                                        <option value="Mrs">Mrs</option>
-                                                        <option value="Ms">Ms</option>
+                                                        <option value="Mr" translate>Mr</option>
+                                                        <option value="Mrs" translate>Mrs</option>
+                                                        <option value="Ms" translate>Ms</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -41,16 +41,16 @@
                                         <div class="col-sm-8">
                                             <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="firstname" id="firstname" class="form-control" placeholder="First name*"
+                                                <input type="text" name="firstname" id="firstname" class="form-control" placeholder={{'First name*'|translate}}
                                                        required autofocus ng-model="regCtrl.user.firstname" ng-minlength="3" ng-maxlength="100"
                                                        ng-class="{ 'error': formSignup.firstname.$invalid &&
                                                        (formSignup.firstname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                
                                             </div>
                                                 <div ng-messages="formSignup.firstname.$error" ng-show="formSignup.firstname.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                    <label ng-message="required" class="error" for="firstname">Enter your first name</label>
-                                                    <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
-                                                    <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                                    <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
+                                                    <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
+                                                    <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
                                                 </div>
                                         </div>
                                         </div>
@@ -61,16 +61,16 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name *"
+                                                <input type="text" name="lastname" id="lastname" class="form-control" placeholder="Last name *"{{'Last name *'|translate}}
                                                        required ng-model="regCtrl.user.lastname" ng-minlength="3" ng-maxlength="100"
                                                        ng-class="{ 'error': formSignup.lastname.$invalid &&
                                                        (formSignup.lastname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                 
                                             </div>
                                             <div ng-messages="formSignup.lastname.$error" ng-show="formSignup.lastname.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="lastname">Enter your last name</label>
-                                                <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                                <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
+                                                <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
+                                                <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
+                                                <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
                                             </div>
                                         </div>
                                     </div>
@@ -80,14 +80,14 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="mobilenumber" id="mobilenumber" class="form-control" ng-required="regCtrl.user.contactType == 'mobile'"
-                                                       placeholder="Enter Mobile Number *" valid-phone-no ng-model="regCtrl.user.mobilenumber" ng-maxlength="100"
+                                                       placeholder={{'Enter Mobile Number *'||translate}} valid-phone-no ng-model="regCtrl.user.mobilenumber" ng-maxlength="100"
                                                        ng-class="{ 'error': formSignup.mobilenumber.$invalid &&
                                                        (formSignup.mobilenumber.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                 
                                             </div>
                                             <div ng-messages="formSignup.mobilenumber.$error" ng-show="formSignup.mobilenumber.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="mobilenumber">Enter your mobile number</label>
-                                                <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
+                                                <label ng-message="required" class="error" for="mobilenumber" translate>Enter your mobile number</label>
+                                                <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid mobile number</label>
                                             </div>
                                         </div>
                                     </div>
@@ -95,14 +95,14 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="phonenumber" id="phonenumber" class="form-control" ng-required="regCtrl.user.contactType == 'phone'"
-                                                       placeholder="Phone*" valid-phone-no ng-model="regCtrl.user.phonenumber" ng-maxlength="100"
+                                                       placeholder={{'Phone*'|translate}} valid-phone-no ng-model="regCtrl.user.phonenumber" ng-maxlength="100"
                                                        ng-class="{ 'error': formSignup.phonenumber.$invalid &&
                                                        (formSignup.phonenumber.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                 
                                             </div>
                                             <div ng-messages="formSignup.phonenumber.$error" ng-show="formSignup.phonenumber.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="phonenumber">Enter your phone number</label>
-                                                <label ng-message="notValidPhoneNo" class="error" for="phonenumber">Enter valid phone number</label>
+                                                <label ng-message="required" class="error" for="phonenumber" translate>Enter your phone number</label>
+                                                <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
                                             </div>
                                         </div>
                                     </div>
@@ -111,14 +111,14 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="Email address*" required ng-model="regCtrl.user.email"
+                                                <input type="email" name="email" id="email" class="form-control" placeholder={{'Email address*'|translate}} required ng-model="regCtrl.user.email"
                                                        ng-maxlength="100" ng-class="{ 'error': formSignup.email.$invalid &&
                                                        (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                                 
                                             </div>
                                             <div ng-messages="formSignup.email.$error" ng-show="formSignup.email.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="email">Enter your email address</label>
-                                                <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                                <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                                <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                             </div>
                                         </div>
                                     </div>
@@ -127,7 +127,7 @@
                                    
                                         <div class="col-sm-11">
                                             <div class="form-group">
-                                                <input type="password" name="password" id="password" class="form-control form-psw" placeholder="Enter your password *"
+                                                <input type="password" name="password" id="password" class="form-control form-psw" placeholder={{'Enter your password *'|translate}}
                                                        required ng-model="regCtrl.user.password" 
                                                        ng-class="{ 'error': formSignup.password.$invalid &&
                                                        (formSignup.password.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password />
@@ -143,11 +143,11 @@
                                                     <i class="icon-question" rel="popover" data-container="body" data-toggle="popover"
                                                        data-placement="top"
                                                        data-html="true"
-                                                       data-content="- At least 8 characters long. <br> - Should at least contain;
-                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
-                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
-                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
-                                           <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
+                                                       data-content="<translate>- At least 8 characters long.</translate> <br> -<translate>Should at least contain;</translate> 
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp;<translate> One lowercase letter.</translate>
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp;<translate>One uppercase letter.</translate> 
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp;<translate>One special character.</translate> 
+                                           <br> &nbsp;&nbsp;&nbsp;&nbsp;<translateOne digit."translate> 
                                            data-original-title="Your Password should be:"></i>
                                                 </div>
                                                 
@@ -161,14 +161,14 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="password" name="password_c" id="password_c" class="form-control form-psw"
-                                                       placeholder="Confirm your password *" required ng-model="regCtrl.user.password_c"
+                                                       placeholder={{'Confirm your password *'|translate}}   required ng-model="regCtrl.user.password_c"
                                                        ng-class="{ 'error': formSignup.password_c.$invalid &&
                                                        (formSignup.password_c.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password-c />
                                                 
                                             </div>
                                             <div ng-messages="formSignup.password_c.$error" ng-show="formSignup.password_c.$dirty || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="password_c">ReEnter your password</label>
-                                                <label ng-message="noMatch" class="error" for="password_c">2 passwords must be the same</label>
+                                                <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
+                                                <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
                                             </div>
                                         </div>
                                     </div>
@@ -178,8 +178,8 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label class="accType"><input type="radio" name="iscorporate" id="individual" value="false" ng-model="regCtrl.user.isCorporateAccount" icheck /> Individual account</label>
-                                                    <label class="accType"><input type="radio" name="iscorporate" id="corporate" value="true" ng-model="regCtrl.user.isCorporateAccount" icheck /> Corporate account</label>
+                                                    <label class="accType"><input type="radio" name="iscorporate" id="individual" value="false" ng-model="regCtrl.user.isCorporateAccount" icheck  translate/> Individual account</label>
+                                                    <label class="accType"><input type="radio" name="iscorporate" id="corporate" value="true" ng-model="regCtrl.user.isCorporateAccount" icheck  translate/> Corporate account</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -187,7 +187,7 @@
                                 </div>
                                 <div>
                                     <a href="" ng-click="(formSignup.$valid? showContent=true : isfirstFormInvalid = true)" style="color:#247EB2;float:right;">
-                                        <u class="m-r-5" style="float: left;">Next</u>
+                                        <u class="m-r-5" style="float: left;" translate>Next</u>
                                         <span class="glyphicon glyphicon-circle-arrow-right"></span>
                                     </a>
                                 </div>
@@ -198,18 +198,18 @@
 
                     <form class="form-signup" role="form" id="form-signup-next" name="formSignupNext" ng-submit="formSignupNext.$valid && regCtrl.register();" ng-hide="regCtrl.isSentMail">
                         <div class="reg" id="reg-stepTwo" ng-show="showContent">
-                            <div class="regheader"><strong>Customer</strong> Registration</div>
+                            <div class="regheader"><strong translate>Customer</strong> <translate>Registration</translate></div>
                             <div class="reg-contentwrapper">
                                 <div class="row" ng-show="regCtrl.user.isCorporateAccount == 'true'">
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder="Company name *"
+                                                <input type="text" name="companyname" id="companyname" class="form-control" placeholder={{'Company name *'|translate}}
                                                         ng-required="regCtrl.user.isCorporateAccount == 'true'" ng-model="regCtrl.user.companyname" ng-maxlength="200" ng-class="{ 'error': formSignup.companyname.$invalid && (formSignup.companyname.$dirty||regCtrl.isSubmit) }" />
                                             </div>
                                             <div ng-messages="formSignupNext.companyname.$error" ng-show="formSignupNext.companyname.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="companyname">Enter company name</label>
-                                                <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
+                                                <label ng-message="required" class="error" for="companyname" translate>Enter company name</label>
+                                                <label ng-message="maxlength" class="error" for="companyname" translate>Enter less than 200 characters</label>
                                             </div>
                                         </div>
                                     </div>
@@ -219,12 +219,12 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <input type="text" name="registrationnumbercompany" id="registrationnumbercompany" class="form-control" 
-                                                       placeholder="Registration number company " ng-model="regCtrl.user.companycode" ng-maxlength="200" 
+                                                       placeholder={{'Registration number company'|translate}} ng-model="regCtrl.user.companycode" ng-maxlength="200" 
                                                        ng-class="{ 'error': formSignupNext.companyname.$invalid &&
                                                        (formSignupNext.companyname.$dirty||regCtrl.isSubmit) }" />
                                             </div>
                                             <div ng-messages="formSignupNext.companyname.$error" ng-show="formSignupNext.companyname.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
+                                                <label ng-message="maxlength" class="error" for="companyname" translate >Enter less than 200 characters</label>
                                             </div>
                                         </div>
                                     </div>
@@ -234,26 +234,26 @@
                                         <div class="col-sm-8">
                                             <div class="form-group">
                                                 <div class="append-icon">
-                                                    <input type="text" name="street" id="streetaddress1" class="form-control" placeholder="Street *" 
+                                                    <input type="text" name="street" id="streetaddress1" class="form-control" placeholder={{'Street *'|translate}}
                                                            required ng-model="regCtrl.user.customeraddress.streetaddress1" ng-maxlength="100" 
                                                            ng-class="{ 'error': formSignupNext.street.$invalid && (formSignupNext.street.$dirty||regCtrl.isSubmit) }" />
                                                 </div>
                                                 <div ng-messages="formSignupNext.street.$error" ng-show="formSignupNext.street.$dirty || regCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="street">Enter street address</label>
-                                                    <label ng-message="maxlength" class="error" for="street">Enter less than 100 characters</label>
+                                                    <label ng-message="required" class="error" for="street" translate>Enter street address</label>
+                                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <div class="append-icon">
-                                                    <input type="text" name="number" id="number" class="form-control" placeholder="Number *" 
+                                                    <input type="text" name="number" id="number" class="form-control" placeholder="Number *" {{'Number *'|translate}}
                                                            required ng-model="regCtrl.user.customeraddress.number" ng-maxlength="100" 
                                                            ng-class="{ 'error': formSignupNext.number.$invalid && (formSignupNext.number.$dirty||regCtrl.isSubmit) }" />
                                                 </div>
                                                 <div ng-messages="formSignupNext.number.$error" ng-show="formSignupNext.number.$dirty || regCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="number">Enter Number</label>
-                                                    <label ng-message="maxlength" class="error" for="number">Enter less than 100 characters</label>
+                                                    <label ng-message="required" class="error" for="number" translate>Enter Number</label>
+                                                    <label ng-message="maxlength" class="error" for="number" translate>Enter less than 100 characters</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -265,13 +265,13 @@
                                         <div class="form-group">
                                             <div class="append-icon">
                                                 <!--reg no not required-->
-                                                <input type="text" name="additionadetails" id="additionadetails" class="form-control" placeholder="Additional address information" 
+                                                <input type="text" name="additionadetails" id="additionadetails" class="form-control" placeholder={{'Additional address information'|translate}} 
                                                        ng-model="regCtrl.user.customeraddress.streetaddress2" ng-maxlength="200" 
                                                        ng-class="{ 'error': formSignupNext.additionadetails.$invalid && 
                                                        (formSignupNext.additionadetails.$dirty||regCtrl.isSubmit) }" />
                                             </div>
                                             <div ng-messages="formSignupNext.additionadetails.$error" ng-show="formSignupNext.additionadetails.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="maxlength" class="error" for="additionadetails">Enter less than 200 characters</label>
+                                                <label ng-message="maxlength" class="error" for="additionadetails" translate>Enter less than 200 characters</label>
                                             </div>
                                         </div>
                                     </div>
@@ -280,13 +280,13 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="append-icon">
-                                                <input type="text" name="postalcode" id="postalcode" class="form-control" placeholder="Zip/Postal Code *" 
+                                                <input type="text" name="postalcode" id="postalcode" class="form-control" placeholder={{'Zip/Postal Code *'|translate}}
                                                        required ng-model="regCtrl.user.customeraddress.zipcode" ng-maxlength="100" 
                                                        ng-class="{ 'error': formSignupNext.postalcode.$invalid && (formSignupNext.postalcode.$dirty||regCtrl.isSubmit) }" />
                                             </div>
                                             <div ng-messages="formSignupNext.postalcode.$error" ng-show="formSignupNext.postalcode.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="postalcode">Enter Zip/Postal code</label>
-                                                <label ng-message="maxlength" class="error" for="postalcode">Enter less than 100 characters</label>
+                                                <label ng-message="required" class="error" for="postalcode" translate>Enter Zip/Postal code</label>
+                                                <label ng-message="maxlength" class="error" for="postalcode" translate>Enter less than 100 characters</label>
                                             </div>
                                         </div>
                                     </div>
@@ -296,26 +296,26 @@
                                         <div class="col-sm-8">
                                             <div class="form-group">
                                                 <div class="append-icon">
-                                                    <input type="text" name="city" id="city" class="form-control" placeholder="City *" required 
+                                                    <input type="text" name="city" id="city" class="form-control" placeholder={{'City *'||translate}} required 
                                                            ng-model="regCtrl.user.customeraddress.city" ng-maxlength="100" 
                                                            ng-class="{ 'error': formSignupNext.city.$invalid && (formSignupNext.city.$dirty||regCtrl.isSubmit) }" />
                                                 </div>
                                                 <div ng-messages="formSignupNext.city.$error" ng-show="formSignupNext.city.$dirty || regCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="city">Enter City</label>
-                                                    <label ng-message="maxlength" class="error" for="city">Enter less than 100 characters</label>
+                                                    <label ng-message="required" class="error" for="city" translate>Enter City</label>
+                                                    <label ng-message="maxlength" class="error" for="city" translate>Enter less than 100 characters</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <div class="form-group">
                                                 <div class="append-icon">
-                                                    <input type="text" name="state" id="state" class="form-control" placeholder="State code {{regCtrl.isRequiredState?'*':''}}" 
+                                                    <input type="text" name="state" id="state" class="form-control" placeholder="{{'State code'|translate}} {{regCtrl.isRequiredState?'*':''}}" 
                                                            ng-required="regCtrl.isRequiredState" ng-model="regCtrl.user.customeraddress.state" ng-maxlength="100" 
                                                            ng-class="{ 'error': formSignupNext.state.$invalid && (formSignupNext.state.$dirty||regCtrl.isSubmit) }" />
                                                 </div>
                                                 <div ng-messages="formSignupNext.state.$error" ng-show="formSignupNext.state.$dirty || regCtrl.isSubmit">
-                                                    <label ng-message="required" class="error" for="state">Enter State code</label>
-                                                    <label ng-message="maxlength" class="error" for="state">Enter less than 100 characters</label>
+                                                    <label ng-message="required" class="error" for="state" translate>Enter State code</label>
+                                                    <label ng-message="maxlength" class="error" for="state" translate>Enter less than 100 characters</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -338,10 +338,10 @@
                                             <label for="terms" class="m-t-10">
                                                 <input type="checkbox" name="terms" id="terms" required ng-model="regCtrl.user.terms" 
                                                        ng-class="{ 'error': formSignupNext.terms.$invalid && (formSignupNext.terms.$dirty||regCtrl.isSubmit) }" icheck />
-                                                <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()" style="color:#00A2D9;font-weight:normal;">I agree with terms and conditions</a>
+                                                <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()" style="color:#00A2D9;font-weight:normal;" translate>I agree with terms and conditions</a>
                                             </label>
                                             <div ng-messages="formSignupNext.terms.$error" ng-show="formSignupNext.terms.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="terms">You must agree with terms</label>
+                                                <label ng-message="required" class="error" for="terms" translate>You must agree with terms</label>
                                             </div>
                                         </div>
                                     </div>
@@ -349,82 +349,82 @@
 
                                 <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
                                         data-style="expand-left" ng-click="regCtrl.isSubmit = true">
-                                    Register
+                                    <translate>Register</translate>
                                 </button>
-                                <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted">
+                                <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted" translate>
                                     Please wait ...
                                 </div>
 
                                 <div ng-show="regCtrl.isSubmit && formSignupNext.$invalid">
 
                                     <p style='color:#994F4F;font-weight:bold;'>
-                                        Your form contains
+                                     <translate> Your form contains</translate>  
                                         {{formSignupNext.$error.required.length + formSignupNext.$error.minlength.length +  formSignupNext.$error.maxlength.length + formSignupNext.$error.email.length + formSignupNext.$error.notValidPhoneNo.length+ formSignupNext.$error.noValidPassword.length+ formSignupNext.$error.noMatch.length }}
-                                        errors, see details below
+                                      <translate> errors, see details below</translate>  
                                     </p>
 
                                     <div ng-messages="formSignup.firstname.$error" ng-show="formSignup.firstname.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="firstname">Enter your first name</label>
-                                        <label ng-message="minlength" class="error" for="firstname">Enter at least 3 characters or more</label>
-                                        <label ng-message="maxlength" class="error" for="firstname">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
+                                        <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
+                                        <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignup.middlename.$error" ng-show="formSignup.middlename.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="maxlength" class="error" for="middlename">Enter less than 100 characters</label>
+                                        <label ng-message="maxlength" class="error" for="middlename" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignup.lastname.$error" ng-show="formSignup.lastname.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="lastname">Enter your last name</label>
-                                        <label ng-message="minlength" class="error" for="lastname">Enter at least 3 characters or more</label>
-                                        <label ng-message="maxlength" class="error" for="lastname">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
+                                        <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
+                                        <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignup.mobilenumber.$error" ng-show="formSignup.mobilenumber.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="mobilenumber">Enter your mobile number</label>
-                                        <label ng-message="notValidPhoneNo" class="error" for="mobilenumber">Enter valid mobile number</label>
+                                        <label ng-message="required" class="error" for="mobilenumber" translate>Enter your mobile number</label>
+                                        <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid mobile number</label>
                                     </div>
                                     <div ng-messages="formSignup.phonenumber.$error" ng-show="formSignup.phonenumber.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="phonenumber">Enter your phone number</label>
-                                        <label ng-message="notValidPhoneNo" class="error" for="phonenumber">Enter valid phone number</label>
+                                        <label ng-message="required" class="error" for="phonenumber" translate>Enter your phone number</label>
+                                        <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
                                     </div>
                                     <div ng-messages="formSignup.email.$error" ng-show="formSignup.email.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="email">Enter your email address</label>
-                                        <label ng-message="email" class="error" for="email">Enter valid email address</label>
+                                        <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                        <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                     </div>
                                     <div ng-messages="formSignup.password.$error" ng-show="formSignup.password.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="password">Enter your password</label>
-                                        <label ng-message="noValidPassword" class="error" for="password">Enter valid password</label>
+                                        <label ng-message="required" class="error" for="password" translate>Enter your password</label>
+                                        <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
                                     </div>
                                     <div ng-messages="formSignup.password_c.$error" ng-show="formSignup.password_c.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="password_c">ReEnter your password</label>
-                                        <label ng-message="noMatch" class="error" for="password_c">2 passwords must be the same</label>
+                                        <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
+                                        <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
                                     </div>
                                     <div ng-messages="formSignupNext.companyname.$error" ng-show="formSignupNext.companyname.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="companyname">Enter company name</label>
-                                        <label ng-message="maxlength" class="error" for="companyname">Enter less than 200 characters</label>
+                                        <label ng-message="required" class="error" for="companyname" translate>Enter company name</label>
+                                        <label ng-message="maxlength" class="error" for="companyname" translate>Enter less than 200 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.street.$error" ng-show="formSignupNext.street.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="street">Enter Street</label>
-                                        <label ng-message="maxlength" class="error" for="street">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="street" translate>Enter Street</label>
+                                        <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.number.$error" ng-show="formSignupNext.number.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="number">Enter Number</label>
-                                        <label ng-message="maxlength" class="error" for="number">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="number" translate>Enter Number</label>
+                                        <label ng-message="maxlength" class="error" for="number" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.postalcode.$error" ng-show="formSignupNext.postalcode.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="postalcode">Enter Postal Code</label>
-                                        <label ng-message="maxlength" class="error" for="postalcode">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="postalcode" translate>Enter Postal Code</label>
+                                        <label ng-message="maxlength" class="error" for="postalcode" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.additionadetails.$error" ng-show="formSignupNext.additionadetails.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="maxlength" class="error" for="additionadetails">Enter less than 200 characters</label>
+                                        <label ng-message="maxlength" class="error" for="additionadetails" translate>Enter less than 200 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.city.$error" ng-show="formSignupNext.city.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="city">Enter City</label>
-                                        <label ng-message="maxlength" class="error" for="city">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="city" translate>Enter City</label>
+                                        <label ng-message="maxlength" class="error" for="city" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.state.$error" ng-show="formSignupNext.state.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="state">Enter State</label>
-                                        <label ng-message="maxlength" class="error" for="state">Enter less than 100 characters</label>
+                                        <label ng-message="required" class="error" for="state" translate>Enter State</label>
+                                        <label ng-message="maxlength" class="error" for="state" translate>Enter less than 100 characters</label>
                                     </div>
                                     <div ng-messages="formSignupNext.terms.$error" ng-show="formSignupNext.terms.$dirty || regCtrl.isSubmit">
-                                        <label ng-message="required" class="error" for="terms">You must agree with terms</label>
+                                        <label ng-message="required" class="error" for="terms" translate>You must agree with terms</label>
                                     </div>
 
                                 </div>
@@ -439,7 +439,7 @@
 
                     </form>
 
-                    <div class="alert alert-success confirmationMailSend" ng-show="regCtrl.isSentMail">
+                    <div class="alert alert-success confirmationMailSend" ng-show="regCtrl.isSentMail" translate>
                         Thank you for registrating with us! A Confirmation message was sent to your email.
                         Please check your mail box, to activate the account.
                     </div>
@@ -457,7 +457,7 @@
             </div>
         </div>
         <p class="account-copyright">
-            <span>Parcel International</span>.<span>All rights reserved.</span>
+            <span translate>Parcel International</span>.<span translate>All rights reserved.</span>
         </p>
 
     </div>
