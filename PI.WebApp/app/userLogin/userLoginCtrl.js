@@ -166,5 +166,5 @@
     }]);
 
 
-})(angular.module('userLogin', ['ngMessages', 'ngCookies']));
+})(angular.module('userLogin', ['ngMessages', 'ngCookies', 'gettext']));
 

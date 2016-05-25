@@ -158,5 +158,5 @@
     }]);
 
 
-})(angular.module('adminLogin', ['ngMessages', 'ngCookies']));
+})(angular.module('adminLogin', ['ngMessages', 'ngCookies', 'gettext']));
 
