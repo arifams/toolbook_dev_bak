@@ -1038,5 +1038,5 @@
     }]);
         
 
-})(angular.module('userRegistration', ['ngMessages']));
+})(angular.module('userRegistration', ['ngMessages', 'gettext']));
 
