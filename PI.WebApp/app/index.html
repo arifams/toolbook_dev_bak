@@ -9,7 +9,7 @@
         <title>Parcel International</title>
         <!--<link href="../global/css/style.css" rel="stylesheet">-->
         <link href="../global/css/compressed-styles.css" rel="stylesheet">
-        <!--<link href="../global/css/theme.css" rel="stylesheet">-->
+        <link href="../global/css/theme.css" rel="stylesheet">
         <!--<link href="../global/css/ui.css" rel="stylesheet">-->
         <!--<link href="../global/plugins/metrojs/metrojs.min.css" rel="stylesheet">-->
         <!--<link href="../global/plugins/maps-amcharts/ammap/ammap.min.css" rel="stylesheet">-->
@@ -141,7 +141,7 @@
 
                         <li class="nav-parent" ng-show="currentRole == 'Admin'">
                             <a href="#"><span>REPORTS</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
+                            <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/ShipmentReports')}">
                                 <a href="#ShipmentReports" translate> SHIPMENT REPORT</a></li>
                             </ul>
@@ -149,7 +149,7 @@
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><i class="icon-basket"></i><span translate>SHIPMENTS</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
+                            <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0" translate> ADD SHIPMENT</a></li>
                                 <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel" translate> PRINT LABEL</a></li>
                                 <li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace" translate> TRACK & TRACE</a></li>
@@ -169,12 +169,13 @@
 
                         <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                             <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
-                            <ul class="children collapse" style="background-color:#0D4773;">
+                            <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
                                 <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>
                                 <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
+                                
                             </ul>
                         </li>
 
@@ -336,14 +337,13 @@
                         <div class="topnav">
                             
                             <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span translate>Menu</span></span></a>
-                           
-                            <ul class="nav nav-icons">
-                               
+                            <h3 class="nav nav-icons p-10">
+                                Change Company Title
                                 <!--<li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
                                 <li><a href="mailbox.html"><span class="octicon octicon-mail-read"></span></a></li>
                                 <li><a href="#"><span class="octicon octicon-flame"></span></a></li>
                                 <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li>-->
-                            </ul>
+                            </h3>
                         </div>
                     </div>
                     <div class="header-right">
