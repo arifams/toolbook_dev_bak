@@ -4,22 +4,2515 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: app/costcenter/saveCostCenter.html:18
+#: app/divisions/saveDivision.html:23
+#: app/userManagement/saveUserManagement.html:19
+msgid "* Indicates mandatory fields."
+msgstr ""
+
+#: app/shipment/addShipment.html:98
+msgid "-Select Cost Center-"
+msgstr ""
+
+#: app/shipment/addShipment.html:78
+msgid "-Select Division-"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:60
+msgid "-Select a carrier-"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:598
+#: app/profileInformation/profileInformation.html:651
+#: app/resetPassword/resetPassword.html:52
+#: app/userManagement/saveUserManagement.html:135
+#: app/userRegistration/userRegistration.html:172
+#: app/userRegistration/userRegistration.html:398
+msgid "2 passwords must be the same"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:677
+msgid "ACCOUNT SETTINGS"
+msgstr ""
+
+#: app/index.html:153
+msgid "ADD SHIPMENT"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:179
+msgid "ADDRESS"
+msgstr ""
+
+#: app/index.html:177
+msgid "ADDRESS BOOK"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:8
+msgid "ALL INVOICES"
+msgstr ""
+
+#: app/shipment/addShipment.html:727
+msgid "Accessible"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:103
+msgid "Account Number"
+msgstr ""
+
 #: app/profileInformation/profileInformation.html:15
 msgid "Account Type"
 msgstr ""
 
+#: app/addressBook/loadAddresses.html:42
+#: app/addressBook/saveAddress.html:221
+#: app/admin/loadAllCompanies.html:33
+#: app/costcenter/loadCostCenters.html:51
+#: app/divisions/loadDivisions.html:56
+#: app/divisions/saveDivision.html:78
+#: app/shipment/loadAllShipments.html:28
+#: app/shipment/shipmentManagement.html:39
+#: app/userManagement/loadUserManagement.html:62
+msgid "Active"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:69
+msgid "Active Shipments"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:2
+msgid "Add  Cost Center"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:4
+#: app/addressBook/saveAddress.html:2
+msgid "Add Address"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:2
+msgid "Add Cost Center"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:5
+#: app/divisions/saveDivision.html:2
+msgid "Add Division"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:16
+msgid "Add Invoice"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:22
+msgid "Add Shipment"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:3
+#: app/userManagement/saveUserManagement.html:2
+msgid "Add User"
+msgstr ""
+
+#: app/shipment/addShipment.html:192
+#: app/shipment/addShipment.html:363
+msgid "Add text before search"
+msgstr ""
+
+#: app/shipment/addShipment.html:24
+msgid "Adding shipment for customer"
+msgstr ""
+
+#: app/shipment/addShipment.html:1015
+#: app/shipment/addShipment.html:925
+msgid "Adding..."
+msgstr ""
+
+#: app/shipment/addShipment.html:429
+#: app/userRegistration/userRegistration.html:269
+msgid "Additional address information"
+msgstr ""
+
+#: app/shipment/addShipment.html:257
+msgid "Additional address information*"
+msgstr ""
+
+#: app/shipment/printManifest.html:127
+#: app/shipment/printManifest.html:216
+msgid "Address"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:117
+msgid "Address Details"
+msgstr ""
+
+#: app/shipment/addShipment.html:392
+msgid "Address Details*"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:165
+msgid "Address1 is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:112
+msgid "Air Freight"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:31
+#: app/admin/loadAllCompanies.html:29
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:16
+#: app/shipment/loadAllShipments.html:25
+#: app/shipment/shipmentManagement.html:36
+#: app/userManagement/loadUserManagement.html:41
+#: app/userManagement/loadUserManagement.html:51
+#: app/userManagement/loadUserManagement.html:61
+msgid "All"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:3
+msgid "All Shipments"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:96
+#: app/userLogin/userLogin.html:104
+#: app/userRegistration/userRegistration.html:460
+msgid "All rights reserved."
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:130
+msgid "Article-/typenumber/description ( Trademark: see above )"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:74
+msgid "Assigned Cost Centers"
+msgstr ""
+
+#: app/shipment/addShipment.html:87
+msgid "Assigned CostCenter*"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:81
+msgid "Assigned Division(s)"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:161
+msgid "Assigned Division(s) *"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:68
+#: app/costcenter/saveCostCenter.html:175
+msgid "Assigned Divisions"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:385
+msgid "BILLING ADDRESS"
+msgstr ""
+
+#: app/index.html:189
+msgid "BILLING AND INVOICING"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:91
+msgid "BOOKING CONFIRMATION"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:81
+#: app/userLogin/userLogin.html:89
+msgid "Back to login"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:140
+#: app/costcenter/loadCostCenters.html:69
+#: app/costcenter/saveCostCenter.html:62
+#: app/profileInformation/profileInformation.html:391
+msgid "Billing Address"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:518
+msgid "Billing Email"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:744
+#: app/shipment/shipmentManagement.html:138
+msgid "Booking Confirmation"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:112
+#: app/admin/BillingandInvoicing.html:226
+msgid "Business Owner"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:39
+msgid "CARRIER"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:182
+msgid "COMMERCIAL INVOICE"
+msgstr ""
+
+#: app/index.html:176
+msgid "COST CENTER MANAGEMENT"
+msgstr ""
+
+#: app/index.html:135
+msgid "CUSTOMER MANAGEMENT"
+msgstr ""
+
+#: app/shipment/addShipment.html:910
+msgid "Calculate Rates"
+msgstr ""
+
+#: app/billingandInvoicing/DisputeInvoice.html:38
+msgid "Cancel"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:54
+#: app/shipment/addShipment.html:935
+#: app/shipment/addShipment.html:978
+#: app/shipment/loadAllShipments.html:98
+#: app/shipment/printLabel.html:68
+#: app/shipment/shipmentManagement.html:114
+msgid "Carrier"
+msgstr ""
+
+#: app/shipment/printManifest.html:57
+msgid "Carrier *"
+msgstr ""
+
+#: app/shipment/addShipment.html:753
+msgid "Carrier Instructions"
+msgstr ""
+
+#: app/shipment/printManifest.html:69
+msgid "Carrier is required"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:353
+msgid "Chamber of Commerce Number"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:67
+msgid "City"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:146
+#: app/profileInformation/profileInformation.html:264
+#: app/profileInformation/profileInformation.html:484
+msgid "City *"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:194
+#: app/costcenter/saveCostCenter.html:151
+msgid "City is required"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:185
+#: app/shipment/addShipment.html:266
+#: app/shipment/addShipment.html:437
+msgid "City*"
+msgstr ""
+
+#: app/shipment/addShipment.html:342
+#: app/shipment/addShipment.html:513
+msgid "Clear All"
+msgstr ""
+
+#: app/shipment/paymentResult.html:20
+msgid "Click here to open the Label"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:58
+msgid "Click here to view"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:213
+#: app/divisions/saveDivision.html:94
+#: app/userManagement/saveUserManagement.html:197
+msgid "Close"
+msgstr ""
+
+#: app/shipment/printManifest.html:165
+msgid "Code/Service"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:118
+msgid "Colli Number/Reference"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:138
+msgid "Company"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:17
+#: app/shipment/AddressViewTemplate.html:7
+msgid "Company Name"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:35
+msgid "Company Name *"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:208
+msgid "Company name *"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:31
+#: app/shipment/shipmentManagement.html:42
+msgid "Completed"
+msgstr ""
+
+#: app/shipment/addShipment.html:124
+msgid "Condition*"
+msgstr ""
+
+#: app/billingandInvoicing/DisputeInvoice.html:39
+msgid "Confirm"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:639
+#: app/resetPassword/resetPassword.html:47
+msgid "Confirm Password"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:127
+#: app/userManagement/saveUserManagement.html:130
+msgid "Confirm Password *"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:165
+msgid "Confirm your password *"
+msgstr ""
+
+#: app/shipment/addShipment.html:366
+msgid "Consignee"
+msgstr ""
+
+#: app/shipment/addShipment.html:474
+msgid "Consignee Contact Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:488
+msgid "Consignee Contact is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:348
+#: app/shipment/addShipment.html:865
+msgid "Consignee Details"
+msgstr ""
+
+#: app/shipment/addShipment.html:503
+msgid "Consignee Email is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:375
+msgid "Consignee First Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:385
+msgid "Consignee Last Name is required"
+msgstr ""
+
+#: app/shipment/printManifest.html:162
+msgid "Consignee Name"
+msgstr ""
+
+#: app/shipment/addShipment.html:422
+msgid "Consignee Number is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:400
+msgid "Consignee Postal/Zip code is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:412
+msgid "Consignee Street name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:442
+msgid "Consignee city is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:452
+msgid "Consignee state is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:195
+msgid "Consignor"
+msgstr ""
+
+#: app/shipment/addShipment.html:163
+msgid "Consignor & Consignee Information"
+msgstr ""
+
+#: app/shipment/addShipment.html:302
+msgid "Consignor Contact Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:316
+msgid "Consignor Contact is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:177
+#: app/shipment/addShipment.html:854
+msgid "Consignor Details"
+msgstr ""
+
+#: app/shipment/addShipment.html:331
+msgid "Consignor Email is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:204
+msgid "Consignor First Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:214
+msgid "Consignor Last Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:250
+msgid "Consignor Number is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:229
+msgid "Consignor Postal/Zip code is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:281
+msgid "Consignor State is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:240
+msgid "Consignor Street name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:271
+msgid "Consignor city is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:294
+#: app/shipment/addShipment.html:299
+#: app/shipment/addShipment.html:466
+#: app/shipment/addShipment.html:471
+msgid "Contact Name*"
+msgstr ""
+
+#: app/shipment/addShipment.html:308
+#: app/shipment/addShipment.html:313
+#: app/shipment/addShipment.html:480
+#: app/shipment/addShipment.html:485
+msgid "Contact Number*"
+msgstr ""
+
+#: app/shipment/addShipment.html:322
+#: app/shipment/addShipment.html:494
+msgid "Contact email Address"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:96
+#: app/userLogin/userLogin.html:104
+msgid "Copyright"
+msgstr ""
+
+#: app/resetPassword/resetPassword.html:77
+msgid "Copyright © 2016 Parcel International. All rights reserved."
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:24
+msgid "Corporate Account"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:113
+#: app/admin/BillingandInvoicing.html:227
+#: app/admin/loadAllCompanies.html:66
+#: app/shipment/CompanyViewTemplate.html:7
+msgid "Corporate Name"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:67
+#: app/shipment/printManifest.html:161
+msgid "Cost Center"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:37
+msgid "Cost Center Description"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:23
+msgid "Cost Center Name *"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:28
+msgid "Cost Center Name is required"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:44
+msgid "Costcenter: All"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:185
+msgid "Country"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:123
+#: app/costcenter/saveCostCenter.html:70
+#: app/profileInformation/profileInformation.html:406
+msgid "Country *"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:76
+msgid "Country of destinations"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:71
+msgid "Country of orgins"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:607
+msgid "Create New Password"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:63
+msgid "Created Date"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:134
+msgid "Currency"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:76
+msgid "Current Packege Location"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:15
+#: app/userRegistration/userRegistration.html:202
+#: app/userRegistration/userRegistration.html:25
+msgid "Customer"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:37
+msgid "Customer Number"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:112
+msgid "DELIVERED"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:20
+#: app/shipment/printManifest.html:64
+msgid "DHL"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:162
+msgid "DISPUTED INVOICES"
+msgstr ""
+
+#: app/index.html:175
+msgid "DIVISION MANAGEMENT"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:196
+msgid "DOCUMENTS"
+msgstr ""
+
+#: app/shipment/addShipment.html:705
+msgid "Dangerous goods *"
+msgstr ""
+
+#: app/shipment/printManifest.html:208
+msgid "Date"
+msgstr ""
+
+#: app/shipment/printManifest.html:26
+msgid "Date *"
+msgstr ""
+
+#: app/shipment/printManifest.html:34
+msgid "Date is Required"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:22
+msgid "Date of issue"
+msgstr ""
+
+#: app/shipment/addShipment.html:776
+msgid "Declared value"
+msgstr ""
+
+#: app/divisions/saveDivision.html:52
+msgid "Default Cost Center *"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:704
+msgid "Default Currency"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:684
+msgid "Default Language"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:721
+msgid "Default Time Zone"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:144
+#: app/costcenter/loadCostCenters.html:72
+#: app/divisions/loadDivisions.html:78
+#: app/shipment/loadAllShipments.html:104
+#: app/shipment/shipmentManagement.html:120
+msgid "Delete"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:143
+msgid "Deleted"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:142
+msgid "Delivered"
+msgstr ""
+
+#: app/shipment/addShipment.html:937
+msgid "Delivery date"
+msgstr ""
+
+#: app/shipment/addShipment.html:652
+msgid "Description *"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:200
+msgid "Description, Quantity and Price per piece are required."
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:100
+#: app/shipment/printLabel.html:70
+#: app/shipment/shipmentManagement.html:116
+msgid "Destination City"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:59
+msgid "Destination City/Country"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:106
+msgid "Dispute"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:83
+#: app/billingandInvoicing/DisputeInvoice.html:3
+msgid "Dispute Invoice"
+msgstr ""
+
+#: app/billingandInvoicing/DisputeInvoice.html:31
+msgid "Dispute comment is required"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:137
+#: app/admin/BillingandInvoicing.html:249
+#: app/admin/BillingandInvoicing.html:40
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:25
+msgid "Disputed"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:73
+msgid "Division"
+msgstr ""
+
+#: app/shipment/addShipment.html:69
+msgid "Division *"
+msgstr ""
+
+#: app/divisions/saveDivision.html:44
+msgid "Division Description"
+msgstr ""
+
+#: app/divisions/saveDivision.html:28
+msgid "Division Name *"
+msgstr ""
+
+#: app/divisions/saveDivision.html:35
+msgid "Division Name is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:82
+msgid "Division is required"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:39
+msgid "Division: All"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:12
+msgid "EXPRESS"
+msgstr ""
+
+#: app/shipment/addShipment.html:979
+msgid "Earliest Pickup Date"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:143
+#: app/costcenter/loadCostCenters.html:71
+#: app/divisions/loadDivisions.html:77
+#: app/shipment/loadAllShipments.html:103
+#: app/shipment/shipmentManagement.html:119
+msgid "Edit"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:4
+msgid "Edit Address"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:3
+msgid "Edit Cost Center"
+msgstr ""
+
+#: app/divisions/saveDivision.html:5
+msgid "Edit Division"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:3
+msgid "Edit User"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:31
+#: app/adminLogin/adminLogin.html:72
+#: app/shipment/addShipment.html:327
+#: app/shipment/addShipment.html:499
+#: app/userLogin/userLogin.html:32
+#: app/userLogin/userLogin.html:80
+msgid "Email"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:143
+#: app/profileInformation/profileInformation.html:562
+msgid "Email Address"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:73
+#: app/userManagement/saveUserManagement.html:87
+msgid "Email Address *"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:833
+msgid "Email You Entered is already exist"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:114
+msgid "Email address*"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:81
+#: app/profileInformation/profileInformation.html:153
+#: app/profileInformation/profileInformation.html:570
+msgid "Email is required"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:33
+#: app/userLogin/userLogin.html:34
+msgid "Email is required."
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:272
+#: app/profileInformation/profileInformation.html:492
+#: app/userRegistration/userRegistration.html:305
+#: app/userRegistration/userRegistration.html:420
+msgid "Enter City"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:22
+#: app/profileInformation/profileInformation.html:43
+msgid "Enter Company Name"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:19
+msgid "Enter Company Name, Business Owner First Name or Last Name"
+msgstr ""
+
+#: app/shipment/addShipment.html:181
+#: app/shipment/addShipment.html:352
+msgid "Enter Company Name,FirstName or Last Name"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:326
+msgid "Enter Mobile Number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:444
+#: app/userRegistration/userRegistration.html:256
+#: app/userRegistration/userRegistration.html:409
+msgid "Enter Number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:588
+#: app/profileInformation/profileInformation.html:594
+msgid "Enter Old Password"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:309
+msgid "Enter Phone Number"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:413
+msgid "Enter Postal Code"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:290
+#: app/profileInformation/profileInformation.html:508
+#: app/userRegistration/userRegistration.html:424
+msgid "Enter State"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:318
+msgid "Enter State code"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:405
+msgid "Enter Street"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:223
+#: app/profileInformation/profileInformation.html:457
+msgid "Enter Street Address1"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:289
+msgid "Enter Zip/Postal code"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:426
+msgid "Enter ZipCode"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:154
+#: app/profileInformation/profileInformation.html:569
+msgid "Enter a valid email."
+msgstr ""
+
+#: app/addressBook/saveAddress.html:107
+msgid "Enter account number"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:162
+msgid "Enter address1"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:176
+msgid "Enter address2"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:104
+#: app/profileInformation/profileInformation.html:120
+#: app/profileInformation/profileInformation.html:207
+#: app/profileInformation/profileInformation.html:225
+#: app/profileInformation/profileInformation.html:238
+#: app/profileInformation/profileInformation.html:256
+#: app/profileInformation/profileInformation.html:276
+#: app/profileInformation/profileInformation.html:292
+#: app/profileInformation/profileInformation.html:347
+#: app/profileInformation/profileInformation.html:362
+#: app/profileInformation/profileInformation.html:427
 #: app/profileInformation/profileInformation.html:44
+#: app/profileInformation/profileInformation.html:446
+#: app/profileInformation/profileInformation.html:459
+#: app/profileInformation/profileInformation.html:476
+#: app/profileInformation/profileInformation.html:494
+#: app/profileInformation/profileInformation.html:510
+#: app/userManagement/saveUserManagement.html:47
+#: app/userManagement/saveUserManagement.html:63
+#: app/userManagement/saveUserManagement.html:78
+#: app/userRegistration/userRegistration.html:369
+#: app/userRegistration/userRegistration.html:377
+#: app/userRegistration/userRegistration.html:52
+#: app/userRegistration/userRegistration.html:72
 msgid "Enter at least 3 characters or more"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:10
+msgid "Enter campany name,business owner's first or last name"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:191
+msgid "Enter city"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:212
+#: app/userRegistration/userRegistration.html:401
+msgid "Enter company name"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:77
+msgid "Enter email"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:49
+msgid "Enter first name"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:63
+msgid "Enter last name"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:105
+#: app/profileInformation/profileInformation.html:121
+#: app/profileInformation/profileInformation.html:206
+#: app/profileInformation/profileInformation.html:224
+#: app/profileInformation/profileInformation.html:255
+#: app/profileInformation/profileInformation.html:275
+#: app/profileInformation/profileInformation.html:291
+#: app/profileInformation/profileInformation.html:346
+#: app/profileInformation/profileInformation.html:361
+#: app/profileInformation/profileInformation.html:428
+#: app/profileInformation/profileInformation.html:445
+#: app/profileInformation/profileInformation.html:45
+#: app/profileInformation/profileInformation.html:458
+#: app/profileInformation/profileInformation.html:475
+#: app/profileInformation/profileInformation.html:493
+#: app/profileInformation/profileInformation.html:509
+#: app/profileInformation/profileInformation.html:599
+#: app/profileInformation/profileInformation.html:630
+#: app/profileInformation/profileInformation.html:652
+#: app/profileInformation/profileInformation.html:71
+#: app/userManagement/saveUserManagement.html:48
+#: app/userManagement/saveUserManagement.html:62
+#: app/userManagement/saveUserManagement.html:79
+#: app/userRegistration/userRegistration.html:244
+#: app/userRegistration/userRegistration.html:257
+#: app/userRegistration/userRegistration.html:290
+#: app/userRegistration/userRegistration.html:306
+#: app/userRegistration/userRegistration.html:319
+#: app/userRegistration/userRegistration.html:370
+#: app/userRegistration/userRegistration.html:373
+#: app/userRegistration/userRegistration.html:378
+#: app/userRegistration/userRegistration.html:406
+#: app/userRegistration/userRegistration.html:410
+#: app/userRegistration/userRegistration.html:414
+#: app/userRegistration/userRegistration.html:421
+#: app/userRegistration/userRegistration.html:425
+#: app/userRegistration/userRegistration.html:53
+#: app/userRegistration/userRegistration.html:73
+msgid "Enter less than 100 characters"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:237
+#: app/profileInformation/profileInformation.html:311
+#: app/profileInformation/profileInformation.html:328
+msgid "Enter less than 20 characters"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:213
+#: app/userRegistration/userRegistration.html:228
+#: app/userRegistration/userRegistration.html:275
+#: app/userRegistration/userRegistration.html:402
+#: app/userRegistration/userRegistration.html:417
+msgid "Enter less than 200 characters"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:613
+msgid "Enter new password"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:152
+msgid "Enter number"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:92
+msgid "Enter phone number"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:207
+msgid "Enter state"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:243
+msgid "Enter street address"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:80
+#: app/adminLogin/adminLogin.html:76
+#: app/profileInformation/profileInformation.html:528
+#: app/shipment/addShipment.html:330
+#: app/shipment/addShipment.html:502
+#: app/userLogin/userLogin.html:84
+#: app/userManagement/saveUserManagement.html:94
+#: app/userRegistration/userRegistration.html:121
+#: app/userRegistration/userRegistration.html:390
+msgid "Enter valid email address"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:327
+#: app/shipment/addShipment.html:318
+#: app/shipment/addShipment.html:490
+#: app/userRegistration/userRegistration.html:382
+#: app/userRegistration/userRegistration.html:90
+msgid "Enter valid mobile number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:629
+#: app/resetPassword/resetPassword.html:35
+#: app/userManagement/saveUserManagement.html:119
+#: app/userRegistration/userRegistration.html:394
+msgid "Enter valid password"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:97
+#: app/costcenter/saveCostCenter.html:53
+#: app/profileInformation/profileInformation.html:310
+#: app/userRegistration/userRegistration.html:105
+#: app/userRegistration/userRegistration.html:386
+msgid "Enter valid phone number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:530
+msgid "Enter value different from primary email address"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:205
+msgid "Enter your PostalCode/ZipCode"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:75
+#: app/userLogin/userLogin.html:83
+#: app/userManagement/saveUserManagement.html:93
+#: app/userRegistration/userRegistration.html:120
+#: app/userRegistration/userRegistration.html:389
+msgid "Enter your email address"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:103
+#: app/userManagement/saveUserManagement.html:46
+#: app/userRegistration/userRegistration.html:368
+#: app/userRegistration/userRegistration.html:51
+msgid "Enter your first name"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:119
+#: app/userManagement/saveUserManagement.html:77
+#: app/userRegistration/userRegistration.html:376
+#: app/userRegistration/userRegistration.html:71
+msgid "Enter your last name"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:381
+#: app/userRegistration/userRegistration.html:89
+msgid "Enter your mobile number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:236
+msgid "Enter your number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:628
+#: app/resetPassword/resetPassword.html:34
+#: app/userManagement/saveUserManagement.html:118
+#: app/userRegistration/userRegistration.html:393
+msgid "Enter your password"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:130
+msgid "Enter your password *"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:104
+#: app/userRegistration/userRegistration.html:385
+msgid "Enter your phone number"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:138
+msgid "Entetr Zip/Postal Code"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:136
+msgid "Error"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:841
+msgid "Error occured while connecting the server"
+msgstr ""
+
+#: app/shipment/addShipment.html:980
+msgid "Est Delivery Time"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:144
+msgid "Exception"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:115
+#: app/addressBook/loadAddresses.html:122
+#: app/addressBook/loadAddresses.html:56
+#: app/admin/BillingandInvoicing.html:100
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:69
+#: app/reports/ShipmentReport.html:97
+msgid "Export"
+msgstr ""
+
+#: app/shipment/addShipment.html:111
+#: app/shipment/printManifest.html:202
+msgid "Express"
+msgstr ""
+
+#: app/shipment/printManifest.html:150
+msgid "Express End-of-Day Manifest"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:21
+#: app/shipment/printManifest.html:65
+msgid "FEDEX"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:83
+msgid "Fill the request Details correctly"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:33
+#: app/costcenter/loadCostCenters.html:30
+#: app/divisions/loadDivisions.html:34
+#: app/userManagement/loadUserManagement.html:33
+msgid "Filter by"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:64
+#: app/profileInformation/profileInformation.html:95
+#: app/shipment/AddressViewTemplate.html:8
+#: app/shipment/CompanyViewTemplate.html:8
+#: app/shipment/addShipment.html:201
+#: app/shipment/addShipment.html:372
+#: app/userManagement/loadUserManagement.html:78
+msgid "First Name"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:45
+#: app/userManagement/saveUserManagement.html:40
+msgid "First Name *"
+msgstr ""
+
+#: app/shipment/addShipment.html:54
+msgid "First Name Purchase order or description of the shipment"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:52
+msgid "First Name is required"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:44
+msgid "First name*"
+msgstr ""
+
+#: app/userLogin/userLogin.html:60
+msgid "Forgot password?"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:8
+msgid "GENERAL"
+msgstr ""
+
+#: app/shipment/printManifest.html:15
+msgid "General"
+msgstr ""
+
+#: app/shipment/addShipment.html:40
+msgid "General Information"
+msgstr ""
+
+#: app/shipment/printManifest.html:108
+msgid "Generate"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:111
+msgid "Gross"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:185
+msgid "HS Code"
+msgstr ""
+
+#: app/shipment/addShipment.html:654
+msgid "Height *"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:342
+msgid "I agree with terms and conditions"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:777
+msgid "I would like to be notified of discounts & offers"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:105
+msgid "IN-TRANSIT"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:55
+#: app/addressBook/loadAddresses.html:81
+#: app/addressBook/loadAddresses.html:96
+#: app/admin/uploadInvoice.html:30
+msgid "Import"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:87
+msgid "Import Brokers:"
+msgstr ""
+
+#: app/admin/ImportRateSheet.html:27
+msgid "Import Excel"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:37
+msgid "InActive"
+msgstr ""
+
+#: app/shipment/addShipment.html:728
+msgid "Inaccessible"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:43
+#: app/addressBook/saveAddress.html:222
+#: app/costcenter/loadCostCenters.html:52
+#: app/divisions/loadDivisions.html:57
+#: app/divisions/saveDivision.html:80
+#: app/userManagement/loadUserManagement.html:63
+msgid "Inactive"
 msgstr ""
 
 #: app/mailbox.html:46
 msgid "Inbox"
 msgstr ""
 
-#: app/index.html:350
+#: app/profileInformation/profileInformation.html:23
+msgid "Individual Account"
+msgstr ""
+
+#: app/shipment/addShipment.html:994
+msgid "Insurance"
+msgstr ""
+
+#: app/shipment/addShipment.html:765
+msgid "Insurance *"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:64
+#: app/userLogin/userLogin.html:72
+msgid "Invalid token."
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:111
+#: app/admin/BillingandInvoicing.html:225
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:76
+msgid "Invoice Date"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:115
+#: app/admin/BillingandInvoicing.html:229
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:57
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:78
+#: app/shipment/commercialInvoice.html:27
+msgid "Invoice Number"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:71
+msgid "Invoice Payment"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:117
+#: app/admin/BillingandInvoicing.html:231
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:80
+msgid "Invoice Status"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:50
+msgid "Invoice To/Consigned To"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:116
+#: app/admin/BillingandInvoicing.html:230
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:79
+msgid "Invoice Value"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:129
+msgid "Item"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:64
+msgid "Job Capacity"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:49
+#: app/userLogin/userLogin.html:50
+msgid "Keep me logged in"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:553
+msgid "LOGIN DETAILS"
+msgstr ""
+
+#: app/index.html:351
 msgid "Language"
 msgstr ""
 
+#: app/admin/loadAllCompanies.html:65
+#: app/profileInformation/profileInformation.html:111
+#: app/shipment/AddressViewTemplate.html:9
+#: app/shipment/CompanyViewTemplate.html:9
+#: app/shipment/addShipment.html:211
+#: app/shipment/addShipment.html:382
+#: app/userManagement/loadUserManagement.html:79
+msgid "Last Name"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:59
+#: app/userManagement/saveUserManagement.html:71
+msgid "Last Name *"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:66
+msgid "Last Name is required"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:82
+msgid "Last Visit Date"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:64
+msgid "Last name *"
+msgstr ""
+
+#: app/shipment/addShipment.html:655
+msgid "Length *"
+msgstr ""
+
+#: app/shipment/printManifest.html:40
+msgid "List Package Details *"
+msgstr ""
+
+#: app/index.html:548
+#: app/index.html:549
+msgid "Logout"
+msgstr ""
+
+#: app/index.html:171
+msgid "MANAGE PROFILE"
+msgstr ""
+
+#: app/index.html:156
+msgid "MANAGE SHIPMENTS"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:3
+msgid "Manage Address Book"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:2
+#: app/costcenter/saveCostCenter.html:2
+#: app/costcenter/saveCostCenter.html:3
+msgid "Manage Cost Centers"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:2
+msgid "Manage Customers"
+msgstr ""
+
+#: app/divisions/saveDivision.html:7
+msgid "Manage Division"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:2
+msgid "Manage Divisions"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:2
+#: app/userManagement/saveUserManagement.html:3
+msgid "Manage User"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:3
+msgid "Manage Users"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:94
+msgid "Max length should be 10 characters"
+msgstr ""
+
+#: app/shipment/addShipment.html:453
+msgid "Max length should be 2 characters"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:142
+#: app/addressBook/saveAddress.html:96
+#: app/costcenter/saveCostCenter.html:112
+#: app/shipment/addShipment.html:282
+msgid "Max length should be 20 characters"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:111
+#: app/addressBook/saveAddress.html:156
+#: app/addressBook/saveAddress.html:166
+#: app/addressBook/saveAddress.html:179
+#: app/addressBook/saveAddress.html:195
+#: app/addressBook/saveAddress.html:211
+#: app/addressBook/saveAddress.html:53
+#: app/addressBook/saveAddress.html:67
+#: app/addressBook/saveAddress.html:82
+#: app/costcenter/saveCostCenter.html:152
+#: app/costcenter/saveCostCenter.html:167
+#: app/costcenter/saveCostCenter.html:29
+#: app/divisions/saveDivision.html:36
+#: app/shipment/addShipment.html:205
+#: app/shipment/addShipment.html:215
+#: app/shipment/addShipment.html:230
+#: app/shipment/addShipment.html:241
+#: app/shipment/addShipment.html:251
+#: app/shipment/addShipment.html:262
+#: app/shipment/addShipment.html:272
+#: app/shipment/addShipment.html:303
+#: app/shipment/addShipment.html:317
+#: app/shipment/addShipment.html:332
+#: app/shipment/addShipment.html:376
+#: app/shipment/addShipment.html:386
+#: app/shipment/addShipment.html:401
+#: app/shipment/addShipment.html:413
+#: app/shipment/addShipment.html:423
+#: app/shipment/addShipment.html:433
+#: app/shipment/addShipment.html:443
+#: app/shipment/addShipment.html:475
+#: app/shipment/addShipment.html:489
+#: app/shipment/addShipment.html:504
 #: app/shipment/addShipment.html:58
-msgid "Purchase order or description of the shipment"
+msgid "Max length should be 200 characters"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:128
+msgid "Max length should be 500 characters"
+msgstr ""
+
+#: app/index.html:336
+msgid "Menu"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:56
+msgid "Middle Name"
+msgstr ""
+
+#: app/shipment/addShipment.html:283
+#: app/shipment/addShipment.html:454
+msgid "Min length should be 2 characters"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:318
+msgid "Mobile Number"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:85
+msgid "Mode of transport:"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:87
+#: app/userManagement/saveUserManagement.html:29
+#: app/userRegistration/userRegistration.html:34
+msgid "Mr"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:88
+#: app/userManagement/saveUserManagement.html:30
+#: app/userRegistration/userRegistration.html:35
+msgid "Mrs"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:89
+#: app/userManagement/saveUserManagement.html:31
+#: app/userRegistration/userRegistration.html:36
+msgid "Ms"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:139
+msgid "Name"
+msgstr ""
+
+#: app/shipment/printManifest.html:212
+msgid "Name & Signature"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:82
+#: app/userLogin/userLogin.html:61
+#: app/userLogin/userLogin.html:90
+msgid "New here? Sign up"
+msgstr ""
+
+#: app/shipment/addShipment.html:145
+#: app/shipment/addShipment.html:523
+#: app/shipment/addShipment.html:794
+#: app/userRegistration/userRegistration.html:191
+msgid "Next"
+msgstr ""
+
+#: app/shipment/addShipment.html:710
+#: app/shipment/addShipment.html:770
+#: app/shipment/printManifest.html:51
+msgid "No"
+msgstr ""
+
+#: app/shipment/addShipment.html:917
+msgid "No Available rates for this shipment"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:19
+msgid "No shipments available for the selected company/ customer"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:737
+msgid "Notify me on status changes:"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:233
+msgid "Number"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:108
+#: app/userRegistration/userRegistration.html:251
+msgid "Number *"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:68
+#: app/divisions/loadDivisions.html:75
+msgid "Number Of Users"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:155
+#: app/costcenter/saveCostCenter.html:111
+msgid "Number is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:245
+#: app/shipment/addShipment.html:417
+msgid "Number*"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:47
+msgid "ORDER SUBMITTED DATE"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:8
+msgid "OVERVIEW"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:148
+msgid "One lowercase letter."
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:150
+msgid "One special character."
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:149
+msgid "One uppercase letter."
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:95
+#: app/shipment/printLabel.html:65
+#: app/shipment/shipmentManagement.html:111
+msgid "Order Submitted"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:99
+#: app/shipment/printLabel.html:69
+#: app/shipment/shipmentManagement.html:115
+msgid "Origin City"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:53
+msgid "Origin City/Country"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:141
+msgid "Out For Delivery"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:98
+msgid "PICKEDUP"
+msgstr ""
+
+#: app/index.html:154
+msgid "PRINT LABEL"
+msgstr ""
+
+#: app/index.html:157
+msgid "PRINT MANIFEST"
+msgstr ""
+
+#: app/index.html:173
+msgid "PROFILE INFORMATION"
+msgstr ""
+
+#: app/shipment/addShipment.html:891
+msgid "Package Count"
+msgstr ""
+
+#: app/shipment/addShipment.html:543
+msgid "Package Details"
+msgstr ""
+
+#: app/shipment/addShipment.html:883
+msgid "Package Volume"
+msgstr ""
+
+#: app/shipment/addShipment.html:875
+msgid "Package Weight"
+msgstr ""
+
+#: app/shipment/printManifest.html:166
+msgid "Package | Description | Weight | Dim"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:104
+msgid "Packages:"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:136
+#: app/admin/BillingandInvoicing.html:248
+#: app/admin/BillingandInvoicing.html:37
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:22
+msgid "Paid"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:460
+msgid "Parcel International"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:39
+#: app/resetPassword/resetPassword.html:31
+#: app/userLogin/userLogin.html:40
+msgid "Password"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:102
+#: app/userManagement/saveUserManagement.html:105
+msgid "Password *"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:837
+msgid "Password Information you enterd is invalid"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:41
+#: app/userLogin/userLogin.html:42
+msgid "Password is required."
+msgstr ""
+
+#: app/resetPassword/resetPassword.html:68
+msgid "Password reset is success. You will be redirect to Login Page."
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:85
+#: app/userLogin/userLogin.html:93
+msgid "Password reset message was sent to your email"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:95
+msgid "Pay"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:81
+msgid "Pay Invoice"
+msgstr ""
+
+#: app/shipment/addShipment.html:1021
+msgid "Pay via Invoice"
+msgstr ""
+
+#: app/shipment/addShipment.html:1024
+msgid "Pay via Online"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:135
+#: app/admin/BillingandInvoicing.html:247
+#: app/admin/BillingandInvoicing.html:34
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:19
+#: app/shipment/shipmentManagement.html:137
+msgid "Pending"
+msgstr ""
+
+#: app/shipment/printManifest.html:143
+#: app/shipment/printManifest.html:235
+msgid "Phone"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:301
+msgid "Phone Number"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:88
+#: app/costcenter/saveCostCenter.html:46
+msgid "Phone Number *"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:95
+#: app/costcenter/saveCostCenter.html:51
+msgid "Phone Number is required"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:98
+msgid "Phone*"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:139
+msgid "Pickup"
+msgstr ""
+
+#: app/shipment/printManifest.html:202
+msgid "Pickup By"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:748
+msgid "Pickup Confirmation"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:31
+msgid "Pickup Date Range"
+msgstr ""
+
+#: app/shipment/printManifest.html:251
+msgid "Please Enter Correct Details"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:78
+msgid "Please check the Tracking Number and try Again"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:86
+#: app/userLogin/userLogin.html:94
+msgid "Please check the mail box, to reset password"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:445
+msgid "Please check your mail box, to activate the account"
+msgstr ""
+
+#: app/billingandInvoicing/DisputeInvoice.html:22
+msgid "Please insert the reason for disputing the invoice"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:355
+msgid "Please wait ..."
+msgstr ""
+
+#: app/shipment/paymentResult.html:12
+msgid "Please wait while we submit your shipment  ..."
+msgstr ""
+
+#: app/addressBook/saveAddress.html:141
+msgid "Postal Code is required"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:134
+msgid "Postal/ Zip Code *"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:197
+msgid "Postal/Zip Code"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:418
+msgid "Postal/Zip Code *"
+msgstr ""
+
+#: app/shipment/addShipment.html:224
+#: app/shipment/addShipment.html:395
+msgid "Postal/ZipCode*"
+msgstr ""
+
+#: app/shipment/addShipment.html:738
+msgid "Preferred Collection Date *"
+msgstr ""
+
+#: app/shipment/printLabel.html:72
+msgid "Preview"
+msgstr ""
+
+#: app/shipment/addShipment.html:1027
+#: app/shipment/addShipment.html:527
+#: app/shipment/addShipment.html:798
+msgid "Previous"
+msgstr ""
+
+#: app/shipment/addShipment.html:936
+#: app/shipment/addShipment.html:982
+msgid "Price"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:132
+msgid "Price per 1 pce."
+msgstr ""
+
+#: app/shipment/addShipment.html:644
+msgid "Product Details *"
+msgstr ""
+
+#: app/shipment/addShipment.html:650
+msgid "Product Type *"
+msgstr ""
+
+#: app/shipment/addShipment.html:108
+msgid "Product*"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:829
+msgid "Profile update failed"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:131
+msgid "Quantity"
+msgstr ""
+
+#: app/shipment/addShipment.html:651
+msgid "Quantity *"
+msgstr ""
+
+#: app/index.html:139
+msgid "RATE MANAGEMENT"
+msgstr ""
+
+#: app/shipment/addShipment.html:970
+msgid "Rate Summary"
+msgstr ""
+
+#: app/shipment/addShipment.html:816
+msgid "Rates and Carrier Details"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:646
+msgid "Re-enter new password"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:597
+#: app/profileInformation/profileInformation.html:650
+#: app/resetPassword/resetPassword.html:51
+#: app/userManagement/saveUserManagement.html:134
+#: app/userRegistration/userRegistration.html:171
+#: app/userRegistration/userRegistration.html:397
+msgid "ReEnter your password"
+msgstr ""
+
+#: app/shipment/printManifest.html:159
+msgid "Reference"
+msgstr ""
+
+#: app/shipment/addShipment.html:50
+msgid "Reference *"
+msgstr ""
+
+#: app/shipment/printManifest.html:93
+msgid "Reference is Required"
+msgstr ""
+
+#: app/shipment/addShipment.html:57
+msgid "Reference is required"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:353
+msgid "Register"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:202
+#: app/userRegistration/userRegistration.html:25
+msgid "Registration"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:223
+msgid "Registration number company"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:94
+#: app/admin/uploadInvoice.html:28
+msgid "Remove"
+msgstr ""
+
+#: app/shipment/addShipment.html:114
+msgid "Road Freight"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:80
+msgid "Role"
+msgstr ""
+
+#: app/index.html:182
+msgid "SHIPMENT CONTROL CENTER"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:31
+msgid "SHIPMENT ID"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:55
+msgid "SHIPMENT LABEL"
+msgstr ""
+
+#: app/index.html:146
+#: app/index.html:158
+msgid "SHIPMENT REPORT"
+msgstr ""
+
+#: app/index.html:151
+msgid "SHIPMENTS"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:80
+msgid "Salutation"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:32
+#: app/userManagement/saveUserManagement.html:24
+msgid "Salutation *"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:232
+#: app/costcenter/saveCostCenter.html:216
+#: app/divisions/saveDivision.html:98
+#: app/profileInformation/profileInformation.html:169
+#: app/profileInformation/profileInformation.html:373
+#: app/profileInformation/profileInformation.html:541
+#: app/profileInformation/profileInformation.html:663
+#: app/profileInformation/profileInformation.html:792
+#: app/shipment/commercialInvoice.html:219
+#: app/userManagement/saveUserManagement.html:201
+msgid "Save"
+msgstr ""
+
+#: app/shipment/addShipment.html:341
+#: app/shipment/addShipment.html:511
+msgid "Save as a new customer address"
+msgstr ""
+
+#: app/shipment/addShipment.html:113
+msgid "Sea Freight"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:177
+#: app/admin/BillingandInvoicing.html:54
+msgid "Search By: Business Owner"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:47
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:32
+msgid "Search By: Invoice Date"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:39
+msgid "Search By: Invoice Number"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:178
+#: app/admin/BillingandInvoicing.html:55
+msgid "Search By: InvoiceNumber"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:46
+#: app/shipment/shipmentManagement.html:61
+msgid "Search By: Location"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:45
+#: app/shipment/shipmentManagement.html:60
+msgid "Search By: Number"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:170
+#: app/shipment/loadAllShipments.html:39
+#: app/shipment/printLabel.html:23
+#: app/shipment/shipmentManagement.html:50
+msgid "Search By: Pickup Date"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:176
+#: app/admin/BillingandInvoicing.html:53
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:38
+msgid "Search By: Shipment Reference"
+msgstr ""
+
+#: app/costcenter/loadCostCenters.html:20
+msgid "Search by Cost Center Name"
+msgstr ""
+
+#: app/divisions/loadDivisions.html:23
+msgid "Search by Division Name"
+msgstr ""
+
+#: app/userManagement/loadUserManagement.html:22
+msgid "Search by First Name or Last Name"
+msgstr ""
+
+#: app/admin/loadAllCompanies.html:48
+msgid "Search by First Name, Last Name or Corporate Name"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:23
+msgid "Search by Names"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:56
+msgid "Searching..."
+msgstr ""
+
+#: app/shipment/addShipment.html:189
+#: app/shipment/addShipment.html:360
+msgid "Searsh criteria does not match with any saved address details"
+msgstr ""
+
+#: app/shipment/addShipment.html:940
+msgid "Select"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:17
+#: app/shipment/printManifest.html:61
+msgid "Select Carrier"
+msgstr ""
+
+#: app/shipment/printManifest.html:4
+msgid "Select Manifest"
+msgstr ""
+
+#: app/userLogin/userLogin.html:87
+msgid "Send Password Reset Link"
+msgstr ""
+
+#: app/shipment/addShipment.html:938
+msgid "Service"
+msgstr ""
+
+#: app/shipment/addShipment.html:981
+msgid "Service Level"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:44
+msgid "Ship To"
+msgstr ""
+
+#: app/shipment/addShipment.html:14
+msgid "Shipment Code"
+msgstr ""
+
+#: app/shipment/addShipment.html:561
+msgid "Shipment Desciption is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:554
+msgid "Shipment Description *"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:15
+msgid "Shipment Details"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:97
+#: app/shipment/printLabel.html:67
+#: app/shipment/shipmentManagement.html:113
+msgid "Shipment ID"
+msgstr ""
+
+#: app/shipment/addShipment.html:837
+msgid "Shipment Mode"
+msgstr ""
+
+#: app/shipment/addShipment.html:829
+msgid "Shipment Name"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:185
+#: app/admin/BillingandInvoicing.html:62
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:46
+msgid "Shipment Ref Number"
+msgstr ""
+
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:77
+#: app/shipment/printManifest.html:84
+msgid "Shipment Reference"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:114
+#: app/admin/BillingandInvoicing.html:228
+msgid "Shipment References"
+msgstr ""
+
+#: app/reports/ShipmentReport.html:2
+msgid "Shipment Report"
+msgstr ""
+
+#: app/shipment/printManifest.html:76
+msgid "Shipment Specific"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:81
+msgid "Shipment Status"
+msgstr ""
+
+#: app/shipment/addShipment.html:826
+msgid "Shipment Summary"
+msgstr ""
+
+#: app/shipment/addShipment.html:844
+msgid "Shipment Type"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:752
+msgid "Shipment delays"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:756
+msgid "Shipment exceptions"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:93
+msgid "Shipment for attension of:"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:4
+msgid "Shipment:Track and Trace"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:96
+msgid "Shipped by:"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:147
+msgid "Should at least contain;"
+msgstr ""
+
+#: app/shipment/addShipment.html:115
+msgid "Show All Options"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:201
+#: app/costcenter/saveCostCenter.html:160
+#: app/profileInformation/profileInformation.html:282
+#: app/profileInformation/profileInformation.html:287
+#: app/profileInformation/profileInformation.html:500
+#: app/profileInformation/profileInformation.html:505
+msgid "State"
+msgstr ""
+
+#: app/shipment/addShipment.html:276
+#: app/shipment/addShipment.html:447
+msgid "State Code"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:313
+msgid "State code"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:210
+#: app/costcenter/saveCostCenter.html:166
+msgid "State is required"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:141
+#: app/addressBook/saveAddress.html:217
+#: app/admin/BillingandInvoicing.html:25
+#: app/admin/loadAllCompanies.html:22
+#: app/admin/loadAllCompanies.html:70
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:11
+#: app/costcenter/loadCostCenters.html:70
+#: app/costcenter/saveCostCenter.html:190
+#: app/divisions/loadDivisions.html:76
+#: app/divisions/saveDivision.html:69
+#: app/shipment/loadAllShipments.html:101
+#: app/shipment/loadAllShipments.html:19
+#: app/shipment/shipmentManagement.html:117
+#: app/userManagement/loadUserManagement.html:83
+#: app/userManagement/saveUserManagement.html:176
+msgid "Status"
+msgstr ""
+
+#: app/addressBook/loadAddresses.html:41
+#: app/costcenter/loadCostCenters.html:50
+#: app/divisions/loadDivisions.html:55
+msgid "Status: All"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:238
+msgid "Street *"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:123
+msgid "Street Address 1 *"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:127
+msgid "Street Address 1 is required"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:138
+msgid "Street Address 2"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:220
+msgid "Street Address1"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:252
+msgid "Street Address2"
+msgstr ""
+
+#: app/addressBook/saveAddress.html:148
+#: app/costcenter/saveCostCenter.html:103
+#: app/profileInformation/profileInformation.html:215
+#: app/profileInformation/profileInformation.html:436
+msgid "Street Name *"
+msgstr ""
+
+#: app/shipment/addShipment.html:235
+#: app/shipment/addShipment.html:407
+msgid "Street*"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:765
+msgid "Subscribe to Offers, Deals & Promotions"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:19
+#: app/shipment/printManifest.html:63
+msgid "TNT"
+msgstr ""
+
+#: app/index.html:155
+msgid "TRACK & TRACE"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:23
+msgid "TRACKING NUMBER"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:98
+msgid "Tel:"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:59
+msgid "Terms of Delivery:"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:65
+msgid "Terms of payment:"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:444
+msgid "Thank you for registrating with us! A Confirmation message was sent to your email"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:194
+msgid "This is a computer generated Commercial Invoice, no signature is required"
+msgstr ""
+
+#: app/shipment/addShipment.html:1001
+msgid "Total"
+msgstr ""
+
+#: app/shipment/addShipment.html:618
+msgid "Total Volume"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:170
+msgid "Total:"
+msgstr ""
+
+#: app/shipment/ShipmentOverview.html:139
+msgid "Tracking History"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:96
+#: app/shipment/printLabel.html:66
+#: app/shipment/shipmentManagement.html:112
+msgid "Tracking Number"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:66
+#: app/shipment/printLabel.html:44
+msgid "Tracking Number/ Shipment Ref Number"
+msgstr ""
+
+#: app/shipment/shipmentManagement.html:140
+msgid "Transit"
+msgstr ""
+
+#: app/shipment/addShipment.html:939
+msgid "Transit time"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:18
+#: app/shipment/printManifest.html:62
+msgid "UPS"
+msgstr ""
+
+#: app/index.html:174
+msgid "USER MANAGEMENT"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:581
+msgid "Update Password"
+msgstr ""
+
+#: app/shipment/shipmentDocuments.html:22
+msgid "Upload"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:232
+#: app/admin/uploadInvoice.html:5
+msgid "Upload Credit Note"
+msgstr ""
+
+#: app/admin/uploadInvoice.html:2
+msgid "Upload Invoice"
+msgstr ""
+
+#: app/admin/ImportRateSheet.html:2
+msgid "Upload Rate Sheet"
+msgstr ""
+
+#: app/shipment/shipmentDocuments.html:7
+msgid "Uploaded  Documents"
+msgstr ""
+
+#: app/shipment/shipmentDocuments.html:31
+msgid "Uploaded Files"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:398
+msgid "Use corporate address as billing address"
+msgstr ""
+
+#: app/adminLogin/adminLogin.html:5
+msgid "User Login"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:144
+msgid "User Role *"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:167
+msgid "VALUE FOR CUSTOMS PURPOSE ONLY"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:337
+#: app/shipment/commercialInvoice.html:33
+msgid "VAT Number"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:19
+msgid "VAT number:"
+msgstr ""
+
+#: app/shipment/loadAllShipments.html:102
+#: app/shipment/shipmentManagement.html:118
+msgid "View"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:233
+msgid "View Credit Note"
+msgstr ""
+
+#: app/admin/BillingandInvoicing.html:118
+#: app/billingandInvoicing/CustomerBillingandInvoicing.html:82
+msgid "View Invoice"
+msgstr ""
+
+#: app/shipment/addShipment.html:10
+msgid "Viewing shipment information of"
+msgstr ""
+
+#: app/shipment/commercialInvoice.html:193
+msgid "We hereby certify that the information on the Commercial Invoice is true and correct"
+msgstr ""
+
+#: app/shipment/printManifest.html:168
+msgid "Weight"
+msgstr ""
+
+#: app/shipment/addShipment.html:653
+msgid "Weight *"
+msgstr ""
+
+#: app/shipment/addShipment.html:656
+msgid "Width  *"
+msgstr ""
+
+#: app/shipment/addShipment.html:709
+#: app/shipment/addShipment.html:769
+#: app/shipment/printManifest.html:47
+msgid "Yes"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:345
+#: app/userRegistration/userRegistration.html:428
+msgid "You must agree with terms"
+msgstr ""
+
+#: app/userManagement/saveUserManagement.html:116
+msgid "Your Password should be"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:152
+msgid "Your Password should be:"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:362
+msgid "Your form contains"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:87
+msgid "Zip Code *"
+msgstr ""
+
+#: app/costcenter/saveCostCenter.html:93
+msgid "Zip Code is required"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:284
+msgid "Zip/Postal Code *"
+msgstr ""
+
+#: app/shipment/addShipment.html:721
+msgid "cargo aircraft only (CAO)"
+msgstr ""
+
+#: app/shipment/printManifest.html:164
+msgid "city/zip/country"
+msgstr ""
+
+#: app/shipment/addShipment.html:720
+msgid "dangerous goods"
+msgstr ""
+
+#: app/shipment/addShipment.html:719
+msgid "dry ice (DI)"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:364
+msgid "errors, see details below"
+msgstr ""
+
+#: app/shipment/addShipment.html:716
+msgid "expected quantity (EQ)"
+msgstr ""
+
+#: app/shipment/addShipment.html:717
+msgid "limited quantity (LQ)"
+msgstr ""
+
+#: app/shipment/addShipment.html:718
+msgid "lithium batteries (LB)"
+msgstr ""
+
+#: app/shipment/addShipment.html:906
+msgid "loading..."
+msgstr ""
+
+#: app/shipment/addShipment.html:722
+msgid "passenger aircraft (PAX)"
+msgstr ""
+
+#: app/shipment/printManifest.html:163
+msgid "street"
+msgstr ""
+
+#: app/shipment/TrackAndTrace.html:27
+msgid "tracking Number"
+msgstr ""
+
+#: app/profileInformation/profileInformation.html:772
+msgid "would like to receive notified on new solutions"
+msgstr ""
+
+#: app/admin/uploadInvoice.html:30
+msgid "{{from}}"
 msgstr ""

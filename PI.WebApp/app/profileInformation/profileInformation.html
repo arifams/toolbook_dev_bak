@@ -20,8 +20,8 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label translate><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="false" ng-disabled="profileCtrl.corpAccount"><translate> Individual Account</translate></label>
-                                                    <label translate><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="true"><translate> Corporate Account </translate></label>
+                                                    <label><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="false" ng-disabled="profileCtrl.corpAccount"><translate> Individual Account</translate></label>
+                                                    <label><input type="radio" name="iscorporate" icheck ng-model="profileCtrl.model.customerDetails.isCorporateAccount" value="true"><translate> Corporate Account </translate></label>
                                                 </div>
                                             </div>
                                         </div>
@@ -372,8 +372,7 @@
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfileAddress()" translate>
-                                            <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
-                                            Save
+                                              Save
                                         </button>
                                     </div>
                                 </div>
@@ -389,7 +388,7 @@
                     <form role="form" name="formUpdateProfileBillingAddress">
                         <div class="row">
                             <div class="col-md-4">
-                                <h3 translate><strong>Billing Address</strong></h3>
+                                <h3><strong translate>Billing Address</strong></h3>
                             </div>
                             <div class="col-md-8">
                                 <div class="icheck-inline m-t-20">
@@ -541,8 +540,7 @@
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfileBillingAddress()" translate>
-                                            <!--ng-click="shipmentCtrl.checkGenaralInfo(genaralDetailsForm.$valid)">-->
-                                            Save
+                                                Save
                                         </button>
                                     </div>
                                 </div>
@@ -615,15 +613,15 @@
                                                class="form-control" placeholder="{{'Enter new password' | translate}}" ng-maxlenght="100"
                                                ng-model="profileCtrl.model.newPassword"
                                                ng-required="profileCtrl.model.changeLoginData" ng-enable="profileCtrl.model.changeLoginData" ng-class="{ 'error': formUpdateProfileLogin.newpassword.$invalid && (formUpdateProfileLogin.newpassword.$dirty||profileCtrl.isSubmit) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData">
-                                        <i translate class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                                        <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
                                            data-placement="top"
                                            data-html="true"
                                            data-content="- At least 8 characters long. <br>
                                                                -<translate> Should at least  contain;</translate>
-                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One lowercase letter.
-                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One uppercase letter.
-                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One special character.
-                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; One digit."
+                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One lowercase letter</translate>.
+                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One uppercase letter</translate>.
+                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One special character</translate>.
+                                                               <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One digit</translate>."
                                        data-original-title="Your Password should be:"></i>
 
                                         <div ng-messages="formUpdateProfileLogin.newpassword.$error" ng-show="formUpdateProfileLogin.newpassword.$dirty || profileCtrl.isSubmit">

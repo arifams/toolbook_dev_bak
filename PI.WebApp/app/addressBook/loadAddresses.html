@@ -1,7 +1,8 @@
 ﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
-    <h2 class="box-title" translate>
-        Manage Address Book
-        <a role="button" style="width:auto;"  class="btn btn-primary active pull-right" href="#saveAddress/0">Add Address</a>
+    <h2 class="box-title">
+       <translate>Manage Address Book</translate> 
+        <a role="button" style="width:auto;"  class="btn btn-primary active pull-right" href="#saveAddress/0" translate>
+        Add Address</a>
     </h2>
 
     <div class="panel">
@@ -37,9 +38,9 @@
                                     <div class="option-group">
                                         <select id="addressStatus" name="addressStatus" class="form-control"
                                                 ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
-                                            <option value="">Status: All</option>
-                                            <option value="True">Active</option>
-                                            <option value="False">Inactive</option>
+                                            <option value="" translate>Status: All</option>
+                                            <option value="True" translate>Active</option>
+                                            <option value="False" translate>Inactive</option>
                                         </select>
                                     </div>
                                 </div>
@@ -51,15 +52,15 @@
                         <div class="col-sm-12">
                             <div class="col-sm-2 form-group">
                                     <select class="form-control" ng-model="addressCtrl.docType" ng-init="addressCtrl.docType = 'export'">
-                                        <option value="import">Import</option>
-                                        <option value="export">Export</option>
+                                        <option value="import" translate>Import</option>
+                                        <option value="export" translate>Export</option>
                                     </select>
                             </div>
                             <div ng-show="addressCtrl.docType=='import'">
                                 <div class="form-group">
                                     <div class="col-sm-2">
                                         <select ng-model="addressCtrl.searchTypeImport" class="form-control" ng-init="addressCtrl.searchTypeImport = 'EXCEL'">
-                                            <option value="EXCEL">EXCEL</option>
+                                            <option value="EXCEL" >EXCEL</option>
                                             <option value="CSV">CSV</option>
                                         </select>
                                     </div>
@@ -74,8 +75,10 @@
                                         </div>
                                     </div>
                                     <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='CSV'">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-click="addressCtrl.Import()" translate>
-                                            <i class="fa fa-arrow-circle-o-up"></i>Import CSV
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" 
+                                                ng-click="addressCtrl.Import()">
+                                            <i class="fa fa-arrow-circle-o-up"></i>
+                                            <translate>Import </translate> CSV
                                         </button>
                                     </div>
                                     <div class="col-sm-1" ng-show="addressCtrl.searchTypeImport=='CSV'">
@@ -89,8 +92,8 @@
                                     </div>
                                     <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='EXCEL'">
                                         <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed" translate>Remove</button>
-                                        <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed" translate>
-                                            <i class="fa fa-arrow-circle-o-up"></i> Import Excel
+                                        <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed">
+                                            <i class="fa fa-arrow-circle-o-up"></i> <translate>Import </translate> Excel
                                         </button>
                                         {{errorMsg}}
                                     </div>
@@ -108,13 +111,15 @@
                                 </div>
                                 <div class="col-sm-2" ng-show="addressCtrl.searchTypeExport=='CSV'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" type="button" ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv" translate>Export CSV</button>
+                                        <button class="btn btn-primary btn-square btn-embossed" type="button" 
+                                                ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv" > <translate>Export </translate> CSV</button>
                                     </div>
                                 </div>
 
                                 <div class="col-sm-2" ng-show="addressCtrl.searchTypeExport=='EXCEL'">
                                     <div class="form-group">
-                                        <button class="btn btn-primary btn-square btn-embossed" ng-click="addressCtrl.ExportExcel()" translate>Export Excel</button>
+                                        <button class="btn btn-primary btn-square btn-embossed" 
+                                                ng-click="addressCtrl.ExportExcel()"> <translate>Export </translate> Excel</button>
                                     </div>
                                 </div>
                             </div>

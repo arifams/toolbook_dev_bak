@@ -81,9 +81,9 @@
                             <p class="pull-left m-t-20"><a href="../adminLogin/adminLogin.html" translate>Back to login</a></p>
                             <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" translate>New here? Sign up</a></p>
                         </div>
-                        <div class="alert alert-success" ng-show="adminLog.isSentPasswordResetMail" translate>
-                            Password reset message was sent to your email.
-                            Please check the mail box, to reset password.
+                        <div class="alert alert-success" ng-show="adminLog.isSentPasswordResetMail">
+                          <translate>  Password reset message was sent to your email </translate> .
+                            <translate> Please check the mail box, to reset password</translate>.
                         </div>
                         <div class="alert alert-success" ng-show="adminLog.passwordResetError">
                             {{adminLog.passwordResetErrorMsg}}

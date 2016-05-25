@@ -1,6 +1,6 @@
 ﻿<div ng-controller="saveCostCenterCtrl as vm">
-    <h2 class="box-title" ng-hide="vm.model.id > 0" translate> Add Cost Center &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadCostcenters" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Cost Centers</a></h2>
-    <h2 class="box-title" ng-show="vm.model.id > 0" translate> Edit Cost Center &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadCostcenters" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Cost Centers</a></h2>
+    <h2 class="box-title" ng-hide="vm.model.id > 0"> <translate> Add Cost Center </translate> &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadCostcenters" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage Cost Centers</a></h2>
+    <h2 class="box-title" ng-show="vm.model.id > 0"><translate> Edit Cost Center </translate>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadCostcenters" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage Cost Centers</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -157,7 +157,7 @@
                                 
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label" translate>State {{vm.isRequiredState? "*" : "" }} </label>
+                                        <label class="col-sm-2 control-label"> <translate> State</translate> {{vm.isRequiredState? "*" : "" }} </label>
                                         <div class="col-sm-10">
                                             <input ng-model="vm.model.billingAddress.state" name="stateCost" type="text" class="form-control"
                                                    ng-required="vm.isRequiredState" />

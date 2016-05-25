@@ -1,6 +1,8 @@
 ﻿<div ng-controller="saveAddressCtrl as addressCtrl">
-    <h2 class="box-title" ng-hide="addressCtrl.model.id > 0" translate> Add Address<a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
-    <h2 class="box-title" ng-show="addressCtrl.model.id > 0" translate> Edit Address<a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
+    <h2 class="box-title" ng-hide="addressCtrl.model.id > 0"> <translate> Add Address  </translate>
+    <a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
+    <h2 class="box-title" ng-show="addressCtrl.model.id > 0"><translate>  Edit Address </translate> 
+        <a href="#loadAddresses" class="btn btn-primary active pull-right" style="width:auto;" role="button">Manage Address</a></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -112,7 +114,7 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate><strong>Address Details </strong></label>
+                            <label class="col-sm-2 control-label"><strong translate>Address Details </strong></label>
                             <div class="col-sm-10">                                
                             </div>
                         </div> 
@@ -216,18 +218,18 @@
                             <div class="col-sm-10 radio-inline " >
                                 <div class="icheck-inline">
                                    
-                                    <label translate><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="true" > Active </label>
-                                    <label translate><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="false" > Inactive</label>
+                                    <label><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="true" > <translate>Active </translate></label>
+                                    <label><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="false" ><translate>Inactive </translate> </label>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <button ng-click="addressCtrl.close()" class="btn btn-primary btn-app pull-right" translate>
-                                <i class="fa fa-close"></i> Close
+                            <button ng-click="addressCtrl.close()" class="btn btn-primary btn-app pull-right">
+                                <i class="fa fa-close"></i>
                             </button>
-                            <button type="submit" ng-click="(saveAddressForm.$valid ? addressCtrl.saveAddressDetail() : addressCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right" translate>
-                                <i class="fa fa-save"></i> Save
+                            <button type="submit" ng-click="(saveAddressForm.$valid ? addressCtrl.saveAddressDetail() : addressCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right">
+                                <i class="fa fa-save"></i> <translate>Save</translate> 
                             </button>
                         </div>
                         <div id="panel-notif"></div>

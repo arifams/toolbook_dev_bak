@@ -212,57 +212,8 @@
             return $sce.trustAsHtml(html_code);
         };
 
-
-        loadAllCarriers();
-        //vm.getalldata = function () {
-        //    debugger;
-        //    var carrierId = 1;
-        //    var companyId = 1;
-        //    var startDate = "";
-        //    var endDate = "";        
-
-        //    ShipmentReportCSVFactory.exportShipmentReportcsv(carrierId, companyId, startDate, endDate)
-        //        .then(function successCallback(responce) {
-
-        //            //adding headers for export csv file
-        //            var headers = {};
-        //            headers.id = "Id";
-        //            headers.companyName = "companyName";
-        //            headers.userId = "userId";
-        //            headers.salutation = "salutation";
-        //            headers.firstName = "firstName";
-        //            headers.lastName = "lastName";
-        //            headers.emailAddress = "emailAddress";
-        //            headers.phoneNumber = "phoneNumber";
-        //            headers.accountNumber = "accountNumber";
-        //            headers.fullName = "fullName";
-        //            headers.fullAddress = "fullAddress";
-
-        //            headers.country = "country";
-        //            headers.zipCode = "zipCode";
-        //            headers.number = "number";
-        //            headers.streetAddress1 = "streetAddress1";
-        //            headers.streetAddress2 = "streetAddress2";
-        //            headers.city = "city";
-        //            headers.state = "state";
-        //            headers.isActive = "isActive";
-
-        //            vm.exportcollection = [];
-        //            vm.exportcollection.push(headers);
-
-        //            $.each(responce.data, function (index, value) {
-        //                debugger;
-        //                vm.exportcollection.push(value);
-        //            });
-
-        //            debugger;
-        //            angular.element('#csvSelector').triggerHandler('click');
-        //        },
-        //        function errorCallback(response) {
-        //            //todo
-        //        });
-        //};
-
+        loadAllCarriers();     
+      
     }]);
 
 })(angular.module('newApp'));

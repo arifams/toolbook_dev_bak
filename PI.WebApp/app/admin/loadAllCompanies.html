@@ -84,12 +84,12 @@
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block"
                                                     ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-danger' : 'btn-primary'">
-                                                <translate> {{ (row.status ? 'Deactivate' : 'Activate') }} </translate>
+                                              {{ (row.status ? 'Deactivate' : 'Activate') }} 
 </button>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)">
-                                                <translate>{{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }} </translate>
+                                                {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }} 
 </button>
                                         </td>
                                     </tr>
