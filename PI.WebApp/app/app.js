@@ -363,10 +363,17 @@ var checkRouting = function ($location) {
 };
 
 
-MakeApp.run(function (gettextCatalog) {
+MakeApp.run(function (gettextCatalog, $rootScope) {
 
     gettextCatalog.setCurrentLanguage('nl');
+
+    $rootScope.translate = function (str) {
+        return gettextCatalog.getString(str);
+    };
+
     gettextCatalog.debug = true;
+
+  
 });
 
 

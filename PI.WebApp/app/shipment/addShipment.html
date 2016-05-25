@@ -125,7 +125,7 @@
                                 <div class="col-sm-4">
                                     <div class="option-group">
                                         <select id="shipmentServices" class="form-control"
-                                                convert-to-number ng-options="service.Id as service.Name for service in shipmentCtrl.shipmentServices"
+                                                convert-to-number ng-options="service.Id as translate(service.Name) for service in shipmentCtrl.shipmentServices"
                                                 name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
                                                 ng-change="selectShipmentType();"
                                                 rel="popover" data-container="body" data-toggle="popover"

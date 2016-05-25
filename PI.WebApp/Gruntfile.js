@@ -1,4 +1,5 @@
-﻿'use strict';
+﻿/// <binding ProjectOpened='nggettext_compile:all' />
+'use strict';
 
 module.exports = function (grunt) {
     grunt.initConfig({
