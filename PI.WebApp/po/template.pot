@@ -171,7 +171,6 @@ msgstr ""
 
 #: app/adminLogin/adminLogin.html:96
 #: app/userLogin/userLogin.html:104
-#: app/userRegistration/userRegistration.html:460
 msgid "All rights reserved."
 msgstr ""
 
@@ -204,12 +203,16 @@ msgstr ""
 msgid "BILLING ADDRESS"
 msgstr ""
 
-#: app/index.html:189
+#: app/index.html:190
 msgid "BILLING AND INVOICING"
 msgstr ""
 
 #: app/shipment/ShipmentOverview.html:91
 msgid "BOOKING CONFIRMATION"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:435
+msgid "Back"
 msgstr ""
 
 #: app/adminLogin/adminLogin.html:81
@@ -254,6 +257,10 @@ msgstr ""
 msgid "CUSTOMER MANAGEMENT"
 msgstr ""
 
+#: app/profileInformation/profileInformation.html:803
+msgid "CUSTOMIZE"
+msgstr ""
+
 #: app/shipment/addShipment.html:910
 msgid "Calculate Rates"
 msgstr ""
@@ -294,6 +301,7 @@ msgstr ""
 #: app/costcenter/saveCostCenter.html:146
 #: app/profileInformation/profileInformation.html:264
 #: app/profileInformation/profileInformation.html:484
+#: app/userRegistration/userRegistration.html:300
 msgid "City *"
 msgstr ""
 
@@ -375,7 +383,7 @@ msgstr ""
 msgid "Confirm Password *"
 msgstr ""
 
-#: app/userRegistration/userRegistration.html:165
+#: app/userRegistration/userRegistration.html:166
 msgid "Confirm your password *"
 msgstr ""
 
@@ -581,7 +589,6 @@ msgstr ""
 
 #: app/reports/ShipmentReport.html:15
 #: app/userRegistration/userRegistration.html:202
-#: app/userRegistration/userRegistration.html:25
 msgid "Customer"
 msgstr ""
 
@@ -589,11 +596,14 @@ msgstr ""
 msgid "Customer Number"
 msgstr ""
 
+#: app/userRegistration/userRegistration.html:25
+msgid "Customer Registration"
+msgstr ""
+
 #: app/shipment/ShipmentOverview.html:112
 msgid "DELIVERED"
 msgstr ""
 
-#: app/shipment/TrackAndTrace.html:20
 #: app/shipment/printManifest.html:64
 msgid "DHL"
 msgstr ""
@@ -736,10 +746,6 @@ msgstr ""
 msgid "Division: All"
 msgstr ""
 
-#: app/shipment/TrackAndTrace.html:12
-msgid "EXPRESS"
-msgstr ""
-
 #: app/shipment/addShipment.html:979
 msgid "Earliest Pickup Date"
 msgstr ""
@@ -787,7 +793,7 @@ msgstr ""
 msgid "Email Address *"
 msgstr ""
 
-#: app/profileInformation/profileInformation.html:833
+#: app/profileInformation/profileInformation.html:854
 msgid "Email You Entered is already exist"
 msgstr ""
 
@@ -829,6 +835,10 @@ msgstr ""
 
 #: app/profileInformation/profileInformation.html:326
 msgid "Enter Mobile Number"
+msgstr ""
+
+#: app/userRegistration/userRegistration.html:83
+msgid "Enter Mobile Number *"
 msgstr ""
 
 #: app/profileInformation/profileInformation.html:444
@@ -1044,6 +1054,7 @@ msgstr ""
 #: app/profileInformation/profileInformation.html:629
 #: app/resetPassword/resetPassword.html:35
 #: app/userManagement/saveUserManagement.html:119
+#: app/userRegistration/userRegistration.html:138
 #: app/userRegistration/userRegistration.html:394
 msgid "Enter valid password"
 msgstr ""
@@ -1098,11 +1109,12 @@ msgstr ""
 #: app/profileInformation/profileInformation.html:628
 #: app/resetPassword/resetPassword.html:34
 #: app/userManagement/saveUserManagement.html:118
+#: app/userRegistration/userRegistration.html:137
 #: app/userRegistration/userRegistration.html:393
 msgid "Enter your password"
 msgstr ""
 
-#: app/userRegistration/userRegistration.html:130
+#: app/userRegistration/userRegistration.html:131
 msgid "Enter your password *"
 msgstr ""
 
@@ -1119,7 +1131,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: app/profileInformation/profileInformation.html:841
+#: app/profileInformation/profileInformation.html:862
 msgid "Error occured while connecting the server"
 msgstr ""
 
@@ -1149,7 +1161,6 @@ msgstr ""
 msgid "Express End-of-Day Manifest"
 msgstr ""
 
-#: app/shipment/TrackAndTrace.html:21
 #: app/shipment/printManifest.html:65
 msgid "FEDEX"
 msgstr ""
@@ -1340,7 +1351,7 @@ msgstr ""
 msgid "LOGIN DETAILS"
 msgstr ""
 
-#: app/index.html:351
+#: app/index.html:356
 msgid "Language"
 msgstr ""
 
@@ -1379,8 +1390,8 @@ msgstr ""
 msgid "List Package Details *"
 msgstr ""
 
-#: app/index.html:548
-#: app/index.html:549
+#: app/index.html:553
+#: app/index.html:554
 msgid "Logout"
 msgstr ""
 
@@ -1479,7 +1490,7 @@ msgstr ""
 msgid "Max length should be 500 characters"
 msgstr ""
 
-#: app/index.html:336
+#: app/index.html:339
 msgid "Menu"
 msgstr ""
 
@@ -1500,18 +1511,21 @@ msgstr ""
 msgid "Mode of transport:"
 msgstr ""
 
+#: app/addressBook/saveAddress.html:36
 #: app/profileInformation/profileInformation.html:87
 #: app/userManagement/saveUserManagement.html:29
 #: app/userRegistration/userRegistration.html:34
 msgid "Mr"
 msgstr ""
 
+#: app/addressBook/saveAddress.html:37
 #: app/profileInformation/profileInformation.html:88
 #: app/userManagement/saveUserManagement.html:30
 #: app/userRegistration/userRegistration.html:35
 msgid "Mrs"
 msgstr ""
 
+#: app/addressBook/saveAddress.html:38
 #: app/profileInformation/profileInformation.html:89
 #: app/userManagement/saveUserManagement.html:31
 #: app/userRegistration/userRegistration.html:36
@@ -1589,18 +1603,6 @@ msgstr ""
 msgid "OVERVIEW"
 msgstr ""
 
-#: app/userRegistration/userRegistration.html:148
-msgid "One lowercase letter."
-msgstr ""
-
-#: app/userRegistration/userRegistration.html:150
-msgid "One special character."
-msgstr ""
-
-#: app/userRegistration/userRegistration.html:149
-msgid "One uppercase letter."
-msgstr ""
-
 #: app/shipment/loadAllShipments.html:95
 #: app/shipment/printLabel.html:65
 #: app/shipment/shipmentManagement.html:111
@@ -1669,7 +1671,7 @@ msgid "Paid"
 msgstr ""
 
 #: app/userRegistration/userRegistration.html:460
-msgid "Parcel International"
+msgid "Parcel International. All rights reserved."
 msgstr ""
 
 #: app/adminLogin/adminLogin.html:39
@@ -1683,7 +1685,7 @@ msgstr ""
 msgid "Password *"
 msgstr ""
 
-#: app/profileInformation/profileInformation.html:837
+#: app/profileInformation/profileInformation.html:858
 msgid "Password Information you enterd is invalid"
 msgstr ""
 
@@ -1849,7 +1851,7 @@ msgstr ""
 msgid "Product*"
 msgstr ""
 
-#: app/profileInformation/profileInformation.html:829
+#: app/profileInformation/profileInformation.html:850
 msgid "Profile update failed"
 msgstr ""
 
@@ -1907,7 +1909,6 @@ msgid "Register"
 msgstr ""
 
 #: app/userRegistration/userRegistration.html:202
-#: app/userRegistration/userRegistration.html:25
 msgid "Registration"
 msgstr ""
 
@@ -1928,7 +1929,7 @@ msgstr ""
 msgid "Role"
 msgstr ""
 
-#: app/index.html:182
+#: app/index.html:183
 msgid "SHIPMENT CONTROL CENTER"
 msgstr ""
 
@@ -2166,10 +2167,6 @@ msgstr ""
 msgid "Shipped by:"
 msgstr ""
 
-#: app/userRegistration/userRegistration.html:147
-msgid "Should at least contain;"
-msgstr ""
-
 #: app/shipment/addShipment.html:115
 msgid "Show All Options"
 msgstr ""
@@ -2261,7 +2258,6 @@ msgstr ""
 msgid "Subscribe to Offers, Deals & Promotions"
 msgstr ""
 
-#: app/shipment/TrackAndTrace.html:19
 #: app/shipment/printManifest.html:63
 msgid "TNT"
 msgstr ""
@@ -2329,7 +2325,6 @@ msgstr ""
 msgid "Transit time"
 msgstr ""
 
-#: app/shipment/TrackAndTrace.html:18
 #: app/shipment/printManifest.html:62
 msgid "UPS"
 msgstr ""
@@ -2439,10 +2434,6 @@ msgstr ""
 
 #: app/userManagement/saveUserManagement.html:116
 msgid "Your Password should be"
-msgstr ""
-
-#: app/userRegistration/userRegistration.html:152
-msgid "Your Password should be:"
 msgstr ""
 
 #: app/userRegistration/userRegistration.html:362
