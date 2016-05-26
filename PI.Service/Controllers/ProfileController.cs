@@ -23,6 +23,7 @@ namespace PI.Service.Controllers
     public class ProfileController : BaseApiController
     {
         IProfileManagement userprofile;
+        
 
         public ProfileController(IProfileManagement userprofilemanagement)
         {
@@ -243,7 +244,8 @@ namespace PI.Service.Controllers
             }
 
             return -1;
-        }
+        }        
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpPost]

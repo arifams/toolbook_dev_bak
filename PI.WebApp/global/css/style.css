@@ -1480,9 +1480,7 @@ body:not(.sidebar-collapsed) .topbar .header-left .topnav .menutoggle:hover .men
   .topbar .large-dropdown-menu {
     min-width: 160px;
   }
-  .topbar .header-left .nav-icons {
-    display: none;
-  }
+  
 }
 @media screen and (max-width: 700px) {
   .sidebar-hover .topbar .header-right .header-menu #language-header {

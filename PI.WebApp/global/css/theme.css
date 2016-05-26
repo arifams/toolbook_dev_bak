@@ -20,21 +20,25 @@
 /**** SIDEBAR DARK / TOPBAR WHITE ****/
 /* SD/TW : theme default */
 .theme-sdtl.color-default:not(.sidebar-top) .logopanel {
-  background: #181a1d;
+  background-color:#0D4773;
 }
 .theme-sdtl.color-default:not(.sidebar-top) .logopanel {
-  background: #181a1d;
+  background-color:#0D4773;
 }
 .theme-sdtl.color-default .topbar {
   background: #ffffff;
 }
 .theme-sdtl.color-default .sidebar .sidebar-inner {
-  background: #2b2e33;
+  background-color:#0D4773;
 }
 .theme-sdtl.color-default .sidebar .sidebar-inner .nav-sidebar .nav-parent .children,
 .theme-sdtl.color-default .sidebar .sidebar-inner .sidebar-footer,
 .theme-sdtl.color-default .sidebar .sidebar-inner .sidebar-top .searchform input {
-  background: #181a1d;
+  background-color:#0D4773;
+}
+.theme-sdtl.color-default .topbar .header-left .topnav .nav-icons {
+  color: #2b2e33;
+
 }
 /* SD/TW : theme primary */
 .theme-sdtl.color-primary .sidebar {
@@ -48,7 +52,7 @@
   background: #319db5;
 }
 .theme-sdtl.color-primary .topbar {
-  background: #ffffff;
+  background: #c3e7ef;
 }
 .theme-sdtl.color-primary .sidebar .sidebar-inner {
   background: #174955;
@@ -112,6 +116,10 @@
 .theme-sdtl.color-primary .dropdown-menu > .active > a:hover {
   background: #319db5;
 }
+.theme-sdtl.color-primary .topbar .header-left .topnav .nav-icons {
+  color: #319DB5;
+  
+}
 /* SD/TW : theme red */
 .theme-sdtl.color-red .sidebar {
   background-color: #3c2120;
@@ -124,7 +132,7 @@
   background: #c9625f;
 }
 .theme-sdtl.color-red .topbar {
-  background: #ffffff;
+  background: #ecc6c6;
 }
 .theme-sdtl.color-red .sidebar .sidebar-inner {
   background: #3c2120;
@@ -200,6 +208,10 @@
 .theme-sdtl.color-red .dropdown-menu > .active > a:focus,
 .theme-sdtl.color-red .dropdown-menu > .active > a:hover {
   background: #c9625f;
+}
+.theme-sdtl.color-red .topbar .header-left .topnav .nav-icons {
+  color: #C75757;
+  font-weight:bolder;
 }
 /* SD/TW : theme green */
 .theme-sdtl.color-green .sidebar {
@@ -290,6 +302,10 @@
 .theme-sdtl.color-green .dropdown-menu > .active > a:hover {
   background: #18a689;
 }
+.theme-sdtl.color-green .topbar .header-left .topnav .nav-icons {
+  color: #1DA079;
+
+}
 /* SD/TW : theme orange */
 .theme-sdtl.color-orange .sidebar {
   background-color: #4a3526;
@@ -378,6 +394,10 @@
 .theme-sdtl.color-orange .dropdown-menu > .active > a:focus,
 .theme-sdtl.color-orange .dropdown-menu > .active > a:hover {
   background: #b66d39;
+}
+.theme-sdtl.color-orange .topbar .header-left .topnav .nav-icons {
+  color: #D28857;
+
 }
 /* SD/TW : theme purple */
 .theme-sdtl.color-purple .sidebar {
@@ -468,6 +488,10 @@
 .theme-sdtl.color-purple .dropdown-menu > .active > a:hover {
   background: #6e62b5;
 }
+.theme-sdtl.color-purple .topbar .header-left .topnav .nav-icons {
+  color: #B179D7;
+
+}
 /* SD/TW : theme blue */
 .theme-sdtl.color-blue .sidebar {
   background-color: #1e3948;
@@ -556,6 +580,10 @@
 .theme-sdtl.color-blue .dropdown-menu > .active > a:focus,
 .theme-sdtl.color-blue .dropdown-menu > .active > a:hover {
   background: #4a89dc;
+}
+.theme-sdtl.color-blue .topbar .header-left .topnav .nav-icons {
+  color: #4A89DC;
+
 }
 /**** SIDEBAR DARK / TOPBAR DARK ****/
 .theme-sdtd .topbar .header-right .header-menu .badge-header.badge-primary {

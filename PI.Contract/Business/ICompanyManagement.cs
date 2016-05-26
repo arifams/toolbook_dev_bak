@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
@@ -42,6 +43,7 @@ namespace PI.Contract.Business
         CostCenterDto GetCostCentersById(long id, string userId);       
         PagedList GetAllComapniesForAdminSearch(string searchtext);
         string GetBusinessOwneridbyCompanyId(string companyId);
+        CompanyDto GetCompanyByUserID(string userID);
 
     }
 }
