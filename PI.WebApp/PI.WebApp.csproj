@@ -83,6 +83,7 @@
     <Content Include="app\billingandInvoicing\DisputeInvoice.html" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
     <Content Include="app\index.html" />
+    <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />

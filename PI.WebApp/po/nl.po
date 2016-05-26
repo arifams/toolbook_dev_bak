@@ -17,6 +17,14 @@ msgstr ""
 msgid "* Indicates mandatory fields."
 msgstr "* Geeft verplichte velden aan"
 
+#: app/userRegistration/userRegistration.html:147
+msgid ""
+"- At least 8 characters long. <br> -Should at least contain; <br> &nbsp;"
+"&nbsp;&nbsp;&nbsp;One lowercase letter.<br> &nbsp;&nbsp;&nbsp;&nbsp;One "
+"uppercase letter.<br> &nbsp;&nbsp;&nbsp;&nbsp;One special character.<br> "
+"&nbsp;&nbsp;&nbsp;&nbsp;One digit."
+msgstr "hershan nam mahaaaaaaaaaaaaaaaaaaaaa <BR>pissu lamayek<br>lamayek????"
+
 #: app/shipment/addShipment.html:98
 #, fuzzy
 msgid "-Select Cost Center-"
@@ -34,8 +42,8 @@ msgstr "-selecteer een vervoerder-"
 #: app/profileInformation/profileInformation.html:651
 #: app/resetPassword/resetPassword.html:52
 #: app/userManagement/saveUserManagement.html:135
-#: app/userRegistration/userRegistration.html:172
-#: app/userRegistration/userRegistration.html:398
+#: app/userRegistration/userRegistration.html:168
+#: app/userRegistration/userRegistration.html:394
 #, fuzzy
 msgid "2 passwords must be the same"
 msgstr "2 wachtwoorden moeten hetzelfde zijn"
@@ -130,7 +138,7 @@ msgid "Adding..."
 msgstr "Toevoegen…"
 
 #: app/shipment/addShipment.html:429
-#: app/userRegistration/userRegistration.html:269
+#: app/userRegistration/userRegistration.html:265
 #, fuzzy
 msgid "Additional address information"
 msgstr "Aanvullende adresinformatie"
@@ -178,7 +186,6 @@ msgid "All Shipments"
 msgstr "Alle zendingen"
 
 #: app/adminLogin/adminLogin.html:96 app/userLogin/userLogin.html:104
-#: app/userRegistration/userRegistration.html:460
 msgid "All rights reserved."
 msgstr "All rights reserved."
 
@@ -215,13 +222,17 @@ msgstr "toegewezen Divisies"
 msgid "BILLING ADDRESS"
 msgstr "FACTUURADRES"
 
-#: app/index.html:189
+#: app/index.html:190
 msgid "BILLING AND INVOICING"
 msgstr "FACTURATIE"
 
 #: app/shipment/ShipmentOverview.html:91
 msgid "BOOKING CONFIRMATION"
 msgstr "BOEKINGSBEVESTIGING"
+
+#: app/userRegistration/userRegistration.html:431
+msgid "Back"
+msgstr ""
 
 #: app/adminLogin/adminLogin.html:81 app/userLogin/userLogin.html:89
 msgid "Back to login"
@@ -263,6 +274,10 @@ msgstr "KOSTENPLAATS MANAGEMENT"
 msgid "CUSTOMER MANAGEMENT"
 msgstr "KLANT MANAGEMENT"
 
+#: app/profileInformation/profileInformation.html:803
+msgid "CUSTOMIZE"
+msgstr ""
+
 #: app/shipment/addShipment.html:910
 #, fuzzy
 msgid "Calculate Rates"
@@ -301,6 +316,7 @@ msgstr "Plaats"
 #: app/costcenter/saveCostCenter.html:146
 #: app/profileInformation/profileInformation.html:264
 #: app/profileInformation/profileInformation.html:484
+#: app/userRegistration/userRegistration.html:296
 msgid "City *"
 msgstr "Plaats *"
 
@@ -353,7 +369,7 @@ msgstr "Bedrijf Naam"
 msgid "Company Name *"
 msgstr "Naam bedrijf *"
 
-#: app/userRegistration/userRegistration.html:208
+#: app/userRegistration/userRegistration.html:204
 msgid "Company name *"
 msgstr "Naam bedrijf *"
 
@@ -381,7 +397,7 @@ msgstr "Bevestig wachtwoord"
 msgid "Confirm Password *"
 msgstr "Bevestig wachtwoord *"
 
-#: app/userRegistration/userRegistration.html:165
+#: app/userRegistration/userRegistration.html:162
 msgid "Confirm your password *"
 msgstr "Bevestig uw wachtwoord *"
 
@@ -588,8 +604,7 @@ msgid "Current Packege Location"
 msgstr "Huidge locatie van het pakket"
 
 #: app/reports/ShipmentReport.html:15
-#: app/userRegistration/userRegistration.html:202
-#: app/userRegistration/userRegistration.html:25
+#: app/userRegistration/userRegistration.html:198
 msgid "Customer"
 msgstr "Klant"
 
@@ -598,12 +613,16 @@ msgstr "Klant"
 msgid "Customer Number"
 msgstr "Klantnummer:"
 
+#: app/userRegistration/userRegistration.html:25
+msgid "Customer Registration"
+msgstr ""
+
 #: app/shipment/ShipmentOverview.html:112
 #, fuzzy
 msgid "DELIVERED"
 msgstr "Afgeleverd"
 
-#: app/shipment/TrackAndTrace.html:20 app/shipment/printManifest.html:64
+#: app/shipment/printManifest.html:64
 #, fuzzy
 msgid "DHL"
 msgstr "DHL"
@@ -757,11 +776,6 @@ msgstr "Afdeling is vereist"
 msgid "Division: All"
 msgstr "Afdelingen: All"
 
-#: app/shipment/TrackAndTrace.html:12
-#, fuzzy
-msgid "EXPRESS"
-msgstr "Express"
-
 #: app/shipment/addShipment.html:979
 msgid "Earliest Pickup Date"
 msgstr "vroegst mogelijke datum"
@@ -806,7 +820,7 @@ msgstr "E-mailadres"
 msgid "Email Address *"
 msgstr "Email Adres*"
 
-#: app/profileInformation/profileInformation.html:833
+#: app/profileInformation/profileInformation.html:854
 msgid "Email You Entered is already exist"
 msgstr "Het opgegeven e-mailadres is reeds in gebruik"
 
@@ -828,8 +842,8 @@ msgstr "E-mailadres is verplicht"
 
 #: app/profileInformation/profileInformation.html:272
 #: app/profileInformation/profileInformation.html:492
-#: app/userRegistration/userRegistration.html:305
-#: app/userRegistration/userRegistration.html:420
+#: app/userRegistration/userRegistration.html:301
+#: app/userRegistration/userRegistration.html:416
 #, fuzzy
 msgid "Enter City"
 msgstr "Voer plaats in"
@@ -855,9 +869,13 @@ msgstr "Bedrijfsnaam invoeren, voornaam of achternaam"
 msgid "Enter Mobile Number"
 msgstr "Voer een mobiel nummer in"
 
+#: app/userRegistration/userRegistration.html:83
+msgid "Enter Mobile Number *"
+msgstr ""
+
 #: app/profileInformation/profileInformation.html:444
-#: app/userRegistration/userRegistration.html:256
-#: app/userRegistration/userRegistration.html:409
+#: app/userRegistration/userRegistration.html:252
+#: app/userRegistration/userRegistration.html:405
 #, fuzzy
 msgid "Enter Number"
 msgstr "Voer nummer in"
@@ -872,23 +890,23 @@ msgstr "Voer het oude wachtwoord in"
 msgid "Enter Phone Number"
 msgstr "Vul Telefoonnummer in"
 
-#: app/userRegistration/userRegistration.html:413
+#: app/userRegistration/userRegistration.html:409
 #, fuzzy
 msgid "Enter Postal Code"
 msgstr "Voer Postcode in"
 
 #: app/profileInformation/profileInformation.html:290
 #: app/profileInformation/profileInformation.html:508
-#: app/userRegistration/userRegistration.html:424
+#: app/userRegistration/userRegistration.html:420
 #, fuzzy
 msgid "Enter State"
 msgstr "Alternatieve naam invoeren"
 
-#: app/userRegistration/userRegistration.html:318
+#: app/userRegistration/userRegistration.html:314
 msgid "Enter State code"
 msgstr "Staatcode is vereist"
 
-#: app/userRegistration/userRegistration.html:405
+#: app/userRegistration/userRegistration.html:401
 msgid "Enter Street"
 msgstr "Vul uw straat en huisnummer in"
 
@@ -897,7 +915,7 @@ msgstr "Vul uw straat en huisnummer in"
 msgid "Enter Street Address1"
 msgstr "Vul uw straat en huisnummer in"
 
-#: app/userRegistration/userRegistration.html:289
+#: app/userRegistration/userRegistration.html:285
 msgid "Enter Zip/Postal code"
 msgstr "Voer Zip / Postcode"
 
@@ -945,8 +963,8 @@ msgstr "Voer Adres2"
 #: app/userManagement/saveUserManagement.html:47
 #: app/userManagement/saveUserManagement.html:63
 #: app/userManagement/saveUserManagement.html:78
-#: app/userRegistration/userRegistration.html:369
-#: app/userRegistration/userRegistration.html:377
+#: app/userRegistration/userRegistration.html:365
+#: app/userRegistration/userRegistration.html:373
 #: app/userRegistration/userRegistration.html:52
 #: app/userRegistration/userRegistration.html:72
 msgid "Enter at least 3 characters or more"
@@ -960,8 +978,8 @@ msgstr "Voer bedrijfsnaam, bedrijf eigenaar van voor- of achternaam"
 msgid "Enter city"
 msgstr "Voer plaats in"
 
-#: app/userRegistration/userRegistration.html:212
-#: app/userRegistration/userRegistration.html:401
+#: app/userRegistration/userRegistration.html:208
+#: app/userRegistration/userRegistration.html:397
 msgid "Enter company name"
 msgstr "Voer uw Bedrijfsnaam in"
 
@@ -1000,19 +1018,19 @@ msgstr "Voer a.u.b. achternaam in"
 #: app/userManagement/saveUserManagement.html:48
 #: app/userManagement/saveUserManagement.html:62
 #: app/userManagement/saveUserManagement.html:79
-#: app/userRegistration/userRegistration.html:244
-#: app/userRegistration/userRegistration.html:257
-#: app/userRegistration/userRegistration.html:290
-#: app/userRegistration/userRegistration.html:306
-#: app/userRegistration/userRegistration.html:319
-#: app/userRegistration/userRegistration.html:370
-#: app/userRegistration/userRegistration.html:373
-#: app/userRegistration/userRegistration.html:378
+#: app/userRegistration/userRegistration.html:240
+#: app/userRegistration/userRegistration.html:253
+#: app/userRegistration/userRegistration.html:286
+#: app/userRegistration/userRegistration.html:302
+#: app/userRegistration/userRegistration.html:315
+#: app/userRegistration/userRegistration.html:366
+#: app/userRegistration/userRegistration.html:369
+#: app/userRegistration/userRegistration.html:374
+#: app/userRegistration/userRegistration.html:402
 #: app/userRegistration/userRegistration.html:406
 #: app/userRegistration/userRegistration.html:410
-#: app/userRegistration/userRegistration.html:414
+#: app/userRegistration/userRegistration.html:417
 #: app/userRegistration/userRegistration.html:421
-#: app/userRegistration/userRegistration.html:425
 #: app/userRegistration/userRegistration.html:53
 #: app/userRegistration/userRegistration.html:73
 msgid "Enter less than 100 characters"
@@ -1024,11 +1042,11 @@ msgstr "Gelieve niet meer dan 100 tekens in te vullen"
 msgid "Enter less than 20 characters"
 msgstr "Gelieve niet meer dan 20 tekens in te vullen"
 
-#: app/userRegistration/userRegistration.html:213
-#: app/userRegistration/userRegistration.html:228
-#: app/userRegistration/userRegistration.html:275
-#: app/userRegistration/userRegistration.html:402
-#: app/userRegistration/userRegistration.html:417
+#: app/userRegistration/userRegistration.html:209
+#: app/userRegistration/userRegistration.html:224
+#: app/userRegistration/userRegistration.html:271
+#: app/userRegistration/userRegistration.html:398
+#: app/userRegistration/userRegistration.html:413
 msgid "Enter less than 200 characters"
 msgstr "Gelieve niet meer dan 200 tekens in te vullen"
 
@@ -1049,7 +1067,7 @@ msgstr "Graag uw telefoonnummer invoeren"
 msgid "Enter state"
 msgstr "Voer a.u.b de staatcode in"
 
-#: app/userRegistration/userRegistration.html:243
+#: app/userRegistration/userRegistration.html:239
 msgid "Enter street address"
 msgstr "Straat en huisnummer:"
 
@@ -1059,14 +1077,14 @@ msgstr "Straat en huisnummer:"
 #: app/userLogin/userLogin.html:84
 #: app/userManagement/saveUserManagement.html:94
 #: app/userRegistration/userRegistration.html:121
-#: app/userRegistration/userRegistration.html:390
+#: app/userRegistration/userRegistration.html:386
 #, fuzzy
 msgid "Enter valid email address"
 msgstr "Voer een geldig e-mailadres in"
 
 #: app/profileInformation/profileInformation.html:327
 #: app/shipment/addShipment.html:318 app/shipment/addShipment.html:490
-#: app/userRegistration/userRegistration.html:382
+#: app/userRegistration/userRegistration.html:378
 #: app/userRegistration/userRegistration.html:90
 #, fuzzy
 msgid "Enter valid mobile number"
@@ -1075,7 +1093,8 @@ msgstr "Voer geldig mobiel nummer"
 #: app/profileInformation/profileInformation.html:629
 #: app/resetPassword/resetPassword.html:35
 #: app/userManagement/saveUserManagement.html:119
-#: app/userRegistration/userRegistration.html:394
+#: app/userRegistration/userRegistration.html:138
+#: app/userRegistration/userRegistration.html:390
 #, fuzzy
 msgid "Enter valid password"
 msgstr "Voer geldig wachtwoord"
@@ -1083,7 +1102,7 @@ msgstr "Voer geldig wachtwoord"
 #: app/addressBook/saveAddress.html:97 app/costcenter/saveCostCenter.html:53
 #: app/profileInformation/profileInformation.html:310
 #: app/userRegistration/userRegistration.html:105
-#: app/userRegistration/userRegistration.html:386
+#: app/userRegistration/userRegistration.html:382
 #, fuzzy
 msgid "Enter valid phone number"
 msgstr "Voer een geldig telefoonnummer in"
@@ -1099,25 +1118,25 @@ msgstr "Voer uw PostalCode / ZipCode"
 #: app/adminLogin/adminLogin.html:75 app/userLogin/userLogin.html:83
 #: app/userManagement/saveUserManagement.html:93
 #: app/userRegistration/userRegistration.html:120
-#: app/userRegistration/userRegistration.html:389
+#: app/userRegistration/userRegistration.html:385
 msgid "Enter your email address"
 msgstr "Voor uw e-mailadres in"
 
 #: app/profileInformation/profileInformation.html:103
 #: app/userManagement/saveUserManagement.html:46
-#: app/userRegistration/userRegistration.html:368
+#: app/userRegistration/userRegistration.html:364
 #: app/userRegistration/userRegistration.html:51
 msgid "Enter your first name"
 msgstr "Voer uw voornaam in"
 
 #: app/profileInformation/profileInformation.html:119
 #: app/userManagement/saveUserManagement.html:77
-#: app/userRegistration/userRegistration.html:376
+#: app/userRegistration/userRegistration.html:372
 #: app/userRegistration/userRegistration.html:71
 msgid "Enter your last name"
 msgstr "Voer a.u.b. achternaam in"
 
-#: app/userRegistration/userRegistration.html:381
+#: app/userRegistration/userRegistration.html:377
 #: app/userRegistration/userRegistration.html:89
 #, fuzzy
 msgid "Enter your mobile number"
@@ -1131,17 +1150,18 @@ msgstr "Vul uw faxnummer in"
 #: app/profileInformation/profileInformation.html:628
 #: app/resetPassword/resetPassword.html:34
 #: app/userManagement/saveUserManagement.html:118
-#: app/userRegistration/userRegistration.html:393
+#: app/userRegistration/userRegistration.html:137
+#: app/userRegistration/userRegistration.html:389
 msgid "Enter your password"
 msgstr "Vul uw wachtwoord in"
 
-#: app/userRegistration/userRegistration.html:130
+#: app/userRegistration/userRegistration.html:131
 #, fuzzy
 msgid "Enter your password *"
 msgstr "Vul uw wachtwoord in"
 
 #: app/userRegistration/userRegistration.html:104
-#: app/userRegistration/userRegistration.html:385
+#: app/userRegistration/userRegistration.html:381
 #, fuzzy
 msgid "Enter your phone number"
 msgstr "Vul je telefoonnummer in."
@@ -1154,7 +1174,7 @@ msgstr "Postcode"
 msgid "Error"
 msgstr "Foutmelding"
 
-#: app/profileInformation/profileInformation.html:841
+#: app/profileInformation/profileInformation.html:862
 #, fuzzy
 msgid "Error occured while connecting the server"
 msgstr "Fout opgetreden tijdens het aansluiten van de server"
@@ -1185,7 +1205,7 @@ msgstr "Express"
 msgid "Express End-of-Day Manifest"
 msgstr "Express End-of-Day Manifest"
 
-#: app/shipment/TrackAndTrace.html:21 app/shipment/printManifest.html:65
+#: app/shipment/printManifest.html:65
 #, fuzzy
 msgid "FEDEX"
 msgstr "FedEx"
@@ -1261,7 +1281,7 @@ msgstr "GS-code"
 msgid "Height *"
 msgstr "Hoogte *"
 
-#: app/userRegistration/userRegistration.html:342
+#: app/userRegistration/userRegistration.html:338
 #, fuzzy
 msgid "I agree with terms and conditions"
 msgstr "Ik ga akkoord met de voorwaarden"
@@ -1381,7 +1401,7 @@ msgstr "Ik wil ingelogd blijven"
 msgid "LOGIN DETAILS"
 msgstr "Inloggegevens"
 
-#: app/index.html:351
+#: app/index.html:356
 msgid "Language"
 msgstr "Taal"
 
@@ -1423,7 +1443,7 @@ msgstr "Lengte"
 msgid "List Package Details *"
 msgstr "Lijst details van het pakket *"
 
-#: app/index.html:548 app/index.html:549
+#: app/index.html:553 app/index.html:554
 msgid "Logout"
 msgstr "Uitloggen"
 
@@ -1507,7 +1527,7 @@ msgstr "Max lengte moet 200 tekens zijn"
 msgid "Max length should be 500 characters"
 msgstr "Max lengte moet 500 tekens zijn"
 
-#: app/index.html:336
+#: app/index.html:339
 msgid "Menu"
 msgstr "Menu"
 
@@ -1527,18 +1547,21 @@ msgstr "Mobiel Nummer"
 msgid "Mode of transport:"
 msgstr "Vervoersmodaliteit"
 
+#: app/addressBook/saveAddress.html:36
 #: app/profileInformation/profileInformation.html:87
 #: app/userManagement/saveUserManagement.html:29
 #: app/userRegistration/userRegistration.html:34
 msgid "Mr"
 msgstr "Dhr"
 
+#: app/addressBook/saveAddress.html:37
 #: app/profileInformation/profileInformation.html:88
 #: app/userManagement/saveUserManagement.html:30
 #: app/userRegistration/userRegistration.html:35
 msgid "Mrs"
 msgstr "Mevr."
 
+#: app/addressBook/saveAddress.html:38
 #: app/profileInformation/profileInformation.html:89
 #: app/userManagement/saveUserManagement.html:31
 #: app/userRegistration/userRegistration.html:36
@@ -1562,7 +1585,7 @@ msgstr "Nieuw hier? Aanmelden"
 
 #: app/shipment/addShipment.html:145 app/shipment/addShipment.html:523
 #: app/shipment/addShipment.html:794
-#: app/userRegistration/userRegistration.html:191
+#: app/userRegistration/userRegistration.html:187
 msgid "Next"
 msgstr "Volgende"
 
@@ -1589,7 +1612,7 @@ msgid "Number"
 msgstr "Nummer"
 
 #: app/costcenter/saveCostCenter.html:108
-#: app/userRegistration/userRegistration.html:251
+#: app/userRegistration/userRegistration.html:247
 msgid "Number *"
 msgstr "Nummer *"
 
@@ -1614,19 +1637,6 @@ msgstr "Besteling ingediend."
 #: app/shipment/ShipmentOverview.html:8
 msgid "OVERVIEW"
 msgstr "OVERZICHT"
-
-#: app/userRegistration/userRegistration.html:148
-#, fuzzy
-msgid "One lowercase letter."
-msgstr "Een kleine letter."
-
-#: app/userRegistration/userRegistration.html:150
-msgid "One special character."
-msgstr "~Speciaal teken invoegen..."
-
-#: app/userRegistration/userRegistration.html:149
-msgid "One uppercase letter."
-msgstr "Een hoofdletter."
 
 #: app/shipment/loadAllShipments.html:95 app/shipment/printLabel.html:65
 #: app/shipment/shipmentManagement.html:111
@@ -1697,10 +1707,9 @@ msgstr "Aantal colli"
 msgid "Paid"
 msgstr "Betaald"
 
-#: app/userRegistration/userRegistration.html:460
-#, fuzzy
-msgid "Parcel International"
-msgstr "Parcel International"
+#: app/userRegistration/userRegistration.html:456
+msgid "Parcel International. All rights reserved."
+msgstr ""
 
 #: app/adminLogin/adminLogin.html:39 app/resetPassword/resetPassword.html:31
 #: app/userLogin/userLogin.html:40
@@ -1712,7 +1721,7 @@ msgstr "Wachtwoord"
 msgid "Password *"
 msgstr "Wachtwoord *"
 
-#: app/profileInformation/profileInformation.html:837
+#: app/profileInformation/profileInformation.html:858
 msgid "Password Information you enterd is invalid"
 msgstr "Uw wachtwoord is ongeldig"
 
@@ -1808,7 +1817,7 @@ msgstr "Controleer de tracking-nummer en probeer het opnieuw"
 msgid "Please check the mail box, to reset password"
 msgstr "Controleer a.u.b. uw e-mail om uw wachtwoord te resetten."
 
-#: app/userRegistration/userRegistration.html:445
+#: app/userRegistration/userRegistration.html:441
 msgid "Please check your mail box, to activate the account"
 msgstr "Controleer je e-mail om uw account te activeren!"
 
@@ -1817,7 +1826,7 @@ msgstr "Controleer je e-mail om uw account te activeren!"
 msgid "Please insert the reason for disputing the invoice"
 msgstr "Gelieve de reden voor het aanvechten van de factuur"
 
-#: app/userRegistration/userRegistration.html:355
+#: app/userRegistration/userRegistration.html:351
 msgid "Please wait ..."
 msgstr "Even geduld a.u.b…"
 
@@ -1880,7 +1889,7 @@ msgstr "*Product Type"
 msgid "Product*"
 msgstr "Product"
 
-#: app/profileInformation/profileInformation.html:829
+#: app/profileInformation/profileInformation.html:850
 msgid "Profile update failed"
 msgstr "Bijwerken mislukt"
 
@@ -1916,8 +1925,8 @@ msgstr "Herhaal het nieuwe wachtwoord"
 #: app/profileInformation/profileInformation.html:650
 #: app/resetPassword/resetPassword.html:51
 #: app/userManagement/saveUserManagement.html:134
-#: app/userRegistration/userRegistration.html:171
-#: app/userRegistration/userRegistration.html:397
+#: app/userRegistration/userRegistration.html:167
+#: app/userRegistration/userRegistration.html:393
 #, fuzzy
 msgid "ReEnter your password"
 msgstr "Opnieuw in te voeren uw wachtwoord"
@@ -1938,16 +1947,15 @@ msgstr "Referentie is vereist"
 msgid "Reference is required"
 msgstr "Referentie is vereist"
 
-#: app/userRegistration/userRegistration.html:353
+#: app/userRegistration/userRegistration.html:349
 msgid "Register"
 msgstr "Registreren"
 
-#: app/userRegistration/userRegistration.html:202
-#: app/userRegistration/userRegistration.html:25
+#: app/userRegistration/userRegistration.html:198
 msgid "Registration"
 msgstr "Inschrijving"
 
-#: app/userRegistration/userRegistration.html:223
+#: app/userRegistration/userRegistration.html:219
 #, fuzzy
 msgid "Registration number company"
 msgstr "Registratienummer bedrijf"
@@ -1964,7 +1972,7 @@ msgstr "Vrachtvervoer over de weg"
 msgid "Role"
 msgstr "Rollen"
 
-#: app/index.html:182
+#: app/index.html:183
 #, fuzzy
 msgid "SHIPMENT CONTROL CENTER"
 msgstr "SHIPMENT CONTROL CENTER"
@@ -2211,11 +2219,6 @@ msgstr "Track en Trace"
 msgid "Shipped by:"
 msgstr "Verzonden"
 
-#: app/userRegistration/userRegistration.html:147
-#, fuzzy
-msgid "Should at least contain;"
-msgstr "Dient ten minste te bevatten;"
-
 #: app/shipment/addShipment.html:115
 #, fuzzy
 msgid "Show All Options"
@@ -2233,7 +2236,7 @@ msgstr "Staat"
 msgid "State Code"
 msgstr "Staat Code"
 
-#: app/userRegistration/userRegistration.html:313
+#: app/userRegistration/userRegistration.html:309
 #, fuzzy
 msgid "State code"
 msgstr "Staat Code"
@@ -2263,7 +2266,7 @@ msgstr "Status"
 msgid "Status: All"
 msgstr "Status: Alle"
 
-#: app/userRegistration/userRegistration.html:238
+#: app/userRegistration/userRegistration.html:234
 msgid "Street *"
 msgstr "Straat *"
 
@@ -2304,7 +2307,7 @@ msgstr "Straat *"
 msgid "Subscribe to Offers, Deals & Promotions"
 msgstr "Abonneer je op Aanbiedingen, Deals & Promotions"
 
-#: app/shipment/TrackAndTrace.html:19 app/shipment/printManifest.html:63
+#: app/shipment/printManifest.html:63
 #, fuzzy
 msgid "TNT"
 msgstr "TNT"
@@ -2333,7 +2336,7 @@ msgstr "leveringsvoorwaarden"
 msgid "Terms of payment:"
 msgstr "betalingscondities"
 
-#: app/userRegistration/userRegistration.html:444
+#: app/userRegistration/userRegistration.html:440
 #, fuzzy
 msgid ""
 "Thank you for registrating with us! A Confirmation message was sent to your "
@@ -2384,7 +2387,7 @@ msgstr "Transit"
 msgid "Transit time"
 msgstr "Geschatte levertijd"
 
-#: app/shipment/TrackAndTrace.html:18 app/shipment/printManifest.html:62
+#: app/shipment/printManifest.html:62
 msgid "UPS"
 msgstr "UPS"
 
@@ -2496,8 +2499,8 @@ msgstr "Breedte"
 msgid "Yes"
 msgstr "Ja"
 
-#: app/userRegistration/userRegistration.html:345
-#: app/userRegistration/userRegistration.html:428
+#: app/userRegistration/userRegistration.html:341
+#: app/userRegistration/userRegistration.html:424
 msgid "You must agree with terms"
 msgstr "U dient het reglement te accepteren."
 
@@ -2506,12 +2509,12 @@ msgstr "U dient het reglement te accepteren."
 msgid "Your Password should be"
 msgstr "Uw wachtwoord moet"
 
-#: app/userRegistration/userRegistration.html:152
+#: app/userRegistration/userRegistration.html:149
 #, fuzzy
 msgid "Your Password should be:"
 msgstr "Uw wachtwoord moet zijn:"
 
-#: app/userRegistration/userRegistration.html:362
+#: app/userRegistration/userRegistration.html:358
 #, fuzzy
 msgid "Your form contains"
 msgstr "Uw formulier bevat"
@@ -2526,7 +2529,7 @@ msgstr "Postcode"
 msgid "Zip Code is required"
 msgstr "Postcode is vereist"
 
-#: app/userRegistration/userRegistration.html:284
+#: app/userRegistration/userRegistration.html:280
 #, fuzzy
 msgid "Zip/Postal Code *"
 msgstr "Postcode"
@@ -2549,7 +2552,7 @@ msgstr "gevaarlijke goederen"
 msgid "dry ice (DI)"
 msgstr "droogijs (DI)"
 
-#: app/userRegistration/userRegistration.html:364
+#: app/userRegistration/userRegistration.html:360
 #, fuzzy
 msgid "errors, see details below"
 msgstr "fouten, zie details hieronder"
@@ -2595,6 +2598,28 @@ msgstr ""
 #: app/admin/uploadInvoice.html:30
 msgid "{{from}}"
 msgstr "{{from}}"
+
+#, fuzzy
+#~ msgid "EXPRESS"
+#~ msgstr "Express"
+
+#, fuzzy
+#~ msgid "One lowercase letter."
+#~ msgstr "Een kleine letter."
+
+#~ msgid "One special character."
+#~ msgstr "~Speciaal teken invoegen..."
+
+#~ msgid "One uppercase letter."
+#~ msgstr "Een hoofdletter."
+
+#, fuzzy
+#~ msgid "Parcel International"
+#~ msgstr "Parcel International"
+
+#, fuzzy
+#~ msgid "Should at least contain;"
+#~ msgstr "Dient ten minste te bevatten;"
 
 #~ msgid "Purchase order or description of the shipment"
 #~ msgstr "Inkooporder of beschrijving van de zending"

@@ -69,7 +69,7 @@ msgstr ""
 #: app/costcenter/loadCostCenters.html:51
 #: app/divisions/loadDivisions.html:56
 #: app/divisions/saveDivision.html:78
-#: app/shipment/loadAllShipments.html:28
+#: app/shipment/loadAllShipments.html:29
 #: app/shipment/shipmentManagement.html:39
 #: app/userManagement/loadUserManagement.html:62
 msgid "Active"
@@ -157,7 +157,7 @@ msgstr ""
 #: app/admin/BillingandInvoicing.html:31
 #: app/admin/loadAllCompanies.html:29
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:16
-#: app/shipment/loadAllShipments.html:25
+#: app/shipment/loadAllShipments.html:26
 #: app/shipment/shipmentManagement.html:36
 #: app/userManagement/loadUserManagement.html:41
 #: app/userManagement/loadUserManagement.html:51
@@ -272,7 +272,7 @@ msgstr ""
 #: app/reports/ShipmentReport.html:54
 #: app/shipment/addShipment.html:935
 #: app/shipment/addShipment.html:978
-#: app/shipment/loadAllShipments.html:98
+#: app/shipment/loadAllShipments.html:99
 #: app/shipment/printLabel.html:68
 #: app/shipment/shipmentManagement.html:114
 msgid "Carrier"
@@ -360,7 +360,7 @@ msgstr ""
 msgid "Company name *"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:31
+#: app/shipment/loadAllShipments.html:32
 #: app/shipment/shipmentManagement.html:42
 msgid "Completed"
 msgstr ""
@@ -532,6 +532,10 @@ msgstr ""
 msgid "Corporate Name"
 msgstr ""
 
+#: app/userRegistration/userRegistration.html:183
+msgid "Corporate account"
+msgstr ""
+
 #: app/costcenter/loadCostCenters.html:67
 #: app/shipment/printManifest.html:161
 msgid "Cost Center"
@@ -663,7 +667,7 @@ msgstr ""
 #: app/addressBook/loadAddresses.html:144
 #: app/costcenter/loadCostCenters.html:72
 #: app/divisions/loadDivisions.html:78
-#: app/shipment/loadAllShipments.html:104
+#: app/shipment/loadAllShipments.html:105
 #: app/shipment/shipmentManagement.html:120
 msgid "Delete"
 msgstr ""
@@ -688,13 +692,13 @@ msgstr ""
 msgid "Description, Quantity and Price per piece are required."
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:100
+#: app/shipment/loadAllShipments.html:101
 #: app/shipment/printLabel.html:70
 #: app/shipment/shipmentManagement.html:116
 msgid "Destination City"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:59
+#: app/shipment/loadAllShipments.html:60
 msgid "Destination City/Country"
 msgstr ""
 
@@ -753,7 +757,7 @@ msgstr ""
 #: app/addressBook/loadAddresses.html:143
 #: app/costcenter/loadCostCenters.html:71
 #: app/divisions/loadDivisions.html:77
-#: app/shipment/loadAllShipments.html:103
+#: app/shipment/loadAllShipments.html:104
 #: app/shipment/shipmentManagement.html:119
 msgid "Edit"
 msgstr ""
@@ -1287,6 +1291,10 @@ msgstr ""
 msgid "Individual Account"
 msgstr ""
 
+#: app/userRegistration/userRegistration.html:182
+msgid "Individual account"
+msgstr ""
+
 #: app/shipment/addShipment.html:994
 msgid "Insurance"
 msgstr ""
@@ -1603,19 +1611,19 @@ msgstr ""
 msgid "OVERVIEW"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:95
+#: app/shipment/loadAllShipments.html:96
 #: app/shipment/printLabel.html:65
 #: app/shipment/shipmentManagement.html:111
 msgid "Order Submitted"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:99
+#: app/shipment/loadAllShipments.html:100
 #: app/shipment/printLabel.html:69
 #: app/shipment/shipmentManagement.html:115
 msgid "Origin City"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:53
+#: app/shipment/loadAllShipments.html:54
 msgid "Origin City/Country"
 msgstr ""
 
@@ -2000,18 +2008,18 @@ msgstr ""
 msgid "Search By: InvoiceNumber"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:46
+#: app/shipment/loadAllShipments.html:47
 #: app/shipment/shipmentManagement.html:61
 msgid "Search By: Location"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:45
+#: app/shipment/loadAllShipments.html:46
 #: app/shipment/shipmentManagement.html:60
 msgid "Search By: Number"
 msgstr ""
 
 #: app/admin/BillingandInvoicing.html:170
-#: app/shipment/loadAllShipments.html:39
+#: app/shipment/loadAllShipments.html:40
 #: app/shipment/printLabel.html:23
 #: app/shipment/shipmentManagement.html:50
 msgid "Search By: Pickup Date"
@@ -2097,7 +2105,7 @@ msgstr ""
 msgid "Shipment Details"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:97
+#: app/shipment/loadAllShipments.html:98
 #: app/shipment/printLabel.html:67
 #: app/shipment/shipmentManagement.html:113
 msgid "Shipment ID"
@@ -2204,8 +2212,8 @@ msgstr ""
 #: app/costcenter/saveCostCenter.html:190
 #: app/divisions/loadDivisions.html:76
 #: app/divisions/saveDivision.html:69
-#: app/shipment/loadAllShipments.html:101
-#: app/shipment/loadAllShipments.html:19
+#: app/shipment/loadAllShipments.html:102
+#: app/shipment/loadAllShipments.html:20
 #: app/shipment/shipmentManagement.html:117
 #: app/userManagement/loadUserManagement.html:83
 #: app/userManagement/saveUserManagement.html:176
@@ -2306,13 +2314,13 @@ msgstr ""
 msgid "Tracking History"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:96
+#: app/shipment/loadAllShipments.html:97
 #: app/shipment/printLabel.html:66
 #: app/shipment/shipmentManagement.html:112
 msgid "Tracking Number"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:66
+#: app/shipment/loadAllShipments.html:67
 #: app/shipment/printLabel.html:44
 msgid "Tracking Number/ Shipment Ref Number"
 msgstr ""
@@ -2387,7 +2395,7 @@ msgstr ""
 msgid "VAT number:"
 msgstr ""
 
-#: app/shipment/loadAllShipments.html:102
+#: app/shipment/loadAllShipments.html:103
 #: app/shipment/shipmentManagement.html:118
 msgid "View"
 msgstr ""

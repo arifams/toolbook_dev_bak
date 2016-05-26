@@ -13,6 +13,17 @@
 
     });
 
+    app.run(function (gettextCatalog, $rootScope) {
+
+        gettextCatalog.setCurrentLanguage('nl');
+
+        $rootScope.translate = function (str) {
+            return gettextCatalog.getString(str);
+        };
+
+        gettextCatalog.debug = true;
+    });
+
     app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope',
     function (userManager, $window, $cookieStore, $scope) {
         var vm = this;

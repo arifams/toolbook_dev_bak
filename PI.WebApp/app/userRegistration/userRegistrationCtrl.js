@@ -865,6 +865,17 @@
       
     });
 
+    app.run(function(gettextCatalog, $rootScope) {
+
+        gettextCatalog.setCurrentLanguage('nl');
+
+        $rootScope.translate = function (str) {
+            return gettextCatalog.getString(str);
+        };
+
+        gettextCatalog.debug = true;
+    });
+
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
