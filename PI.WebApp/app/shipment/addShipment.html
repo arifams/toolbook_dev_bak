@@ -662,7 +662,7 @@
                                         <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
                                             <td ng-init="package.productType = 'Box'" width="17%">
                                                 <select class="form-control" ng-model="package.productType"
-                                                        convert-to-number ng-options="pro.Id as pro.Name for pro in shipmentCtrl.productTypes" ng-required="true"></select>
+                                                        convert-to-number ng-options="pro.Id as translate(pro.Name) for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                             </td>
                                             <td width="13%"><input type="number" class="form-control" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
                                             <td width="17%"><input type="text" class="form-control" ng-model="package.description" contenteditable="true" ng-required="true" /></td>

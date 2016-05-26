@@ -769,7 +769,7 @@
                 only: '@csOnly',
                 except: '@csExcept'
             },
-            template: '<select ng-options="country.code as country.name for country in countries"> <option value="" ng-if="isSelectionOptional"></option> </select>',
+            template: '<select ng-options="country.code as translate(country.name) for country in countries"> <option value="" ng-if="isSelectionOptional"></option> </select>',
             controller: [
               '$scope', '$attrs', function ($scope, $attrs) {
                   var countryCodesIn, findCountriesIn, includeOnlyRequestedCountries, removeCountry, removeExcludedCountries, separator, updateWithPriorityCountries;
@@ -954,7 +954,7 @@
     }]);
 
     app.controller('userRegistrationCtrl', 
-        ['registerUserService', '$window', function (registerUserService, $window) {
+        ['registerUserService', '$window', '$rootScope', function (registerUserService, $window, $rootScope) {
 
         var vm = this;
         vm.user = {};
@@ -997,7 +997,7 @@
                     $.noty.defaults.killer = true;
 
                     noty({
-                        text: '<p style="font-size:medium">Error! </p>' + 'Email address is already in use.',
+                        text: '<p style="font-size:medium">Error! </p>' + $rootScope.translate('Email address is already in use'),
                         layout: 'topRight',
                         type: 'error', //warning
                         animation: {
@@ -1017,7 +1017,7 @@
                     $.noty.defaults.killer = true;
 
                     noty({
-                        text: '<p style="font-size:medium">Error! </p>' + 'Error occured while processing registration',
+                        text: '<p style="font-size:medium">Error! </p>' + $rootScope.translate('Error occured while processing registration'),
                         layout: 'topRight',
                         type: 'error',
                         animation: {

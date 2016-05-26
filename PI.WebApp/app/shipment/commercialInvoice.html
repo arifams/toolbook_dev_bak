@@ -58,7 +58,7 @@
                                     <td class="col-sm-6">
                                         <label translate>Terms of Delivery:</label>
                                         <select id="shipmentServices" class="form-control"
-                                                convert-to-number ng-options="service.Id as service.Name for service in invoiceCtrl.shipmentServices"
+                                                convert-to-number ng-options="service.Id as translate(service.Name) for service in invoiceCtrl.shipmentServices"
                                                 name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
                                         <br />
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">

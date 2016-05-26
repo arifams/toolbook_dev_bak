@@ -2,8 +2,8 @@
 
 (function (app) {
 
-    app.controller('disputeInvoiceCtrl', ['$route', '$scope', '$location', '$window', '$timeout', 'invoice', 'customerInvoiceFactory',
-        function ($route, $scope, $location, $window, $timeout, invoice, customerInvoiceFactory) {
+    app.controller('disputeInvoiceCtrl', ['$route', '$scope', '$location', '$window', '$timeout', 'invoice', 'customerInvoiceFactory','$rootScope',
+        function ($route, $scope, $location, $window, $timeout, invoice, customerInvoiceFactory, $rootScope) {
             var vm = this;
             $scope.isSubmit = false;
 
@@ -20,10 +20,10 @@
                         if (responce == 3) {                         
                                 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>' + ' Invoice disputed successfully.' + '</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Invoice disputed successfully') + '.</p></div>',
                                 buttons: [
                                         {
-                                            addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                 $scope.customerinvoiceCtrl.closeWindow();
                                                // $route.reload();
                                                 $noty.close();

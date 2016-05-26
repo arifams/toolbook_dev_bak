@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('commercialInvoiceCtrl', ['$window', '$scope', 'Upload', '$http', '$location', 'shipmentFactory', function ($window, $scope, Upload, $http, $location, shipmentFactory) {
+    app.controller('commercialInvoiceCtrl', ['$window', '$scope', 'Upload', '$http', '$location', 'shipmentFactory', '$rootScope', function ($window, $scope, Upload, $http, $location, shipmentFactory, $rootScope) {
 
         var userId = $window.localStorage.getItem('userGuid');
 
@@ -83,7 +83,7 @@
             .success(function (data) {
                 console.log('saved success');
                 $('#panel-notif').noty({
-                    text: '<div class="alert alert-success media fade in"><p>"Commercial invoice saved successfully"</p></div>',
+                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Commercial invoice saved successfully') + '</p></div>',
                     layout: 'bottom-right',
                     theme: 'made',
                     animation: {

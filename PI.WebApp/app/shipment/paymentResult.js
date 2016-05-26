@@ -3,8 +3,8 @@
 (function (app) {
 
     app.controller('paymentResultCtrl',
-       ['$location', '$window', 'shipmentFactory',
-           function ($location, $window, shipmentFactory) {
+       ['$location', '$window', 'shipmentFactory','$rootScope',
+           function ($location, $window, shipmentFactory, $rootScope) {
                var vm = this;
 
                vm.paymentMsgStatus = false;
@@ -53,7 +53,7 @@
                                 
                             }).error(function (error) {
                                 $('#panel-notif').noty({
-                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while adding the Shipment!</p></div>',
+                                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while adding the Shipment') + '!</p></div>',
                                         layout: 'bottom-right',
                                         theme: 'made',
                                         animation: {

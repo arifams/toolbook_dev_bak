@@ -27,7 +27,7 @@
         }
     })
 
-    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams) {
+    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope) {
 
         var vm = this;
         
@@ -46,7 +46,7 @@
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Address Detail saved successfully</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Address Detail saved successfully') + '</p></div>',
                         layout: 'bottom-right',
                         theme: 'made',
                         animation: {

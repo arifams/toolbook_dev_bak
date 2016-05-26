@@ -48,8 +48,8 @@
 
     }]);
 
-    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope',
-                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope) {
+    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope','$rootScope',
+                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope) {
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
@@ -208,10 +208,10 @@
                             // var statusChange = confirm("Are you sure you need to dispute this invoice ?");
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>Are you want to Dispute the Invoice:' + row.invoiceNumber + '?</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to Dispute the Invoice ') + row.invoiceNumber + '?</p></div>',
                                 buttons: [
                                         {
-                                            addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                 row.disputeComment = '';
 
                                                 ngDialog.open({
@@ -232,7 +232,7 @@
                                             }
                                         },
                                         {
-                                            addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
 
                                                 // updateProfile = false;
                                                 $noty.close();
