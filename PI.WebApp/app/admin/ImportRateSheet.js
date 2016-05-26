@@ -2,8 +2,8 @@
 
 (function (app) {
 
-    app.controller('loadRateSheetCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout',
-        function ($route, $scope, $location, $window, Upload, $timeout) {
+    app.controller('loadRateSheetCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout','$rootScope',
+        function ($route, $scope, $location, $window, Upload, $timeout, $rootScope) {
             var vm = this;
 
             vm.uploadRateSheet = function (file) {
@@ -28,10 +28,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' Rates records added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Rates records added successfully') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                             $route.reload();
                                             $noty.close();
 
@@ -67,10 +67,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-error media fade in"><p>' + ' Error occured.' + '</p></div>',
+                            text: '<div class="alert alert-error media fade in"><p> ' + $rootScope.translate('Error occured') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                             $route.reload();
                                             $noty.close();
 

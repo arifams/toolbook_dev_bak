@@ -803,21 +803,37 @@
                     <tab-heading translate>
                         CUSTOMIZE
                     </tab-heading>
-                    <form name="fomCustomize">
+                    <form name="formCustomize" class="ng-pristine ng-valid ng-scope">
                         <div class="row">
-                            <label class="col-sm-3 control-label">Upload Company Logo</label>
-                        </div>
-                        <div class="row">
-                            <label class="col-sm-3 control-label">Change Theme Color</label>
-                            <div class="col-sm-9">
-                                <div class="theme-color bg-dark" data-main="default" data-color="#2B2E33"></div>
-                                <div class="theme-color background-primary" data-main="primary" data-color="#319DB5"></div>
-                                <div class="theme-color bg-red" data-main="red" data-color="#C75757"></div>
-                                <div class="theme-color bg-green" data-main="green" data-color="#1DA079"></div>
-                                <div class="theme-color bg-orange" data-main="orange" data-color="#D28857"></div>
-                                <div class="theme-color bg-purple" data-main="purple" data-color="#B179D7"></div>
-                                <div class="theme-color bg-blue" data-main="blue" data-color="#4A89DC"></div>
+
+                            <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <label class="col-sm-3 control-label">Upload Company Logo</label>
+                                <div class="fileinput-new thumbnail">
+                                    <img alt="" class="img-responsive" src="" data-src="">
+                                </div>
+
+                                <span class="btn btn-default btn-file">
+                                    <span class="fileinput-new">Select image...</span><span class="fileinput-exists">Change</span>
+                                    <input type="hidden" value="" name="..."><input type="file" name="">
+                                </span>
+                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+
                             </div>
+                        </div>
+                        <div class="container p-0">
+                            <div class="row">
+                                <label class="col-sm-2 control-label">Select Theme Color</label>
+                                <div class="col-sm-4">
+                                    <div data-color="#2B2E33" data-main="default" class="theme-color bg-dark"></div>
+                                    <div data-color="#319DB5" data-main="primary" class="theme-color background-primary"></div>
+                                    <div data-color="#C75757" data-main="red" class="theme-color bg-red"></div>
+                                    <div data-color="#1DA079" data-main="green" class="theme-color bg-green"></div>
+                                    <div data-color="#D28857" data-main="orange" class="theme-color bg-orange"></div>
+                                    <div data-color="#B179D7" data-main="purple" class="theme-color bg-purple"></div>
+                                    <div data-color="#4A89DC" data-main="blue" class="theme-color bg-blue"></div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </form>
                 </tab>

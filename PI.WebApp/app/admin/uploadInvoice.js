@@ -2,13 +2,13 @@
 
 (function (app) {
 
-    app.controller('uploadInvoiceCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout', 'fromMethod','invoiceId',
-    function ($route, $scope, $location, $window, Upload, $timeout, fromMethod,invoiceId) {
+    app.controller('uploadInvoiceCtrl', ['$route', '$scope', '$location', '$window', 'Upload', '$timeout', 'fromMethod','invoiceId','$rootScope',
+    function ($route, $scope, $location, $window, Upload, $timeout, fromMethod, invoiceId, $rootScope) {
             var vm = this;
             $scope.from = fromMethod;
-            debugger;
+            
             $scope.uploadInvoice = function (file) {
-                debugger;
+                
                 if (fromMethod == 'creditNote') {
 
                     file.upload = Upload.upload({
@@ -25,7 +25,7 @@
                     });
                 }
                 else {
-                    debugger;
+                    
                     file.upload = Upload.upload({
                         url: serverBaseUrl + '/api/Admin/UploadInvoice',
                         data: {
@@ -42,7 +42,6 @@
 
                 file.upload.then(function (response) {
 
-                    debugger;
                     var body = $("html, body");
                     if (response.statusText = 'OK') {
 
@@ -52,10 +51,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' File(s) added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('File(s) added successfully') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {                                     
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {                                     
                                             $route.reload();
                                             $noty.close();
 
@@ -91,10 +90,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-error media fade in"><p>' + ' Error occured.' + '</p></div>',
+                            text: '<div class="alert alert-error media fade in"><p> ' + $rootScope.translate('Error occured') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                             $route.reload();
                                             $noty.close();
 

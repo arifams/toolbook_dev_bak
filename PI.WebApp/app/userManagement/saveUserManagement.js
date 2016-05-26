@@ -37,7 +37,7 @@
         }
     });
 
-    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', function ($location, $window, userManagementFactory) {
+    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', function ($location, $window, userManagementFactory, $rootScope) {
         var vm = this;
         vm.user = {};
 
@@ -94,7 +94,7 @@
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-warning media fade in"><p>There is already an user with the same email address!</p></div>',
+                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('There is already an user with the same email address') + '!</p></div>',
                         layout: 'bottom-right',
                         theme: 'made',
                         animation: {
@@ -107,7 +107,7 @@
 
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>User saved successfully!</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('User saved successfully') + '!</p></div>',
                         layout: 'bottom-right',
                         theme: 'made',
                         animation: {

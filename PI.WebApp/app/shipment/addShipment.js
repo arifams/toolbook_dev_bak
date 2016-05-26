@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope) {
 
         var vm = this;
         vm.user = {};
@@ -52,7 +52,6 @@
         vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
         vm.isClickCalculateRate = false;
         vm.addingRequestForQuote = false;
-       
 
         vm.closeWindow = function () {
             ngDialog.close()
@@ -592,9 +591,8 @@
                                 else {
                                     vm.addingShipment = false;
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
                                     $('#panel-notif').noty({
-                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate("Error occured while saving the Shipment") + '!</p></div>',
                                         layout: 'bottom-right',
                                         theme: 'made',
                                         animation: {
@@ -606,7 +604,7 @@
                                 }
                             }).error(function (error) {
                                 $('#panel-notif').noty({
-                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                     layout: 'bottom-right',
                                     theme: 'made',
                                     animation: {
@@ -634,7 +632,7 @@
                                 }
                                 else {
                                     $('#panel-notif').noty({
-                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                         layout: 'bottom-right',
                                         theme: 'made',
                                         animation: {
@@ -671,7 +669,7 @@
                             }).error(function (error) {
                                 
                                 $('#panel-notif').noty({
-                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while saving the Shipment!</p></div>',
+                                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                     layout: 'bottom-right',
                                     theme: 'made',
                                     animation: {
@@ -811,7 +809,7 @@
 
                                 if (response.status == 2) {
                                     $('#panel-notif').noty({
-                                        text: '<div class="alert alert-success media fade in"><p>Successfully request the quote!</p></div>',
+                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Successfully request the quote') + '!</p></div>',
                                         layout: 'bottom-right',
                                         theme: 'made',
                                         animation: {
@@ -826,7 +824,7 @@
                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
                                     $('#panel-notif').noty({
-                                        text: '<div class="alert alert-danger media fade in"><p>Error occured while requesting the quote!</p></div>',
+                                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while requesting the quote') + '!</p></div>',
                                         layout: 'bottom-right',
                                         theme: 'made',
                                         animation: {
@@ -838,7 +836,7 @@
                                 }
                             }).error(function (error) {
                                 $('#panel-notif').noty({
-                                    text: '<div class="alert alert-danger media fade in"><p>Error occured while requesting the quote!</p></div>',
+                                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while requesting the quote') + '!</p></div>',
                                     layout: 'bottom-right',
                                     theme: 'made',
                                     animation: {

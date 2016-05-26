@@ -24,8 +24,8 @@
         gettextCatalog.debug = true;
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope',
-    function (userManager, $window, $cookieStore, $scope) {
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope',
+    function (userManager, $window, $cookieStore, $scope, $rootScope) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -112,7 +112,7 @@
                      $.noty.defaults.killer = true;
 
                      noty({
-                         text: '<p style="font-size:medium">Error! </p>' + returnedResult.data.message,
+                         text: '<p style="font-size:medium">' + $rootScope.translate('Error') + '! </p>' + returnedResult.data.message,
                          layout: 'topRight',
                          type: 'warning',
                          animation: {
@@ -132,7 +132,7 @@
                  }
                  else if (returnedResult.data.result == "-11") {
                      vm.loginInvalid = true;
-                     vm.loginInvalidMessage = "You must have a confirmed email to log in";
+                     vm.loginInvalidMessage = $rootScope.translate("You must have a confirmed email to log in");
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
                  }
@@ -160,17 +160,17 @@
                  else if (returnedResult.data == "-1") {
                      //No account find by this email.
                      vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = "No account found by this email. Please enter registered Email";
+                     vm.passwordResetErrorMsg = $rootScope.translate("No account found by this email. Please enter registered Email");
                  }
                  else if (returnedResult.data == "-11") {
                      //No account find by this email.
                      vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = "You must have a confirmed email to log in.";
+                     vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in");
                  }
              },
             function (error) {
                 vm.passwordResetError = true;
-                vm.passwordResetErrorMsg = "Server error occured while reseting password";
+                vm.passwordResetErrorMsg = $rootScope.translate("Server error occured while reseting password");
             });
         };
 
