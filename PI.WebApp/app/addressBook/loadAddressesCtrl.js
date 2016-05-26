@@ -51,7 +51,7 @@
         }
     });
 
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope) {
         var vm = this;
         vm.stream = {};
      
@@ -129,10 +129,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' Address records added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                             $route.reload();
                                             $noty.close();
 
@@ -152,10 +152,10 @@
 
                     } else {
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p> Invalid data import format.</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p> ' + $rootScope.translate('Invalid data import format') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                             $noty.close();
 
@@ -179,10 +179,10 @@
             } else {
                 //  alert("No file uploaded");
                 $('#panel-notif').noty({
-                    text: '<div class="alert alert-warning media fade in"><p>No File uploaded for import</p></div>',
+                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('No File uploaded for import') + '</p></div>',
                     buttons: [
                             {
-                                addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                     $noty.close();
 
@@ -349,10 +349,10 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' Address records added successfully.' + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
                             buttons: [
                                     {
-                                        addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                             $route.reload();
                                             $noty.close();
 
@@ -390,10 +390,10 @@
         vm.deleteById = function (row) {
 
             $('#panel-notif').noty({
-                text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to delete') + '?</p></div>',
                 buttons: [
                         {
-                            addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                 addressManagmentService.deleteAddress({ Id: row.id })
                                 .success(function (response) {
@@ -413,7 +413,7 @@
                             }
                         },
                         {
-                            addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
 
                                 // updateProfile = false;
                                 $noty.close();

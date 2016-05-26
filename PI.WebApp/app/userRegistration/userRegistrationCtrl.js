@@ -954,7 +954,7 @@
     }]);
 
     app.controller('userRegistrationCtrl', 
-        ['registerUserService', '$window', function (registerUserService, $window) {
+        ['registerUserService', '$window', '$rootScope', function (registerUserService, $window, $rootScope) {
 
         var vm = this;
         vm.user = {};
@@ -997,7 +997,7 @@
                     $.noty.defaults.killer = true;
 
                     noty({
-                        text: '<p style="font-size:medium">Error! </p>' + 'Email address is already in use.',
+                        text: '<p style="font-size:medium">Error! </p>' + $rootScope.translate('Email address is already in use'),
                         layout: 'topRight',
                         type: 'error', //warning
                         animation: {
@@ -1017,7 +1017,7 @@
                     $.noty.defaults.killer = true;
 
                     noty({
-                        text: '<p style="font-size:medium">Error! </p>' + 'Error occured while processing registration',
+                        text: '<p style="font-size:medium">Error! </p>' + $rootScope.translate('Error occured while processing registration'),
                         layout: 'topRight',
                         type: 'error',
                         animation: {

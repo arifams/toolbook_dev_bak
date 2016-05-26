@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory',
-                       function ($scope, $location, $window, shipmentFactory) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory','$rootScope',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope) {
 
                            var vm = this;
                            vm.statusButton = 'All';
@@ -41,10 +41,10 @@
                            vm.deleteById = function (row) {
 
                                $('#panel-notif').noty({
-                                   text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                                   text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to delete') + '?</p></div>',
                                    buttons: [
                                            {
-                                               addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                                    shipmentFactory.deleteShipment(row)
                                                    .success(function (response) {
@@ -65,7 +65,7 @@
                                                }
                                            },
                                            {
-                                               addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                               addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
 
                                                    // updateProfile = false;
                                                    $noty.close();

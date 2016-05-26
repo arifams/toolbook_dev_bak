@@ -108,8 +108,8 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window',
-            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window','$rootScope',
+            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window, $rootScope) {
 
                 // return if user not logged. -- Need to move this to global service.
                 if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
@@ -226,7 +226,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -244,10 +244,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
                                         vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
@@ -263,7 +263,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
+                                                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Profile Updated Successfully') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -281,7 +281,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-success media fade in"><p>We have send the username change confirmation email. Please confirm before login</p></div>',
+                                                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have send the username change confirmation email. Please confirm before login') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -298,7 +298,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
+                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exist') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -316,7 +316,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
+                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Old password You Entered is Invalid') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -334,7 +334,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
+                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Profile Update Failed') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -355,7 +355,7 @@
                                                             });
 
                                                             $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                                 layout: 'bottom-right',
                                                                 theme: 'made',
                                                                 animation: {
@@ -370,7 +370,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
                                         
                                         // updateProfile = false;
                                         $noty.close();
@@ -470,10 +470,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
                                         vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
@@ -490,7 +490,7 @@
                                                     });
 
                                                     $('#panel-notif').noty({
-                                                        text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                         layout: 'bottom-right',
                                                         theme: 'made',
                                                         animation: {
@@ -503,7 +503,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
 
                                         $noty.close();
                                         return;
@@ -531,10 +531,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
                                         
@@ -550,7 +550,7 @@
                                                             });
 
                                                             $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                                 layout: 'bottom-right',
                                                                 theme: 'made',
                                                                 animation: {
@@ -563,7 +563,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
                                         $noty.close();
                                         return;
                                     }
@@ -590,10 +590,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
 
@@ -609,7 +609,7 @@
                                                             });
 
                                                             $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                                 layout: 'bottom-right',
                                                                 theme: 'made',
                                                                 animation: {
@@ -622,7 +622,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
                                         $noty.close();
                                         return;
                                     }
@@ -651,7 +651,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>New Password Cannot be same as old Password</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -668,10 +668,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
                                         
@@ -686,7 +686,7 @@
                                                             });
 
                                                             $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                                 layout: 'bottom-right',
                                                                 theme: 'made',
                                                                 animation: {
@@ -699,7 +699,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
                                         $noty.close();
                                         return;
                                     }
@@ -734,10 +734,10 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>Are you want to update the Profile?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
-                                    addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
 
@@ -752,7 +752,7 @@
                                                             });
 
                                                             $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>Server Error Occured</p></div>',
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
                                                                 layout: 'bottom-right',
                                                                 theme: 'made',
                                                                 animation: {
@@ -765,7 +765,7 @@
                                     }
                                 },
                                 {
-                                    addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
                                         $noty.close();
                                         return;
                                     }
@@ -791,7 +791,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>Profile Updated Successfully</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Profile Updated Successfully') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -807,7 +807,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>We have send the username change confirmation email. Please confirm before login</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have send the username change confirmation email. Please confirm before login') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -822,7 +822,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>Email You Entered is Already Exist</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exist') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -837,7 +837,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>Old password You Entered is Invalid</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Old password You Entered is Invalid') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
@@ -852,7 +852,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>Profile Update Failed</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Profile Update Failed') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {

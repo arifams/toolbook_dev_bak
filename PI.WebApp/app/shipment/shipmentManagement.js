@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory','ngDialog','$controller',
-                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller) {
+    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory','ngDialog','$controller','$rootScope',
+                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope) {
 
                            var vm = this;
                            vm.searchText = '';
@@ -17,10 +17,10 @@
 
                                row.generalInformation.manualStatusUpdatedDate = Date();
                                $('#panel-notif').noty({
-                                   text: '<div class="alert alert-success media fade in"><p>Are you want to update?</p></div>',
+                                   text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update') + '?</p></div>',
                                    buttons: [
                                            {
-                                               addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                                    shipmentFactory.UpdateshipmentStatusManually(row)
                                                    .success(function (response) {
@@ -38,7 +38,7 @@
                                                }
                                            },
                                            {
-                                               addClass: 'btn btn-danger', text: 'Cancel', onClick: function ($noty) {
+                                               addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
 
                                                    // updateProfile = false;
                                                    $noty.close();
@@ -62,10 +62,10 @@
                            vm.deleteById = function (row) {
 
                                $('#panel-notif').noty({
-                                   text: '<div class="alert alert-success media fade in"><p>Are you want to delete?</p></div>',
+                                   text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to delete') + '?</p></div>',
                                    buttons: [
                                            {
-                                               addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                                    shipmentFactory.deleteShipmentbyAdmin(row)
                                                    .success(function (response) {

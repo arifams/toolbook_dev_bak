@@ -5,8 +5,8 @@
 (function (app) {
 
     app.controller('BillingandInvoicingCtrl',
-       ['$location', '$window', 'adminFactory', 'ngDialog', '$controller', '$scope',
-           function ($location, $window, adminFactory, ngDialog, $controller, $scope) {
+       ['$location', '$window', 'adminFactory', 'ngDialog', '$controller', '$scope', '$rootScope',
+           function ($location, $window, adminFactory, ngDialog, $controller, $scope, $rootScope) {
                var vm = this;
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
@@ -171,23 +171,22 @@
                    });
 
                    $('#panel-notif').noty({
-                       text: '<div class="alert alert-success media fade in"><p>Are you want to update the invoice status?</p></div>',
+                       text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the invoice status') + '?</p></div>',
                        buttons: [
                                {
-                                   addClass: 'btn btn-primary', text: 'Ok', onClick: function ($noty) {
+                                   addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                        $noty.close();
                                        
                                        adminFactory.updateInvoiceStatus(row)
                                                   .success(
                                                          function (responce) {
-                                                             debugger;
                                                              row.invoiceStatus = responce;
                                                              $('#panel-notif').noty({
-                                                                 text: '<div class="alert alert-success media fade in"><p>' + ' Invoice updated successfully.' + '</p></div>',
+                                                                 text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Invoice updated successfully') + '.</p></div>',
                                                                  buttons: [
                                                                          {
-                                                                             addClass: 'btn btn-primary', text: 'Yes', onClick: function ($noty) {                                                      
+                                                                             addClass: 'btn btn-primary', text: $rootScope.translate('Yes'), onClick: function ($noty) {                                                      
                                                                                  $noty.close();
                                                                              }
                                                                          }
@@ -208,7 +207,7 @@
                                    }
                                },
                                {
-                                   addClass: 'btn btn-danger', text: 'No', onClick: function ($noty) {
+                                   addClass: 'btn btn-danger', text: $rootScope.translate('No'), onClick: function ($noty) {
                                        
                                        $noty.close();
                                        return;

@@ -26,8 +26,8 @@
     })
 
     app.controller('saveDivisionCtrl',
-       ['divisionManagmentFactory', 'divisionService', '$location', '$window',
-           function (divisionManagmentFactory, divisionService, $location, $window) {
+       ['divisionManagmentFactory', 'divisionService', '$location', '$window','$rootScope',
+           function (divisionManagmentFactory, divisionService, $location, $window, $rootScope) {
                var vm = this;
            
                vm.saveDivision = function () {
@@ -38,7 +38,7 @@
                         if (result == -1) {
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>A division with the same name/description already exists!</p></div>',
+                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('A division with the same name/description already exists') + '!</p></div>',
                                 layout: 'bottom-right',
                                 theme: 'made',
                                 animation: {
@@ -50,7 +50,7 @@
                         } else {
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>"Division saved successfully"</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Division saved successfully') + '</p></div>',
                                 layout: 'bottom-right',
                                 theme: 'made',
                                 animation: {
