@@ -14,20 +14,23 @@ msgstr ""
 
 #: app/costcenter/saveCostCenter.html:18 app/divisions/saveDivision.html:23
 #: app/userManagement/saveUserManagement.html:19
+#, fuzzy
 msgid "* Indicates mandatory fields."
-msgstr ""
+msgstr "* Zeigt Pflichtfelder."
 
 #: app/shipment/addShipment.html:98
+#, fuzzy
 msgid "-Select Cost Center-"
-msgstr ""
+msgstr "-Select Kosten Center-"
 
 #: app/shipment/addShipment.html:78
+#, fuzzy
 msgid "-Select Division-"
-msgstr ""
+msgstr "-Select Division-"
 
 #: app/reports/ShipmentReport.html:60
 msgid "-Select a carrier-"
-msgstr ""
+msgstr "Auswählen- Carrier-"
 
 #: app/profileInformation/profileInformation.html:598
 #: app/profileInformation/profileInformation.html:651
@@ -36,39 +39,43 @@ msgstr ""
 #: app/userRegistration/userRegistration.html:172
 #: app/userRegistration/userRegistration.html:398
 msgid "2 passwords must be the same"
-msgstr ""
+msgstr "Beide Passwörter müssen identisch sein"
 
 #: app/profileInformation/profileInformation.html:677
+#, fuzzy
 msgid "ACCOUNT SETTINGS"
-msgstr ""
+msgstr "Kontoeinstellungen"
 
 #: app/index.html:153
+#, fuzzy
 msgid "ADD SHIPMENT"
-msgstr ""
+msgstr "ADD VERSAND"
 
 #: app/profileInformation/profileInformation.html:179
 msgid "ADDRESS"
-msgstr ""
+msgstr "ADRESSE"
 
 #: app/index.html:177
+#, fuzzy
 msgid "ADDRESS BOOK"
-msgstr ""
+msgstr "Adressbuch"
 
 #: app/admin/BillingandInvoicing.html:8
+#, fuzzy
 msgid "ALL INVOICES"
-msgstr ""
+msgstr "Alle Rechnungen"
 
 #: app/shipment/addShipment.html:727
 msgid "Accessible"
-msgstr ""
+msgstr "Verfügbar"
 
 #: app/addressBook/saveAddress.html:103
 msgid "Account Number"
-msgstr ""
+msgstr "Kontonummer"
 
 #: app/profileInformation/profileInformation.html:15
 msgid "Account Type"
-msgstr ""
+msgstr "Accounttyp"
 
 #: app/addressBook/loadAddresses.html:42 app/addressBook/saveAddress.html:221
 #: app/admin/loadAllCompanies.html:33 app/costcenter/loadCostCenters.html:51
@@ -77,81 +84,91 @@ msgstr ""
 #: app/shipment/shipmentManagement.html:39
 #: app/userManagement/loadUserManagement.html:62
 msgid "Active"
-msgstr ""
+msgstr "Aktiv"
 
 #: app/admin/loadAllCompanies.html:69
+#, fuzzy
 msgid "Active Shipments"
-msgstr ""
+msgstr "Aktive Lieferungen"
 
 #: app/costcenter/loadCostCenters.html:2
+#, fuzzy
 msgid "Add  Cost Center"
-msgstr ""
+msgstr "Kostenstelle"
 
 #: app/addressBook/loadAddresses.html:4 app/addressBook/saveAddress.html:2
 msgid "Add Address"
-msgstr ""
+msgstr "Adresse hinzufügen"
 
 #: app/costcenter/saveCostCenter.html:2
+#, fuzzy
 msgid "Add Cost Center"
-msgstr ""
+msgstr "Kostenstelle"
 
 #: app/divisions/loadDivisions.html:5 app/divisions/saveDivision.html:2
+#, fuzzy
 msgid "Add Division"
-msgstr ""
+msgstr "In der Division"
 
 #: app/admin/BillingandInvoicing.html:16
 msgid "Add Invoice"
-msgstr ""
+msgstr "Rechnung hinzufügen"
 
 #: app/shipment/shipmentManagement.html:22
+#, fuzzy
 msgid "Add Shipment"
-msgstr ""
+msgstr "In Versand"
 
 #: app/userManagement/loadUserManagement.html:3
 #: app/userManagement/saveUserManagement.html:2
 msgid "Add User"
-msgstr ""
+msgstr "Benutzer hinzufügen"
 
 #: app/shipment/addShipment.html:192 app/shipment/addShipment.html:363
+#, fuzzy
 msgid "Add text before search"
-msgstr ""
+msgstr "Fügen Sie Text vor Such"
 
 #: app/shipment/addShipment.html:24
+#, fuzzy
 msgid "Adding shipment for customer"
-msgstr ""
+msgstr "Hinzufügen Versand für Kunden"
 
 #: app/shipment/addShipment.html:1015 app/shipment/addShipment.html:925
 msgid "Adding..."
-msgstr ""
+msgstr "Hinzufügen ..."
 
 #: app/shipment/addShipment.html:429
 #: app/userRegistration/userRegistration.html:269
 msgid "Additional address information"
-msgstr ""
+msgstr "Zusätzliche Adressinformationen"
 
 #: app/shipment/addShipment.html:257
+#, fuzzy
 msgid "Additional address information*"
-msgstr ""
+msgstr "Zusätzliche Adressinformationen*"
 
 #: app/shipment/printManifest.html:127 app/shipment/printManifest.html:216
 msgid "Address"
-msgstr ""
+msgstr "Anschrift"
 
 #: app/addressBook/saveAddress.html:117
 msgid "Address Details"
-msgstr ""
+msgstr "Adressdaten"
 
 #: app/shipment/addShipment.html:392
 msgid "Address Details*"
-msgstr ""
+msgstr "Adressdaten"
 
 #: app/addressBook/saveAddress.html:165
+#, fuzzy
 msgid "Address1 is required"
-msgstr ""
+msgstr "Address1 erforderlich"
 
 #: app/shipment/addShipment.html:112
+#, fuzzy
 msgid "Air Freight"
-msgstr ""
+msgstr "LUFTFRACHT"
 
 #: app/admin/BillingandInvoicing.html:31 app/admin/loadAllCompanies.html:29
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:16
@@ -161,704 +178,778 @@ msgstr ""
 #: app/userManagement/loadUserManagement.html:51
 #: app/userManagement/loadUserManagement.html:61
 msgid "All"
-msgstr ""
+msgstr "Alle"
 
 #: app/shipment/loadAllShipments.html:3
+#, fuzzy
 msgid "All Shipments"
-msgstr ""
+msgstr "Alle Sendungen"
 
 #: app/adminLogin/adminLogin.html:96 app/userLogin/userLogin.html:104
 #: app/userRegistration/userRegistration.html:460
 msgid "All rights reserved."
-msgstr ""
+msgstr "Alle Rechte vorbehalten."
 
 #: app/shipment/commercialInvoice.html:130
+#, fuzzy
 msgid "Article-/typenumber/description ( Trademark: see above )"
-msgstr ""
+msgstr "Artikel- / Typennummer / Beschreibung (Marke: siehe oben)"
 
 #: app/divisions/loadDivisions.html:74
+#, fuzzy
 msgid "Assigned Cost Centers"
-msgstr ""
+msgstr "Assigned Kostenstellen"
 
 #: app/shipment/addShipment.html:87
 msgid "Assigned CostCenter*"
-msgstr ""
+msgstr "Kostenstellen*"
 
 #: app/userManagement/loadUserManagement.html:81
 msgid "Assigned Division(s)"
-msgstr ""
+msgstr "Abteilung (en)"
 
 #: app/userManagement/saveUserManagement.html:161
 msgid "Assigned Division(s) *"
-msgstr ""
+msgstr "Abteilung (n) *"
 
 #: app/costcenter/loadCostCenters.html:68
 #: app/costcenter/saveCostCenter.html:175
 msgid "Assigned Divisions"
-msgstr ""
+msgstr "Divisionen"
 
 #: app/profileInformation/profileInformation.html:385
 msgid "BILLING ADDRESS"
-msgstr ""
+msgstr "RECHNUNGSADRESSE"
 
 #: app/index.html:189
+#, fuzzy
 msgid "BILLING AND INVOICING"
-msgstr ""
+msgstr "Abrechnung und Inrechnungstellung"
 
 #: app/shipment/ShipmentOverview.html:91
+#, fuzzy
 msgid "BOOKING CONFIRMATION"
-msgstr ""
+msgstr "Anfragebestätigung"
 
 #: app/adminLogin/adminLogin.html:81 app/userLogin/userLogin.html:89
 msgid "Back to login"
-msgstr ""
+msgstr "Zurück zur Anmeldung"
 
 #: app/addressBook/loadAddresses.html:140
 #: app/costcenter/loadCostCenters.html:69 app/costcenter/saveCostCenter.html:62
 #: app/profileInformation/profileInformation.html:391
 msgid "Billing Address"
-msgstr ""
+msgstr "Rechnungsadresse"
 
 #: app/profileInformation/profileInformation.html:518
 msgid "Billing Email"
-msgstr ""
+msgstr "Rechnung E-Mail"
 
 #: app/profileInformation/profileInformation.html:744
 #: app/shipment/shipmentManagement.html:138
 msgid "Booking Confirmation"
-msgstr ""
+msgstr "Buchungsbestätigung"
 
 #: app/admin/BillingandInvoicing.html:112
 #: app/admin/BillingandInvoicing.html:226
 msgid "Business Owner"
-msgstr ""
+msgstr "Geschäftsinhaber"
 
 #: app/shipment/ShipmentOverview.html:39
 msgid "CARRIER"
-msgstr ""
+msgstr "Carrier"
 
 #: app/shipment/ShipmentOverview.html:182
+#, fuzzy
 msgid "COMMERCIAL INVOICE"
-msgstr ""
+msgstr "HANDELSRECHNUNG"
 
 #: app/index.html:176
+#, fuzzy
 msgid "COST CENTER MANAGEMENT"
-msgstr ""
+msgstr "Kostenstellenmanagement"
 
 #: app/index.html:135
+#, fuzzy
 msgid "CUSTOMER MANAGEMENT"
-msgstr ""
+msgstr "Kundenverwaltung"
 
 #: app/shipment/addShipment.html:910
+#, fuzzy
 msgid "Calculate Rates"
-msgstr ""
+msgstr "Berechnen Preise"
 
 #: app/billingandInvoicing/DisputeInvoice.html:38
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 #: app/reports/ShipmentReport.html:54 app/shipment/addShipment.html:935
 #: app/shipment/addShipment.html:978 app/shipment/loadAllShipments.html:98
 #: app/shipment/printLabel.html:68 app/shipment/shipmentManagement.html:114
 msgid "Carrier"
-msgstr ""
+msgstr "Versandunternehmen"
 
 #: app/shipment/printManifest.html:57
 msgid "Carrier *"
-msgstr ""
+msgstr "Carrier"
 
 #: app/shipment/addShipment.html:753
 msgid "Carrier Instructions"
-msgstr ""
+msgstr "Carrier"
 
 #: app/shipment/printManifest.html:69
+#, fuzzy
 msgid "Carrier is required"
-msgstr ""
+msgstr "Carrier ist erforderlich"
 
 #: app/profileInformation/profileInformation.html:353
+#, fuzzy
 msgid "Chamber of Commerce Number"
-msgstr ""
+msgstr "IHK-Nummer"
 
 #: app/admin/loadAllCompanies.html:67
 msgid "City"
-msgstr ""
+msgstr "Ort"
 
 #: app/costcenter/saveCostCenter.html:146
 #: app/profileInformation/profileInformation.html:264
 #: app/profileInformation/profileInformation.html:484
 msgid "City *"
-msgstr ""
+msgstr "Stadt*"
 
 #: app/addressBook/saveAddress.html:194 app/costcenter/saveCostCenter.html:151
 msgid "City is required"
-msgstr ""
+msgstr "Ort ist erforderlich"
 
 #: app/addressBook/saveAddress.html:185 app/shipment/addShipment.html:266
 #: app/shipment/addShipment.html:437
+#, fuzzy
 msgid "City*"
-msgstr ""
+msgstr "Wohnort*"
 
 #: app/shipment/addShipment.html:342 app/shipment/addShipment.html:513
 msgid "Clear All"
-msgstr ""
+msgstr "Alles löschen"
 
 #: app/shipment/paymentResult.html:20
+#, fuzzy
 msgid "Click here to open the Label"
-msgstr ""
+msgstr "Klicken Sie hier, um das Etikett zu öffnen"
 
 #: app/shipment/ShipmentOverview.html:58
 msgid "Click here to view"
-msgstr ""
+msgstr "Zum Anzeigen hier klicken"
 
 #: app/costcenter/saveCostCenter.html:213 app/divisions/saveDivision.html:94
 #: app/userManagement/saveUserManagement.html:197
 msgid "Close"
-msgstr ""
+msgstr "Schließen"
 
 #: app/shipment/printManifest.html:165
+#, fuzzy
 msgid "Code/Service"
-msgstr ""
+msgstr "Code / Dienstleistung"
 
 #: app/shipment/commercialInvoice.html:118
+#, fuzzy
 msgid "Colli Number/Reference"
-msgstr ""
+msgstr "Colli Nummer / Referenz"
 
 #: app/addressBook/loadAddresses.html:138
 msgid "Company"
-msgstr ""
+msgstr "Firma"
 
 #: app/addressBook/saveAddress.html:17 app/shipment/AddressViewTemplate.html:7
 msgid "Company Name"
-msgstr ""
+msgstr "Firmenname"
 
 #: app/profileInformation/profileInformation.html:35
+#, fuzzy
 msgid "Company Name *"
-msgstr ""
+msgstr "Firmenname"
 
 #: app/userRegistration/userRegistration.html:208
+#, fuzzy
 msgid "Company name *"
-msgstr ""
+msgstr "Firmenname"
 
 #: app/shipment/loadAllShipments.html:31
 #: app/shipment/shipmentManagement.html:42
 msgid "Completed"
-msgstr ""
+msgstr "Abgeschlossen"
 
 #: app/shipment/addShipment.html:124
+#, fuzzy
 msgid "Condition*"
-msgstr ""
+msgstr "Zustand"
 
 #: app/billingandInvoicing/DisputeInvoice.html:39
 msgid "Confirm"
-msgstr ""
+msgstr "Bestätigen"
 
 #: app/profileInformation/profileInformation.html:639
 #: app/resetPassword/resetPassword.html:47
 msgid "Confirm Password"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 #: app/userManagement/saveUserManagement.html:127
 #: app/userManagement/saveUserManagement.html:130
 msgid "Confirm Password *"
-msgstr ""
+msgstr "Passwort bestätigen *"
 
 #: app/userRegistration/userRegistration.html:165
+#, fuzzy
 msgid "Confirm your password *"
-msgstr ""
+msgstr "Bestätigen Sie Ihr Passwort"
 
 #: app/shipment/addShipment.html:366
+#, fuzzy
 msgid "Consignee"
-msgstr ""
+msgstr "Empfänger"
 
 #: app/shipment/addShipment.html:474
 msgid "Consignee Contact Name is required"
-msgstr ""
+msgstr "Kontakt Name ist erforderlich"
 
 #: app/shipment/addShipment.html:488
 msgid "Consignee Contact is required"
-msgstr ""
+msgstr "Kontakt ist erforderlich"
 
 #: app/shipment/addShipment.html:348 app/shipment/addShipment.html:865
 msgid "Consignee Details"
-msgstr ""
+msgstr "Einzelheiten"
 
 #: app/shipment/addShipment.html:503
 msgid "Consignee Email is required"
-msgstr ""
+msgstr "E-Mail ist erforderlich"
 
 #: app/shipment/addShipment.html:375
+#, fuzzy
 msgid "Consignee First Name is required"
-msgstr ""
+msgstr "Vorname ist erforderlich"
 
 #: app/shipment/addShipment.html:385
 msgid "Consignee Last Name is required"
-msgstr ""
+msgstr "Nachname ist erforderlich"
 
 #: app/shipment/printManifest.html:162
 msgid "Consignee Name"
-msgstr ""
+msgstr "Name"
 
 #: app/shipment/addShipment.html:422
 msgid "Consignee Number is required"
-msgstr ""
+msgstr "Anzahl ist erforderlich"
 
 #: app/shipment/addShipment.html:400
 msgid "Consignee Postal/Zip code is required"
-msgstr ""
+msgstr "Postal / Postleitzahl ist erforderlich"
 
 #: app/shipment/addShipment.html:412
 msgid "Consignee Street name is required"
-msgstr ""
+msgstr "Straßenname ist erforderlich"
 
 #: app/shipment/addShipment.html:442
 msgid "Consignee city is required"
-msgstr ""
+msgstr "Stadt ist erforderlich"
 
 #: app/shipment/addShipment.html:452
 msgid "Consignee state is required"
-msgstr ""
+msgstr "Staat ist erforderlich"
 
 #: app/shipment/addShipment.html:195
+#, fuzzy
 msgid "Consignor"
-msgstr ""
+msgstr "Versender"
 
 #: app/shipment/addShipment.html:163
+#, fuzzy
 msgid "Consignor & Consignee Information"
-msgstr ""
+msgstr "Einlieferer & Consignee Informationen"
 
 #: app/shipment/addShipment.html:302
 msgid "Consignor Contact Name is required"
-msgstr ""
+msgstr "Kontakt Name ist erforderlich"
 
 #: app/shipment/addShipment.html:316
 msgid "Consignor Contact is required"
-msgstr ""
+msgstr "Kontakt ist erforderlich"
 
 #: app/shipment/addShipment.html:177 app/shipment/addShipment.html:854
+#, fuzzy
 msgid "Consignor Details"
-msgstr ""
+msgstr "Einbringer-Details"
 
 #: app/shipment/addShipment.html:331
+#, fuzzy
 msgid "Consignor Email is required"
-msgstr ""
+msgstr "Einlieferer E-Mail ist erforderlich"
 
 #: app/shipment/addShipment.html:204
+#, fuzzy
 msgid "Consignor First Name is required"
-msgstr ""
+msgstr "Vorname ist erforderlich"
 
 #: app/shipment/addShipment.html:214
 msgid "Consignor Last Name is required"
-msgstr ""
+msgstr "Nachname ist erforderlich"
 
 #: app/shipment/addShipment.html:250
 msgid "Consignor Number is required"
-msgstr ""
+msgstr "Anzahl ist erforderlich"
 
 #: app/shipment/addShipment.html:229
 msgid "Consignor Postal/Zip code is required"
-msgstr ""
+msgstr "Postal / Postleitzahl ist erforderlich"
 
 #: app/shipment/addShipment.html:281
 msgid "Consignor State is required"
-msgstr ""
+msgstr "Staat verpflichtet ist,"
 
 #: app/shipment/addShipment.html:240
 msgid "Consignor Street name is required"
-msgstr ""
+msgstr "Straßenname ist erforderlich"
 
 #: app/shipment/addShipment.html:271
 msgid "Consignor city is required"
-msgstr ""
+msgstr "Stadt ist erforderlich"
 
 #: app/shipment/addShipment.html:294 app/shipment/addShipment.html:299
 #: app/shipment/addShipment.html:466 app/shipment/addShipment.html:471
+#, fuzzy
 msgid "Contact Name*"
-msgstr ""
+msgstr "Kontakt Name"
 
 #: app/shipment/addShipment.html:308 app/shipment/addShipment.html:313
 #: app/shipment/addShipment.html:480 app/shipment/addShipment.html:485
+#, fuzzy
 msgid "Contact Number*"
-msgstr ""
+msgstr "Kontaktnummer"
 
 #: app/shipment/addShipment.html:322 app/shipment/addShipment.html:494
+#, fuzzy
 msgid "Contact email Address"
-msgstr ""
+msgstr "Kontakt E-Mail-Adresse"
 
 #: app/adminLogin/adminLogin.html:96 app/userLogin/userLogin.html:104
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: app/resetPassword/resetPassword.html:77
+#, fuzzy
 msgid "Copyright © 2016 Parcel International. All rights reserved."
-msgstr ""
+msgstr "Copyright © 2016 Parcel International. Alle Rechte vorbehalten."
 
 #: app/profileInformation/profileInformation.html:24
+#, fuzzy
 msgid "Corporate Account"
-msgstr ""
+msgstr "Firmen Account"
 
 #: app/admin/BillingandInvoicing.html:113
 #: app/admin/BillingandInvoicing.html:227 app/admin/loadAllCompanies.html:66
 #: app/shipment/CompanyViewTemplate.html:7
+#, fuzzy
 msgid "Corporate Name"
-msgstr ""
+msgstr "Firmenbezeichnung"
 
 #: app/costcenter/loadCostCenters.html:67 app/shipment/printManifest.html:161
 msgid "Cost Center"
-msgstr ""
+msgstr "Kostenstelle"
 
 #: app/costcenter/saveCostCenter.html:37
+#, fuzzy
 msgid "Cost Center Description"
-msgstr ""
+msgstr "Kostenstellenbeschreibung"
 
 #: app/costcenter/saveCostCenter.html:23
+#, fuzzy
 msgid "Cost Center Name *"
-msgstr ""
+msgstr "Kostenstellen Name *"
 
 #: app/costcenter/saveCostCenter.html:28
+#, fuzzy
 msgid "Cost Center Name is required"
-msgstr ""
+msgstr "Kostenstellen Name ist erforderlich"
 
 #: app/divisions/loadDivisions.html:44
+#, fuzzy
 msgid "Costcenter: All"
-msgstr ""
+msgstr "Costcenter: Alle"
 
 #: app/profileInformation/profileInformation.html:185
 msgid "Country"
-msgstr ""
+msgstr "Land"
 
 #: app/addressBook/saveAddress.html:123 app/costcenter/saveCostCenter.html:70
 #: app/profileInformation/profileInformation.html:406
 msgid "Country *"
-msgstr ""
+msgstr "Land *"
 
 #: app/shipment/commercialInvoice.html:76
+#, fuzzy
 msgid "Country of destinations"
-msgstr ""
+msgstr "Land Destinationen"
 
 #: app/shipment/commercialInvoice.html:71
+#, fuzzy
 msgid "Country of orgins"
-msgstr ""
+msgstr "Land orgins"
 
 #: app/profileInformation/profileInformation.html:607
 msgid "Create New Password"
-msgstr ""
+msgstr "Neues Passwort erstellen"
 
 #: app/admin/loadAllCompanies.html:63
 msgid "Created Date"
-msgstr ""
+msgstr "Erstellungsdatum"
 
 #: app/shipment/commercialInvoice.html:134
 msgid "Currency"
-msgstr ""
+msgstr "Währung"
 
 #: app/shipment/TrackAndTrace.html:76
+#, fuzzy
 msgid "Current Packege Location"
-msgstr ""
+msgstr "Aktuelle Packege Ort"
 
 #: app/reports/ShipmentReport.html:15
 #: app/userRegistration/userRegistration.html:202
 #: app/userRegistration/userRegistration.html:25
 msgid "Customer"
-msgstr ""
+msgstr "Kunde"
 
 #: app/shipment/commercialInvoice.html:37
 msgid "Customer Number"
-msgstr ""
+msgstr "Kundennummer"
 
 #: app/shipment/ShipmentOverview.html:112
 msgid "DELIVERED"
-msgstr ""
+msgstr "GELIEFERT"
 
 #: app/shipment/TrackAndTrace.html:20 app/shipment/printManifest.html:64
 msgid "DHL"
-msgstr ""
+msgstr "DHL"
 
 #: app/admin/BillingandInvoicing.html:162
 msgid "DISPUTED INVOICES"
-msgstr ""
+msgstr "Streitigen Rechnungen"
 
 #: app/index.html:175
+#, fuzzy
 msgid "DIVISION MANAGEMENT"
-msgstr ""
+msgstr "DIVISION MANAGEMENT"
 
 #: app/shipment/ShipmentOverview.html:196
 msgid "DOCUMENTS"
-msgstr ""
+msgstr "DOKUMENTIEREN"
 
 #: app/shipment/addShipment.html:705
+#, fuzzy
 msgid "Dangerous goods *"
-msgstr ""
+msgstr "Gefahrgüter"
 
 #: app/shipment/printManifest.html:208
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: app/shipment/printManifest.html:26
 msgid "Date *"
-msgstr ""
+msgstr "Datum *"
 
 #: app/shipment/printManifest.html:34
+#, fuzzy
 msgid "Date is Required"
-msgstr ""
+msgstr "Datum von ist erforderlich"
 
 #: app/shipment/commercialInvoice.html:22
+#, fuzzy
 msgid "Date of issue"
-msgstr ""
+msgstr "Ausstellungsdatum"
 
 #: app/shipment/addShipment.html:776
+#, fuzzy
 msgid "Declared value"
-msgstr ""
+msgstr "Angegebener Wert"
 
 #: app/divisions/saveDivision.html:52
 msgid "Default Cost Center *"
-msgstr ""
+msgstr "Standardkostenstelle *"
 
 #: app/profileInformation/profileInformation.html:704
 msgid "Default Currency"
-msgstr ""
+msgstr "Standardwährung"
 
 #: app/profileInformation/profileInformation.html:684
 msgid "Default Language"
-msgstr ""
+msgstr "默认语言"
 
 #: app/profileInformation/profileInformation.html:721
 msgid "Default Time Zone"
-msgstr ""
+msgstr "Standard-Zeitzone"
 
 #: app/addressBook/loadAddresses.html:144
 #: app/costcenter/loadCostCenters.html:72 app/divisions/loadDivisions.html:78
 #: app/shipment/loadAllShipments.html:104
 #: app/shipment/shipmentManagement.html:120
 msgid "Delete"
-msgstr ""
+msgstr "Löschen"
 
 #: app/shipment/shipmentManagement.html:143
 msgid "Deleted"
-msgstr ""
+msgstr "Gelöscht"
 
 #: app/shipment/shipmentManagement.html:142
 msgid "Delivered"
-msgstr ""
+msgstr "Ausgeliefert"
 
 #: app/shipment/addShipment.html:937
 msgid "Delivery date"
-msgstr ""
+msgstr "Lieferdatum"
 
 #: app/shipment/addShipment.html:652
 msgid "Description *"
-msgstr ""
+msgstr "Beschreibung *"
 
 #: app/shipment/commercialInvoice.html:200
+#, fuzzy
 msgid "Description, Quantity and Price per piece are required."
-msgstr ""
+msgstr "Beschreibung, Menge und Preis pro Stück benötigt."
 
 #: app/shipment/loadAllShipments.html:100 app/shipment/printLabel.html:70
 #: app/shipment/shipmentManagement.html:116
+#, fuzzy
 msgid "Destination City"
-msgstr ""
+msgstr "Zielstadt"
 
 #: app/shipment/loadAllShipments.html:59
 msgid "Destination City/Country"
-msgstr ""
+msgstr "Reiseziel Stadt / Land"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:106
 msgid "Dispute"
-msgstr ""
+msgstr "Streitigkeit"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:83
 #: app/billingandInvoicing/DisputeInvoice.html:3
+#, fuzzy
 msgid "Dispute Invoice"
-msgstr ""
+msgstr "Streit Rechnung"
 
 #: app/billingandInvoicing/DisputeInvoice.html:31
+#, fuzzy
 msgid "Dispute comment is required"
-msgstr ""
+msgstr "Dispute Kommentar ist erforderlich"
 
 #: app/admin/BillingandInvoicing.html:137
 #: app/admin/BillingandInvoicing.html:249 app/admin/BillingandInvoicing.html:40
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:25
 msgid "Disputed"
-msgstr ""
+msgstr "Streit"
 
 #: app/divisions/loadDivisions.html:73
 msgid "Division"
-msgstr ""
+msgstr "Sparte"
 
 #: app/shipment/addShipment.html:69
+#, fuzzy
 msgid "Division *"
-msgstr ""
+msgstr "Sparte"
 
 #: app/divisions/saveDivision.html:44
 msgid "Division Description"
-msgstr ""
+msgstr "Abteilung Beschreibung"
 
 #: app/divisions/saveDivision.html:28
+#, fuzzy
 msgid "Division Name *"
-msgstr ""
+msgstr "Abteilung Name *"
 
 #: app/divisions/saveDivision.html:35
+#, fuzzy
 msgid "Division Name is required"
-msgstr ""
+msgstr "Abteilung Name ist erforderlich"
 
 #: app/shipment/addShipment.html:82
+#, fuzzy
 msgid "Division is required"
-msgstr ""
+msgstr "Abteilung Pflicht"
 
 #: app/costcenter/loadCostCenters.html:39
+#, fuzzy
 msgid "Division: All"
-msgstr ""
+msgstr "Abteilung: Alle"
 
 #: app/shipment/TrackAndTrace.html:12
+#, fuzzy
 msgid "EXPRESS"
-msgstr ""
+msgstr "EXPRESS"
 
 #: app/shipment/addShipment.html:979
 msgid "Earliest Pickup Date"
-msgstr ""
+msgstr "Abholdatum"
 
 #: app/addressBook/loadAddresses.html:143
 #: app/costcenter/loadCostCenters.html:71 app/divisions/loadDivisions.html:77
 #: app/shipment/loadAllShipments.html:103
 #: app/shipment/shipmentManagement.html:119
 msgid "Edit"
-msgstr ""
+msgstr "Editieren"
 
 #: app/addressBook/saveAddress.html:4
 msgid "Edit Address"
-msgstr ""
+msgstr "Adresse bearbeiten"
 
 #: app/costcenter/saveCostCenter.html:3
+#, fuzzy
 msgid "Edit Cost Center"
-msgstr ""
+msgstr "Kostenstelle"
 
 #: app/divisions/saveDivision.html:5
+#, fuzzy
 msgid "Edit Division"
-msgstr ""
+msgstr "Bearbeiten der Division"
 
 #: app/userManagement/saveUserManagement.html:3
 msgid "Edit User"
-msgstr ""
+msgstr "Benutzer bearbeiten"
 
 #: app/adminLogin/adminLogin.html:31 app/adminLogin/adminLogin.html:72
 #: app/shipment/addShipment.html:327 app/shipment/addShipment.html:499
 #: app/userLogin/userLogin.html:32 app/userLogin/userLogin.html:80
 msgid "Email"
-msgstr ""
+msgstr "E-Mail"
 
 #: app/profileInformation/profileInformation.html:143
 #: app/profileInformation/profileInformation.html:562
 msgid "Email Address"
-msgstr ""
+msgstr "E-Mailadresse"
 
 #: app/addressBook/saveAddress.html:73
 #: app/userManagement/saveUserManagement.html:87
 msgid "Email Address *"
-msgstr ""
+msgstr "E-Mail-Adresse*"
 
 #: app/profileInformation/profileInformation.html:833
+#, fuzzy
 msgid "Email You Entered is already exist"
-msgstr ""
+msgstr "E-Mail Sie eingegeben haben, ist bereits vorhanden"
 
 #: app/userRegistration/userRegistration.html:114
 msgid "Email address*"
-msgstr ""
+msgstr "Email address*"
 
 #: app/addressBook/saveAddress.html:81
 #: app/profileInformation/profileInformation.html:153
 #: app/profileInformation/profileInformation.html:570
 msgid "Email is required"
-msgstr ""
+msgstr "Die E-Mail-Adresse ist erforderlich"
 
 #: app/adminLogin/adminLogin.html:33 app/userLogin/userLogin.html:34
 msgid "Email is required."
-msgstr ""
+msgstr "E-Mail erforderlich."
 
 #: app/profileInformation/profileInformation.html:272
 #: app/profileInformation/profileInformation.html:492
 #: app/userRegistration/userRegistration.html:305
 #: app/userRegistration/userRegistration.html:420
 msgid "Enter City"
-msgstr ""
+msgstr "Ort eingeben"
 
 #: app/addressBook/saveAddress.html:22
 #: app/profileInformation/profileInformation.html:43
 msgid "Enter Company Name"
-msgstr ""
+msgstr "Name des Unternehmens eingeben"
 
 #: app/reports/ShipmentReport.html:19
+#, fuzzy
 msgid "Enter Company Name, Business Owner First Name or Last Name"
 msgstr ""
+"Geben Sie Name des Unternehmens, Geschäftsinhaber Vorname oder Nachname"
 
 #: app/shipment/addShipment.html:181 app/shipment/addShipment.html:352
+#, fuzzy
 msgid "Enter Company Name,FirstName or Last Name"
-msgstr ""
+msgstr "Geben Sie Firmennamen, Vorname oder Nachname"
 
 #: app/profileInformation/profileInformation.html:326
+#, fuzzy
 msgid "Enter Mobile Number"
-msgstr ""
+msgstr "Bitte geben Sie Ihre Mobilenummer ein"
 
 #: app/profileInformation/profileInformation.html:444
 #: app/userRegistration/userRegistration.html:256
 #: app/userRegistration/userRegistration.html:409
+#, fuzzy
 msgid "Enter Number"
-msgstr ""
+msgstr "Zahl eintragen:"
 
 #: app/profileInformation/profileInformation.html:588
 #: app/profileInformation/profileInformation.html:594
+#, fuzzy
 msgid "Enter Old Password"
-msgstr ""
+msgstr "Altes Passwort eingeben"
 
 #: app/profileInformation/profileInformation.html:309
+#, fuzzy
 msgid "Enter Phone Number"
-msgstr ""
+msgstr "TELEFONNUMMER EINGEBEN"
 
 #: app/userRegistration/userRegistration.html:413
+#, fuzzy
 msgid "Enter Postal Code"
-msgstr ""
+msgstr "Geben Sie Postleitzahl"
 
 #: app/profileInformation/profileInformation.html:290
 #: app/profileInformation/profileInformation.html:508
 #: app/userRegistration/userRegistration.html:424
+#, fuzzy
 msgid "Enter State"
-msgstr ""
+msgstr "Geben Sie Bundesland"
 
 #: app/userRegistration/userRegistration.html:318
+#, fuzzy
 msgid "Enter State code"
-msgstr ""
+msgstr "Geben Sie Staatencode"
 
 #: app/userRegistration/userRegistration.html:405
+#, fuzzy
 msgid "Enter Street"
-msgstr ""
+msgstr "Straße eingeben"
 
 #: app/profileInformation/profileInformation.html:223
 #: app/profileInformation/profileInformation.html:457
+#, fuzzy
 msgid "Enter Street Address1"
-msgstr ""
+msgstr "Geben Sie Straße Address1"
 
 #: app/userRegistration/userRegistration.html:289
+#, fuzzy
 msgid "Enter Zip/Postal code"
-msgstr ""
+msgstr "Geben Sie PLZ / Postleitzahl"
 
 #: app/profileInformation/profileInformation.html:426
+#, fuzzy
 msgid "Enter ZipCode"
-msgstr ""
+msgstr "Postleitzahl"
 
 #: app/profileInformation/profileInformation.html:154
 #: app/profileInformation/profileInformation.html:569
 msgid "Enter a valid email."
-msgstr ""
+msgstr "Gib eine gültige eMail-Adresse ein."
 
 #: app/addressBook/saveAddress.html:107
+#, fuzzy
 msgid "Enter account number"
-msgstr ""
+msgstr "Geben Sie Ihr Bank-Kontonummer ein"
 
 #: app/addressBook/saveAddress.html:162
+#, fuzzy
 msgid "Enter address1"
-msgstr ""
+msgstr "Geben Sie address1"
 
 #: app/addressBook/saveAddress.html:176
+#, fuzzy
 msgid "Enter address2"
-msgstr ""
+msgstr "Geben Sie address2"
 
 #: app/profileInformation/profileInformation.html:104
 #: app/profileInformation/profileInformation.html:120
@@ -884,33 +975,36 @@ msgstr ""
 #: app/userRegistration/userRegistration.html:377
 #: app/userRegistration/userRegistration.html:52
 #: app/userRegistration/userRegistration.html:72
+#, fuzzy
 msgid "Enter at least 3 characters or more"
-msgstr ""
+msgstr "geben Sie mindestens 3 Zeichen ein"
 
 #: app/shipment/shipmentManagement.html:10
+#, fuzzy
 msgid "Enter campany name,business owner's first or last name"
-msgstr ""
+msgstr "Geben Sie campany Name, Eigentümer des Vor- oder Nachnamen"
 
 #: app/addressBook/saveAddress.html:191
 msgid "Enter city"
-msgstr ""
+msgstr "Ort eingeben …"
 
 #: app/userRegistration/userRegistration.html:212
 #: app/userRegistration/userRegistration.html:401
+#, fuzzy
 msgid "Enter company name"
-msgstr ""
+msgstr "Name des Unternehmens eingeben:"
 
 #: app/addressBook/saveAddress.html:77
 msgid "Enter email"
-msgstr ""
+msgstr "E-Mail eingeben"
 
 #: app/addressBook/saveAddress.html:49
 msgid "Enter first name"
-msgstr ""
+msgstr "Vornamen eingeben"
 
 #: app/addressBook/saveAddress.html:63
 msgid "Enter last name"
-msgstr ""
+msgstr "Nachname eingeben"
 
 #: app/profileInformation/profileInformation.html:105
 #: app/profileInformation/profileInformation.html:121
@@ -950,42 +1044,47 @@ msgstr ""
 #: app/userRegistration/userRegistration.html:425
 #: app/userRegistration/userRegistration.html:53
 #: app/userRegistration/userRegistration.html:73
+#, fuzzy
 msgid "Enter less than 100 characters"
-msgstr ""
+msgstr "Geben Sie weniger als 100 Zeichen"
 
 #: app/profileInformation/profileInformation.html:237
 #: app/profileInformation/profileInformation.html:311
 #: app/profileInformation/profileInformation.html:328
+#, fuzzy
 msgid "Enter less than 20 characters"
-msgstr ""
+msgstr "Geben Sie weniger als 20 Zeichen"
 
 #: app/userRegistration/userRegistration.html:213
 #: app/userRegistration/userRegistration.html:228
 #: app/userRegistration/userRegistration.html:275
 #: app/userRegistration/userRegistration.html:402
 #: app/userRegistration/userRegistration.html:417
+#, fuzzy
 msgid "Enter less than 200 characters"
-msgstr ""
+msgstr "Geben Sie weniger als 200 Zeichen"
 
 #: app/profileInformation/profileInformation.html:613
 msgid "Enter new password"
-msgstr ""
+msgstr "Neues Passwort eingeben"
 
 #: app/addressBook/saveAddress.html:152
+#, fuzzy
 msgid "Enter number"
-msgstr ""
+msgstr "Zahl eintragen:"
 
 #: app/addressBook/saveAddress.html:92
 msgid "Enter phone number"
-msgstr ""
+msgstr "Geben Sie Ihre Telefonnummer an."
 
 #: app/addressBook/saveAddress.html:207
 msgid "Enter state"
-msgstr ""
+msgstr "Staat ist erforderlich"
 
 #: app/userRegistration/userRegistration.html:243
+#, fuzzy
 msgid "Enter street address"
-msgstr ""
+msgstr "Geben Sie die Anschrift ein"
 
 #: app/addressBook/saveAddress.html:80 app/adminLogin/adminLogin.html:76
 #: app/profileInformation/profileInformation.html:528
@@ -994,103 +1093,115 @@ msgstr ""
 #: app/userManagement/saveUserManagement.html:94
 #: app/userRegistration/userRegistration.html:121
 #: app/userRegistration/userRegistration.html:390
+#, fuzzy
 msgid "Enter valid email address"
-msgstr ""
+msgstr "Bitte gültige Email-Adresse eingeben."
 
 #: app/profileInformation/profileInformation.html:327
 #: app/shipment/addShipment.html:318 app/shipment/addShipment.html:490
 #: app/userRegistration/userRegistration.html:382
 #: app/userRegistration/userRegistration.html:90
+#, fuzzy
 msgid "Enter valid mobile number"
-msgstr ""
+msgstr "Geben Sie eine gültige Mobilfunknummer ein"
 
 #: app/profileInformation/profileInformation.html:629
 #: app/resetPassword/resetPassword.html:35
 #: app/userManagement/saveUserManagement.html:119
 #: app/userRegistration/userRegistration.html:394
+#, fuzzy
 msgid "Enter valid password"
-msgstr ""
+msgstr "Geben Sie eine gültige Passwort"
 
 #: app/addressBook/saveAddress.html:97 app/costcenter/saveCostCenter.html:53
 #: app/profileInformation/profileInformation.html:310
 #: app/userRegistration/userRegistration.html:105
 #: app/userRegistration/userRegistration.html:386
+#, fuzzy
 msgid "Enter valid phone number"
-msgstr ""
+msgstr "TELEFONNUMMER EINGEBEN"
 
 #: app/profileInformation/profileInformation.html:530
+#, fuzzy
 msgid "Enter value different from primary email address"
-msgstr ""
+msgstr "Geben Sie anderen Wert als primäre E-Mail-Adresse"
 
 #: app/profileInformation/profileInformation.html:205
+#, fuzzy
 msgid "Enter your PostalCode/ZipCode"
-msgstr ""
+msgstr "Geben Sie Ihre Postleitzahl / ZipCode"
 
 #: app/adminLogin/adminLogin.html:75 app/userLogin/userLogin.html:83
 #: app/userManagement/saveUserManagement.html:93
 #: app/userRegistration/userRegistration.html:120
 #: app/userRegistration/userRegistration.html:389
 msgid "Enter your email address"
-msgstr ""
+msgstr "Geben Sie Ihre E-Mail Adresse ein."
 
 #: app/profileInformation/profileInformation.html:103
 #: app/userManagement/saveUserManagement.html:46
 #: app/userRegistration/userRegistration.html:368
 #: app/userRegistration/userRegistration.html:51
+#, fuzzy
 msgid "Enter your first name"
-msgstr ""
+msgstr "Vornamen eingeben"
 
 #: app/profileInformation/profileInformation.html:119
 #: app/userManagement/saveUserManagement.html:77
 #: app/userRegistration/userRegistration.html:376
 #: app/userRegistration/userRegistration.html:71
 msgid "Enter your last name"
-msgstr ""
+msgstr "Bitte Nachname eingeben"
 
 #: app/userRegistration/userRegistration.html:381
 #: app/userRegistration/userRegistration.html:89
 msgid "Enter your mobile number"
-msgstr ""
+msgstr "Bitte geben Sie Ihre Mobilenummer ein"
 
 #: app/profileInformation/profileInformation.html:236
+#, fuzzy
 msgid "Enter your number"
-msgstr ""
+msgstr "Bitte geben Sie Ihre Faxnummer ein"
 
 #: app/profileInformation/profileInformation.html:628
 #: app/resetPassword/resetPassword.html:34
 #: app/userManagement/saveUserManagement.html:118
 #: app/userRegistration/userRegistration.html:393
 msgid "Enter your password"
-msgstr ""
+msgstr "Passwort eingeben"
 
 #: app/userRegistration/userRegistration.html:130
+#, fuzzy
 msgid "Enter your password *"
-msgstr ""
+msgstr "Geben Sie Ihr Passwort ein"
 
 #: app/userRegistration/userRegistration.html:104
 #: app/userRegistration/userRegistration.html:385
 msgid "Enter your phone number"
-msgstr ""
+msgstr "Telefonummer"
 
 #: app/addressBook/saveAddress.html:138
+#, fuzzy
 msgid "Entetr Zip/Postal Code"
-msgstr ""
+msgstr "Entetr PLZ / Postleitzahl"
 
 #: app/shipment/shipmentManagement.html:136
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: app/profileInformation/profileInformation.html:841
+#, fuzzy
 msgid "Error occured while connecting the server"
-msgstr ""
+msgstr "Fehler aufgetreten, während der Server verbindet"
 
 #: app/shipment/addShipment.html:980
+#, fuzzy
 msgid "Est Delivery Time"
-msgstr ""
+msgstr "Est Lieferzeit"
 
 #: app/shipment/shipmentManagement.html:144
 msgid "Exception"
-msgstr ""
+msgstr "Ausnahme"
 
 #: app/addressBook/loadAddresses.html:115
 #: app/addressBook/loadAddresses.html:122 app/addressBook/loadAddresses.html:56
@@ -1098,29 +1209,32 @@ msgstr ""
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:69
 #: app/reports/ShipmentReport.html:97
 msgid "Export"
-msgstr ""
+msgstr "Exportieren"
 
 #: app/shipment/addShipment.html:111 app/shipment/printManifest.html:202
 msgid "Express"
-msgstr ""
+msgstr "Express"
 
 #: app/shipment/printManifest.html:150
+#, fuzzy
 msgid "Express End-of-Day Manifest"
-msgstr ""
+msgstr "Express End-of-Day-Manifest"
 
 #: app/shipment/TrackAndTrace.html:21 app/shipment/printManifest.html:65
+#, fuzzy
 msgid "FEDEX"
-msgstr ""
+msgstr "FedEx"
 
 #: app/shipment/TrackAndTrace.html:83
+#, fuzzy
 msgid "Fill the request Details correctly"
-msgstr ""
+msgstr "Füllen Sie die Anfrage Details korrekt"
 
 #: app/addressBook/loadAddresses.html:33 app/costcenter/loadCostCenters.html:30
 #: app/divisions/loadDivisions.html:34
 #: app/userManagement/loadUserManagement.html:33
 msgid "Filter by"
-msgstr ""
+msgstr "Filtern nach"
 
 #: app/admin/loadAllCompanies.html:64
 #: app/profileInformation/profileInformation.html:95
@@ -1129,122 +1243,136 @@ msgstr ""
 #: app/shipment/addShipment.html:372
 #: app/userManagement/loadUserManagement.html:78
 msgid "First Name"
-msgstr ""
+msgstr "Vorname"
 
 #: app/addressBook/saveAddress.html:45
 #: app/userManagement/saveUserManagement.html:40
 msgid "First Name *"
-msgstr ""
+msgstr "Vorname *"
 
 #: app/shipment/addShipment.html:54
+#, fuzzy
 msgid "First Name Purchase order or description of the shipment"
-msgstr ""
+msgstr "Vorname Bestellung oder eine Beschreibung der Sendung"
 
 #: app/addressBook/saveAddress.html:52
+#, fuzzy
 msgid "First Name is required"
-msgstr ""
+msgstr "Vorname ist erforderlich."
 
 #: app/userRegistration/userRegistration.html:44
 msgid "First name*"
-msgstr ""
+msgstr "Vorname*"
 
 #: app/userLogin/userLogin.html:60
 msgid "Forgot password?"
-msgstr ""
+msgstr "Passwort vergessen?"
 
 #: app/profileInformation/profileInformation.html:8
 msgid "GENERAL"
-msgstr ""
+msgstr "ALLGEMEINES"
 
 #: app/shipment/printManifest.html:15
 msgid "General"
-msgstr ""
+msgstr "Allgemein"
 
 #: app/shipment/addShipment.html:40
 msgid "General Information"
-msgstr ""
+msgstr "Allgemeine Informationen"
 
 #: app/shipment/printManifest.html:108
 msgid "Generate"
-msgstr ""
+msgstr "Erzeugen"
 
 #: app/shipment/commercialInvoice.html:111
 msgid "Gross"
-msgstr ""
+msgstr "Brutto-"
 
 #: app/shipment/commercialInvoice.html:185
+#, fuzzy
 msgid "HS Code"
-msgstr ""
+msgstr "HS-Code"
 
 #: app/shipment/addShipment.html:654
+#, fuzzy
 msgid "Height *"
-msgstr ""
+msgstr "Höhe"
 
 #: app/userRegistration/userRegistration.html:342
+#, fuzzy
 msgid "I agree with terms and conditions"
-msgstr ""
+msgstr "Ich erkläre mich mit den AGB einverstanden."
 
 #: app/profileInformation/profileInformation.html:777
+#, fuzzy
 msgid "I would like to be notified of discounts & offers"
-msgstr ""
+msgstr "Ich möchte benachrichtigt von Rabatten und Angeboten werden"
 
 #: app/shipment/ShipmentOverview.html:105
+#, fuzzy
 msgid "IN-TRANSIT"
-msgstr ""
+msgstr "Unterwegs"
 
 #: app/addressBook/loadAddresses.html:55 app/addressBook/loadAddresses.html:81
 #: app/addressBook/loadAddresses.html:96 app/admin/uploadInvoice.html:30
 msgid "Import"
-msgstr ""
+msgstr "Importieren"
 
 #: app/shipment/commercialInvoice.html:87
+#, fuzzy
 msgid "Import Brokers:"
-msgstr ""
+msgstr "Import Brokers:"
 
 #: app/admin/ImportRateSheet.html:27
+#, fuzzy
 msgid "Import Excel"
-msgstr ""
+msgstr "Import Excel"
 
 #: app/admin/loadAllCompanies.html:37
+#, fuzzy
 msgid "InActive"
-msgstr ""
+msgstr "inaktiv"
 
 #: app/shipment/addShipment.html:728
+#, fuzzy
 msgid "Inaccessible"
-msgstr ""
+msgstr "Nicht zugänglich"
 
 #: app/addressBook/loadAddresses.html:43 app/addressBook/saveAddress.html:222
 #: app/costcenter/loadCostCenters.html:52 app/divisions/loadDivisions.html:57
 #: app/divisions/saveDivision.html:80
 #: app/userManagement/loadUserManagement.html:63
 msgid "Inactive"
-msgstr ""
+msgstr "Inaktiv"
 
 #: app/mailbox.html:46
 msgid "Inbox"
-msgstr ""
+msgstr "Inbox"
 
 #: app/profileInformation/profileInformation.html:23
+#, fuzzy
 msgid "Individual Account"
-msgstr ""
+msgstr "Individuelle Konto"
 
 #: app/shipment/addShipment.html:994
 msgid "Insurance"
-msgstr ""
+msgstr "Versicherung"
 
 #: app/shipment/addShipment.html:765
+#, fuzzy
 msgid "Insurance *"
-msgstr ""
+msgstr "VERSICHERUNG"
 
 #: app/adminLogin/adminLogin.html:64 app/userLogin/userLogin.html:72
+#, fuzzy
 msgid "Invalid token."
-msgstr ""
+msgstr "Ungültiger Token"
 
 #: app/admin/BillingandInvoicing.html:111
 #: app/admin/BillingandInvoicing.html:225
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:76
 msgid "Invoice Date"
-msgstr ""
+msgstr "Rechnungsdatum"
 
 #: app/admin/BillingandInvoicing.html:115
 #: app/admin/BillingandInvoicing.html:229
@@ -1252,47 +1380,53 @@ msgstr ""
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:78
 #: app/shipment/commercialInvoice.html:27
 msgid "Invoice Number"
-msgstr ""
+msgstr "Rechnungsnummer"
 
 #: app/admin/loadAllCompanies.html:71
+#, fuzzy
 msgid "Invoice Payment"
-msgstr ""
+msgstr "Rechnungszahlung"
 
 #: app/admin/BillingandInvoicing.html:117
 #: app/admin/BillingandInvoicing.html:231
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:80
+#, fuzzy
 msgid "Invoice Status"
-msgstr ""
+msgstr "RECHNUNGSSTATUS:"
 
 #: app/shipment/commercialInvoice.html:50
+#, fuzzy
 msgid "Invoice To/Consigned To"
-msgstr ""
+msgstr "Rechnung / versandte"
 
 #: app/admin/BillingandInvoicing.html:116
 #: app/admin/BillingandInvoicing.html:230
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:79
+#, fuzzy
 msgid "Invoice Value"
-msgstr ""
+msgstr "Betrag"
 
 #: app/shipment/commercialInvoice.html:129
 msgid "Item"
-msgstr ""
+msgstr "Produkt"
 
 #: app/profileInformation/profileInformation.html:64
+#, fuzzy
 msgid "Job Capacity"
-msgstr ""
+msgstr "Job Kapazität"
 
 #: app/adminLogin/adminLogin.html:49 app/userLogin/userLogin.html:50
 msgid "Keep me logged in"
-msgstr ""
+msgstr "Angemeldet bleiben"
 
 #: app/profileInformation/profileInformation.html:553
+#, fuzzy
 msgid "LOGIN DETAILS"
-msgstr ""
+msgstr "Login-Daten:"
 
 #: app/index.html:351
 msgid "Language"
-msgstr ""
+msgstr "Sprache"
 
 #: app/admin/loadAllCompanies.html:65
 #: app/profileInformation/profileInformation.html:111
@@ -1301,87 +1435,100 @@ msgstr ""
 #: app/shipment/addShipment.html:382
 #: app/userManagement/loadUserManagement.html:79
 msgid "Last Name"
-msgstr ""
+msgstr "Nachname"
 
 #: app/addressBook/saveAddress.html:59
 #: app/userManagement/saveUserManagement.html:71
 msgid "Last Name *"
-msgstr ""
+msgstr "Nachname *"
 
 #: app/addressBook/saveAddress.html:66
+#, fuzzy
 msgid "Last Name is required"
-msgstr ""
+msgstr "Nachname ist erforderlich."
 
 #: app/userManagement/loadUserManagement.html:82
+#, fuzzy
 msgid "Last Visit Date"
-msgstr ""
+msgstr "Letzter Besuch"
 
 #: app/userRegistration/userRegistration.html:64
 msgid "Last name *"
-msgstr ""
+msgstr "Nachname *"
 
 #: app/shipment/addShipment.html:655
+#, fuzzy
 msgid "Length *"
-msgstr ""
+msgstr "Länge"
 
 #: app/shipment/printManifest.html:40
+#, fuzzy
 msgid "List Package Details *"
-msgstr ""
+msgstr "Anzeigenpaket-Details"
 
 #: app/index.html:548 app/index.html:549
 msgid "Logout"
-msgstr ""
+msgstr "Ausloggen"
 
 #: app/index.html:171
+#, fuzzy
 msgid "MANAGE PROFILE"
-msgstr ""
+msgstr "Ihr Profil bearbeiten"
 
 #: app/index.html:156
 msgid "MANAGE SHIPMENTS"
-msgstr ""
+msgstr "Sendungen"
 
 #: app/addressBook/loadAddresses.html:3
+#, fuzzy
 msgid "Manage Address Book"
-msgstr ""
+msgstr "Adressbuch verwalten"
 
 #: app/costcenter/loadCostCenters.html:2 app/costcenter/saveCostCenter.html:2
 #: app/costcenter/saveCostCenter.html:3
+#, fuzzy
 msgid "Manage Cost Centers"
-msgstr ""
+msgstr "Verwalten von Kostenstellen"
 
 #: app/admin/loadAllCompanies.html:2
 msgid "Manage Customers"
-msgstr ""
+msgstr "Kunden verwalten"
 
 #: app/divisions/saveDivision.html:7
+#, fuzzy
 msgid "Manage Division"
-msgstr ""
+msgstr "verwalten der Division"
 
 #: app/divisions/loadDivisions.html:2
+#, fuzzy
 msgid "Manage Divisions"
-msgstr ""
+msgstr "verwalten Divisionen"
 
 #: app/userManagement/saveUserManagement.html:2
 #: app/userManagement/saveUserManagement.html:3
+#, fuzzy
 msgid "Manage User"
-msgstr ""
+msgstr "Benutzer verwalten"
 
 #: app/userManagement/loadUserManagement.html:3
 msgid "Manage Users"
-msgstr ""
+msgstr "Benutzer verwalten"
 
 #: app/costcenter/saveCostCenter.html:94
+#, fuzzy
 msgid "Max length should be 10 characters"
-msgstr ""
+msgstr "Max Länge sollte 10 Zeichen lang sein"
 
 #: app/shipment/addShipment.html:453
+#, fuzzy
 msgid "Max length should be 2 characters"
-msgstr ""
+msgstr "Max Länge sollte 2 Zeichen lang sein"
 
 #: app/addressBook/saveAddress.html:142 app/addressBook/saveAddress.html:96
 #: app/costcenter/saveCostCenter.html:112 app/shipment/addShipment.html:282
+#, fuzzy
 msgid "Max length should be 20 characters"
-msgstr ""
+msgstr "Max Länge sollte 20 Zeichen lang sein"
 
 #: app/addressBook/saveAddress.html:111 app/addressBook/saveAddress.html:156
 #: app/addressBook/saveAddress.html:166 app/addressBook/saveAddress.html:179
@@ -1400,389 +1547,442 @@ msgstr ""
 #: app/shipment/addShipment.html:433 app/shipment/addShipment.html:443
 #: app/shipment/addShipment.html:475 app/shipment/addShipment.html:489
 #: app/shipment/addShipment.html:504 app/shipment/addShipment.html:58
+#, fuzzy
 msgid "Max length should be 200 characters"
-msgstr ""
+msgstr "Max Länge sollte 200 Zeichen lang sein"
 
 #: app/costcenter/saveCostCenter.html:128
+#, fuzzy
 msgid "Max length should be 500 characters"
-msgstr ""
+msgstr "Max Länge 500 Zeichen lang sein"
 
 #: app/index.html:336
 msgid "Menu"
-msgstr ""
+msgstr "Menü"
 
 #: app/userManagement/saveUserManagement.html:56
 msgid "Middle Name"
-msgstr ""
+msgstr "Weitere Vornamen"
 
 #: app/shipment/addShipment.html:283 app/shipment/addShipment.html:454
+#, fuzzy
 msgid "Min length should be 2 characters"
-msgstr ""
+msgstr "Min Länge sollte 2 Zeichen lang sein"
 
 #: app/profileInformation/profileInformation.html:318
 msgid "Mobile Number"
-msgstr ""
+msgstr "Handynummer"
 
 #: app/shipment/commercialInvoice.html:85
+#, fuzzy
 msgid "Mode of transport:"
-msgstr ""
+msgstr "Transportart:"
 
 #: app/profileInformation/profileInformation.html:87
 #: app/userManagement/saveUserManagement.html:29
 #: app/userRegistration/userRegistration.html:34
 msgid "Mr"
-msgstr ""
+msgstr "Herr"
 
 #: app/profileInformation/profileInformation.html:88
 #: app/userManagement/saveUserManagement.html:30
 #: app/userRegistration/userRegistration.html:35
 msgid "Mrs"
-msgstr ""
+msgstr "Frau"
 
 #: app/profileInformation/profileInformation.html:89
 #: app/userManagement/saveUserManagement.html:31
 #: app/userRegistration/userRegistration.html:36
 msgid "Ms"
-msgstr ""
+msgstr "Fräulein"
 
 #: app/addressBook/loadAddresses.html:139
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: app/shipment/printManifest.html:212
+#, fuzzy
 msgid "Name & Signature"
-msgstr ""
+msgstr "Name, Unterschrift"
 
 #: app/adminLogin/adminLogin.html:82 app/userLogin/userLogin.html:61
 #: app/userLogin/userLogin.html:90
+#, fuzzy
 msgid "New here? Sign up"
-msgstr ""
+msgstr "Neu hier? Anmelden"
 
 #: app/shipment/addShipment.html:145 app/shipment/addShipment.html:523
 #: app/shipment/addShipment.html:794
 #: app/userRegistration/userRegistration.html:191
 msgid "Next"
-msgstr ""
+msgstr "Weiter"
 
 #: app/shipment/addShipment.html:710 app/shipment/addShipment.html:770
 #: app/shipment/printManifest.html:51
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: app/shipment/addShipment.html:917
+#, fuzzy
 msgid "No Available rates for this shipment"
-msgstr ""
+msgstr "Keine verfügbaren Preise für diese Sendung"
 
 #: app/shipment/shipmentManagement.html:19
+#, fuzzy
 msgid "No shipments available for the selected company/ customer"
-msgstr ""
+msgstr "Keine Sendungen für die gewählte Firma / Kunde"
 
 #: app/profileInformation/profileInformation.html:737
+#, fuzzy
 msgid "Notify me on status changes:"
-msgstr ""
+msgstr "Benachrichtigen Sie mich über Statusänderungen:"
 
 #: app/profileInformation/profileInformation.html:233
 msgid "Number"
-msgstr ""
+msgstr "Nummer"
 
 #: app/costcenter/saveCostCenter.html:108
 #: app/userRegistration/userRegistration.html:251
+#, fuzzy
 msgid "Number *"
-msgstr ""
+msgstr "Nummer"
 
 #: app/admin/loadAllCompanies.html:68 app/divisions/loadDivisions.html:75
 msgid "Number Of Users"
-msgstr ""
+msgstr "Anzahl User"
 
 #: app/addressBook/saveAddress.html:155 app/costcenter/saveCostCenter.html:111
+#, fuzzy
 msgid "Number is required"
-msgstr ""
+msgstr "Erforderliche Anzahl"
 
 #: app/shipment/addShipment.html:245 app/shipment/addShipment.html:417
+#, fuzzy
 msgid "Number*"
-msgstr ""
+msgstr "Nummer"
 
 #: app/shipment/ShipmentOverview.html:47
+#, fuzzy
 msgid "ORDER SUBMITTED DATE"
-msgstr ""
+msgstr "Bestellung gesendet."
 
 #: app/shipment/ShipmentOverview.html:8
 msgid "OVERVIEW"
-msgstr ""
+msgstr "﻿ÜBERSICHT"
 
 #: app/userRegistration/userRegistration.html:148
+#, fuzzy
 msgid "One lowercase letter."
-msgstr ""
+msgstr "Ein kleiner Buchstabe."
 
 #: app/userRegistration/userRegistration.html:150
+#, fuzzy
 msgid "One special character."
-msgstr ""
+msgstr "Ein besonderer Charakter."
 
 #: app/userRegistration/userRegistration.html:149
+#, fuzzy
 msgid "One uppercase letter."
-msgstr ""
+msgstr "Ein Großbuchstabe."
 
 #: app/shipment/loadAllShipments.html:95 app/shipment/printLabel.html:65
 #: app/shipment/shipmentManagement.html:111
+#, fuzzy
 msgid "Order Submitted"
-msgstr ""
+msgstr "Bestellung gesendet."
 
 #: app/shipment/loadAllShipments.html:99 app/shipment/printLabel.html:69
 #: app/shipment/shipmentManagement.html:115
+#, fuzzy
 msgid "Origin City"
-msgstr ""
+msgstr "Herkunft Stadt"
 
 #: app/shipment/loadAllShipments.html:53
+#, fuzzy
 msgid "Origin City/Country"
-msgstr ""
+msgstr "Herkunftsland"
 
 #: app/shipment/shipmentManagement.html:141
+#, fuzzy
 msgid "Out For Delivery"
-msgstr ""
+msgstr "Wird zugestellt"
 
 #: app/shipment/ShipmentOverview.html:98
+#, fuzzy
 msgid "PICKEDUP"
-msgstr ""
+msgstr "ABGEHOLT"
 
 #: app/index.html:154
+#, fuzzy
 msgid "PRINT LABEL"
-msgstr ""
+msgstr "PRINT LABEL"
 
 #: app/index.html:157
+#, fuzzy
 msgid "PRINT MANIFEST"
-msgstr ""
+msgstr "PRINT MANIFESTEN"
 
 #: app/index.html:173
+#, fuzzy
 msgid "PROFILE INFORMATION"
-msgstr ""
+msgstr "Profilinformationen"
 
 #: app/shipment/addShipment.html:891
+#, fuzzy
 msgid "Package Count"
-msgstr ""
+msgstr "Package Count"
 
 #: app/shipment/addShipment.html:543
 msgid "Package Details"
-msgstr ""
+msgstr "Anzeigenpaket-Details"
 
 #: app/shipment/addShipment.html:883
+#, fuzzy
 msgid "Package Volume"
-msgstr ""
+msgstr "Paket Volume"
 
 #: app/shipment/addShipment.html:875
 msgid "Package Weight"
-msgstr ""
+msgstr "Gewicht"
 
 #: app/shipment/printManifest.html:166
 msgid "Package | Description | Weight | Dim"
-msgstr ""
+msgstr "Package | Beschreibung | Gewicht | Dim"
 
 #: app/shipment/commercialInvoice.html:104
 msgid "Packages:"
-msgstr ""
+msgstr "Pakete"
 
 #: app/admin/BillingandInvoicing.html:136
 #: app/admin/BillingandInvoicing.html:248 app/admin/BillingandInvoicing.html:37
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:22
 msgid "Paid"
-msgstr ""
+msgstr "Bezahlt"
 
 #: app/userRegistration/userRegistration.html:460
 msgid "Parcel International"
-msgstr ""
+msgstr "Parcel International"
 
 #: app/adminLogin/adminLogin.html:39 app/resetPassword/resetPassword.html:31
 #: app/userLogin/userLogin.html:40
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: app/userManagement/saveUserManagement.html:102
 #: app/userManagement/saveUserManagement.html:105
 msgid "Password *"
-msgstr ""
+msgstr "Passwort *"
 
 #: app/profileInformation/profileInformation.html:837
+#, fuzzy
 msgid "Password Information you enterd is invalid"
-msgstr ""
+msgstr "Kennwort Informationen Sie enterd ist ungültig"
 
 #: app/adminLogin/adminLogin.html:41 app/userLogin/userLogin.html:42
 msgid "Password is required."
-msgstr ""
+msgstr "Passwort ist erforderlich."
 
 #: app/resetPassword/resetPassword.html:68
+#, fuzzy
 msgid "Password reset is success. You will be redirect to Login Page."
-msgstr ""
+msgstr "Passwort-Reset ist der Erfolg. Sie werden umgeleitet zur Login-Seite."
 
 #: app/adminLogin/adminLogin.html:85 app/userLogin/userLogin.html:93
+#, fuzzy
 msgid "Password reset message was sent to your email"
-msgstr ""
+msgstr "Eine Mail zum Zurücksetzen Ihres Passwortes wurde Ihnen zugesandt"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:95
 msgid "Pay"
-msgstr ""
+msgstr "Bezahlen"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:81
 msgid "Pay Invoice"
-msgstr ""
+msgstr "Buchung ansehen"
 
 #: app/shipment/addShipment.html:1021
+#, fuzzy
 msgid "Pay via Invoice"
-msgstr ""
+msgstr "Buchung ansehen"
 
 #: app/shipment/addShipment.html:1024
+#, fuzzy
 msgid "Pay via Online"
-msgstr ""
+msgstr "Bezahlen per Online"
 
 #: app/admin/BillingandInvoicing.html:135
 #: app/admin/BillingandInvoicing.html:247 app/admin/BillingandInvoicing.html:34
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:19
 #: app/shipment/shipmentManagement.html:137
 msgid "Pending"
-msgstr ""
+msgstr "Ausstehend"
 
 #: app/shipment/printManifest.html:143 app/shipment/printManifest.html:235
 msgid "Phone"
-msgstr ""
+msgstr "Telefon"
 
 #: app/profileInformation/profileInformation.html:301
 msgid "Phone Number"
-msgstr ""
+msgstr "Telefonnummer"
 
 #: app/addressBook/saveAddress.html:88 app/costcenter/saveCostCenter.html:46
 msgid "Phone Number *"
-msgstr ""
+msgstr "Telefonnummer"
 
 #: app/addressBook/saveAddress.html:95 app/costcenter/saveCostCenter.html:51
+#, fuzzy
 msgid "Phone Number is required"
-msgstr ""
+msgstr "Telefon (Pflichtfeld)"
 
 #: app/userRegistration/userRegistration.html:98
 msgid "Phone*"
-msgstr ""
+msgstr "Telefon*"
 
 #: app/shipment/shipmentManagement.html:139
 msgid "Pickup"
-msgstr ""
+msgstr "Kleinlaster"
 
 #: app/shipment/printManifest.html:202
 msgid "Pickup By"
-msgstr ""
+msgstr "Pickup"
 
 #: app/profileInformation/profileInformation.html:748
+#, fuzzy
 msgid "Pickup Confirmation"
-msgstr ""
+msgstr "Abholbestätigung"
 
 #: app/reports/ShipmentReport.html:31
+#, fuzzy
 msgid "Pickup Date Range"
-msgstr ""
+msgstr "Pickup Date Range"
 
 #: app/shipment/printManifest.html:251
+#, fuzzy
 msgid "Please Enter Correct Details"
-msgstr ""
+msgstr "Bitte geben Sie die richtigen Informationen"
 
 #: app/shipment/TrackAndTrace.html:78
+#, fuzzy
 msgid "Please check the Tracking Number and try Again"
-msgstr ""
+msgstr "Bitte überprüfen Sie die Tracking-Nummer und versuchen Sie es erneut"
 
 #: app/adminLogin/adminLogin.html:86 app/userLogin/userLogin.html:94
+#, fuzzy
 msgid "Please check the mail box, to reset password"
-msgstr ""
+msgstr "Bitte überprüfen Sie die Mail-Box, zum Zurücksetzen des Kennworts"
 
 #: app/userRegistration/userRegistration.html:445
+#, fuzzy
 msgid "Please check your mail box, to activate the account"
-msgstr ""
+msgstr "Bitte überprüfen Sie Ihre E-Mail-Box, um das Konto zu aktivieren"
 
 #: app/billingandInvoicing/DisputeInvoice.html:22
+#, fuzzy
 msgid "Please insert the reason for disputing the invoice"
-msgstr ""
+msgstr "Bitte geben Sie den Grund für die Anfechtung der Rechnung"
 
 #: app/userRegistration/userRegistration.html:355
 msgid "Please wait ..."
-msgstr ""
+msgstr "Bitte warten …"
 
 #: app/shipment/paymentResult.html:12
+#, fuzzy
 msgid "Please wait while we submit your shipment  ..."
-msgstr ""
+msgstr "Bitte warten Sie, während wir Ihre Sendung einreichen ..."
 
 #: app/addressBook/saveAddress.html:141
+#, fuzzy
 msgid "Postal Code is required"
-msgstr ""
+msgstr "Postleitzahl ist erforderlich"
 
 #: app/addressBook/saveAddress.html:134
+#, fuzzy
 msgid "Postal/ Zip Code *"
-msgstr ""
+msgstr "PLZ"
 
 #: app/profileInformation/profileInformation.html:197
 msgid "Postal/Zip Code"
-msgstr ""
+msgstr "PLZ"
 
 #: app/profileInformation/profileInformation.html:418
+#, fuzzy
 msgid "Postal/Zip Code *"
-msgstr ""
+msgstr "PLZ"
 
 #: app/shipment/addShipment.html:224 app/shipment/addShipment.html:395
 msgid "Postal/ZipCode*"
-msgstr ""
+msgstr "PLZ:*"
 
 #: app/shipment/addShipment.html:738
+#, fuzzy
 msgid "Preferred Collection Date *"
-msgstr ""
+msgstr "Bevorzugte Sammlung Datum *"
 
 #: app/shipment/printLabel.html:72
 msgid "Preview"
-msgstr ""
+msgstr "Vorschau"
 
 #: app/shipment/addShipment.html:1027 app/shipment/addShipment.html:527
 #: app/shipment/addShipment.html:798
 msgid "Previous"
-msgstr ""
+msgstr "Vorheriges"
 
 #: app/shipment/addShipment.html:936 app/shipment/addShipment.html:982
 msgid "Price"
-msgstr ""
+msgstr "Preis"
 
 #: app/shipment/commercialInvoice.html:132
+#, fuzzy
 msgid "Price per 1 pce."
-msgstr ""
+msgstr "Preis je 1 Stck."
 
 #: app/shipment/addShipment.html:644
+#, fuzzy
 msgid "Product Details *"
-msgstr ""
+msgstr "Produkt Details"
 
 #: app/shipment/addShipment.html:650
+#, fuzzy
 msgid "Product Type *"
-msgstr ""
+msgstr "Produkttyp"
 
 #: app/shipment/addShipment.html:108
+#, fuzzy
 msgid "Product*"
-msgstr ""
+msgstr "Produktsicherheit"
 
 #: app/profileInformation/profileInformation.html:829
+#, fuzzy
 msgid "Profile update failed"
-msgstr ""
+msgstr "Profil Aktualisieren fehlgeschlagen"
 
 #: app/shipment/commercialInvoice.html:131
 msgid "Quantity"
-msgstr ""
+msgstr "Menge"
 
 #: app/shipment/addShipment.html:651
+#, fuzzy
 msgid "Quantity *"
-msgstr ""
+msgstr "Menge"
 
 #: app/index.html:139
+#, fuzzy
 msgid "RATE MANAGEMENT"
-msgstr ""
+msgstr "RATE MANAGEMENT"
 
 #: app/shipment/addShipment.html:970
+#, fuzzy
 msgid "Rate Summary"
-msgstr ""
+msgstr "bewerten Zusammenfassung"
 
 #: app/shipment/addShipment.html:816
+#, fuzzy
 msgid "Rates and Carrier Details"
-msgstr ""
+msgstr "Preise und Carrier-Details"
 
 #: app/profileInformation/profileInformation.html:646
 msgid "Re-enter new password"
-msgstr ""
+msgstr "Neues Passwort erneut eingeben"
 
 #: app/profileInformation/profileInformation.html:597
 #: app/profileInformation/profileInformation.html:650
@@ -1790,78 +1990,88 @@ msgstr ""
 #: app/userManagement/saveUserManagement.html:134
 #: app/userRegistration/userRegistration.html:171
 #: app/userRegistration/userRegistration.html:397
+#, fuzzy
 msgid "ReEnter your password"
-msgstr ""
+msgstr "Wiederholen Sie noch einmal Ihr Passwort"
 
 #: app/shipment/printManifest.html:159
 msgid "Reference"
-msgstr ""
+msgstr "Referenz"
 
 #: app/shipment/addShipment.html:50
 msgid "Reference *"
-msgstr ""
+msgstr "Referenz *"
 
 #: app/shipment/printManifest.html:93
 msgid "Reference is Required"
-msgstr ""
+msgstr "Referenz erforderlich"
 
 #: app/shipment/addShipment.html:57
+#, fuzzy
 msgid "Reference is required"
-msgstr ""
+msgstr "Referenz erforderlich"
 
 #: app/userRegistration/userRegistration.html:353
 msgid "Register"
-msgstr ""
+msgstr "Registrieren"
 
 #: app/userRegistration/userRegistration.html:202
 #: app/userRegistration/userRegistration.html:25
 msgid "Registration"
-msgstr ""
+msgstr "Registrierung"
 
 #: app/userRegistration/userRegistration.html:223
+#, fuzzy
 msgid "Registration number company"
-msgstr ""
+msgstr "Registrierungsnummer Firma"
 
 #: app/addressBook/loadAddresses.html:94 app/admin/uploadInvoice.html:28
 msgid "Remove"
-msgstr ""
+msgstr "Entfernen"
 
 #: app/shipment/addShipment.html:114
+#, fuzzy
 msgid "Road Freight"
-msgstr ""
+msgstr "Straßenfracht"
 
 #: app/userManagement/loadUserManagement.html:80
 msgid "Role"
-msgstr ""
+msgstr "Rolle"
 
 #: app/index.html:182
+#, fuzzy
 msgid "SHIPMENT CONTROL CENTER"
-msgstr ""
+msgstr "VERSAND CONTROL CENTER"
 
 #: app/shipment/ShipmentOverview.html:31
+#, fuzzy
 msgid "SHIPMENT ID"
-msgstr ""
+msgstr "Sendungs-ID"
 
 #: app/shipment/ShipmentOverview.html:55
+#, fuzzy
 msgid "SHIPMENT LABEL"
-msgstr ""
+msgstr "VERSAND LABEL"
 
 #: app/index.html:146 app/index.html:158
+#, fuzzy
 msgid "SHIPMENT REPORT"
-msgstr ""
+msgstr "VERSAND REPORT"
 
 #: app/index.html:151
+#, fuzzy
 msgid "SHIPMENTS"
-msgstr ""
+msgstr "Sendungen"
 
 #: app/profileInformation/profileInformation.html:80
 msgid "Salutation"
-msgstr ""
+msgstr "Anrede"
 
 #: app/addressBook/saveAddress.html:32
 #: app/userManagement/saveUserManagement.html:24
+#, fuzzy
 msgid "Salutation *"
-msgstr ""
+msgstr "Anrede"
 
 #: app/addressBook/saveAddress.html:232 app/costcenter/saveCostCenter.html:216
 #: app/divisions/saveDivision.html:98
@@ -1873,76 +2083,87 @@ msgstr ""
 #: app/shipment/commercialInvoice.html:219
 #: app/userManagement/saveUserManagement.html:201
 msgid "Save"
-msgstr ""
+msgstr "Speichern"
 
 #: app/shipment/addShipment.html:341 app/shipment/addShipment.html:511
+#, fuzzy
 msgid "Save as a new customer address"
-msgstr ""
+msgstr "Speichern als neue Kundenadresse"
 
 #: app/shipment/addShipment.html:113
+#, fuzzy
 msgid "Sea Freight"
-msgstr ""
+msgstr "Seefracht"
 
 #: app/admin/BillingandInvoicing.html:177 app/admin/BillingandInvoicing.html:54
+#, fuzzy
 msgid "Search By: Business Owner"
-msgstr ""
+msgstr "Suchen nach: Business Owner"
 
 #: app/admin/BillingandInvoicing.html:47
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:32
+#, fuzzy
 msgid "Search By: Invoice Date"
-msgstr ""
+msgstr "Suchen nach: Rechnungsdatum"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:39
+#, fuzzy
 msgid "Search By: Invoice Number"
-msgstr ""
+msgstr "Suche via Rechnungsnummer:"
 
 #: app/admin/BillingandInvoicing.html:178 app/admin/BillingandInvoicing.html:55
+#, fuzzy
 msgid "Search By: InvoiceNumber"
-msgstr ""
+msgstr "Suchen nach: InvoiceNumber"
 
 #: app/shipment/loadAllShipments.html:46
 #: app/shipment/shipmentManagement.html:61
+#, fuzzy
 msgid "Search By: Location"
-msgstr ""
+msgstr "Ort suchen:"
 
 #: app/shipment/loadAllShipments.html:45
 #: app/shipment/shipmentManagement.html:60
+#, fuzzy
 msgid "Search By: Number"
-msgstr ""
+msgstr "Suchen nach: Anzahl"
 
 #: app/admin/BillingandInvoicing.html:170 app/shipment/loadAllShipments.html:39
 #: app/shipment/printLabel.html:23 app/shipment/shipmentManagement.html:50
+#, fuzzy
 msgid "Search By: Pickup Date"
-msgstr ""
+msgstr "Suchen nach: Abholdatum"
 
 #: app/admin/BillingandInvoicing.html:176 app/admin/BillingandInvoicing.html:53
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:38
+#, fuzzy
 msgid "Search By: Shipment Reference"
-msgstr ""
+msgstr "Suchen nach: Sendungsreferenz"
 
 #: app/costcenter/loadCostCenters.html:20
 msgid "Search by Cost Center Name"
-msgstr ""
+msgstr "Suche nach: Kostenstellennamen"
 
 #: app/divisions/loadDivisions.html:23
 msgid "Search by Division Name"
-msgstr ""
+msgstr "Suche nach: der Division Namen"
 
 #: app/userManagement/loadUserManagement.html:22
+#, fuzzy
 msgid "Search by First Name or Last Name"
-msgstr ""
+msgstr "Anhand von Vor- oder Nachname suchen"
 
 #: app/admin/loadAllCompanies.html:48
 msgid "Search by First Name, Last Name or Corporate Name"
-msgstr ""
+msgstr "Suche nach: Vorname, Nachname oder Körperschaft"
 
 #: app/addressBook/loadAddresses.html:23
 msgid "Search by Names"
-msgstr ""
+msgstr "Suche: nach Namen"
 
 #: app/shipment/TrackAndTrace.html:56
 msgid "Searching..."
-msgstr ""
+msgstr "Suchen…"
 
 #: app/shipment/addShipment.html:189 app/shipment/addShipment.html:360
 msgid "Searsh criteria does not match with any saved address details"
@@ -1950,123 +2171,127 @@ msgstr ""
 
 #: app/shipment/addShipment.html:940
 msgid "Select"
-msgstr ""
+msgstr "Auswählen"
 
 #: app/shipment/TrackAndTrace.html:17 app/shipment/printManifest.html:61
+#, fuzzy
 msgid "Select Carrier"
-msgstr ""
+msgstr "Wählen Träger"
 
 #: app/shipment/printManifest.html:4
+#, fuzzy
 msgid "Select Manifest"
-msgstr ""
+msgstr "Wählen Sie Manifest"
 
 #: app/userLogin/userLogin.html:87
 msgid "Send Password Reset Link"
-msgstr ""
+msgstr "Kennwort Zurücksetzungslink schicken"
 
 #: app/shipment/addShipment.html:938
 msgid "Service"
-msgstr ""
+msgstr "Leistung"
 
 #: app/shipment/addShipment.html:981
 msgid "Service Level"
-msgstr ""
+msgstr "Service-Level"
 
 #: app/shipment/commercialInvoice.html:44
 msgid "Ship To"
-msgstr ""
+msgstr "Versenden an"
 
 #: app/shipment/addShipment.html:14
 msgid "Shipment Code"
-msgstr ""
+msgstr "Shipment Code"
 
 #: app/shipment/addShipment.html:561
 msgid "Shipment Desciption is required"
-msgstr ""
+msgstr "Versand Desciption erforderlich"
 
 #: app/shipment/addShipment.html:554
 msgid "Shipment Description *"
-msgstr ""
+msgstr "Versand Beschreibung *"
 
 #: app/shipment/ShipmentOverview.html:15
 msgid "Shipment Details"
-msgstr ""
+msgstr "Versanddetails"
 
 #: app/shipment/loadAllShipments.html:97 app/shipment/printLabel.html:67
 #: app/shipment/shipmentManagement.html:113
 msgid "Shipment ID"
-msgstr ""
+msgstr "Shipment ID"
 
 #: app/shipment/addShipment.html:837
 msgid "Shipment Mode"
-msgstr ""
+msgstr "Versand-Modus"
 
 #: app/shipment/addShipment.html:829
 msgid "Shipment Name"
-msgstr ""
+msgstr "Versand-Name"
 
 #: app/admin/BillingandInvoicing.html:185 app/admin/BillingandInvoicing.html:62
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:46
 msgid "Shipment Ref Number"
-msgstr ""
+msgstr "Versand Ref Nummer"
 
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:77
 #: app/shipment/printManifest.html:84
 msgid "Shipment Reference"
-msgstr ""
+msgstr "Sendungsreferenz"
 
 #: app/admin/BillingandInvoicing.html:114
 #: app/admin/BillingandInvoicing.html:228
 msgid "Shipment References"
-msgstr ""
+msgstr "Versand Referenzen"
 
 #: app/reports/ShipmentReport.html:2
 msgid "Shipment Report"
-msgstr ""
+msgstr "Versand-Bericht"
 
 #: app/shipment/printManifest.html:76
 msgid "Shipment Specific"
-msgstr ""
+msgstr "Versand Spezifische"
 
 #: app/shipment/ShipmentOverview.html:81
 msgid "Shipment Status"
-msgstr ""
+msgstr "Sendungsstatus"
 
 #: app/shipment/addShipment.html:826
 msgid "Shipment Summary"
-msgstr ""
+msgstr "Versand Zusammenfassung"
 
 #: app/shipment/addShipment.html:844
 msgid "Shipment Type"
-msgstr ""
+msgstr "Transportart"
 
 #: app/profileInformation/profileInformation.html:752
 msgid "Shipment delays"
-msgstr ""
+msgstr "Lieferverzögerungen"
 
 #: app/profileInformation/profileInformation.html:756
 msgid "Shipment exceptions"
-msgstr ""
+msgstr "Versand Ausnahmen"
 
 #: app/shipment/commercialInvoice.html:93
 msgid "Shipment for attension of:"
-msgstr ""
+msgstr "Versand für attension von:"
 
 #: app/shipment/TrackAndTrace.html:4
 msgid "Shipment:Track and Trace"
-msgstr ""
+msgstr "Versand: Track and Trace"
 
 #: app/shipment/commercialInvoice.html:96
 msgid "Shipped by:"
-msgstr ""
+msgstr "Versendet durch"
 
 #: app/userRegistration/userRegistration.html:147
+#, fuzzy
 msgid "Should at least contain;"
-msgstr ""
+msgstr "Sollte zumindest enthalten;"
 
 #: app/shipment/addShipment.html:115
+#, fuzzy
 msgid "Show All Options"
-msgstr ""
+msgstr "alle Einstellungen anzeigen"
 
 #: app/addressBook/saveAddress.html:201 app/costcenter/saveCostCenter.html:160
 #: app/profileInformation/profileInformation.html:282
@@ -2074,19 +2299,21 @@ msgstr ""
 #: app/profileInformation/profileInformation.html:500
 #: app/profileInformation/profileInformation.html:505
 msgid "State"
-msgstr ""
+msgstr "Kanton"
 
 #: app/shipment/addShipment.html:276 app/shipment/addShipment.html:447
 msgid "State Code"
-msgstr ""
+msgstr "Bundesstaaten-Code"
 
 #: app/userRegistration/userRegistration.html:313
+#, fuzzy
 msgid "State code"
-msgstr ""
+msgstr "Bundesstaaten-Code"
 
 #: app/addressBook/saveAddress.html:210 app/costcenter/saveCostCenter.html:166
+#, fuzzy
 msgid "State is required"
-msgstr ""
+msgstr "Staat ist erforderlich für"
 
 #: app/addressBook/loadAddresses.html:141 app/addressBook/saveAddress.html:217
 #: app/admin/BillingandInvoicing.html:25 app/admin/loadAllCompanies.html:22
@@ -2100,302 +2327,353 @@ msgstr ""
 #: app/userManagement/loadUserManagement.html:83
 #: app/userManagement/saveUserManagement.html:176
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
 #: app/addressBook/loadAddresses.html:41 app/costcenter/loadCostCenters.html:50
 #: app/divisions/loadDivisions.html:55
+#, fuzzy
 msgid "Status: All"
-msgstr ""
+msgstr "Status: Alle"
 
 #: app/userRegistration/userRegistration.html:238
 msgid "Street *"
-msgstr ""
+msgstr "Straße*"
 
 #: app/costcenter/saveCostCenter.html:123
+#, fuzzy
 msgid "Street Address 1 *"
-msgstr ""
+msgstr "Straße"
 
 #: app/costcenter/saveCostCenter.html:127
+#, fuzzy
 msgid "Street Address 1 is required"
-msgstr ""
+msgstr "Straße 1 ist erforderlich"
 
 #: app/costcenter/saveCostCenter.html:138
 msgid "Street Address 2"
-msgstr ""
+msgstr "Straße 2"
 
 #: app/profileInformation/profileInformation.html:220
+#, fuzzy
 msgid "Street Address1"
-msgstr ""
+msgstr "Adresse 1"
 
 #: app/profileInformation/profileInformation.html:252
+#, fuzzy
 msgid "Street Address2"
-msgstr ""
+msgstr "Straße Address2"
 
 #: app/addressBook/saveAddress.html:148 app/costcenter/saveCostCenter.html:103
 #: app/profileInformation/profileInformation.html:215
 #: app/profileInformation/profileInformation.html:436
+#, fuzzy
 msgid "Street Name *"
-msgstr ""
+msgstr "Straßenname"
 
 #: app/shipment/addShipment.html:235 app/shipment/addShipment.html:407
+#, fuzzy
 msgid "Street*"
-msgstr ""
+msgstr "Strasse*"
 
 #: app/profileInformation/profileInformation.html:765
+#, fuzzy
 msgid "Subscribe to Offers, Deals & Promotions"
-msgstr ""
+msgstr "Melden Sie sich an Angebote, Angebote und Promotions"
 
 #: app/shipment/TrackAndTrace.html:19 app/shipment/printManifest.html:63
 msgid "TNT"
-msgstr ""
+msgstr "TNT"
 
 #: app/index.html:155
+#, fuzzy
 msgid "TRACK & TRACE"
-msgstr ""
+msgstr "TRACK & TRACE"
 
 #: app/shipment/ShipmentOverview.html:23
+#, fuzzy
 msgid "TRACKING NUMBER"
-msgstr ""
+msgstr "Sendungsverfolgungsnummer"
 
 #: app/shipment/commercialInvoice.html:98
 msgid "Tel:"
-msgstr ""
+msgstr "Tel.:"
 
 #: app/shipment/commercialInvoice.html:59
+#, fuzzy
 msgid "Terms of Delivery:"
-msgstr ""
+msgstr "Lieferbedingungen:"
 
 #: app/shipment/commercialInvoice.html:65
 msgid "Terms of payment:"
-msgstr ""
+msgstr "Zahlungsbedingungen:"
 
 #: app/userRegistration/userRegistration.html:444
+#, fuzzy
 msgid ""
 "Thank you for registrating with us! A Confirmation message was sent to your "
 "email"
 msgstr ""
+"Vielen Dank für registrier mit uns! Eine Bestätigungsnachricht wurde an Ihre "
+"E-Mail gesendet"
 
 #: app/shipment/commercialInvoice.html:194
+#, fuzzy
 msgid ""
 "This is a computer generated Commercial Invoice, no signature is required"
 msgstr ""
+"Dies ist ein Computer generierte Handelsrechnung ist keine Unterschrift "
+"erforderlich"
 
 #: app/shipment/addShipment.html:1001
 msgid "Total"
-msgstr ""
+msgstr "Insgesamt"
 
 #: app/shipment/addShipment.html:618
 msgid "Total Volume"
-msgstr ""
+msgstr "Gesamtvolumen"
 
 #: app/shipment/commercialInvoice.html:170
 msgid "Total:"
-msgstr ""
+msgstr "Betrag:"
 
 #: app/shipment/ShipmentOverview.html:139
+#, fuzzy
 msgid "Tracking History"
-msgstr ""
+msgstr "Trackinghistorie"
 
 #: app/shipment/loadAllShipments.html:96 app/shipment/printLabel.html:66
 #: app/shipment/shipmentManagement.html:112
 msgid "Tracking Number"
-msgstr ""
+msgstr "Sendungsnachverfolgungsnummer"
 
 #: app/shipment/loadAllShipments.html:66 app/shipment/printLabel.html:44
+#, fuzzy
 msgid "Tracking Number/ Shipment Ref Number"
-msgstr ""
+msgstr "Trackingnummer / Versand Ref Nummer"
 
 #: app/shipment/shipmentManagement.html:140
 msgid "Transit"
-msgstr ""
+msgstr "Strecke"
 
 #: app/shipment/addShipment.html:939
+#, fuzzy
 msgid "Transit time"
-msgstr ""
+msgstr "Transitzeit"
 
 #: app/shipment/TrackAndTrace.html:18 app/shipment/printManifest.html:62
 msgid "UPS"
-msgstr ""
+msgstr "UPS"
 
 #: app/index.html:174
+#, fuzzy
 msgid "USER MANAGEMENT"
-msgstr ""
+msgstr "User Management"
 
 #: app/profileInformation/profileInformation.html:581
 msgid "Update Password"
-msgstr ""
+msgstr "Passwort aktualisieren"
 
 #: app/shipment/shipmentDocuments.html:22
 msgid "Upload"
-msgstr ""
+msgstr "Hochladen"
 
 #: app/admin/BillingandInvoicing.html:232 app/admin/uploadInvoice.html:5
+#, fuzzy
 msgid "Upload Credit Note"
-msgstr ""
+msgstr "Laden Sie Gutschrift"
 
 #: app/admin/uploadInvoice.html:2
+#, fuzzy
 msgid "Upload Invoice"
-msgstr ""
+msgstr "hochladen Rechnung"
 
 #: app/admin/ImportRateSheet.html:2
 msgid "Upload Rate Sheet"
-msgstr ""
+msgstr "Hochladen: Tarife und Kosten"
 
 #: app/shipment/shipmentDocuments.html:7
+#, fuzzy
 msgid "Uploaded  Documents"
-msgstr ""
+msgstr "Hochgeladene Dokumente"
 
 #: app/shipment/shipmentDocuments.html:31
 msgid "Uploaded Files"
-msgstr ""
+msgstr "Hochgeladene Dateien"
 
 #: app/profileInformation/profileInformation.html:398
+#, fuzzy
 msgid "Use corporate address as billing address"
-msgstr ""
+msgstr "Verwenden Sie Corporate-Adresse als Rechnungsadresse"
 
 #: app/adminLogin/adminLogin.html:5
 msgid "User Login"
-msgstr ""
+msgstr "Benutzername"
 
 #: app/userManagement/saveUserManagement.html:144
+#, fuzzy
 msgid "User Role *"
-msgstr ""
+msgstr "Benutzerrolle"
 
 #: app/shipment/commercialInvoice.html:167
+#, fuzzy
 msgid "VALUE FOR CUSTOMS PURPOSE ONLY"
-msgstr ""
+msgstr "WERT NUR FÜR ZOLLZWECKE"
 
 #: app/profileInformation/profileInformation.html:337
 #: app/shipment/commercialInvoice.html:33
 msgid "VAT Number"
-msgstr ""
+msgstr "Umsatzsteuer ID"
 
 #: app/shipment/commercialInvoice.html:19
 msgid "VAT number:"
-msgstr ""
+msgstr "USt-IdNr.:"
 
 #: app/shipment/loadAllShipments.html:102
 #: app/shipment/shipmentManagement.html:118
 msgid "View"
-msgstr ""
+msgstr "Anzeigen"
 
 #: app/admin/BillingandInvoicing.html:233
 msgid "View Credit Note"
-msgstr ""
+msgstr "Ansicht Gutschrift"
 
 #: app/admin/BillingandInvoicing.html:118
 #: app/billingandInvoicing/CustomerBillingandInvoicing.html:82
 msgid "View Invoice"
-msgstr ""
+msgstr "Rechnung anzeigen"
 
 #: app/shipment/addShipment.html:10
+#, fuzzy
 msgid "Viewing shipment information of"
-msgstr ""
+msgstr "Anzeigen von Sendungsinformationen von"
 
 #: app/shipment/commercialInvoice.html:193
+#, fuzzy
 msgid ""
 "We hereby certify that the information on the Commercial Invoice is true and "
 "correct"
 msgstr ""
+"Wir bestätigen hiermit, dass die Angaben auf der Handelsrechnung ist wahr "
+"und richtig"
 
 #: app/shipment/printManifest.html:168
 msgid "Weight"
-msgstr ""
+msgstr "Gewicht"
 
 #: app/shipment/addShipment.html:653
+#, fuzzy
 msgid "Weight *"
-msgstr ""
+msgstr "Gewicht"
 
 #: app/shipment/addShipment.html:656
+#, fuzzy
 msgid "Width  *"
-msgstr ""
+msgstr "Breite"
 
 #: app/shipment/addShipment.html:709 app/shipment/addShipment.html:769
 #: app/shipment/printManifest.html:47
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: app/userRegistration/userRegistration.html:345
 #: app/userRegistration/userRegistration.html:428
+#, fuzzy
 msgid "You must agree with terms"
-msgstr ""
+msgstr "Sie müssen mit Bedingungen zustimmen"
 
 #: app/userManagement/saveUserManagement.html:116
+#, fuzzy
 msgid "Your Password should be"
-msgstr ""
+msgstr "Ihr Passwort sollte sein"
 
 #: app/userRegistration/userRegistration.html:152
+#, fuzzy
 msgid "Your Password should be:"
-msgstr ""
+msgstr "Ihr Passwort sollte sein:"
 
 #: app/userRegistration/userRegistration.html:362
+#, fuzzy
 msgid "Your form contains"
-msgstr ""
+msgstr "Das Formular enthält"
 
 #: app/costcenter/saveCostCenter.html:87
+#, fuzzy
 msgid "Zip Code *"
-msgstr ""
+msgstr "PLZ*"
 
 #: app/costcenter/saveCostCenter.html:93
+#, fuzzy
 msgid "Zip Code is required"
-msgstr ""
+msgstr "Postleitzahl erforderlich."
 
 #: app/userRegistration/userRegistration.html:284
+#, fuzzy
 msgid "Zip/Postal Code *"
-msgstr ""
+msgstr "PLZ/Postleitzahl"
 
 #: app/shipment/addShipment.html:721
+#, fuzzy
 msgid "cargo aircraft only (CAO)"
-msgstr ""
+msgstr "nur Frachtflugzeuge (CAO)"
 
 #: app/shipment/printManifest.html:164
+#, fuzzy
 msgid "city/zip/country"
-msgstr ""
+msgstr "Stadt / PLZ / Land"
 
 #: app/shipment/addShipment.html:720
+#, fuzzy
 msgid "dangerous goods"
-msgstr ""
+msgstr "Gefahrgüter"
 
 #: app/shipment/addShipment.html:719
+#, fuzzy
 msgid "dry ice (DI)"
-msgstr ""
+msgstr "Trockeneis (DI)"
 
 #: app/userRegistration/userRegistration.html:364
+#, fuzzy
 msgid "errors, see details below"
-msgstr ""
+msgstr "Fehler, Details siehe unten"
 
 #: app/shipment/addShipment.html:716
+#, fuzzy
 msgid "expected quantity (EQ)"
-msgstr ""
+msgstr "erwartete Menge (EQ)"
 
 #: app/shipment/addShipment.html:717
+#, fuzzy
 msgid "limited quantity (LQ)"
-msgstr ""
+msgstr "begrenzte Menge (LQ)"
 
 #: app/shipment/addShipment.html:718
+#, fuzzy
 msgid "lithium batteries (LB)"
-msgstr ""
+msgstr "Lithium-Batterien (LB)"
 
 #: app/shipment/addShipment.html:906
 msgid "loading..."
-msgstr ""
+msgstr "Lädt…"
 
 #: app/shipment/addShipment.html:722
+#, fuzzy
 msgid "passenger aircraft (PAX)"
-msgstr ""
+msgstr "(Passagierflugzeug):"
 
 #: app/shipment/printManifest.html:163
 msgid "street"
-msgstr ""
+msgstr "Straße"
 
 #: app/shipment/TrackAndTrace.html:27
+#, fuzzy
 msgid "tracking Number"
-msgstr ""
+msgstr "Sendungsverfolgungsnummer"
 
 #: app/profileInformation/profileInformation.html:772
+#, fuzzy
 msgid "would like to receive notified on new solutions"
-msgstr ""
+msgstr "möchte neue Lösungen benachrichtigt zu empfangen"
 
 #: app/admin/uploadInvoice.html:30
 msgid "{{from}}"
-msgstr ""
+msgstr "{{from}}"

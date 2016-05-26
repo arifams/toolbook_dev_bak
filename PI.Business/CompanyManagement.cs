@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Admin;
 using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
@@ -1519,6 +1520,21 @@ namespace PI.Business
 
                 return comapny.IsActive;
             }
+        }
+
+        //get the company name by user Id
+        public CompanyDto GetCompanyByUserID(string userID)
+        {
+            var currentCompany = commonLogics.GetCompanyByUserId(userID);
+            return new CompanyDto()
+            {
+                Id= currentCompany.Id,
+                CompanyCode=currentCompany.CompanyCode,
+                Name=currentCompany.Name,
+                COCNumber=currentCompany.COCNumber,
+                VATNumber=currentCompany.VATNumber                
+            };
+
         }
 
         public string GetBusinessOwneridbyCompanyId(string companyId)

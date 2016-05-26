@@ -197,6 +197,15 @@ namespace PI.Service.Controllers
             return companyManagement.ChangeCompanyStatus(copmany.Id);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetCompanyByUserId")]
+        public CompanyDto GetCompanyByUserId(string loggedInUserId)
+        {
+            return companyManagement.GetCompanyByUserID(loggedInUserId);
+        }
+
 
     }
 }

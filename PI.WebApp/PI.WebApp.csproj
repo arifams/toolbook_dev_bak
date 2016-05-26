@@ -4892,6 +4892,10 @@
     <Content Include="node_modules\grunt\package.json" />
     <Content Include="node_modules\grunt\README.md" />
     <Content Include="po\template.pot" />
+    <Content Include="po\de.mo" />
+    <Content Include="po\de.po" />
+    <Content Include="po\nl.mo" />
+    <Content Include="po\nl.po" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />

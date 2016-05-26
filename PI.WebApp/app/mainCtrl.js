@@ -1,8 +1,25 @@
 ﻿(function (app) {
 
     app.factory('userService', function ($http, $window) {
-    return {
-        getUserName: function () {
+
+        return {
+            getUserName: getUserName,
+            getCompanyName: getCompanyName
+        };
+
+
+        function getCompanyName() {
+
+            return $http.get(serverBaseUrl + '/api/Company/GetCompanyByUserId', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+
+        }
+
+    
+        function getUserName() {
             
             return $http.get(serverBaseUrl + '/api/accounts/GetLoggedInUserName', {
                 params: {
@@ -10,7 +27,7 @@
                 }
             });
         }
-    }
+    
 
 });
 
@@ -64,6 +81,11 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
         .then(function successCallback(responce) {
             $scope.userName = responce.data;
         });
+
+    userService.getCompanyName().then(function successCallback(responce) {
+        debugger;
+        $scope.companyName = responce.data.name;
+    });
 
 
     if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
