@@ -87,6 +87,10 @@ function ($scope, applicationService, quickViewService, builderService, pluginsS
         $scope.companyName = responce.data.name;
     });
 
+    $scope.getCurrentLnguage = function (language) {
+        debugger;
+        $window.localStorage.setItem('currentLnguage', language);
+    };
 
     if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
         window.location = webBaseUrl + "/app/userLogin/userLogin.html";

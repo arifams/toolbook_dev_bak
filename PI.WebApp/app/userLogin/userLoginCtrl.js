@@ -13,9 +13,11 @@
 
     });
 
-    app.run(function (gettextCatalog, $rootScope) {
+    app.run(function (gettextCatalog, $rootScope, $window) {
 
-        gettextCatalog.setCurrentLanguage('nl');
+        debugger;
+        gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
+
 
         $rootScope.translate = function (str) {
             return gettextCatalog.getString(str);

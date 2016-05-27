@@ -50,7 +50,7 @@
                         } else {
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Division saved successfully') + '</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Division saved successfully!') + '</p></div>',
                                 layout: 'bottom-right',
                                 theme: 'made',
                                 animation: {
