@@ -298,7 +298,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exist') + '</p></div>',
+                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered Already Exists') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -822,7 +822,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exist') + '</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exists') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {

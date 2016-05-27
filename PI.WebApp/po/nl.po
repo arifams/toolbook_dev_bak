@@ -603,7 +603,7 @@ msgstr "Kostenplaats is verplicht"
 
 #: app/manualTraslationExtract.html:104
 msgid "Cost center saved successfully"
-msgstr ""
+msgstr "Kostenplaats succesvol opgeslagen"
 
 #: app/divisions/loadDivisions.html:44
 msgid "Costcenter: All"
@@ -616,7 +616,7 @@ msgstr "Land"
 #: app/addressBook/saveAddress.html:123 app/costcenter/saveCostCenter.html:70
 #: app/profileInformation/profileInformation.html:406
 msgid "Country *"
-msgstr "Land*"
+msgstr "Land *"
 
 #: app/shipment/commercialInvoice.html:76
 msgid "Country of destinations"
@@ -696,9 +696,8 @@ msgid "Date"
 msgstr "Datum"
 
 #: app/shipment/printManifest.html:26
-#, fuzzy
 msgid "Date *"
-msgstr "Datum*"
+msgstr "Datum *"
 
 #: app/shipment/printManifest.html:34
 #, fuzzy
@@ -802,9 +801,8 @@ msgid "Division"
 msgstr "Afdeling"
 
 #: app/shipment/addShipment.html:69
-#, fuzzy
 msgid "Division *"
-msgstr "Afdeling"
+msgstr "Afdeling *"
 
 #: app/divisions/saveDivision.html:44
 #, fuzzy
@@ -812,9 +810,8 @@ msgid "Division Description"
 msgstr "Afdeling Omschrijving"
 
 #: app/divisions/saveDivision.html:28
-#, fuzzy
 msgid "Division Name *"
-msgstr "Divisienaam"
+msgstr "Divisienaam *"
 
 #: app/divisions/saveDivision.html:35
 msgid "Division Name is required"
@@ -834,23 +831,23 @@ msgstr "Afdelingen: All"
 
 #: app/manualTraslationExtract.html:62
 msgid "Do you want to delete"
-msgstr ""
+msgstr "Wilt u dit verwijderen"
 
 #: app/manualTraslationExtract.html:14
 msgid "Do you want to delete the record?"
-msgstr ""
+msgstr "Weet u zeker dat u  de data wilt verwijderen?"
 
 #: app/manualTraslationExtract.html:161
 msgid "Do you want to update"
-msgstr ""
+msgstr "Wilt u een update"
 
 #: app/manualTraslationExtract.html:116
 msgid "Do you want to update the Profile"
-msgstr ""
+msgstr "Wilt u uw profiel bijwerken"
 
 #: app/manualTraslationExtract.html:74
 msgid "Do you want to update the invoice status"
-msgstr ""
+msgstr "Wilt u de status van de factuur bijwerken"
 
 #: app/shipment/addShipment.html:979
 msgid "Earliest Pickup Date"
@@ -892,22 +889,20 @@ msgstr "E-mailadres"
 
 #: app/addressBook/saveAddress.html:73
 #: app/userManagement/saveUserManagement.html:87
-#, fuzzy
 msgid "Email Address *"
-msgstr "Email Adres*"
+msgstr "Email Adres *"
 
 #: app/manualTraslationExtract.html:125 app/manualTraslationExtract.html:140
 msgid "Email You Entered is Already Exist"
-msgstr ""
+msgstr "Het opgegeven emailadres is al in gebruik "
 
 #: app/profileInformation/profileInformation.html:870
 msgid "Email You Entered is already exist"
 msgstr "Het opgegeven e-mailadres is reeds in gebruik"
 
 #: app/userRegistration/userRegistration.html:114
-#, fuzzy
 msgid "Email address*"
-msgstr "*E-mailadres"
+msgstr "E-mailadres *"
 
 #: app/addressBook/saveAddress.html:81
 #: app/profileInformation/profileInformation.html:153
@@ -916,13 +911,12 @@ msgid "Email is required"
 msgstr "E-mailadres is verplicht"
 
 #: app/adminLogin/adminLogin.html:33 app/userLogin/userLogin.html:34
-#, fuzzy
 msgid "Email is required."
-msgstr "E-mailadres is verplicht"
+msgstr "E-mailadres is verplicht."
 
 #: app/manualTraslationExtract.html:11
 msgid "Enable"
-msgstr ""
+msgstr "Activeren"
 
 #: app/profileInformation/profileInformation.html:272
 #: app/profileInformation/profileInformation.html:492
@@ -1240,9 +1234,8 @@ msgid "Enter your password"
 msgstr "Vul uw wachtwoord in"
 
 #: app/userRegistration/userRegistration.html:131
-#, fuzzy
 msgid "Enter your password *"
-msgstr "Vul uw wachtwoord in"
+msgstr "Vul uw wachtwoord in *"
 
 #: app/userRegistration/userRegistration.html:104
 #: app/userRegistration/userRegistration.html:385
@@ -1260,11 +1253,11 @@ msgstr "Foutmelding"
 
 #: app/manualTraslationExtract.html:89
 msgid "Error occured"
-msgstr ""
+msgstr "er is een fout opgetreden"
 
 #: app/manualTraslationExtract.html:158
 msgid "Error occured while adding the Shipment"
-msgstr ""
+msgstr "er is een fout opgetreden tijdens het inboeken van uw zending "
 
 #: app/profileInformation/profileInformation.html:878
 #, fuzzy
@@ -1273,11 +1266,11 @@ msgstr "Fout opgetreden tijdens het aansluiten van de server"
 
 #: app/manualTraslationExtract.html:152
 msgid "Error occured while requesting the quote"
-msgstr ""
+msgstr "Er is een fout opgetreden tijdens het aanvragen van de offerte "
 
 #: app/manualTraslationExtract.html:146
 msgid "Error occured while saving the Shipment"
-msgstr ""
+msgstr "er is een fout opgetreden tijdens het opslaan van de zending "
 
 #: app/shipment/addShipment.html:980
 msgid "Est Delivery Time"
@@ -1306,13 +1299,12 @@ msgid "Express End-of-Day Manifest"
 msgstr "Express End-of-Day Manifest"
 
 #: app/shipment/printManifest.html:65
-#, fuzzy
 msgid "FEDEX"
-msgstr "FedEx"
+msgstr "FEDEX"
 
 #: app/manualTraslationExtract.html:92
 msgid "File(s) added successfully"
-msgstr ""
+msgstr "bestanden zijn succesvol toegevoegd "
 
 #: app/shipment/TrackAndTrace.html:83
 #, fuzzy
@@ -1337,7 +1329,7 @@ msgstr "Voornaam"
 #: app/addressBook/saveAddress.html:45
 #: app/userManagement/saveUserManagement.html:40
 msgid "First Name *"
-msgstr "Voornaam"
+msgstr "Voornaam *"
 
 #: app/shipment/addShipment.html:54
 #, fuzzy
@@ -1436,7 +1428,7 @@ msgstr "Inbox"
 
 #: app/manualTraslationExtract.html:182
 msgid "Incorrect UserName/Password"
-msgstr ""
+msgstr "Het opgegeven wachtwoord/gebruikersnaam is ongeldig"
 
 #: app/profileInformation/profileInformation.html:23
 #, fuzzy
@@ -1445,7 +1437,7 @@ msgstr "Individueel account"
 
 #: app/userRegistration/userRegistration.html:182
 msgid "Individual account"
-msgstr ""
+msgstr "Individueel Account"
 
 #: app/shipment/addShipment.html:994
 msgid "Insurance"
@@ -1457,7 +1449,7 @@ msgstr "Verzekering *"
 
 #: app/manualTraslationExtract.html:56
 msgid "Invalid data import format"
-msgstr ""
+msgstr "ongeldige systeem invoer "
 
 #: app/adminLogin/adminLogin.html:64 app/userLogin/userLogin.html:72
 msgid "Invalid token."
@@ -1465,7 +1457,7 @@ msgstr "Ongeldige teken."
 
 #: app/manualTraslationExtract.html:44
 msgid "Invoice"
-msgstr ""
+msgstr "Factuur"
 
 #: app/admin/BillingandInvoicing.html:111
 #: app/admin/BillingandInvoicing.html:225
@@ -1505,11 +1497,11 @@ msgstr "factuurwaarde"
 
 #: app/manualTraslationExtract.html:98
 msgid "Invoice disputed successfully"
-msgstr ""
+msgstr "de factuur is succesvol gedisputeert "
 
 #: app/manualTraslationExtract.html:77
 msgid "Invoice updated successfully"
-msgstr ""
+msgstr "de factuur is succesvol bijgewerkt "
 
 #: app/shipment/commercialInvoice.html:129
 msgid "Item"
@@ -1545,12 +1537,11 @@ msgstr "Voer a.u.b. achternaam in"
 #: app/addressBook/saveAddress.html:59
 #: app/userManagement/saveUserManagement.html:71
 msgid "Last Name *"
-msgstr "Voer a.u.b. achternaam in"
+msgstr "Voer a.u.b. achternaam in *"
 
 #: app/addressBook/saveAddress.html:66
-#, fuzzy
 msgid "Last Name is required"
-msgstr "Achternaam is verplicht."
+msgstr "Achternaam is verplicht"
 
 #: app/userManagement/loadUserManagement.html:82
 #, fuzzy
@@ -1562,9 +1553,8 @@ msgid "Last name *"
 msgstr "Achternaam *"
 
 #: app/shipment/addShipment.html:655
-#, fuzzy
 msgid "Length *"
-msgstr "Lengte"
+msgstr "Lengte *"
 
 #: app/shipment/printManifest.html:40
 #, fuzzy
@@ -1687,7 +1677,7 @@ msgstr "Dhr"
 #: app/userManagement/saveUserManagement.html:30
 #: app/userRegistration/userRegistration.html:35
 msgid "Mrs"
-msgstr "Mevr."
+msgstr "Mevr"
 
 #: app/addressBook/saveAddress.html:38
 #: app/profileInformation/profileInformation.html:89
@@ -1707,7 +1697,7 @@ msgstr "Naam + handtekening:"
 
 #: app/manualTraslationExtract.html:113
 msgid "New Password Cannot be same as old Password"
-msgstr ""
+msgstr "het nieuwe wachtwoord kan niet hetzelfde zijn als het oude wachtwoord "
 
 #: app/adminLogin/adminLogin.html:82 app/userLogin/userLogin.html:61
 #: app/userLogin/userLogin.html:90
@@ -1732,11 +1722,13 @@ msgstr "Geen prijzen beschikbaar voor deze zending"
 
 #: app/manualTraslationExtract.html:59
 msgid "No File uploaded for import"
-msgstr ""
+msgstr "er is geen bestand geïmporteerd"
 
 #: app/manualTraslationExtract.html:173 app/manualTraslationExtract.html:23
 msgid "No account found by this email. Please enter registered Email"
 msgstr ""
+"Geen account gevonden met dit email adres. Vul een geregistreerd emailadres "
+"in."
 
 #: app/shipment/shipmentManagement.html:19
 #, fuzzy
@@ -1780,7 +1772,7 @@ msgstr "OVERZICHT"
 
 #: app/manualTraslationExtract.html:65
 msgid "Ok"
-msgstr ""
+msgstr "Akkoord"
 
 #: app/shipment/loadAllShipments.html:95 app/shipment/printLabel.html:65
 #: app/shipment/shipmentManagement.html:111
@@ -1918,9 +1910,8 @@ msgid "Phone Number"
 msgstr "Telefoonnummer"
 
 #: app/addressBook/saveAddress.html:88 app/costcenter/saveCostCenter.html:46
-#, fuzzy
 msgid "Phone Number *"
-msgstr "*Telefoonnummer"
+msgstr "Telefoonnummer *"
 
 #: app/addressBook/saveAddress.html:95 app/costcenter/saveCostCenter.html:51
 #, fuzzy
@@ -2027,7 +2018,7 @@ msgstr "Product info"
 
 #: app/shipment/addShipment.html:650
 msgid "Product Type *"
-msgstr "*Product Type"
+msgstr "Product Type *"
 
 #: app/shipment/addShipment.html:108
 msgid "Product*"
@@ -2035,11 +2026,11 @@ msgstr "Product"
 
 #: app/manualTraslationExtract.html:131 app/manualTraslationExtract.html:143
 msgid "Profile Update Failed"
-msgstr ""
+msgstr "Bijwerken profiel mislukt "
 
 #: app/manualTraslationExtract.html:119 app/manualTraslationExtract.html:137
 msgid "Profile Updated Successfully"
-msgstr ""
+msgstr "Het profiel is succesvol bijgewerkt "
 
 #: app/profileInformation/profileInformation.html:866
 msgid "Profile update failed"
@@ -2050,9 +2041,8 @@ msgid "Quantity"
 msgstr "Aantal"
 
 #: app/shipment/addShipment.html:651
-#, fuzzy
 msgid "Quantity *"
-msgstr "Aantal"
+msgstr "Aantal *"
 
 #: app/index.html:139
 #, fuzzy
@@ -2071,7 +2061,7 @@ msgstr "Tarieven en Carrier Details"
 
 #: app/manualTraslationExtract.html:86
 msgid "Rates records added successfully"
-msgstr ""
+msgstr "tarieven bestanden zijn succesvol toegevoegd"
 
 #: app/profileInformation/profileInformation.html:646
 msgid "Re-enter new password"
@@ -2158,9 +2148,8 @@ msgstr "Aanhef"
 
 #: app/addressBook/saveAddress.html:32
 #: app/userManagement/saveUserManagement.html:24
-#, fuzzy
 msgid "Salutation *"
-msgstr "Aanhef*"
+msgstr "Aanhef *"
 
 #: app/addressBook/saveAddress.html:232 app/costcenter/saveCostCenter.html:216
 #: app/divisions/saveDivision.html:98
@@ -2262,7 +2251,7 @@ msgstr "Selecteer"
 
 #: app/shipment/TrackAndTrace.html:17 app/shipment/printManifest.html:61
 msgid "Select Carrier"
-msgstr "-selecteer een vervoerder-"
+msgstr "selecteer een vervoerder"
 
 #: app/shipment/printManifest.html:4
 #, fuzzy
@@ -2276,11 +2265,11 @@ msgstr "Stuur Password Reset Link"
 
 #: app/manualTraslationExtract.html:134
 msgid "Server Error Occured"
-msgstr ""
+msgstr "Serverfout opgetreden"
 
 #: app/manualTraslationExtract.html:179 app/manualTraslationExtract.html:20
 msgid "Server error occured while reseting password"
-msgstr ""
+msgstr "Servicefout opgetreden tijdens het resetten van het wachtwoord"
 
 #: app/shipment/addShipment.html:938
 msgid "Service"
@@ -2436,7 +2425,7 @@ msgstr "Straat *"
 
 #: app/costcenter/saveCostCenter.html:123
 msgid "Street Address 1 *"
-msgstr "Straat en huisnummer:"
+msgstr "Straat en huisnummer: *"
 
 #: app/costcenter/saveCostCenter.html:127
 msgid "Street Address 1 is required"
@@ -2473,7 +2462,7 @@ msgstr "Abonneer je op Aanbiedingen, Deals & Promotions"
 
 #: app/manualTraslationExtract.html:149
 msgid "Successfully request the quote"
-msgstr ""
+msgstr "De offerte is succesvol aangevraagd "
 
 #: app/shipment/printManifest.html:63
 #, fuzzy
@@ -2523,6 +2512,8 @@ msgstr ""
 #: app/manualTraslationExtract.html:164 app/manualTraslationExtract.html:29
 msgid "To confirm email address, please login using your username and password"
 msgstr ""
+"Om uw email adres te bevestigen, dient u in te loggen met uw gebruikersnaam "
+"en wachtwoord. "
 
 #: app/shipment/addShipment.html:1001
 msgid "Total"
@@ -2607,9 +2598,8 @@ msgid "User Login"
 msgstr "Gebruikers login"
 
 #: app/userManagement/saveUserManagement.html:144
-#, fuzzy
 msgid "User Role *"
-msgstr "Gebruikers rol"
+msgstr "Gebruikers rol *"
 
 #: app/shipment/commercialInvoice.html:167
 msgid "VALUE FOR CUSTOMS PURPOSE ONLY"
@@ -2649,6 +2639,8 @@ msgid ""
 "We have send the username change confirmation email. Please confirm before "
 "login"
 msgstr ""
+"We hebben u de email verstuurd, waarmee u uw gebruikersnaam opnieuw kunt "
+"instellen. "
 
 #: app/shipment/commercialInvoice.html:193
 msgid ""
@@ -2685,11 +2677,11 @@ msgstr "U dient het reglement te accepteren."
 #: app/manualTraslationExtract.html:170 app/manualTraslationExtract.html:176
 #: app/manualTraslationExtract.html:26
 msgid "You must have a confirmed email to log in"
-msgstr ""
+msgstr "u dient een geregistreerd email adres in te voeren om in te loggen "
 
 #: app/manualTraslationExtract.html:17
 msgid "You must have a confirmed email to log in."
-msgstr ""
+msgstr "u dient een geregistreerd  email adres in te voeren om in te loggen."
 
 #: app/userManagement/saveUserManagement.html:116
 #, fuzzy
@@ -2727,7 +2719,7 @@ msgstr "stad  / zip / land"
 
 #: app/manualTraslationExtract.html:38
 msgid "complete"
-msgstr ""
+msgstr "Compleet"
 
 #: app/shipment/addShipment.html:720
 msgid "dangerous goods"
@@ -2735,7 +2727,7 @@ msgstr "gevaarlijke goederen"
 
 #: app/manualTraslationExtract.html:41
 msgid "disabled"
-msgstr ""
+msgstr "uitgeschakeld"
 
 #: app/shipment/addShipment.html:719
 #, fuzzy
@@ -2773,7 +2765,7 @@ msgstr "passagiersvliegtuigen (PAX)"
 
 #: app/manualTraslationExtract.html:128
 msgid "password You Entered is Invalid"
-msgstr ""
+msgstr "Het opgegeven wachtwoord is ongeldig "
 
 #: app/shipment/printManifest.html:163
 msgid "street"
