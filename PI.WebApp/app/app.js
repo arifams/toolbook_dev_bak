@@ -363,8 +363,9 @@ var checkRouting = function ($location) {
 };
 
 
-MakeApp.run(function (gettextCatalog, $rootScope, $window) {
+MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
     debugger;
+    //$window.localStorage.getItem('currentLnguage')
     gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 
     $rootScope.translate = function (str) {
@@ -372,8 +373,7 @@ MakeApp.run(function (gettextCatalog, $rootScope, $window) {
     };
 
     gettextCatalog.debug = true;
-
-  
+ 
 });
 
 
