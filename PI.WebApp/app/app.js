@@ -372,7 +372,7 @@ MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
         return gettextCatalog.getString(str);
     };
 
-    gettextCatalog.debug = true;
+    //gettextCatalog.debug = true;
  
 });
 

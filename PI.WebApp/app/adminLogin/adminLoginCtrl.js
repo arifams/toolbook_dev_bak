@@ -18,6 +18,7 @@
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
+        $window.localStorage.setItem('currentLnguage', '');
         vm.loginInvalid = false;
         vm.invalidToken = false;
         vm.isEmailConfirm = false;
