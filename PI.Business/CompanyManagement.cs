@@ -1550,8 +1550,24 @@ namespace PI.Business
                             && user.Roles.FirstOrDefault().RoleId == BusinessOwnerId
                           select user.Id).SingleOrDefault();                
             }
-
+            
             return userId;
+        }
+
+
+       public bool UpdateCompanyLogo(string URL,string userId)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var currentCompany = commonLogics.GetCompanyByUserId(userId);
+                currentCompany.LogoUrl = URL;
+
+                context.Companies.Add(currentCompany);
+                context.SaveChanges();
+            }
+
+            return true;
+
         }
 
         #endregion

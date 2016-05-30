@@ -809,13 +809,24 @@
                             <div class="fileinput fileinput-new" data-provides="fileinput">
                                 <label class="col-sm-3 control-label">Upload Company Logo</label>
                                 <div class="fileinput-new thumbnail">
-                                    <img alt="" class="img-responsive" src="" data-src="">
+                                    <img   ng-show="profileCtrl.isImagetype" ngf-src="profileCtrl.logo" class="img-thumbnail">
+                                </div>
+                               
+                                
+                                <div class="form-group">
+                                    <div class="col-sm-4">
+                                        <input type="file" ngf-select ng-model="profileCtrl.logo" name="file" accept="image/png, image/jpeg, image/jpg"
+                                               ngf-max-size="2MB" required ngf-model-invalid="errorFile"  ngf-change="profileCtrl.OnLogoChange($files)">
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button ng-click="profileCtrl.uploadLogo(profileCtrl.logo)" class="btn">
+                                            <i class="fa fa-arrow-circle-o-up"></i><translate> Upload </translate>
+                                        </button>
+                                        {{errorMsg}}
+                                    </div>
                                 </div>
 
-                                <span class="btn btn-default btn-file">
-                                    <span class="fileinput-new">Select image...</span><span class="fileinput-exists">Change</span>
-                                    <input type="hidden" value="" name="..."><input type="file" name="">
-                                </span>
+                                  
                                 <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
 
                             </div>

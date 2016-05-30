@@ -71,7 +71,7 @@
 
     });
 
-    
+      
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
@@ -108,8 +108,8 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window','$rootScope',
-            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window, $rootScope) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window','$rootScope','Upload', '$http','$scope',
+            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window, $rootScope, Upload, $http, $scope) {
 
                 // return if user not logged. -- Need to move this to global service.
                 if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
@@ -123,6 +123,27 @@
                 vm.model = {};
                 vm.model.accountSettings = {};
                 vm.model.doNotUpdateAccountSettings = false;
+                vm.isImagetype = false;
+
+                vm.isImage = function (ext) {
+                    debugger;
+                    if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
+
+                        return vm.isImagetype = true;
+                    } else {
+
+                        vm.isImagetype = false;
+                    }
+                }
+
+                vm.OnLogoChange = function (logo) {                   
+                    if (logo.length>0) {
+                        vm.isImage(logo[0].type);
+                    }
+                   
+                }
+
+               
 
                 vm.CheckMail = function () {
                     if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
@@ -863,6 +884,38 @@
                         });
                     }
                 }
+
+                vm.uploadLogo = function (file) {
+
+                    debugger;
+                    file.upload = Upload.upload({
+                        url: serverBaseUrl + '/api/Admin/UploadLogo',
+                        data: {
+                            file: file,
+                            userId: $window.localStorage.getItem('userGuid'),
+                            documentType: "LOGO"
+                            
+                        },
+                    });
+
+                    file.upload.then(function (response) {
+                        debugger;
+                        $timeout(function () {
+
+                            file.result = response.data;
+                            //deleteFile();
+                            $scope.document = null;
+                            $scope.loadAllUploadedFiles();
+                        });
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function (evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+
 
             }]);
 

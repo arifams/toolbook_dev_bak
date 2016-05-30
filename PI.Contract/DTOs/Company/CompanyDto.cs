@@ -16,6 +16,7 @@ namespace PI.Contract.DTOs.Company
         public string COCNumber { get; set; }
         public string VATNumber { get; set; }
         public string CompanyCode { get; set; }
+        public string LogoUrl { get; set; }
 
         public CostCenterDto CostCenter { get; set; }
 
