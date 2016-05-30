@@ -1799,7 +1799,6 @@ msgid "PICKEDUP"
 msgstr "Opgehaals"
 
 #: app/index.html:154
-#, fuzzy
 msgid "PRINT LABEL"
 msgstr "PRINT LABEL"
 
@@ -2022,7 +2021,7 @@ msgstr "Product Type *"
 
 #: app/shipment/addShipment.html:108
 msgid "Product*"
-msgstr "Product"
+msgstr "Product*"
 
 #: app/manualTraslationExtract.html:131 app/manualTraslationExtract.html:143
 msgid "Profile Update Failed"
@@ -2134,7 +2133,6 @@ msgid "SHIPMENT LABEL"
 msgstr "SHIPMENT LABEL"
 
 #: app/index.html:146 app/index.html:158
-#, fuzzy
 msgid "SHIPMENT REPORT"
 msgstr "SHIPMENT VERSLAG"
 
@@ -2373,7 +2371,6 @@ msgid "Shipped by:"
 msgstr "Verzonden"
 
 #: app/shipment/addShipment.html:115
-#, fuzzy
 msgid "Show All Options"
 msgstr "Alle opties tonen"
 
@@ -2784,6 +2781,12 @@ msgstr ""
 #: app/admin/uploadInvoice.html:30
 msgid "{{from}}"
 msgstr "{{from}}"
+
+#~ msgid "Show All"
+#~ msgstr "blaS"
+
+#~ msgid "Show"
+#~ msgstr "blahSHanel"
 
 #, fuzzy
 #~ msgid "Your Password should be:"
