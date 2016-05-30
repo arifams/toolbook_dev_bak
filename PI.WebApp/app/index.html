@@ -140,7 +140,7 @@
                         </li>
 
                         <li class="nav-parent" ng-show="currentRole == 'Admin'">
-                            <a href="#"><span>REPORTS</span> <span class="fa arrow"></span></a>
+                            <a href="#"><span translate>REPORTS</span> <span class="fa arrow"></span></a>
                             <ul class="children collapse">
                                 <li ng-class="{ active  : isActive('/ShipmentReports')}">
                                 <a href="#ShipmentReports" translate> SHIPMENT REPORT</a></li>
@@ -358,15 +358,15 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a data-target="#" data-lang="en"><img src="../global/images/languages/flag-uk.png" alt="flag-english"> <span>English</span></a>
+                                        <a data-target="#" data-lang="en" ng-click="getCurrentLnguage('en')"><img src="../global/images/languages/flag-uk.png" alt="flag-english"> <span>English</span></a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#" data-lang="nl" ng-click="getCurrentLnguage('nl')"><img src="../global/images/languages/flag-nl.png" alt="flag-english"> <span>Dutch</span></a>
+                                    </li>
+                                    <li>
+                                        <a data-target="#" data-lang="de" ng-click="getCurrentLnguage('de')"><img src="../global/images/languages/flag-de.png" alt="flag-english"> <span>German</span></a>
                                     </li>
                                     <!--<li>
-                                        <a data-target="#" data-lang="es"><img src="../global/images/languages/flag-nl.png" alt="flag-english"> <span>Dutch</span></a>
-                                    </li>
-                                    <li>
-                                        <a data-target="#" data-lang="fr"><img src="../global/images/languages/flag-de.png" alt="flag-english"> <span>German</span></a>
-                                    </li>
-                                    <li>
                                         <a data-target="#" data-lang="fr"><img src="../global/images/languages/flag-cn.png" alt="flag-english"> <span>Chinese</span></a>
                                     </li>-->
                                 </ul>

@@ -1,5 +1,7 @@
 ﻿<div ng-init="">
-    <h2> Customer Shipments</h2>
+    <h2 class="box-title" translate>
+        Customer Shipments
+    </h2>
     <div class="panel">
         <div class="panel-content panel-border">
             <form role="form" name="formShipmentManagement">
@@ -7,7 +9,7 @@
                     <div class="col-sm-6">
                         <div class="form-group input-group">
                             <input ng-model="manageShipCtrl.searchText" name="shipmentNumber" type="text" class="form-control"
-                                   placeholder="{{'Enter campany name,business owner's first or last name'|translate}}" />
+                                   placeholder="{{'Enter campany name,business owner first or last name'|translate}}" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="manageShipCtrl.loadAllCompanies()">
                                     <i class="fa fa-search"></i>
@@ -67,13 +69,13 @@
                     <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
                         <div class="form-group">
                             <input ng-model="manageShipCtrl.originCityCountry" name="originCityCountry" type="text" class="form-control"
-                                   placeholder="{{Origin City/Country|translate}}" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
+                                   placeholder="{{'Origin City/Country'|translate}}" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
                     </div>
                     <div ng-show="searchType == 'False'" class="col-sm-2 p-0">
                         <div class="form-group">
                             <input ng-model="manageShipCtrl.desCityCountry" name="desCityCountry" type="text" class="form-control p-l-5"
-                                   placeholder="{{Destination City/Country|translate}}" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
+                                   placeholder="{{'Destination City/Country'|translate}}" style="border: 1px solid rgba(70, 72, 73, 0.22);"/>
                         </div>
 
                     </div>
@@ -87,7 +89,7 @@
                     <div ng-show="searchType == 'True'">
                         <div class="col-sm-4 p-0" style="">
                             <div class="form-group">
-                                <input type="text" placeholder="{{Tracking Number/ Shipment Ref Number|translate}}" class="form-control ng-pristine ng-untouched ng-valid"
+                                <input type="text" placeholder="{{'Tracking Number/ Shipment Ref Number'|translate}}" class="form-control ng-pristine ng-untouched ng-valid"
                                        name="shipmentNumber" ng-model="manageShipCtrl.shipmentNumber">
                             </div>
                         </div>

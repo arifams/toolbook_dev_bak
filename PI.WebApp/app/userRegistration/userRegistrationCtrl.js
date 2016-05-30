@@ -865,15 +865,15 @@
       
     });
 
-    app.run(function(gettextCatalog, $rootScope) {
+    app.run(function (gettextCatalog, $rootScope, $window) {
 
-        gettextCatalog.setCurrentLanguage('nl');
+        gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 
         $rootScope.translate = function (str) {
             return gettextCatalog.getString(str);
         };
 
-        gettextCatalog.debug = true;
+        //gettextCatalog.debug = true;
     });
 
     app.directive('validPasswordC', function () {
