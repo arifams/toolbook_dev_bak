@@ -108,9 +108,13 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window','$rootScope',
-            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window, $rootScope) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope',
+            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope) {
 
+                applicationService.init();
+                builderService.init();
+                //mainColor();
+                
                 // return if user not logged. -- Need to move this to global service.
                 if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
                     window.location = webBaseUrl + "/app/userLogin/userLogin.html";
@@ -865,7 +869,6 @@
                 }
 
             }]);
-
-
+   
 })(angular.module('newApp'));
 
