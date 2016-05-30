@@ -5,7 +5,7 @@
 
     /* Main Color */
     function mainColor() {
-        alert('dioidhiq');
+        
         $('.theme-color').on('click', function (e) {
             e.preventDefault();
             var main_color = $(this).data('color');
