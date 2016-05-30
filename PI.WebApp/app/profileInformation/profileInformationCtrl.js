@@ -71,7 +71,7 @@
 
     });
 
-      
+    
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
@@ -108,8 +108,12 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', '$window','$rootScope','Upload', '$http','$scope',
-            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, $window, $rootScope, Upload, $http, $scope) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope',
+            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope) {
+
+                applicationService.init();
+                builderService.init();
+                //mainColor();
 
                 // return if user not logged. -- Need to move this to global service.
                 if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
@@ -928,7 +932,7 @@
 
                           //  $window.location.reload();
 
-                        }
+                    }
                         //$timeout(function () {
 
                         //    file.result = response.data;
@@ -947,7 +951,6 @@
 
 
             }]);
-
 
 })(angular.module('newApp'));
 
