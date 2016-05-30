@@ -23,14 +23,17 @@
             return gettextCatalog.getString(str);
         };
 
-        gettextCatalog.debug = true;
+        //gettextCatalog.debug = true;
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope',
-    function (userManager, $window, $cookieStore, $scope, $rootScope) {
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope','gettextCatalog',
+    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
+        $window.localStorage.setItem('currentLnguage', '');
+        gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
+
         vm.loginInvalid = false;
         vm.invalidToken = false;
         vm.isEmailConfirm = false;
