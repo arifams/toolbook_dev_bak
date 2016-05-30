@@ -4,7 +4,8 @@
 
         return {
             getUserName: getUserName,
-            getCompanyName: getCompanyName
+            getCompanyName: getCompanyName,
+            getLogoUrl: getLogoUrl
         };
 
 
@@ -27,6 +28,16 @@
                 }
             });
         }
+
+        function getLogoUrl() {
+
+            return $http.get(serverBaseUrl + '/api/Company/GetLogoUrl', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+        }
+
 
 
     });
@@ -83,6 +94,12 @@
             .then(function successCallback(responce) {
                 $scope.userName = responce.data;
             });
+
+        
+        userService.getLogoUrl()
+           .then(function successCallback(responce) {
+               $scope.logoUrl = responce.data;
+           });
 
         userService.getCompanyName().then(function successCallback(responce) {
             debugger;

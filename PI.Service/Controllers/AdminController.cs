@@ -151,8 +151,8 @@ namespace PI.Service.Controllers
 
                 try
                 {
-                    //  await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) + "/" + "Capture-Copy.png");  
-                    await media.Delete("https://pidocuments.blob.core.windows.net:443/piblobstorage/TENANT_2/LOGO/logo."+fileExtention);
+                     // await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) + "/" + "Capture-Copy.png");  
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + " / " + Utility.GetEnumDescription(fileDetails.DocumentType) + " / "+"logo." + fileExtention);
 
                 }
                 catch (Exception ex)
@@ -313,6 +313,7 @@ namespace PI.Service.Controllers
 
             OperationResult opResult = new OperationResult();
             HttpResponseMessage uploadResult = new HttpResponseMessage();
+            var logoUpdated = false;
             try
             {
                 if (!Request.Content.IsMimeMultipartContent())
@@ -324,28 +325,26 @@ namespace PI.Service.Controllers
                 var result = await Request.Content.ReadAsMultipartAsync(provider);
                 var fileDetails = GetFormData<FileUploadDto>(result);
 
-                uploadResult = await this.Upload(result);
+                uploadResult = await this.Upload(result);              
                 
-                if (uploadResult.Content!=null)
+                var urlJson = await uploadResult.Content.ReadAsStringAsync();
+
+                Result deSelizalizedObject = null;
+                deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
+
+                if (uploadResult.Content != null)
                 {
-                   var logoUpdated= companyManagement.UpdateCompanyLogo(uploadResult.Content.ToString(), fileDetails.UserId);
+                    logoUpdated = companyManagement.UpdateCompanyLogo(deSelizalizedObject.returnData, fileDetails.UserId);
 
                 }
 
-                //string returnData = result.FileData.First().LocalFileName;
-                //var response = this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
-                //var urlJson = await response.Content.ReadAsStringAsync();
-
-                //Result deSelizalizedObject = null;
-                //deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
-                
             }
             catch (Exception ex)
             {
                 
             }
 
-            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK  && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
            
 
         }

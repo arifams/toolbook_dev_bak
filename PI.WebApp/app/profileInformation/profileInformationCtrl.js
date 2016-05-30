@@ -900,13 +900,42 @@
 
                     file.upload.then(function (response) {
                         debugger;
-                        $timeout(function () {
+                        if (response.status==200) {
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                            });
 
-                            file.result = response.data;
-                            //deleteFile();
-                            $scope.document = null;
-                            $scope.loadAllUploadedFiles();
-                        });
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company Logo updated, click ok to reload the page') + '?</p></div>',
+                                buttons: [
+                                        {
+                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                $noty.close();
+                                                $window.location.reload();
+                                               
+                                            }
+                                        }
+                                     
+                                ],
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 3000,
+                            });
+
+                          //  $window.location.reload();
+
+                        }
+                        //$timeout(function () {
+
+                        //    file.result = response.data;
+                        //    //deleteFile();
+                        //    $scope.document = null;
+                        //    //$scope.loadAllUploadedFiles();
+                        //});
                     }, function (response) {
                         if (response.status > 0)
                             $scope.errorMsg = response.status + ': ' + response.data;
