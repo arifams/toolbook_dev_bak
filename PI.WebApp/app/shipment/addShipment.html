@@ -329,7 +329,7 @@
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.email" type="email" name="consigneremail" class="form-control" ng-change="shipmentCtrl.consignorEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneremail.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneremail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Email'|translate}}" />
+                                                                        (consignerConsigneeInfoForm.consigneremail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Contact Email'|translate}}" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneremail.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneremail.$dirty  && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="email" class="error" for="consigneremail" translate>Enter valid email address</label>
@@ -508,7 +508,7 @@
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.email" type="email" name="consigneeemail" class="form-control" ng-change="shipmentCtrl.consigneeEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeemail.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneeemail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Email'|translate}}" />
+                                                                        (consignerConsigneeInfoForm.consigneeemail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Contact Email'|translate}}" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneeemail.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneeemail.$dirty  && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="email" class="error" for="consigneeemail" translate>Enter valid email address</label>

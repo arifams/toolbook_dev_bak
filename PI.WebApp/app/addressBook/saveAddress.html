@@ -125,7 +125,12 @@
                                 <div class="option-group">
                                     <country-select id="country" name="country"
                                                     ng-model="addressCtrl.model.country" ng-change="addressCtrl.changeCountry()"
-                                                    class="form-control"></country-select>
+                                                    class="form-control" ng-required="true"></country-select>
+                                </div>
+                                <div ng-messages="saveAddressForm.country.$error"
+                                     ng-show="addressCtrl.isSubmit">
+                                    <!--<label ng-message="required" class="error" for="divisionName">Account Number is required</label>-->
+                                    <label ng-message="required" class="error" for="country" translate>Country is required</label>
                                 </div>
                             </div>
                         </div> 
