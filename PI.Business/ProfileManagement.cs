@@ -747,15 +747,14 @@ namespace PI.Business
         {
             try
             {
-
-                Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
-                if (currentCustomer == null)
-                {
-                    return 0;
-                }
-
                 using (PIContext context = new PIContext())
                 {
+                    Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+                    if (currentCustomer == null)
+                    {
+                        return 0;
+                    }
+                    
                     currentCustomer.SelectedColour = updatedProfile.SelectedColour;
                     context.SaveChanges();
                 }
