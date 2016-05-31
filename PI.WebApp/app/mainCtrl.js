@@ -85,9 +85,12 @@
                         mColor = '#B179D7';
                     else if (mName == 'blue')
                         mColor = '#4A89DC';
+                    else
+                        mColor = null;
 
-
-                    builderService.init(mColor, mName);
+                    if (mColor != null){
+                        builderService.init(mColor, mName);
+                    }
 
                 });
         });

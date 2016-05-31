@@ -125,7 +125,12 @@
                                 <div class="option-group">
                                     <country-select id="country" name="country"
                                                     ng-model="addressCtrl.model.country" ng-change="addressCtrl.changeCountry()"
-                                                    class="form-control"></country-select>
+                                                    class="form-control" ng-required="true"></country-select>
+                                </div>
+                                <div ng-messages="saveAddressForm.country.$error"
+                                     ng-show="addressCtrl.isSubmit">
+                                    <!--<label ng-message="required" class="error" for="divisionName">Account Number is required</label>-->
+                                    <label ng-message="required" class="error" for="country" translate>Country is required</label>
                                 </div>
                             </div>
                         </div> 
@@ -226,7 +231,7 @@
 
                         <div class="form-group">
                             <button ng-click="addressCtrl.close()" class="btn btn-primary btn-app pull-right">
-                                <i class="fa fa-close"></i>
+                                <i class="fa fa-close"></i><translate>Cancel</translate> 
                             </button>
                             <button type="submit" ng-click="(saveAddressForm.$valid ? addressCtrl.saveAddressDetail() : addressCtrl.isSubmit = true)" class="btn btn-primary btn-app pull-right">
                                 <i class="fa fa-save"></i> <translate>Save</translate> 

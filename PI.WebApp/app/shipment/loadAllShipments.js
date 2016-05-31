@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory','$rootScope',
-                       function ($scope, $location, $window, shipmentFactory, $rootScope) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory','$rootScope','$route',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route) {
 
                            var vm = this;
                            vm.statusButton = 'All';
@@ -49,11 +49,30 @@
                                                    shipmentFactory.deleteShipment(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           location.reload();
-                                                           //var index = vm.rowCollection.indexOf(row);
-                                                           //if (index !== -1) {
-                                                           //    vm.rowCollection.splice(index, 1);
-                                                           //}
+                                                           debugger;
+
+                                                           $('#panel-notif').noty({
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully, click ok to reload the shipment list') + '?</p></div>',
+                                                               buttons: [
+                                                                       {
+                                                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                                               $noty.close();                                                                            
+                                                                               $route.reload();
+
+                                                                           }
+                                                                       }
+
+                                                               ],
+                                                               layout: 'bottom-right',
+                                                               theme: 'made',
+                                                               animation: {
+                                                                   open: 'animated bounceInLeft',
+                                                                   close: 'animated bounceOutLeft'
+                                                               },
+                                                               timeout: 3000,
+                                                           });
+
+                                                           
                                                        }
                                                    })
                                        .error(function () {
