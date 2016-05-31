@@ -56,6 +56,9 @@
             builderService.init();
             pluginsService.init();
             Dropzone.autoDiscover = false;
+
+            builderService.init('#C75757', 'red');
+
         });
 
         $scope.$on('$viewContentLoaded', function () {
