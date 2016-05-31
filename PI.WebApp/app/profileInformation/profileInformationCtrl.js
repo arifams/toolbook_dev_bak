@@ -112,6 +112,8 @@
 
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope','Upload',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope,Upload) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope','Upload',
             function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope, Upload) {
 
                 applicationService.init();

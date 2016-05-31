@@ -909,7 +909,7 @@ namespace PI.Business
 
                 if (user != null)
                 {
-                    userName = user.FirstName;
+                    userName = user.FirstName+" "+ user.LastName;
                 }
             }
 

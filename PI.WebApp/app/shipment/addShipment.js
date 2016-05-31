@@ -52,6 +52,7 @@
         vm.backUrl = webBaseUrl + '/app/index.html#/PaymentResult';
         vm.isClickCalculateRate = false;
         vm.addingRequestForQuote = false;
+        
 
         vm.closeWindow = function () {
             ngDialog.close()
