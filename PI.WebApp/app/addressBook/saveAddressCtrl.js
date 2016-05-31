@@ -30,7 +30,7 @@
     app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope) {
 
         var vm = this;
-        
+      
 
         vm.changeCountry = function () {
             vm.isRequiredState = vm.model.country == 'US' || vm.model.country == 'CA' || vm.model.country == 'PR' || vm.model.country == 'AU';

@@ -32,11 +32,16 @@
                             <label class="col-sm-2 control-label" translate>Salutation *</label>
                             <div class="col-sm-2">                               
                                     <div class="option-group">
-                                        <select id="salutation" name="salutation" class="salutation form-control" required ng-model="addressCtrl.model.salutation" >
-                                            <option value="Mr" selected="selected" translate>Mr</option>
+                                        <select id="salutation" name="salutation" class="salutation form-control" required ng-model="addressCtrl.model.salutation"  >
+                                            <option value="Mr" selected translate>Mr</option>
                                             <option value="Mrs" translate>Mrs</option>
                                             <option value="Ms"  translate>Ms</option>
-                                        </select>                                 
+                                        </select>    
+                                        <div ng-messages="saveAddressForm.salutation.$error"
+                                             ng-show="addressCtrl.isSubmit">
+                                            <label ng-message="required" class="error" for="divisionName">Salutation is required</label>
+                                           
+                                        </div>                             
                                 </div>
                             </div>
                         </div>
