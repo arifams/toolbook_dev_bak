@@ -53,7 +53,7 @@
 
     app.controller('mainCtrl',
         ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', 'userService',
-            '$location', '$window', '$route','gettextCatalog',
+            '$location', '$window', '$route', 'gettextCatalog',
     function ($scope, applicationService, quickViewService, builderService, pluginsService, userService,
         $location, $window, $route, gettextCatalog) {
 
@@ -65,8 +65,13 @@
             pluginsService.init();
             Dropzone.autoDiscover = false;
 
-            var mName = 'primary';    // From DB
+            var mName = 'default';    // From DB
             var mColor = '';
+
+            userService.getThemeColour()
+                           .then(function successCallback(responce) {
+                               mName = responce;
+                           });
 
             if (mName == 'default')
                 mColor = '#2B2E33';
@@ -82,12 +87,9 @@
                 mColor = '#B179D7';
             else if (mName == 'blue')
                 mColor = '#4A89DC';
-            
+
+ 
             builderService.init(mColor, mName);
-            userService.getThemeColour()
-                          .then(function successCallback(responce) {
-                              builderService.init(responce);
-                          });
         });
 
         $scope.$on('$viewContentLoaded', function () {
@@ -127,22 +129,22 @@
                 $scope.userName = responce.data;
             });
 
-            
+
         userService.getLogoUrl()
             .success(function (responce) {
 
-                if (responce!='') {
-                   
+                if (responce != '') {
+
                     $scope.logoUrl = responce;
                 } else {
                     $scope.logoUrl = '/proj_img/PI-logo.png';
                 }
-               
 
-              }).error(function (error) {
 
-                  $scope.logoUrl = '/proj_img/PI-logo.png';
-           });
+            }).error(function (error) {
+
+                $scope.logoUrl = '/proj_img/PI-logo.png';
+            });
 
         userService.getCompanyName().then(function successCallback(responce) {
             debugger;
