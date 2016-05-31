@@ -94,12 +94,25 @@
             .then(function successCallback(responce) {
                 $scope.userName = responce.data;
             });
+               
+       
 
-        
+        // Get user name
         userService.getLogoUrl()
-           .then(function successCallback(responce) {
-               $scope.logoUrl = responce.data;
-           });
+            .success(function (responce) {
+
+                if (responce!='') {
+                   
+                    $scope.logoUrl = responce;
+                } else {
+                    $scope.logoUrl = '/proj_img/PI-logo.png';
+                }
+               
+
+              }).error(function (error) {
+
+                  $scope.logoUrl = '/proj_img/PI-logo.png';
+             });
 
         userService.getCompanyName().then(function successCallback(responce) {
             debugger;

@@ -150,8 +150,7 @@ namespace PI.Service.Controllers
                 string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];                
 
                 try
-                {
-                     // await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) + "/" + "Capture-Copy.png");  
+                {                     
                     await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + " / " + Utility.GetEnumDescription(fileDetails.DocumentType) + " / "+"logo." + fileExtention);
 
                 }

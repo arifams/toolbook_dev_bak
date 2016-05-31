@@ -212,8 +212,16 @@ namespace PI.Service.Controllers
         [Route("GetLogoUrl")]
         public string GetLogoUrl(string loggedInUserId)
         {
-            var company = companyManagement.GetCompanyByUserID(loggedInUserId);            
-            return  company.LogoUrl.ToString();          
+            var company = companyManagement.GetCompanyByUserID(loggedInUserId);
+            if (company.LogoUrl!=null)
+            {
+                return company.LogoUrl.ToString();
+            }
+            else
+            {
+                return null;
+            }        
+                   
             
         }
 
