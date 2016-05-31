@@ -31,6 +31,8 @@ namespace PI.Data.Entity
         public string UserName { get; set; } // TODO: To be removed
         public string Password { get; set; } // TODO: To be removed
 
+        public string SelectedColour { get; set; }
+
         #region Navigation property
 
         [ForeignKey("AddressId")]

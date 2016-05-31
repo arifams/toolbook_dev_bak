@@ -26,7 +26,9 @@ namespace PI.Contract.DTOs.Profile
 
         public bool DoNotUpdateAccountSettings { get; set; }
 
-        public bool IsInvoicePaymentEnabled { get; set; } 
+        public bool IsInvoicePaymentEnabled { get; set; }
+
+        public string SelectedColour { get; set; }
 
         /// user settings
         public string NewPassword { get; set; }       
@@ -36,9 +38,6 @@ namespace PI.Contract.DTOs.Profile
         public CompanyDto CompanyDetails { get; set; }
 
         public AccountSettingsDto AccountSettings { get; set; }
-
-
-
        
     }
 }

@@ -38,7 +38,14 @@
             });
         }
 
+        function getThemeColour() {
 
+            return $http.get(serverBaseUrl + '/api/Customer/GetThemeColour', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+        }
 
     });
 
