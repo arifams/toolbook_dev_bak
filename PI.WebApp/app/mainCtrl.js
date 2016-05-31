@@ -65,7 +65,11 @@
             pluginsService.init();
             Dropzone.autoDiscover = false;
 
-            builderService.init('#C75757', 'red');
+            userService.getThemeColour()
+                           .then(function successCallback(responce) {
+                               builderService.init(responce);
+                           });
+
 
         });
 
@@ -106,13 +110,7 @@
                 $scope.userName = responce.data;
             });
 
-        
-        userService.getThemeColour()
-                  .then(function successCallback(responce) {
-                      //$scope.userName = responce.data;
-                  });
-
-        
+            
         userService.getLogoUrl()
             .success(function (responce) {
 
