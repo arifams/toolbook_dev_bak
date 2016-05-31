@@ -132,8 +132,6 @@
                 vm.model.doNotUpdateAccountSettings = false;
                 vm.isImagetype = false;
 
-                vm.themeColor;
-
                 vm.isImage = function (ext) {
                     debugger;
                     if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
