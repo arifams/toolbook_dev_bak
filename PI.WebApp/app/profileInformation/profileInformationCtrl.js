@@ -112,7 +112,7 @@
             function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope) {
 
                 applicationService.init();
-                builderService.init();
+                
                 //mainColor();
                 
                 // return if user not logged. -- Need to move this to global service.
@@ -176,6 +176,10 @@
                         vm.model.companyDetails.costCenter.billingAddress = {};
                         vm.model.companyDetails.costCenter.phoneNumber = "";
                     }
+                };
+
+                vm.loadCustomize = function () {
+                    builderService.init();
                 };
 
                 vm.loadProfile = function () {
