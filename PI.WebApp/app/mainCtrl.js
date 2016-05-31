@@ -5,7 +5,8 @@
         return {
             getUserName: getUserName,
             getCompanyName: getCompanyName,
-            getLogoUrl: getLogoUrl
+            getLogoUrl: getLogoUrl,
+            getThemeColour: getThemeColour
         };
 
 
@@ -101,6 +102,12 @@
             .then(function successCallback(responce) {
                 $scope.userName = responce.data;
             });
+
+        
+        userService.getThemeColour()
+                  .then(function successCallback(responce) {
+                      $scope.userName = responce.data;
+                  });
 
         
         userService.getLogoUrl()
