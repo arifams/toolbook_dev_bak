@@ -372,7 +372,7 @@
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfileAddress()" translate>
-                                              Save
+                                            Save
                                         </button>
                                     </div>
                                 </div>
@@ -540,7 +540,7 @@
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
                                         <button class="btn btn-primary resize-btn" type="submit"
                                                 ng-click="profileCtrl.updateProfileBillingAddress()" translate>
-                                                Save
+                                            Save
                                         </button>
                                     </div>
                                 </div>
@@ -805,18 +805,15 @@
                     </tab-heading>
                     <form name="formCustomize" class="ng-pristine ng-valid ng-scope">
                         <div class="row">
-
-                            <div class="fileinput fileinput-new" data-provides="fileinput">
-                                <label class="col-sm-3 control-label">Upload Company Logo</label>
-                                <div class="fileinput-new thumbnail">
-                                    <img   ng-show="profileCtrl.isImagetype" ngf-src="profileCtrl.logo" class="img-thumbnail">
+                            <label class="col-sm-3 control-label">Upload Company Logo</label>
+                            <div class="fileinput fileinput-new" data-provides="fileinput" style="width:75%;">
+                                <div class="fileinput-new thumbnail p-10">
+                                    <img ng-show="profileCtrl.isImagetype" ngf-src="profileCtrl.logo" class="img-thumbnail">
                                 </div>
-                               
-                                
                                 <div class="form-group">
-                                    <div class="col-sm-4">
+                                    <div class="col-sm-4 p-0">
                                         <input type="file" ngf-select ng-model="profileCtrl.logo" name="file" accept="image/png, image/jpeg, image/jpg"
-                                               ngf-max-size="2MB" required ngf-model-invalid="errorFile"  ngf-change="profileCtrl.OnLogoChange($files)">
+                                               ngf-max-size="2MB" required ngf-model-invalid="errorFile" ngf-change="profileCtrl.OnLogoChange($files)">
                                     </div>
                                     <div class="col-sm-4">
                                         <button ng-click="profileCtrl.uploadLogo(profileCtrl.logo)" class="btn">
@@ -826,17 +823,16 @@
                                     </div>
                                 </div>
 
-                                  
-                                <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                <!--<a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>-->
 
                             </div>
                         </div>
                         <div class="container p-0">
                             <div class="row">
-                                <label class="col-sm-2 control-label">Select Theme Color</label>
+                                <label class="col-sm-2 control-label m-r-20">Select Theme Color</label>
                                 <div class="col-sm-4">
                                     <div data-color="#2B2E33" data-main="default" class="theme-color bg-dark" ng-click="profileCtrl.model.selectedColour = 'default'"></div>
-                                    <div data-color="#319DB5" data-main="primary" class="theme-color background-primary"  ng-click="profileCtrl.model.selectedColour ='primary'"></div>
+                                    <div data-color="#319DB5" data-main="primary" class="theme-color background-primary" ng-click="profileCtrl.model.selectedColour ='primary'"></div>
                                     <div data-color="#C75757" data-main="red" class="theme-color bg-red" ng-click="profileCtrl.model.selectedColour = 'red'"></div>
                                     <div data-color="#1DA079" data-main="green" class="theme-color bg-green" ng-click="profileCtrl.model.selectedColour = 'green'"></div>
                                     <div data-color="#D28857" data-main="orange" class="theme-color bg-orange" ng-click="profileCtrl.model.selectedColour = 'orange'"></div>
@@ -844,7 +840,7 @@
                                     <div data-color="#4A89DC" data-main="blue" class="theme-color bg-blue" ng-click="profileCtrl.model.selectedColour = 'blue'"></div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
