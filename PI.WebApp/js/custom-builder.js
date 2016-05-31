@@ -58,7 +58,7 @@
     }
 
     function setColor(mColor, mName) {
-
+        
         var main_color = mColor;
         var main_name = mName;
 

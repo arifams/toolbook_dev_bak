@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 
 namespace PI.Business
 {
-    public class ProfileManagement: IProfileManagement
+    public class ProfileManagement : IProfileManagement
     {
 
         //get the profile details
@@ -72,7 +72,7 @@ namespace PI.Business
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             currentProfile.CustomerDetails.JobCapacity = currentCustomer.JobCapacity;
             currentProfile.CustomerDetails.AddressId = currentCustomer.AddressId;
-          
+
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -86,7 +86,7 @@ namespace PI.Business
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
                 currentProfile.CompanyDetails.CompanyCode = currentCompany.CompanyCode;
-               
+
 
             }
 
@@ -122,11 +122,11 @@ namespace PI.Business
             currentProfile.CustomerDetails = new CustomerDto();
             currentProfile.CustomerDetails.CustomerAddress = new AddressDto();
 
-            Address currentAddress;           
+            Address currentAddress;
 
             Customer currentCustomer = this.GetCustomerByUserId(username);
             ApplicationUser applicationUser = this.GetUserById(username);
-                                 
+
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
@@ -138,7 +138,7 @@ namespace PI.Business
             currentProfile.CustomerDetails.Email = currentCustomer.Email;
             currentProfile.CustomerDetails.SecondaryEmail = currentCustomer.SecondaryEmail;
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
-            currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;           
+            currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
 
             //assign address values to the  Profile Dto
@@ -154,9 +154,9 @@ namespace PI.Business
                 currentProfile.CustomerDetails.CustomerAddress.State = currentAddress.State;
             }
 
-           var curentCompany = this.GetCompanyByTenantId(currentCustomer.User.TenantId);
+            var curentCompany = this.GetCompanyByTenantId(currentCustomer.User.TenantId);
 
-           currentProfile.IsInvoicePaymentEnabled = curentCompany.IsInvoiceEnabled; 
+            currentProfile.IsInvoicePaymentEnabled = curentCompany.IsInvoiceEnabled;
             return currentProfile;
         }
 
@@ -205,26 +205,26 @@ namespace PI.Business
 
                 //check if there any users who has same email
                 if (currntUser.UserName != updatedProfile.CustomerDetails.Email)
-                {                    
-                        ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
-                        ApplicationUser updatedUser = new ApplicationUser();
-                        if (existingUser != null)
-                        {
-                            return -2;
-                        }
-                        else
-                        {
-                            var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
-                            user.UserName = updatedProfile.CustomerDetails.Email;
+                {
+                    ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
+                    ApplicationUser updatedUser = new ApplicationUser();
+                    if (existingUser != null)
+                    {
+                        return -2;
+                    }
+                    else
+                    {
+                        var user = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                        user.UserName = updatedProfile.CustomerDetails.Email;
                         user.Email = updatedProfile.CustomerDetails.Email;
-                            user.EmailConfirmed = false;
-                        }
-                        context.SaveChanges();
+                        user.EmailConfirmed = false;
+                    }
+                    context.SaveChanges();
                     updateUserName = true;
 
                 }
 
-            }            
+            }
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
@@ -368,7 +368,7 @@ namespace PI.Business
 
                     //set account settings entity as modidied
                     context.AccountSettings.Add(newAccountSettings);
-                    context.SaveChanges(); 
+                    context.SaveChanges();
 
                 }
 
@@ -384,7 +384,7 @@ namespace PI.Business
                     currentNotificationCriteria.CreatedDate = DateTime.Now;
                     //set notification criteria entity as modified
 
-                    context.SaveChanges(); 
+                    context.SaveChanges();
                 }
                 else
                 {
@@ -414,7 +414,7 @@ namespace PI.Business
             {
                 return 1;
             }
-           
+
 
         }
 
@@ -680,7 +680,7 @@ namespace PI.Business
             using (PIContext context = new PIContext())
             {
                 AccountSettings currentAccountSettings = context.AccountSettings.SingleOrDefault(s => s.CustomerId == currentCustomer.Id);
-               
+
                 //Assign Account setting values to the Profile Dto
                 if (!updatedProfile.DoNotUpdateAccountSettings && currentAccountSettings != null)
                 {
@@ -728,7 +728,7 @@ namespace PI.Business
                     newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
                     newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
                     newNotificationCriteria.CreatedDate = DateTime.Now;
-                    
+
                     context.NotificationCriterias.Add(newNotificationCriteria);
                     context.SaveChanges();
                 }
@@ -743,18 +743,18 @@ namespace PI.Business
         /// </summary>
         /// <param name="updatedProfile"></param>
         /// <returns></returns>
-        public int UpdateThemeColour (ProfileDto updatedProfile)
+        public int UpdateThemeColour(ProfileDto updatedProfile)
         {
             try
             {
                 using (PIContext context = new PIContext())
                 {
-                    Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+                    Customer currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                     if (currentCustomer == null)
                     {
                         return 0;
                     }
-                    
+
                     currentCustomer.SelectedColour = updatedProfile.SelectedColour;
                     context.SaveChanges();
                 }
@@ -860,7 +860,7 @@ namespace PI.Business
                                   where c.CompanyId == companyId
                                   && c.IsDelete != true
                                   select c;
-                                  
+
                 return costCenters;
             }
 
@@ -964,15 +964,15 @@ namespace PI.Business
         }
 
         //get role name by Id
-       public string GetRoleNameById(string id)
+        public string GetRoleNameById(string id)
         {
-            var roleName="";
+            var roleName = "";
 
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 roleName = (from n in context.Roles
-                       where n.Id.Equals(id)
-                       select n.Name).FirstOrDefault();
+                            where n.Id.Equals(id)
+                            select n.Name).FirstOrDefault();
             }
             return roleName;
         }
