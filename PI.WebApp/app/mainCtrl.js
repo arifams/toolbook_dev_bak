@@ -131,7 +131,7 @@
         userService.getLogoUrl()
             .success(function (responce) {
 
-                if (responce!='') {
+                if (responce != ''|| responce!=null) {
                    
                     $scope.logoUrl = responce;
                 } else {
