@@ -106,7 +106,7 @@
         
         userService.getThemeColour()
                   .then(function successCallback(responce) {
-                      $scope.userName = responce.data;
+                      //$scope.userName = responce.data;
                   });
 
         
