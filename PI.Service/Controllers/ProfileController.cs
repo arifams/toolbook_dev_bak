@@ -264,5 +264,26 @@ namespace PI.Service.Controllers
             return -1;
         }
 
+
+        /// <summary>
+        /// Update Theme Colour
+        /// </summary>
+        /// <param name="updatedProfile"></param>
+        /// <returns></returns>
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateThemeColour")]
+        public int UpdateThemeColour(ProfileDto updatedProfile)
+        { 
+            var updatedStatus = userprofile.UpdateThemeColour(updatedProfile);
+
+            if (updatedStatus == 1 || updatedStatus == -2)
+            {
+                return updatedStatus;
+            }
+
+            return -1;
+        }
+
     }
 }

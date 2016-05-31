@@ -211,7 +211,7 @@ namespace PI.Business
             {
                 var existingCustomer = context.Customers.SingleOrDefault(c => c.UserId == loggedInUserId);
 
-                return existingCustomer.SelectedColour;
+                return (existingCustomer.SelectedColour) == null ? "undefined" :  existingCustomer.SelectedColour;
             }
         }
     }
