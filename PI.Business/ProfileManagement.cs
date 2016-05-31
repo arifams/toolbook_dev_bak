@@ -745,19 +745,27 @@ namespace PI.Business
         /// <returns></returns>
         public int UpdateThemeColour (ProfileDto updatedProfile)
         {
-            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
-            if (currentCustomer == null)
+            try
+            {
+
+                Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+                if (currentCustomer == null)
+                {
+                    return 0;
+                }
+
+                using (PIContext context = new PIContext())
+                {
+                    currentCustomer.SelectedColour = updatedProfile.SelectedColour;
+                    context.SaveChanges();
+                }
+
+                return 1;
+            }
+            catch (Exception ex)
             {
                 return 0;
             }
-
-            using (PIContext context = new PIContext())
-            {
-                currentCustomer.SelectedColour = updatedProfile.SelectedColour;
-                context.SaveChanges();                
-            }
-
-            return 1;
         }
 
 

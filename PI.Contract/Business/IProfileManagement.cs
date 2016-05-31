@@ -19,5 +19,13 @@ namespace PI.Contract.Business
         int UpdateProfileLoginDetails(ProfileDto updatedProfile);
         int UpdateProfileGeneral(ProfileDto updatedProfile);
         int updateProfileData(ProfileDto updatedProfile);
+
+        /// <summary>
+        /// Update Theme Colour
+        /// </summary>
+        /// <param name="updatedProfile"></param>
+        /// <returns></returns>
+        int UpdateThemeColour(ProfileDto updatedProfile);
+
     }
 }

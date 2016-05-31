@@ -84,7 +84,10 @@
                 mColor = '#4A89DC';
             
             builderService.init(mColor, mName);
-
+            userService.getThemeColour()
+                          .then(function successCallback(responce) {
+                              builderService.init(responce);
+                          });
         });
 
         $scope.$on('$viewContentLoaded', function () {
@@ -124,16 +127,10 @@
                 $scope.userName = responce.data;
             });
 
-        
-        userService.getThemeColour()
-                  .then(function successCallback(responce) {
-                      $scope.userName = responce.data;
-                  });
-
-        
+            
         userService.getLogoUrl()
             .success(function (responce) {
-
+                debugger;
                 if (responce!='') {
                    
                     $scope.logoUrl = responce;

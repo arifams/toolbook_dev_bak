@@ -96,7 +96,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
-        [Route("PayInvoice")]
+        [Route("GetThemeColour")]
         public string GetThemeColour ([FromUri] string loggedInUserId)
         {
             return customerManagement.GetThemeColour(loggedInUserId);
