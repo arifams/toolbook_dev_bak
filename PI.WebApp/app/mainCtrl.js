@@ -87,7 +87,7 @@
                 mColor = '#B179D7';
             else if (mName == 'blue')
                 mColor = '#4A89DC';
-            
+
  
             builderService.init(mColor, mName);
         });
@@ -129,22 +129,22 @@
                 $scope.userName = responce.data;
             });
 
-            
+
         userService.getLogoUrl()
             .success(function (responce) {
 
-                if (responce != '') {
-                   
+                if (responce != '' && responce!=null) {
+
                     $scope.logoUrl = responce;
                 } else {
                     $scope.logoUrl = '/proj_img/PI-logo.png';
                 }
-               
 
-              }).error(function (error) {
 
-                  $scope.logoUrl = '/proj_img/PI-logo.png';
-           });
+            }).error(function (error) {
+
+                $scope.logoUrl = '/proj_img/PI-logo.png';
+            });
 
         userService.getCompanyName().then(function successCallback(responce) {
             debugger;
