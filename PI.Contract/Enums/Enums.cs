@@ -93,7 +93,10 @@ namespace PI.Contract.Enums
         [Description("INVOICE")]
         Invoice = 5,
         [Description("CREDIT_NOTE")]
-        CreditNote,
+        CreditNote=6,
+        [Description("LOGO")]
+        Logo=7,
+
     }
 
     public enum CurrencyType : short

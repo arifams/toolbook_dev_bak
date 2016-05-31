@@ -206,6 +206,17 @@ namespace PI.Service.Controllers
             return companyManagement.GetCompanyByUserID(loggedInUserId);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetLogoUrl")]
+        public string GetLogoUrl(string loggedInUserId)
+        {
+            var company = companyManagement.GetCompanyByUserID(loggedInUserId);            
+            return  company.LogoUrl.ToString();          
+            
+        }
+
 
     }
 }

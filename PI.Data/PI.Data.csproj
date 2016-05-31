@@ -156,6 +156,10 @@
     <Compile Include="Migrations\201605200551243_Billing and Invoicing.Designer.cs">
       <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605300448550_Ph2- change Company with Logo URL.cs" />
+    <Compile Include="Migrations\201605300448550_Ph2- change Company with Logo URL.Designer.cs">
+      <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,6 +196,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605200551243_Billing and Invoicing.resx">
       <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605300448550_Ph2- change Company with Logo URL.resx">
+      <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

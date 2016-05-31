@@ -1532,7 +1532,8 @@ namespace PI.Business
                 CompanyCode=currentCompany.CompanyCode,
                 Name=currentCompany.Name,
                 COCNumber=currentCompany.COCNumber,
-                VATNumber=currentCompany.VATNumber                
+                VATNumber=currentCompany.VATNumber,
+                LogoUrl= currentCompany.LogoUrl
             };
 
         }
@@ -1550,9 +1551,25 @@ namespace PI.Business
                             && user.Roles.FirstOrDefault().RoleId == BusinessOwnerId
                           select user.Id).SingleOrDefault();                
             }
-
+            
             return userId;
         }
+
+
+       public bool UpdateCompanyLogo(string URL,string userId)
+        {
+            using (PIContext context= new PIContext())
+            {                
+                var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
+                var currentCompany= context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
+                currentCompany.LogoUrl = URL;               
+                context.SaveChanges();
+            }
+
+            return true;
+
+        }
+
 
         #endregion
 

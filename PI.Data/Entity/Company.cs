@@ -17,6 +17,7 @@ namespace PI.Data.Entity
         public string VATNumber { get; set; }
         public string CompanyCode { get; set; }
         public bool IsInvoiceEnabled { get; set; }
+        public string LogoUrl { get; set; }
 
 
         #region Navigation Property

@@ -44,6 +44,6 @@ namespace PI.Contract.Business
         PagedList GetAllComapniesForAdminSearch(string searchtext);
         string GetBusinessOwneridbyCompanyId(string companyId);
         CompanyDto GetCompanyByUserID(string userID);
-
+        bool UpdateCompanyLogo(string URL, string userId);
     }
 }

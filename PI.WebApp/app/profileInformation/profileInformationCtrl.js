@@ -114,7 +114,7 @@
                 applicationService.init();
                 
                 //mainColor();
-                
+
                 // return if user not logged. -- Need to move this to global service.
                 if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
                     window.location = webBaseUrl + "/app/userLogin/userLogin.html";
@@ -127,6 +127,27 @@
                 vm.model = {};
                 vm.model.accountSettings = {};
                 vm.model.doNotUpdateAccountSettings = false;
+                vm.isImagetype = false;
+
+                vm.isImage = function (ext) {
+                    debugger;
+                    if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
+
+                        return vm.isImagetype = true;
+                    } else {
+
+                        vm.isImagetype = false;
+                    }
+                }
+
+                vm.OnLogoChange = function (logo) {                   
+                    if (logo.length>0) {
+                        vm.isImage(logo[0].type);
+                    }
+                   
+                }
+
+               
 
                 vm.CheckMail = function () {
                     if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
@@ -872,7 +893,68 @@
                     }
                 }
 
+                vm.uploadLogo = function (file) {
+
+                    debugger;
+                    file.upload = Upload.upload({
+                        url: serverBaseUrl + '/api/Admin/UploadLogo',
+                        data: {
+                            file: file,
+                            userId: $window.localStorage.getItem('userGuid'),
+                            documentType: "LOGO"
+                            
+                        },
+                    });
+
+                    file.upload.then(function (response) {
+                        debugger;
+                        if (response.status==200) {
+                            var body = $("html, body");
+                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                            });
+
+                            $('#panel-notif').noty({
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company Logo updated, click ok to reload the page') + '?</p></div>',
+                                buttons: [
+                                        {
+                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                $noty.close();
+                                                $window.location.reload();
+                                               
+                                            }
+                                        }
+                                     
+                                ],
+                                layout: 'bottom-right',
+                                theme: 'made',
+                                animation: {
+                                    open: 'animated bounceInLeft',
+                                    close: 'animated bounceOutLeft'
+                                },
+                                timeout: 3000,
+                            });
+
+                          //  $window.location.reload();
+
+                    }
+                        //$timeout(function () {
+
+                        //    file.result = response.data;
+                        //    //deleteFile();
+                        //    $scope.document = null;
+                        //    //$scope.loadAllUploadedFiles();
+                        //});
+                    }, function (response) {
+                        if (response.status > 0)
+                            $scope.errorMsg = response.status + ': ' + response.data;
+                    }, function (evt) {
+                        // Math.min is to fix IE which reports 200% sometimes
+                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+                    });
+                }
+
+
             }]);
-   
+
 })(angular.module('newApp'));
 

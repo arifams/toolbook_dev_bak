@@ -31,6 +31,7 @@ namespace PI.Service.Controllers
     {
         IAdministrationManagment adminManagement = new AdministrationManagment();
         IInvoiceMangement invoiceMangement = new InvoiceMangement();
+        ICompanyManagement companyManagement = new CompanyManagement();
         CommonLogic commonLogic = new CommonLogic();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
@@ -143,6 +144,27 @@ namespace PI.Service.Controllers
                 }
 
             }
+            else if (fileDetails.DocumentType == DocumentType.Logo)
+            {
+                var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
+                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];                
+
+                try
+                {
+                     // await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType) + "/" + "Capture-Copy.png");  
+                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + " / " + Utility.GetEnumDescription(fileDetails.DocumentType) + " / "+"logo." + fileExtention);
+
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                imageFileNameInFull = "logo."+ fileExtention;
+                fileDetails.ClientFileName = originalFileName;
+                fileDetails.UploadedFileName = imageFileNameInFull;
+            }
+                        
             else
             {
                 imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
@@ -154,7 +176,7 @@ namespace PI.Service.Controllers
             var opResult = await media.Upload(stream, imageFileNameInFull);
 
 
-            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet)
+            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType!=DocumentType.Logo)
             {
                 // Insert document record to DB.
                 ShipmentsManagement shipmentManagement = new ShipmentsManagement();
@@ -280,6 +302,53 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpPost]
+        // This is from System.Web.Http, and not from System.Web.Mvc
+        [Route("UploadLogo")]
+        public async Task<HttpResponseMessage> UploadLogo()
+        {
+
+            OperationResult opResult = new OperationResult();
+            HttpResponseMessage uploadResult = new HttpResponseMessage();
+            var logoUpdated = false;
+            try
+            {
+                if (!Request.Content.IsMimeMultipartContent())
+                {
+                    this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+                }
+
+                var provider = GetMultipartProvider();
+                var result = await Request.Content.ReadAsMultipartAsync(provider);
+                var fileDetails = GetFormData<FileUploadDto>(result);
+
+                uploadResult = await this.Upload(result);              
+                
+                var urlJson = await uploadResult.Content.ReadAsStringAsync();
+
+                Result deSelizalizedObject = null;
+                deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
+
+                if (uploadResult.Content != null)
+                {
+                    logoUpdated = companyManagement.UpdateCompanyLogo(deSelizalizedObject.returnData, fileDetails.UserId);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                
+            }
+
+            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK  && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+           
+
+        }
+
         public MultipartFormDataStreamProvider GetMultipartProvider()
         {
             var uploadFolder = "~/App_Data/Tmp/FileUploads"; // you could put this to web.config
@@ -300,7 +369,7 @@ namespace PI.Service.Controllers
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
                 fileUploadDto.DocumentType = Utility.GetValueFromDescription<DocumentType>(docType);
 
-                if (fileUploadDto.DocumentType != DocumentType.AddressBook && fileUploadDto.DocumentType != DocumentType.RateSheet)
+                if (fileUploadDto.DocumentType != DocumentType.AddressBook && fileUploadDto.DocumentType != DocumentType.RateSheet && fileUploadDto.DocumentType!= DocumentType.Logo)
                 {
                     fileUploadDto.CodeReference = Uri.UnescapeDataString(result.FormData.GetValues(2).FirstOrDefault());
                 }
