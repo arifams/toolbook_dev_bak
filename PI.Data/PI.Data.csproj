@@ -160,6 +160,10 @@
     <Compile Include="Migrations\201605300448550_Ph2- change Company with Logo URL.Designer.cs">
       <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201605310550134_Ph2 - Customer theme colour.cs" />
+    <Compile Include="Migrations\201605310550134_Ph2 - Customer theme colour.Designer.cs">
+      <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -199,6 +203,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605300448550_Ph2- change Company with Logo URL.resx">
       <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201605310550134_Ph2 - Customer theme colour.resx">
+      <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

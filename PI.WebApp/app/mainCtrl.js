@@ -5,7 +5,8 @@
         return {
             getUserName: getUserName,
             getCompanyName: getCompanyName,
-            getLogoUrl: getLogoUrl
+            getLogoUrl: getLogoUrl,
+            getThemeColour: getThemeColour
         };
 
 
@@ -38,7 +39,14 @@
             });
         }
 
+        function getThemeColour() {
 
+            return $http.get(serverBaseUrl + '/api/Customer/GetThemeColour', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+        }
 
     });
 
@@ -56,6 +64,9 @@
             builderService.init();
             pluginsService.init();
             Dropzone.autoDiscover = false;
+
+            builderService.init('#C75757', 'red');
+
         });
 
         $scope.$on('$viewContentLoaded', function () {
@@ -94,10 +105,14 @@
             .then(function successCallback(responce) {
                 $scope.userName = responce.data;
             });
-               
-       
 
-        // Get user name
+        
+        userService.getThemeColour()
+                  .then(function successCallback(responce) {
+                      $scope.userName = responce.data;
+                  });
+
+        
         userService.getLogoUrl()
             .success(function (responce) {
 
@@ -112,7 +127,7 @@
               }).error(function (error) {
 
                   $scope.logoUrl = '/proj_img/PI-logo.png';
-             });
+           });
 
         userService.getCompanyName().then(function successCallback(responce) {
             debugger;

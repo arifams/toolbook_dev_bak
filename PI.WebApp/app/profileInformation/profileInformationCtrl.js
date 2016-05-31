@@ -22,6 +22,9 @@
             },
             updateProfileAccountSettings: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/updateProfileAccountSettings', updatedProfile);
+            },
+            updateThemeColour: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/updateThemeColour', updatedProfile);
             }
         }
 
@@ -112,7 +115,7 @@
             function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope) {
 
                 applicationService.init();
-                builderService.init();
+                
                 //mainColor();
 
                 // return if user not logged. -- Need to move this to global service.
@@ -199,6 +202,10 @@
                     }
                 };
 
+                vm.loadCustomize = function () {
+                    builderService.init();
+                };
+
                 vm.loadProfile = function () {
 
                     loadProfilefactory.loadProfileinfo()
@@ -210,8 +217,7 @@
                             if (response.customerDetails != null) {
                                 //setting the account type                        
                                 vm.model.customerDetails = response.customerDetails;
-
-                                vm.model.companyDetails = response.companyDetails;
+                                 vm.model.companyDetails = response.companyDetails;
 
                                 if (response.customerDetails.isCorporateAccount) {
                                     vm.model.customerDetails.isCorporateAccount = "true";
@@ -767,6 +773,63 @@
                                         $noty.close();
 
                                         updateProfilefactory.updateProfileAccountSettings(vm.model)
+                                                        .success(function (responce) {
+                                                            if (responce != null) {
+                                                                updateProfileResponse(responce);
+                                                            }
+                                                        }).error(function (error) {
+
+                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                                            });
+
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 3000,
+                                                            });
+                                                        });
+                                    }
+                                },
+                                {
+                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                        $noty.close();
+                                        return;
+                                    }
+                                }
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+                }
+
+                vm.updateThemeColour = function(){
+                    debugger;
+                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+                    var body = $("html, body");
+
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                        $noty.close();
+
+                                        updateProfilefactory.updateThemeColour(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null) {
                                                                 updateProfileResponse(responce);

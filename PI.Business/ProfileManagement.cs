@@ -738,6 +738,29 @@ namespace PI.Business
         }
 
 
+        /// <summary>
+        /// Update Theme Colour
+        /// </summary>
+        /// <param name="updatedProfile"></param>
+        /// <returns></returns>
+        public int UpdateThemeColour (ProfileDto updatedProfile)
+        {
+            Customer currentCustomer = this.GetCustomerByUserId(updatedProfile.CustomerDetails.UserId);
+            if (currentCustomer == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                currentCustomer.SelectedColour = updatedProfile.SelectedColour;
+                context.SaveChanges();                
+            }
+
+            return 1;
+        }
+
+
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {

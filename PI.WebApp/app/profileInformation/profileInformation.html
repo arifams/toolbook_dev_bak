@@ -799,7 +799,7 @@
                     </div>
 
                 </tab>
-                <tab>
+                <tab select="profileCtrl.loadCustomize()">
                     <tab-heading translate>
                         CUSTOMIZE
                     </tab-heading>
@@ -845,6 +845,19 @@
                                 </div>
                             </div>
                             
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-md-9"></div>
+                                    <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
+                                        <button class="btn btn-primary resize-btn" type="submit"
+                                                ng-click="profileCtrl.updateThemeColour()" translate>
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </form>
                 </tab>

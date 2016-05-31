@@ -198,5 +198,21 @@ namespace PI.Business
             var bytes = new byte[input.Length * sizeof(char)];
             Buffer.BlockCopy(input.ToCharArray(), 0, bytes, 0, bytes.Length); return bytes;
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loggedInUserId"></param>
+        /// <returns></returns>
+        public string GetThemeColour(string loggedInUserId)
+        {
+            using (var context = PIContext.Get())
+            {
+                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserId == loggedInUserId);
+
+                return existingCustomer.SelectedColour;
+            }
+        }
     }
 }
