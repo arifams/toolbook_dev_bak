@@ -23,6 +23,7 @@ namespace PI.Service.Controllers
     public class CustomerController : BaseApiController
     {
         IInvoiceMangement invoiceMangement = new InvoiceMangement();
+        ICustomerManagement customerManagement = new CustomerManagement();
 
         //public CustomerController(IInvoiceMangement invoiceMangement)
         //{
@@ -90,5 +91,16 @@ namespace PI.Service.Controllers
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;          
         }
+        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("PayInvoice")]
+        public string GetThemeColour ([FromUri] string loggedInUserId)
+        {
+            return customerManagement.GetThemeColour(loggedInUserId);
+        }
+
     }
 }

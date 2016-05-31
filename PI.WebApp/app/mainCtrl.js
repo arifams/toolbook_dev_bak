@@ -5,7 +5,8 @@
         return {
             getUserName: getUserName,
             getCompanyName: getCompanyName,
-            getLogoUrl: getLogoUrl
+            getLogoUrl: getLogoUrl,
+            getThemeColour: getThemeColour
         };
 
 
@@ -38,7 +39,14 @@
             });
         }
 
+        function getThemeColour() {
 
+            return $http.get(serverBaseUrl + '/api/Customer/GetThemeColour', {
+                params: {
+                    loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+        }
 
     });
 
@@ -97,6 +105,12 @@
             .then(function successCallback(responce) {
                 $scope.userName = responce.data;
             });
+
+        
+        userService.getThemeColour()
+                  .then(function successCallback(responce) {
+                      $scope.userName = responce.data;
+                  });
 
         
         userService.getLogoUrl()
