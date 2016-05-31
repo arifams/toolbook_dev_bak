@@ -65,12 +65,29 @@
             pluginsService.init();
             Dropzone.autoDiscover = false;
 
+            var mName = 'primary';    // From DB
+            var mColor = '';
+
+            if (mName == 'default')
+                mColor = '#2B2E33';
+            else if (mName == 'primary')
+                mColor = '#319DB5';
+            else if (mName == 'red')
+                mColor = '#C75757';
+            else if (mName == 'green')
+                mColor = '#1DA079';
+            else if (mName == 'orange')
+                mColor = '#D28857';
+            else if (mName == 'purple')
+                mColor = '#B179D7';
+            else if (mName == 'blue')
+                mColor = '#4A89DC';
+            
+            builderService.init(mColor, mName);
             userService.getThemeColour()
-                           .then(function successCallback(responce) {
-                               builderService.init(responce);
-                           });
-
-
+                          .then(function successCallback(responce) {
+                              builderService.init(responce);
+                          });
         });
 
         $scope.$on('$viewContentLoaded', function () {

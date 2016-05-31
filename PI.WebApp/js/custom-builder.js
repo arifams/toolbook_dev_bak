@@ -5,9 +5,9 @@
 
     /* Main Color */
     function mainColor() {
-        
+       
         $('.theme-color').on('click', function (e) {
-            e.preventDefault();            
+            e.preventDefault();
             var main_color = $(this).data('color');
             var main_name = $(this).attr('data-main');
             $('body').removeClass(function (profileInformation, css) {
@@ -125,7 +125,9 @@
         //handleTheme();
         //handleCookie();
         mainColor();
-        setColor(mColor, mName);
+
+        if (mColor != undefined && mName != undefined)
+            setColor(mColor, mName);
         //S
         applicationService.resetStyle();
 
