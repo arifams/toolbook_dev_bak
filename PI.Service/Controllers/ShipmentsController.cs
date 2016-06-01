@@ -41,6 +41,14 @@ namespace PI.Service.Controllers
         IAddressBookManagement addressManagement = new AddressBookManagement();
         CommonLogic commonLogic = new CommonLogic();
 
+        public string RequestForQuoteEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["RequestForQuoteEmail"].ToString();
+            }
+        }
+
         //public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
         //{
         //    this.comapnyManagement = companymanagement;
@@ -548,7 +556,8 @@ namespace PI.Service.Controllers
             // ShipmentsManagement shipment = new ShipmentsManagement();
             string quoteTemplate = shipmentManagement.RequestForQuote(addShipment);
             // TODO: H - Change the staff user.
-            var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+            string requestForQuoteEmail = RequestForQuoteEmail;
+            var adminUser = AppUserManager.FindByEmail(requestForQuoteEmail);    //sriparcel@outlook.com
 
             if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
             {
