@@ -16,9 +16,9 @@
                 <div class="panel-content panel-border">
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <div class="col-sm-6">
-                                <div class="form-group input-group">
+                        <div class="col-sm-12 form-group">
+                            <div class="col-sm-6 p-r-5">
+                                <div class="input-group">
                                     <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
                                            placeholder="{{'Search by Names' | translate}}" />
                                     <span class="input-group-btn">
@@ -34,7 +34,6 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <div class="form-group">
                                     <div class="option-group">
                                         <select id="addressStatus" name="addressStatus" class="form-control"
                                                 ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
@@ -43,36 +42,34 @@
                                             <option value="False" translate>Inactive</option>
                                         </select>
                                     </div>
-                                </div>
                             </div>   
                         </div>
                     </div>
                    
                     <div  class="row">
+                        <div class="form-group">
                         <div class="col-sm-12">
-                            <div class="col-sm-2 form-group">
+                            <div class="col-sm-2 m-b-10">
                                     <select class="form-control" ng-model="addressCtrl.docType" ng-init="addressCtrl.docType = 'export'">
                                         <option value="import" translate>Import</option>
                                         <option value="export" translate>Export</option>
                                     </select>
                             </div>
-                            <div ng-show="addressCtrl.docType=='import'">
-                                <div class="form-group">
+                            <div ng-show="addressCtrl.docType=='import'">                              
                                     <div class="col-sm-2">
                                         <select ng-model="addressCtrl.searchTypeImport" class="form-control" ng-init="addressCtrl.searchTypeImport = 'EXCEL'">
                                             <option value="EXCEL" >EXCEL</option>
                                             <option value="CSV">CSV</option>
                                         </select>
-                                    </div>
-                                </div>
+                                    </div>                              
                                     <div class="col-sm-4" ng-show="addressCtrl.searchTypeImport=='CSV'">
-                                        <div class="form-group">
+                                        
                                             <ng-csv-import content="addressCtrl.csv.content"
                                                            header="addressCtrl.csv.header"
                                                            separator="addressCtrl.csv.separator"
                                                            result="addressCtrl.csv.result"
                                                            accept="addressCtrl.csv.accept"></ng-csv-import>
-                                        </div>
+                                       
                                     </div>
                                     <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='CSV'">
                                         <button class="btn btn-primary btn-square btn-embossed" type="button" 
@@ -103,7 +100,7 @@
                                 </div>
 
                             <div ng-show="addressCtrl.docType=='export'">
-                                <div class="col-sm-2">
+                                <div class="col-sm-2 m-b-10">
                                     <select ng-model="addressCtrl.searchTypeExport" class="form-control" ng-init="addressCtrl.searchTypeExport = 'EXCEL'">
                                         <option value="EXCEL">EXCEL</option>
                                         <option value="CSV">CSV</option>
@@ -124,7 +121,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+                        </div>
                     </div>
                     
                     <br />
