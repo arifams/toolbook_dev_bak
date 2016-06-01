@@ -225,6 +225,20 @@ namespace PI.Service.Controllers
             
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("TestMethodA")]
+        public string TestMethodA(string param)
+        {
+            return "Success: " + param;
+        }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("TestMethodB")]
+        public string TestMethodB()
+        {
+            return "Success TestMethodB";
+        }
     }
 }
