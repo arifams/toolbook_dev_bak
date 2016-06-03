@@ -32,9 +32,7 @@
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-                                            $route.reload();
-                                            $noty.close();
-
+                                              $noty.close();
 
                                         }
                                     }

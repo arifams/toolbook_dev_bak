@@ -50,6 +50,7 @@ namespace PI.Contract.DTOs.Shipment
 
         public string ManualStatusUpdatedDate { get; set; }
 
-        
+        public bool IsFavourite { get; set; }
+
     }
 }

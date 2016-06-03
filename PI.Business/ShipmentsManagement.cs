@@ -2774,8 +2774,27 @@ namespace PI.Business
             }
 
             return carriers;
-        }       
+        }
 
+
+        /// <summary>
+        /// Toggle Shipment Favourites
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        public bool ToggleShipmentFavourites(ShipmentDto shipment)
+        {
+            using (PIContext context = new PIContext())
+            {
+                var existingShipment = context.Shipments
+                                   .Where(x => x.ShipmentCode == shipment.GeneralInformation.ShipmentCode).SingleOrDefault();
+
+                existingShipment.IsFavourite = !shipment.GeneralInformation.IsFavourite;
+                context.SaveChanges();
+
+                return existingShipment.IsFavourite;
+            }
+        }
 
     }
 
