@@ -15,7 +15,9 @@
                var lng = 0;
                vm.shipmentMode = 'EXPRESS';
                vm.searching = false;
-              
+               vm.trackingNotFound = true;
+               vm.onload = true;
+             
 
                vm.LoadTrackAndTracecDate = function () {
                    vm.searching = true;
@@ -34,6 +36,7 @@
 
                                if (vm.trackingData.history.items.length > 0) {
                                    vm.trackingNotFound = false;
+                                   vm.onload = false;
                                    for (var i = 0; i < vm.trackingData.history.items.length; i++) {
                                        lat = vm.trackingData.history.items[i].location.geo.lat;
                                        lng = vm.trackingData.history.items[i].location.geo.lng;
@@ -47,7 +50,9 @@
                                        lng = vm.trackingData.info.system.consignor.geo.lng;
                                        
                                    } else {
+                                     
                                        vm.trackingNotFound = true;
+                                       vm.onload = false;
                                    }
 
                                
@@ -57,6 +62,7 @@
                            } else {
                                vm.trackingNotFound = true;
                                vm.searching = false;
+                               vm.onload = false;
                            }
 
                            if ($("#simple-map").length) {
