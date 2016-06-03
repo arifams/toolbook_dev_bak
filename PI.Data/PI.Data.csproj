@@ -164,6 +164,10 @@
     <Compile Include="Migrations\201605310550134_Ph2 - Customer theme colour.Designer.cs">
       <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.cs" />
+    <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.Designer.cs">
+      <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605310550134_Ph2 - Customer theme colour.resx">
       <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.resx">
+      <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
