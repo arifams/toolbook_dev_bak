@@ -54,6 +54,12 @@ namespace PI.Contract.Business
 
         PagedList GetShipmentForCompanyAndSyncWithSIS(long companyId);
 
+        /// <summary>
+        /// Toggle Shipment Favourites
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        bool ToggleShipmentFavourites(ShipmentDto shipment);
 
     }
 

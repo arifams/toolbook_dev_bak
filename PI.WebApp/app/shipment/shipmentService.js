@@ -52,6 +52,7 @@
             UpdateshipmentStatusManually: UpdateshipmentStatusManually,
             GetBusinessOwneridbyCompanyId: GetBusinessOwneridbyCompanyId,
             getShipmentForCompanyAndSyncWithSIS: GetShipmentForCompanyAndSyncWithSIS,
+            toggleFavourite: toggleFavourite,
         };
 
         function getProfileInfo() {
@@ -332,7 +333,11 @@
                 params: dataToPass
             })
         }
+        
 
+        function toggleFavourite(shipment) {
+            return $http.post(serverBaseUrl + '/api/shipments/ToggleShipmentFavourites', shipment)
+        }
 
 
     }]);

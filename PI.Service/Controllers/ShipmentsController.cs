@@ -619,6 +619,16 @@ namespace PI.Service.Controllers
             return pagedRecord;
 
         }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("ToggleShipmentFavourites")]
+        public bool ToggleShipmentFavourites(ShipmentDto shipment)
+        {
+            return shipmentManagement.ToggleShipmentFavourites(shipment);
+        }
+
     }
 
 }
