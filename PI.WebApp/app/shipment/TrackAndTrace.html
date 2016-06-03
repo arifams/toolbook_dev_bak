@@ -24,7 +24,7 @@
                         <div class="col-md-6 p-r-10">
                             <div class="form-group input-group">
                                 <input ng-model="trackCtrl.trackingNumber" name="trackingNumber" type="text" class="form-control"
-                                       placeholder="{{'tracking Number'|translate}}"/>
+                                       placeholder="{{'Tracking Number'|translate}}"/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-large btn-primary no-margin" 
                                             ng-click="trackCtrl.LoadTrackAndTracecDate()">
@@ -73,13 +73,13 @@
                                         </div>
                                     </div>
                                     <div class="panel-header">
-                                        <label class="form-control label-info" ng-show="!trackCtrl.trackingNotFound" translate>Current Packege Location</label>
-                                        <div class="row" ng-show="trackCtrl.trackingNotFound">
+                                        <label class="form-control label-info" ng-hide="trackCtrl.trackingNotFound"  translate>Current Packege Location</label>
+                                        <div class="row" ng-show="trackCtrl.trackingNotFound && !trackCtrl.onload" >
                                             <label class="label label-warning" translate>
                                                 Please check the Tracking Number and try Again
                                             </label>
                                         </div>
-                                        <div class="row" ng-show="trackCtrl.missingFields">
+                                        <div class="row" ng-show="trackCtrl.missingFields ">
                                             <label class="form-control label-danger" translate>
                                                 Fill the request Details correctly
                                             </label>
