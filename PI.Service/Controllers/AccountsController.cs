@@ -339,7 +339,7 @@ namespace PI.Service.Controllers
                         return Ok(new
                         {
                             Id = "",
-                            Message = "Your account has been deactivated",
+                            Message = "Unfortunately your account is inactive, please contact Parcel International",
                             Result = -1
                         });
 

@@ -95,7 +95,7 @@
                 ctrl.$parsers.unshift(function (viewValue, $scope) {
 
                     // password validate.
-                    var res = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(viewValue);
+                    var res = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\S]{7,20}$/.test(viewValue);
                     ctrl.$setValidity('noValidPassword', res);
 
                     // if change the password when having confirmation password, check match and give error.
