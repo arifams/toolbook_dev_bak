@@ -1,6 +1,6 @@
 ﻿<div ng-controller="loadShipmentsCtrl">
     <h2 class="box-title" translate>
-        All Shipments
+        <!--All Shipments-->
     </h2>
     <!--  <h2 class="box-title"> Load All Shipments &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2> -->
 
@@ -13,30 +13,30 @@
             <div class="panel-content panel-border">
                 <!-- left column -->
                     <div class="row">                  
-                            <div class="col-sm-2">
-                                <div dropdown="" class="btn-group form-group">
-                                    <button data-toggle="dropdown" type="button" class="btn btn-primary dropdown-toggle" aria-haspopup="true">
-                                        <translate>Status </translate>:                                   
+                            <div class="col-sm-2 form-group m-0">
+                                <div class="btn-group" dropdown="">
+                                    <button style="min-width:140px;" aria-haspopup="true" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                                        <translate>Select Status</translate>:                                   
                                         <span class="caret"></span>
                                     </button>
                                     <span class="dropdown-arrow"></span>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul role="menu" class="dropdown-menu">
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('All')" translate>All</a>
+                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status" href="javascript:;">All</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('Active')" translate>Active</a>
+                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('Active')" ng-model="status" href="javascript:;">Active</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-model="status" ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')" translate>Completed</a>
+                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')" ng-model="status" href="javascript:;">Completed</a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <div class="btn-group form-group">
+                                <div class="btn-group form-group m-l-10">
                                     <input date-range-picker class="form-control p-l-5" type="text"
-                                           ng-model="loadShipCtrl.datePicker.date" placeholder="{{'Search By: Pickup Date'|translate}}"/>
+                                           ng-model="loadShipCtrl.datePicker.date" placeholder="{{'Select Pickup Date Range'|translate}}"/>
                                 </div>
                             </div>                            
                         <div class="col-sm-2 p-0">
@@ -71,8 +71,6 @@
             </span>-->
                             </div>
                         </div>
-
-
                             <!--<div class="col-md-4" ng-show="searchType == 'True'">
                                 <div class="form-group">
                                     <input ng-model="loadShipCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
@@ -87,22 +85,22 @@
                             </div>
                         </div>                   
                     </div>
-                    <br />
+                <hr class="m-t-0">
                 <div>
                     <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
                         <thead>
                             <tr>
-                                <th st-sort="name" translate>Order Submitted</th>
-                                <th translate>Tracking Number</th>
-                                <th translate>Shipment ID</th>
+                                <th st-sort="name" translate style="width: 32%;">Order Submitted</th>
+                                <th translate >Tracking Number</th>
+                                <th translate style="width: 18%;">Shipment ID</th>
                                 <th translate>Carrier</th>
-                                <th translate>Origin City</th>
-                                <th translate>Destination City</th>
-                                <th translate>Status</th>
-                                <th translate>Favourites</th>
-                                <th translate>View</th>
-                                <th translate>Edit</th>
-                                <th translate>Delete</th>
+                                <th translate style="width: 19%;padding-right:0;padding-left:0" >Origin City</th>
+                                <th translate style="width: 27%;padding-left:0;padding-right:0">Destination City</th>
+                                <th translate style="padding-left:0;padding-right:0">Status</th>
+                                <th translate style="padding-left:0;padding-right:0">Favourites</th>
+                                <th translate style="padding-left:0;padding-right:0">View</th>
+                                <th translate style="padding-left:0;padding-right:0">Edit</th>
+                                <th translate style="padding-left:0;padding-right:0">Delete</th>
                             </tr>
 
                         </thead>
@@ -124,7 +122,8 @@
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="edit btn btn-sm btn-default">
-                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
+                                        <i class="fa fa-eye" style="color:blue"></i>
+                                        
                                     </a>
                                 </td>
                                 <td>

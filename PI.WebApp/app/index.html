@@ -10,6 +10,7 @@
         <!--<link href="../global/css/style.css" rel="stylesheet">-->
         <link href="../global/css/compressed-styles.css" rel="stylesheet">
         <link href="../global/css/theme.css" rel="stylesheet">
+        
         <!--<link href="../global/css/ui.css" rel="stylesheet">-->
         <!--<link href="../global/plugins/metrojs/metrojs.min.css" rel="stylesheet">-->
         <!--<link href="../global/plugins/maps-amcharts/ammap/ammap.min.css" rel="stylesheet">-->
@@ -51,7 +52,7 @@
         <!--<link href="../admin/layout1/css/layout.css" rel="stylesheet">-->
         <!-- END LAYOUT STYLE -->
         <!--<script src="../global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>-->
-        <link href="../../css/custom-general.css" rel="stylesheet" />
+        <link href="../../css/custom-general.css" rel="stylesheet" />       
         <style>
 
             /*Styles for smart table*/
@@ -130,6 +131,10 @@
                                 <li ng-class="{ active  : isActive('mailbox.html/#send')}"><a href="mailbox.html#/send"> Send Email</a></li>
                             </ul>
                         </li>-->
+
+                        <li ng-class="{ active  : isActive('/dashboard')}" class="side-tab">
+                            <a href="#dashboard"><i class="icon-home"></i><span translate>DASHBOARD</span></a>
+                        </li>
 
                         <li ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
                             <a href="#CustomerMangement"><span translate>CUSTOMER MANAGEMENT</span></a>
@@ -1222,7 +1227,7 @@
         <script src="http://maps.google.com/maps/api/js?sensor=true"></script>
         <!--<script src="../global/plugins/google-maps/gmaps.js"></script>-->
         <!--<script src="../global/plugins/google-maps/markerclusterer.js"></script>-->
-        <!--<script src="../global/plugins/maps-amcharts/ammap/ammap.min.js"></script>-->
+        <script src="../global/plugins/maps-amcharts/ammap/ammap.min.js"></script>
         <!--<script src="../global/plugins/maps-amcharts/ammap/maps/js/worldLow.min.js"></script>-->
         <!--<script src="../global/plugins/maps-amcharts/ammap/themes/black.min.js"></script>-->
         <!--<script src="../global/plugins/maps-amcharts/ammap/ammap_amcharts_extension.js"></script>-->
@@ -1251,14 +1256,18 @@
         <!--<script src="../global/plugins/multidatepicker/multidatespicker.min.js"></script>-->
         <!--<script src="../global/js/widgets/todo_list.js"></script>-->
         <!--<script src="../global/plugins/metrojs/metrojs.min.js"></script>-->
-        <!--<script src="../global/plugins/charts-chartjs/Chart.min.js"></script>-->
-        <script src="../global/plugins/charts-highstock/js/highstock.min.js"></script>
+        <script src="../global/plugins/charts-chartjs/Chart.min.js"></script>
+        <!--<script src="../global/plugins/charts-highstock/js/highstock.min.js"></script>-->
         <!--<script src="../global/plugins/charts-highstock/js/modules/exporting.min.js"></script>-->
         <!--<script src="../global/plugins/skycons/skycons.min.js"></script>-->
         <!--<script src="../global/plugins/simple-weather/jquery.simpleWeather.js"></script>--> 
         <!--<script src="../global/plugins/bootstrap-tags-input/bootstrap-tagsinput.js"></script>-->
         <!--<script src="../global/plugins/rateit/jquery.rateit.min.js"></script>-->
-        <!--<script src="../global/plugins/charts-highstock/js/highcharts-more.min.js"></script>-->
+        <script src="../global/plugins/charts-highstock/js/highcharts.js"></script>
+        <script src="../global/plugins/charts-highstock/js/highcharts-more.min.js"></script>
+        <script src="../global/plugins/charts-highstock/js/solid-guage.js"></script>
+         <script src="../global/plugins/charts-highstock/js/solid-guage.js"></script>
+        
         <!--<script src="../global/plugins/charts-highstock/js/modules/exporting.min.js"></script>-->
         <!--<script src="../global/plugins/autosize/autosize.min.js"></script>-->
         <!--<script src="../global/js/widgets/widget_weather.js"></script>-->
@@ -1287,9 +1296,9 @@
 
 
         <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
-        <!--<script src="../js/pages/dashboard.js"></script>
+        <!--<script src="../js/pages/dashboard.js"></script>-->
         <script src="../js/pages/charts.js"></script>
-        <script src="../js/pages/charts_finance.js"></script>-->
+        <!--<script src="../js/pages/charts_finance.js"></script>-->
         <!--<script src="../js/pages/layouts_api.js"></script>-->
         <script src="../js/builder.js"></script>
         <!--<script src="../js/application.js"></script>-->
@@ -1299,6 +1308,7 @@
         <script src="../../global/js/custom.js"></script>
         <script src="directive/customDirective.js"></script>
         <script src="../js/custom-builder.js"></script>
+        
         <!--<script src="dashboard/dashboardCtrl.js"></script>
         <script src="charts/charts/chartsCtrl.js"></script>
         <script src="charts/financialCharts/financialChartsCtrl.js"></script>
@@ -1377,6 +1387,7 @@
         <script src="billingandInvoicing/CustomerBillingandInvoicing.js"></script>
         <script src="admin/uploadInvoice.js"></script>
         <script src="billingandInvoicing/DisputeInvoice.js"></script>
+        <script src="dashboard/dashboardCtrl.js"></script>
         <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

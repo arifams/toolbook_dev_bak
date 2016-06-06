@@ -1,0 +1,178 @@
+﻿<div ng-controller="dashboardCtrl">
+   
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <form class="form-horizontal" name="">
+            <!-- /.box-header -->
+
+            <div class="panel-content panel-border">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="form-group append-icon m-l-0 m-r-0">
+                            <input type="text" placeholder="Search by Shipment name, Reference name" class="form-control ng-pristine ng-valid ng-touched form-white" name="consignorSearchText" ng-model="shipmentCtrl.consignorSearchText" style="">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </div>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary btn-block">Add Shipment</button>
+                    </div>
+                </div><hr class="m-t-0">
+                <div class="row">
+                    <div class="col-sm-12 form-group m-l-0 m-r-0">
+                        <div class="col-sm-2 widget-body p-0"  id="widget-blue">
+                            <div class="left" style="width:100%;">
+                                <h2>24</h2>
+                                <div class="txt">new orders</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-blue" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-green">
+                            <div class="left" style="width:100%;">
+                                <h2>24</h2>
+                                <div class="txt">new orders</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-green" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-orange">
+                            <div class="left" style="width:100%;">
+                                <h2>24</h2>
+                                <div class="txt">new orders</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-orange" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-purple">
+                            <div class="left" style="width:100%;">
+                                <h2>24</h2>
+                                <div class="txt">new orders</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-purple" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-red">
+                            <div class="left" style="width:100%;">
+                                <h2>24</h2>
+                                <div class="txt">new orders</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-red" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row m-0">
+                    <div class="col-sm-6 p-0">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Shipment Created</div>
+                            <div class="panel-body">
+                                <div class="row m-0">
+                                    <div class="col-sm-6 option-group">
+                                        <div class="select2-container" id=""><a tabindex="-1" class="select2-choice" href="javascript:void(0)">   <span class="select2-chosen" id="select2-chosen-77">Month on Month</span><abbr class="select2-search-choice-close"></abbr>   <span role="presentation" class="select2-arrow"><b role="presentation"></b></span></a><label class="select2-offscreen" for="s2id_autogen77"></label><input type="text" role="button" aria-haspopup="true" class="select2-focusser select2-offscreen" aria-labelledby="select2-chosen-77" id="s2id_autogen77"></div><select required="" class="language" name="language" id="language" aria-required="true" tabindex="-1" title="" style="display: none;">
+                                            
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6 option-group">
+                                        <div class="select2-container" id="" style="min-width:160px;float:right;"><a tabindex="-1" class="select2-choice" href="javascript:void(0)">   <span class="select2-chosen" id="select2-chosen-77">All</span><abbr class="select2-search-choice-close"></abbr>   <span role="presentation" class="select2-arrow"><b role="presentation"></b></span></a><label class="select2-offscreen" for="s2id_autogen77"></label><input type="text" role="button" aria-haspopup="true" class="select2-focusser select2-offscreen" aria-labelledby="select2-chosen-77" id="s2id_autogen77"></div><select required="" class="language" name="language" id="language" aria-required="true" tabindex="-1" title="" style="display: none;">
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="panel-stat-chart" style="height: auto;">
+                                <canvas id="line-chart" class="full" height="140"></canvas>
+                                <div class="row">
+                                    <div class="charts-inline" style="margin:0 auto;float:left;">
+                                        <div id="my-chart1" style="width:132px;height:100px;float:left;"></div>
+                                    </div>
+                                    <div class="charts-inline" style="margin:0 auto">
+                                        <div id="my-chart2" style="width:132px;height:100px;"></div>
+                                    </div>
+                                    <div class="charts-inline" style="margin:0 auto">
+                                        <div id="my-chart3" style="width:132px;height:100px;"></div>
+                                    </div>
+                                    <div class="charts-inline" style="margin:0 auto">
+                                        <div id="my-chart4" style="width:110px;height:100px;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel bg-primary widget-map">
+                            <div class="panel-content widget-full">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div id="flight-map"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+                <div class="row">
+                    <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th st-sort="name" translate>Order Submitted</th>
+                                <th translate>Tracking Number</th>
+                                <th translate>Shipment ID</th>
+                                <th translate>Carrier</th>
+                                <th translate>Origin City</th>
+                                <th translate>Destination City</th>
+                                <th translate>Status</th>
+                                <th translate>View</th>
+                                <th translate>Edit</th>
+                                <th translate>Delete</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in shipmentList">
+                                <td><i class="glyphicon glyphicon-star-empty"></i></td>
+                                <td>{{row.generalInformation.createdDate}}</td>
+                                <td>{{row.generalInformation.trackingNumber}}</td>
+                                <td>{{row.generalInformation.shipmentCode}}</td>
+                                <td>{{row.carrierInformation.carrierName}}</td>
+                                <td>{{row.addressInformation.consigner.city}}</td>
+                                <td>{{row.addressInformation.consignee.city}}</td>
+                                <td>{{row.generalInformation.status}}</td>
+                                <td>
+                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentCode}}"
+                                       class="edit btn btn-sm btn-default">
+                                        <i class="icon-note" style="color:blue"></i>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)"
+                                       class="delete btn btn-sm btn-danger" href="javascript:;">
+                                        <i class="icons-office-52"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                </div>
+                <div id="panel-notif"></div>
+            </div>
+        </form>
+    </div>
+
+</div>
