@@ -1719,7 +1719,7 @@ namespace PI.Business
                         ShipmentCode = item.ShipmentCode,
                         ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
-                        ShipmentReferenceName = item.ShipmentReferenceName,
+                        ShipmentReferenceName =this.sep(item.ShipmentReferenceName),
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
@@ -2056,6 +2056,17 @@ namespace PI.Business
                 context.SaveChanges();
             }
             return result;
+        }
+
+        private  string sep(string s)
+        {
+            int l = s.IndexOf("-");
+            if (l > 0)
+            {
+                return s.Substring(0, l);
+            }
+            return "";
+
         }
 
         public string RequestForQuote(ShipmentDto addShipment)
@@ -2763,8 +2774,27 @@ namespace PI.Business
             }
 
             return carriers;
-        }       
+        }
 
+
+        /// <summary>
+        /// Toggle Shipment Favourites
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        public bool ToggleShipmentFavourites(ShipmentDto shipment)
+        {
+            using (PIContext context = new PIContext())
+            {
+                var existingShipment = context.Shipments
+                                   .Where(x => x.ShipmentCode == shipment.GeneralInformation.ShipmentCode).SingleOrDefault();
+
+                existingShipment.IsFavourite = !shipment.GeneralInformation.IsFavourite;
+                context.SaveChanges();
+
+                return existingShipment.IsFavourite;
+            }
+        }
 
     }
 

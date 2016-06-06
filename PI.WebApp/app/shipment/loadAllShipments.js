@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory','$rootScope',
-                       function ($scope, $location, $window, shipmentFactory, $rootScope) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route) {
 
                            var vm = this;
                            vm.statusButton = 'All';
@@ -12,7 +12,7 @@
                            vm.rowCollection = [];
 
                            vm.loadAllShipments = function (status) {
-                               
+
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -23,7 +23,7 @@
                                shipmentFactory.loadAllShipments(status, startDate, endDate, number, source, destination)
                                     .success(
                                            function (responce) {
-                                               
+
                                                vm.rowCollection = responce.content;
                                            }).error(function (error) {
                                                console.log("error occurd while retrieving shiments");
@@ -36,8 +36,8 @@
                                vm.statusButton = status;
                                vm.loadAllShipments(status);
                            }
-                           
-                          //delete shipment
+
+                           //delete shipment
                            vm.deleteById = function (row) {
 
                                $('#panel-notif').noty({
@@ -49,11 +49,30 @@
                                                    shipmentFactory.deleteShipment(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           location.reload();
-                                                           //var index = vm.rowCollection.indexOf(row);
-                                                           //if (index !== -1) {
-                                                           //    vm.rowCollection.splice(index, 1);
-                                                           //}
+                                                           debugger;
+
+                                                           $('#panel-notif').noty({
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully, click ok to reload the shipment list') + '?</p></div>',
+                                                               buttons: [
+                                                                       {
+                                                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                                               $noty.close();
+                                                                               $route.reload();
+
+                                                                           }
+                                                                       }
+
+                                                               ],
+                                                               layout: 'bottom-right',
+                                                               theme: 'made',
+                                                               animation: {
+                                                                   open: 'animated bounceInLeft',
+                                                                   close: 'animated bounceOutLeft'
+                                                               },
+                                                               timeout: 3000,
+                                                           });
+
+
                                                        }
                                                    })
                                        .error(function () {
@@ -85,6 +104,44 @@
 
 
                            };
+
+                           vm.toggleFavourite = function (row) {
+                               var count = 0;
+                               angular.forEach(vm.rowCollection, function (item, key) {
+                                   count = (item.generalInformation.isFavourite) ? count + 1 : count;
+                               });
+
+                               debugger;
+                               if (count == 10 && row.generalInformation.isFavourite == false) {
+                                   var body = $("html, body");
+
+                                   $('#panel-notif').noty({
+                                       text: '<div class="alert alert-warning media fade in"><p> ' + $rootScope.translate('Please select only 10 favourite shipments') + '.</p></div>',
+                                       buttons: [
+                                               {
+                                                   addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                       $noty.close();
+
+                                                   }
+                                               }
+
+                                       ],
+                                       layout: 'bottom-right',
+                                       theme: 'made',
+                                       animation: {
+                                           open: 'animated bounceInLeft',
+                                           close: 'animated bounceOutLeft'
+                                       },
+                                       timeout: 3000,
+                                   });
+                               }
+                               else {
+                                      shipmentFactory.toggleFavourite(row)
+                                                     .success(function (response) {
+                                                            row.generalInformation.isFavourite = response;
+                                                      });
+                                    }
+                           }
 
                            vm.loadAllShipments();
 

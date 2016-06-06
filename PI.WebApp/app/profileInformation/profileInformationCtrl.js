@@ -112,8 +112,8 @@
 
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope','Upload',
-            function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope, Upload) {
-
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope,Upload) {
+   
                 applicationService.init();
                 
                 //mainColor();
@@ -329,7 +329,7 @@
                                                                     });
 
                                                                     $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered Already Exists') + '</p></div>',
+                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('This email address is already in use') + '</p></div>',
                                                                         layout: 'bottom-right',
                                                                         theme: 'made',
                                                                         animation: {
@@ -435,17 +435,21 @@
                              vm.changeCountry();
 
                              if (response.data.companyDetails.costCenter != null) {
-                                 vm.multipleCostCenters = false;
-                             }
-                             else {
                                  vm.multipleCostCenters = true;
                              }
-
+                             else {
+                                 vm.multipleCostCenters = false;
+                             }
+                             debugger;
 
                              if (response.data.companyDetails.costCenter != null &&
                                  response.data.companyDetails.costCenter.billingAddress != null) {
 
                                  vm.model.companyDetails.costCenter.billingAddress = response.data.companyDetails.costCenter.billingAddress;
+                                 vm.changeBillingCountry();
+                             }
+                             else {
+                                 vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
                                  vm.changeBillingCountry();
                              }
                          }
@@ -910,7 +914,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Email You Entered is Already Exists') + '</p></div>',
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('This email address is already in use') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {

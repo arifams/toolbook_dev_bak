@@ -30,7 +30,8 @@
     app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope) {
 
         var vm = this;
-        
+       
+
 
         vm.changeCountry = function () {
             vm.isRequiredState = vm.model.country == 'US' || vm.model.country == 'CA' || vm.model.country == 'PR' || vm.model.country == 'AU';
@@ -68,16 +69,18 @@
         var loadDivision = function () {
             loadAddressBookFactory.loadAddressInfo()
             .success(function (data) {
+                debugger;
                 vm.model = data;
-                if (data.isActive==true) {
+                if (data.isActive == true || data.firstName==null) {
                     vm.model.isActive = "true";
                 } else {
                     vm.model.isActive = "false";
                 }
 
-                if (vm.model.id == 0) {
-                    vm.model.status = 1;
-                }
+                //if (vm.model.id == 0) {
+                //   // vm.model.status = 1;
+                //    vm.model.isActive = "true";
+                //}
             })
             .error(function () {
             })

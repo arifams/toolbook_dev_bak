@@ -131,7 +131,7 @@
                                                 rel="popover" data-container="body" data-toggle="popover"
                                                 data-placement="top"
                                                 data-html="true"
-                                                data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment. Refer the below chart for further clarification (refer wireframe)."></select>
+                                                data-content="Incoterm defines the Consignee's & Consignor's responsibilities of a shipment."></select>
                                     </div>
                                 </div>
                             </div>
@@ -288,7 +288,11 @@
                                 <div class="option-group">
                                     <country-select id="country2" name="countryConsigner"
                                                     ng-model="shipmentCtrl.shipment.addressInformation.consigner.country" ng-change="shipmentCtrl.changeConsignerCountry()"
-                                                    class="form-control"></country-select>
+                                                    class="form-control" ng-required="true"></country-select>
+                                </div>
+                                <div ng-messages="consignerConsigneeInfoForm.countryConsigner.$error"
+                                     ng-show="shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consigneestate" translate>Consigner Country is required</label>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -325,7 +329,7 @@
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.email" type="email" name="consigneremail" class="form-control" ng-change="shipmentCtrl.consignorEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneremail.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneremail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Email'|translate}}" />
+                                                                        (consignerConsigneeInfoForm.consigneremail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Contact Email'|translate}}" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneremail.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneremail.$dirty  && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="email" class="error" for="consigneremail" translate>Enter valid email address</label>
@@ -461,9 +465,13 @@
                                 <div class="option-group">
                                     <country-select id="country2" name="countryConsignee"
                                                     ng-model="shipmentCtrl.shipment.addressInformation.consignee.country" ng-change="shipmentCtrl.changeConsigneeCountry()"
-                                                    class="form-control">
-                                        
+                                                    class="form-control" ng-required="true">                                      
+                                     
                                     </country-select>
+                                    <div ng-messages="consignerConsigneeInfoForm.countryConsignee.$error"
+                                         ng-show="shipmentCtrl.consignInfoisSubmit">
+                                        <label ng-message="required" class="error" for="consigneestate" translate>Consignee Country is required</label>                                       
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -500,7 +508,7 @@
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.email" type="email" name="consigneeemail" class="form-control" ng-change="shipmentCtrl.consigneeEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeemail.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneeemail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Email'|translate}}" />
+                                                                        (consignerConsigneeInfoForm.consigneeemail.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Contact Email'|translate}}" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneeemail.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneeemail.$dirty  && !consignerConsigneeInfoForm.$pristine)|| shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="email" class="error" for="consigneeemail" translate>Enter valid email address</label>
@@ -592,11 +600,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="col-sm-2 label-font">Total Weight</label>
+                                <label class="col-sm-2 label-font-align">Total Weight</label>
                                 <div class="col-sm-10">
                                     <div class="skin skin-minimal">
                                         <div class="form-body">
-                                            <div class="form-group">
+                                            <div class="form-group m-b-0">
                                                 <div class="col-sm-5">
                                                     <h4 style="min-height: 26px;" class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>
                                                 </div>
@@ -619,11 +627,11 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="col-sm-2 label-font" translate>Total Volume</label>
+                                <label class="col-sm-2 label-font-align" translate>Total Volume</label>
                                 <div class="col-sm-10">
                                     <div class="skin skin-minimal">
                                         <div class="form-body">
-                                            <div class="form-group">
+                                            <div class="form-group m-b-0">
                                                 <div class="col-sm-5">
                                                     <h4 style="min-height: 26px;" class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalVolume}}</strong> </h4>
                                                 </div>
@@ -766,7 +774,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <label class="col-sm-2 label-font" translate> Insurance *</label>
+                                    <label class="col-sm-2 label-font p-t-10" translate> Insurance *</label>
                                     <div class="col-sm-2">
                                         <div class="input-group">
                                             <div class="icheck-inline">
