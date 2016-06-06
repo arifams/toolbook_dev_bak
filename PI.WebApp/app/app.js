@@ -36,7 +36,8 @@ var MakeApp = angular
       $routeProvider
         .when('/dashboard', {
             templateUrl: 'dashboard/dashboard.html',
-            controller: 'dashboardCtrl'
+            controller: 'dashboardCtrl',
+            controllerAs: 'dashboardCtrl'
         })
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
