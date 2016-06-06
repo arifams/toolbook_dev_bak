@@ -82,6 +82,8 @@
     <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.js" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.html" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
+    <Content Include="app\dashboard\dashboard.html" />
+    <Content Include="app\dashboard\dashboardCtrl.js" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\reports\ShipmentReport.js" />

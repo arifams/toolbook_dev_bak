@@ -34,10 +34,10 @@ var MakeApp = angular
   .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
 
       $routeProvider
-        //.when('/', {
-        //    templateUrl: 'dashboard/dashboard.html',
-        //    controller: 'dashboardCtrl'
-        //})
+        .when('/dashboard', {
+            templateUrl: 'dashboard/dashboard.html',
+            controller: 'dashboardCtrl'
+        })
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
             controller: 'frontendCtrl'

@@ -1,7 +1,7 @@
 ﻿angular.module('newApp')
-.factory('builderService', ['applicationService', function (applicationService){
+.factory('builderFactory', ['applicationService', function (applicationService) {
 
-    var builderService = {};
+    var builderFactory = {};
 
     /* Main Color */
     function mainColor() {
@@ -16,44 +16,7 @@
             $('body').addClass('color-' + main_name);
             $('.theme-color').removeClass('active');
             $(this).addClass('active');
-            if ($(this).data('main') == 'default') {
-                $('.theme-left').css('background-color', '#202226');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#393E44');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#fff');
-                $('.sltl .theme-left').css('background-color', '#fff');
-            }
-            if ($(this).data('main') == 'primary') {
-                $('.theme-left').css('background-color', '#319DB5');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#164954');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#DDE6E9');
-            }
-            if ($(this).data('main') == 'red') {
-                $('.theme-left').css('background-color', '#C9625F');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#4E3232');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F8F3F1');
-            }
-            if ($(this).data('main') == 'green') {
-                $('.theme-left').css('background-color', '#18A689');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#24392E');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F1F8F3');
-            }
-            if ($(this).data('main') == 'orange') {
-                $('.theme-left').css('background-color', '#C58627');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#50361F');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F8F4F1');
-            }
-            if ($(this).data('main') == 'purple') {
-                $('.theme-left').css('background-color', '#6E62B5');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#393F51');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F3F2F7');
-            }
-            if ($(this).data('main') == 'blue') {
-                $('.theme-left').css('background-color', '#4A89DC');
-                $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#1E3948');
-                $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F2F4F7');
-            }
-            $.cookie('main-color', main_color, { path: '/' });
-            $.cookie('main-name', main_name, { path: '/' });
+            
         });
     }
 
@@ -68,74 +31,312 @@
         $('body').addClass('color-' + main_name);
         $('.theme-color').removeClass('active');
         $(this).addClass('active');
-        if ($(this).data('main') == 'default') {
-            $('.theme-left').css('background-color', '#202226');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#393E44');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#fff');
-            $('.sltl .theme-left').css('background-color', '#fff');
-        }
-        if ($(this).data('main') == 'primary') {
-            $('.theme-left').css('background-color', '#319DB5');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#164954');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#DDE6E9');
-        }
-        if ($(this).data('main') == 'red') {
-            $('.theme-left').css('background-color', '#C9625F');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#4E3232');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F8F3F1');
-        }
-        if ($(this).data('main') == 'green') {
-            $('.theme-left').css('background-color', '#18A689');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#24392E');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F1F8F3');
-        }
-        if ($(this).data('main') == 'orange') {
-            $('.theme-left').css('background-color', '#C58627');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#50361F');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F8F4F1');
-        }
-        if ($(this).data('main') == 'purple') {
-            $('.theme-left').css('background-color', '#6E62B5');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#393F51');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F3F2F7');
-        }
-        if ($(this).data('main') == 'blue') {
-            $('.theme-left').css('background-color', '#4A89DC');
-            $('.theme-sidebar-dark, .theme-right-dark').css('background-color', '#1E3948');
-            $('.theme-sidebar-light, .theme-right-light').css('background-color', '#F2F4F7');
-        }
-        $.cookie('main-color', main_color, { path: '/' });
-        $.cookie('main-name', main_name, { path: '/' });
+        
     }
 	  
-    builderService.init = function (mColor,mName) {
-        "use strict";
+    builderFactory = {
+        init: function (mColor, mName) {
+            "use strict";
 
-        // $.removeCookie('main-color');
-        // $.removeCookie('topbar-color');
-        // $.removeCookie('topbar-color-custom');
-        // $.removeCookie('sidebar-color');
-        // $.removeCookie('sidebar-color-custom');
-        // $.removeCookie('sidebar-hover');
-        // $.removeCookie('submenu-hover');
+            mainColor();
 
-        //toggleBuilder();
-        //builderScroll();
-        //handleLayout();
-        //handleTheme();
-        //handleCookie();
-        mainColor();
+            if (mColor != undefined && mName != undefined)
+                setColor(mColor, mName);
+           
+            applicationService.resetStyle();
 
-        if (mColor != undefined && mName != undefined)
-            setColor(mColor, mName);
-        //S
-        applicationService.resetStyle();
+            if ($('body').hasClass('sidebar-top')) {
+                destroySideScroll();
+            }
+        },
+        loadLineChart: function () 
+        {
+            var randomScalingFactor = function () { return Math.round(Math.random() * 100) };
+            var lineChartData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July"],
+                datasets: [
+                  {
+                      label: "DHL",
+                      fillColor: "rgba(220,220,220,0.2)",
+                      strokeColor: "rgba(220,220,220,1)",
+                      pointColor: "rgba(220,220,220,1)",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "rgba(220,220,220,1)",
+                      data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                  },
+                  {
+                      label: "FedEx",
+                      fillColor: "rgba(49, 157, 181,0.2)",
+                      strokeColor: "#319DB5",
+                      pointColor: "#319DB5",
+                      pointStrokeColor: "#fff",
+                      pointHighlightFill: "#fff",
+                      pointHighlightStroke: "#319DB5",
+                      data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+                  }
+                ]
+            }
+            var ctx = document.getElementById("line-chart").getContext("2d");
+            window.myLine = new Chart(ctx).Line(lineChartData, {
+                responsive: true,
+                tooltipCornerRadius: 0
+            });
+        },
+        
+        loadDougnutChart1: function () {
 
-        if ($('body').hasClass('sidebar-top')) {
-            destroySideScroll();
+            $(function () {
+
+                var gaugeOptions = {
+
+                    'chart': {
+                        'type': 'solidgauge'
+                    },
+
+                    'title': null,
+
+                    'tooltip': {
+                        'enabled': false
+                    },
+
+                    'pane': {
+                        'center': ['50%', '50%'],
+                        'size': '60px',
+                        'startAngle': 0,
+                        'endAngle': 360,
+                        'background': {
+                            'backgroundColor': '#EEE',
+                            'innerRadius': '80%',
+                            'outerRadius': '100%',
+                            'borderWidth': 0
+                        }
+                    },
+
+                    'yAxis': {
+                        'min': 0,
+                        'max': 100,
+                        'labels': {
+                            'enabled': false
+                        },
+
+                        'lineWidth': 0,
+                        'minorTickInterval': null,
+                        'tickPixelInterval': 400,
+                        'tickWidth': 0
+                    },
+
+                    'plotOptions': {
+                        'solidgauge': {
+                            'innerRadius': '80%'
+                        },
+                        'showInLegend': true
+                    },
+
+                    'series': [{
+                        'name': 'Sea',
+                        'data': [30],
+                        'dataLabels': {
+                            'enabled': true
+                        }
+                    }]
+                };
+
+                $('#my-chart1').highcharts(gaugeOptions);
+
+            });
+        },
+        loadDougnutChart2: function () {
+
+            $(function () {
+
+                var gaugeOptions = {
+
+                    'chart': {
+                        'type': 'solidgauge'
+                    },
+
+                    'title': null,
+
+                    'tooltip': {
+                        'enabled': false
+                    },
+
+                    'pane': {
+                        'center': ['50%', '50%'],
+                        'size': '60px',
+                        'startAngle': 0,
+                        'endAngle': 360,
+                        'background': {
+                            'backgroundColor': '#EEE',
+                            'innerRadius': '80%',
+                            'outerRadius': '100%',
+                            'borderWidth': 0
+                        }
+                    },
+
+                    'yAxis': {
+                        'min': 0,
+                        'max': 100,
+                        'labels': {
+                            'enabled': false
+                        },
+
+                        'lineWidth': 0,
+                        'minorTickInterval': null,
+                        'tickPixelInterval': 400,
+                        'tickWidth': 0
+                    },
+
+                    'plotOptions': {
+                        'solidgauge': {
+                            'innerRadius': '80%'
+                        },
+                        'showInLegend': true
+                    },
+
+                    'series': [{
+                        'name': 'Express',
+                        'data': [50],
+                        'dataLabels': {
+                            'enabled': true
+                        }
+                    }]
+                };
+
+                $('#my-chart2').highcharts(gaugeOptions);
+
+            });
+        },
+        loadDougnutChart3: function () {
+
+            $(function () {
+
+                var gaugeOptions = {
+
+                    'chart': {
+                        'type': 'solidgauge'
+                    },
+
+                    'title': null,
+
+                    'tooltip': {
+                        'enabled': false
+                    },
+
+                    'pane': {
+                        'center': ['50%', '50%'],
+                        'size': '60px',
+                        'startAngle': 0,
+                        'endAngle': 360,
+                        'background': {
+                            'backgroundColor': '#EEE',
+                            'innerRadius': '80%',
+                            'outerRadius': '100%',
+                            'borderWidth': 0
+                        }
+                    },
+
+                    'yAxis': {
+                        'min': 0,
+                        'max': 100,
+                        'labels': {
+                            'enabled': false
+                        },
+
+                        'lineWidth': 0,
+                        'minorTickInterval': null,
+                        'tickPixelInterval': 400,
+                        'tickWidth': 0
+                    },
+
+                    'plotOptions': {
+                        'solidgauge': {
+                            'innerRadius': '80%'
+                        },
+                        'showInLegend': true
+                    },
+
+                    'series': [{
+                        'name': 'Air',
+                        'data': [80],
+                        'dataLabels': {
+                            'enabled': true
+                        }
+                    }]
+                };
+
+                $('#my-chart3').highcharts(gaugeOptions);
+
+            });
+        },
+        loadDougnutChart4: function () {
+
+            $(function () {
+
+                var gaugeOptions = {
+
+                    'chart': {
+                        'type': 'solidgauge'
+                    },
+
+                    'title': null,
+
+                    'tooltip': {
+                        'enabled': false
+                    },
+
+                    'pane': {
+                        'center': ['50%', '50%'],
+                        'size': '60px',
+                        'startAngle': 0,
+                        'endAngle': 360,
+                        'background': {
+                            'backgroundColor': '#EEE',
+                            'innerRadius': '80%',
+                            'outerRadius': '100%',
+                            'borderWidth': 0
+                        }
+                    },
+
+                    'yAxis': {
+                        'min': 0,
+                        'max': 100,
+                        'labels': {
+                            'enabled': false
+                        },
+
+                        'lineWidth': 0,
+                        'minorTickInterval': null,
+                        'tickPixelInterval': 400,
+                        'tickWidth': 0
+                    },
+                    
+
+                    'plotOptions': {
+                        'solidgauge': {
+                            'innerRadius': '80%'
+                        }, 'showInLegend': true
+                    },
+                   
+
+                    'series': [{
+                        //'name': 'Express',
+                        'data': ['Express',70],
+                        'dataLabels': {
+                            'enabled': true
+                        }
+                    }]
+                };
+
+                $('#my-chart4').highcharts(gaugeOptions);
+
+            });
+        },
+        loadMap: function () {
+
         }
 
-    };
-
-    return builderService;
+        };
+    return builderFactory;
 }]);
