@@ -323,14 +323,29 @@ namespace PI.Service.Controllers
                    // CustomerManagement customerManagement = new CustomerManagement();
                     string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
-                    return Ok(new
+                    if (profile.IsActive)
                     {
-                        Id = user.Id,
-                        Role = roleName,
-                        Result = 1,
-                        IsCorporateAccount = isCorporateAccount,
-                        token= _token
-                    });
+                        return Ok(new
+                        {
+                            Id = user.Id,
+                            Role = roleName,
+                            Result = 1,
+                            IsCorporateAccount = isCorporateAccount,
+                            token = _token
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            Id = "",
+                            Message = "Your account has been deactivated",
+                            Result = -1
+                        });
+
+                    }
+
+                   
                 }
 
                 else

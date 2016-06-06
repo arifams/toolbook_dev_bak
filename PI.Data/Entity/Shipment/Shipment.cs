@@ -45,6 +45,8 @@ namespace PI.Data.Entity
 
         public DateTime? ManualStatusUpdatedDate { get; set; }
 
+        public bool IsFavourite { get; set; }
+
         #region Navigation properties
 
         // General Information - Navigations

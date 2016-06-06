@@ -99,6 +99,7 @@
                                 <th translate>Origin City</th>
                                 <th translate>Destination City</th>
                                 <th translate>Status</th>
+                                <th translate>Favourites</th>
                                 <th translate>View</th>
                                 <th translate>Edit</th>
                                 <th translate>Delete</th>
@@ -114,6 +115,12 @@
                                 <td>{{row.addressInformation.consigner.city}}</td>
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td>{{row.generalInformation.status}}</td>
+                                <td >                                  
+                                    <button type="button" class="btn btn-large btn-primary btn-block"
+                                             ng-click="loadShipCtrl.toggleFavourite(row)" >
+                                       {{row.generalInformation.isFavourite}}
+                                    </button>
+                                </td>
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="edit btn btn-sm btn-default">
