@@ -119,11 +119,12 @@ namespace PI.Service.Controllers
         [HttpGet]
         [Route("GetAllShipments")]
         public PagedList GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null)
+                                         string number = null, string source = null, string destination = null, bool viaDashboard = false)
         {
             // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();
-            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, number, source, destination);
+            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, 
+                                                                          number, source, destination, viaDashboard);
 
         }
 

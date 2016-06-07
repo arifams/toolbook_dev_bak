@@ -14,13 +14,14 @@ var serverBaseUrl = 'http://piserviceqa.azurewebsites.net';
 var webBaseUrl = 'http://piwebqa.azurewebsites.net';
 
 
-//var SISUrl='http://book.12send.com/taleus/';
-
-//var SISUrl2 = 'http://book.parcelinternational.nl/taleus/';
-
 var SISUrl = 'http://www2.shipitsmarter.com/taleus/';
 
 var SISUrl2 = 'http://www2.shipitsmarter.com/taleus/';
+
+
+//var SISUrl='http://book.12send.com/taleus/';
+
+//var SISUrl2='http://book.parcelinternational.nl/taleus/';
 
 var SISUser = 'info@parcelinternational.com';
 

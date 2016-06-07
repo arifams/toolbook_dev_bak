@@ -34,10 +34,11 @@ var MakeApp = angular
   .config(function ($routeProvider, $httpProvider, jwtInterceptorProvider) {
 
       $routeProvider
-        //.when('/', {
-        //    templateUrl: 'dashboard/dashboard.html',
-        //    controller: 'dashboardCtrl'
-        //})
+        .when('/dashboard', {
+            templateUrl: 'dashboard/dashboard.html',
+            controller: 'dashboardCtrl',
+            controllerAs: 'dashCtrl'
+        })
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
             controller: 'frontendCtrl'
@@ -275,9 +276,7 @@ var MakeApp = angular
          })
          .when('/loadShipments', {
              templateUrl: 'shipment/loadAllShipments.html',
-             controller: 'loadShipmentsCtrl',
-             controllerAs: 'loadShipCtrl'
-         })
+          })
            .when('/ShipmentOverview', {
                templateUrl: 'shipment/ShipmentOverview.html',
                controller: 'shipmentOverviewCtrl',

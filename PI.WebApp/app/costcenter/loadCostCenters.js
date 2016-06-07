@@ -42,7 +42,7 @@
     });
 
 
-    app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,
+    app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,$rootScope,
                                         costCenterManagmentService, $routeParams, $log, $window, $sce) {
 
         loadAllDivisions.loadAllDivisions()
@@ -90,20 +90,78 @@
 
         $scope.deleteById = function (row) {
 
-            var r = confirm("Do you want to delete the record?");
-            if (r == true) {
-                costCenterManagmentService.deleteCostCenter({ Id: row.id })
-                    .success(function (response) {
-                        if (response == 1) {
-                            var index = $scope.rowCollection.indexOf(row);
-                            if (index !== -1) {
-                                $scope.rowCollection.splice(index, 1);
+            //var r = confirm("Do you want to delete the record?");
+            //if (r == true) {
+            //    costCenterManagmentService.deleteCostCenter({ Id: row.id })
+            //        .success(function (response) {
+            //            if (response == 1) {
+            //                var index = $scope.rowCollection.indexOf(row);
+            //                if (index !== -1) {
+            //                    $scope.rowCollection.splice(index, 1);
+            //                }
+            //            }
+            //        })
+            //        .error(function () {
+            //        })
+            //}
+       
+
+        var body = $("html, body");
+
+        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+        });
+
+        $('#panel-notif').noty({
+            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Do you want to delete the record') + '?</p></div>',
+            buttons: [
+                    {
+                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                            $noty.close();
+
+                            costCenterManagmentService.deleteCostCenter({ Id: row.id })
+                           .success(function (response) {
+                           if (response == 1) {
+                              var index = $scope.rowCollection.indexOf(row);
+                           if (index !== -1) {
+                               $scope.rowCollection.splice(index, 1);
                             }
+                       }
+                   })
+                   .error(function () {
+
+                       body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                       });
+
+                       $('#panel-notif').noty({
+                           text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
+                           layout: 'bottom-right',
+                           theme: 'made',
+                           animation: {
+                               open: 'animated bounceInLeft',
+                               close: 'animated bounceOutLeft'
+                           },
+                           timeout: 3000,
+                       });
+                   })
                         }
-                    })
-                    .error(function () {
-                    })
-            }
+                    },
+                    {
+                        addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                            $noty.close();
+                            return;
+                        }
+                    }
+            ],
+            layout: 'bottom-right',
+            theme: 'made',
+            animation: {
+                open: 'animated bounceInLeft',
+                close: 'animated bounceOutLeft'
+            },
+            timeout: 3000,
+        });
+            
         };
 
         $scope.renderHtml = function (html_code) {

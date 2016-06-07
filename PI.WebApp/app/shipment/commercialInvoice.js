@@ -3,10 +3,21 @@
 (function (app) {
 
     app.controller('commercialInvoiceCtrl', ['$window', '$scope', 'Upload', '$http', '$location', 'shipmentFactory', '$rootScope', function ($window, $scope, Upload, $http, $location, shipmentFactory, $rootScope) {
-
+        debugger;
         var userId = $window.localStorage.getItem('userGuid');
 
         var vm = this;
+
+        vm.print = function (divId) {
+            debugger;
+            var cont = document.getElementById(divId);
+            var printContents = document.getElementById(divId).innerHTML;
+            var popupWin = window.open('', '_blank', 'width=800,height=800');
+            popupWin.document.open();
+            popupWin.document.write('<html><head></head><body onload="window.print()">' + printContents + '</body></html>');
+            popupWin.document.close();
+        }
+
 
         vm.shipmentCode = $location.search().SHIPMENT_CODE;
 

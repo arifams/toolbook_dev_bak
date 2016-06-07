@@ -241,7 +241,7 @@
         }
 
 
-        function loadAllShipments(status, startDate, endDate, number, source, destination) {
+        function loadAllShipments(status, startDate, endDate, number, source, destination, viaDashboard) {
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
                 params: {
@@ -252,7 +252,8 @@
                     endDate: endDate,
                 number: number,
                 source: source,
-                destination: destination
+                destination: destination,
+                viaDashboard: viaDashboard
             }
             });
         }
