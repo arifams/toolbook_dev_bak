@@ -27,7 +27,7 @@ namespace PI.Contract.Business
         List<FileUploadDto> GetAvailableFilesForShipmentbyTenant(string shipmentCode, string userId);
         void DeleteFileInDB(FileUploadDto fileDetails);
         PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                              string number, string source, string destination);
+                                              string number, string source, string destination, bool viaDashboard);
         List<ShipmentDto> GetAllshipmentsForManifest(string userId, string date, string carreer, string reference);
 
         PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,

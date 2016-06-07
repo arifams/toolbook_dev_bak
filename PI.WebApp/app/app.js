@@ -37,7 +37,7 @@ var MakeApp = angular
         .when('/dashboard', {
             templateUrl: 'dashboard/dashboard.html',
             controller: 'dashboardCtrl',
-            controllerAs: 'dashboardCtrl'
+            controllerAs: 'dashCtrl'
         })
         .when('/frontend', {
             templateUrl: 'frontend/frontend.html',
@@ -276,9 +276,7 @@ var MakeApp = angular
          })
          .when('/loadShipments', {
              templateUrl: 'shipment/loadAllShipments.html',
-             controller: 'loadShipmentsCtrl',
-             controllerAs: 'loadShipCtrl'
-         })
+          })
            .when('/ShipmentOverview', {
                templateUrl: 'shipment/ShipmentOverview.html',
                controller: 'shipmentOverviewCtrl',
