@@ -565,7 +565,7 @@ namespace PI.Business
 
         //get shipments by User
         public PagedList GetAllShipmentsbyUser(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                               string number, string source, string destination)
+                                               string number, string source, string destination, bool viaDashboard)
         {
             int page = 1;
             int pageSize = 10;
@@ -604,11 +604,14 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
-                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                           (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                           (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                           (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
+                           (viaDashboard ? shipment.IsFavourite :
+                               ( (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                                 (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                 (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                                 (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                                 (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) 
+                               )
+                           ) &&
                            !shipment.IsParent
                            select shipment).ToList();
 
@@ -624,11 +627,14 @@ namespace PI.Business
             // Get new updated shipment list again.
             var updatedtContent = (from shipment in Shipments
                                    where shipment.IsDelete == false &&
-                                   (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
-                                   (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                   (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                                   (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                                   (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) &&
+                                   (viaDashboard ? shipment.IsFavourite :
+                                     ( (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                                       (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                       (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                                       (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination)) 
+                                     )
+                                   ) &&
                                    !shipment.IsParent
                                    select shipment).ToList();
 
@@ -680,6 +686,7 @@ namespace PI.Business
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        IsFavourite = item.IsFavourite,
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                     },
