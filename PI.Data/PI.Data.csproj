@@ -131,6 +131,7 @@
     <Compile Include="Entity\Shipment\ShipmentPayment.cs" />
     <Compile Include="Entity\Shipment\ShipmentStatusHistory.cs" />
     <Compile Include="Entity\ShortIdBaseEntity.cs" />
+    <Compile Include="Entity\Shipment\TarrifTextCode.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Entity\UserInDivision.cs" />

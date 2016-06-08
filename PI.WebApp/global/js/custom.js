@@ -6,22 +6,17 @@
 //var serverBaseUrl = 'http://piserviceprod.azurewebsites.net';
 var serverBaseUrl = 'http://piserviceqa.azurewebsites.net';
 
-
 // Web base url
 //var webBaseUrl = 'http://localhost:49995';
 //var webBaseUrl = 'http://pibookingservice.azurewebsites.net';
 //var webBaseUrl = 'http://www.parcelinternational.net';
 var webBaseUrl = 'http://piwebqa.azurewebsites.net';
 
+var SISUrlUS = 'http://www2.shipitsmarter.com/taleus/';
+var SISUrlNL = 'http://www2.shipitsmarter.com/tale/';
 
-var SISUrl = 'http://www2.shipitsmarter.com/taleus/';
-
-var SISUrl2 = 'http://www2.shipitsmarter.com/taleus/';
-
-
-//var SISUrl='http://book.12send.com/taleus/';
-
-//var SISUrl2='http://book.parcelinternational.nl/taleus/';
+//var SISUrlUS = 'http://book.parcelinternational.nl/taleus/';
+//var SISUrlNL = 'http://book.parcelinternational.nl/tale/';
 
 var SISUser = 'info@parcelinternational.com';
 
