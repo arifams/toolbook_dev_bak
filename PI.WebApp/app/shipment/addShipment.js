@@ -71,6 +71,9 @@
                            vm.customerFirstName = responce.customerDetails.firstName;
                            vm.customerLastName = responce.customerDetails.lastName;
 
+                           vm.shipment.addressInformation.consigner.companyName = responce.companyDetails.name;
+                           vm.shipment.addressInformation.consigner.contactName = responce.customerDetails.firstName + ' ' + responce.customerDetails.lastName;
+
                            vm.shipment.addressInformation.consigner.country = responce.customerDetails.customerAddress.country;
                            vm.shipment.addressInformation.consigner.postalcode = responce.customerDetails.customerAddress.zipCode;
                            vm.shipment.addressInformation.consigner.number = responce.customerDetails.customerAddress.number
@@ -79,7 +82,7 @@
                            vm.shipment.addressInformation.consigner.city = responce.customerDetails.customerAddress.city;
                            vm.shipment.addressInformation.consigner.state = responce.customerDetails.customerAddress.state;
                            vm.shipment.addressInformation.consigner.email = responce.customerDetails.email;
-                           vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;
+                           vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;                          
                            vm.isInvoicePaymentEnabled = responce.isInvoicePaymentEnabled;
                        }
                    }

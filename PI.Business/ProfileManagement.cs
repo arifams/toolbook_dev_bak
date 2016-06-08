@@ -157,6 +157,11 @@ namespace PI.Business
             var curentCompany = this.GetCompanyByTenantId(currentCustomer.User.TenantId);
 
             currentProfile.IsInvoicePaymentEnabled = curentCompany.IsInvoiceEnabled;
+            currentProfile.CompanyDetails = new CompanyDto
+            {
+                Name = curentCompany.Name
+            };
+                
             return currentProfile;
         }
 
