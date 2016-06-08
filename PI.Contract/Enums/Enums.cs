@@ -62,7 +62,8 @@ namespace PI.Contract.Enums
         OutForDelivery,
         Delivered,
         Deleted,
-        Exception
+        Exception,
+        Delayed
     }
 
     public enum ShipmentPaymentType : short
