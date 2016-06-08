@@ -63,6 +63,7 @@ namespace PI.Contract.Enums
         Delivered,
         Deleted,
         Exception,
+        Claim,    
         Delayed
     }
 

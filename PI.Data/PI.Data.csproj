@@ -131,6 +131,7 @@
     <Compile Include="Entity\Shipment\ShipmentPayment.cs" />
     <Compile Include="Entity\Shipment\ShipmentStatusHistory.cs" />
     <Compile Include="Entity\ShortIdBaseEntity.cs" />
+    <Compile Include="Entity\Shipment\TarrifTextCode.cs" />
     <Compile Include="Entity\Tenant.cs" />
     <Compile Include="Entity\TimeZone.cs" />
     <Compile Include="Entity\UserInDivision.cs" />
@@ -167,6 +168,14 @@
     <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.cs" />
     <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.Designer.cs">
       <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.cs" />
+    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.Designer.cs">
+      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.cs" />
+    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.Designer.cs">
+      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
@@ -213,6 +222,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.resx">
       <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606080525228_Ph2 Add TarifText entity.resx">
+      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.resx">
+      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
