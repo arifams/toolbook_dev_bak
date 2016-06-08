@@ -169,6 +169,10 @@
     <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.Designer.cs">
       <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.cs" />
+    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.Designer.cs">
+      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -214,6 +218,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.resx">
       <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606080525228_Ph2 Add TarifText entity.resx">
+      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

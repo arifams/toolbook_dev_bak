@@ -29,6 +29,14 @@ namespace PI.Business
             }
         }
 
+        public string SISWebURLNL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISWebURLNL"].ToString();
+            }
+        }
+
         public string SISUserName
         {
             get
@@ -178,12 +186,23 @@ namespace PI.Business
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
+            string sisUrl = string.Empty;
+            using (PIContext context = new PIContext())
+            {
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode.CountryCode == "NL")
+                    sisUrl = SISWebURLNL;
+                else
+                    sisUrl = SISWebURLUS;
+            }
+
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
                 data["data_xml"] = addShipmentXML;
 
-                var response = wb.UploadValues(SISWebURLUS + "insert_shipment.asp", "POST", data);
+                var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
                 var responseString = Encoding.Default.GetString(response);
 
                 XDocument doc = XDocument.Parse(responseString);
@@ -204,6 +223,8 @@ namespace PI.Business
         {
             // Sample url with data send format
             //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
+
+
 
             string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURLUS, SISUserName, SISPassword, shipmentCode);
 
