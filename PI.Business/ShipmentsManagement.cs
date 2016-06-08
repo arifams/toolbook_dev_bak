@@ -384,6 +384,7 @@ namespace PI.Business
                     ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
                     ConsigneeAddress = new ShipmentAddress
                     {
+                        CompanyName= addShipment.AddressInformation.Consignee.CompanyName,
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
                         LastName = addShipment.AddressInformation.Consignee.LastName,
                         Country = addShipment.AddressInformation.Consignee.Country,
@@ -402,6 +403,7 @@ namespace PI.Business
                     },
                     ConsignorAddress = new ShipmentAddress
                     {
+                        CompanyName=addShipment.AddressInformation.Consigner.CompanyName,
                         FirstName = addShipment.AddressInformation.Consigner.FirstName,
                         LastName = addShipment.AddressInformation.Consigner.LastName,
                         Country = addShipment.AddressInformation.Consigner.Country,
@@ -452,6 +454,7 @@ namespace PI.Business
                 {
                     AddressBook ConsignerAddressBook = new AddressBook
                     {
+                        CompanyName= addShipment.AddressInformation.Consigner.CompanyName,
                         FirstName = addShipment.AddressInformation.Consigner.FirstName,
                         LastName = addShipment.AddressInformation.Consigner.LastName,
                         Country = addShipment.AddressInformation.Consigner.Country,
@@ -477,6 +480,7 @@ namespace PI.Business
                 {
                     AddressBook ConsignerAddressBook = new AddressBook
                     {
+                        CompanyName= addShipment.AddressInformation.Consignee.CompanyName,
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
                         LastName = addShipment.AddressInformation.Consignee.LastName,
                         Country = addShipment.AddressInformation.Consignee.Country,

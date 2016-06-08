@@ -169,6 +169,10 @@
     <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.Designer.cs">
       <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.cs" />
+    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.Designer.cs">
+      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.cs" />
     <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.Designer.cs">
       <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
@@ -221,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606080525228_Ph2 Add TarifText entity.resx">
       <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.resx">
+      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
