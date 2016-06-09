@@ -351,11 +351,18 @@ var MakeApp = angular
           if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin')!=null)
           {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
-              expireTime.setMinutes(expireTime.getMinutes() + 120);             
+              expireTime.setMinutes(expireTime.getMinutes() + 120);
+              var currentRole = $window.localStorage.getItem('userRole');
 
               if (expireTime.getTime() < new Date().getTime()) {
                   //redirect to login and clear the local storage
-                  window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                  if (currentRole != 'Admin') {
+                      window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                  } else {
+                      window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
+                  }
+                 
+
                   $window.localStorage.setItem('lastLogin', null);
               } else {
                   //updating the last login time
