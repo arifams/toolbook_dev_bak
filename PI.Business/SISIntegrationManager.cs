@@ -191,7 +191,7 @@ namespace PI.Business
             {
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
-                if (tarrifTextCode.CountryCode == "NL")
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
                     sisUrl = SISWebURLNL;
                 else
                     sisUrl = SISWebURLUS;
@@ -224,9 +224,19 @@ namespace PI.Business
             // Sample url with data send format
             //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
+            string sisUrl = string.Empty;
+            using (PIContext context = new PIContext())
+            {
+                var shipmentTarrifText = context.Shipments.Where(s => s.ShipmentCode == shipmentCode).Select(s => s.TariffText).First();
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == shipmentTarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    sisUrl = SISWebURLNL;
+                else
+                    sisUrl = SISWebURLUS;
+            }
 
-            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURLUS, SISUserName, SISPassword, shipmentCode);
+            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", sisUrl, SISUserName, SISPassword, shipmentCode);
 
             WebRequest webRequest = WebRequest.Create(deleteURL);
             webRequest.Method = "POST";
