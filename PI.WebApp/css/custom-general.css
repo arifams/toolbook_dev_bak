@@ -650,8 +650,11 @@
     color:#fff;
 }
 .table-striped > thead > tr > th {
-    font-size:12px;
+    font-size:11px;
     font-family:Open Sans !important
+}
+.table-striped > tbody > tr  {
+   border-bottom:1px solid #ddd;
 }
 .btn-group > .btn + .btn, .btn-sm:first-child {
     margin:0px 0px 0px 5px;
@@ -735,4 +738,19 @@
 #widget-footer-purple {
     background-color: #a58bd3;
     
+}
+.icon-favorite {
+    color: yellow;
+}
+.data-align {
+    text-align:center;
+}
+tabel > td {
+    border-bottom:1px solid #DDD;
+}
+@media screen and (max-width: 1150px) {
+.topbar .header-left .topnav h4 > .nav-icons {
+      margin-left:0px;
+      color:red;
+    }
 }

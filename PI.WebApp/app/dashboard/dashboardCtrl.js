@@ -14,6 +14,7 @@
                   builderFactory.loadDougnutChart2();
                   builderFactory.loadDougnutChart3();
                   builderFactory.loadDougnutChart4();
+                  builderFactory.loadMap();
               });
 
               this.isViaDashboard = true;
