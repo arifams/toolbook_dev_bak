@@ -63,7 +63,7 @@
                           });
 
                           $('#panel-notif').noty({
-                              text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you need to change the status?') + '?</p></div>',
+                              text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Do you want to save the changes?') + '?</p></div>',
                               buttons: [
                                       {
                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -136,7 +136,7 @@
                           });
 
                           $('#panel-notif').noty({
-                              text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you need to update invoice payment status?') + '?</p></div>',
+                              text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update invoice status?') + '?</p></div>',
                               buttons: [
                                       {
                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {

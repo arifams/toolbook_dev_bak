@@ -854,6 +854,7 @@ namespace PI.Business
             ShipmentDto currentShipmentDto = null;
             Shipment currentShipment = null;
             long tenantId = 0;
+            string countryCodeFromTarrifText = string.Empty;
 
             using (PIContext context = new PIContext())
             {
@@ -867,6 +868,13 @@ namespace PI.Business
                 //                   select shipment).FirstOrDefault();
 
                 tenantId = currentShipment.Division.Company.TenantId;
+
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == currentShipment.TariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null)
+                    countryCodeFromTarrifText = tarrifTextCode.CountryCode;
+                else
+                    countryCodeFromTarrifText = "US";
             }
             if (currentShipment == null)
             {
@@ -944,11 +952,11 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = currentShipment.PickUpDate
+                    PickupDate = currentShipment.PickUpDate,
+                    CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
 
             };
-
 
             return currentShipmentDto;
         }

@@ -18,15 +18,14 @@
            ['$scope', 'builderFactory',
                function ($scope, builderFactory) {
 
-
-
-                   $scope.$on('$viewContentLoaded', function () {
-                       builderFactory.loadLineChart();
-                       builderFactory.loadDougnutChart1();
-                       builderFactory.loadDougnutChart2();
-                       builderFactory.loadDougnutChart3();
-                       builderFactory.loadDougnutChart4();
-                   });
+              $scope.$on('$viewContentLoaded', function () {
+                  builderFactory.loadLineChart();
+                  builderFactory.loadDougnutChart1();
+                  builderFactory.loadDougnutChart2();
+                  builderFactory.loadDougnutChart3();
+                  builderFactory.loadDougnutChart4();
+                  builderFactory.loadMap();
+              });
 
                    this.isViaDashboard = true;
 
