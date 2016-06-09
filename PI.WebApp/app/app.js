@@ -274,7 +274,7 @@ var MakeApp = angular
              controller: 'paymentResultCtrl',
              controllerAs: 'resultCtrl'
          })
-         .when('/loadShipments', {
+         .when('/loadShipments/:status?', {
              templateUrl: 'shipment/loadAllShipments.html',
           })
            .when('/ShipmentOverview', {
