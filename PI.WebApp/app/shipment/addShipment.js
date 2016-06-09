@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', 'builderFactory', function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope, builderFactory) {
 
         var vm = this;
         vm.user = {};
@@ -320,6 +320,7 @@
             }
             vm.generalInfoisSubmit = true;
 
+            builderFactory.scrollTopackagedetails();
 
         }
 
@@ -327,11 +328,13 @@
             if (value == true) {
                 vm.collapse2 = true;
                 vm.collapse3 = false;
+                
             }
             vm.consignInfoisSubmit = true
 
         }
-
+        builderFactory.scrollToRatesAndCarrierDetails();
+        
         vm.checkPackageDetails = function (value) {
 
             if (value) {

@@ -111,11 +111,10 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderService', 'applicationService', '$window','$rootScope','Upload',
-    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderService, applicationService, $window, $rootScope,Upload) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload) {
    
-                applicationService.init();
-                
+               
                 //mainColor();
 
                 // return if user not logged. -- Need to move this to global service.
@@ -203,7 +202,7 @@
                 };
 
                 vm.loadCustomize = function () {
-                    builderService.init();
+                    builderFactory.init();
                 };
 
                 vm.loadProfile = function () {

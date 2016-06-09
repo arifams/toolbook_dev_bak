@@ -159,7 +159,8 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <h3 class="select-options">
-                            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse2==true"><i class="fa fa-check"></i></button>
+                            <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" 
+                                    ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse2==true"><i class="fa fa-check"></i></button>
                           <translate> Consignor & Consignee Information</translate> 
 
                         </h3>
@@ -219,6 +220,28 @@
 
                             <div class="form-group">
                                 <label class="form-label">Address Details* </label>
+                            </div>                          
+                            <div class="form-group">
+                                <div class="col-sm-3 p-0">
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.number" type="text" name="consignernumber" class="form-control" ng-required="true" placeholder="{{'Number*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
+                                           ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignernumber.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consignernumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
+                                    <div ng-messages="consignerConsigneeInfoForm.consignernumber.$error"
+                                         ng-show="(consignerConsigneeInfoForm.consignernumber.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
+                                        <label ng-message="required" class="error" for="consignernumber" translate>Consignor Number is required</label>
+                                        <label ng-message="maxlength" class="error" for="consignernumber" translate>Max length should be 200 characters</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 p-r-0">
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address1" type="text" name="consigneraddress1" class="form-control " ng-required="true" placeholder="{{'Street*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
+                                           ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress1.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
+                                    <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
+                                         ng-show="(consignerConsigneeInfoForm.consigneraddress1.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
+                                        <label ng-message="required" class="error" for="consigneraddress1" translate>Consignor Street name is required</label>
+                                        <label ng-message="maxlength" class="error" for="consigneraddress1" translate>Max length should be 200 characters</label>
+                                    </div>
+                                </div>                           
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.postalcode" type="text" name="consignerpostalcode" class="form-control" ng-required="true" placeholder="{{'Postal/ZipCode*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
@@ -229,30 +252,6 @@
                                     <label ng-message="required" class="error" for="consignerpostalcode" translate>Consignor Postal/Zip code is required</label>
                                     <label ng-message="maxlength" class="error" for="consignerpostalcode" translate>Max length should be 200 characters</label>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="width-half float-left">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.number" type="text" name="consignernumber" class="form-control" ng-required="true" placeholder="{{'Number*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
-                                           ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignernumber.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consignernumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
-                                    <div ng-messages="consignerConsigneeInfoForm.consignernumber.$error"
-                                         ng-show="(consignerConsigneeInfoForm.consignernumber.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consignernumber" translate>Consignor Number is required</label>
-                                        <label ng-message="maxlength" class="error" for="consignernumber" translate>Max length should be 200 characters</label>
-                                    </div>
-                                </div>
-                                <div class="width-half float-side">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address1" type="text" name="consigneraddress1" class="form-control " ng-required="true" placeholder="{{'Street*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
-                                           ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress1.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
-                                    <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
-                                         ng-show="(consignerConsigneeInfoForm.consigneraddress1.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneraddress1" translate>Consignor Street name is required</label>
-                                        <label ng-message="maxlength" class="error" for="consigneraddress1" translate>Max length should be 200 characters</label>
-                                    </div>
-                                </div>
-                              
-
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="{{'Additional address information*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
@@ -296,7 +295,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" translate>Contact Name* </label>
+                                <label class="form-label" translate>Contact Details* </label>
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.contactName" type="text" name="consignercontactName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()"
@@ -309,9 +308,7 @@
 
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" translate>Contact Number* </label>
-                            </div>
+                            
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.contactNumber" type="text" name="consignercontactNumber" class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercontactNumber.$invalid &&
@@ -323,9 +320,7 @@
                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid mobile number</label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" translate>Contact email Address  </label>
-                            </div>
+                            
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.email" type="email" name="consigneremail" class="form-control" ng-change="shipmentCtrl.consignorEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneremail.$invalid &&
@@ -397,18 +392,7 @@
                                 <label class="form-label" translate>Address Details* </label>
                             </div>
                             <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.postalcode" type="text" name="consigneepostalcode" class="form-control" ng-required="true" placeholder="{{'Postal/ZipCode*'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneepostalcode.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneepostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
-                                <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
-                                     ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneeName" translate>Consignee Postal/Zip code is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneeName" translate>Max length should be 200 characters</label>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <div class="width-half float-left">
+                                <div class="col-sm-3 p-0">
                                     <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.number" type="text" name="consigneenumber" class="form-control" ng-required="true" placeholder="{{'Number*'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneenumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneenumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
@@ -418,7 +402,7 @@
                                         <label ng-message="maxlength" class="error" for="consigneenumber" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
-                                <div class="width-half float-side">
+                                <div class="col-sm-9 p-r-0">
                                     <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address1" type="text" name="consigneeaddress1" class="form-control" ng-required="true" placeholder="{{'Street*'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeaddress1.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeaddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
@@ -428,8 +412,16 @@
                                         <label ng-message="maxlength" class="error" for="consigneeaddress1" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
-                              
-
+                            </div>
+                            <div class="form-group">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.postalcode" type="text" name="consigneepostalcode" class="form-control" ng-required="true" placeholder="{{'Postal/ZipCode*'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneepostalcode.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneepostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
+                                <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine) || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consigneeName" translate>Consignee Postal/Zip code is required</label>
+                                    <label ng-message="maxlength" class="error" for="consigneeName" translate>Max length should be 200 characters</label>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address2" type="text" name="consigneeaddress2" class="form-control" placeholder="{{'Additional address information'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
@@ -475,7 +467,7 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" translate>Contact Name* </label>
+                                <label class="form-label" translate>Contact Details* </label>
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactName" type="text" name="consigneecontactName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()"
@@ -486,11 +478,8 @@
                                     <label ng-message="required" class="error" for="consigneecontact" translate>Consignee Contact Name is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneecontact" translate>Max length should be 200 characters</label>
                                 </div>
-
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" translate>Contact Number* </label>
-                            </div>
+                            
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber" class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
@@ -502,9 +491,7 @@
                                     <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid mobile number</label>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label class="form-label" translate>Contact email Address  </label>
-                            </div>
+                      
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.email" type="email" name="consigneeemail" class="form-control" ng-change="shipmentCtrl.consigneeEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeemail.$invalid &&
@@ -532,11 +519,11 @@
                 <div class="row" style="padding:0px 30px 0px 40px;">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <button class="btn btn-primary btn-app pull-right"
+                            <button class="btn btn-primary btn-app pull-right" id="btnConsignorNext"
                                     ng-click="shipmentCtrl.checkConsignInfo(consignerConsigneeInfoForm.$valid)" translate>
                                 Next
                             </button>
-                            <button class="btn btn-primary btn-app pull-right"
+                            <button class="btn btn-primary btn-app pull-right" 
                                     ng-click="shipmentCtrl.collapse1=false;shipmentCtrl.collapse2=true" translate>
                                 Previous
                             </button>
@@ -546,7 +533,7 @@
             </form>
         </div>
 
-        <div class="panel">
+        <div class="panel" id="divPackage">
             <div class="panel-header" id="panel-footer2">
                 <div class="row">
                     <div class="col-sm-12">
@@ -556,7 +543,6 @@
                         </h3>
                     </div>
                 </div>
-
             </div>
             <form class="form-horizontal" name="formPackage" collapse="shipmentCtrl.collapse3==true" ng-submit="formPackage.$valid">
                 <div class="panel-content panel-default" style="height:auto;padding:30px;">
@@ -651,11 +637,13 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-sm-3 label-font" translate>
+                            Product Details *
+                        </div>
+                    </div>
+                    <div class="row m-0">
                         <div class="col-sm-12">
-                            <div class="form-group" style="overflow-x: auto;">
-                                <div class="col-sm-2 label-font" translate>
-                                    Product Details *
-                                </div>
+                            <div class="form-group" style="overflow-x: auto;">                                
                                 <table id="product_info" class="table table-striped">
                                     <thead>
                                         <tr>
@@ -803,7 +791,7 @@
                         <div class="row" style="padding:0px 0px 0px 20px;">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    <button type="submit" ng-click="shipmentCtrl.checkPackageDetails(formPackage.$valid)"
+                                    <button type="submit" ng-click="shipmentCtrl.checkPackageDetails(formPackage.$valid)" id="btnPackageDetailsNext"
                                             class="btn btn-primary pull-right " translate>
                                         Next
                                     </button>
@@ -818,7 +806,7 @@
             </form>
         </div>
 
-        <div class="panel">
+        <div class="panel" id="divRatesCarrier">
             <div class="panel-header" id="panel-footer3">
 
                 <div class="row">

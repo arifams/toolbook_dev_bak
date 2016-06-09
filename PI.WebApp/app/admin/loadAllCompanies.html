@@ -15,8 +15,7 @@
 
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-sm-2 form-group">
+                                <div class="col-sm-2 form-group m-0">
                                     <div dropdown="" class="btn-group btn-block">
                                         <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" >
                                           <translate>Status</translate>  :  {{vm.statusButton}}
@@ -45,7 +44,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group input-group">
                                         <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
-                                               placeholder= "{{'Search by First Name, Last Name or Corporate Name'| translate}}"  />
+                                               placeholder= "{{'Search by First Name, Last Name or Company Name'| translate}}"  />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-large btn-primary" ng-click="vm.searchComapnies()">
                                                 <i class="fa fa-search"></i>
@@ -53,17 +52,17 @@
                                         </span>
                                     </div>
                                 </div>                               
-                            </div>
+                            
                         </div>
                         <br />
                         <div>
                             <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
                                 <thead>
                                     <tr>
-                                        <th translate>Created Date</th>
+                                        <th translate>Creation Date</th>
                                         <th st-sort="name" translate>First Name</th>
                                         <th translate>Last Name</th>
-                                        <th translate>Corporate Name</th>
+                                        <th translate>Company Name</th>
                                         <th translate>City</th>
                                         <th translate>Number Of Users</th>
                                         <th translate>Active Shipments</th>

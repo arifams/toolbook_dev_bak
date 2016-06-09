@@ -80,16 +80,16 @@
                             <div class="panel-stat-chart" style="height: auto;">
                                 <canvas id="line-chart" class="full" height="140"></canvas>
                                 <div class="row">
-                                    <div class="charts-inline" style="margin:0 auto;float:left;">
-                                        <div id="my-chart1" style="width:132px;height:100px;float:left;"></div>
+                                    <div class="charts-inline" style="float:left;">
+                                        <div id="my-chart1" style="width:110px;height:100px;margin-left:10px;"></div>
                                     </div>
-                                    <div class="charts-inline" style="margin:0 auto">
-                                        <div id="my-chart2" style="width:132px;height:100px;"></div>
+                                    <div class="charts-inline">
+                                        <div id="my-chart2" style="width:110px;height:100px;"></div>
                                     </div>
-                                    <div class="charts-inline" style="margin:0 auto">
-                                        <div id="my-chart3" style="width:132px;height:100px;"></div>
+                                    <div class="charts-inline">
+                                        <div id="my-chart3" style="width:110px;height:100px;"></div>
                                     </div>
-                                    <div class="charts-inline" style="margin:0 auto">
+                                    <div class="charts-inline">
                                         <div id="my-chart4" style="width:110px;height:100px;"></div>
                                     </div>
                                 </div>
@@ -98,20 +98,17 @@
                             
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 p-r-0">
                         <div class="panel bg-primary widget-map">
                             <div class="panel-content widget-full">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div id="flight-map"></div>
-                                    </div>
-                                </div>
+                                <div id="flight-map"></div>
+
                             </div>
                         </div>
                     </div>
                 </div>
                
-                <div class="row">
+                <div class="row m-0">
                     <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
                         <thead>
                             <tr>
