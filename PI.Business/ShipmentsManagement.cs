@@ -609,7 +609,7 @@ namespace PI.Business
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
                            (viaDashboard ? shipment.IsFavourite :
-                               ( (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                               ( (string.IsNullOrEmpty(status) || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus),status)) &&
                                  (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                  (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                                  (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
@@ -632,7 +632,8 @@ namespace PI.Business
             var updatedtContent = (from shipment in Shipments
                                    where shipment.IsDelete == false &&
                                    (viaDashboard ? shipment.IsFavourite :
-                                     ( (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                                       ((string.IsNullOrEmpty(status) || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)) &&
+                                     //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                        (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                        (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
                                        (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&

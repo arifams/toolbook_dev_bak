@@ -25,10 +25,19 @@
                                             <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status" href="javascript:;">All</a>
                                         </li>
                                         <li>
-                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Active')" ng-model="status" href="javascript:;">Active</a>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Pending')" ng-model="status" href="javascript:;">New</a>
                                         </li>
                                         <li>
-                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')" ng-model="status" href="javascript:;">Completed</a>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Transit')" ng-model="status" href="javascript:;">In-Transit</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Delivered')" ng-model="status" href="javascript:;">Delivered</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Exception')" ng-model="status" href="javascript:;">Exceptions</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Delayed')" ng-model="status" href="javascript:;"> Delayed </a>
                                         </li>
                                     </ul>
                                 </div>

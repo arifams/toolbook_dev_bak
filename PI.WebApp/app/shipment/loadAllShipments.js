@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route',
-                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route','$routeParams',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams) {
 
                            var vm = this;
                            debugger;
@@ -147,9 +147,14 @@
                                     }
                            }
 
-                           vm.loadAllShipments();
-
-
+                           debugger;
+                           if($routeParams.status != undefined && $routeParams.status != null)
+                           {
+                               vm.loadAllShipments($routeParams.status);
+                           }
+                           else {
+                               vm.loadAllShipments();
+                           }
 
                        }])
 })(angular.module('newApp'));
