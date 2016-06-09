@@ -103,8 +103,14 @@
 
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
 
-                       vm.awb_URL = SISUrl+ "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
-                       vm.cmr_URL = SISUrl2 + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
+                       var sisUrl = "";
+                       if (vm.shipment.carrierInformation.countryCodeByTarrifText == "NL")
+                           sisUrl = SISUrlNL;
+                       else
+                           sisUrl = SISUrlUS;
+
+                       vm.awb_URL = sisUrl + "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
+                       vm.cmr_URL = sisUrl + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
                        $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="867" width="700"></iframe>').appendTo('.awb');

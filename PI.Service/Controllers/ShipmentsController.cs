@@ -41,6 +41,14 @@ namespace PI.Service.Controllers
         IAddressBookManagement addressManagement = new AddressBookManagement();
         CommonLogic commonLogic = new CommonLogic();
 
+        public string RequestForQuoteEmail
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["RequestForQuoteEmail"].ToString();
+            }
+        }
+
         //public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
         //{
         //    this.comapnyManagement = companymanagement;
@@ -111,11 +119,12 @@ namespace PI.Service.Controllers
         [HttpGet]
         [Route("GetAllShipments")]
         public PagedList GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null)
+                                         string number = null, string source = null, string destination = null, bool viaDashboard = false)
         {
             // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
             var pagedRecord = new PagedList();
-            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, number, source, destination);
+            return pagedRecord = shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate, 
+                                                                          number, source, destination, viaDashboard);
 
         }
 
@@ -548,7 +557,8 @@ namespace PI.Service.Controllers
             // ShipmentsManagement shipment = new ShipmentsManagement();
             string quoteTemplate = shipmentManagement.RequestForQuote(addShipment);
             // TODO: H - Change the staff user.
-            var adminUser = AppUserManager.FindByEmail("sriparcel@outlook.com");
+            string requestForQuoteEmail = RequestForQuoteEmail;
+            var adminUser = AppUserManager.FindByEmail(requestForQuoteEmail);    //sriparcel@outlook.com
 
             if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
             {

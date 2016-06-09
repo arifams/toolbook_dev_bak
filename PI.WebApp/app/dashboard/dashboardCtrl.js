@@ -17,6 +17,7 @@
                   builderFactory.loadMap();
               });
 
+              this.isViaDashboard = true;
 
 
            }]);

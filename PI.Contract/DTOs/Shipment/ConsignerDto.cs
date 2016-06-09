@@ -8,6 +8,7 @@ namespace PI.Contract.DTOs.Shipment
 {
     public class ConsignerDto
     {
+        public string CompanyName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Country { get; set; }

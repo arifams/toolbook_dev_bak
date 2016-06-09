@@ -346,7 +346,7 @@ $(function() {
 
         //validate the password
          jQuery.validator.addMethod("ValidPassword", function (value, element) {
-            return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d.*)(?=.*\W.*)[a-zA-Z0-9\S]{8,20}$/.test(value);
+             return this.optional(element) || /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\S]{7,20}$/.test(value);
          }, "Enter valid password");
 
          

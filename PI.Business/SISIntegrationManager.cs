@@ -21,11 +21,19 @@ namespace PI.Business
 {
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
-        public string SISWebURL
+        public string SISWebURLUS
         {
             get
             {
-                return ConfigurationManager.AppSettings["SISWebURL"].ToString();
+                return ConfigurationManager.AppSettings["SISWebURLUS"].ToString();
+            }
+        }
+
+        public string SISWebURLNL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISWebURLNL"].ToString();
             }
         }
 
@@ -45,11 +53,11 @@ namespace PI.Business
             }
         }
 
-        public string SISCompanyCode
+        public string SISCompanyCodeUS
         {
             get
             {
-                return ConfigurationManager.AppSettings["SISCompanyCode"].ToString();
+                return ConfigurationManager.AppSettings["SISCompanyCodeUS"].ToString();
             }
         }
 
@@ -178,12 +186,23 @@ namespace PI.Business
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
+            string sisUrl = string.Empty;
+            using (PIContext context = new PIContext())
+            {
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    sisUrl = SISWebURLNL;
+                else
+                    sisUrl = SISWebURLUS;
+            }
+
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
                 data["data_xml"] = addShipmentXML;
 
-                var response = wb.UploadValues(SISWebURL + "insert_shipment.asp", "POST", data);
+                var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
                 var responseString = Encoding.Default.GetString(response);
 
                 XDocument doc = XDocument.Parse(responseString);
@@ -205,7 +224,19 @@ namespace PI.Business
             // Sample url with data send format
             //@"http://book.parcelinternational.nl/taleus/admin-shipment.asp?userid=user@mitrai.com&password=mitrai462&action=delete&code_shipment=" + shipmentCode;
 
-            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", SISWebURL, SISUserName, SISPassword, shipmentCode);
+            string sisUrl = string.Empty;
+            using (PIContext context = new PIContext())
+            {
+                var shipmentTarrifText = context.Shipments.Where(s => s.ShipmentCode == shipmentCode).Select(s => s.TariffText).First();
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == shipmentTarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    sisUrl = SISWebURLNL;
+                else
+                    sisUrl = SISWebURLUS;
+            }
+
+            string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", sisUrl, SISUserName, SISPassword, shipmentCode);
 
             WebRequest webRequest = WebRequest.Create(deleteURL);
             webRequest.Method = "POST";
@@ -281,7 +312,7 @@ namespace PI.Business
 
         public string GetRateRequestURL(RateSheetParametersDto rateParameters)
         {
-            string baseSISUrl = SISWebURL + "ec_shipmentcost_v2.asp?";
+            string baseSISUrl = SISWebURLUS + "ec_shipmentcost_v2.asp?";
             if (rateParameters == null)
             {
                 return string.Empty;
@@ -376,7 +407,7 @@ namespace PI.Business
 
             StringBuilder shipmentStr = new StringBuilder();
 
-            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, SISCompanyCode);
+            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, SISCompanyCodeUS);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", addShipment.GeneralInformation.ShipmentReferenceName);

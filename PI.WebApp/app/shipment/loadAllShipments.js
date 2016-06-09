@@ -1,16 +1,20 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route',
-                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route','$routeParams',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams) {
 
                            var vm = this;
+                           debugger;
+                           vm.viaDashboard = false;
+                           vm.viaDashboard = $scope.dashCtrl == undefined ? false : $scope.dashCtrl.isViaDashboard;
+
                            vm.statusButton = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
                            vm.itemsByPage = 25; // Set page size    // 25
                            vm.rowCollection = [];
-
+                          
                            vm.loadAllShipments = function (status) {
 
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
@@ -20,7 +24,7 @@
                                var source = (vm.originCityCountry == undefined) ? null : vm.originCityCountry;
                                var destination = (vm.desCityCountry == undefined) ? null : vm.desCityCountry;
 
-                               shipmentFactory.loadAllShipments(status, startDate, endDate, number, source, destination)
+                               shipmentFactory.loadAllShipments(status, startDate, endDate, number, source, destination, vm.viaDashboard)
                                     .success(
                                            function (responce) {
 
@@ -143,9 +147,14 @@
                                     }
                            }
 
-                           vm.loadAllShipments();
-
-
+                           debugger;
+                           if($routeParams.status != undefined && $routeParams.status != null)
+                           {
+                               vm.loadAllShipments($routeParams.status);
+                           }
+                           else {
+                               vm.loadAllShipments();
+                           }
 
                        }])
 })(angular.module('newApp'));

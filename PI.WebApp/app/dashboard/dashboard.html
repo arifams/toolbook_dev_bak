@@ -1,4 +1,4 @@
-﻿<div ng-controller="dashboardCtrl">
+﻿<div>
    
     <div class="panel">
         <!-- form start -->
@@ -18,42 +18,48 @@
                         <button class="btn btn-primary btn-block">Add Shipment</button>
                     </div>
                 </div><hr class="m-t-0">
+
                 <div class="row">
                     <div class="col-sm-12 form-group m-l-0 m-r-0">
                         <div class="col-sm-2 widget-body p-0"  id="widget-blue">
                             <div class="left" style="width:100%;">
                                 <h2>24</h2>
-                                <div class="txt">new orders</div>
+                                <div class="txt">New</div>
                             </div>
-                            <a class="widget-footer" id="widget-footer-blue" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a class="widget-footer" id="widget-footer-blue" 
+                               href="#/loadShipments/Pending"> More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-green">
                             <div class="left" style="width:100%;">
                                 <h2>24</h2>
-                                <div class="txt">new orders</div>
+                                <div class="txt">Delivered</div>
                             </div>
-                            <a class="widget-footer" id="widget-footer-green" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a class="widget-footer" id="widget-footer-green" 
+                               href="#/loadShipments/Delivered">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-orange">
                             <div class="left" style="width:100%;">
                                 <h2>24</h2>
-                                <div class="txt">new orders</div>
+                                <div class="txt">In-Transit</div>
                             </div>
-                            <a class="widget-footer" id="widget-footer-orange" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a class="widget-footer" id="widget-footer-orange" 
+                                href="#/loadShipments/Transit">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-purple">
                             <div class="left" style="width:100%;">
                                 <h2>24</h2>
-                                <div class="txt">new orders</div>
+                                <div class="txt">Exceptions </div>
                             </div>
-                            <a class="widget-footer" id="widget-footer-purple" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a class="widget-footer" id="widget-footer-purple" 
+                               href="#/loadShipments/Exception">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-red">
                             <div class="left" style="width:100%;">
                                 <h2>24</h2>
-                                <div class="txt">new orders</div>
+                                <div class="txt">Delayed</div>
                             </div>
-                            <a class="widget-footer" id="widget-footer-red" href="#">More info <i class="fa fa-arrow-circle-right"></i></a>
+                            <a class="widget-footer" id="widget-footer-red" 
+                                href="#/loadShipments/Delayed">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
@@ -101,72 +107,21 @@
                     <div class="col-md-6 p-r-0">
                         <div class="panel bg-primary widget-map">
                             <div class="panel-content widget-full">
-                                <div id="flight-map"></div>
+                                        <div id="flight-map"></div>
 
                             </div>
                         </div>
                     </div>
                 </div>
                
-                <div class="row m-0">
-                    <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th st-sort="name" translate>Order Submitted</th>
-                                <th translate>Tracking Number</th>
-                                <th translate>Shipment ID</th>
-                                <th translate>Carrier</th>
-                                <th translate>Origin City</th>
-                                <th translate>Destination City</th>
-                                <th translate>Status</th>
-                                <th translate>View</th>
-                                <th translate>Edit</th>
-                                <th translate>Delete</th>
-                            </tr>
-
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="row in shipmentList">
-                                <td><i class="glyphicon glyphicon-star-empty"></i></td>
-                                <td>{{row.generalInformation.createdDate}}</td>
-                                <td>{{row.generalInformation.trackingNumber}}</td>
-                                <td>{{row.generalInformation.shipmentCode}}</td>
-                                <td>{{row.carrierInformation.carrierName}}</td>
-                                <td>{{row.addressInformation.consigner.city}}</td>
-                                <td>{{row.addressInformation.consignee.city}}</td>
-                                <td>{{row.generalInformation.status}}</td>
-                                <td>
-                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                       class="edit btn btn-sm btn-default">
-                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentCode}}"
-                                       class="edit btn btn-sm btn-default">
-                                        <i class="icon-note" style="color:blue"></i>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)"
-                                       class="delete btn btn-sm btn-danger" href="javascript:;">
-                                        <i class="icons-office-52"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="5" class="text-center">
-                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                </td>
-                            </tr>
-                        </tfoot>
-                    </table>
-
+                <div ng-include="'shipment/loadAllShipments.html'" >
+                    <!--<div class="panel-content panel-border">
+                    </div>-->
                 </div>
+                
+
+
+
                 <div id="panel-notif"></div>
             </div>
         </form>

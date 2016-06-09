@@ -1,6 +1,6 @@
-﻿<div ng-controller="loadShipmentsCtrl">
-    <h2 class="box-title" translate>
-        <!--All Shipments-->
+﻿<div ng-controller="loadShipmentsCtrl as loadShipCtrl">
+    <h2 class="box-title" translate ng-hide="loadShipCtrl.viaDashboard">
+        All Shipments
     </h2>
     <!--  <h2 class="box-title"> Load All Shipments &nbsp;&nbsp;&nbsp;&nbsp;<a href="#saveDivision/0" class="btn btn-primary btn-primary active pull-right" role="button"> Add Division</a></h2> -->
 
@@ -12,7 +12,7 @@
 
             <div class="panel-content panel-border">
                 <!-- left column -->
-                    <div class="row">                  
+                    <div class="row" ng-hide="loadShipCtrl.viaDashboard">                  
                             <div class="col-sm-2 form-group m-0">
                                 <div class="btn-group" dropdown="">
                                     <button style="min-width:140px;" aria-haspopup="true" class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -22,13 +22,22 @@
                                     <span class="dropdown-arrow"></span>
                                     <ul role="menu" class="dropdown-menu">
                                         <li>
-                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status" href="javascript:;">All</a>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status" href="javascript:;">All</a>
                                         </li>
                                         <li>
-                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('Active')" ng-model="status" href="javascript:;">Active</a>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Pending')" ng-model="status" href="javascript:;">New</a>
                                         </li>
                                         <li>
-                                            <a translate="" ng-click="loadShipCtrl.loadShipmentsByStatus('Completed')" ng-model="status" href="javascript:;">Completed</a>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Transit')" ng-model="status" href="javascript:;">In-Transit</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Delivered')" ng-model="status" href="javascript:;">Delivered</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Exception')" ng-model="status" href="javascript:;">Exceptions</a>
+                                        </li>
+                                        <li>
+                                            <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Delayed')" ng-model="status" href="javascript:;"> Delayed </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -156,6 +165,7 @@
                 </div>
                 <div id="panel-notif"></div>
             </div>
+
         </form>
     </div>
 
