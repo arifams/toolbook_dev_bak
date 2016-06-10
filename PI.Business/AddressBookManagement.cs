@@ -518,7 +518,7 @@ namespace PI.Business
                         {
                         addressList.Add(new AddressBook()
                         {
-                            Salutation = detailsarray[0].ToString(),
+                            Salutation =detailsarray[0].ToString(),
                             FirstName = detailsarray[1].ToString(),
                             LastName = detailsarray[2].ToString(),
                             CompanyName = detailsarray[3].ToString(),
@@ -530,7 +530,7 @@ namespace PI.Business
                             EmailAddress = detailsarray[9].ToString(),
                             PhoneNumber = detailsarray[10].ToString(),
                             Country = detailsarray[11].ToString(),
-                            AccountNumber = detailsarray[12].ToString(),
+                            AccountNumber = detailsarray.Length>12? detailsarray[12].ToString(): string.Empty,
                             CreatedBy = userId,
                             CreatedDate = DateTime.Now,
                             UserId= userId,
