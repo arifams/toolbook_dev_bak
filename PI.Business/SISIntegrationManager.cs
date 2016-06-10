@@ -61,6 +61,14 @@ namespace PI.Business
             }
         }
 
+        public string SISCompanyCodeNL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISCompanyCodeNL"].ToString();
+            }
+        }
+
         public string IsSendShipmentDebugData
         {
             get
@@ -182,20 +190,25 @@ namespace PI.Business
         {
             // Working sample xml data
             // "<insert_shipment password='mitrai462' userid='User@mitrai.com' code_company='122' version='1.0'><output_type>XML</output_type><action>STORE_AWB</action><reference>jhftuh11</reference><account>000001</account><carrier_name>UPS</carrier_name><address11>Comp1</address11><address12>dfdf</address12><address14>Beverly hills</address14><postcode_delivery>90210</postcode_delivery><code_state_to>CA</code_state_to><code_country_to>US</code_country_to><weight>1</weight><shipment_line id='1'><package>BOX</package><description>1</description><weight>1</weight><quantity>1</quantity><width>1</width><length>1</length><height>1</height></shipment_line><commercial_invoice_line id='1'><content>Electronics</content><quantity>2</quantity><value>150.50</value><quantity>2</quantity><country_of_origin>CN</country_of_origin></commercial_invoice_line></insert_shipment>"
-
-            string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
-            AddShipmentResponse addShipmentResponse = null;
-
             string sisUrl = string.Empty;
             using (PIContext context = new PIContext())
             {
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
                 if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                { 
                     sisUrl = SISWebURLNL;
+                    addShipment.SISCompanyCode = SISCompanyCodeNL;
+                }
                 else
+                { 
                     sisUrl = SISWebURLUS;
+                    addShipment.SISCompanyCode = SISCompanyCodeUS;
+                }
             }
+
+            string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
+            AddShipmentResponse addShipmentResponse = null;
 
             using (var wb = new WebClient())
             {
@@ -407,7 +420,7 @@ namespace PI.Business
 
             StringBuilder shipmentStr = new StringBuilder();
 
-            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, SISCompanyCodeUS);
+            shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, addShipment.SISCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", addShipment.GeneralInformation.ShipmentReferenceName);
