@@ -123,7 +123,7 @@
                                 <td class="data-align">{{row.addressInformation.consignee.city}}</td>
                                 <td class="data-align">{{row.generalInformation.status}}</td>
                                 <td class="data-align" >
-                                    <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
+                                    <a ng-hide="row.generalInformation.status == 'Delivered' || row.generalInformation.status == 'Deleted'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
                                        ng-class="row.generalInformation.isFavourite == true? 'fa-star' : 'fa-star-o'">
                                     </a>
                                 </td>
