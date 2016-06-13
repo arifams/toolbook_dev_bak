@@ -23,7 +23,7 @@
                     <div class="col-sm-12 form-group m-l-0 m-r-0">
                         <div class="col-sm-2 widget-body p-0"  id="widget-blue">
                             <div class="left" style="width:100%;">
-                                <h2>24</h2>
+                                <h2>{{dashCtrl.model.pendingStatusCount}}</h2>
                                 <div class="txt">New</div>
                             </div>
                             <a class="widget-footer" id="widget-footer-blue" 
@@ -31,7 +31,7 @@
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-green">
                             <div class="left" style="width:100%;">
-                                <h2>24</h2>
+                                <h2>{{dashCtrl.model.deliveredStatusCount}}</h2>
                                 <div class="txt">Delivered</div>
                             </div>
                             <a class="widget-footer" id="widget-footer-green" 
@@ -39,7 +39,7 @@
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-orange">
                             <div class="left" style="width:100%;">
-                                <h2>24</h2>
+                                <h2>{{dashCtrl.model.inTransitStatusCount}} </h2>
                                 <div class="txt">In-Transit</div>
                             </div>
                             <a class="widget-footer" id="widget-footer-orange" 
@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-purple">
                             <div class="left" style="width:100%;">
-                                <h2>24</h2>
+                                <h2>{{dashCtrl.model.exceptionStatusCount}}</h2>
                                 <div class="txt">Exceptions </div>
                             </div>
                             <a class="widget-footer" id="widget-footer-purple" 
@@ -55,7 +55,7 @@
                         </div>
                         <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-red">
                             <div class="left" style="width:100%;">
-                                <h2>24</h2>
+                                <h2>{{dashCtrl.model.delayedStatusCount}}</h2>
                                 <div class="txt">Delayed</div>
                             </div>
                             <a class="widget-footer" id="widget-footer-red" 
@@ -64,6 +64,7 @@
                     </div>
 
                 </div>
+
                 <div class="row m-0">
                     <div class="col-sm-6 p-0">
                         <div class="panel panel-default">

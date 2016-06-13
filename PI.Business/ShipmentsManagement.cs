@@ -10,6 +10,7 @@ using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Report;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract.DTOs.Dashboard;
 using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
@@ -608,7 +609,8 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           (viaDashboard ? shipment.IsFavourite :
+                           (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted 
+                               && shipment.IsFavourite :
                                ((string.IsNullOrEmpty(status) || status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)) &&
                                  (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                  (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
@@ -637,9 +639,10 @@ namespace PI.Business
                 var updatedtContent = (from shipment in Shipments
                                        join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
                                        where shipment.IsDelete == false &&
-                                       (viaDashboard ? shipment.IsFavourite :
-                                           ((string.IsNullOrEmpty(status) || 
-                                              (status == "Delayed" ? (shipment.Status != (short)ShipmentStatus.Delivered && latestStatusHistory != null && latestStatusHistory.CreatedDate > package.EstDeliveryDate.Value) : 
+                                       (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
+                                        && shipment.IsFavourite :
+                                           ((string.IsNullOrEmpty(status) ||
+                                           (status == "Delayed" ? (shipment.Status != (short)ShipmentStatus.Delivered && latestStatusHistory != null && latestStatusHistory.CreatedDate > package.EstDeliveryDate.Value) :
                                            shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
                                            //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
@@ -2830,6 +2833,67 @@ namespace PI.Business
                 context.SaveChanges();
 
                 return existingShipment.IsFavourite;
+            }
+        }
+
+
+        /// <summary>
+        /// Toggle Shipment Favourites
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        public DashboardShipments GetShipmentStatusCounts(string userId)
+        {
+
+            IList<DivisionDto> divisions = null;
+            List<Shipment> Shipments = new List<Shipment>();
+            CompanyManagement company = new CompanyManagement();
+            DashboardShipments shipmentCounts = new DashboardShipments();
+
+            using (PIContext context = new PIContext())
+            {
+                if (userId == null)
+                {
+                    return null;
+                }
+                string role = commonLogics.GetUserRoleById(userId);
+                if (role == "BusinessOwner" || role == "Manager")
+                {
+                    divisions = this.GetAllDivisionsinCompany(userId);
+                }
+                else if (role == "Supervisor")
+                {
+                    divisions = company.GetAssignedDivisions(userId);
+                }
+                if (divisions.Count > 0)
+                {
+                    foreach (var item in divisions)
+                    {
+                        Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
+                    }
+                }
+                else
+                {
+                    Shipments.AddRange(this.GetshipmentsByUserId(userId));
+                }
+
+                var allShipments = Shipments.ToList();
+
+                shipmentCounts.PendingStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending).Count();
+                shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
+                shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
+                shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+
+               var delayed = (from shipment in allShipments
+                              join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
+                              join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
+                              where shipment.Status != (short)ShipmentStatus.Delivered &&
+                              history.CreatedDate > package.EstDeliveryDate.Value
+                              select shipment).Count();
+
+                shipmentCounts.DelayedStatusCount = delayed;
+
+                return shipmentCounts;
             }
         }
 

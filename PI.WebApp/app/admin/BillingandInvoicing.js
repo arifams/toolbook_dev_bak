@@ -16,7 +16,7 @@
                }
 
                vm.uploadInvoice = function (fromMethod, invoiceId) {
-                   debugger;
+                   
                    ngDialog.open({
                        scope: $scope,
                        template: '/app/admin/uploadInvoice.html',

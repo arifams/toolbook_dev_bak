@@ -15,7 +15,7 @@
 
     app.run(function (gettextCatalog, $rootScope, $window) {
 
-        debugger;
+        
         gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 
 

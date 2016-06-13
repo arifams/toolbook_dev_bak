@@ -134,6 +134,21 @@
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="css\custom-general.css" />
     <Content Include="global\css\compressed-styles.css" />
+    <Content Include="global\images\preloader\1.gif" />
+    <Content Include="global\images\preloader\10.gif" />
+    <Content Include="global\images\preloader\11.gif" />
+    <Content Include="global\images\preloader\12.gif" />
+    <Content Include="global\images\preloader\13.gif" />
+    <Content Include="global\images\preloader\14.gif" />
+    <Content Include="global\images\preloader\2.gif" />
+    <Content Include="global\images\preloader\3.gif" />
+    <Content Include="global\images\preloader\4.gif" />
+    <Content Include="global\images\preloader\5.gif" />
+    <Content Include="global\images\preloader\6.gif" />
+    <Content Include="global\images\preloader\7.gif" />
+    <Content Include="global\images\preloader\8.gif" />
+    <Content Include="global\images\preloader\9.gif" />
+    <Content Include="global\images\preloader\puff.svg" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
@@ -3906,6 +3921,7 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
     <Content Include="proj_img\PI-logo.png" />
     <Content Include="proj_img\shipment_icons.png" />
+    <Content Include="proj_img\transport.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
     <Content Include="plugins\angularjs-datetime-picker\.bower.json" />
@@ -5316,21 +5332,6 @@
     <Content Include="global\images\modals\picture.png" />
     <Content Include="global\images\modals\responsive.png" />
     <Content Include="global\images\modals\top-bottom.png" />
-    <Content Include="global\images\preloader\1.gif" />
-    <Content Include="global\images\preloader\10.gif" />
-    <Content Include="global\images\preloader\11.gif" />
-    <Content Include="global\images\preloader\12.gif" />
-    <Content Include="global\images\preloader\13.gif" />
-    <Content Include="global\images\preloader\14.gif" />
-    <Content Include="global\images\preloader\2.gif" />
-    <Content Include="global\images\preloader\3.gif" />
-    <Content Include="global\images\preloader\4.gif" />
-    <Content Include="global\images\preloader\5.gif" />
-    <Content Include="global\images\preloader\6.gif" />
-    <Content Include="global\images\preloader\7.gif" />
-    <Content Include="global\images\preloader\8.gif" />
-    <Content Include="global\images\preloader\9.gif" />
-    <Content Include="global\images\preloader\puff.svg" />
     <Content Include="global\images\profil_page\construction1.jpg" />
     <Content Include="global\images\profil_page\construction2.jpg" />
     <Content Include="global\images\profil_page\construction3.jpg" />
@@ -9570,6 +9571,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="global\images\shopping\preloader\" />
     <Folder Include="proj_img\App_LocalResources\" />
   </ItemGroup>
   <PropertyGroup>

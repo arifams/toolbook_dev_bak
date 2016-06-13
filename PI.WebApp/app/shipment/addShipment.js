@@ -565,7 +565,7 @@
 
             
             vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
-            debugger;
+            
             if ($window.localStorage.getItem('userRole') == 'Admin') {
                 vm.shipment.userId = $window.localStorage.getItem('businessOwnerId');                
                

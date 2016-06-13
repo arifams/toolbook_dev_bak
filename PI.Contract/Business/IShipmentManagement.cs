@@ -4,6 +4,7 @@ using PI.Contract.DTOs.FileUpload;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Report;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract.DTOs.Dashboard;
 using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
@@ -60,6 +61,13 @@ namespace PI.Contract.Business
         /// <param name="shipment"></param>
         /// <returns></returns>
         bool ToggleShipmentFavourites(ShipmentDto shipment);
+
+        /// <summary>
+        /// Toggle Shipment Favourites
+        /// </summary>
+        /// <param name="shipment"></param>
+        /// <returns></returns>
+        DashboardShipments GetShipmentStatusCounts(string userId);
 
     }
 
