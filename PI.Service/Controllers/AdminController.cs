@@ -147,19 +147,21 @@ namespace PI.Service.Controllers
             else if (fileDetails.DocumentType == DocumentType.Logo)
             {
                 var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
-                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];                
+                string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
+                var folder = Utility.GetEnumDescription(fileDetails.DocumentType).ToUpper();
+                
+                //try
+                //{    
+                                   
+                //    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + folder + "/"+"logo." + fileExtention);
 
-                try
-                {                     
-                    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + " / " + Utility.GetEnumDescription(fileDetails.DocumentType) + " / "+"logo." + fileExtention);
+                //}
+                //catch (Exception ex)
+                //{
 
-                }
-                catch (Exception ex)
-                {
+                //}
 
-                }
-
-                imageFileNameInFull = "logo."+ fileExtention;
+                imageFileNameInFull = System.Guid.NewGuid().ToString()+"logo."+ fileExtention;
                 fileDetails.ClientFileName = originalFileName;
                 fileDetails.UploadedFileName = imageFileNameInFull;
             }

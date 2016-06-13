@@ -131,6 +131,9 @@
                 vm.model.accountSettings = {};
                 vm.model.doNotUpdateAccountSettings = false;
                 vm.isImagetype = false;
+                vm.emailCopy = '';
+
+               
 
                 vm.isImage = function (ext) {
                     
@@ -218,6 +221,7 @@
                                 //setting the account type                        
                                 vm.model.customerDetails = response.customerDetails;
                                  vm.model.companyDetails = response.companyDetails;
+                                 vm.emailCopy = response.customerDetails.email;
 
                                 if (response.customerDetails.isCorporateAccount) {
                                     vm.model.customerDetails.isCorporateAccount = "true";
@@ -226,6 +230,7 @@
                                 else {
                                     vm.model.customerDetails.isCorporateAccount = "false";
                                 }
+
 
                             }
                         }
@@ -236,7 +241,7 @@
                 }
 
 
-                vm.updateProfile = function () {
+                vm.updateProfile = function () {                    
 
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
@@ -325,6 +330,9 @@
                                                                 else if (responce == -2) {
                                                                     // vm.model.emailExist = "true";
                                                                     //  var body = $("html, body");
+                                                                    debugger;
+                                                                   
+                                                                  
                                                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                                                                     });
 
@@ -338,6 +346,8 @@
                                                                         },
                                                                         timeout: 3000,
                                                                     });
+                                                                    vm.model.customerDetails.email = vm.emailCopy;
+                                                                    
                                                                 }
                                                                 else if (responce == -3) {
                                                                     //vm.model.oldPasswordWrong = "true";
@@ -933,6 +943,7 @@
                             },
                             timeout: 3000,
                         });
+                        vm.model.customerDetails.email = vm.emailCopy;
                     }
                     else if (response == -3) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
