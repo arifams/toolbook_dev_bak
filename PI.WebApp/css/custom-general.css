@@ -651,6 +651,9 @@
 }
 .table-striped > thead > tr > th {
     font-size:11px;
+    text-align:center;
+    padding-left:0;
+    
     font-family:Open Sans !important
 }
 .table-striped > tbody > tr  {
@@ -739,18 +742,30 @@
     background-color: #a58bd3;
     
 }
+
 .icon-favorite {
     color: yellow;
+    
 }
-.data-align {
-    text-align:center;
+.icon-favorite:before {
+  content: "\f005";
 }
-tabel > td {
+.table > tbody > tr > td {
     border-bottom:1px solid #DDD;
+    text-align:center;
 }
 @media screen and (max-width: 1150px) {
 .topbar .header-left .topnav h4 > .nav-icons {
       margin-left:0px;
       color:red;
     }
+}
+/*add shipment*/
+.border {
+    min-height: 26px;
+}
+/*email template*/
+.email-header {
+    color:#fff;
+    background-color:#80d4ff;
 }
