@@ -64,6 +64,47 @@
                             </div>
                         </div>
 
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" translate>Shipment Status</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="vm.status"
+                                        convert-to-number ng-options="status.Id as translate(status.Name) for status in vm.statusList"></select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <label class="col-sm-2 control-label" translate>Country of Origin</label>
+                            <div class="col-sm-10 form-group">
+                                <div class="col-sm-4">
+                                    <country-select translate name="countryOfOrigin"
+                                                    ng-model="vm.countryOfOrigin" 
+                                                    class="form-control"></country-select>
+                                </div>
+                                <label class="col-sm-3 control-label" translate>Country of Destination</label>
+                                <div class="col-sm-4">
+                                    <country-select translate name="countryOfDestination"
+                                                    ng-model="vm.countryOfDestination" 
+                                                    class="form-control"></country-select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" translate>Product</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="vm.product"
+                                        convert-to-number ng-options="product.Id as translate(product.Name) for product in vm.productList"></select>
+                            </div>
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-2 control-label" translate>Package Type</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" ng-model="vm.packageType"
+                                        convert-to-number ng-options="package.Id as translate(package.Name) for package in vm.packageTypeList"></select>
+                            </div>
+                        </div>
+
                         <!--<div class="row form-group">
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">Report Type</label>

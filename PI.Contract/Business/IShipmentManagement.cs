@@ -44,11 +44,11 @@ namespace PI.Contract.Business
 
 
         byte[] ShipmentReportForExcel(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                   DateTime? endDate = null);
+                                   DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0);
 
 
         List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                  DateTime? endDate = null);
+                                  DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0);
 
         List<CarrierDto> LoadAllCarriers();
 
