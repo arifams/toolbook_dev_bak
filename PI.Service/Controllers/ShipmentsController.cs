@@ -585,11 +585,11 @@ namespace PI.Service.Controllers
         [HttpGet]
         [Route("GetShipmentDetails")]
         public HttpResponseMessage GetShipmentDetails(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                                      DateTime? endDate = null)
+                                                      DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             result.Content = new ByteArrayContent(shipmentManagement.ShipmentReportForExcel(userId, carrierId,
-                                                                                            companyId, startDate, endDate));
+                                                                                            companyId, startDate, endDate, status, countryOfOrigin, countryOfDestination, product, packageType));
             result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;

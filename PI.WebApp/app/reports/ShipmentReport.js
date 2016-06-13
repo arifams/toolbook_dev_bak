@@ -4,14 +4,20 @@
 
     app.factory('ShipmentReportFactory', function ($http, $window) {
         return {
-            exportShipmentReport: function (carrierId, companyId, startDate, endDate) {
+            exportShipmentReport: function (carrierId, companyId, startDate, endDate, status, countryOfOrigin, countryOfDestination, product, packageType) {
+                
                 return $http.get(serverBaseUrl + '/api/shipments/GetShipmentDetails', {
                     params: {
                         userId: $window.localStorage.getItem('userGuid'),
                         carrierId: carrierId,
                         companyId: companyId,
                         startDate: startDate,
-                        endDate: endDate
+                        endDate: endDate,
+                        status: status,
+                        countryOfOrigin: countryOfOrigin,
+                        countryOfDestination: countryOfDestination,
+                        product: product,
+                        packageType: packageType
                     },
                     responseType: 'arraybuffer'
                 });
@@ -102,6 +108,40 @@
 
         }
 
+        vm.statusList = [
+            { Id: 0, Name: "All" },
+            { Id: 1, Name: "Error" },
+            { Id: 2, Name: "Pending" },
+            { Id: 3, Name: "Booking confirmation" },
+            { Id: 4, Name: "Pickup" },
+            { Id: 5, Name: "Transit" },
+            { Id: 6, Name: "Out for delivery" },
+            { Id: 7, Name: "Delivered" },
+            { Id: 8, Name: "Deleted" },
+            { Id: 9, Name: "Exception" },
+            { Id: 10, Name: "Claim" }
+        ];
+        vm.status = 0;
+
+        vm.productList = [
+            { Id: 0, Name: "All" },
+            { Id: 1, Name: "Express" },
+            { Id: 2, Name: "Air Freight" },
+            { Id: 3, Name: "Sea Freight" },
+            { Id: 4, Name: "Road Freight" }
+        ];
+        vm.product = 0;
+
+        vm.packageTypeList = [
+            { Id: 0, Name: "All" },
+            { Id: 1, Name: "Box" },
+            { Id: 2, Name: "Document" },
+            { Id: 3, Name: "Pallet" },
+            { Id: 4, Name: "Euro Pallet" },
+            { Id: 5, Name: "Diverse" }
+        ];
+        vm.packageType = 0;
+
         vm.exportExcel = function () {
             debugger;
             var carrierId = vm.carrierId;
@@ -109,7 +149,7 @@
             var startDate = vm.dateFrom;
             var endDate = vm.dateTo;
 
-            ShipmentReportFactory.exportShipmentReport(carrierId, companyId, startDate, endDate)
+            ShipmentReportFactory.exportShipmentReport(carrierId, companyId, startDate, endDate, vm.status, vm.countryOfOrigin, vm.countryOfDestination, vm.product, vm.packageType)
             .success(function (data, status, headers) {
 
                 var octetStreamMime = 'application/octet-stream';

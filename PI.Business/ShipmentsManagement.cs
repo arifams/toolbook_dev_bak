@@ -2645,7 +2645,7 @@ namespace PI.Business
 
 
         public List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                                      DateTime? endDate = null)
+                                                      DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
         {
 
             List<ShipmentReportDto> reportList = new List<ShipmentReportDto>();
@@ -2669,7 +2669,11 @@ namespace PI.Business
                         context.Shipments.Where(s => s.Division.CompanyId == companyId &&
                         (carrierId == 0 || s.CarrierId == carrierId) &&
                         (startDate == null || startDate <= s.PickUpDate) &&
-                        (endDate == null || s.PickUpDate <= endDate)
+                        (endDate == null || s.PickUpDate <= endDate) &&
+                        (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
+                        (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
+                        (product == 0 || s.ShipmentMode == (CarrierType)product) &&
+                        (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
                     ).ToList();
                 }
                 else if (roleName == "Manager")
@@ -2678,13 +2682,17 @@ namespace PI.Business
                         context.Shipments.Where(s => s.Division.UserInDivisions.Any(u => u.UserId == userId) &&
                         (carrierId == 0 || s.CarrierId == carrierId) &&
                         (startDate == null || startDate <= s.PickUpDate) &&
-                        (endDate == null || s.PickUpDate <= endDate)
+                        (endDate == null || s.PickUpDate <= endDate) &&
+                        (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
+                        (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
+                        (product == 0 || s.ShipmentMode == (CarrierType)product) &&
+                        (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
                     ).ToList();
                 }
 
                 // If empty list, return empty list by message result is empty.
                 if (shipmentList == null || shipmentList.Count == 0)
-                    return null;
+                    return reportList;
 
                 // Update retrieved shipment list status from SIS.
                 foreach (var shipment in shipmentList)
@@ -2696,9 +2704,11 @@ namespace PI.Business
                 }
 
                 var selectedShipmentId = shipmentList.Select(s => s.Id).ToList();
-                // Get updated list again.
-                var UpdatedShipmentList = context.Shipments.Where(x => selectedShipmentId.Any(s => s == x.Id)).ToList();
-
+                // Get updated list again with filter status.
+                var UpdatedShipmentList = context.Shipments.Where(x => 
+                                        selectedShipmentId.Any(s => s == x.Id) &&
+                                        (status == 0 || x.Status == status)
+                                        ).ToList();
 
                 // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
 
@@ -2777,12 +2787,11 @@ namespace PI.Business
             return reportList;
         }
 
-
         public byte[] ShipmentReportForExcel(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                     DateTime? endDate = null)
+                                     DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
         {
 
-            var shipments = ShipmentReport(userId, carrierId, companyId, startDate, endDate = null);
+            var shipments = ShipmentReport(userId, carrierId, companyId, startDate, endDate, status, countryOfOrigin, countryOfDestination, product, packageType);
 
             byte[] stream = this.GenerateExcelSheetForShipmentReport(shipments);
             return stream;
