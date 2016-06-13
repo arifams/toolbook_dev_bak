@@ -750,6 +750,9 @@
 .icon-favorite:before {
   content: "\f005";
 }
+.icon-favorite:hover {
+  color:yellow;
+}
 .table > tbody > tr > td {
     border-bottom:1px solid #DDD;
     text-align:center;
