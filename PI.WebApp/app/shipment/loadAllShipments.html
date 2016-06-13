@@ -122,20 +122,15 @@
                                 <td class="data-align">{{row.addressInformation.consigner.city}}</td>
                                 <td class="data-align">{{row.addressInformation.consignee.city}}</td>
                                 <td class="data-align">{{row.generalInformation.status}}</td>
-                                <td class="data-align"> 
-                                    <a class="fa fa-star-o" ng-click="loadShipCtrl.toggleFavourite(row)" ng-class="{{row.generalInformation.isFavourite}} == 'true' ? 'fa-star' : 'fa-star-o'">
-                                        {{row.generalInformation.isFavourite}}
-                                    </a>                                 
-                                    <!--<button type="button" class="btn btn-large btn-primary btn-block"
-                                             ng-click="loadShipCtrl.toggleFavourite(row)" >
-                                       {{row.generalInformation.isFavourite}}
-                                    </button>-->
+                                <td class="data-align" >
+                                    <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
+                                       ng-class="row.generalInformation.isFavourite == true? 'fa-star' : 'fa-star-o'">
+                                    </a>
                                 </td>
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="edit btn btn-sm btn-default">
-                                        <i class="fa fa-eye" style="color:blue"></i>
-                                        
+                                      <i class="fa fa-eye" style="color:blue"></i>
                                     </a>
                                 </td>
                                 <td>
@@ -144,9 +139,8 @@
                                         <i class="icon-note" style="color:blue"></i>
                                     </a>
                                 </td>
-                               
                                 <td >
-                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)" 
+                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)"
                                        class="delete btn btn-sm btn-danger" href="javascript:;">
                                         <i class="icons-office-52"></i>
                                     </a>
@@ -161,12 +155,9 @@
                             </tr>
                         </tfoot>
                     </table>
-
                 </div>
                 <div id="panel-notif"></div>
             </div>
-
         </form>
     </div>
-
 </div>

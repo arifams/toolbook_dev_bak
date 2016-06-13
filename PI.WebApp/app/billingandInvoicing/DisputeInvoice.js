@@ -13,7 +13,7 @@
             }
 
             $scope.disputeInvoice = function () {
-                debugger;
+                
                 invoice.disputeComment = $scope.disputecomment;
                 customerInvoiceFactory.disputeInvoice(invoice).success(                               
                     function (responce) {

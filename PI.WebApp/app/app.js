@@ -344,7 +344,7 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-          debugger;
+          
           var token = localStorage.getItem('token');    
           var tokenPayload = jwtHelper.decodeToken(token);
 
@@ -395,7 +395,7 @@ var checkRouting = function ($location) {
 
 
 MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
-    debugger;
+    
     //$window.localStorage.getItem('currentLnguage')
     gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 

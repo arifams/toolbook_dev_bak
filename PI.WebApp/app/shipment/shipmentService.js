@@ -9,9 +9,9 @@
 
 
         function setLoginUserID() {
-            debugger;
+            
             if ($window.localStorage.getItem('userRole') == 'Admin') {
-                debugger;
+                
                 createdBy = $window.localStorage.getItem('userGuid');
                 userId = $window.localStorage.getItem('businessOwnerId');
             } else {
@@ -56,7 +56,7 @@
         };
 
         function getProfileInfo() {
-            debugger;
+            
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
@@ -226,7 +226,7 @@
 
 
         function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
                 params: {
                     companyId: companyId,
