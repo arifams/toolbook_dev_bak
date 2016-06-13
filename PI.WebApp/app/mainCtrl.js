@@ -150,7 +150,7 @@
             });
 
         userService.getCompanyName().then(function successCallback(responce) {
-            debugger;
+            
             $scope.companyName = responce.data.name;
         });
 

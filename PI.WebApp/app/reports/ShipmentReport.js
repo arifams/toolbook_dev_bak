@@ -63,7 +63,7 @@
             CarrierFactory.loadAllCarriers().success(
             function (response) {
                 vm.carrierList = response;
-                debugger;
+                
             });
         }
 
@@ -76,7 +76,7 @@
 
             shipmentFactory.loadAllcompanies(search).success(
                function (responce) {
-                   debugger;
+                   
                    if (responce.content.length > 0) {
 
                        ngDialog.open({
@@ -103,7 +103,7 @@
         }
 
         vm.exportExcel = function () {
-            debugger;
+            
             var carrierId = vm.carrierId;
             var companyId = vm.selectedCompanyId == "" ? null : vm.selectedCompanyId;
             var startDate = vm.dateFrom;

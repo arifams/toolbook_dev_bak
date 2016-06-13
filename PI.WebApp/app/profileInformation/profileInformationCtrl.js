@@ -131,9 +131,12 @@
                 vm.model.accountSettings = {};
                 vm.model.doNotUpdateAccountSettings = false;
                 vm.isImagetype = false;
+                vm.emailCopy = '';
+
+               
 
                 vm.isImage = function (ext) {
-                    debugger;
+                    
                     if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
 
                         return vm.isImagetype = true;
@@ -218,6 +221,7 @@
                                 //setting the account type                        
                                 vm.model.customerDetails = response.customerDetails;
                                  vm.model.companyDetails = response.companyDetails;
+                                 vm.emailCopy = response.customerDetails.email;
 
                                 if (response.customerDetails.isCorporateAccount) {
                                     vm.model.customerDetails.isCorporateAccount = "true";
@@ -226,6 +230,7 @@
                                 else {
                                     vm.model.customerDetails.isCorporateAccount = "false";
                                 }
+
 
                             }
                         }
@@ -236,7 +241,7 @@
                 }
 
 
-                vm.updateProfile = function () {
+                vm.updateProfile = function () {                    
 
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
@@ -325,6 +330,9 @@
                                                                 else if (responce == -2) {
                                                                     // vm.model.emailExist = "true";
                                                                     //  var body = $("html, body");
+                                                                    debugger;
+                                                                   
+                                                                  
                                                                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                                                                     });
 
@@ -338,6 +346,8 @@
                                                                         },
                                                                         timeout: 3000,
                                                                     });
+                                                                    vm.model.customerDetails.email = vm.emailCopy;
+                                                                    
                                                                 }
                                                                 else if (responce == -3) {
                                                                     //vm.model.oldPasswordWrong = "true";
@@ -440,7 +450,7 @@
                              else {
                                  vm.multipleCostCenters = false;
                              }
-                             debugger;
+                             
 
                              if (response.data.companyDetails.costCenter != null &&
                                  response.data.companyDetails.costCenter.billingAddress != null) {
@@ -513,7 +523,7 @@
                                         $noty.close();
                                         vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
                                         var updatedtoCorporate = false;
-                                        debugger;
+                                        
                                         if (vm.model.companyDetails.name != null && $window.localStorage.getItem('isCorporateAccount')=='false') {
 
                                             $window.localStorage.setItem('isCorporateAccount', true);
@@ -827,7 +837,7 @@
                 }
 
                 vm.updateThemeColour = function(){
-                    debugger;
+                    
                     vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
                     var body = $("html, body");
@@ -933,6 +943,7 @@
                             },
                             timeout: 3000,
                         });
+                        vm.model.customerDetails.email = vm.emailCopy;
                     }
                     else if (response == -3) {
                         body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
@@ -968,7 +979,7 @@
 
                 vm.uploadLogo = function (file) {
 
-                    debugger;
+                    
                     file.upload = Upload.upload({
                         url: serverBaseUrl + '/api/Admin/UploadLogo',
                         data: {
@@ -980,7 +991,7 @@
                     });
 
                     file.upload.then(function (response) {
-                        debugger;
+                        
                         if (response.status==200) {
                             var body = $("html, body");
                             body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {

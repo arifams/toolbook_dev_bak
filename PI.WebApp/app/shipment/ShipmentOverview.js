@@ -30,7 +30,7 @@
                var shipmentId = '';
 
                var loadShipmentStatuses = function () {
-                   debugger;
+                   
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
                        vm.locationHistory = data;
@@ -93,10 +93,10 @@
 
                //get the current shipment details
                var loadShipmentInfo = function () {
-                   debugger;
+                   
                    shipmentFactory.loadShipmentInfo(vm.shipmentCode)
                    .success(function (data) {
-                       debugger;
+                       
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;

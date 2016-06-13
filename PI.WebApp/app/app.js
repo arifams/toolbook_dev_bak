@@ -344,18 +344,25 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-          debugger;
+          
           var token = localStorage.getItem('token');    
           var tokenPayload = jwtHelper.decodeToken(token);
 
           if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin')!=null)
           {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
-              expireTime.setMinutes(expireTime.getMinutes() + 120);             
+              expireTime.setMinutes(expireTime.getMinutes() + 120);
+              var currentRole = $window.localStorage.getItem('userRole');
 
               if (expireTime.getTime() < new Date().getTime()) {
                   //redirect to login and clear the local storage
-                  window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                  if (currentRole != 'Admin') {
+                      window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                  } else {
+                      window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
+                  }
+                 
+
                   $window.localStorage.setItem('lastLogin', null);
               } else {
                   //updating the last login time
@@ -388,7 +395,7 @@ var checkRouting = function ($location) {
 
 
 MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
-    debugger;
+    
     //$window.localStorage.getItem('currentLnguage')
     gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 

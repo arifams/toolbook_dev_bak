@@ -125,7 +125,7 @@
                                         vm.noShipments = false;
 
                                     } else {
-                                        debugger;
+                                        
                                         vm.noShipments = true;
                                         vm.rowCollection = [];
                                     }
@@ -182,7 +182,7 @@
 
 
                            vm.shipmentSyncWithSIS = function () {
-                               debugger;
+                               
                                
                                shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
                                   function (responce) {

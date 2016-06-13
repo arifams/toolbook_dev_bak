@@ -5,7 +5,7 @@
                        function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams) {
 
                            var vm = this;
-                           debugger;
+                           
                            vm.viaDashboard = false;
                            vm.viaDashboard = $scope.dashCtrl == undefined ? false : $scope.dashCtrl.isViaDashboard;
 
@@ -53,7 +53,7 @@
                                                    shipmentFactory.deleteShipment(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           debugger;
+                                                           
 
                                                            $('#panel-notif').noty({
                                                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully, click ok to reload the shipment list') + '?</p></div>',
@@ -115,7 +115,7 @@
                                    count = (item.generalInformation.isFavourite) ? count + 1 : count;
                                });
 
-                               debugger;
+                               
                                if (count == 10 && row.generalInformation.isFavourite == false) {
                                    var body = $("html, body");
 
@@ -142,12 +142,13 @@
                                else {
                                       shipmentFactory.toggleFavourite(row)
                                                      .success(function (response) {
-                                                            row.generalInformation.isFavourite = response;
+                                                         row.generalInformation.isFavourite = response;
+
                                                       });
                                     }
                            }
 
-                           debugger;
+                           
                            if($routeParams.status != undefined && $routeParams.status != null)
                            {
                                vm.loadAllShipments($routeParams.status);

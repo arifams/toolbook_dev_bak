@@ -13,7 +13,7 @@
 
         //set selected address details
         $scope.selectCompany = function (company) {
-            debugger;         
+                     
 
             if (from == 'shipReportCtrl') {                
                    
@@ -32,7 +32,7 @@
                                               $scope.manageShipCtrl.closeWindow();
                                               $scope.manageShipCtrl.noShipments = false;
                                               $scope.manageShipCtrl.CompanyId = company.id;
-                                              debugger;
+                                              
                                               shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
                                                function (responce) {
                                                    $window.localStorage.setItem('businessOwnerId', responce);

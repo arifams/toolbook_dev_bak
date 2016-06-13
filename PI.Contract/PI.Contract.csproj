@@ -63,6 +63,7 @@
     <Compile Include="DTOs\Company\CompanyDto.cs" />
     <Compile Include="DTOs\CostCenter\CostCenterDto.cs" />
     <Compile Include="DTOs\Customer\CustomerDto.cs" />
+    <Compile Include="DTOs\Dashboard\DashboardShipments.cs" />
     <Compile Include="DTOs\FileUpload\FileUploadDto.cs" />
     <Compile Include="DTOs\ImportAddress\ImportAddressDto.cs" />
     <Compile Include="DTOs\Invoice\InvoiceDto.cs" />

@@ -28,6 +28,7 @@ using PI.Contract.Business;
 using System.Net.Http.Headers;
 using PI.Contract.DTOs.Report;
 using PI.Contract.DTOs.Carrier;
+using PI.Contract.DTOs.Dashboard;
 
 namespace PI.Service.Controllers
 {
@@ -637,6 +638,15 @@ namespace PI.Service.Controllers
         public bool ToggleShipmentFavourites(ShipmentDto shipment)
         {
             return shipmentManagement.ToggleShipmentFavourites(shipment);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetShipmentStatusCounts")]
+        public DashboardShipments GetShipmentStatusCounts(string userId)
+        {
+            return shipmentManagement.GetShipmentStatusCounts(userId);
         }
 
     }

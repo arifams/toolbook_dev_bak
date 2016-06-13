@@ -69,7 +69,7 @@
         var loadDivision = function () {
             loadAddressBookFactory.loadAddressInfo()
             .success(function (data) {
-                debugger;
+                
                 vm.model = data;
                 if (data.isActive == true || data.firstName==null) {
                     vm.model.isActive = "true";
