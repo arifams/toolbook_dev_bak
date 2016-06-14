@@ -16,7 +16,7 @@
                             <div class="col-sm-10">
                                 <div class="input-group">
                                     <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
-                                           placeholder="{{'Enter Company Name, Business Owner First Name or Last Name'|translate}}" />
+                                           placeholder="{{'Enter Company Name, Business Owner First Name or Last Name'|translate}}" ng-change="vm.searchTextChange()"/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-large btn-primary no-margin" 
                                                 ng-click="vm.loadAllCompanies(vm.searchText)">
@@ -34,8 +34,7 @@
                                     <input datetime-picker name="datetimepicker"
                                            class="date-picker form-control hasDatepicker"
                                            ng-model="vm.dateFrom"
-                                           date-format="dd-MMM-yyyy" date-only 
-                                           ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''" />
+                                           date-format="dd-MMM-yyyy" date-only/>
                                     <i class="icon-calendar"></i>
                                 </div>
                                 <div class="col-sm-2"></div>
@@ -43,8 +42,7 @@
                                     <input datetime-picker name="datetimepicker"
                                            class="date-picker form-control hasDatepicker"
                                            ng-model="vm.dateTo"
-                                           date-format="dd-MMM-yyyy" date-only 
-                                           ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''" />
+                                           date-format="dd-MMM-yyyy" date-only/>
                                     <i class="icon-calendar"></i>
                                 </div>
                             </div>
@@ -55,8 +53,7 @@
                             <div class="col-sm-10">
                                 <select class="form-control"
                                         convert-to-number ng-options="divi.id as divi.name for divi in vm.carrierList"
-                                        ng-model="vm.carrierId"
-                                        ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''">
+                                        ng-model="vm.carrierId">
                                     <option value="" translate>-Select a carrier-</option>
 
                                 </select>
@@ -135,7 +132,7 @@
                             <div class="col-sm-10"></div>
                             <div class="col-sm-2">
                                 <div class="form-group">
-                                    <button class="btn btn-primary pull-right" ng-click="vm.exportExcel()" ng-disabled="vm.isAdmin &&  vm.selectedCompanyId == ''" translate>
+                                    <button class="btn btn-primary pull-right" ng-click="vm.exportExcel()" translate>
                                         Export
                                     </button>
                                 </div>
