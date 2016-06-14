@@ -16,8 +16,8 @@
                      
 
             if (from == 'shipReportCtrl') {                
-                   
                 $scope.vm.selectedCompanyId = company.id;
+                $scope.vm.isNeedSearchCustomer = false;
                 $scope.vm.closeWindow();                
             }
 

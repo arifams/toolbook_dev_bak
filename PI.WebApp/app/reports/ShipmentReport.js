@@ -144,6 +144,22 @@
 
         vm.exportExcel = function () {
             
+            if (vm.isNeedSearchCustomer) {
+                var n = noty({
+                    text: '<p style="font-size:medium;">' + 'Please click search button to select a customer or clear customer fileds to search on all customers' + '! </p>',
+                    layout: 'center',
+                    type: 'error',
+                    animation: {
+                        open: { height: 'toggle' },
+                        close: { height: 'toggle' }, // jQuery animate function property object
+                        easing: 'swing', // easing
+                        speed: 500 // opening & closing animation speed
+                    }
+                });
+
+                return;
+            }
+
             var carrierId = vm.carrierId;
             var companyId = vm.selectedCompanyId == "" ? null : vm.selectedCompanyId;
             var startDate = vm.dateFrom;
@@ -254,6 +270,18 @@
 
         loadAllCarriers();     
       
+        vm.isNeedSearchCustomer = false;
+
+        vm.searchTextChange = function () {
+            if (vm.searchText == '' || vm.searchText == undefined) {
+                vm.isNeedSearchCustomer = false;
+                vm.selectedCompanyId = '';
+            }
+            else {
+                vm.isNeedSearchCustomer = true;
+            }
+        };
+
     }]);
 
 })(angular.module('newApp'));

@@ -2669,7 +2669,8 @@ namespace PI.Business
                     }
 
                     shipmentList =
-                        context.Shipments.Where(s => s.Division.CompanyId == companyId &&
+                        context.Shipments.Where(s => 
+                        (companyId == 0 || s.Division.CompanyId == companyId) &&
                         (carrierId == 0 || s.CarrierId == carrierId) &&
                         (startDate == null || startDate <= s.PickUpDate) &&
                         (endDate == null || s.PickUpDate <= endDate) &&
