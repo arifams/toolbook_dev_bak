@@ -1,12 +1,51 @@
 ﻿'use strict';
 
 (function (app) {
-    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory','$rootScope',
-                  function ($scope, $location, $window, adminFactory, $rootScope) {
+    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory','$rootScope','ngDialog', '$controller',
+                  function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller) {
                       var vm = this;
                       vm.status = 'All';
                       vm.itemsByPage = 25;
                       vm.rowCollection = [];
+
+                      vm.closeWindow = function () {
+                          ngDialog.close()
+                      }
+
+
+                      
+                  vm.ViewCompany = function (company) {
+
+                  adminFactory.GetCustomerByCompanyId(company.id).success(
+                  function (responce) {
+                  if (responce) {
+
+                      ngDialog.open({
+                          scope: $scope,
+                          template: '/app/admin/CustomerDetailsView.html',
+                          className: 'ngdialog-theme-plain custom-width-max',
+                          controller: $controller('customerDetailsCtrl', {
+                              $scope: $scope,
+                              company: responce
+                          })
+
+                      });
+                    
+                    
+                  }   else {
+                      console.log("error occurd while retrieving Addresses");
+                            
+                         }
+                     }).error(function (error) {
+                    
+                         console.log("error occurd while retrieving Addresses");
+                     });
+
+                        
+                          
+
+
+                      }
 
 
                       vm.searchComapnies = function () {

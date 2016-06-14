@@ -12,7 +12,8 @@ namespace PI.Contract.Business
         int VerifyUserLogin(CustomerDto customer);
 
         string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId);
-       
+        CustomerDto GetCustomerByCompanyId(int companyId);
+
         /// <summary>
         /// 
         /// </summary>

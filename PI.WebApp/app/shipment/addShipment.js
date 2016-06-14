@@ -257,7 +257,7 @@
                            ngDialog.open({
                                scope: $scope,
                                template: '/app/shipment/AddressViewTemplate.html',
-                               className: 'ngdialog-theme-default',
+                               className: 'ngdialog-custom-width',
                                controller: $controller('addressListCtrl', {
                                    $scope: $scope,
                                    searchList: responce.content,

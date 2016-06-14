@@ -10,7 +10,8 @@
             manageInvoicePaymentSetting: manageInvoicePaymentSetting,
             loadAllInvoices: loadAllInvoices,
             exportInvoiceDetailsReport: exportInvoiceDetailsReport,
-            updateInvoiceStatus: updateInvoiceStatus
+            updateInvoiceStatus: updateInvoiceStatus,
+            GetCustomerByCompanyId: GetCustomerByCompanyId
         };
 
 
@@ -51,6 +52,16 @@
             });
         }
         
+                
+        function GetCustomerByCompanyId(companyId) {
+
+            return $http.get(serverBaseUrl + '/api/Customer/GetCustomerByCompanyId', {
+                params: {
+                    companyid: companyId                  
+                }
+            });
+        }
+
 
         function changeCompanyStatus(companyDetail) {
             

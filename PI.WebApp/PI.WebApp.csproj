@@ -74,6 +74,8 @@
     <Content Include="app\adminLogin\adminLoginCtrl.js" />
     <Content Include="app\admin\BillingandInvoicing.html" />
     <Content Include="app\admin\BillingandInvoicing.js" />
+    <Content Include="app\admin\CustomerDetailsView.html" />
+    <Content Include="app\admin\CustomerDetailsView.js" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
     <Content Include="app\admin\uploadInvoice.html" />

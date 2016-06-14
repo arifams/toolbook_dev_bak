@@ -217,5 +217,54 @@ namespace PI.Business
                 return existingCustomer.SelectedColour;
             }
         }
+
+        //get customer details 
+        public CustomerDto GetCustomerByCompanyId(int companyId)
+        {
+            using (PIContext context = new PIContext())
+            {
+                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                var content = (from customer in context.Customers
+                               join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                               where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                               comapny.Id == companyId
+                               select new
+                               {
+                                   Customer = customer,
+                                   Company = comapny
+                               }).SingleOrDefault();
+
+                return new CustomerDto()
+                {
+                    CompanyName=content.Company.Name,
+                    FirstName=content.Customer.FirstName,
+                    LastName=content.Customer.LastName,
+                    Email=content.Customer.Email,
+                    PhoneNumber=content.Customer.PhoneNumber,
+                    Salutation=content.Customer.Salutation,
+                    MobileNumber=content.Customer.MobileNumber, 
+                   
+
+                    CustomerAddress = new Contract.DTOs.Address.AddressDto()
+                    {
+                        Id = content.Customer.CustomerAddress.Id,
+                        City = content.Customer.CustomerAddress.City,
+                        Country=content.Customer.CustomerAddress.Country,
+                        Number=content.Customer.CustomerAddress.Number,
+                        State=content.Customer.CustomerAddress.State,
+                        StreetAddress1=content.Customer.CustomerAddress.StreetAddress1,
+                        StreetAddress2=content.Customer.CustomerAddress.StreetAddress2,
+                        ZipCode=content.Customer.CustomerAddress.ZipCode
+                    }
+
+                    
+                };
+             
+
+                
+            }
+
+        }
     }
 }
