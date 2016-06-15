@@ -600,6 +600,8 @@ namespace PI.Business
                 var divisions = from division in context.Divisions
                                 join divUser in context.UsersInDivisions on division.Id equals divUser.DivisionId
                                 where divUser.UserId == userid
+                                && divUser.IsDelete!=true
+                                && divUser.IsActive!=false
                                 select division;
 
                 foreach (var item in divisions)
