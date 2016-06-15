@@ -126,6 +126,8 @@
 
                 var vm = this;
 
+                vm.loading = false;
+
                 vm.t_timezones;
                 vm.model = {};
                 vm.model.accountSettings = {};
@@ -210,12 +212,13 @@
                 };
 
                 vm.loadProfile = function () {
-
+                    vm.loading = true;
                     loadProfilefactory.loadProfileinfo()
                     .success(function (response) {
 
                         if (response != null) {
                             vm.model = response;
+                            vm.loading = false;
 
                             if (response.customerDetails != null) {
                                 //setting the account type                        
@@ -237,6 +240,7 @@
                     })
                    .error(function () {
                        vm.model.isServerError = "true";
+                       vm.loading = false;
                    })
                 }
 
@@ -433,9 +437,10 @@
 
 
                 vm.loadAddressInfo = function () {
+                    vm.loading = true;
                     getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
                      .then(function successCallback(response) {
-                         
+                         vm.loading = false;
                          if (response.data.customerDetails != null) {
                              // vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
@@ -465,14 +470,17 @@
                          }
 
                      }, function errorCallback(response) {
+                         vm.loading = false;
                          //todo
                      });
                 }
 
                 vm.loadAccountSettings = function () {
+                    vm.loading = true;
                     
                     getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
                      .then(function successCallback(response) {
+                         vm.loading = false;
                          
                          vm.languageList = response.data.accountSettings.languages;
                          vm.defaultLanguage = response.data.accountSettings.languages[0];
@@ -498,6 +506,7 @@
                          vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
 
                      }, function errorCallback(response) {
+                         vm.loading = false;
                          //todo
                      });
                 }
