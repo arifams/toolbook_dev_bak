@@ -23,7 +23,7 @@ namespace PI.Service.Controllers
     public class ProfileController : BaseApiController
     {
         IProfileManagement userprofile;
-        
+        CommonLogic commonLogics = new CommonLogic();
 
         public ProfileController(IProfileManagement userprofilemanagement)
         {
@@ -39,6 +39,17 @@ namespace PI.Service.Controllers
             //ProfileManagement userprofile = new ProfileManagement();
             return userprofile.getProfileByUserName(userId);
         }
+
+
+        //get the profile language when loading the app
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetProfileLanguageByUserId")]
+        public string GetProfileLanguageByUserId(string userId)
+        {
+           return userprofile.GetLanguageCodeByUserId(userId);
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]       
         [HttpGet]
