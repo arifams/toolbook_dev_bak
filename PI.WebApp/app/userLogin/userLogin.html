@@ -26,10 +26,10 @@
                         <p class="pull-left m-t-20">{{userLog.emailConfirmationMessage}}</p>
                     </div>
 
-                    <form class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
+                    <form ng-cloak class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
                         <div class="form-group" >
                             <div class="append-icon">
-                                <input type="email" name="username" id="username" class="form-control form-white username" placeholder="{{'Email'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
+                                <input ng-cloak type="email" name="username" id="username" class="form-control form-white username" placeholder="{{'Email'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
                                 <i class="icon-user"></i>
                                 <p ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="help-block" translate>Email is required.</p>
                             </div>
@@ -37,7 +37,7 @@
 
                         <div class="form-group" >
                             <div class="append-icon m-b-20">
-                                <input type="password" name="password" class="form-control form-white password" placeholder="{{'Password'|translate}}" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
+                                <input ng-cloak  type="password" name="password" class="form-control form-white password" placeholder="{{'Password'|translate}}" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
                                 <i class="icon-lock"></i>
                                 <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block" translate>Password is required.</p>
                             </div>
