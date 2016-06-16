@@ -14,6 +14,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using PI.Contract.DTOs.Customer;
 
 namespace PI.Service.Controllers
 {
@@ -100,6 +101,16 @@ namespace PI.Service.Controllers
         public string GetThemeColour ([FromUri] string loggedInUserId)
         {
             return customerManagement.GetThemeColour(loggedInUserId);
+        }
+        
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetCustomerByCompanyId")]
+        public CustomerDto GetCustomerByCompanyId(int companyid)
+        {
+            return customerManagement.GetCustomerByCompanyId(companyid);
         }
 
     }

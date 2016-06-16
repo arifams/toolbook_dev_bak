@@ -126,6 +126,8 @@
 
                 var vm = this;
 
+                vm.loading = false;
+
                 vm.t_timezones;
                 vm.model = {};
                 vm.model.accountSettings = {};
@@ -210,12 +212,13 @@
                 };
 
                 vm.loadProfile = function () {
-
+                    vm.loading = true;
                     loadProfilefactory.loadProfileinfo()
                     .success(function (response) {
 
                         if (response != null) {
                             vm.model = response;
+                            vm.loading = false;
 
                             if (response.customerDetails != null) {
                                 //setting the account type                        
@@ -237,6 +240,7 @@
                     })
                    .error(function () {
                        vm.model.isServerError = "true";
+                       vm.loading = false;
                    })
                 }
 
@@ -433,9 +437,10 @@
 
 
                 vm.loadAddressInfo = function () {
+                    vm.loading = true;
                     getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
                      .then(function successCallback(response) {
-                         
+                         vm.loading = false;
                          if (response.data.customerDetails != null) {
                              // vm.model.customerDetails = response.data.customerDetails;
                              vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
@@ -465,14 +470,17 @@
                          }
 
                      }, function errorCallback(response) {
+                         vm.loading = false;
                          //todo
                      });
                 }
 
                 vm.loadAccountSettings = function () {
+                    vm.loading = true;
                     
                     getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
                      .then(function successCallback(response) {
+                         vm.loading = false;
                          
                          vm.languageList = response.data.accountSettings.languages;
                          vm.defaultLanguage = response.data.accountSettings.languages[0];
@@ -498,6 +506,7 @@
                          vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
 
                      }, function errorCallback(response) {
+                         vm.loading = false;
                          //todo
                      });
                 }
@@ -521,7 +530,7 @@
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
-                                        vm.model.customerDetails.templateLink = '<html><head><title></title><style>body{margin:30px;}.email-content,.email-header{padding:10px;font-family:verdana,geneva,sans-serif;color:#fff}.email-header,.row>h3,.title>h3{text-align:center}<html><head><title></title><style>body{margin:30px}.email-header{background-color:#0af;font-size:28px;border:5px solid #d9d9d9}.logo-header{float:left;z-index:1}.row{margin-right:40px;margin-left:40px}.row>h3{font-weight:700}.email-content{border:5px solid #0af;background-color:#005c99;font-size:13px}.email-content>p{font-weight:700;font-style:italic;font-size:14px}.title>h3{margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px}a{color:#80d4ff}a:focus,a:hover{color:#fff}</style></head><body><div class="row"><div class="email-header" style="margin-top:30px;">Email Verification - Parcel International</div></div><div class="row"><div class="logo-header"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div class="title"><h3>Thank you for your registration at Parcel International</h3></div></div><div class="row"><div class="email-content"><p>Dear Salutation FirstName LastName,</p><br/><p>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</p><p>Your Username has updated. To activate your account, please click &nbsp;ActivationURL</p><p>But before we can start shipping, we need to complete your registration, please click here to verify your email address.</p><p>IMPORTANT! Please note that this activation link is valid for 24 hours only.   <p><p>Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p>Thank you,</p><p>Parcel International Service Team</p></br>Phone: +1 858 914 4414 </br>Email address:<a href="mailto:helpdesk@parcelinternational.com">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div><div></div></body></html>';
+                                        vm.model.customerDetails.templateLink = '<html><head><title></title><style>body{margin:30px;}.email-content,.email-header{padding:10px;font-family:verdana,geneva,sans-serif;color:#fff}.email-header,.row>h3,.title>h3{text-align:center}<html><head><title></title><style>body{margin:30px}.email-header{background-color:#0af;font-size:28px;border:5px solid #d9d9d9}.logo-header{float:left;z-index:1}.row{margin-right:40px;margin-left:40px}.row>h3{font-weight:700}.email-content{border:5px solid #0af;background-color:#005c99;font-size:13px}.email-content>p{font-weight:700;font-style:italic;font-size:14px}.title>h3{margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px}a{color:#80d4ff}a:focus,a:hover{color:#fff}</style></head><body><div class="row"><div class="email-header" style="margin-top:30px;">Email Verification - Parcel International</div></div><div class="row"><div class="logo-header"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div class="title"><h3>Email verification required</h3></div></div><div class="row"><div class="email-content"><p>Dear Salutation FirstName LastName,</p><br/><p>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</p><p>Your Username has updated. To activate your account, please click &nbsp;ActivationURL</p><p>But before we can start shipping, we need to complete your registration, please click here to verify your email address.</p><p>IMPORTANT! Please note that this activation link is valid for 24 hours only.   <p><p>Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p>Thank you,</p><p>Parcel International Service Team</p></br>Phone: +1 858 914 4414 </br>Email address:<a href="mailto:helpdesk@parcelinternational.com">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div><div></div></body></html>';
                                         var updatedtoCorporate = false;
                                         
                                         if (vm.model.companyDetails.name != null && $window.localStorage.getItem('isCorporateAccount')=='false') {

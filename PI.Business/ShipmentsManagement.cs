@@ -592,7 +592,7 @@ namespace PI.Business
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
-            if (divisions.Count > 0)
+            if (divisions!=null && divisions.Count > 0)
             {
                 foreach (var item in divisions)
                 {

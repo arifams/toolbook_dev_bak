@@ -19,6 +19,7 @@ namespace PI.Business
 {
     public class ProfileManagement : IProfileManagement
     {
+        CommonLogic commonLogics = new CommonLogic();
 
         //get the profile details
         public ProfileDto getProfileByUserName(string username)
@@ -789,6 +790,23 @@ namespace PI.Business
             {
                 return context.Customers.SingleOrDefault(c => c.UserId == userId);
             }
+        }
+
+
+        //get the profile language code
+        public string GetLanguageCodeByUserId(string userId)
+        {
+            var customer = this.GetCustomerByUserId(userId);
+            if (customer==null)
+            {
+                return null;
+            }
+            var accountsettings = this.GetAccountSettingByCustomerId(customer.Id);
+            if (accountsettings==null)
+            {
+                return null;
+            }
+            return commonLogics.GetLanguageCodeById(accountsettings.DefaultLanguageId);
         }
 
         //get the customer by user name

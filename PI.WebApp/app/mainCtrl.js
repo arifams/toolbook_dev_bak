@@ -6,7 +6,8 @@
             getUserName: getUserName,
             getCompanyName: getCompanyName,
             getLogoUrl: getLogoUrl,
-            getThemeColour: getThemeColour
+            getThemeColour: getThemeColour,
+            getProfileLanguage: getProfileLanguage
         };
 
 
@@ -15,6 +16,17 @@
             return $http.get(serverBaseUrl + '/api/Company/GetCompanyByUserId', {
                 params: {
                     loggedInUserId: $window.localStorage.getItem('userGuid')
+                }
+            });
+
+        }
+
+
+        function getProfileLanguage() {
+
+            return $http.get(serverBaseUrl + '/api/Profile/getProfileLanguageByUserId', {
+                params: {
+                    userId: $window.localStorage.getItem('userGuid')
                 }
             });
 
@@ -119,7 +131,15 @@
 
         });
 
+        userService.getProfileLanguage()
+            .then(function successCallback(responce) {
+                debugger;
+                if (responce != '' || responce != null) {
 
+                    $scope.getCurrentLnguage(responce.data);
+                }
+                     
+        });
 
         //console.log($cookieStore.get("KEY"));
         $scope.isActive = function (viewLocation) {

@@ -84,21 +84,6 @@
 .sidebar {
     top:85px;
 }
-/*.sidebar .logopanel {
-    height:auto;  
-    border-bottom:1px solid #396485; 
-    text-align:center;
-                
-            }*/
-/*.theme-sdtl.color-default:not(.sidebar-top) .logopanel {
-    background-color:#0D4773;
-}*/
-/*.theme-sdtl.color-default .sidebar .sidebar-inner {
-    background-color:#0D4773;
-}*/
-/*.nav-parent {
-    border-bottom:1px solid #396485;
-}*/
 .main-content .page-content .panel {
     margin-bottom:0px;
 }
@@ -113,8 +98,7 @@
 }
 .icon-check{
     font-size:1.6em;
-}
-    
+}    
 .main-content .page-content .panel .panel-header {
     padding:0px 0px 5px 0px;
     margin-bottom:0px;
@@ -135,7 +119,6 @@
 .main-content .page-content .panel .panel-header h3 {
     margin-bottom:0px;
 }
-
 .shipmentmethod {
     box-sizing: border-box;
     border: 1px solid #319DB5;
@@ -201,9 +184,7 @@
 .float-left {
     float:left;
 }
-.col-md-6 {
-    padding-right:30px;
-}
+
 .rem-martop {
     margin-top: 0px;
 }
@@ -664,6 +645,7 @@
 }
 .left {
     padding:5px 10px;
+    width:100%;
 }
 .widget-body {
     

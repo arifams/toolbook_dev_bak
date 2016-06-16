@@ -66,6 +66,7 @@
                                         <th translate>City</th>
                                         <th translate>Number Of Users</th>
                                         <th translate>Active Shipments</th>
+                                        <th>View</th>
                                         <th translate>Status</th>
                                         <th translate>Invoice Payment</th>
                                         <th></th>
@@ -82,9 +83,16 @@
                                         <td>{{row.activeShipments}}</td>
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block"
+                                                    ng-click="vm.ViewCompany(row)" >                                              
+                                                <i class="fa fa-hand-o-right" ></i>
+                                            </button>
+                                        </td>
+
+                                        <td>
+                                            <button type="button" class="btn btn-large btn-primary btn-block"
                                                     ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-primary':'btn-danger' ">
                                               {{ (row.status ? 'Active' : 'Inactive') }} 
-</button>
+                                           </button>
                                         </td>
                                         <td>
                                             <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">

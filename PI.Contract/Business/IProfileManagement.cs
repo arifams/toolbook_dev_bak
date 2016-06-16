@@ -13,6 +13,7 @@ namespace PI.Contract.Business
         ProfileDto GetAccountSettings(long customerId);
         ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId);
         ProfileDto getProfileByUserNameForShipment(string username);
+        string GetLanguageCodeByUserId(string userId);
         int UpdateProfileAccountSettings(ProfileDto updatedProfile);
         int UpdateProfileAddress(ProfileDto updatedProfile);
         int UpdateProfileBillingAddress(ProfileDto updatedProfile);

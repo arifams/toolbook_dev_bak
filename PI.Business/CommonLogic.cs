@@ -63,5 +63,15 @@ namespace PI.Business
            return currentuser.TenantId;
        }
 
+
+        public string GetLanguageCodeById(short id)
+        {
+            using (PIContext context= new PIContext())
+            {
+                var language = context.Languages.SingleOrDefault(l => l.Id == id).LanguageCode;
+                return language;
+            }
+        }
+
     }
 }
