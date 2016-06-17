@@ -3921,7 +3921,7 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_close.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
-    <Content Include="proj_img\PI-logo.png" />
+    <Content Include="proj_img\PI_logo.png" />
     <Content Include="proj_img\shipment_icons.png" />
     <Content Include="proj_img\transport.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />

@@ -1,5 +1,6 @@
 .ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
     width: 600px;
+    overflow: scroll;  
 }
 
 .ngdialog.ngdialog-theme-plain.custom-width-max .ngdialog-content {
