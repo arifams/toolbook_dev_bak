@@ -14,6 +14,7 @@ using PI.Contract.DTOs;
 using PI.Data.Entity;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.AuditTrail;
 
 namespace PI.Business
 {
@@ -351,7 +352,32 @@ namespace PI.Business
             }
         }
 
-      
+
+        /// <summary>
+        /// Get Audit Trails For Customer
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
+        {
+            List<AuditTrailDto> customerAuditRecords = new List<AuditTrailDto>();
+            using (var context = new PIContext())
+            {
+                var auditRecords = context.AuditTrail.Where(x => x.CreatedBy == userId).ToList();
+
+                foreach (var record in auditRecords)
+                {
+                    customerAuditRecords.Add(new AuditTrailDto
+                    {
+                        AppFunctionality = record.AppFunctionality,
+                        Comments = record.Comments,
+                        Result = record.Result,
+                    });
+                }
+            }
+
+            return customerAuditRecords;
+        }
 
     }
 }
