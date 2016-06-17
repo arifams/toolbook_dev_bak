@@ -11,11 +11,10 @@
             loadAllInvoices: loadAllInvoices,
             exportInvoiceDetailsReport: exportInvoiceDetailsReport,
             updateInvoiceStatus: updateInvoiceStatus,
-            GetCustomerByCompanyId: GetCustomerByCompanyId
+            GetCustomerByCompanyId: GetCustomerByCompanyId,
+            GetAuditTrailsForCustomer: GetAuditTrailsForCustomer
         };
-
-
-
+        
 
         function loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber) {
            
@@ -77,6 +76,16 @@
         function updateInvoiceStatus(invoice) {
 
             return $http.post(serverBaseUrl + '/api/Admin/UpdateInvoiceStatus', invoice);
+        }
+
+
+        function GetAuditTrailsForCustomer() {
+
+            return $http.get(serverBaseUrl + '/api/Admin/GetAuditTrailsForCustomer', {
+                params: {
+                    companyid: companyId
+                }
+            });
         }
 
     }]);
