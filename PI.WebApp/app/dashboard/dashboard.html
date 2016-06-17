@@ -20,7 +20,7 @@
                 </div><hr class="m-t-0">
 
                 <div class="row">
-                    <div class="col-sm-12 form-group m-l-0 m-r-0">
+                    <div class="col-sm-12 form-group m-l-0 m-r-0 p-r-0">
                         <div class="col-sm-2 widget-body p-0"  id="widget-blue">
                             <div class="left">
                                 <h2>{{dashCtrl.model.pendingStatusCount}}</h2>
@@ -29,7 +29,7 @@
                             <a class="widget-footer" id="widget-footer-blue" 
                                href="#/loadShipments/Pending"> More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-green">
+                        <div class="col-sm-2 widget-body p-0" id="widget-green">
                             <div class="left">
                                 <h2>{{dashCtrl.model.deliveredStatusCount}}</h2>
                                 <div class="txt">Delivered</div>
@@ -37,7 +37,7 @@
                             <a class="widget-footer" id="widget-footer-green" 
                                href="#/loadShipments/Delivered">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-orange">
+                        <div class="col-sm-2 widget-body p-0" id="widget-orange">
                             <div class="left">
                                 <h2>{{dashCtrl.model.inTransitStatusCount}} </h2>
                                 <div class="txt">In-Transit</div>
@@ -45,7 +45,7 @@
                             <a class="widget-footer" id="widget-footer-orange" 
                                 href="#/loadShipments/Transit">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-purple">
+                        <div class="col-sm-2 widget-body p-0" id="widget-purple">
                             <div class="left">
                                 <h2>{{dashCtrl.model.exceptionStatusCount}}</h2>
                                 <div class="txt">Exceptions </div>
@@ -53,13 +53,21 @@
                             <a class="widget-footer" id="widget-footer-purple" 
                                href="#/loadShipments/Exception">More info <i class="fa fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="col-sm-2 col-half-offset widget-body p-0" id="widget-red">
+                        <div class="col-sm-2 widget-body p-0" id="widget-red">
                             <div class="left">
                                 <h2>{{dashCtrl.model.delayedStatusCount}}</h2>
                                 <div class="txt">Delayed</div>
                             </div>
                             <a class="widget-footer" id="widget-footer-red" 
                                 href="#/loadShipments/Delayed">More info <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                        <div class="col-sm-2 widget-body p-0" id="widget-darkBlue">
+                            <div class="left">
+                                <h2>0</h2>
+                                <div class="txt">New</div>
+                            </div>
+                            <a class="widget-footer" id="widget-footer-darkBlue"
+                               href="#/loadShipments/Pending">More info<i class="fa fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
 
