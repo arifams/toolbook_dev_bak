@@ -257,9 +257,9 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
 
-
+            
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
             // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";

@@ -14,6 +14,7 @@ using PI.Service.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IdentityModel.Protocols.WSTrust;
 using System.IdentityModel.Tokens;
 using System.IO;
@@ -280,6 +281,11 @@ namespace PI.Service.Controllers
         public IHttpActionResult LoginUser(CustomerDto customer)
         {
             var user = AppUserManager.Find(customer.UserName, customer.Password);
+
+            Trace.WriteLine("MessageJUST"); // Write a verbose message
+            Trace.TraceInformation("MessageINFO"); // Write an information message
+            Trace.TraceWarning("MessageWARNING");
+            Trace.TraceError("MessageERROR");
 
             if (user == null)
                 return Ok(new
