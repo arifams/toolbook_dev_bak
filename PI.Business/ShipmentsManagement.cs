@@ -1198,7 +1198,16 @@ namespace PI.Business
                 }
                 else
                 {
-                    if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
+                    if (string.IsNullOrWhiteSpace(trackingNumber))
+                    {
+                        // Shipment hasn't tracking no. So no need to get update of status. Delete the shipment.
+                        sisManager.DeleteShipment(shipmentCode);
+                        currentShipment.Status = (short)ShipmentStatus.Deleted;
+                        context.SaveChanges();
+
+                        return 1;
+                    }
+                    else if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
                     {
                         UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, "taleus", currentShipment.Id);
 
