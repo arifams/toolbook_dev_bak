@@ -178,8 +178,8 @@
                                 <label class="form-label" translate>Search Address book</label>
                                 
                             </div>
-                            <div class="col-sm-12 p-l-0 p-r-1" >
-                                <div class="form-group input-group">
+                            
+                                <div class="form-group input-group m-r-0">
 
                                     <input ng-model="shipmentCtrl.consignorSearchText" name="consignorSearchText" type="text" class="form-control"
                                            placeholder="{{'Search on company name, first name or last name'|translate}}" ng-change="shipmentCtrl.consignorSearchChange()" />
@@ -190,15 +190,14 @@
                                     </span>
                                    
                                 </div>
-                                </div>
+                                
                                 <div ng-show="shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
                                     <label class="error" translate>Searsh criteria does not match with any saved address details</label>
                                 </div>
                                 <div ng-show="shipmentCtrl.consignor && shipmentCtrl.emptySearch">
                                     <label class="error" translate>Add text before search</label>
                                 </div>
-
-               
+                                 <hr>
                                 <div class="form-group">                                  
                                     <label class="form-label" translate>Consignor </label>
                                 </div>
@@ -412,7 +411,7 @@
                             <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.emptySearch">
                                 <label class="error" translate>Add text before search</label>
                             </div>
-                          
+                          <hr>
                             <div class="form-group">
                                 <label class="form-label" translate>Consignee </label>
                             </div>
