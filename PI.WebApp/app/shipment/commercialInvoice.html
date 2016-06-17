@@ -323,13 +323,14 @@
                                     <td class="col-sm-6" style="border:1px solid #ddd;text-align:center">
                                         <label translate style="font-weight:bold;">Packages:</label><br />
                                         <div ng-repeat="product in invoiceCtrl.shipment.packageDetails.productIngredients">
-                                            <label> {{product.quantity}} * {{product.productType}}  ({{product.length}} * {{product.width}} * {{product.height}} <span ng-show="invoiceCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-hide="invoiceCtrl.shipment.packageDetails.volumeCMM">inch</span>)</label>
+                                            <label> {{product.quantity}} * {{product.productType}}  ({{product.length}} * {{product.width}} * {{product.height}} <span ng-if="invoiceCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-if="!invoiceCtrl.shipment.packageDetails.volumeCMM">inch</span>)</label>
                                         </div>
                                     </td>
+                                   
                                     <td class="col-sm-3" style="border:1px solid #ddd;text-align:center">
                                         <label style="font-weight:bold;">
                                             <translate> Gross</translate>
-                                            ( <span ng-show="invoiceCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="invoiceCtrl.shipment.packageDetails.cmlbs">lbs</span> ):
+                                            ( <span ng-if="invoiceCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-if="!invoiceCtrl.shipment.packageDetails.cmlbs">lbs</span> ):
                                         </label><br />
                                         <label style="font-weight:bold;">{{invoiceCtrl.shipment.packageDetails.totalWeight}}</label>
 
