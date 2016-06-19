@@ -14,8 +14,11 @@
                            vm.datePicker.date = { startDate: null, endDate: null };
                            vm.itemsByPage = 25; // Set page size    // 25
                            vm.rowCollection = [];
-                          
+                           vm.loadingSymbole = true;
+
                            vm.loadAllShipments = function (status) {
+
+                               vm.loadingSymbole = true;
 
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
@@ -27,9 +30,11 @@
                                shipmentFactory.loadAllShipments(status, startDate, endDate, number, source, destination, vm.viaDashboard)
                                     .success(
                                            function (responce) {
-
+                                               vm.loadingSymbole = false;
+                                               debugger;
                                                vm.rowCollection = responce.content;
                                            }).error(function (error) {
+                                               vm.loadingSymbole = false;
                                                console.log("error occurd while retrieving shiments");
                                            });
 

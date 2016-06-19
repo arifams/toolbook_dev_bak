@@ -259,7 +259,7 @@ namespace PI.Business
             currentRateSheetDetails.country_distance = "";
             currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
 
-            
+
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
             // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
@@ -592,7 +592,7 @@ namespace PI.Business
             {
                 divisions = company.GetAssignedDivisions(userId);
             }
-            if (divisions!=null && divisions.Count > 0)
+            if (divisions != null && divisions.Count > 0)
             {
                 foreach (var item in divisions)
                 {
@@ -609,13 +609,18 @@ namespace PI.Business
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
-                           (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted 
+                           (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
                                && shipment.IsFavourite :
-                               ((string.IsNullOrEmpty(status) || status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)) &&
-                                 (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                 (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                                 (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                                 (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                               ((string.IsNullOrEmpty(status) ||
+                                  (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                                    : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
+                                                    : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                                    : (status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)))
+                                                   ) 
+                                 //(startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                 //(string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                                 //(string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                                 //(string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                                )
                            ) &&
                            !shipment.IsParent
@@ -642,8 +647,11 @@ namespace PI.Business
                                        (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
                                         && shipment.IsFavourite :
                                            ((string.IsNullOrEmpty(status) ||
-                                           (status == "Delayed" ? (shipment.Status != (short)ShipmentStatus.Delivered && latestStatusHistory != null && latestStatusHistory.CreatedDate > package.EstDeliveryDate.Value) :
-                                           shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
+                                            (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                                             : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
+                                                             : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                                             : status == "Delayed" ? (shipment.Status != (short)ShipmentStatus.Delivered && latestStatusHistory != null && latestStatusHistory.CreatedDate > package.EstDeliveryDate.Value) 
+                                                             : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
                                            //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
@@ -2887,18 +2895,20 @@ namespace PI.Business
                     Shipments.AddRange(this.GetshipmentsByUserId(userId));
                 }
 
-                var allShipments = Shipments.ToList();
+                var allShipments = Shipments.Where(s=> s.IsParent == false).ToList();
 
-                shipmentCounts.PendingStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending).Count();
+                shipmentCounts.PendingStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
                 shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
-                shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
-                shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+                shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit || x.Status == (short)ShipmentStatus.Pickup || x.Status == (short)ShipmentStatus.OutForDelivery).Count();
+                shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception || x.Status == (short)ShipmentStatus.Claim).Count();
+                shipmentCounts.BookingConfStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.BookingConfirmation).Count();
 
-               var delayed = (from shipment in allShipments
+                var delayed = (from shipment in allShipments
                               join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
                               join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
                               where shipment.Status != (short)ShipmentStatus.Delivered &&
-                              history.CreatedDate > package.EstDeliveryDate.Value
+                              history.CreatedDate > package.EstDeliveryDate.Value &&
+                              !shipment.IsParent 
                               select shipment).Count();
 
                 shipmentCounts.DelayedStatusCount = delayed;
