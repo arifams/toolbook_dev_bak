@@ -1869,7 +1869,9 @@ namespace PI.Business
                     {
                         Description = p.Description,
                         PricePerPiece = p.PricePerPiece,
-                        Quantity = p.Quantity
+                        Quantity = p.Quantity,
+                        HSCode=p.HSCode,
+
                     }));
 
 
@@ -1942,7 +1944,7 @@ namespace PI.Business
                         Note = currentShipment.CommercialInvoice.Note,
                         ValueCurrency = currentShipment.CommercialInvoice.ValueCurrency,
                         Item = new InvoiceItemDto() { LineItems = invoiceItemLineList },
-                        HSCode = currentShipment.CommercialInvoice.HSCode
+                      //  HSCode = currentShipment.CommercialInvoice.HSCode
                     };
                 }
                 else
@@ -2022,7 +2024,7 @@ namespace PI.Business
                         },
                         Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() },
                         VatNo = currentShipment.Division.Company.VATNumber,
-                        HSCode = currentShipment.ShipmentPackage.HSCode
+                       // HSCode = currentShipment.ShipmentPackage.HSCode
                     };
                 }
             }
@@ -2066,13 +2068,14 @@ namespace PI.Business
 
                 var invoiceItemLineList = new List<InvoiceItemLine>();
                 addInvoice.Item.LineItems.ToList().ForEach(p => invoiceItemLineList.Add(new InvoiceItemLine()
-                {
+                {   
                     Description = p.Description,
                     PricePerPiece = p.PricePerPiece,
                     Quantity = p.Quantity,
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now,
-                    IsActive = true
+                    IsActive = true,
+                    HSCode=p.HSCode,
                 }));
 
                 CommercialInvoice invoice = new CommercialInvoice()

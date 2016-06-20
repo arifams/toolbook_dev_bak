@@ -144,8 +144,9 @@
                                                 <tr ng-repeat="line in invoiceCtrl.shipment.item.lineItems track by $index">
                                                     <td width="5%">{{$index + 1}}</td>
                                                     <td width="40%"><input type="text" name="description" class="form-control" ng-model="line.description" contenteditable="true" ng-required="true" /></td>
-                                                    <td width="15%"><input type="number" name="qty" class="form-control" min="0" ng-model="line.quantity" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
-                                                    <td width="15%"><input type="number" name="priceperPiece" class="form-control" min="0" step="0.01" ng-model="line.pricePerPiece" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
+                                                    <td width="10%"><input type="number" name="qty" class="form-control" min="0" ng-model="line.quantity" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
+                                                    <td width="10%"><input type="number" name="priceperPiece" class="form-control" min="0" step="0.01" ng-model="line.pricePerPiece" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
+                                                    <td width="10%"><input type="text" name="hsCode" class="form-control" ng-model="line.hSCode" contenteditable="true" ng-required="true" /></td>
                                                     <td width="15%"></td>
                                                     <td style="text-align:center" width="5%" class="prod_ops_rm">
                                                         <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="invoiceCtrl.removePackage({{$index}})">

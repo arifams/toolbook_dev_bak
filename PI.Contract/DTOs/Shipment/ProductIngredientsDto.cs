@@ -15,5 +15,6 @@ namespace PI.Contract.DTOs.Shipment
         public decimal Height { get; set; }
         public decimal Length { get; set; }
         public decimal Width { get; set; }
+      
     }
 }
