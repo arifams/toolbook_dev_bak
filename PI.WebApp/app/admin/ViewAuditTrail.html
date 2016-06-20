@@ -1,0 +1,76 @@
+﻿<div ng-controller="loadCompaniesCtrl as vm">
+    <h2 class="box-title" translate>
+        View Audit Trail
+    </h2>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <div class="panel-content panel-border">
+            <form class="form-horizontal">
+                <!-- /.box-header -->
+
+                <div class="panel-header">
+                    <!-- left column -->
+
+                    <div class="box-body">
+                        <div class="row">
+                           <div class="col-sm-4"></div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group input-group">
+                                    <input ng-model="vm.searchText" name="searchText" type="text" class="form-control"
+                                           placeholder="{{'Search by First Name, Last Name or Company Name'| translate}}" />
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary" ng-click="vm.searchComapnies()">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <br />
+                        <div>
+                            <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th translate>Creation Date</th>
+                                        <th st-sort="name" translate>First Name</th>
+                                        <th translate>Last Name</th>
+                                        <th translate>Company Name</th>
+                                        <th translate>City</th>
+                                        <th translate>Number Of Users</th>
+                                        <th translate>Active Shipments</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in vm.displayedCollection">
+                                        <td>{{row.createdDate}}</td>
+                                        <td>{{row.firstName}}</td>
+                                        <td>{{row.lastName}}</td>
+                                        <td>{{row.corporateName}}</td>
+                                        <td>{{row.city}}</td>
+                                        <td>{{row.assignedUserCount}}</td>
+                                        <td>{{row.activeShipments}}</td>                                        
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="panel-notif"></div>
+            </form>
+        </div>
+    </div>
+</div>

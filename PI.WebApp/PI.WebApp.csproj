@@ -80,6 +80,8 @@
     <Content Include="app\admin\ImportRateSheet.js" />
     <Content Include="app\admin\uploadInvoice.html" />
     <Content Include="app\admin\uploadInvoice.js" />
+    <Content Include="app\admin\ViewAuditTrail.html" />
+    <Content Include="app\admin\ViewAuditTrail.js" />
     <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.html" />
     <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.js" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.html" />

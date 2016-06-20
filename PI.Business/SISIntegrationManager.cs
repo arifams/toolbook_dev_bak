@@ -37,6 +37,22 @@ namespace PI.Business
             }
         }
 
+        public string SISCostCenterUS
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISCostCenterUS"].ToString();
+            }
+        }
+
+        public string SISCostCenterNL
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISCostCenterNL"].ToString();
+            }
+        }
+
         public string SISUserName
         {
             get
@@ -418,13 +434,24 @@ namespace PI.Business
                 codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
             }
 
+            string costCenterNumber = string.Empty;
+            using (PIContext context = new PIContext())
+            {
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    costCenterNumber = SISCostCenterNL;
+                else
+                    costCenterNumber = SISCostCenterUS;
+            }
+
             StringBuilder shipmentStr = new StringBuilder();
 
             shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, addShipment.SISCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
             shipmentStr.AppendFormat("<action>STORE_AWB</action>");
             shipmentStr.AppendFormat("<reference>{0}</reference>", addShipment.GeneralInformation.ShipmentReferenceName);
-            shipmentStr.AppendFormat("<account>{0}</account>", "000001");  // Should be cost center - But for now send this value-: 000001
+            shipmentStr.AppendFormat("<account>{0}</account>", costCenterNumber);  // Should be cost center - But for now send this value-: 000001
             shipmentStr.AppendFormat("<carrier_name>{0}</carrier_name>", addShipment.CarrierInformation.CarrierName);
             shipmentStr.AppendFormat("<service_level>{0}</service_level>", addShipment.CarrierInformation.serviceLevel);  // TODO: With this pickup date issue encounter.
             shipmentStr.AppendFormat("<ind_dangerous>{0}</ind_dangerous>", "N");   // TODO: sprint 3 doesn't support for dangerous goods. So for this sprint this should be No

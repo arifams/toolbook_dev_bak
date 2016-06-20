@@ -5,6 +5,7 @@ using PI.Common;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.AddressBook;
+using PI.Contract.DTOs.AuditTrail;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.FileUpload;
@@ -74,11 +75,11 @@ namespace PI.Service.Controllers
                 opResult.Message = "Controller  :" + ex.ToString();
             }
 
-            return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode==HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
+            return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode == HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
             ///////////////////////
 
         }
-        
+
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload(MultipartFormDataStreamProvider results)
         {
@@ -87,7 +88,7 @@ namespace PI.Service.Controllers
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-             // var provider = GetMultipartProvider();
+            // var provider = GetMultipartProvider();
             //var result = await Request.Content.ReadAsMultipartAsync(provider);
             var result = results;
             // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
@@ -105,7 +106,7 @@ namespace PI.Service.Controllers
             // Convert to stream            
             Stream stream = File.OpenRead(uploadedFileInfo.FullName);
 
-            AzureFileManager media = new AzureFileManager();           
+            AzureFileManager media = new AzureFileManager();
             string imageFileNameInFull = null;
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
@@ -149,10 +150,10 @@ namespace PI.Service.Controllers
                 var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
                 string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
                 var folder = Utility.GetEnumDescription(fileDetails.DocumentType).ToUpper();
-                
+
                 //try
                 //{    
-                                   
+
                 //    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + folder + "/"+"logo." + fileExtention);
 
                 //}
@@ -161,11 +162,11 @@ namespace PI.Service.Controllers
 
                 //}
 
-                imageFileNameInFull = System.Guid.NewGuid().ToString()+"logo."+ fileExtention;
+                imageFileNameInFull = System.Guid.NewGuid().ToString() + "logo." + fileExtention;
                 fileDetails.ClientFileName = originalFileName;
                 fileDetails.UploadedFileName = imageFileNameInFull;
             }
-                        
+
             else
             {
                 imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
@@ -177,7 +178,7 @@ namespace PI.Service.Controllers
             var opResult = await media.Upload(stream, imageFileNameInFull);
 
 
-            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType!=DocumentType.Logo)
+            if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType != DocumentType.Logo)
             {
                 // Insert document record to DB.
                 ShipmentsManagement shipmentManagement = new ShipmentsManagement();
@@ -246,38 +247,38 @@ namespace PI.Service.Controllers
 
                 if (currentShipment != null)
                 {
-                    var tenantId = currentShipment.Division.Company.TenantId;             
-              
-                   fileDetails.TenantId = tenantId;
+                    var tenantId = currentShipment.Division.Company.TenantId;
+
+                    fileDetails.TenantId = tenantId;
 
                     imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
                     fileDetails.ClientFileName = originalFileName;
                     fileDetails.UploadedFileName = imageFileNameInFull;
 
-                media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-                var opResult = await media.Upload(stream, imageFileNameInFull);
+                    media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                    var opResult = await media.Upload(stream, imageFileNameInFull);
 
-                //Delete the temporary saved file.
-                if (File.Exists(uploadedFileInfo.FullName))
-                {
-                    System.IO.File.Delete(uploadedFileInfo.FullName);
-                }
-                // Through the request response you can return an object to the Angular controller
-                // You will be able to access this in the .success callback through its data attribute
-                // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-                var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
-                                 + "/" + imageFileNameInFull;
-                              
+                    //Delete the temporary saved file.
+                    if (File.Exists(uploadedFileInfo.FullName))
+                    {
+                        System.IO.File.Delete(uploadedFileInfo.FullName);
+                    }
+                    // Through the request response you can return an object to the Angular controller
+                    // You will be able to access this in the .success callback through its data attribute
+                    // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
+                    var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                                     + "/" + imageFileNameInFull;
 
-                        InvoiceDto invoiceDetail = new InvoiceDto()
-                        {
-                            ShipmentId = currentShipment.Id,
-                            InvoiceNumber = invoiceDetails[1],
-                            InvoiceValue = decimal.Parse(invoiceDetails[2]),
-                            InvoiceStatus = InvoiceStatus.Pending.ToString(),
-                            CreatedBy = fileDetails.UserId,
-                            URL = returnData
-                        };
+
+                    InvoiceDto invoiceDetail = new InvoiceDto()
+                    {
+                        ShipmentId = currentShipment.Id,
+                        InvoiceNumber = invoiceDetails[1],
+                        InvoiceValue = decimal.Parse(invoiceDetails[2]),
+                        InvoiceStatus = InvoiceStatus.Pending.ToString(),
+                        CreatedBy = fileDetails.UserId,
+                        URL = returnData
+                    };
 
                     if (fileDetails.DocumentType == DocumentType.Invoice)
                     {
@@ -293,7 +294,7 @@ namespace PI.Service.Controllers
                         if (!invoiceMangement.SaveCreditNoteDetails(invoiceDetail))
                         {
                             return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-                        }                               
+                        }
                     }
 
                 }
@@ -326,8 +327,8 @@ namespace PI.Service.Controllers
                 var result = await Request.Content.ReadAsMultipartAsync(provider);
                 var fileDetails = GetFormData<FileUploadDto>(result);
 
-                uploadResult = await this.Upload(result);              
-                
+                uploadResult = await this.Upload(result);
+
                 var urlJson = await uploadResult.Content.ReadAsStringAsync();
 
                 Result deSelizalizedObject = null;
@@ -342,11 +343,11 @@ namespace PI.Service.Controllers
             }
             catch (Exception ex)
             {
-                
+
             }
 
-            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK  && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
-           
+            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+
 
         }
 
@@ -370,7 +371,7 @@ namespace PI.Service.Controllers
                 var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
                 fileUploadDto.DocumentType = Utility.GetValueFromDescription<DocumentType>(docType);
 
-                if (fileUploadDto.DocumentType != DocumentType.AddressBook && fileUploadDto.DocumentType != DocumentType.RateSheet && fileUploadDto.DocumentType!= DocumentType.Logo)
+                if (fileUploadDto.DocumentType != DocumentType.AddressBook && fileUploadDto.DocumentType != DocumentType.RateSheet && fileUploadDto.DocumentType != DocumentType.Logo)
                 {
                     fileUploadDto.CodeReference = Uri.UnescapeDataString(result.FormData.GetValues(2).FirstOrDefault());
                 }
@@ -379,7 +380,7 @@ namespace PI.Service.Controllers
             return fileUploadDto;
         }
 
-        
+
 
         private string GetDeserializedFileName(MultipartFileData fileData)
         {
@@ -424,7 +425,7 @@ namespace PI.Service.Controllers
         public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList,true));
+            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList, true));
 
             result.Content.Headers.Add("x-filename", "InvoiceReport.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -443,5 +444,14 @@ namespace PI.Service.Controllers
             return status.ToString();
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAuditTrailsForCustomer")]
+        public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
+        {
+            return adminManagement.GetAuditTrailsForCustomer(userId);
+        }
     }
 }

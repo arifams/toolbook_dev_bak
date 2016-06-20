@@ -335,7 +335,6 @@ var MakeApp = angular
 
           })
         .otherwise({
-
             // redirectTo: '/loadShipments'
             resolve: {
                 factory: checkRouting

@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs;
+using PI.Contract.DTOs.AuditTrail;
 using PI.Contract.DTOs.Common;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,13 @@ namespace PI.Contract.Business
         /// <param name="comapnyId"></param>
         /// <returns></returns>
         bool ManageInvoicePaymentSetting(long comapnyId);
+
+        /// <summary>
+        /// Get AuditTrailsForCustomer
+        /// </summary>
+        /// <param name="comapnyId"></param>
+        /// <returns></returns>
+        List<AuditTrailDto> GetAuditTrailsForCustomer(string userId);
 
     }
 }

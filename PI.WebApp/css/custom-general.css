@@ -648,25 +648,28 @@
     width:100%;
 }
 .widget-body {
-    
+    width:16%;
     color:#fff;
     font-weight:bold;
-    
+    margin-right:5px;
 }
 #widget-green {
-    background-color:#006633;
+    background-color:rgba(24, 166, 137,0.6);
 }
 #widget-blue {
-    background-color:#00c0ef;
+    background-color:rgba(49, 157, 181,0.6);
 }
 #widget-red {
-    background-color:#a43634;
+    background-color:rgba(201, 98, 95,0.6);
 }
 #widget-orange {
-    background-color:#f2a220;
+    background-color:rgba(242, 160, 87,0.6);
 }
 #widget-purple {
-    background-color:#81127d;
+    background-color:rgba(165, 139, 211,0.6);
+}
+#widget-darkBlue {
+    background-color:rgba(74, 137, 220,0.6)
 }
 .widget-footer {
     background-color: #7ccad8;
@@ -690,9 +693,7 @@
 .color-green {
     color:#36ac4a;
 }
-.col-half-offset{
-    margin-left:4.166666667%
-}
+
 .widget-body h2 {
     font-size:38px;
     font-weight:bold;
@@ -704,25 +705,35 @@
 .charts-inline {
     display:inline-block;
 }
-#widget-footer-blue {
-    background-color: #7ccad8;
-    
+.widget-footer a:hover, a:focus, a:active, a {
+    color:#fff;
 }
+    /*a:focus, a:hover {
+        color:#fff;
+    }*/
+
+#widget-footer-blue {
+    background-color: #42A5F5;
+}
+
 #widget-footer-red {
-    background-color: #c9625f;
+    background-color: #EF9A9A;
     
 }
 #widget-footer-green {
-    background-color: #18a689;
+    background-color: #4DB6AC;
     
 }
 #widget-footer-orange {
-    background-color: #f3cd1e;
+    background-color: #FFCC80;
     
 }
 #widget-footer-purple {
-    background-color: #a58bd3;
+    background-color: #CE93D8;
     
+}
+#widget-footer-darkBlue {
+    background-color: #7986CB ;
 }
 
 .icon-favorite {
