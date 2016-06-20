@@ -111,10 +111,11 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload',
-    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload','gettextCatalog',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload,gettextCatalog) {
    
-                //applicationService.init();
+
+           //applicationService.init();
                 
                 //mainColor();
 
@@ -154,6 +155,21 @@
                     }
                    
                 }
+        
+        //auto update the default language bofore the accept
+                vm.getCurrentLnguage = function (language) {
+                    debugger;
+                    if (language.languageCode == "en") {
+                        $window.localStorage.setItem('currentLnguage', "")
+                        gettextCatalog.setCurrentLanguage("");
+                    }
+                    else {
+                        $window.localStorage.setItem('currentLnguage', language.languageCode);
+                        gettextCatalog.setCurrentLanguage(language.languageCode);
+                    }
+                    //$route.reload();
+                };
+
 
                
 
@@ -809,6 +825,7 @@
                                                         .success(function (responce) {
                                                             if (responce != null) {
                                                                 updateProfileResponse(responce);
+                                                               
                                                             }
                                                         }).error(function (error) {
 

@@ -706,7 +706,7 @@
 
                                         <select name="mySelect" id="mySelect" class="form-control ng-pristine ng-valid ng-touched"
                                                 ng-options="option.languageName for option in  profileCtrl.languageList track by option.id"
-                                                ng-model="profileCtrl.defaultLanguage"></select>
+                                                ng-model="profileCtrl.defaultLanguage" ng-change="profileCtrl.getCurrentLnguage(profileCtrl.defaultLanguage)"></select>
                                     </div>
                                 </div>
                             </div>
