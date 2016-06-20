@@ -203,10 +203,10 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("DeleteShipment")]
-        public int DeleteShipment([FromUri]string shipmentCode, [FromUri]string trackingNumber, [FromUri]string carrierName, bool isAdmin)
+        public int DeleteShipment([FromUri]string shipmentCode, [FromUri]string trackingNumber, [FromUri]string carrierName, bool isAdmin, [FromUri]long shipmentId)
         {
             // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin);
+            return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
 
         }
 
