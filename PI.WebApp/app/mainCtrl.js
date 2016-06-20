@@ -160,13 +160,13 @@
 
                     $scope.logoUrl = responce;
                 } else {
-                    $scope.logoUrl = '/proj_img/PI-logo.png';
+                    $scope.logoUrl = '/proj_img/PI_logo.png';
                 }
 
 
             }).error(function (error) {
 
-                $scope.logoUrl = '/proj_img/PI-logo.png';
+                $scope.logoUrl = '/proj_img/PI_logo.png';
             });
 
         userService.getCompanyName().then(function successCallback(responce) {
