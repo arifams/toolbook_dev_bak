@@ -1198,7 +1198,9 @@ namespace PI.Business
 
                 if (isAdmin)
                 {
-                    sisManager.DeleteShipment(shipmentCode);
+                    if(!string.IsNullOrWhiteSpace(shipmentCode))
+                        sisManager.DeleteShipment(shipmentCode);
+
                     currentShipment.Status = (short)ShipmentStatus.Deleted;
                     context.SaveChanges();
 
@@ -1209,7 +1211,9 @@ namespace PI.Business
                     if (string.IsNullOrWhiteSpace(trackingNumber))
                     {
                         // Shipment hasn't tracking no. So no need to get update of status. Delete the shipment.
-                        sisManager.DeleteShipment(shipmentCode);
+                        if (!string.IsNullOrWhiteSpace(shipmentCode))
+                            sisManager.DeleteShipment(shipmentCode);
+                        
                         currentShipment.Status = (short)ShipmentStatus.Deleted;
                         context.SaveChanges();
 
