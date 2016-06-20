@@ -59,7 +59,7 @@
                                         <label translate>Terms of Delivery:</label>
                                         <select id="shipmentServices" class="form-control"
                                                 convert-to-number ng-options="service.Id as translate(service.Name) for service in invoiceCtrl.shipmentServices"
-                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
+                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices" ng-change="invoiceCtrl.GetServiceLabel(invoiceCtrl.shipment.shipmentServices)"></select>
                                         <br />
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                             <label translate>Terms of payment:</label>
@@ -134,7 +134,7 @@
                                                         <translate> Currency </translate>:
                                                         <select class="form-control"
                                                                 ng-options="currency.Id as currency.Name for currency in invoiceCtrl.valueCurrencyList"
-                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency"></select>
+                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency" ng-change="invoiceCtrl.GetCurrencyLabel(invoiceCtrl.shipment.packageDetails.valueCurrency)"></select>
                                                     </th>
                                                     <th></th>
                                                     <th></th>
@@ -277,9 +277,8 @@
                                 <tr>
                                     <td class="col-sm-6" style="border:1px solid #ddd;text-align:center">
                                         <label translate style="font-weight:bold;">Terms of Delivery:</label>
-                                        <select id="shipmentServices" class="form-control"
-                                                convert-to-number ng-options="service.Id as translate(service.Name) for service in invoiceCtrl.shipmentServices"
-                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
+                                        <span id="shipmentServices" class="form-control"                                                
+                                                name="shipmentType">{{invoiceCtrl.shipmnetServiceLabel}}</span>
                                         <br />
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                             <label translate style="font-weight:bold;">Terms of payment:</label>
@@ -353,9 +352,8 @@
                                                     <th translate style="border:1px solid #ddd;text-align:center">Price per 1 pce.</th>
                                                     <th style="border:1px solid #ddd;text-align:center">
                                                         <translate> Currency </translate>:
-                                                        <select class="form-control"
-                                                                ng-options="currency.Id as currency.Name for currency in invoiceCtrl.valueCurrencyList"
-                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency"></select>
+                                                        <span class="form-control"                                                                
+                                                                name="valueCurrency">{{invoiceCtrl.shipmnetCurrencyLabel}}</span>
                                                     </th>
                                                     <th style="border:1px solid #ddd;text-align:center"></th>
                                                     <th style="border:1px solid #ddd;text-align:center"></th>

@@ -397,7 +397,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consignee.State,
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consignee.ContactName,
+                        ContactName = addShipment.AddressInformation.Consignee.FirstName+" " + addShipment.AddressInformation.Consignee.LastName,
                         IsActive = true,
                         CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
@@ -416,7 +416,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consigner.State,
                         EmailAddress = addShipment.AddressInformation.Consigner.Email,
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consigner.ContactName,
+                        ContactName = addShipment.AddressInformation.Consigner.FirstName+" "+ addShipment.AddressInformation.Consigner.LastName,
                         IsActive = true,
                         CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
