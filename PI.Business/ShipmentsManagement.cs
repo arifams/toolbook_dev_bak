@@ -704,6 +704,7 @@ namespace PI.Business
                             CostCenterId = item.CostCenterId.GetValueOrDefault(),
                             DivisionId = item.DivisionId.GetValueOrDefault(),
                             ShipmentCode = item.ShipmentCode,
+                            ShipmentId = item.Id.ToString(),
                             ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                             ShipmentName = item.ShipmentName,
                             ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
@@ -1185,7 +1186,7 @@ namespace PI.Business
         }
 
         //Delete shipment
-        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin)
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin,long shipmentId)
         {
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
@@ -1193,7 +1194,7 @@ namespace PI.Business
             using (PIContext context = new PIContext())
             {
                 var currentShipment = (from shipment in context.Shipments
-                                       where shipment.ShipmentCode == shipmentCode
+                                       where shipment.Id == shipmentId
                                        select shipment).SingleOrDefault();
 
                 if (isAdmin)

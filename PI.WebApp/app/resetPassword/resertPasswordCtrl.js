@@ -3,6 +3,17 @@
 
 (function (app) {
 
+    app.run(function (gettextCatalog, $rootScope, $window) {
+
+        gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
+
+        $rootScope.translate = function (str) {
+            return gettextCatalog.getString(str);
+        };
+
+        //gettextCatalog.debug = true;
+    });
+
     app.factory('userManager', function ($http) {
         return {
             loginUser: function (newuser, url) {
@@ -48,13 +59,15 @@
         }
     });
 
-    app.controller('resetPasswordCtrl', ['userManager','$timeout',
-    function (userManager, $timeout) {
+    app.controller('resetPasswordCtrl', ['userManager', '$timeout', 'gettextCatalog','$window',
+    function (userManager, $timeout, gettextCatalog, $window) {
         var vm = this;
        
         vm.invalidToken = false;
         vm.successReset = false;
         vm.erroMessage = "";
+        gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
+
 
         vm.resetOldPassword = function (user) {
             
@@ -102,11 +115,11 @@
                  }
                  else if (returnedResult.data == "-1") {
                      vm.invalidToken = true;
-                     vm.erroMessage = "Valid token and Password are required";
+                     vm.erroMessage = "Valid token and password required";
                  }
                  else if (returnedResult.data == "-2") {
                      vm.invalidToken = true;
-                     vm.erroMessage = "Invalid token. Please resend the Password reset URL";
+                     vm.erroMessage = "Invalid token. Please resend the password reset URL";
                  }
              },
             function (error) {
@@ -119,5 +132,5 @@
     }]);
 
 
-})(angular.module('resetPassword', ['ngMessages']));
+})(angular.module('resetPassword', ['ngMessages', 'gettext']));
 

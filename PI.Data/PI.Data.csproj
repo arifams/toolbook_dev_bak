@@ -177,6 +177,10 @@
     <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.Designer.cs">
       <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.cs" />
+    <Compile Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.Designer.cs">
+      <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -228,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.resx">
       <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.resx">
+      <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
