@@ -13,7 +13,7 @@ namespace PI.Data.Entity
         public short Quantity { get; set; }
         public decimal PricePerPiece { get; set; }
         public long InvoiceItemId { get; set; }
-
+        public string HSCode { get; set; }
         #region Navigation properties
 
         [ForeignKey("InvoiceItemId")]
