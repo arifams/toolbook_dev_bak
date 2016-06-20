@@ -132,7 +132,7 @@
                             </ul>
                         </li>-->
 
-                        <li ng-class="{ active  : isActive('/dashboard')}" class="side-tab">
+                        <li ng-class="{ active  : isActive('/dashboard')}" class="side-tab" ng-hide="currentRole == 'Admin'">
                             <a href="#dashboard"><i class="icon-home"></i><span translate>DASHBOARD</span></a>
                         </li>
 
