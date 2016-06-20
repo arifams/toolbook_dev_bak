@@ -20,6 +20,9 @@
 
 
         vm.shipmentCode = $location.search().SHIPMENT_CODE;
+        vm.shipmnetServiceLabel = '';
+        vm.shipmnetCurrencyLabel = '';
+
 
         vm.shipmentServices = [];
         vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
@@ -43,6 +46,25 @@
             { "Id": 4, "Name": "GBP" }
         ];
 
+
+        vm.GetServiceLabel = function (id) {
+           
+            angular.forEach(vm.shipmentServices, function (item, key) {
+                if (item.Id==id) {
+                    vm.shipmnetServiceLabel = item.Name;
+                }               
+            });
+        }
+
+        vm.GetCurrencyLabel = function (id) {            
+
+            angular.forEach(vm.valueCurrencyList, function (item, key) {
+                if (item.Id == id) {
+                    debugger;
+                    vm.shipmnetCurrencyLabel = item.Name;
+                }
+            });
+        }
 
         //calculating the total volume and total weight
         vm.calculateTotal = function () {
@@ -76,6 +98,9 @@
                 console.info("shipment info in commercial invoice");
                 console.info(vm.shipment);
                 vm.shipment.termsOfPayment = "FREE OF CHARGE";
+                
+                vm.GetServiceLabel(vm.shipment.shipmentServices);
+                vm.GetCurrencyLabel(vm.shipment.valueCurrency);
                 //vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
                 //vm.shipment.item = {};
                 if (vm.shipment.item.lineItems.length == 0) {

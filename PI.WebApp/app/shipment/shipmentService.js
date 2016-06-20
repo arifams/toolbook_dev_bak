@@ -307,11 +307,13 @@
         function deleteShipment(shipmentDetail) {
             
             var dataToPass = {
-                trackingNumber: shipmentDetail.generalInformation.trackingNumber,
-                shipmentCode: shipmentDetail.generalInformation.shipmentCode,
+                trackingNumber: shipmentDetail.generalInformation.trackingNumber != undefined ? shipmentDetail.generalInformation.trackingNumber : "",
+                shipmentCode: shipmentDetail.generalInformation.shipmentCode != undefined ? shipmentDetail.generalInformation.shipmentCode : "",
                 carrierName: shipmentDetail.carrierInformation.carrierName,
-                isAdmin: false
+                isAdmin: false,
+                shipmentId: shipmentDetail.generalInformation.shipmentId
             };
+            
             return $http({
                 url: serverBaseUrl + '/api/shipments/DeleteShipment',
                 method: "GET",
@@ -323,10 +325,11 @@
         function deleteShipmentbyAdmin(shipmentDetail) {
 
             var dataToPass = {
-                trackingNumber: shipmentDetail.generalInformation.trackingNumber,
-                shipmentCode: shipmentDetail.generalInformation.shipmentCode,
+                trackingNumber: shipmentDetail.generalInformation.trackingNumber != undefined ? shipmentDetail.generalInformation.trackingNumber : "",
+                shipmentCode: shipmentDetail.generalInformation.shipmentCode != undefined ? shipmentDetail.generalInformation.shipmentCode : "",
                 carrierName: shipmentDetail.carrierInformation.carrierName,
-                isAdmin: true
+                isAdmin: true,
+                shipmentId: shipmentDetail.generalInformation.shipmentId
             };
             return $http({
                 url: serverBaseUrl + '/api/shipments/DeleteShipment',

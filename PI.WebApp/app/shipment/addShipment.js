@@ -72,7 +72,7 @@
                            vm.customerLastName = responce.customerDetails.lastName;
 
                            vm.shipment.addressInformation.consigner.companyName = responce.companyDetails.name;
-                           vm.shipment.addressInformation.consigner.contactName = responce.customerDetails.firstName + ' ' + responce.customerDetails.lastName;
+                         //  vm.shipment.addressInformation.consigner.contactName = responce.customerDetails.firstName + ' ' + responce.customerDetails.lastName;
 
                            vm.shipment.addressInformation.consigner.country = responce.customerDetails.customerAddress.country;
                            vm.shipment.addressInformation.consigner.postalcode = responce.customerDetails.customerAddress.zipCode;
