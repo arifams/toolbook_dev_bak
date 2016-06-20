@@ -94,6 +94,8 @@
         function getshipmentByShipmentCodeForInvoice() {
             shipmentFactory.getshipmentByShipmentCodeForInvoice(vm.shipmentCode)
             .success(function (data) {
+
+                debugger;
                 vm.shipment = data;
                 console.info("shipment info in commercial invoice");
                 console.info(vm.shipment);
