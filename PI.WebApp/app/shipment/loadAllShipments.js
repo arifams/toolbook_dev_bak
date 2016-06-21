@@ -61,13 +61,12 @@
                                                            
 
                                                            $('#panel-notif').noty({
-                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully, click ok to reload the shipment list') + '?</p></div>',
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully!') + '?</p></div>',
                                                                buttons: [
                                                                        {
                                                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                                                $noty.close();
-                                                                               $route.reload();
-
+                                                                               row.generalInformation.status = 'Deleted';
                                                                            }
                                                                        }
 

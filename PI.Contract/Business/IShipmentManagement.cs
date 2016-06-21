@@ -69,6 +69,14 @@ namespace PI.Contract.Business
         /// <returns></returns>
         DashboardShipments GetShipmentStatusCounts(string userId);
 
+
+        /// <summary>
+        /// Search shipments by Tracking number/ shipment Id
+        /// </summary>
+        /// <param name="number"></param>
+        /// <returns></returns>
+        PagedList SearchShipmentsById(string number);
+
     }
 
 }

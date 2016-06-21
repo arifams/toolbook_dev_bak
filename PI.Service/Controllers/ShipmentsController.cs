@@ -649,6 +649,19 @@ namespace PI.Service.Controllers
             return shipmentManagement.GetShipmentStatusCounts(userId);
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("SearchShipmentsById")]
+        public PagedList SearchShipmentsById(string number)
+        {
+            var pagedRecord = new PagedList();
+            pagedRecord = shipmentManagement.SearchShipmentsById(number);
+
+            return pagedRecord;
+
+        }
+
     }
 
 }

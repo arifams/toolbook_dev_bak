@@ -9,9 +9,9 @@
 
 
         function setLoginUserID() {
-            
+
             if ($window.localStorage.getItem('userRole') == 'Admin') {
-                
+
                 createdBy = $window.localStorage.getItem('userGuid');
                 userId = $window.localStorage.getItem('businessOwnerId');
             } else {
@@ -19,7 +19,7 @@
                 userId = $window.localStorage.getItem('userGuid');
             }
         }
-        
+
 
         return {
             calculateRates: calculateRates,
@@ -53,10 +53,11 @@
             GetBusinessOwneridbyCompanyId: GetBusinessOwneridbyCompanyId,
             getShipmentForCompanyAndSyncWithSIS: GetShipmentForCompanyAndSyncWithSIS,
             toggleFavourite: toggleFavourite,
+            searchShipmentsById: searchShipmentsById,
         };
 
         function getProfileInfo() {
-            
+
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
@@ -71,7 +72,7 @@
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllshipmentsForManifest', {
                 params: {
-                   // userId: $window.localStorage.getItem('userGuid'),
+                    // userId: $window.localStorage.getItem('userGuid'),
                     userId: userId,
                     createdDate: date,
                     carreer: carreer,
@@ -85,9 +86,9 @@
                 params: {
                     career: carrier,
                     trackingNumber: trackingNo
-                        }
-             });
-            
+                }
+            });
+
         }
         //get paylane relted Details
         function getHashCodesForPaylane(paylane) {
@@ -118,28 +119,28 @@
         function UpdateshipmentStatusManually(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/UpdateshipmentStatusManually', shipmentDetail);
-        }        
+        }
 
         function getLocationHistory(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetLocationHistoryforShipment', shipmentDetail);
         }
-                
+
         function calculateRates(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/GetRatesforShipment', shipmentDetail);
         }
-       
+
         //get all divisions for business owners
         function loadAllDivisions() {
             setLoginUserID();
-             return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
-                    params: {
-                        // userId: $window.localStorage.getItem('userGuid')
-                        userId: userId,
-                    }
-             });
-            
+            return $http.get(serverBaseUrl + '/api/Company/GetAllDivisions', {
+                params: {
+                    // userId: $window.localStorage.getItem('userGuid')
+                    userId: userId,
+                }
+            });
+
         }
 
         //get the assigned divisions for other users
@@ -156,7 +157,7 @@
 
         function loadAssignedCostCenters(divisionid) {
 
-           // GetCostCentersbyDivision
+            // GetCostCentersbyDivision
             return $http.get(serverBaseUrl + '/api/Company/GetCostCentersbyDivision', {
                 params: {
                     divisionId: divisionid
@@ -164,7 +165,7 @@
             });
         }
 
-        function loadShipmentInfo(shipmentcode,shipmentid) {
+        function loadShipmentInfo(shipmentcode, shipmentid) {
             return $http.get(serverBaseUrl + '/api/shipments/GetShipmentbyId', {
                 params: {
                     shipmentCode: shipmentcode,
@@ -177,7 +178,7 @@
             return $http.post(serverBaseUrl + '/api/shipments/SendShipmentDetails', shipmentId);
         }
 
-        
+
         function loadShipmentStatusList(shipmentid) {
             return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusListbyId', {
                 params: {
@@ -185,7 +186,7 @@
                 }
             });
         }
-      
+
         function loadAllcompanies(searchtext) {
             return $http.get(serverBaseUrl + '/api/Company/GetAllComapniesForAdminSearch', {
                 params: {
@@ -197,7 +198,7 @@
 
 
         function loadAllshipmentsForCompany(companyID) {
-            
+
             return $http.get(serverBaseUrl + '/api/shipments/GetAllShipmentByCompanyId', {
                 params: {
                     companyId: companyID
@@ -227,7 +228,7 @@
 
 
         function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
-            
+
             return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
                 params: {
                     companyId: companyId,
@@ -244,18 +245,18 @@
 
         function loadAllShipments(status, startDate, endDate, number, source, destination, viaDashboard) {
             setLoginUserID();
-            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {               
+            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {
                 params: {
-                 // userId: $window.localStorage.getItem('userGuid'),
-                userId: userId,
-                status: status,
-                startDate: startDate,
+                    // userId: $window.localStorage.getItem('userGuid'),
+                    userId: userId,
+                    status: status,
+                    startDate: startDate,
                     endDate: endDate,
-                number: number,
-                source: source,
-                destination: destination,
-                viaDashboard: viaDashboard
-            }
+                    number: number,
+                    source: source,
+                    destination: destination,
+                    viaDashboard: viaDashboard
+                }
             });
         }
 
@@ -263,11 +264,11 @@
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
                 params: {
-                   // userId: $window.localStorage.getItem('userGuid'),
+                    // userId: $window.localStorage.getItem('userGuid'),
                     userId: userId,
                     startDate: startDate,
                     endDate: endDate,
-                    number: number,                   
+                    number: number,
                 }
             });
         }
@@ -304,9 +305,9 @@
             return $http.post(serverBaseUrl + '/api/shipments/RequestForQuote', shipmentDetail);
         }
 
-        
+
         function deleteShipment(shipmentDetail) {
-            
+
             var dataToPass = {
                 trackingNumber: shipmentDetail.generalInformation.trackingNumber != undefined ? shipmentDetail.generalInformation.trackingNumber : "",
                 shipmentCode: shipmentDetail.generalInformation.shipmentCode != undefined ? shipmentDetail.generalInformation.shipmentCode : "",
@@ -314,7 +315,7 @@
                 isAdmin: false,
                 shipmentId: shipmentDetail.generalInformation.shipmentId
             };
-            
+
             return $http({
                 url: serverBaseUrl + '/api/shipments/DeleteShipment',
                 method: "GET",
@@ -338,15 +339,23 @@
                 params: dataToPass
             })
         }
-        
+
 
         function toggleFavourite(shipment) {
             return $http.post(serverBaseUrl + '/api/shipments/ToggleShipmentFavourites', shipment)
         }
 
+        function searchShipmentsById(number) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/SearchShipmentsById', {
+                params: {
+                    number: number
+                }
+            });
+        }
 
     }]);
-    
+
     //app.factory('calculateRatesforShipment', function ($http) {
     //    return {
     //        calculateRates: function (shipmentDetail) {
@@ -357,6 +366,6 @@
 
     //});
 
-  
+
 
 })(angular.module('newApp'));

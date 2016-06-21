@@ -276,7 +276,7 @@ var MakeApp = angular
          })
          .when('/loadShipments/:status?', {
              templateUrl: 'shipment/loadAllShipments.html',
-          })
+         })
            .when('/ShipmentOverview', {
                templateUrl: 'shipment/ShipmentOverview.html',
                controller: 'shipmentOverviewCtrl',
@@ -326,13 +326,17 @@ var MakeApp = angular
           .when('/InvoiceandBillingAdmin', {
               templateUrl: 'admin/BillingandInvoicing.html',
               controller: 'BillingandInvoicingCtrl',
-              controllerAs:'invoiceCtrl'
+              controllerAs: 'invoiceCtrl'
           })
           .when('/InvoiceandBilling', {
               templateUrl: 'billingandInvoicing/CustomerBillingandInvoicing.html',
               controller: 'customerinvoiceCtrl',
-              controllerAs:'customerinvoiceCtrl'
+              controllerAs: 'customerinvoiceCtrl'
 
+          })
+          .when('/ShipmentSearch', {
+              templateUrl: 'admin/SearchSpecificShipments.html',  
+              controller: 'shipmentSearchCtrl',
           })
         .otherwise({
             // redirectTo: '/loadShipments'
@@ -343,12 +347,11 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-          
-          var token = localStorage.getItem('token');    
+
+          var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
 
-          if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin')!=null)
-          {
+          if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
               expireTime.setMinutes(expireTime.getMinutes() + 120);
               var currentRole = $window.localStorage.getItem('userRole');
@@ -360,14 +363,14 @@ var MakeApp = angular
                   } else {
                       window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
                   }
-                 
+
 
                   $window.localStorage.setItem('lastLogin', null);
               } else {
                   //updating the last login time
                   $window.localStorage.setItem('lastLogin', new Date());
               }
-             
+
           } else {
               //set the logged time for the first time
               $window.localStorage.setItem('lastLogin', new Date());
@@ -394,7 +397,7 @@ var checkRouting = function ($location) {
 
 
 MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
-    
+
     //$window.localStorage.getItem('currentLnguage')
     gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 
@@ -403,7 +406,7 @@ MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
     };
 
     //gettextCatalog.debug = true;
- 
+
 });
 
 
