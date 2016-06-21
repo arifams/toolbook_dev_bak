@@ -384,7 +384,7 @@ var MakeApp = angular
 var checkRouting = function ($location) {
     var role = localStorage.getItem('userRole')
     if (role != 'Admin') {
-        $location.path('/loadShipments');
+        $location.path('/dashboard');
     } else {
         $location.path('/CustomerMangement');
     }
