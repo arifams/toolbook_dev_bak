@@ -11,5 +11,6 @@ namespace PI.Contract.DTOs.Shipment
         public string Description { get; set; }
         public short Quantity { get; set; }
         public decimal PricePerPiece { get; set; }
+        public string HSCode { get; set; }
     }
 }
