@@ -164,9 +164,10 @@
             });
         }
 
-        function loadShipmentInfo(shipmentid) {
+        function loadShipmentInfo(shipmentcode,shipmentid) {
             return $http.get(serverBaseUrl + '/api/shipments/GetShipmentbyId', {
                 params: {
+                    shipmentCode: shipmentcode,
                     shipmentId: shipmentid
                 }
             });

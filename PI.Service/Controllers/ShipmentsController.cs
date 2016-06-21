@@ -192,10 +192,10 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("GetShipmentbyId")]
-        public ShipmentDto GetShipmentbyId([FromUri] string shipmentId)
+        public ShipmentDto GetShipmentbyId([FromUri] string shipmentCode,long shipmentId = 0)
         {
             // ShipmentsManagement shipmentManagement = new ShipmentsManagement();
-            ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentId);
+            ShipmentDto currentshipment = shipmentManagement.GetshipmentById(shipmentCode, shipmentId);
             return currentshipment;
         }
 

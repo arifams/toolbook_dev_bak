@@ -33,7 +33,7 @@ namespace PI.Contract.Business
 
         PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
                                                string number);
-        ShipmentDto GetshipmentById(string shipmentId);
+        ShipmentDto GetshipmentById(string shipmentCode, long shipmentId = 0);
         int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin, long shipmentId);
         StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);
         PagedList GetAllShipmentByCompanyId(string companyId);

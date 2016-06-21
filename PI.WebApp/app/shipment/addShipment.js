@@ -716,8 +716,8 @@
             vm.previousClicked = true;
         }
 
-        var loadShipmentInfo = function (id) {
-            shipmentFactory.loadShipmentInfo(id)
+        var loadShipmentInfo = function (code, id) {
+            shipmentFactory.loadShipmentInfo(code, id)
             .success(function (data) {
                 vm.shipment = data;
 
@@ -750,11 +750,12 @@
             .error(function () {
             })
         }
-        
+
         vm.shipment.generalInformation.shipmentCode = "0";
         if ($routeParams.id != "0") {
             vm.editShipmentCode = $routeParams.id;
-            loadShipmentInfo($routeParams.id);
+            // (ShipmentCode, ShipmentId)
+            loadShipmentInfo('',$routeParams.id);
         }
 
         // In production remove this.
