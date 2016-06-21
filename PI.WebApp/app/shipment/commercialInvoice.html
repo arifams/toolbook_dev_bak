@@ -59,7 +59,7 @@
                                         <label translate>Terms of Delivery:</label>
                                         <select id="shipmentServices" class="form-control"
                                                 convert-to-number ng-options="service.Id as translate(service.Name) for service in invoiceCtrl.shipmentServices"
-                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
+                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices" ng-change="invoiceCtrl.GetServiceLabel(invoiceCtrl.shipment.shipmentServices)"></select>
                                         <br />
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                             <label translate>Terms of payment:</label>
@@ -134,8 +134,9 @@
                                                         <translate> Currency </translate>:
                                                         <select class="form-control"
                                                                 ng-options="currency.Id as currency.Name for currency in invoiceCtrl.valueCurrencyList"
-                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency"></select>
+                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency" ng-change="invoiceCtrl.GetCurrencyLabel(invoiceCtrl.shipment.packageDetails.valueCurrency)"></select>
                                                     </th>
+                                                    <th>HS Code</th>
                                                     <th></th>
                                                     <th></th>
                                                 </tr>
@@ -143,10 +144,11 @@
                                             <tbody>
                                                 <tr ng-repeat="line in invoiceCtrl.shipment.item.lineItems track by $index">
                                                     <td width="5%">{{$index + 1}}</td>
-                                                    <td width="40%"><input type="text" name="description" class="form-control" ng-model="line.description" contenteditable="true" ng-required="true" /></td>
+                                                    <td width="30%"><input type="text" name="description" class="form-control" ng-model="line.description" contenteditable="true" ng-required="true" /></td>
                                                     <td width="15%"><input type="number" name="qty" class="form-control" min="0" ng-model="line.quantity" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
                                                     <td width="15%"><input type="number" name="priceperPiece" class="form-control" min="0" step="0.01" ng-model="line.pricePerPiece" contenteditable="true" ng-change="invoiceCtrl.calculateTotal()" ng-required="true" /></td>
-                                                    <td width="15%"></td>
+                                                    <td width="10%"></td>
+                                                    <td width="15%"><input type="text" name="hsCode" class="form-control" ng-model="line.hsCode" contenteditable="true" ng-required="true" /></td>
                                                     <td style="text-align:center" width="5%" class="prod_ops_rm">
                                                         <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="invoiceCtrl.removePackage({{$index}})">
                                                             <i class="fa fa-remove" style="color:red">
@@ -180,13 +182,13 @@
 
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <td colspan="3">
                                         <translate> HS Code </translate>
                                         <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.hsCode" />
                                     </td>
-                                    <!--<td colspan="3"><label>Country of Origin</label> <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfOriginSecond" /></td>-->
-                                </tr>
+                                    <td colspan="3"><label>Country of Origin</label> <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfOriginSecond" /></td>
+                                </tr>-->
                                 <tr>
                                     <td colspan="3">
                                         <strong>
@@ -277,9 +279,8 @@
                                 <tr>
                                     <td class="col-sm-6" style="border:1px solid #ddd;text-align:center">
                                         <label translate style="font-weight:bold;">Terms of Delivery:</label>
-                                        <select id="shipmentServices" class="form-control"
-                                                convert-to-number ng-options="service.Id as translate(service.Name) for service in invoiceCtrl.shipmentServices"
-                                                name="shipmentType" ng-model="invoiceCtrl.shipment.shipmentServices"></select>
+                                        <span id="shipmentServices" class="form-control"                                                
+                                                name="shipmentType">{{invoiceCtrl.shipmnetServiceLabel}}</span>
                                         <br />
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                             <label translate style="font-weight:bold;">Terms of payment:</label>
@@ -353,10 +354,10 @@
                                                     <th translate style="border:1px solid #ddd;text-align:center">Price per 1 pce.</th>
                                                     <th style="border:1px solid #ddd;text-align:center">
                                                         <translate> Currency </translate>:
-                                                        <select class="form-control"
-                                                                ng-options="currency.Id as currency.Name for currency in invoiceCtrl.valueCurrencyList"
-                                                                name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency"></select>
+                                                        <span class="form-control"                                                                
+                                                                name="valueCurrency">{{invoiceCtrl.shipmnetCurrencyLabel}}</span>
                                                     </th>
+                                                    <th>HS Code</th>
                                                     <th style="border:1px solid #ddd;text-align:center"></th>
                                                     <th style="border:1px solid #ddd;text-align:center"></th>
                                                 </tr>
@@ -364,10 +365,11 @@
                                             <tbody>
                                                 <tr ng-repeat="line in invoiceCtrl.shipment.item.lineItems track by $index">
                                                     <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}}</td>
-                                                    <td width="40%" style="border:1px solid #ddd;text-align:center"><span  name="description" class="form-control"  >{{line.description}}</span></td>
+                                                    <td width="30%" style="border:1px solid #ddd;text-align:center"><span  name="description" class="form-control"  >{{line.description}}</span></td>
                                                     <td width="15%" style="border:1px solid #ddd;text-align:center"><span  name="qty" class="form-control" min="0"    >{{line.quantity}}</span></td>
                                                     <td width="15%" style="border:1px solid #ddd;text-align:center"><span  name="priceperPiece" class="form-control" >{{line.pricePerPiece}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"></td>
+                                                    <td width="10%" style="border:1px solid #ddd;text-align:center"></td>
+                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="hscode" class="form-control">{{line.hsCode}}</span></td>
                                                     <td style="text-align:center;border:1px solid #ddd" width="5%" class="prod_ops_rm">
                                                         <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="invoiceCtrl.removePackage({{$index}})">
                                                             <i class="fa fa-remove" style="color:red">
@@ -401,13 +403,13 @@
 
                                     </td>
                                 </tr>
-                                <tr>
+                                <!--<tr>
                                     <td colspan="3">
                                         <translate> HS Code </translate>
                                         <span type="text" class="form-control">{{invoiceCtrl.shipment.hsCode}}</span>
                                     </td>
-                                    <!--<td colspan="3"><label>Country of Origin</label> <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfOriginSecond" /></td>-->
-                                </tr>
+                                    <td colspan="3"><label>Country of Origin</label> <input type="text" class="form-control" ng-model="invoiceCtrl.shipment.countryOfOriginSecond" /></td>
+                                </tr>-->
                                 <tr>
                                     <td colspan="3">
                                         <strong>

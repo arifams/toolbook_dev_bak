@@ -1,8 +1,8 @@
-﻿/*index.html*/
-
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+﻿[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
   display: none !important;
 }
+
+/*index.html*/
 .sidebar-condensed:not(.sidebar-collapsed) .sidebar .sidebar-inner .nav-sidebar > li > a i {
     	display:none;
 }

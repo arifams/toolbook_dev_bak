@@ -28,6 +28,6 @@ namespace PI.Contract.DTOs.Shipment
         public string Note { get; set; }
         public short ValueCurrency { get; set; }
         public InvoiceItemDto Item { get; set; }
-        public string HSCode { get; set; }
+        
     }
 }

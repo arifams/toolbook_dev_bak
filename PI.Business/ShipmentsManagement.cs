@@ -397,7 +397,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consignee.State,
                         EmailAddress = addShipment.AddressInformation.Consignee.Email,
                         PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consignee.ContactName,
+                        ContactName = addShipment.AddressInformation.Consignee.FirstName+" " + addShipment.AddressInformation.Consignee.LastName,
                         IsActive = true,
                         CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
@@ -416,7 +416,7 @@ namespace PI.Business
                         State = addShipment.AddressInformation.Consigner.State,
                         EmailAddress = addShipment.AddressInformation.Consigner.Email,
                         PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consigner.ContactName,
+                        ContactName = addShipment.AddressInformation.Consigner.FirstName+" "+ addShipment.AddressInformation.Consigner.LastName,
                         IsActive = true,
                         CreatedBy = addShipment.CreatedBy,
                         CreatedDate = DateTime.Now
@@ -704,6 +704,7 @@ namespace PI.Business
                             CostCenterId = item.CostCenterId.GetValueOrDefault(),
                             DivisionId = item.DivisionId.GetValueOrDefault(),
                             ShipmentCode = item.ShipmentCode,
+                            ShipmentId = item.Id.ToString(),
                             ShipmentMode = Enum.GetName(typeof(CarrierType), item.ShipmentMode),
                             ShipmentName = item.ShipmentName,
                             ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
@@ -1185,7 +1186,7 @@ namespace PI.Business
         }
 
         //Delete shipment
-        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin)
+        public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin,long shipmentId)
         {
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
@@ -1193,12 +1194,14 @@ namespace PI.Business
             using (PIContext context = new PIContext())
             {
                 var currentShipment = (from shipment in context.Shipments
-                                       where shipment.ShipmentCode == shipmentCode
+                                       where shipment.Id == shipmentId
                                        select shipment).SingleOrDefault();
 
                 if (isAdmin)
                 {
-                    sisManager.DeleteShipment(shipmentCode);
+                    if(!string.IsNullOrWhiteSpace(shipmentCode))
+                        sisManager.DeleteShipment(shipmentCode);
+
                     currentShipment.Status = (short)ShipmentStatus.Deleted;
                     context.SaveChanges();
 
@@ -1209,7 +1212,9 @@ namespace PI.Business
                     if (string.IsNullOrWhiteSpace(trackingNumber))
                     {
                         // Shipment hasn't tracking no. So no need to get update of status. Delete the shipment.
-                        sisManager.DeleteShipment(shipmentCode);
+                        if (!string.IsNullOrWhiteSpace(shipmentCode))
+                            sisManager.DeleteShipment(shipmentCode);
+                        
                         currentShipment.Status = (short)ShipmentStatus.Deleted;
                         context.SaveChanges();
 
@@ -1865,7 +1870,9 @@ namespace PI.Business
                     {
                         Description = p.Description,
                         PricePerPiece = p.PricePerPiece,
-                        Quantity = p.Quantity
+                        Quantity = p.Quantity,
+                        HSCode=p.HSCode,
+
                     }));
 
 
@@ -1938,7 +1945,7 @@ namespace PI.Business
                         Note = currentShipment.CommercialInvoice.Note,
                         ValueCurrency = currentShipment.CommercialInvoice.ValueCurrency,
                         Item = new InvoiceItemDto() { LineItems = invoiceItemLineList },
-                        HSCode = currentShipment.CommercialInvoice.HSCode
+                      //  HSCode = currentShipment.CommercialInvoice.HSCode
                     };
                 }
                 else
@@ -2018,7 +2025,7 @@ namespace PI.Business
                         },
                         Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() },
                         VatNo = currentShipment.Division.Company.VATNumber,
-                        HSCode = currentShipment.ShipmentPackage.HSCode
+                       // HSCode = currentShipment.ShipmentPackage.HSCode
                     };
                 }
             }
@@ -2062,13 +2069,14 @@ namespace PI.Business
 
                 var invoiceItemLineList = new List<InvoiceItemLine>();
                 addInvoice.Item.LineItems.ToList().ForEach(p => invoiceItemLineList.Add(new InvoiceItemLine()
-                {
+                {   
                     Description = p.Description,
                     PricePerPiece = p.PricePerPiece,
                     Quantity = p.Quantity,
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now,
-                    IsActive = true
+                    IsActive = true,
+                    HSCode=p.HSCode,
                 }));
 
                 CommercialInvoice invoice = new CommercialInvoice()
