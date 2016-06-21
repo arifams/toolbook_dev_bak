@@ -861,7 +861,7 @@ namespace PI.Business
         }
 
         //get shipments by ID
-        public ShipmentDto GetshipmentById(string shipmentId)
+        public ShipmentDto GetshipmentById(string shipmentCode,long shipmentId = 0)
         {
             ShipmentDto currentShipmentDto = null;
             Shipment currentShipment = null;
@@ -870,7 +870,10 @@ namespace PI.Business
 
             using (PIContext context = new PIContext())
             {
-                currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentId).FirstOrDefault();
+                if(!string.IsNullOrWhiteSpace(shipmentCode))
+                    currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
+                else
+                    currentShipment = context.Shipments.Where(x => x.Id == shipmentId).FirstOrDefault();
 
                 //currentShipment = (from shipment in context.Shipments.Include("Division.Company")
                 //                   join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
