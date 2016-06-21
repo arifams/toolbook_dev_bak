@@ -99,7 +99,7 @@
                //get the current shipment details
                var loadShipmentInfo = function () {
                    
-                   shipmentFactory.loadShipmentInfo(vm.shipmentCode)
+                   shipmentFactory.loadShipmentInfo(vm.shipmentCode,0)
                    .success(function (data) {
                        debugger;
                        vm.shipment = data;
