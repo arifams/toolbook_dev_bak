@@ -15,6 +15,8 @@
                var lng = 0;
                vm.Consigneremail = '';
                vm.awb_URL = '';
+               var totalPrintlength = 0;
+               var totalLenght = 0;
               
 
                //vm.step = 3; //To Do - change this number with logic
@@ -84,11 +86,14 @@
 
                //
                vm.print = function (divId) {
+           
                    var printContents = document.getElementById(divId).innerHTML;
                    var popupWin = window.open('', '_blank', 'width=800,height=800');
                    popupWin.document.open();
                    popupWin.document.write('<html><head></head><body onload="window.print()">' + printContents + '</body></html>');
                    popupWin.document.close();
+                 
+
                }
 
                //get the current shipment details
@@ -96,12 +101,17 @@
                    
                    shipmentFactory.loadShipmentInfo(vm.shipmentCode,0)
                    .success(function (data) {
-                       
+                       debugger;
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
+
+                       var length = Calclengthfunction(vm.shipment.packageDetails.productIngredients);
+                       totalLenght = length + 900;
+                      
+                      
 
                        var sisUrl = "";
                        if (vm.shipment.carrierInformation.countryCodeByTarrifText == "NL")
@@ -113,14 +123,28 @@
                        vm.cmr_URL = sisUrl + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
-                       $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="867" width="700"></iframe>').appendTo('.awb');
+                       
+                       $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="' + totalLenght + '" width="700"></iframe>').appendTo('.awb');
                        $('<iframe src="' + vm.cmr_URL + '" frameborder="0" scrolling="no" id="myFrame" height="4500" width="800"></iframe>').appendTo('.cmr');
                      //  console.log(vm.shipmentLabel);
-                       loadShipmentStatuses();
+                       loadShipmentStatuses();                     
+                   
 
                    })
                    .error(function () {
                    })
+               }
+
+               var Calclengthfunction = function (products) {
+                   var totalRows = 0;
+                   debugger;
+                   
+                   for (var i = 0; i < products.length; i++) {
+
+                       totalRows =totalRows+ products[i].quantity;
+                   }
+                  
+                   return totalRows * 12;
                }
 
 

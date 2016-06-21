@@ -1107,8 +1107,17 @@
                 });
                 
             });
-        }
+        },
 
+        //scrollToRatesAndCarrierDetailsDown: function () {
+
+        //    $("#btnPackageDetailsNext").click(function () {
+        //        $('html, body').animate({
+        //            scrollTop: 900
+        //        });
+
+        //    });
+        //}
 
         };
     return builderFactory;
