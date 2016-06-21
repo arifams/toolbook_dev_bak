@@ -437,7 +437,7 @@
                        vm.loadingRates = false;
                        vm.ratesNotAvailable = true;
                        vm.isClickCalculateRate = true;
-                  }
+                    }
                     
                 }).error(function (error) {
 

@@ -661,7 +661,8 @@
     background-color:rgba(24, 166, 137,0.6);
 }
 #widget-blue {
-    background-color:rgba(49, 157, 181,0.6);
+    
+    background-color:#109ECB;
 }
 #widget-red {
     background-color:rgba(201, 98, 95,0.6);
@@ -709,9 +710,7 @@
 .charts-inline {
     display:inline-block;
 }
-.widget-footer a:hover, a:focus, a:active, a {
-    color:#fff;
-}
+
     /*a:focus, a:hover {
         color:#fff;
     }*/
