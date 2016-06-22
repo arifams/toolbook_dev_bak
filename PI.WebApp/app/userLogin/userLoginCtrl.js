@@ -54,7 +54,7 @@
 
             if (window.location.search != "") {
                 // Show email confirm message.
-                vm.emailConfirmationMessage = "To confirm email address, please login using your username and password";
+                vm.emailConfirmationMessage = "To confirm your email address, please login using your username and password";
                 vm.isEmailConfirm = true;
 
             }
@@ -74,7 +74,7 @@
                 var splittedValues = window.location.search.replace("?", "").split('&');
 
                 if (splittedValues.length != 2 || splittedValues[0].split('=').length != 2 || splittedValues[1].split('=').length != 2) {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
                     return;
                 }
 
@@ -82,11 +82,11 @@
                 var codeKeyValue = splittedValues[1].split('=');
 
                 if (userIdKeyValue[0] != 'userId') {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
                     return;
                 }
                 if (codeKeyValue[0] != 'code') {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL";
+                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
                     return;
                 }
 
@@ -137,7 +137,7 @@
                  }
                  else if (returnedResult.data.result == "-11") {
                      vm.loginInvalid = true;
-                     vm.loginInvalidMessage = $rootScope.translate("You must have a confirmed email to log in");
+                     vm.loginInvalidMessage = $rootScope.translate("You must have a confirmed email to log in!");
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
                  }
@@ -170,7 +170,7 @@
                  else if (returnedResult.data == "-11") {
                      //No account find by this email.
                      vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in");
+                     vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in!");
                  }
              },
             function (error) {
