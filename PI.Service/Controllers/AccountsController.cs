@@ -358,7 +358,7 @@ namespace PI.Service.Controllers
                     return Ok(new
                     {
                         Id = "",
-                        Message = "Email hasn't confirmed. Please confirm the email before log to the system",
+                        Message = "This email address is not yet confirmed by you. Please check your inbox and confirm the email address before logging in!",
                         Result = -1
                     });
                 //return Ok(new

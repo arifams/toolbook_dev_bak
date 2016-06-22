@@ -779,3 +779,6 @@
     color:#fff;
     background-color:#80d4ff;
 }
+.page-spinner-loader.shipmentLoad {
+    padding-top:276px;
+}
