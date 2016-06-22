@@ -540,13 +540,13 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                         $noty.close();
-                                        vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification- Parcel International</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Email verification required</h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:14px">Dear Salutation FirstName LastName,</p><br/><p style="font-weight:700;font-style:italic;font-size:14px">Welcome to Parcel International, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click here &nbsp;ActivationURL to verify your email address.</p><p style="font-weight:700;font-style:italic;font-size:14px">IMPORTANT! Please note that this link is valid for 24 hours only. <p><p style="font-weight:700;font-style:italic;font-size:14px">Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p style="font-weight:700;font-style:italic;font-size:14px">Thank you,</p><p style="font-weight:700;font-style:italic;font-size:14px">Parcel International Service Team</p></br>Phone: +1 858 914 4414 </br>Email address:<a href="mailto:helpdesk@parcelinternational.com" style="color:#80d4ff">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com" style="color:#80d4ff">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
+                                        vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification- Parcel International</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Email verification required</h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:14px">Dear Salutation FirstName LastName,</p><br/><p style="font-weight:700;font-style:italic;font-size:14px">Welcome to Parcel International, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click ActivationURL to verify your email address.</p><p style="font-weight:700;font-style:italic;font-size:14px">IMPORTANT! Please note that this link is valid for 24 hours only. <p><p style="font-weight:700;font-style:italic;font-size:14px">Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p style="font-weight:700;font-style:italic;font-size:14px">Thank you,</p><p style="font-weight:700;font-style:italic;font-size:14px">Parcel International Service Team</p></br>Phone: +1 858 914 4414 </br>Email address:<a href="mailto:helpdesk@parcelinternational.com" style="color:#80d4ff">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com" style="color:#80d4ff">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
                                         
                                         var updatedtoCorporate = false;
                                         
@@ -612,7 +612,7 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -671,7 +671,7 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -749,7 +749,7 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -815,7 +815,7 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the Profile') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -946,7 +946,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have send the username change confirmation email. Please confirm before login') + '</p></div>',
+                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have sent a confirmation message to your new email address. Please check your inbox to confirm before login.') + '</p></div>',
                             layout: 'bottom-right',
                             theme: 'made',
                             animation: {
