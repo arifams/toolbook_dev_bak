@@ -272,7 +272,7 @@ namespace PI.Business
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
-            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
+            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";    // As per the instruct, this url is not using in SIS side.
 
 
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
@@ -627,11 +627,13 @@ namespace PI.Business
                            select shipment).ToList();
 
             // Update retrieve shipment list status from SIS.
+            string environment = "";
             foreach (var shipment in content)
             {
                 if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                 {
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                 }
             }
 
@@ -1226,7 +1228,9 @@ namespace PI.Business
                     }
                     else if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
                     {
-                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, "taleus", currentShipment.Id);
+                        string env = GetEnvironmentByTarrif(currentShipment.TariffText);
+
+                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, env, currentShipment.Id);
 
                         var updatedShipment = (from shipment in context.Shipments
                                                where shipment.ShipmentCode == shipmentCode
@@ -1319,7 +1323,17 @@ namespace PI.Business
         //get track and trace information
         public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
-            string environment = "taleus";
+            string environment = "";
+            using (PIContext context = new PIContext())
+            {
+                var shipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).FirstOrDefault();
+
+                if (shipment != null)
+                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+                else
+                    environment = "taleus";
+            }
+
             StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
             SISIntegrationManager sisManager = new SISIntegrationManager();
@@ -2231,11 +2245,14 @@ namespace PI.Business
                                select shipment).ToList();
 
                 // Update retrieve shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in content)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -2730,11 +2747,14 @@ namespace PI.Business
                     return reportList;
 
                 // Update retrieved shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in shipmentList)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -2952,11 +2972,14 @@ namespace PI.Business
                                select shipment).ToList();
 
                 // Update retrieve shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in content)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -3050,7 +3073,22 @@ namespace PI.Business
             }
         }
 
+        private string GetEnvironmentByTarrif(string tarrifText)
+        {
+            string environment = string.Empty;
 
+            using (PIContext context = new PIContext())
+            {
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == tarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    environment = "tale";
+                else
+                    environment = "taleus";
+            }
+
+            return environment;
+        }
     }
 
 
