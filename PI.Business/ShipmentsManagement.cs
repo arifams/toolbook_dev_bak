@@ -1059,7 +1059,8 @@ namespace PI.Business
                         ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
                         ShipmentReferenceName = shipment.ShipmentReferenceName,
-                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
+                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService),
+                        shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode)
                     },
                     CarrierInformation = new CarrierInformationDto()
                     {
@@ -1107,6 +1108,7 @@ namespace PI.Business
                     {
                         IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
                         ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
+                        ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
                         PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
                         CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
                         VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
@@ -1123,6 +1125,10 @@ namespace PI.Business
                 shipment.TrackingNumber = response.Awb;
                 result.AddShipmentXML = response.AddShipmentXML;
 
+                shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
+                shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
+                shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
+
                 if (string.IsNullOrWhiteSpace(response.Awb))
                 {
                     result.Status = Status.SISError;
@@ -1134,6 +1140,7 @@ namespace PI.Business
                 {
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
+                    result.ShipmentDto = shipmentDto;
 
                     // If response.PDF is empty, get from following url.
                     if (string.IsNullOrWhiteSpace(response.PDF))
@@ -1147,12 +1154,6 @@ namespace PI.Business
                     }
                     result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
-
-                    #region Send Booking confirmation email, for successful shipments
-
-
-                    #endregion
-
                 }
 
                 context.SaveChanges();
