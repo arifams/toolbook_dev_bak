@@ -123,8 +123,8 @@ namespace PI.Business
                 var maxLength = decimal.Parse(rateParameters.max_length);
                 var sellOrBuy = RatesSell.Sell;
                 var max_dimension = decimal.Parse(rateParameters.max_dimension);
-                var volume = int.Parse(rateParameters.volume);
-                var volumeFactor = (rateParameters.volume_unit == "cm" ? volume / 5000 : (volume * 2.54) / 5000);
+               // var volume = int.Parse(rateParameters.volume);
+              //  var volumeFactor = (rateParameters.volume_unit == "cm" ? volume / 5000 : (volume * 2.54) / 5000);
 
                 var result = context.Rate.Where(x => x.CountryFrom == rateParameters.country_from
                                                     && x.IsInbound == (rateParameters.inbound == "N" ? false : true)
