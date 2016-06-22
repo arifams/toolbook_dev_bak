@@ -116,6 +116,7 @@ namespace PI.Contract.Enums
 
     public enum CarrierType : short
     {
+        All = 0,
         Express = 1,
         [Description("Air Freight")]
         AirFreight,
