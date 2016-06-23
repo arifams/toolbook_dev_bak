@@ -13,7 +13,7 @@
 .angular-alert.alert .media-left img{border:none;margin-top:-3px;width:90px;}
 .angular-alert .media-left{padding-right:25px}
 .angular-alert .close{font-size:15px;top:-8px}
-.page-spinner-loader{-moz-user-select:none;-ms-user-select:none;-o-user-select:none;-webkit-user-select:none;bottom:0;height:100%;padding-top:350px;left:0;margin:auto;position:absolute;right:0;text-align:center;top:0;user-select:none;width:100%;z-index:2000}
+.page-spinner-loader{-moz-user-select:none;-ms-user-select:none;-o-user-select:none;-webkit-user-select:none;bottom:0;height:100%;left:0;margin:auto;position:absolute;right:0;text-align:center;top:276px;user-select:none;width:100%;z-index:2000}
 .page-spinner-loader .bounce1{-webkit-animation-delay:-.32s;animation-delay:-.32s;margin-right:.5em}
 .page-spinner-loader .bounce2{-webkit-animation-delay:-.16s;animation-delay:-.16s;margin-right:.5em}
 .page-spinner-loader > div{-moz-border-radius:100%;-webkit-animation-fill-mode:both;-webkit-animation:bouncedelay 1.4s infinite ease-in-out;-webkit-border-radius:100%;animation-fill-mode:both;animation:bouncedelay 1.4s infinite ease-in-out;background-color:#fff;border-radius:100%;display:inline-block;height:1em;width:1em;background-color:rgba(255,255,255,0.5);background-color:#3B3B3B}

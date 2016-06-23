@@ -137,14 +137,6 @@
     <Compile Include="Entity\UserInDivision.cs" />
     <Compile Include="Entity\VolumeMetric.cs" />
     <Compile Include="Entity\WeightMetric.cs" />
-    <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.cs" />
-    <Compile Include="Migrations\201602070848525_InitialCreateOfIdentity.Designer.cs">
-      <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201603100322470_Initial Shipment entities.cs" />
-    <Compile Include="Migrations\201603100322470_Initial Shipment entities.Designer.cs">
-      <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs" />
     <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
@@ -203,12 +195,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201602070848525_InitialCreateOfIdentity.resx">
-      <DependentUpon>201602070848525_InitialCreateOfIdentity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201603100322470_Initial Shipment entities.resx">
-      <DependentUpon>201603100322470_Initial Shipment entities.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.resx">
       <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
     </EmbeddedResource>
