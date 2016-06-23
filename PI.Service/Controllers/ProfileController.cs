@@ -144,7 +144,7 @@ namespace PI.Service.Controllers
 
               StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
               emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
-                                           .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+                                           .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
               AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
 
                 #endregion
@@ -180,7 +180,7 @@ namespace PI.Service.Controllers
 
                 StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
                 emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
-                                             .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+                                             .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
                 AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
 
                 #endregion
