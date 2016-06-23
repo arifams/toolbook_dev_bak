@@ -61,12 +61,14 @@
                                                            
 
                                                            $('#panel-notif').noty({
-                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully!') + '?</p></div>',
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully') + '!</p></div>',
                                                                buttons: [
                                                                        {
                                                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                                                $noty.close();
                                                                                row.generalInformation.status = 'Deleted';
+                                                                               row.generalInformation.isEnableEdit = false;
+                                                                               row.generalInformation.isEnableDelete = false;
                                                                            }
                                                                        }
 
