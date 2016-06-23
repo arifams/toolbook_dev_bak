@@ -69,7 +69,9 @@ namespace PI.Contract.Enums
 
     public enum ShipmentPaymentType : short
     {
+        [Description("Invoice")]
         Invoice = 1,
+        [Description("Online")]
         PayLane
     }
 
@@ -103,14 +105,18 @@ namespace PI.Contract.Enums
 
     public enum CurrencyType : short
     {
+        [Description("$")]
         USD = 1,
+        [Description("€")]
         EURO,
-        YEN,
-        Pound
+        [Description("¥")]
+        YEN//,
+        //Pound
     }
 
     public enum CarrierType : short
     {
+        All = 0,
         Express = 1,
         [Description("Air Freight")]
         AirFreight,

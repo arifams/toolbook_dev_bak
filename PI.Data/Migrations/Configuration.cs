@@ -143,11 +143,20 @@ namespace PI.Data.Migrations
                 new Entity.WeightMetric() { Id = 2, Name = "m", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.Now }
                 );
 
+            //context.Carrier.AddOrUpdate(
+            //    new Entity.Carrier() {Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+            //    new Entity.Carrier() { Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+            //    new Entity.Carrier() { Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+            //    new Entity.Carrier() { Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
+            //);
+
             context.Carrier.AddOrUpdate(
-                new Entity.Carrier() {Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
+                x => x.Id,
+                new Entity.Carrier() { Id = 1, Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Id = 2, Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Id = 3, Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
+                new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
             );
         }
     }

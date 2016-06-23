@@ -13,5 +13,7 @@ namespace PI.Contract.DTOs.Shipment
         public PayLaneDto PayLane { get; set; }
 
         public string UserId { get; set; }
+
+        public string TemplateLink { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace PI.Contract.DTOs.Shipment
         public bool Accessibility { get; set; }
 
         public short PaymentTypeId { get; set; }
-       
+        public string ValueCurrencyString { get; set; }
 
     }
 }

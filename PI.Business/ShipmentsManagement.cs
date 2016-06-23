@@ -272,7 +272,7 @@ namespace PI.Business
             currentRateSheetDetails.account = "";
             currentRateSheetDetails.code_customer = "";
             currentRateSheetDetails.ind_delivery_inside = "";
-            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";
+            currentRateSheetDetails.url = " www2.shipitsmarter.com/taleus/";    // As per the instruct, this url is not using in SIS side.
 
 
             return sisManager.GetRateSheetForShipment(currentRateSheetDetails);
@@ -627,11 +627,13 @@ namespace PI.Business
                            select shipment).ToList();
 
             // Update retrieve shipment list status from SIS.
+            string environment = "";
             foreach (var shipment in content)
             {
                 if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                 {
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                 }
             }
 
@@ -1059,7 +1061,8 @@ namespace PI.Business
                         ShipmentId = shipment.Id.ToString(),
                         ShipmentName = shipment.ShipmentName,
                         ShipmentReferenceName = shipment.ShipmentReferenceName,
-                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService)
+                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService),
+                        shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode)
                     },
                     CarrierInformation = new CarrierInformationDto()
                     {
@@ -1107,6 +1110,7 @@ namespace PI.Business
                     {
                         IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
                         ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
+                        ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
                         PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
                         CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
                         VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
@@ -1123,6 +1127,10 @@ namespace PI.Business
                 shipment.TrackingNumber = response.Awb;
                 result.AddShipmentXML = response.AddShipmentXML;
 
+                shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
+                shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
+                shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
+
                 if (string.IsNullOrWhiteSpace(response.Awb))
                 {
                     result.Status = Status.SISError;
@@ -1134,6 +1142,7 @@ namespace PI.Business
                 {
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
+                    result.ShipmentDto = shipmentDto;
 
                     // If response.PDF is empty, get from following url.
                     if (string.IsNullOrWhiteSpace(response.PDF))
@@ -1147,12 +1156,6 @@ namespace PI.Business
                     }
                     result.ShipmentId = shipment.Id;
                     shipment.Status = (short)ShipmentStatus.BookingConfirmation;
-
-                    #region Send Booking confirmation email, for successful shipments
-
-
-                    #endregion
-
                 }
 
                 context.SaveChanges();
@@ -1225,7 +1228,9 @@ namespace PI.Business
                     }
                     else if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
                     {
-                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, "taleus", currentShipment.Id);
+                        string env = GetEnvironmentByTarrif(currentShipment.TariffText);
+
+                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, env, currentShipment.Id);
 
                         var updatedShipment = (from shipment in context.Shipments
                                                where shipment.ShipmentCode == shipmentCode
@@ -1318,7 +1323,17 @@ namespace PI.Business
         //get track and trace information
         public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
-            string environment = "taleus";
+            string environment = "";
+            using (PIContext context = new PIContext())
+            {
+                var shipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).FirstOrDefault();
+
+                if (shipment != null)
+                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+                else
+                    environment = "taleus";
+            }
+
             StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
             SISIntegrationManager sisManager = new SISIntegrationManager();
@@ -2230,11 +2245,14 @@ namespace PI.Business
                                select shipment).ToList();
 
                 // Update retrieve shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in content)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -2729,11 +2747,14 @@ namespace PI.Business
                     return reportList;
 
                 // Update retrieved shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in shipmentList)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -2951,11 +2972,14 @@ namespace PI.Business
                                select shipment).ToList();
 
                 // Update retrieve shipment list status from SIS.
+                string environment = "";
                 foreach (var shipment in content)
                 {
                     if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
                     {
-                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, "taleus", shipment.Id);
+                        environment = GetEnvironmentByTarrif(shipment.TariffText);
+
+                        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
                     }
                 }
 
@@ -3049,7 +3073,22 @@ namespace PI.Business
             }
         }
 
+        private string GetEnvironmentByTarrif(string tarrifText)
+        {
+            string environment = string.Empty;
 
+            using (PIContext context = new PIContext())
+            {
+                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == tarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                    environment = "tale";
+                else
+                    environment = "taleus";
+            }
+
+            return environment;
+        }
     }
 
 
