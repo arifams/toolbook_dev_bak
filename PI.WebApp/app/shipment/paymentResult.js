@@ -15,7 +15,7 @@
 
                    var splittedValues = window.location.hash.replace("#/PaymentResult?", "").split('&');
                    
-                   // status=PERFORMED&amount=316.37&currency=USD&description=test&hash=c0ad367c5432805481d6ff52091450e6a13634c3&id_sale=8732777
+                   // status=PERFORMED&amount=316.37&currency=USD&description=test&hash=c0ad367c5432805481d6ff52091450e6a13634c3&id_sale=8732777 -
 
                    var statusKeyValue = splittedValues[0].split('=');
                    var hashKeyValue = splittedValues[4].split('=');
