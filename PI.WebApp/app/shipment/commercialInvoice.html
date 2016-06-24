@@ -368,9 +368,9 @@
                                             <tbody>
                                                 <tr ng-repeat="line in invoiceCtrl.shipment.item.lineItems track by $index">
                                                     <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}}</td>
-                                                    <td width="30%" style="border:1px solid #ddd;text-align:center"><span  name="description" class="form-control"  >{{line.description}}</span></td>
+                                                    <td width="25%" style="border:1px solid #ddd;text-align:center"><span  name="description" class="form-control"  >{{line.description}}</span></td>
                                                     <td width="15%" style="border:1px solid #ddd;text-align:center"><span  name="qty" class="form-control" min="0"    >{{line.quantity}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span  name="priceperPiece" class="form-control" >{{line.pricePerPiece}}</span></td>
+                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span  name="priceperPiece" class="form-control" >{{line.pricePerPiece}}</span></td>
                                                     <td width="10%" style="border:1px solid #ddd;text-align:center"></td>
                                                     <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="hscode" class="form-control">{{line.hsCode}}</span></td>
                                                     <td style="text-align:center;border:1px solid #ddd" width="5%" class="prod_ops_rm">
