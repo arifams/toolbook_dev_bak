@@ -126,19 +126,19 @@
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th translate>Item</th>
-                                                    <th translate>Article-/typenumber/description ( Trademark: see above )</th>
-                                                    <th translate>Quantity</th>
-                                                    <th translate>Price per 1 pce.</th>
-                                                    <th>
+                                                    <th translate style="font-size:12px;">Item</th>
+                                                    <th translate style="font-size:12px;">Article-/typenumber/description ( Trademark: see above )</th>
+                                                    <th translate style="font-size:12px;">Quantity</th>
+                                                    <th translate style="font-size:12px;">Price per 1 pce.</th>
+                                                    <th style="font-size:12px;">
                                                         <translate> Currency </translate>:
-                                                        <select class="form-control"
+                                                        <select class="form-control" style="font-size:10px;"
                                                                 ng-options="currency.Id as currency.Name for currency in invoiceCtrl.valueCurrencyList"
                                                                 name="valueCurrency" ng-model="invoiceCtrl.shipment.packageDetails.valueCurrency" ng-change="invoiceCtrl.GetCurrencyLabel(invoiceCtrl.shipment.packageDetails.valueCurrency)"></select>
                                                     </th>
-                                                    <th>HS Code</th>
-                                                    <th></th>
-                                                    <th></th>
+                                                    <th style="font-size:12px;">HS Code</th>
+                                                    <th style="font-size:12px;"></th>
+                                                    <th style="font-size:12px;"></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
