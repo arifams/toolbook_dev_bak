@@ -12,6 +12,7 @@ namespace PI.Contract.Business
         int VerifyUserLogin(CustomerDto customer);
 
         string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId);
+
         CustomerDto GetCustomerByCompanyId(int companyId);
 
         /// <summary>
@@ -20,5 +21,12 @@ namespace PI.Contract.Business
         /// <param name="loggedInUserId"></param>
         /// <returns></returns>
         string GetThemeColour(string loggedInUserId);
+
+        int SaveCustomer(CustomerDto customer, bool isCustomerRegistration = false);
+
+        byte[] GetBytes(string input);
+
+        
+
     }
 }
