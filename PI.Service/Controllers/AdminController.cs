@@ -163,7 +163,7 @@ namespace PI.Service.Controllers
             }
 
             media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-            var opResult = await media.Upload(stream, imageFileNameInFull);
+            await media.Upload(stream, imageFileNameInFull);
 
 
             if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType != DocumentType.Logo)
@@ -243,7 +243,7 @@ namespace PI.Service.Controllers
                     fileDetails.UploadedFileName = imageFileNameInFull;
 
                     media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-                    var opResult = await media.Upload(stream, imageFileNameInFull);
+                    await media.Upload(stream, imageFileNameInFull);
 
                     //Delete the temporary saved file.
                     if (File.Exists(uploadedFileInfo.FullName))
@@ -300,7 +300,6 @@ namespace PI.Service.Controllers
         public async Task<HttpResponseMessage> UploadLogo()
         {
 
-            OperationResult opResult = new OperationResult();
             HttpResponseMessage uploadResult = new HttpResponseMessage();
             var logoUpdated = false;
             try
@@ -330,7 +329,7 @@ namespace PI.Service.Controllers
             }
             catch (Exception ex)
             {
-
+                throw new Exception();
             }
 
             return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);

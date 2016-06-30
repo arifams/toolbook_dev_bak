@@ -33,15 +33,10 @@ namespace PI.Service
             HttpConfiguration httpConfig = new HttpConfiguration();
 
             //creating light inject controller
-           
             container.RegisterApiControllers();
             container.EnableWebApi(httpConfig);
             container.ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider();
             
-            //var handler = new HttpRequestMessageHandler();
-            //httpConfig.MessageHandlers.Insert(0, handler);
-            //container.Register<Func<HttpRequestMessage>>(factory => () => handler.GetCurrentMessage());
-
             container.Register<IShipmentManagement, ShipmentsManagement>();
             container.Register<IAddressBookManagement, AddressBookManagement>();
             container.Register<IAdministrationManagment, AdministrationManagment>();

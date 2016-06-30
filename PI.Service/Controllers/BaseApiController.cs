@@ -16,8 +16,8 @@ namespace PI.Service.Controllers
     {
 
         private ModelFactory _modelFactory;
-        private ApplicationUserManager _AppUserManager = null;
-        private ApplicationRoleManager _AppRoleManager = null;
+        private readonly ApplicationUserManager _AppUserManager = null;
+        private readonly ApplicationRoleManager _AppRoleManager = null;
 
         protected ApplicationUserManager AppUserManager
         {

@@ -580,7 +580,6 @@ namespace PI.Service.Controllers
                 return -1;
             }
 
-            string[] rolList = AppUserManager.GetRoles(result.UserId).ToArray();
             AssignRolesToUser(result.UserId, new string[1] { user.AssignedRoleName });
 
             if (result.IsAddUser)
