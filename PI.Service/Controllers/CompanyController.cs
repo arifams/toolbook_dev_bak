@@ -176,7 +176,6 @@ namespace PI.Service.Controllers
             return companyManagement.GetAllComapnies(status, searchText);
         }
 
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
