@@ -16,7 +16,7 @@ using PI.Contract.Business;
 
 namespace PI.Service.Controllers
 {
-   // [CustomAuthorize]
+   // [CustomAuthorize]0
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
@@ -170,7 +170,7 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        [CustomAuthorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllComapnies")]
         public PagedList GetAllComapnies(string status = null, string searchText = null)
