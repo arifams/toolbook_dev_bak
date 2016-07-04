@@ -19,7 +19,7 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/AddressBook")]
     public class AddressBookController : BaseApiController
     {
-        IAddressBookManagement addressBookManagement;
+        readonly IAddressBookManagement addressBookManagement;
 
         public AddressBookController(IAddressBookManagement addressbookmanagement)
         {
@@ -27,14 +27,13 @@ namespace PI.Service.Controllers
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllAddressBookDetailsByFilter")]
         public PagedList GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",
                                                    int page = 1, int pageSize = 10)
-            {
-            var pagedRecord = new PagedList();
-            return pagedRecord = addressBookManagement.GetAllAddresses(type, userId, searchtext, page, pageSize);
+        {
+            return addressBookManagement.GetAllAddresses(type, userId, searchtext, page, pageSize);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -43,8 +42,7 @@ namespace PI.Service.Controllers
         [Route("GetSerchedAddressList")]
         public PagedList GetSerchedAddressList(string userId, string searchtext = "")
         {
-            var pagedRecord = new PagedList();
-            return pagedRecord = addressBookManagement.GetFilteredAddresses(userId, searchtext);            
+            return addressBookManagement.GetFilteredAddresses(userId, searchtext);
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -89,8 +87,8 @@ namespace PI.Service.Controllers
         [Route("GetAddressBookDetailsExcel")]
         public HttpResponseMessage GetAddressBookDetailsExcel([FromUri]string userId)
         {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);            
-            result.Content =   new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
             result.Content.Headers.Add("x-filename", "AddressBook.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;

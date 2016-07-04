@@ -30,10 +30,10 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
-        IAdministrationManagment adminManagement = new AdministrationManagment();
-        IInvoiceMangement invoiceMangement = new InvoiceMangement();
-        ICompanyManagement companyManagement = new CompanyManagement();
-        CommonLogic commonLogic = new CommonLogic();
+        readonly IAdministrationManagment adminManagement = new AdministrationManagment();
+        readonly IInvoiceMangement invoiceMangement = new InvoiceMangement();
+        readonly ICompanyManagement companyManagement = new CompanyManagement();
+        readonly CommonLogic commonLogic = new CommonLogic();
         //public AdminController(IAdministrationManagment adminmanagementa)
         //{
         //    this.adminManagement = adminmanagementa;
@@ -88,8 +88,6 @@ namespace PI.Service.Controllers
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
             }
 
-            // var provider = GetMultipartProvider();
-            //var result = await Request.Content.ReadAsMultipartAsync(provider);
             var result = results;
             // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
             // so this is how you can get the original file name
@@ -127,7 +125,9 @@ namespace PI.Service.Controllers
                     await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
                                         + "/" + (fileDetails.UserId + ".xls"));
                 }
-                catch (Exception ex) { }
+                catch (Exception ex)
+                {
+                }
 
                 try
                 {
@@ -149,18 +149,6 @@ namespace PI.Service.Controllers
             {
                 var fileNameSplitByDot = originalFileName.Split(new char[1] { '.' });
                 string fileExtention = fileNameSplitByDot[fileNameSplitByDot.Length - 1];
-                var folder = Utility.GetEnumDescription(fileDetails.DocumentType).ToUpper();
-
-                //try
-                //{    
-
-                //    await media.Delete(baseUrl + "TENANT_" + fileDetails.TenantId + "/" + folder + "/"+"logo." + fileExtention);
-
-                //}
-                //catch (Exception ex)
-                //{
-
-                //}
 
                 imageFileNameInFull = System.Guid.NewGuid().ToString() + "logo." + fileExtention;
                 fileDetails.ClientFileName = originalFileName;
@@ -175,7 +163,7 @@ namespace PI.Service.Controllers
             }
 
             media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-            var opResult = await media.Upload(stream, imageFileNameInFull);
+            await media.Upload(stream, imageFileNameInFull);
 
 
             if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType != DocumentType.Logo)
@@ -236,7 +224,6 @@ namespace PI.Service.Controllers
                 Stream stream = File.OpenRead(uploadedFileInfo.FullName);
 
                 AzureFileManager media = new AzureFileManager();
-                CompanyManagement companyManagement = new CompanyManagement();
                 string imageFileNameInFull = null;
                 // Make absolute link
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
@@ -256,7 +243,7 @@ namespace PI.Service.Controllers
                     fileDetails.UploadedFileName = imageFileNameInFull;
 
                     media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
-                    var opResult = await media.Upload(stream, imageFileNameInFull);
+                    await media.Upload(stream, imageFileNameInFull);
 
                     //Delete the temporary saved file.
                     if (File.Exists(uploadedFileInfo.FullName))
@@ -313,7 +300,6 @@ namespace PI.Service.Controllers
         public async Task<HttpResponseMessage> UploadLogo()
         {
 
-            OperationResult opResult = new OperationResult();
             HttpResponseMessage uploadResult = new HttpResponseMessage();
             var logoUpdated = false;
             try
@@ -343,7 +329,7 @@ namespace PI.Service.Controllers
             }
             catch (Exception ex)
             {
-
+                throw new Exception();
             }
 
             return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
@@ -412,8 +398,7 @@ namespace PI.Service.Controllers
         public PagedList GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
         {
-            var pagedRecord = new PagedList();
-            return pagedRecord = invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
+            return invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
 
         }
 

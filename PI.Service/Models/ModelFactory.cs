@@ -13,8 +13,8 @@ namespace PI.Service.Models
 {
     public class ModelFactory
     {
-        private UrlHelper _UrlHelper;
-        private ApplicationUserManager _AppUserManager;
+        private readonly UrlHelper _UrlHelper;
+        private readonly ApplicationUserManager _AppUserManager;
 
         public ModelFactory(HttpRequestMessage request, ApplicationUserManager appUserManager)
         {

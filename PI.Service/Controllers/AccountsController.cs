@@ -35,16 +35,16 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/accounts")]
     public class AccountsController : BaseApiController
     {
-        ICompanyManagement companyManagement;
-        ICustomerManagement customerManagement;
+        readonly ICompanyManagement companyManagement;
+        readonly ICustomerManagement customerManagement;
 
         public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement)
         {
             this.companyManagement = companymanagement;
             this.customerManagement = customermanagement;
 
-        }        
-       
+        }
+
 
         [CustomAuthorize]
         [Route("users")]
@@ -111,19 +111,16 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
-                //CompanyController companyManagement = new CompanyController();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user
                 user.TenantId = tenantId;
-                //user.Customer = new Data.Entity.Customer();
 
                 IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
 
                 createUserModel.UserId = user.Id;
 
                 // Save in customer table.
-                CustomerManagement customerManagement = new CustomerManagement();
                 customerManagement.SaveCustomer(createUserModel);
             }
             else
@@ -144,7 +141,6 @@ namespace PI.Service.Controllers
             #region For Email Confirmaion
 
             string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
-            //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
@@ -155,7 +151,7 @@ namespace PI.Service.Controllers
 
             #endregion
 
-            Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
             //return Created(locationHeader, TheModelFactory.Create(user));
             return 1;
@@ -295,7 +291,6 @@ namespace PI.Service.Controllers
                     Result = -1
                 });
 
-            //var currentRoles = await this.AppUserManager.GetRolesAsync(user.Id);
             string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
 
             bool isCorporateAccount = companyManagement.GetAccountType(user.Id);
@@ -326,7 +321,6 @@ namespace PI.Service.Controllers
                         }
                     }
 
-                   // CustomerManagement customerManagement = new CustomerManagement();
                     string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     if (profile.IsActive)
@@ -351,7 +345,7 @@ namespace PI.Service.Controllers
 
                     }
 
-                   
+
                 }
 
                 else
@@ -375,7 +369,6 @@ namespace PI.Service.Controllers
                 {
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
-                   // CustomerManagement customerManagement = new CustomerManagement();
                     ProfileManagement profileManagement = new ProfileManagement();
 
                     string userId = user.Id;
@@ -384,17 +377,17 @@ namespace PI.Service.Controllers
                     var userName = string.Empty;
 
                     var profile = profileManagement.GetUserById(userId);
-                    if (profile!=null)
+                    if (profile != null)
                     {
                         tenantId = profile.TenantId;
                         userName = profile.UserName;
                         var company = profileManagement.GetCompanyByTenantId(tenantId);
-                        if (company!=null)
+                        if (company != null)
                         {
                             companyId = company.Id;
                         }
                     }
-                   
+
                     string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                     return Ok(new
@@ -403,7 +396,7 @@ namespace PI.Service.Controllers
                         Role = roleName,
                         Result = 2,
                         IsCorporateAccount = isCorporateAccount,
-                        token= _token
+                        token = _token
                     });
                 }
                 else
@@ -427,22 +420,20 @@ namespace PI.Service.Controllers
         {
             var user = AppUserManager.Find(customer.UserName, customer.Password);
 
-            //var currentRoles = await this.AppUserManager.GetRolesAsync(user.Id);
             string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
-          
+
             if (user == null)
                 return Ok(new
                 {
                     Id = "",
                     Role = roleName,
                     Result = -1
-                    
+
 
                 });
             else
             {   //set last logon time as current datetime
 
-               // CustomerManagement customerManagement = new CustomerManagement();
                 ProfileManagement profileManagement = new ProfileManagement();
 
                 string userId = user.Id;
@@ -478,7 +469,7 @@ namespace PI.Service.Controllers
             }
         }
 
-       
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
@@ -524,7 +515,7 @@ namespace PI.Service.Controllers
             }
 
             IdentityResult result = this.AppUserManager.ResetPassword(customer.UserId, customer.Code, customer.Password);
-            
+
             if (result.Succeeded)
             {
                 return 1;
@@ -561,7 +552,7 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllRolesByUser")]
-        public List<RolesDto> GetAllRolesByUser(string userId)    // TODO : Change the string to RoleDto
+        public List<RolesDto> GetAllRolesByUser(string userId)   
         {
             return companyManagement.GetAllActiveChildRoles(userId);
         }
@@ -584,23 +575,21 @@ namespace PI.Service.Controllers
             UserResultDto result = companyManagement.SaveUser(user);
 
             // Existing email address
-            if (!result.IsSucess)   
+            if (!result.IsSucess)
             {
                 return -1;
             }
 
-            string[] rolList = AppUserManager.GetRoles(result.UserId).ToArray();
-            //AppUserManager.RemoveFromRoles(userId, rolList);
             AssignRolesToUser(result.UserId, new string[1] { user.AssignedRoleName });
-            
-            if (result.IsAddUser) {
+
+            if (result.IsAddUser)
+            {
 
                 AppUserManager.AddPassword(result.UserId, user.Password);
 
                 #region For Email Confirmaion
 
                 string code = AppUserManager.GenerateEmailConfirmationToken(result.UserId);
-                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
                 var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + result.UserId + "&code=" + code));
 
                 StringBuilder emailbody = new StringBuilder(user.TemplateLink);
@@ -619,7 +608,7 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetUserByUserId")]
-        public UserDto GetUserByUserId(string userId,string loggedInUser)
+        public UserDto GetUserByUserId(string userId, string loggedInUser)
         {
             return companyManagement.GetUserById(userId, loggedInUser);
         }
