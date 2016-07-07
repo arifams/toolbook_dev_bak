@@ -167,11 +167,11 @@
                      vm.passwordResetError = true;
                      vm.passwordResetErrorMsg = $rootScope.translate("No account found by this email. Please enter registered Email");
                  }
-                 else if (returnedResult.data == "-11") {
-                     //No account find by this email.
-                     vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in!");
-                 }
+                 //else if (returnedResult.data == "-11") {
+                 //    //No account find by this email.
+                 //    vm.passwordResetError = true;
+                 //    vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in!");
+                 //}
              },
             function (error) {
                 vm.passwordResetError = true;
