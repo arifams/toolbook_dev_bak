@@ -130,11 +130,11 @@
                         </ul>
                     </li>-->
 
-                    <li ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'" style="border-bottom:1px solid #396485">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#CustomerMangement"><span translate>CUSTOMER MANAGEMENT</span></a>
                     </li>
 
-                    <li ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin' "style="border-bottom:1px solid #396485">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#AdminMangement"><span translate>RATE MANAGEMENT</span></a>
                     </li>
 
@@ -149,7 +149,7 @@
 
 
                    
-                    <li ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'" style="border-bottom:1px solid #396485">
+                   <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                    </li>
                     <li class="nav-parent" ng-hide="currentRole == 'Admin'">
@@ -184,7 +184,7 @@
                         </ul>
                     </li>
 
-                    <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'" style="border-bottom:1px solid #396485">
+                    <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
                         <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
                         <!--<ul class="children collapse" style="background-color:#0D4773;">
                             <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
