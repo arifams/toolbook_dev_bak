@@ -63,24 +63,25 @@
 
                             <div class="panel panel-default map-panel">
                                 <div class="panel-body">
-                                    <div class="row" ng-show="!trackCtrl.trackingNotFound">
-                                        <div class="col-sm-12">
-                                            <div class="map" id="simple-map"></div>
-                                        </div>
-                                    </div>
                                     <div class="panel-header">
-                                        <label class="form-control label-info" ng-hide="trackCtrl.trackingNotFound"  translate>Current Packege Location</label>
-                                        <div class="row" ng-show="trackCtrl.trackingNotFound && !trackCtrl.onload" >
+                                        <label class="form-control label-info" ng-hide="trackCtrl.trackingNotFound" translate>Current Packege Location</label>
+                                        <div class="row" ng-show="trackCtrl.trackingNotFound && !trackCtrl.onload">
                                             <label class="label label-warning" translate>
                                                 Please check the Tracking Number and try Again
                                             </label>
                                         </div>
-                                        <div class="row" ng-show="trackCtrl.missingFields" > 
+                                        <div class="row" ng-show="trackCtrl.missingFields">
                                             <label class="form-control label-danger" translate>
                                                 Fill the request Details correctly
                                             </label>
                                         </div>
                                     </div>
+                                    <div class="row" >
+                                        <div class="col-sm-12">
+                                            <div class="map" id="simple-map"></div>
+                                        </div>
+                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>

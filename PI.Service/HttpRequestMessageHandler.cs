@@ -11,7 +11,7 @@ namespace PI.Service
 {
     public class HttpRequestMessageHandler: DelegatingHandler
     {
-        private LogicalThreadStorage<HttpRequestMessageStorage> messageStorage =
+        private readonly LogicalThreadStorage<HttpRequestMessageStorage> messageStorage =
         new LogicalThreadStorage<HttpRequestMessageStorage>(() => new HttpRequestMessageStorage());
         
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)

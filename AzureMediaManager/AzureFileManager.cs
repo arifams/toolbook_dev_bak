@@ -23,7 +23,8 @@ namespace AzureMediaManager
         {
             // Open storage account using credentials from .cscfg file.
             // TODO: Shanel Should be moved to the configuration file
-            var storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=pidocuments;AccountKey=6NaiQmUiUKwiWafuzYMeVv9i3TEREe81DTKTUCRmkh5dUp7QVtW/kQ9cAlVJeQhFiLD8zcTPdgpQbBhCNKJ8ag==;BlobEndpoint=https://pidocuments.blob.core.windows.net/;TableEndpoint=https://pidocuments.table.core.windows.net/;QueueEndpoint=https://pidocuments.queue.core.windows.net/;FileEndpoint=https://pidocuments.file.core.windows.net/");
+            //var storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=pidocuments;AccountKey=6NaiQmUiUKwiWafuzYMeVv9i3TEREe81DTKTUCRmkh5dUp7QVtW/kQ9cAlVJeQhFiLD8zcTPdgpQbBhCNKJ8ag==;BlobEndpoint=https://pidocuments.blob.core.windows.net/;TableEndpoint=https://pidocuments.table.core.windows.net/;QueueEndpoint=https://pidocuments.queue.core.windows.net/;FileEndpoint=https://pidocuments.file.core.windows.net/");
+            var storageAccount = CloudStorageAccount.Parse("DefaultEndpointsProtocol=https;AccountName=piprodstorage;AccountKey=/PJXsQKlPNDjFhP90dKN8Z0XzbdZyO0rm2nQZrBZErbO731a2nRr3DW3dGeBcp34qobnJDTU1Ff3IKpCggQiBQ==;BlobEndpoint=https://piprodstorage.blob.core.windows.net/;TableEndpoint=https://piprodstorage.table.core.windows.net/;QueueEndpoint=https://piprodstorage.queue.core.windows.net/;FileEndpoint=https://piprodstorage.file.core.windows.net/");
 
             // Get context object for working with blobs, and 
             // set a default retry policy appropriate for a web user interface.
@@ -161,9 +162,9 @@ namespace AzureMediaManager
             WebRequest req = HttpWebRequest.Create(sourceFileURL);
             using (Stream stream = req.GetResponse().GetResponseStream())
             {
-              await  newFileBlob.UploadFromStreamAsync(stream);
+                await newFileBlob.UploadFromStreamAsync(stream);
             }
-        
+
             //  await newFileBlob.StartCopyAsync(new Uri(sourceFileURL), null, null, null,null);
 
             return newFileBlob;

@@ -23,8 +23,8 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Customer")]
     public class CustomerController : BaseApiController
     {
-        IInvoiceMangement invoiceMangement = new InvoiceMangement();
-        ICustomerManagement customerManagement = new CustomerManagement();
+        readonly IInvoiceMangement invoiceMangement = new InvoiceMangement();
+        readonly ICustomerManagement customerManagement = new CustomerManagement();
 
         //public CustomerController(IInvoiceMangement invoiceMangement)
         //{
@@ -38,8 +38,7 @@ namespace PI.Service.Controllers
         public PagedList GetAllInvoicesByCustomer(string userId, string status = null, DateTime? startDate = null,
                                                   DateTime? endDate = null, string shipmentNumber = null, string invoiceNumber = null)
         {
-            var pagedRecord = new PagedList();
-            return pagedRecord = invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, shipmentNumber, invoiceNumber);
+            return invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, shipmentNumber, invoiceNumber);
         }
 
 

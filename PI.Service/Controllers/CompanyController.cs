@@ -16,11 +16,11 @@ using PI.Contract.Business;
 
 namespace PI.Service.Controllers
 {
-   // [CustomAuthorize]
+   // [CustomAuthorize]0
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
-        ICompanyManagement companyManagement;
+        readonly ICompanyManagement companyManagement;
 
         public CompanyController(ICompanyManagement companymanagement)
         {
@@ -36,8 +36,7 @@ namespace PI.Service.Controllers
                                                 int page = 1, int pageSize = 10, string sortBy = "Id", string sortDirection = "asc")
         {
 
-            var pagedRecord = new PagedList();
-            return pagedRecord = companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
+            return companyManagement.GetAllDivisions(costCenter, type, userId, searchtext, page, pageSize, sortBy, sortDirection);
         }
 
 
@@ -142,8 +141,7 @@ namespace PI.Service.Controllers
                                                    string sortDirection = "asc")
         {
 
-            var pagedRecord = new PagedList();
-            return pagedRecord = companyManagement.GetAllCostCenters(division, type, userId, searchtext, page, pageSize, sortBy, 
+            return companyManagement.GetAllCostCenters(division, type, userId, searchtext, page, pageSize, sortBy, 
                                                                      sortDirection);
         }
         
@@ -170,7 +168,7 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
+        [CustomAuthorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetAllComapnies")]
         public PagedList GetAllComapnies(string status = null, string searchText = null)

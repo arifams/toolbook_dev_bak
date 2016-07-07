@@ -251,7 +251,7 @@
 
                                 <div class="form-group">
                                     <div class="col-sm-12 p-r-1 p-l-0">
-                                        <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="{{'Additional address information*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
+                                        <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="{{'Additional address information'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
                                                ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneraddress2.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneraddress2.$dirty|| shipmentCtrl.consignInfoisSubmit) }" />
                                         <div ng-messages="consignerConsigneeInfoForm.consigneraddress2.$error"

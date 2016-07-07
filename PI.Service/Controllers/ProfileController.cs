@@ -22,8 +22,8 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/profile")]
     public class ProfileController : BaseApiController
     {
-        IProfileManagement userprofile;
-        CommonLogic commonLogics = new CommonLogic();
+        readonly IProfileManagement userprofile;
+        readonly CommonLogic commonLogics = new CommonLogic();
 
         public ProfileController(IProfileManagement userprofilemanagement)
         {
@@ -36,7 +36,6 @@ namespace PI.Service.Controllers
         [Route("GetProfile")]
         public ProfileDto GetProfile([FromUri]string userId)
         {
-            //ProfileManagement userprofile = new ProfileManagement();
             return userprofile.getProfileByUserName(userId);
         }
 
@@ -56,7 +55,6 @@ namespace PI.Service.Controllers
         [Route("GetProfileForShipment")]
         public ProfileDto GetProfileForShipment([FromUri]string userId)
         {
-           // ProfileManagement userprofile = new ProfileManagement();
             return userprofile.getProfileByUserNameForShipment(userId);
         }
 
@@ -66,10 +64,7 @@ namespace PI.Service.Controllers
         [Route("GetAllAccountSettings")]
         public ProfileDto GetAllAccountSettings(long customerId)
         {
-            //ProfileManagement userprofile = new ProfileManagement();
-            ProfileDto settings = userprofile.GetAccountSettings(customerId);
-
-            return settings;            
+           return userprofile.GetAccountSettings(customerId);
         }
 
         
@@ -77,48 +72,16 @@ namespace PI.Service.Controllers
         [Route("GetCustomerAddressDetails")]
         public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
         {
-           // ProfileManagement userprofile = new ProfileManagement();
-            ProfileDto addressDetails = userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId);
-
-            return addressDetails;
+            return userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId);
         }
 
 
-        //[HttpGet]
-        //[Route("GetAllLanguages")]
-        //public IQueryable<LanguageDto> GetAllLanguages()
-        //{
-        //    ProfileManagement userprofile = new ProfileManagement();
-        //    IQueryable<LanguageDto> languaes = userprofile.GetAllLanguages();
-        //    return languaes;
-        //}
-
-        //[HttpGet]
-        //[Route("GetAllCurrencies")]
-        //public IQueryable<CurrencyDto> GetAllCurrencies()
-        //{
-        //    ProfileManagement userprofile = new ProfileManagement();
-        //    IQueryable<CurrencyDto> currencies = userprofile.GetAllCurrencies();
-        //    return currencies;
-        //}
-
-        //[HttpGet]
-        //[Route("GetAllTimezones")]
-        //public IQueryable<TimeZoneDto> GetAllTimezones()
-        //{
-        //    ProfileManagement userprofile = new ProfileManagement();
-        //    IQueryable<TimeZoneDto> timeZones = userprofile.GetAllTimeZones();
-        //    return timeZones;
-        //}
-
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]        
         [HttpPost]
         [Route("UpdateProfile")]
         public int UpdateProfile([FromBody] ProfileDto profile)
         {
-            // ProfileManagement userprofile = new ProfileManagement();
-            
-
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
                 IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
@@ -139,12 +102,11 @@ namespace PI.Service.Controllers
                 #region For Email Confirmaion
 
                 string code = AppUserManager.GenerateEmailConfirmationToken(existingUser.Id);
-                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
                 var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + existingUser.Id + "&code=" + code));
 
               StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
               emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
-                                           .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+                                           .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
               AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
 
                 #endregion
@@ -164,8 +126,6 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileGeneral")]
         public int UpdateProfileGeneral(ProfileDto profile)
         {
-           // ProfileManagement userprofile = new ProfileManagement();
-
             var updatedStatus = userprofile.UpdateProfileGeneral(profile);
 
             if (updatedStatus == 3)
@@ -175,12 +135,11 @@ namespace PI.Service.Controllers
                 #region For Email Confirmaion
 
                 string code = AppUserManager.GenerateEmailConfirmationToken(existingUser.Id);
-                //string baseUri = new Uri(Request.RequestUri.AbsoluteUri.Replace(Request.RequestUri.PathAndQuery, String.Empty));
                 var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + existingUser.Id + "&code=" + code));
 
                 StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
                 emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
-                                             .Replace("ActivationURL", "<a href=\"" + callbackUrl + "\">here</a>");
+                                             .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
                 AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
 
                 #endregion
@@ -200,8 +159,6 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileAddress")]
         public int UpdateProfileAddress(ProfileDto profile)
         {
-           // ProfileManagement userprofile = new ProfileManagement();
-
             var updatedStatus = userprofile.UpdateProfileAddress(profile);
 
             if (updatedStatus == 1 || updatedStatus == -2)
@@ -217,8 +174,6 @@ namespace PI.Service.Controllers
         [Route("UpdateProfileBillingAddress")]
         public int UpdateProfileBillingAddress(ProfileDto profile)
         {
-           // ProfileManagement userprofile = new ProfileManagement();
-
             var updatedStatus = userprofile.UpdateProfileBillingAddress(profile);
 
             if (updatedStatus == 1 || updatedStatus == -2)
@@ -234,8 +189,6 @@ namespace PI.Service.Controllers
         [Route("updateProfileLoginDetails")]
         public int updateProfileLoginDetails(ProfileDto profile)
         {
-         //   ProfileManagement userprofile = new ProfileManagement();
-
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
                 IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
@@ -263,8 +216,6 @@ namespace PI.Service.Controllers
         [Route("updateProfileAccountSettings")]
         public int updateProfileAccountSettings(ProfileDto profile)
         {
-          //  ProfileManagement userprofile = new ProfileManagement();
-
             var updatedStatus = userprofile.UpdateProfileAccountSettings(profile);
 
             if (updatedStatus == 1 || updatedStatus == -2)
