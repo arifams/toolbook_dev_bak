@@ -90,6 +90,7 @@
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboardCtrl.js" />
+    <Content Include="app\dashboard\modalWizard.html" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\reports\ShipmentReport.js" />
@@ -161,6 +162,7 @@
     <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="Gruntfile.js" />
     <Content Include="js\custom-builder.js" />
+    <Content Include="js\modalService.js" />
     <Content Include="js\sec_1.js" />
     <Content Include="js\sec_2-v1.js" />
     <Content Include="js\translations.js" />
