@@ -98,9 +98,9 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
-                Salutation = createUserModel.Salutation,
-                FirstName = createUserModel.FirstName,
-                LastName = createUserModel.LastName,
+                Salutation = "-", //createUserModel.Salutation,
+                FirstName = "-", //createUserModel.FirstName,
+                LastName = "-", //createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
                 IsActive = true
@@ -111,6 +111,7 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
+                createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user
