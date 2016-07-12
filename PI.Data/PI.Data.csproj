@@ -173,6 +173,10 @@
     <Compile Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.Designer.cs">
       <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.cs" />
+    <Compile Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.Designer.cs">
+      <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -221,6 +225,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.resx">
       <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.resx">
+      <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -64,17 +64,17 @@
 
 
     app.controller('mainCtrl',
-        ['$scope', 'applicationService', 'quickViewService', 'builderService', 'pluginsService', 'userService',
+        ['$scope', 'applicationService', 'builderService', 'pluginsService', 'userService',
             '$location', '$window', '$route', 'gettextCatalog',
-    function ($scope, applicationService, quickViewService, builderService, pluginsService, userService,
+    function ($scope, applicationService, builderService, pluginsService, userService,
         $location, $window, $route, gettextCatalog) {
 
         $(document).ready(function () {
 
             applicationService.init();
-            quickViewService.init();
-            builderService.init();
-            pluginsService.init();
+           // quickViewService.init();
+            //builderService.init();
+            //pluginsService.init();
             Dropzone.autoDiscover = false;
 
             var mName = 'default';    // From DB

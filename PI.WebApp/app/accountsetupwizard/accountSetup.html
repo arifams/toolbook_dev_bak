@@ -1,0 +1,222 @@
+﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm">
+    <div class="modal-dialog">
+        <form name="personalDetails" ng-hide="vm.hideaddressDetails">
+            <div class="modal-content">
+                <div class="modal-header" style="border-bottom:2px solid #ddd;">
+                    <div class="row">
+                        <label class="m-l-60">Personal Details</label><i class="glyphicon glyphicon-chevron-right modal-navigator"></i>
+                        <label class="modal-nav-right">Address Details</label>
+                    </div>
+                </div>
+                <div class="modal-body p-t-0 p-b-0">
+                    <div class="row m-b-15">
+                        <h2 class="text-center"><strong>Welcome to Parcel International </strong></h2>
+                        <h5 class="text-center"><strong>Please fill in the following information to get Started Account Settings</strong></h5>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required" name="salutation" id="salutation" style="">
+                                        <option translate="" value="Mr">Mr</option>
+                                        <option translate="" value="Mrs">Mrs</option>
+                                        <option translate="" value="Ms">Ms</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="lastname" class="form-control" minlength="4" placeholder="First Name *" required ng-model="a">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Last Name *" required ng-model="b">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *">
+                                    <!--<div>
+                                        <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
+                                        <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
+                                        <label ng-message="maxlength" class="error" for="phonenumber" translate>Enter less than 20 characters</label>
+                                    </div>-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="row">
+                        <div class="col-md-3">
+                            <label translate="" class="control-label">Address</label>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="lastname" class="form-control" minlength="4" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="skin skin-minimal">
+                                <div class="form-body">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="icheck-inline">
+                                                <label><input type="radio" name="iscorporate"><translate> Individual Account</translate></label>
+                                                <label><input type="radio" name="iscorporate"><translate> Corporate Account </translate></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button  class="btn btn-primary btn-embossed bnt-square" ng-click="personalDetails.$valid && vm.func()"> Next</button>
+                </div>
+            </div>
+        </form>
+        <form name="addressDetails">
+            <div class="modal-content" ng-show="vm.hideaddressDetails">
+                <div class="modal-header" style="border-bottom:2px solid #ddd;">
+                    <div class="row">
+                        <label class="m-l-60">Personal Details</label><i class="glyphicon glyphicon-chevron-right modal-navigator"></i>
+                        <label class="modal-nav-right">Address Details</label>
+                    </div>
+                </div>
+                <div class="modal-body p-t-0 p-b-0 m-t-10" style="padding-left:60px;padding-right:60px">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Campany Name *" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="lastname" class="form-control" minlength="4" placeholder="Campany Register Number" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group input-group">
+
+                                <input name="zip/postalCode" type="text" class="form-control"
+                                       placeholder="Zip/Postal Code *" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin">
+                                        LookUp
+                                    </button>
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="street" class="form-control" minlength="4" placeholder="Street *" required>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="number" class="form-control" minlength="4" placeholder="Number *" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="addressInformation" class="form-control" minlength="4" placeholder="Additional Address Information" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="city" class="form-control" minlength="4" placeholder="Street *" required>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <input type="text" name="statecode" class="form-control" minlength="4" placeholder="State Code *" required>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="option-group">
+                                    <country-select id="country" name="country"
+                                                    class="form-control" ng-required="true"></country-select>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <input type="checkbox" name="" data-checkbox="icheckbox_square-blue">
+                                    <translate>Use corporate address as billing address</translate>
+                                </label>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary btn-embossed bnt-square pull-left" type="button" ng-click="vm.func2()">Previous</button>
+                    <button data-dismiss="modal" class="btn btn-primary btn-embossed bnt-square" type="button">Save</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</div>

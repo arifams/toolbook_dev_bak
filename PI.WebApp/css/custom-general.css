@@ -645,7 +645,6 @@
     font-size:11px;
     text-align:center;
     padding-left:0;
-    
     font-family:Open Sans !important
 }
 .table-striped > tbody > tr  {
@@ -669,7 +668,7 @@
 }
 #widget-blue {
     
-    background-color:#109ECB;
+    background-color:rgba(16, 158, 203,0.6);
 }
 #widget-red {
     background-color:rgba(201, 98, 95,0.6);
@@ -754,7 +753,7 @@
   content: "\f005";
 }
 .icon-favorite:hover {
-  color:yellow;
+  color:orange;
 }
 .table > tbody > tr > td {
     border-bottom:1px solid #DDD;
@@ -788,4 +787,19 @@
 }
 .page-spinner-loader.shipmentLoad {
     padding-top:276px;
+}
+
+.custom-table {
+    overflow-x:auto; 
+}
+/*modal*/
+.modal-navigator {
+    margin-left:105px;
+}
+.modal-nav-right {
+    margin-left:75px;
+}
+.modal-body {
+    padding-left:60px;
+    padding-right:60px;
 }

@@ -130,11 +130,11 @@
                         </ul>
                     </li>-->
 
-                    <li ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'" style="border-bottom:1px solid #396485">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#CustomerMangement"><span translate>CUSTOMER MANAGEMENT</span></a>
                     </li>
 
-                    <li ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin' "style="border-bottom:1px solid #396485">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#AdminMangement"><span translate>RATE MANAGEMENT</span></a>
                     </li>
 
@@ -149,7 +149,7 @@
 
 
                    
-                    <li ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'" style="border-bottom:1px solid #396485">
+                   <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                    </li>
                     <li class="nav-parent" ng-hide="currentRole == 'Admin'">
@@ -184,7 +184,7 @@
                         </ul>
                     </li>
 
-                    <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'" style="border-bottom:1px solid #396485">
+                    <li ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
                         <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span> <!--<span class="fa arrow"></span>--></a>
                         <!--<ul class="children collapse" style="background-color:#0D4773;">
                             <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
@@ -1293,6 +1293,7 @@
     <!--<script src="shipment/commercialInvoice.js"></script>-->
     <script src="../plugins/angular-gettext/dist/angular-gettext.min.js"></script>
     <script src="../js/translations.js"></script>
+    <script src="../js/modalService.js"></script>
 
 
     <!-- BEGIN CUSTOM ANGULARJS SCRIPTS -->
@@ -1387,9 +1388,11 @@
     <script src="billingandInvoicing/CustomerBillingandInvoicing.js"></script>
     <script src="admin/uploadInvoice.js"></script>
     <script src="billingandInvoicing/DisputeInvoice.js"></script>
+    <script src="accountsetupwizard/accountSetupCtrl.js"></script> 
     <script src="dashboard/dashboardCtrl.js"></script>
     <script src="admin/CustomerDetailsView.js"></script>
     <script src="admin/SearchSpecificShipments.js"></script>
+    
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

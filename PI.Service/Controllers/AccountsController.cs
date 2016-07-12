@@ -481,15 +481,15 @@ namespace PI.Service.Controllers
             {
                 return -1; // No account find by this email.
             }
-            else
-            {
-                if (!AppUserManager.IsEmailConfirmed(existingUser.Id))
-                {
-                    // user hasn't confirm his email yet. So user can't reset password.
-                    return -11;
-                }
-            }
-
+            //else
+            //{
+            //    if (!AppUserManager.IsEmailConfirmed(existingUser.Id))
+            //    {
+            //        // user hasn't confirm his email yet. So user can't reset password.
+            //        return -11;
+            //    }
+            //}
+         
             var passwordResetToken = AppUserManager.GeneratePasswordResetToken(existingUser.Id);
 
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/resetPassword/resetPassword.html?userId=" + existingUser.Id + "&code=" + passwordResetToken));
@@ -514,10 +514,12 @@ namespace PI.Service.Controllers
                 ModelState.AddModelError("", "User Id, Code and Password are required");
                 return -1;
             }
-
+            string code = AppUserManager.GenerateEmailConfirmationToken(customer.UserId);
+            IdentityResult resultEmail = this.AppUserManager.ConfirmEmail(customer.UserId, code);
             IdentityResult result = this.AppUserManager.ResetPassword(customer.UserId, customer.Code, customer.Password);
 
-            if (result.Succeeded)
+
+            if (result.Succeeded && resultEmail.Succeeded)
             {
                 return 1;
             }

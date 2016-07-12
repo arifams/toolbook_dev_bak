@@ -15,17 +15,38 @@
     });
 
     app.controller('dashboardCtrl',
-       ['$scope', 'builderFactory','dashboardfactory',
-           function ($scope, builderFactory, dashboardfactory) {
+       ['$scope', 'builderFactory', 'dashboardfactory', 'modalService',
+           function ($scope, builderFactory, dashboardfactory, modalService) {
                var vm = this;
                vm.model = {};
+              
+               $scope.modalWizard = "accountsetupwizard/accountSetup.html";
+
+               $scope.closePopup = function () {
+                   modalService.close('editrole_popup');
+               };
+               $scope.templateModal = {
+                   id: "editrole_popup",
+                   header: "Edit Confirmation",
+                   closeCaption: "No",
+                   saveCaption: "Yes",
+                   close: function () {
+                       $scope.closePopup();
+                   }
+               };             
+               angular.element(document).ready(function () {
+                   modalService.load('editrole_popup');
+               });
+               
+
                $scope.$on('$viewContentLoaded', function () {
-                   builderFactory.loadLineChart();
+                  /* builderFactory.loadLineChart();
                    builderFactory.loadDougnutChart1();
                    builderFactory.loadDougnutChart2();
                    builderFactory.loadDougnutChart3();
                    builderFactory.loadDougnutChart4();
-                   builderFactory.loadMap();
+                   builderFactory.loadMap();*/
+              
                });
 
                vm.getShipmentStatusCounts = function () {
