@@ -1,7 +1,10 @@
 ﻿
 using LightInject;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.DataHandler.Encoder;
+using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Jwt;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
@@ -26,6 +29,8 @@ namespace PI.Service
     {
         public ServiceContainer container = new ServiceContainer();
 
+        public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
+        public static string PublicClientId { get; private set; }
 
         public void Configuration(IAppBuilder app)
         {            
@@ -36,7 +41,10 @@ namespace PI.Service
             container.RegisterApiControllers();
             container.EnableWebApi(httpConfig);
             container.ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider();
-            
+
+
+            ConfigureAuth(app);
+
             container.Register<IShipmentManagement, ShipmentsManagement>();
             container.Register<IAddressBookManagement, AddressBookManagement>();
             container.Register<IAdministrationManagment, AdministrationManagment>();
@@ -70,6 +78,9 @@ namespace PI.Service
 
         private void ConfigureOAuthTokenGeneration(IAppBuilder app)
         {
+            // Configure the application for OAuth based flow
+            PublicClientId = "self";
+
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(PIContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
@@ -83,7 +94,7 @@ namespace PI.Service
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/oauth/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
-                Provider = new CustomOAuthProvider(),
+                Provider = new CustomOAuthProvider(PublicClientId),
                 AccessTokenFormat = new CustomJwtFormat("http://localhost:59822")
             };
 
@@ -109,6 +120,53 @@ namespace PI.Service
                         new SymmetricKeyIssuerSecurityTokenProvider(issuer, audienceSecret)
                     }
                 });
+        }
+
+        // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
+        public void ConfigureAuth(IAppBuilder app)
+        {
+            // Configure the db context and user manager to use a single instance per request
+            app.CreatePerOwinContext(PIContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+
+            // Enable the application to use a cookie to store information for the signed in user
+            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
+            app.UseCookieAuthentication(new CookieAuthenticationOptions());
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
+
+            // Configure the application for OAuth based flow
+            PublicClientId = "self";
+            OAuthOptions = new OAuthAuthorizationServerOptions
+            {
+                TokenEndpointPath = new PathString("/Token"),
+                Provider = new CustomOAuthProvider(PublicClientId),
+                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
+                // In production mode set AllowInsecureHttp = false
+                AllowInsecureHttp = true
+            };
+
+            // Enable the application to use bearer tokens to authenticate users
+            app.UseOAuthBearerTokens(OAuthOptions);
+
+            // Uncomment the following lines to enable logging in with third party login providers
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "c2c7d7e5-1b51-4170-af5d-c1d584f1f10b",
+                clientSecret: "vxfYc5vafgoLaMVwpyBxj5N");
+
+            //app.UseTwitterAuthentication(
+            //    consumerKey: "",
+            //    consumerSecret: "");
+
+            app.UseFacebookAuthentication(
+                appId: "1753464874877402",
+                appSecret: "4cbc794bf7555a0dfda6585ef2b6418d");
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "657439870432-g98gvt35aceavp0ou6vsr3b6372m3cmr.apps.googleusercontent.com",
+                ClientSecret = "WsjF353NEonbaFZMgTyMJl4h"
+            });
         }
 
     }

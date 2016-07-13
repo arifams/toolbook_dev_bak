@@ -50,6 +50,8 @@
             $scope.user.password = loggedpassword;
         }
 
+       // $auth.authenticate('facebook');
+
         vm.isConfirmEmail = function () {
 
             if (window.location.search != "") {

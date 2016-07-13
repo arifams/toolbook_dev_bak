@@ -40,5 +40,9 @@ namespace PI.Contract.DTOs.Customer
         public long CompanyId { get; set; }
 
         public long AddressId { get; set; }
+
+        //public string HomeTown { get; set; }
+
+        //public System.DateTime? BirthDate { get; set; }
     }
 }

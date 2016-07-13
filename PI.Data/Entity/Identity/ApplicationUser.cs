@@ -47,6 +47,10 @@ namespace PI.Data.Entity.Identity
 
         public DateTime? LastLoginTime { get; set; }
 
+        //public string HomeTown { get; set; }
+
+        //public System.DateTime? BirthDate { get; set; }
+
         #region Navigation property
 
         //[Required]
