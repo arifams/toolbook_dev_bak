@@ -103,9 +103,9 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
-                Salutation = createUserModel.Salutation,
-                FirstName = createUserModel.FirstName,
-                LastName = createUserModel.LastName,
+                Salutation = "-", //createUserModel.Salutation,
+                FirstName = "-", //createUserModel.FirstName,
+                LastName = "-", //createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
                 BirthDate = createUserModel.BirthDate,
@@ -118,6 +118,7 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
+                createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user
@@ -151,8 +152,7 @@ namespace PI.Service.Controllers
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
-                                        .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+            emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 

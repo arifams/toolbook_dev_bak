@@ -20,7 +20,7 @@
                var vm = this;
                vm.model = {};
               
-               $scope.modalWizard = "dashboard/modalWizard.html";
+               $scope.modalWizard = "accountsetupwizard/accountSetup.html";
 
                $scope.closePopup = function () {
                    modalService.close('editrole_popup');

@@ -792,3 +792,14 @@
 .custom-table {
     overflow-x:auto; 
 }
+/*modal*/
+.modal-navigator {
+    margin-left:105px;
+}
+.modal-nav-right {
+    margin-left:75px;
+}
+.modal-body {
+    padding-left:60px;
+    padding-right:60px;
+}
