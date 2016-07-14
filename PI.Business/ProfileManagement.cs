@@ -74,6 +74,21 @@ namespace PI.Business
             currentProfile.CustomerDetails.JobCapacity = currentCustomer.JobCapacity;
             currentProfile.CustomerDetails.AddressId = currentCustomer.AddressId;
 
+
+            //Assigning Address Details
+
+            if (currentCustomer.CustomerAddress!=null)
+            {
+                currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentCustomer.CustomerAddress.ZipCode;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress1 = currentCustomer.CustomerAddress.StreetAddress1;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentCustomer.CustomerAddress.StreetAddress2;
+                currentProfile.CustomerDetails.CustomerAddress.Number = currentCustomer.CustomerAddress.Number;
+                currentProfile.CustomerDetails.CustomerAddress.City = currentCustomer.CustomerAddress.City;
+                currentProfile.CustomerDetails.CustomerAddress.State = currentCustomer.CustomerAddress.State;
+                currentProfile.CustomerDetails.CustomerAddress.Country = currentCustomer.CustomerAddress.Country;
+            }
+
+
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;

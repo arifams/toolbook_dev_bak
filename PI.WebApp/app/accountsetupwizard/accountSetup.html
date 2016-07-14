@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm">
+﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm" ng-init="vm.loadProfile()">
     <div class="modal-dialog" >
         <form name="personalDetails" ng-hide="vm.hideaddressDetails">
             <div class="modal-content">

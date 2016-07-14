@@ -3,8 +3,8 @@
 (function (app) {
 
     app.controller('accountSetupCtrl',
-       ['$scope','updateProfilefactory','$window',
-    function ($scope, updateProfilefactory, $window) {
+       ['$scope','updateProfilefactory','$window','loadProfilefactory',
+    function ($scope, updateProfilefactory, $window, loadProfilefactory) {
 
                var vm = this;
                vm.model = {};
@@ -16,6 +16,8 @@
                vm.model.customerDetails.customerAddress.country = 'US';
                vm.hidePanel = false;
                vm.errorCode = false;
+               vm.hideaddressDetails = false;
+               var generalDetailesCompleted = false;
                
                vm.model.customerDetails.isCorporateAccount = 'false';
                vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
@@ -27,7 +29,62 @@
                    vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
                };
 
-               vm.hideaddressDetails = false;
+               vm.loadProfile = function () {
+                 
+                   debugger;
+                   loadProfilefactory.loadProfileinfo()
+                   .success(function (response) {
+
+                       if (response != null) {
+                           vm.model = response;
+                           vm.loading = false;
+
+                           if (response.customerDetails != null) {
+                               //setting the account type                        
+                               vm.model.customerDetails = response.customerDetails;
+                               vm.model.companyDetails = response.companyDetails;
+
+
+                               //triggering  the second step only for genaral details completed users
+                               if ((vm.model.customerDetails.firstName != null || vm.model.customerDetails.firstName != '') &&
+                                   (vm.model.customerDetails.lastName != null || vm.model.customerDetails.lastName != '') &&
+                                   (vm.model.customerDetails.salutation != null || vm.model.customerDetails.salutation != '')) {
+
+                                   vm.hideaddressDetails = true;
+                                   generalDetailesCompleted = true;
+                               }
+
+                               //closing the pop if all profile details are completed
+                               if (generalDetailesCompleted==true &&(vm.model.customerDetails.customerAddress.zipCode != null || vm.model.customerDetails.customerAddress.zipCode != '') &&
+                                   (vm.model.customerDetails.customerAddress.streetAddress1 != null || vm.model.customerDetails.customerAddress.streetAddress1 != '')&&
+                                   (vm.model.customerDetails.customerAddress.number != null || vm.model.customerDetails.customerAddress.number!='') &&
+                                   (vm.model.customerDetails.customerAddress.city != null || vm.model.customerDetails.customerAddress.city!='')&&
+                                   (vm.model.customerDetails.customerAddress.country != null || vm.model.customerDetails.customerAddress.country != '')) {
+
+                                   $scope.closePopup();
+
+                               }
+
+                               if (response.customerDetails.isCorporateAccount) {
+                                   vm.model.customerDetails.isCorporateAccount = "true";                               
+                               }
+                               else {
+                                   vm.model.customerDetails.isCorporateAccount = "false";
+                               }
+
+
+                           }
+                       }
+                   })
+                  .error(function () {
+                      vm.model.isServerError = "true";
+                      vm.loading = false;
+                  })
+               }
+
+
+              
+
                vm.saveGeneralDetails = function () {
                    debugger;
                    if (vm.model.customerDetails.isCorporateAccount=='true') {                       
@@ -56,8 +113,7 @@
 
                                 updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                                .success(function (responce) {
-                                                                   if (responce != null && responce == 1) {
-                                                                     
+                                                                   if (responce != null && responce == 1) {                                                                     
                                                                        $scope.closePopup();
                                                                      //  vm.hideaddressDetails = false;
                                                                    }
