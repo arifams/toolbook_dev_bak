@@ -58,4 +58,15 @@ namespace PI.Service.Models
         public string ConfirmPassword { get; set; }
 
     }
+
+    public class ExternalLoginViewModel
+    {
+        public string Name { get; set; }
+
+        public string Url { get; set; }
+
+        public string State { get; set; }
+    }
+
+
 }

@@ -150,6 +150,12 @@ var MakeApp = angular
             templateUrl: 'pages/blank/blank.html',
             controller: 'blankCtrl'
         })
+          //organization structure page
+          .when('/OrganizationStructure', {
+              templateUrl: 'organizationstructure/organizationStructure.html',
+              controller: 'orgStructureCtrl'
+              
+          })
           //profile Information Page
         .when('/profileInformation-profileInformation', {
             templateUrl: 'profileInformation/profileInformation.html',

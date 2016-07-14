@@ -51,9 +51,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.firstName" type="text" name="firstname" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.firstname.$invalid &&
-                                                                        (saveAddressForm.firstname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter first name' | translate}}" />
+                                                                        (saveAddressForm.firstname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter first name' | translate}}" ng-focus="fnameFocus = true" ng-blur="fnameFocus = false"/>
                                 <div ng-messages="saveAddressForm.firstname.$error"
-                                     ng-show="saveAddressForm.firstname.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.firstname.$dirty && !fnameFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="divisionName" translate>First Name is required</label>
                                     <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 200 characters</label>
                                 </div>
@@ -65,9 +65,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.lastName" type="text" name="lastname" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.lastname.$invalid &&
-                                                                        (saveAddressForm.lastname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter last name' | translate}}" />
+                                                                        (saveAddressForm.lastname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter last name' | translate}}" ng-focus="lnameFocus = true" ng-blur="lnameFocus = false"/>
                                 <div ng-messages="saveAddressForm.lastname.$error"
-                                     ng-show="saveAddressForm.lastname.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.lastname.$dirty && !lnameFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="divisionName" translate>Last Name is required</label>
                                     <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 200 characters</label>
                                 </div>
@@ -79,9 +79,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.emailAddress" type="email" name="email" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.email.$invalid &&
-                                                                        (saveAddressForm.email.$dirty|| addressCtrl.isSubmit) }"  placeholder="{{'Enter email' | translate}}"/>
+                                                                        (saveAddressForm.email.$dirty|| addressCtrl.isSubmit) }"  placeholder="{{'Enter email' | translate}}" ng-focus="emailFocus = true" ng-blur="emailFocus = false"/>
                                 <div ng-messages="saveAddressForm.email.$error"
-                                     ng-show="saveAddressForm.email.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.email.$dirty && !emailFocus) || addressCtrl.isSubmit">
                                     <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                     <label ng-message="required" class="error" for="divisionName" translate>Email is required</label>
                                     <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 200 characters</label>
@@ -94,9 +94,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.phoneNumber" type="text" name="phonenumber" class="form-control" ng-required="true" valid-phone-no
                                        ng-maxlength="20" ng-class="{ 'error': saveAddressForm.phonenumber.$invalid &&
-                                                                        (saveAddressForm.phonenumber.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter phone number' | translate}}"/>
+                                                                        (saveAddressForm.phonenumber.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter phone number' | translate}}" ng-focus="phoneFocus = true" ng-blur="phoneFocus = false"/>
                                 <div ng-messages="saveAddressForm.phonenumber.$error"
-                                     ng-show="saveAddressForm.phonenumber.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.phonenumber.$dirty && !phoneFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="divisionName" translate>Phone Number is required</label>
                                     <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 20 characters</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="billing_phonenumber" translate>Enter valid phone number</label>
@@ -145,9 +145,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.zipCode" type="text" name="postalcode" class="form-control" required
                                        ng-maxlength="20" ng-class="{ 'error': saveAddressForm.postalcode.$invalid &&
-                                                                        (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Entetr Zip/Postal Code' | translate}}"/>
+                                                                        (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Entetr Zip/Postal Code' | translate}}" ng-focus="zipCodeFocus = true" ng-blur="zipCodeFocus = false"/>
                                 <div ng-messages="saveAddressForm.postalcode.$error"
-                                     ng-show="saveAddressForm.postalcode.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.postalcode.$dirty && !zipCodeFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="postalcode" translate>Postal Code is required</label>
                                     <label ng-message="maxlength" class="error" for="postalcode" translate>Max length should be 20 characters</label>
                                 </div>
@@ -159,9 +159,9 @@
                             <div class="col-sm-3">
                                 <input ng-model="addressCtrl.model.number" type="text" name="number" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.number.$invalid &&
-                                                                        (saveAddressForm.number.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter number' | translate}}"/>
+                                                                        (saveAddressForm.number.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter number' | translate}}" ng-focus="numberFocus = true" ng-blur="numberFocus = false"/>
                                 <div ng-messages="saveAddressForm.number.$error"
-                                     ng-show="saveAddressForm.number.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.number.$dirty && !numberFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="postalcode" translate>Number is required</label>
                                     <label ng-message="maxlength" class="error" for="postalcode" translate>Max length should be 200 characters</label>
                                 </div>
@@ -198,9 +198,9 @@
                             <div class="col-sm-8">
                                 <input ng-model="addressCtrl.model.city" type="text" name="city" class="form-control" required 
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.city.$invalid &&
-                                                                        (saveAddressForm.city.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter city' | translate}}" />
+                                                                        (saveAddressForm.city.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter city' | translate}}" ng-focus="cityFocus = true" ng-blur="cityFocus = false"/>
                                 <div ng-messages="saveAddressForm.city.$error"
-                                     ng-show="saveAddressForm.city.$dirty || addressCtrl.isSubmit">
+                                     ng-show="(saveAddressForm.city.$dirty && !cityFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="postalcode" translate>City is required</label>
                                     <label ng-message="maxlength" class="error" for="postalcode" translate>Max length should be 200 characters</label>
                                 </div>
