@@ -160,6 +160,7 @@
                                     <label ng-message="required" class="error" for="postalCode" translate>Enter your postal code</label>
                                     <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
                                 </div>
+                                <label class="error" ng-show="vm.errorCode">Invalid PostalCode</label>
 
                             </div>
 

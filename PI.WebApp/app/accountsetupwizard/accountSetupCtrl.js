@@ -15,6 +15,7 @@
                vm.model.customerDetails.salutation = 'Mr';
                vm.model.customerDetails.customerAddress.country = 'US';
                vm.hidePanel = false;
+               vm.errorCode = false;
                
                vm.model.customerDetails.isCorporateAccount = 'false';
                vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
@@ -90,8 +91,7 @@
 
                };
 
-               vm.getAddressInfoByZip = function (zip) {
-                   debugger;
+               vm.getAddressInfoByZip = function (zip) {                   
 
                        if (zip.length >= 5 && typeof google != 'undefined') {
                            var addr = {};
@@ -136,25 +136,33 @@
                                        vm.model.customerDetails.customerAddress.city = addr.city;
                                        vm.model.customerDetails.customerAddress.state = addr.state;
                                        vm.model.customerDetails.customerAddress.country = addr.country;
-
+                                       vm.errorCode = false;
                                                                             
                                       
                                    } else {
-                                       Console.log('error')
+                                       vm.errorCode = true;
+                                      
                                    }
                                } else {
-                                   Console.log('error')
+
+                                   vm.errorCode = true;
+                                  
                                }
                            });
                        } else {
-                           Console.log('error')
+                           vm.errorCode = true;
                        }
                }
 
                vm.getAddressInformation = function () {
-                   debugger;
+                  
+                   if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode=='') {
+                       vm.errorCode = true;
+                   } else {
+                       vm.getAddressInfoByZip(vm.model.customerDetails.customerAddress.zipCode);
+                   }
 
-                   vm.getAddressInfoByZip(vm.model.customerDetails.customerAddress.zipCode);
+                  
                }
 
 
