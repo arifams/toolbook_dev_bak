@@ -57,7 +57,8 @@
                                 updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                                .success(function (responce) {
                                                                    if (responce != null && responce == 1) {
-                                                                       vm.hidePanel = true;
+                                                                     
+                                                                       $scope.closePopup();
                                                                      //  vm.hideaddressDetails = false;
                                                                    }
 
@@ -66,7 +67,8 @@
                                                                });
 
                             } else {
-                                vm.hidePanel = true;
+                                
+                                $scope.closePopup();
                                 //vm.hideaddressDetails = false;
                             }
 
