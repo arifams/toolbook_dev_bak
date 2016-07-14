@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
 using PI.Business;
 using PI.Contract.Business;
@@ -11,6 +14,7 @@ using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
+using PI.Service.Providers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -29,6 +33,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Script.Serialization;
+using WebApplication3.Results;
 
 namespace PI.Service.Controllers
 {
@@ -98,11 +103,13 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
-                Salutation = createUserModel.Salutation,
-                FirstName = createUserModel.FirstName,
-                LastName = createUserModel.LastName,
+                Salutation = "-", //createUserModel.Salutation,
+                FirstName = "-", //createUserModel.FirstName,
+                LastName = "-", //createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
+                BirthDate = createUserModel.BirthDate,
+                HomeTown = createUserModel.HomeTown,
                 IsActive = true
             };
 
@@ -111,6 +118,7 @@ namespace PI.Service.Controllers
             {
 
                 //Create Tenant, Default Company, Division & CostCenter 
+                createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
                 // Add tenant Id to user
@@ -144,8 +152,7 @@ namespace PI.Service.Controllers
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
             StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-            emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", user.Salutation + ".")
-                                        .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+            emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 
@@ -278,11 +285,6 @@ namespace PI.Service.Controllers
         {
             var user = AppUserManager.Find(customer.UserName, customer.Password);
 
-            Trace.WriteLine("MessageJUST"); // Write a verbose message
-            Trace.TraceInformation("MessageINFO"); // Write an information message
-            Trace.TraceWarning("MessageWARNING");
-            Trace.TraceError("MessageERROR");
-
             if (user == null)
                 return Ok(new
                 {
@@ -412,6 +414,9 @@ namespace PI.Service.Controllers
         }
 
 
+
+
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]
@@ -470,6 +475,112 @@ namespace PI.Service.Controllers
         }
 
 
+        // GET api/Account/ExternalLogin
+        [OverrideAuthentication]
+        [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+        [AllowAnonymous]
+        [Route("ExternalLogin", Name = "ExternalLogin")]
+        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
+        {
+            if (error != null)
+            {
+                return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+            }
+
+            if (!User.Identity.IsAuthenticated)
+            {
+                return new ChallengeResult(provider, this);
+            }
+
+            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+            if (externalLogin == null)
+            {
+                return InternalServerError();
+            }
+
+            if (externalLogin.LoginProvider != provider)
+            {
+                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+                return new ChallengeResult(provider, this);
+            }
+
+            ApplicationUser user = await AppUserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+                externalLogin.ProviderKey));
+
+            bool hasRegistered = user != null;
+
+            if (hasRegistered)
+            {
+                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
+                   OAuthDefaults.AuthenticationType);
+                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
+                    CookieAuthenticationDefaults.AuthenticationType);
+
+                AuthenticationProperties properties = CustomOAuthProvider.CreateProperties(user.UserName);
+                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+            }
+            else
+            {
+                IEnumerable<Claim> claims = externalLogin.GetClaims();
+                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                Authentication.SignIn(identity);
+            }
+
+            return Ok();
+        }
+
+
+        private class ExternalLoginData
+        {
+            public string LoginProvider { get; set; }
+            public string ProviderKey { get; set; }
+            public string UserName { get; set; }
+
+            public IList<Claim> GetClaims()
+            {
+                IList<Claim> claims = new List<Claim>();
+                claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
+
+                if (UserName != null)
+                {
+                    claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
+                }
+
+                return claims;
+            }
+
+            public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
+            {
+                if (identity == null)
+                {
+                    return null;
+                }
+
+                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
+                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                {
+                    return null;
+                }
+
+                if (providerKeyClaim.Issuer == ClaimsIdentity.DefaultIssuer)
+                {
+                    return null;
+                }
+
+                return new ExternalLoginData
+                {
+                    LoginProvider = providerKeyClaim.Issuer,
+                    ProviderKey = providerKeyClaim.Value,
+                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                };
+            }
+        }
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
@@ -488,7 +599,7 @@ namespace PI.Service.Controllers
             //        return -11;
             //    }
             //}
-         
+
             var passwordResetToken = AppUserManager.GeneratePasswordResetToken(existingUser.Id);
 
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/resetPassword/resetPassword.html?userId=" + existingUser.Id + "&code=" + passwordResetToken));
@@ -554,7 +665,7 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllRolesByUser")]
-        public List<RolesDto> GetAllRolesByUser(string userId)   
+        public List<RolesDto> GetAllRolesByUser(string userId)
         {
             return companyManagement.GetAllActiveChildRoles(userId);
         }
@@ -632,5 +743,43 @@ namespace PI.Service.Controllers
         {
             return companyManagement.GetLoggedInUserName(loggedInUserId);
         }
+
+
+        #region Helpers
+        private IAuthenticationManager Authentication
+        {
+            get { return Request.GetOwinContext().Authentication; }
+        }
+
+        private IHttpActionResult GetErrorResult(IdentityResult result)
+        {
+            if (result == null)
+            {
+                return InternalServerError();
+            }
+
+            if (!result.Succeeded)
+            {
+                if (result.Errors != null)
+                {
+                    foreach (string error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                }
+
+                if (ModelState.IsValid)
+                {
+                    // No ModelState errors are available to send, so just return an empty BadRequest.
+                    return BadRequest();
+                }
+
+                return BadRequest(ModelState);
+            }
+
+            return null;
+        }
+
+        #endregion
     }
 }

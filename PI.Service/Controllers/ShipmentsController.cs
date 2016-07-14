@@ -33,6 +33,7 @@ using PI.Contract.DTOs.Dashboard;
 namespace PI.Service.Controllers
 {
     //[CustomAuthorize]
+    //[RequireHttps]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
