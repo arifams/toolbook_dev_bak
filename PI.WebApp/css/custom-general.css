@@ -803,3 +803,53 @@
     padding-left:60px;
     padding-right:60px;
 }
+/*org structure*/
+/* general */
+.clear {
+	clear: both;
+}
+
+/* Header */
+.brand{
+	color 				: #E05E00 !important;	
+	font-family 		: georgia;
+	font-style 			: italic;
+}
+
+/* list stuff */
+#org{
+	background-color 	: white;
+	margin 				: 10px;
+	padding 			: 10px;
+}
+
+#show-list{
+	cursor 				: pointer;
+}
+
+/* Custom chart styling */
+.jOrgChart {
+  margin                : 10px;
+  padding               : 20px;
+}
+
+/* Custom node styling */
+.jOrgChart .node {
+	font-size 			: 14px;
+	background-color 	: #35363B;
+	border-radius 		: 8px;
+	border 				: 5px solid #396485;
+	color 				: #F38630;
+	-moz-border-radius 	: 8px;
+    padding:10px;
+    text-align:center;
+}
+.node p{
+		font-family 	: tahoma;
+		font-size 		: 10px;
+		line-height 	: 11px;
+		padding 		: 2px;
+	}
+.main-content .page-content .panel.org-background {
+    background-color:#9bd6e4;
+}

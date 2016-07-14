@@ -444,7 +444,7 @@ namespace PI.Business
                 }
 
                 // Check user change email address.
-                if (currentUser.UserName != updatedProfile.CustomerDetails.Email)
+                if (updatedProfile.CustomerDetails.Email!=null && currentUser.UserName != updatedProfile.CustomerDetails.Email)
                 {
                     // Check if there any users who has same email
                     ApplicationUser existingUser = this.GetUserbyUserName(updatedProfile.CustomerDetails.Email);
@@ -469,13 +469,26 @@ namespace PI.Business
                 currentUser.LastName = updatedProfile.CustomerDetails.LastName;
                 context.SaveChanges();
 
-                // Save in Customer table.
+                // Save in Customer table.                
                 currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
                 currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
                 currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
-                currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
-                currentCustomer.Email = updatedProfile.CustomerDetails.Email;
-                currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
+
+
+                //this section added for updating profile details for the first time user Login
+                if (updatedProfile.CustomerDetails.UserName!=null)
+                {
+                    currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
+                }
+                if (updatedProfile.CustomerDetails.Email!=null)
+                {
+                    currentCustomer.Email = updatedProfile.CustomerDetails.Email;
+                }
+                if (updatedProfile.CustomerDetails.JobCapacity!=null)
+                {
+                    currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
+                }              
+              
                 context.SaveChanges();
 
                 Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
@@ -491,8 +504,11 @@ namespace PI.Business
                 }
 
                 // Update the company
-                currentCompany.Name = updatedProfile.CompanyDetails.Name;
-                context.SaveChanges();
+                if (updatedProfile.CompanyDetails!=null && updatedProfile.CompanyDetails.Name!=null)
+                {
+                    currentCompany.Name = updatedProfile.CompanyDetails.Name;
+                    context.SaveChanges();
+                }               
 
                 currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
                 context.SaveChanges();
@@ -548,10 +564,25 @@ namespace PI.Business
                     currentCostCenter = currentCostCenters.Where(c => c.Type == "SYSTEM").FirstOrDefault();
                 }
 
-                if (currentCompany != null)
+                if (currentCompany != null && updatedProfile.CompanyDetails!= null)
                 {
-                    currentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
-                    currentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
+                    if (updatedProfile.CompanyDetails.COCNumber!=null)
+                    {
+                        currentCompany.COCNumber = updatedProfile.CompanyDetails.COCNumber;
+                    }
+                    if (updatedProfile.CompanyDetails.VATNumber!=null)
+                    {
+                        currentCompany.VATNumber = updatedProfile.CompanyDetails.VATNumber;
+                    }
+
+                    if (updatedProfile.CompanyDetails.CompanyCode!=null)
+                    {
+                        currentCompany.CompanyCode = updatedProfile.CompanyDetails.CompanyCode;
+                    }
+                    if (updatedProfile.CompanyDetails.Name!=null)
+                    {
+                        currentCompany.Name = updatedProfile.CompanyDetails.Name;
+                    }
                     context.SaveChanges();
                 }
 
@@ -652,6 +683,91 @@ namespace PI.Business
                         newBusinessAddress.State = updatedProfile.CompanyDetails.CostCenter.BillingAddress.State;
                         newBusinessAddress.ZipCode = updatedProfile.CompanyDetails.CostCenter.BillingAddress.ZipCode;
                         newBusinessAddress.Country = updatedProfile.CompanyDetails.CostCenter.BillingAddress.Country;
+
+                        currentCostCenter.BillingAddressId = newBusinessAddress.Id;
+
+                        context.Addresses.Add(newBusinessAddress);
+                        context.SaveChanges();
+                    }
+                }
+            }
+            return 1;
+        }
+
+
+        //update billing address as corporate address
+        public int UpdateSetupWizardBillingAddress(ProfileDto updatedProfile)
+        {
+            Customer currentCustomer;
+            using (PIContext context = new PIContext())
+            {
+                currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
+                if (currentCustomer == null)
+                {
+                    return 0;
+                }
+
+                // Updating basic customer details
+                currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
+                currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
+                context.SaveChanges();
+            }
+
+            ApplicationUser currentUser;
+            using (PIContext context = new PIContext())
+            {
+                currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
+                if (currentUser == null)
+                {
+                    return 0;
+                }
+            }
+
+            Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
+            if (currentTenant == null)
+            {
+                return 0;
+            }
+
+            Company curentCompany = this.GetCompanyByTenantId(currentTenant.Id);
+            if (curentCompany == null)
+            {
+                return 0;
+            }
+
+            using (PIContext context = new PIContext())
+            {
+                CostCenter currentCostCenter = (from c in context.CostCenters
+                                                where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
+                                                select c).FirstOrDefault();
+
+                if (currentCostCenter != null)
+                {
+                    Address BusinessAddress = context.Addresses.SingleOrDefault(a => a.Id == currentCostCenter.BillingAddressId);
+
+                    if (BusinessAddress != null  &&
+                        updatedProfile.CustomerDetails.CustomerAddress!= null)
+                    {
+                        BusinessAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
+                        BusinessAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
+                        BusinessAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
+                        BusinessAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
+                        BusinessAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+                        BusinessAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
+                        BusinessAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
+                        context.SaveChanges();
+
+                    }
+                    else
+                    {
+                        Address newBusinessAddress = new Address();
+                        newBusinessAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
+                        newBusinessAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
+                        newBusinessAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
+                        newBusinessAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
+                        newBusinessAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+                        newBusinessAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
+                        newBusinessAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
 
                         currentCostCenter.BillingAddressId = newBusinessAddress.Id;
 

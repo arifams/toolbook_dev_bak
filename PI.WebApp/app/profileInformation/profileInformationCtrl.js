@@ -17,6 +17,11 @@
             updateProfileBillingAddress: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/UpdateProfileBillingAddress', updatedProfile);
             },
+
+            UpdateSetupWizardBillingAddress: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/profile/UpdateSetupWizardBillingAddress', updatedProfile);
+            },
+            
             updateProfileLoginDetails: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/updateProfileLoginDetails', updatedProfile);
             },

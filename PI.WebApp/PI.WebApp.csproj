@@ -99,6 +99,8 @@
     <Content Include="app\directive\tokensManagerService.js" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />
+    <Content Include="app\organizationstructure\organizationStructure.html" />
+    <Content Include="app\organizationstructure\orgStructureCtrl.js" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />
@@ -148,6 +150,7 @@
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="css\custom-general.css" />
+    <Content Include="css\jquery.jOrgChart.css" />
     <Content Include="global\css\compressed-styles.css" />
     <Content Include="global\images\preloader\1.gif" />
     <Content Include="global\images\preloader\10.gif" />
@@ -170,6 +173,8 @@
     <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="Gruntfile.js" />
     <Content Include="js\custom-builder.js" />
+    <Content Include="js\jquery-ui.min.js" />
+    <Content Include="js\jquery.jOrgChart.js" />
     <Content Include="js\modalService.js" />
     <Content Include="js\sec_1.js" />
     <Content Include="js\sec_2-v1.js" />
