@@ -120,7 +120,8 @@
                 //mainColor();
 
                 // return if user not logged. -- Need to move this to global service.
-                if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
+        if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
+            debugger;
                     window.location = webBaseUrl + "/app/userLogin/userLogin.html";
                     return;
                 }

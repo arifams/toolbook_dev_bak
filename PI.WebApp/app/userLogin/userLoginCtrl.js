@@ -13,6 +13,13 @@
 
     });
 
+    var serviceBase = 'https://localhost:44339/';
+    //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
+    app.constant('ngAuthSettings', {
+        apiServiceBaseUri: serviceBase,
+        clientId: 'ngAuthApp'
+    });
+
     app.run(function (gettextCatalog, $rootScope, $window) {
 
         
@@ -26,8 +33,8 @@
         //gettextCatalog.debug = true;
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope','gettextCatalog',
-    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog) {
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope','gettextCatalog','$location','authService',
+    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -181,8 +188,58 @@
             });
         };
 
+
+        $scope.authExternalProvider = function (provider) {
+            debugger;
+            //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
+            var redirectUri = 'http://localhost:49995/app/authComplete.html';
+            var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+                                                                        + "&response_type=token&client_id=" + 'ngAuthApp'
+                                                                        + "&redirect_uri=" + redirectUri;
+            window.$windowScope = $scope;
+
+            var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        };
+
+
+        $scope.authCompletedCB = function (fragment) {
+            debugger;
+            $scope.$apply(function () {
+
+                if (fragment.haslocalaccount == 'False') {
+
+                    authService.logOut();
+
+                    authService.externalAuthData = {
+                        provider: fragment.provider,
+                        userName: fragment.external_user_name,
+                        externalAccessToken: fragment.external_access_token
+                    };
+
+                    // $location.path('/index')  ;
+                    debugger;
+                    window.location = webBaseUrl + "/app/index.html";
+                }
+                else {
+                    //Obtain access token and redirect to orders
+                    var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
+                    authService.obtainAccessToken(externalData).then(function (response) {
+                        debugger;
+                        //$location.path('/orders');
+                        window.location = webBaseUrl + "/app/index.html";
+
+                    },
+                 function (err) {
+                     debugger;
+                     $scope.message = err.error_description;
+                 });
+                }
+
+            });
+        }
+
     }]);
 
 
-})(angular.module('userLogin', ['ngMessages', 'ngCookies', 'gettext']));
+})(angular.module('userLogin', ['ngMessages', 'ngCookies', 'gettext', 'LocalStorageModule']));
 

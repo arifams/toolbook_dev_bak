@@ -19,7 +19,7 @@
            function ($scope, builderFactory, dashboardfactory, modalService) {
                var vm = this;
                vm.model = {};
-              
+               debugger;
                $scope.modalWizard = "accountsetupwizard/accountSetup.html";
 
                $scope.closePopup = function () {

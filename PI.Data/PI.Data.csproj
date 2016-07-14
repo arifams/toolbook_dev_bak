@@ -91,6 +91,7 @@
     <Compile Include="Entity\AddressBook.cs" />
     <Compile Include="Entity\AuditTrail.cs" />
     <Compile Include="Entity\BaseEntity.cs" />
+    <Compile Include="Entity\Client.cs" />
     <Compile Include="Entity\Company.cs" />
     <Compile Include="Entity\CostCenter.cs" />
     <Compile Include="Entity\CreditNote.cs">
@@ -115,6 +116,7 @@
     <Compile Include="Entity\RateEngine\TransitTimeProduct.cs" />
     <Compile Include="Entity\RateEngine\TransmitTime.cs" />
     <Compile Include="Entity\RateEngine\Zone.cs" />
+    <Compile Include="Entity\RefreshToken.cs" />
     <Compile Include="Entity\Shipment\Carrier.cs" />
     <Compile Include="Entity\Shipment\Invoice\CommercialInvoice.cs" />
     <Compile Include="Entity\Shipment\Invoice\InvoiceItem.cs" />
@@ -177,6 +179,14 @@
     <Compile Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.Designer.cs">
       <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.cs" />
+    <Compile Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.Designer.cs">
+      <DependentUpon>201607140557254_Ph3-Add client entity for external authentication.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.cs" />
+    <Compile Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.Designer.cs">
+      <DependentUpon>201607140859383_Ph3-Add refresh token entity for external authentication.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -228,6 +238,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.resx">
       <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.resx">
+      <DependentUpon>201607140557254_Ph3-Add client entity for external authentication.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.resx">
+      <DependentUpon>201607140859383_Ph3-Add refresh token entity for external authentication.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

@@ -1,9 +1,11 @@
 namespace PI.Data.Migrations
 {
+    using Entity;
     using Entity.Identity;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
     using System.Linq;
@@ -13,6 +15,45 @@ namespace PI.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+        }
+
+
+        private static void BuildClientsList(PI.Data.PIContext context)
+        {
+
+            //List<Client> ClientsList = new List<Client>
+            //{
+            //    //Google
+            //    new Client
+            //    { Id = "657439870432-g98gvt35aceavp0ou6vsr3b6372m3cmr.apps.googleusercontent.com",
+            //        Secret= "WsjF353NEonbaFZMgTyMJl4h",
+            //        Name="Parcel International",
+            //        Active = true,
+            //        RefreshTokenLifeTime = 7200,
+            //        AllowedOrigin = "*"
+            //    },
+            //    //Facebook
+            //    new Client
+            //    { Id = "1753464874877402",
+            //        Secret= "4cbc794bf7555a0dfda6585ef2b6418d",
+            //        Name="Parcel International",
+            //        Active = true,
+            //        RefreshTokenLifeTime = 7200,
+            //        AllowedOrigin = "*"
+            //    },
+            //    //Microsoft
+            //    new Client
+            //    { Id = "c2c7d7e5-1b51-4170-af5d-c1d584f1f10b",
+            //        Secret= "vxfYc5vafgoLaMVwpyBxj5N",
+            //        Name="Parcel International",
+            //        Active = true,
+            //        RefreshTokenLifeTime = 7200,
+            //        AllowedOrigin = "*"
+            //    },
+                
+            //};
+            //ClientsList.ForEach(x => context.Clients.AddOrUpdate(x));
+         
         }
 
         protected override void Seed(PI.Data.PIContext context)
@@ -158,6 +199,16 @@ namespace PI.Data.Migrations
                 new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
                 new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
             );
+
+
+            if (context.Clients.Count() > 0)
+            {
+                return;
+            }
+            else
+            {
+                BuildClientsList(context);
+            }
         }
     }
 }

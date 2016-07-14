@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
@@ -42,11 +43,13 @@ namespace PI.Service.Controllers
     {
         readonly ICompanyManagement companyManagement;
         readonly ICustomerManagement customerManagement;
+        private AuthRepository authRepo = null;
 
         public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement)
         {
             this.companyManagement = companymanagement;
             this.customerManagement = customermanagement;
+            authRepo = new AuthRepository();
 
         }
 
@@ -108,8 +111,8 @@ namespace PI.Service.Controllers
                 LastName = "-", //createUserModel.LastName,
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
-                BirthDate = createUserModel.BirthDate,
-                HomeTown = createUserModel.HomeTown,
+                //BirthDate = createUserModel.BirthDate,
+                //HomeTown = createUserModel.HomeTown,
                 IsActive = true
             };
 
@@ -475,6 +478,7 @@ namespace PI.Service.Controllers
         }
 
 
+
         // GET api/Account/ExternalLogin
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
@@ -482,14 +486,23 @@ namespace PI.Service.Controllers
         [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
         {
+            string redirectUri = string.Empty;
+
             if (error != null)
             {
-                return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+                return BadRequest(Uri.EscapeDataString(error));
             }
 
             if (!User.Identity.IsAuthenticated)
             {
                 return new ChallengeResult(provider, this);
+            }
+
+            var redirectUriValidationResult = ValidateClientAndRedirectUri(this.Request, ref redirectUri);
+
+            if (!string.IsNullOrWhiteSpace(redirectUriValidationResult))
+            {
+                return BadRequest(redirectUriValidationResult);
             }
 
             ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
@@ -505,32 +518,77 @@ namespace PI.Service.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await AppUserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
-                externalLogin.ProviderKey));
+            IdentityUser user = await authRepo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
 
-            if (hasRegistered)
-            {
-                Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}",
+                                            redirectUri,
+                                            externalLogin.ExternalAccessToken,
+                                            externalLogin.LoginProvider,
+                                            hasRegistered.ToString(),
+                                            externalLogin.UserName);
 
-                ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
-                   OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
-                    CookieAuthenticationDefaults.AuthenticationType);
+            return Redirect(redirectUri);
 
-                AuthenticationProperties properties = CustomOAuthProvider.CreateProperties(user.UserName);
-                Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
-            }
-            else
-            {
-                IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
-                Authentication.SignIn(identity);
-            }
-
-            return Ok();
         }
+
+        ////// GET api/Account/ExternalLogin
+        ////[OverrideAuthentication]
+        ////[HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
+        ////[AllowAnonymous]
+        ////[Route("ExternalLogin", Name = "ExternalLogin")]
+        ////public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
+        ////{
+        ////    if (error != null)
+        ////    {
+        ////        return Redirect(Url.Content("~/") + "#error=" + Uri.EscapeDataString(error));
+        ////    }
+
+        ////    if (!User.Identity.IsAuthenticated)
+        ////    {
+        ////        return new ChallengeResult(provider, this);
+        ////    }
+
+        ////    ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+
+        ////    if (externalLogin == null)
+        ////    {
+        ////        return InternalServerError();
+        ////    }
+
+        ////    if (externalLogin.LoginProvider != provider)
+        ////    {
+        ////        Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+        ////        return new ChallengeResult(provider, this);
+        ////    }
+
+        ////    ApplicationUser user = await AppUserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+        ////        externalLogin.ProviderKey));
+
+        ////    bool hasRegistered = user != null;
+
+        ////    if (hasRegistered)
+        ////    {
+        ////        Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
+
+        ////        ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
+        ////           OAuthDefaults.AuthenticationType);
+        ////        ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(AppUserManager,
+        ////            CookieAuthenticationDefaults.AuthenticationType);
+
+        ////        AuthenticationProperties properties = CustomOAuthProvider.CreateProperties(user.UserName);
+        ////        Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
+        ////    }
+        ////    else
+        ////    {
+        ////        IEnumerable<Claim> claims = externalLogin.GetClaims();
+        ////        ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+        ////        Authentication.SignIn(identity);
+        ////    }
+
+        ////    return Ok();
+        ////}
 
 
         private class ExternalLoginData
@@ -538,19 +596,7 @@ namespace PI.Service.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
-
-            public IList<Claim> GetClaims()
-            {
-                IList<Claim> claims = new List<Claim>();
-                claims.Add(new Claim(ClaimTypes.NameIdentifier, ProviderKey, null, LoginProvider));
-
-                if (UserName != null)
-                {
-                    claims.Add(new Claim(ClaimTypes.Name, UserName, null, LoginProvider));
-                }
-
-                return claims;
-            }
+            public string ExternalAccessToken { get; set; }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
@@ -561,8 +607,7 @@ namespace PI.Service.Controllers
 
                 Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer) || String.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
@@ -576,10 +621,71 @@ namespace PI.Service.Controllers
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name)
+                    UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    ExternalAccessToken = identity.FindFirstValue("ExternalAccessToken"),
                 };
             }
         }
+
+
+        private string ValidateClientAndRedirectUri(HttpRequestMessage request, ref string redirectUriOutput)
+        {
+
+            Uri redirectUri;
+
+            var redirectUriString = GetQueryString(Request, "redirect_uri");
+
+            if (string.IsNullOrWhiteSpace(redirectUriString))
+            {
+                return "redirect_uri is required";
+            }
+
+            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out redirectUri);
+
+            if (!validUri)
+            {
+                return "redirect_uri is invalid";
+            }
+
+            var clientId = GetQueryString(Request, "client_id");
+
+            if (string.IsNullOrWhiteSpace(clientId))
+            {
+                return "client_Id is required";
+            }
+
+            var client = authRepo.FindClient(clientId);
+
+            if (client == null)
+            {
+                return string.Format("Client_id '{0}' is not registered in the system.", clientId);
+            }
+
+            if (!string.Equals(client.AllowedOrigin, redirectUri.GetLeftPart(UriPartial.Authority), StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Format("The given URL is not allowed by Client_id '{0}' configuration.", clientId);
+            }
+
+            redirectUriOutput = redirectUri.AbsoluteUri;
+
+            return string.Empty;
+
+        }
+
+
+        private string GetQueryString(HttpRequestMessage request, string key)
+        {
+            var queryStrings = request.GetQueryNameValuePairs();
+
+            if (queryStrings == null) return null;
+
+            var match = queryStrings.FirstOrDefault(keyValue => string.Compare(keyValue.Key, key, true) == 0);
+
+            if (string.IsNullOrEmpty(match.Value)) return null;
+
+            return match.Value;
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]

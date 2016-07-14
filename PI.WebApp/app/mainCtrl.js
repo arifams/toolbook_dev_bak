@@ -69,6 +69,8 @@
     function ($scope, applicationService, builderService, pluginsService, userService,
         $location, $window, $route, gettextCatalog) {
 
+
+        debugger;
         $(document).ready(function () {
 
             applicationService.init();
@@ -185,8 +187,9 @@
             }
             //$route.reload();
         };
-
+        debugger;
         if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
+            debugger;
             window.location = webBaseUrl + "/app/userLogin/userLogin.html";
         }
 

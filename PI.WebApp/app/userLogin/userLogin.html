@@ -27,7 +27,7 @@
                     </div>
 
                     <form ng-cloak class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
-                        <div class="form-group" >
+                        <div class="form-group">
                             <div class="append-icon">
                                 <input ng-cloak type="email" name="username" id="username" class="form-control form-white username" placeholder="{{'Email'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
                                 <i class="icon-user"></i>
@@ -35,9 +35,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group" >
+                        <div class="form-group">
                             <div class="append-icon m-b-20">
-                                <input ng-cloak  type="password" name="password" class="form-control form-white password" placeholder="{{'Password'|translate}}" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
+                                <input ng-cloak type="password" name="password" class="form-control form-white password" placeholder="{{'Password'|translate}}" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
                                 <i class="icon-lock"></i>
                                 <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block" translate>Password is required.</p>
                             </div>
@@ -54,17 +54,20 @@
                         </div>
 
                         <input type="submit" id="submit-form" class="btn btn-lg btn-danger " data-style="expand-left" value="login" />
-                      
+
 
                         <div class="social-btn">
                             <button type="button" class="btn-fb btn btn-lg btn-block btn-primary"><i class="icons-socialmedia-08 pull-left"></i>Connect with Facebook</button>
                             <button type="button" class="btn btn-lg btn-block btn-green"><i class="icon-rounded-social-google-plus pull-left"></i>Login with Google</button>
                             <button type="button" class="btn btn-lg btn-block btn-blue"><i class="icon-rounded-social-google-plus pull-left"></i>Login with Microsoft</button>
-                          </div>
+                          
+                             <button class="btn btn-large btn-facebook btn-block" type="button" data-ng-click="authExternalProvider('Facebook')"><i class="fa fa-facebook"></i> | Connect with Facebook</button>
+                            <button class="btn btn-large btn-google-plus btn-block" type="button" data-ng-click="authExternalProvider('Google')"><i class="fa fa-google-plus"></i> | Connect with Google+</button>
+                        </div>
 
                         <div class="clearfix">
                             <p class="pull-left m-t-20"><a id="password" href="#" translate>Forgot password?</a></p>
-                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" ><translate>New here? Sign up</translate></a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html"><translate>New here? Sign up</translate></a></p>
                         </div>
 
 
@@ -80,7 +83,7 @@
                             </div>
                         </div>
                     </form>
-                                     
+
                     <form class="form-password" role="form" name="forgotPasswordForm" ng-submit="forgotPasswordForm.$valid && userLog.resetForgetPassword()" novalidate>
                         <div class="append-icon m-b-20" ng-hide="userLog.isSentPasswordResetMail">
                             <input type="email" name="passwordResetEmail" class="form-control form-white username" placeholder="{{'Email'|translate}}" required ng-model="userLog.pwdReset.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
@@ -130,7 +133,15 @@
     <script src="../../js/translations.js"></script>
 
     <script src="../../global/js/custom.js"></script>
-   
+
     <script src="userLoginCtrl.js"></script>
+
+    <script src="../directive/angular-local-storage.min.js"></script>
+    <script src="../directive/tokensManagerService.js"></script>
+    <script src="../directive/authService.js"></script>
+    <script src="../directive/authInterceptorService.js"></script>
+
+
 </body>
 </html>
+

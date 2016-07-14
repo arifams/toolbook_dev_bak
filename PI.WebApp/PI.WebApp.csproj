@@ -92,6 +92,11 @@
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboardCtrl.js" />
+    <Content Include="app\directive\angular-local-storage.min.js" />
+    <Content Include="app\directive\authInterceptorService.js" />
+    <Content Include="app\directive\authService.js" />
+    <Content Include="app\directive\ordersService.js" />
+    <Content Include="app\directive\tokensManagerService.js" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\reports\ShipmentReport.js" />
@@ -131,6 +136,8 @@
     <Content Include="app\userManagement\saveUserManagement.js" />
     <Content Include="app\userManagement\userManagementService.js" />
     <Content Include="app\userRegistration\termsAndConditions.html" />
+    <Content Include="app\authComplete.html" />
+    <Content Include="app\authComplete.js" />
     <Content Include="Content\ng-grid.css" />
     <Content Include="Content\ng-grid.min.css" />
     <None Include=".bin\bower.cmd" />
