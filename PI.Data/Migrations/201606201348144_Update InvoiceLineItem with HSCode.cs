@@ -7,12 +7,12 @@ namespace PI.Data.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.InvoiceItemLines", "HSCode", c => c.String());
+            //AddColumn("dbo.InvoiceItemLines", "HSCode", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.InvoiceItemLines", "HSCode");
+            //DropColumn("dbo.InvoiceItemLines", "HSCode");
         }
     }
 }
