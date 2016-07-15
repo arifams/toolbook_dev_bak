@@ -573,7 +573,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="email" name="emailaddress" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.email" required disabled>
+                                               ng-model="profileCtrl.model.customerDetails.email" required disabled >
                                         <label ng-show="updateprofile.model.emailaddress.$invalid && !updateprofile.model.emailaddress.$pristine && !updateprofile.model.emailaddress.$error.required" class="error" translate>Enter a valid email.</label>
                                         <label ng-show="updateprofile.model.emailaddress.$error.required && updateprofile.model.emailaddress.$dirty" class="error" translate>Email is required</label>
 
@@ -602,9 +602,9 @@
                                         <input type="password" name="oldpassword" class="form-control" ng-maxlength="100"
                                                placeholder="{{'Enter Old Password' | translate}}" ng-model="profileCtrl.model.oldPassword" 
                                                ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" 
-                                               ng-class="{ 'error': formUpdateProfileLogin.oldpassword.$invalid && (formUpdateProfileLogin.oldpassword.$dirty||profileCtrl.isSubmit4) }">
+                                               ng-class="{ 'error': formUpdateProfileLogin.oldpassword.$invalid && (formUpdateProfileLogin.oldpassword.$dirty||profileCtrl.isSubmit4) }" ng-focus="oldpasswordFocus = true" ng-blur="oldpasswordFocus = false">
                                         <i class="icon-user"></i>
-                                        <div ng-messages="formUpdateProfileLogin.oldpassword.$error" ng-show="formUpdateProfileLogin.oldpassword.$dirty || profileCtrl.isSubmit4">
+                                        <div ng-messages="formUpdateProfileLogin.oldpassword.$error" ng-show="(formUpdateProfileLogin.oldpassword.$dirty && !oldpasswordFocus) || profileCtrl.isSubmit4">
                                             <label ng-message="required" class="error" for="oldpassword" translate>Enter your old password</label>
                                             <label ng-message="maxlength" class="error" for="oldpassword" translate>Enter less than 100 characters</label>
                                         </div>
@@ -624,7 +624,7 @@
                                                ng-model="profileCtrl.model.newPassword"
                                                ng-required="profileCtrl.model.changeLoginData" ng-enable="profileCtrl.model.changeLoginData" 
                                                ng-class="{ 'error': formUpdateProfileLogin.newpassword.$invalid && 
-                                               (formUpdateProfileLogin.newpassword.$dirty||profileCtrl.isSubmit4) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData">
+                                               (formUpdateProfileLogin.newpassword.$dirty||profileCtrl.isSubmit4) }" valid-password ng-disabled="!profileCtrl.model.changeLoginData" ng-focus="newpasswordFocus = true" ng-blur="newpasswordFocus = false">
                                         <i class="icon-info" rel="popover" data-container="body" data-toggle="popover"
                                            data-placement="top"
                                            data-html="true"
@@ -636,7 +636,7 @@
                                                                <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One digit</translate>."
                                        data-original-title="Your Password should be:"></i>
 
-                                        <div ng-messages="formUpdateProfileLogin.newpassword.$error" ng-show="formUpdateProfileLogin.newpassword.$dirty || profileCtrl.isSubmit4">
+                                        <div ng-messages="formUpdateProfileLogin.newpassword.$error" ng-show="(formUpdateProfileLogin.newpassword.$dirty && !newpasswordFocus) || profileCtrl.isSubmit4">
                                             <label ng-message="required" class="error" for="password" translate>Enter your new password</label>
                                             <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
                                             <label ng-message="maxlength" class="error" for="password" translate>Enter less than 100 characters</label>
@@ -657,9 +657,9 @@
                                                name="newpassword_c" class="form-control"
                                                placeholder="{{'Re-enter new password' | translate}}" ng-maxlenght="100"
                                                ng-model="profileCtrl.model.confirmPassword" valid-password-c ng-required="profileCtrl.model.changeLoginData" ng-disabled="!profileCtrl.model.changeLoginData" 
-                                               ng-class="{ 'error': formUpdateProfileLogin.newpassword_c.$invalid && (formUpdateProfileLogin.newpassword_c.$dirty||profileCtrl.isSubmit4) }">
+                                               ng-class="{ 'error': formUpdateProfileLogin.newpassword_c.$invalid && (formUpdateProfileLogin.newpassword_c.$dirty||profileCtrl.isSubmit4) }" ng-focus="newpassword_cFocus = true" ng-blur="newpassword_cFocus = false">
                                         <i class="icon-user"></i>
-                                        <div ng-messages="formUpdateProfileLogin.newpassword_c.$error" ng-show="formUpdateProfileLogin.newpassword_c.$dirty || profileCtrl.isSubmit4">
+                                        <div ng-messages="formUpdateProfileLogin.newpassword_c.$error" ng-show="(formUpdateProfileLogin.newpassword_c.$dirty && !newpassword_cFocus) || profileCtrl.isSubmit4">
                                             <label ng-message="required" class="error" for="newpassword_c" translate>ReEnter your new password</label>
                                             <label ng-message="noMatch" class="error" for="newpassword_c" translate>2 passwords must be the same</label>
                                             <label ng-message="maxlength" class="error" for="newpassword_c" translate>Enter less than 100 characters</label>
