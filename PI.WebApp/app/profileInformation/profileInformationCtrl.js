@@ -116,8 +116,8 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload','gettextCatalog',
-    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload,gettextCatalog) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload','gettextCatalog','$scope',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload,gettextCatalog, $scope) {
    
 
            //applicationService.init();
@@ -141,7 +141,8 @@
                 vm.model.doNotUpdateAccountSettings = false;
                 vm.isImagetype = false;
                 vm.emailCopy = '';
-                vm.errorCode = false;
+                vm.errorCodeCustomer = false;
+                vm.errorCodeBilling = false;
                
 
                 vm.isImage = function (ext) {
@@ -1080,7 +1081,7 @@
                     });
                 }
 
-                vm.getAddressInfoByZip = function (zip, source) {
+                vm.getAddressInfoByZipCustomer = function (zip) {
 
                     if (zip.length >= 5 && typeof google != 'undefined') {
                         var addr = {};
@@ -1121,23 +1122,13 @@
                                     }
                                     addr.success = true;
                                     //assign retrieved address details
-                                    if (source=='customer') {
-
+                                    $scope.$apply(function () {
                                         vm.model.customerDetails.customerAddress.city = addr.city;
                                         vm.model.customerDetails.customerAddress.state = addr.state;
                                         vm.model.customerDetails.customerAddress.country = addr.country;
                                         vm.errorCode = false;
-                                    }
-
-                                    if (source =='billing') {
-                                        vm.model.companyDetails.costCenter.billingAddress.city = addr.city;
-                                        vm.model.companyDetails.costCenter.billingAddress.state = addr.state;
-                                        vm.model.companyDetails.costCenter.billingAddress.country = addr.country;
-                                        vm.errorCode = false;
-
-                                    }
-                                   
-
+                                    });
+                                  
 
                                 } else {
                                     vm.errorCode = true;
@@ -1154,26 +1145,91 @@
                     }
                 }
 
+                vm.getAddressInfoByZipBilling = function (zip) {
+
+                    if (zip.length >= 5 && typeof google != 'undefined') {
+                        var addr = {};
+                        var geocoder = new google.maps.Geocoder();
+                        geocoder.geocode({ 'address': zip }, function (results, status) {
+                            if (status == google.maps.GeocoderStatus.OK) {
+                                if (results.length >= 1) {
+                                    var street_number = '';
+                                    var route = '';
+                                    var street = '';
+                                    var city = '';
+                                    var state = '';
+                                    var zipcode = '';
+                                    var country = '';
+                                    var formatted_address = '';
+
+                                    for (var ii = 0; ii < results[0].address_components.length; ii++) {
+
+                                        var types = results[0].address_components[ii].types.join(",");
+                                        if (types == "street_number") {
+                                            addr.street_number = results[0].address_components[ii].long_name;
+                                        }
+                                        if (types == "route" || types == "point_of_interest,establishment") {
+                                            addr.route = results[0].address_components[ii].long_name;
+                                        }
+                                        if (types == "sublocality,political" || types == "locality,political" || types == "neighborhood,political" || types == "administrative_area_level_3,political") {
+                                            addr.city = (city == '' || types == "locality,political") ? results[0].address_components[ii].long_name : city;
+                                        }
+                                        if (types == "administrative_area_level_1,political") {
+                                            addr.state = results[0].address_components[ii].short_name;
+                                        }
+                                        if (types == "postal_code" || types == "postal_code_prefix,postal_code") {
+                                            addr.zipcode = results[0].address_components[ii].long_name;
+                                        }
+                                        if (types == "country,political") {
+                                            addr.country = results[0].address_components[ii].short_name;
+                                        }
+                                    }
+                                    addr.success = true;
+                                    //assign retrieved address details
+                                    $scope.$apply(function () {
+                                        vm.model.companyDetails.costCenter.billingAddress.city = addr.city;
+                                        vm.model.companyDetails.costCenter.billingAddress.state = addr.state;
+                                        vm.model.companyDetails.costCenter.billingAddress.country = addr.country;
+                                        vm.errorCodeBilling = false;
+                                    });
+                                    
+
+
+
+                                } else {
+                                    vm.errorCodeBilling = true;
+
+                                }
+                            } else {
+
+                                vm.errorCodeBilling = true;
+
+                            }
+                        });
+                    } else {
+                        vm.errorCodeBilling = true;
+                    }
+                }
 
                 //get the address details via google API
-                vm.getAddressInformationCustomer = function (source) {
+                vm.getAddressInformationCustomer = function () {
 
-                    if (vm.model.customerDetails.customerAddress.zipCode == null || vvm.model.customerDetails.customerAddress.zipCode == '') {
+                    if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') {
                         vm.errorCode = true;
                     } else {
-                        vm.getAddressInfoByZip(vm.model.customerDetails.customerAddress.zipCode, source);
+                        vm.getAddressInfoByZipCustomer(vm.model.customerDetails.customerAddress.zipCode);
                     }
 
 
                 }
 
              //get the address details via google API
-                vm.getAddressInformationBilling = function (source) {
+                vm.getAddressInformationBilling = function () {
 
                     if (vm.model.companyDetails.costCenter.billingAddress.zipCode == null || vm.model.companyDetails.costCenter.billingAddress.zipCode == '') {
                         vm.errorCode = true;
                     } else {
-                        vm.getAddressInfoByZip(vm.model.companyDetails.costCenter.billingAddress.zipCode, source);
+                        vm.getAddressInfoByZipBilling(vm.model.companyDetails.costCenter.billingAddress.zipCode);
                     }
 
 

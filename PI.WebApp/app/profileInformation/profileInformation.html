@@ -203,11 +203,14 @@
                                            ng-model="profileCtrl.model.customerDetails.customerAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileAddress.postalcode.$invalid && (formUpdateProfileAddress.postalcode.$dirty||profileCtrl.isSubmit2) }" ng-focus="postalCodeFocus = true" ng-blur="postalCodeFocus = false">
 
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="profileCtrl.getAddressInformationCustomer()">
                                             LookUp
                                         </button>
                                     </span>
                                 </div>
+
+                                <label class="error" for="postalcode" translate ng-show="profileCtrl.errorCodeCustomer">Invalid Zip/Postal Code</label>
+
                                 <div ng-messages="formUpdateProfileAddress.postalcode.$error" ng-show="(formUpdateProfileAddress.postalcode.$dirty && !postalCodeFocus) ||profileCtrl.isSubmit2">
                                     <label ng-message="required" class="error" for="postalcode" translate>Enter your PostalCode/ZipCode</label>
                                     <label ng-message="maxlength" class="error" for="postalcode" translate>Enter less than 100 characters</label>
@@ -218,7 +221,7 @@
                         <div class="row">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Street Name *</label>
-                            </div>
+                            </div>  
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="append-icon">
@@ -430,11 +433,14 @@
 
 
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="profileCtrl.getAddressInformationBilling()">
                                             LookUp
                                         </button>
                                     </span>
                                 </div>
+                                
+                                <label  class="error" for="billing_postalcode" translate ng-show="profileCtrl.errorCodeBilling">Invalid Zip/Postal Code</label>
+
                                 <div ng-messages="formUpdateProfileBillingAddress.billing_postalcode.$error" ng-show="(formUpdateProfileBillingAddress.billing_postalcode.$dirty && !billing_postalcodeFocus) ||profileCtrl.isSubmit3">
                                     <label ng-message="required" class="error" for="billing_postalcode" translate>Enter ZipCode</label>
                                     <label ng-message="minlength" class="error" for="billing_postalcode" translate>Enter at least 3 characters or more</label>

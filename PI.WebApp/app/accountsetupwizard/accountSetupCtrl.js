@@ -191,11 +191,12 @@
                                        addr.success = true;                                      
                                        //assign retrieved address details
                                        var city = addr.city;
-                                       vm.model.customerDetails.customerAddress.city = addr.city;
-                                       vm.model.customerDetails.customerAddress.state = addr.state;
-                                       vm.model.customerDetails.customerAddress.country = addr.country;
-                                       vm.errorCode = false;
-                                                                            
+                                       $scope.$apply(function () {
+                                           vm.model.customerDetails.customerAddress.city = addr.city;
+                                           vm.model.customerDetails.customerAddress.state = addr.state;
+                                           vm.model.customerDetails.customerAddress.country = addr.country;
+                                           vm.errorCode = false;
+                                       });
                                       
                                    } else {
                                        vm.errorCode = true;

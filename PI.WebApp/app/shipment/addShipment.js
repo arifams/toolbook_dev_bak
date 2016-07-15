@@ -899,11 +899,13 @@
                                     addr.country = results[0].address_components[ii].short_name;
                                 }
                             }
-                            addr.success = true;                          
-                            vm.shipment.addressInformation.consigner.city = addr.city;
-                            vm.shipment.addressInformation.consigner.state = addr.state;
-                            vm.shipment.addressInformation.consigner.country = addr.country;
-                            vm.errorCodeConsignor = false;
+                            addr.success = true;
+                            $scope.$apply(function () {
+                                vm.shipment.addressInformation.consigner.city = addr.city;
+                                vm.shipment.addressInformation.consigner.state = addr.state;
+                                vm.shipment.addressInformation.consigner.country = addr.country;
+                                vm.errorCodeConsignor = false;
+                            });
 
                         } else {
                             vm.errorCodeConsignor = true;
@@ -961,10 +963,12 @@
                             }
                             addr.success = true;
                             //assign retrieved address details
+                            $scope.$apply(function () {
                                 vm.shipment.addressInformation.consignee.city = addr.city;
                                 vm.shipment.addressInformation.consignee.state = addr.state;
                                 vm.shipment.addressInformation.consignee.country = addr.country;
                                 vm.errorCodeConsignee = false;
+                            });
 
 
                         } else {
