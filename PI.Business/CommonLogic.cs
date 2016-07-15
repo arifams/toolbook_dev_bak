@@ -34,7 +34,10 @@ namespace PI.Business
        /// <param name="userId"></param>
        /// <returns></returns>
        public Company GetCompanyByUserId(string userId)
-       {           
+       {
+
+            if (string.IsNullOrWhiteSpace(userId))
+                return new Company { Name = ""};
            using (PIContext context = PIContext.Get())
            {
                var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);

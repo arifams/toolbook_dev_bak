@@ -33,7 +33,7 @@ namespace PI.Data.Entity
 
         [ForeignKey("WeightMetricId")]
         public WeightMetric DefaultWeightMetric { get; set; }
-        
+
         [ForeignKey("VolumeMetricId")]
         public VolumeMetric DefaultVolumeMetric { get; set; }
 

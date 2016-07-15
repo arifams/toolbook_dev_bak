@@ -7,25 +7,25 @@ namespace PI.Data.Migrations
     {
         public override void Up()
         {
-            CreateTable(
-                "dbo.TarrifTextCodes",
-                c => new
-                    {
-                        Id = c.Long(nullable: false, identity: true),
-                        TarrifText = c.String(),
-                        CountryCode = c.String(),
-                        CreatedBy = c.String(),
-                        CreatedDate = c.DateTime(nullable: false),
-                        IsActive = c.Boolean(nullable: false),
-                        IsDelete = c.Boolean(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id);
+            //CreateTable(
+            //    "dbo.TarrifTextCodes",
+            //    c => new
+            //        {
+            //            Id = c.Long(nullable: false, identity: true),
+            //            TarrifText = c.String(),
+            //            CountryCode = c.String(),
+            //            CreatedBy = c.String(),
+            //            CreatedDate = c.DateTime(nullable: false),
+            //            IsActive = c.Boolean(nullable: false),
+            //            IsDelete = c.Boolean(nullable: false),
+            //        })
+            //    .PrimaryKey(t => t.Id);
             
         }
         
         public override void Down()
         {
-            DropTable("dbo.TarrifTextCodes");
+            //DropTable("dbo.TarrifTextCodes");
         }
     }
 }

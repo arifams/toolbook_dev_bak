@@ -12,6 +12,12 @@ namespace PI.Contract.Enums
         
     }
 
+    public enum ApplicationTypes
+    {
+        JavaScript = 0,
+        NativeConfidential = 1
+    };
+
     public enum ProductType : short
     {
         Box = 1,

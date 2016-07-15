@@ -356,7 +356,7 @@ var MakeApp = angular
 
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
-
+          
           if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
               expireTime.setMinutes(expireTime.getMinutes() + 120);
@@ -414,6 +414,9 @@ MakeApp.run(function (gettextCatalog, $rootScope, $window, $route) {
     //gettextCatalog.debug = true;
 
 });
+
+
+
 
 
 // Route State Load Spinner(used on page or content load)

@@ -43,6 +43,8 @@ namespace PI.Contract.DTOs.User
 
         public string TemplateLink { get; set; }
 
+        public string UserName { get; set; }
+
         public string Password { get; set; }
     }
 }

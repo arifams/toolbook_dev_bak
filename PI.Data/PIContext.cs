@@ -74,6 +74,11 @@ namespace PI.Data
 
         public DbSet<TarrifTextCode> TarrifTextCodes { get; set; }
 
+        public DbSet<Client> Clients { get; set; }
+        
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+
         public PIContext()
             : base("name=PIBookingConnectionString")
         {
