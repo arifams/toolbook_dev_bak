@@ -7,12 +7,12 @@ namespace PI.Data.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.ShipmentAddresses", "CompanyName", c => c.String());
+            //AddColumn("dbo.ShipmentAddresses", "CompanyName", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.ShipmentAddresses", "CompanyName");
+            //DropColumn("dbo.ShipmentAddresses", "CompanyName");
         }
     }
 }

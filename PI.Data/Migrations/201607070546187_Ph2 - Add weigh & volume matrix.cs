@@ -1,4 +1,4 @@
-namespace PI.Data.Migrations
+ namespace PI.Data.Migrations
 {
     using System;
     using System.Data.Entity.Migrations;
