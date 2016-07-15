@@ -824,6 +824,8 @@ namespace PI.Business
                     currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    currentAccountSettings.WeightMetricId =(short)updatedProfile.DefaultWeightMetricId;
+                    currentAccountSettings.VolumeMetricId = (short)updatedProfile.DefaultVolumeMetricId;
 
                     context.SaveChanges();
                 }
@@ -834,6 +836,9 @@ namespace PI.Business
                     newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+
+                    newAccountSettings.WeightMetricId = (short)updatedProfile.DefaultWeightMetricId;
+                    newAccountSettings.VolumeMetricId = (short)updatedProfile.DefaultVolumeMetricId;
                     newAccountSettings.CreatedDate = DateTime.Now;
 
                     context.AccountSettings.Add(newAccountSettings);
@@ -1094,6 +1099,10 @@ namespace PI.Business
                 accountSettings.DefaultCurrencyId = dbSettings.DefaultCurrencyId;
                 accountSettings.DefaultLanguageId = dbSettings.DefaultLanguageId;
                 accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
+
+                //get volume and weight metrics
+                accountSettings.DefaultVolumeMetricId = dbSettings.VolumeMetricId;
+                accountSettings.DefaultWeightMetricId = dbSettings.WeightMetricId;
             }
 
             accountSettings.Languages = GetAllLanguages();
@@ -1180,6 +1189,8 @@ namespace PI.Business
                 return timeZones.ToList();
             }
         }
+
+      
 
     }
 }

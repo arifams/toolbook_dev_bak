@@ -24,6 +24,9 @@ namespace PI.Contract.DTOs.Profile
         public short DefaultCurrencyId { get; set; }
         public short DefaultTimeZoneId { get; set; }
 
+        public short DefaultVolumeMetricId { get; set; }
+        public short DefaultWeightMetricId { get; set; }
+        
         public bool DoNotUpdateAccountSettings { get; set; }
 
         public bool IsInvoicePaymentEnabled { get; set; }

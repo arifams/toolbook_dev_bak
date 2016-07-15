@@ -356,7 +356,7 @@ var MakeApp = angular
 
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
-          debugger;
+          
           if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
               expireTime.setMinutes(expireTime.getMinutes() + 120);
