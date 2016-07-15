@@ -1,10 +1,10 @@
-﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm">
-    <div class="modal-dialog" ng-hide="vm.hidePanel">
+﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm" ng-init="vm.loadProfile()" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" >
         <form name="personalDetails" ng-hide="vm.hideaddressDetails">
             <div class="modal-content">
                 <div class="modal-header" style="border-bottom:2px solid #ddd;">
                     <div class="row">
-                        <label class="m-l-60">Personal Details</label><i class="glyphicon glyphicon-chevron-right modal-navigator"></i>
+                        <a class="m-l-60">Personal Details</a><i class="glyphicon glyphicon-chevron-right modal-navigator"></i>
                         <label class="modal-nav-right">Address Details</label>
                     </div>
                 </div>
@@ -13,16 +13,17 @@
                         <h2 class="text-center"><strong>Welcome to Parcel International </strong></h2>
                         <h5 class="text-center"><strong>Please fill in the following information to get Started Account Settings</strong></h5>
                     </div>
-
+                
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required" name="salutation" id="salutation" style="" 
+                                    <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required"
+                                        name="salutation"  
                                         ng-model="vm.model.customerDetails.salutation">
-                                        <option translate value="Mr" >Mr</option>
-                                        <option translate value="Mrs">Mrs</option>
-                                        <option translate value="Ms">Ms</option>
+                                        <option value="Mr">Mr</option>
+                                        <option value="Mrs">Mrs</option>
+                                        <option value="Ms">Ms</option>
                                     </select>
                                 </div>
                             </div>
@@ -47,7 +48,8 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="lastname" class="form-control" minlength="3" placeholder="Last Name *" required ng-model="vm.model.customerDetails.lastName"
+                                    <input type="text" name="lastname" class="form-control" minlength="3" placeholder="Last Name *" 
+                                           required ng-model="vm.model.customerDetails.lastName"
                                            ng-class="{ 'error': personalDetails.lastname.$invalid &&
                                                        (personalDetails.lastname.$dirty||vm.isSubmit1) }">
                                 </div>
@@ -63,8 +65,10 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *" valid-phone-no ng-model="vm.model.customerDetails.phoneNumber"
-                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && (personalDetails.phonenumber.$dirty||vm.isSubmit1) }">
+                                    <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *" 
+                                           valid-phone-no ng-model="vm.model.customerDetails.phoneNumber" required
+                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && 
+                                           (personalDetails.phonenumber.$dirty||vm.isSubmit1) }">
                                    
                                 </div>
                                 <div ng-messages="personalDetails.phonenumber.$error" ng-show="personalDetails.phonenumber.$dirty || vm.isSubmit1">
@@ -104,7 +108,7 @@
                 <div class="modal-header" style="border-bottom:2px solid #ddd;">
                     <div class="row">
                         <label class="m-l-60">Personal Details</label><i class="glyphicon glyphicon-chevron-right modal-navigator"></i>
-                        <label class="modal-nav-right">Address Details</label>
+                        <a class="modal-nav-right">Address Details</a>
                     </div>
                 </div>
                
@@ -130,13 +134,13 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="companyCode" class="form-control" ng-required="vm.toCorporate"  placeholder="Campany Register Number" ng-model="vm.model.companyDetails.companycode"
+                                    <input type="text" name="companyCode" class="form-control" ng-required="vm.toCorporate"  placeholder="Company Register Number" ng-model="vm.model.companyDetails.companycode"
                                            ng-class="{ 'error': addressDetails.companyCode.$invalid && 
                                                        (addressDetails.companyCode.$dirty||vm.isSubmit2) }">
 
                                 </div>
                                 <div ng-messages="addressDetails.companyCode.$error" ng-show="addressDetails.companyCode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="error" for="companyCode" translate>Enter your last name</label>                                   
+                                    <label ng-message="required" class="error" for="companyCode" translate>Enter Company Registration Number</label>                                   
                                     <label ng-message="maxlength" class="error" for="companyCode" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
@@ -145,7 +149,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group input-group">
+                            <div class="form-group input-group m-0">
 
                                 <input name="postalCode" type="text" class="form-control" ng-model="vm.model.customerDetails.customerAddress.zipCode" required
                                        placeholder="Zip/Postal Code *"
@@ -156,12 +160,12 @@
                                         LookUp
                                     </button>
                                 </span>
-                                <div ng-messages="addressDetails.postalCode.$error" ng-show="addressDetails.postalCode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="error" for="postalCode" translate>Enter your postal code</label>
-                                    <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
-                                </div>
-
                             </div>
+                            <div ng-messages="addressDetails.postalCode.$error" ng-show="addressDetails.postalCode.$dirty || vm.isSubmit2">
+                                <label ng-message="required" class="error" for="postalCode" translate>Enter Postal Code</label>
+                                <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
+                            </div>
+                            <label class="error" ng-show="vm.errorCode">Invalid PostalCode</label>
 
                         </div>
                     </div>
@@ -175,8 +179,8 @@
 
                                 </div>
                                 <div ng-messages="addressDetails.street.$error" ng-show="addressDetails.street.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="street" for="street" translate>Enter your street</label>
-                                    <label ng-message="maxlength" class="street" for="street" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error" for="street" translate>Enter Street Name</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -188,8 +192,8 @@
                                                        (addressDetails.number.$dirty||vm.isSubmit2) }" >
                                 </div>
                                 <div ng-messages="addressDetails.number.$error" ng-show="addressDetails.number.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="number" for="street" translate>Enter your number</label>
-                                    <label ng-message="maxlength" class="number" for="street" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error" for="number" translate>Enter Street Number</label>
+                                    <label ng-message="maxlength" class="error" for="number" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -218,8 +222,8 @@
                                                        (addressDetails.city.$dirty||vm.isSubmit2) }" >
                                 </div>
                                 <div ng-messages="addressDetails.city.$error" ng-show="addressDetails.city.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="street" for="street" translate>Enter your city</label>
-                                    <label ng-message="maxlength" class="street" for="street" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error" for="street" translate>Enter City</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -232,8 +236,8 @@
 
                                 </div>
                                 <div ng-messages="addressDetails.statecode.$error" ng-show="addressDetails.statecode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="statecode" for="street" translate>Enter your statecode</label>
-                                    <label ng-message="maxlength" class="statecode" for="street" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error" for="street" translate>Enter State Code</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -254,7 +258,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" ng-show="vm.toCorporate">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
