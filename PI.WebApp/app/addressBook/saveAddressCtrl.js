@@ -27,7 +27,7 @@
         }
     })
 
-    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope) {
+    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', '$scope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope, $scope) {
 
         var vm = this;
        
@@ -128,10 +128,15 @@
                             addr.success = true;
                             //assign retrieved address details
                             var city = addr.city;
-                            vm.model.city = addr.city;
-                            vm.model.state = addr.state;
-                            vm.model.country = addr.country;
-                            vm.errorCode = false;
+
+                            $scope.$apply(function () {
+                                vm.model.city = addr.city;
+                                vm.model.state = addr.state;
+                                vm.model.country = addr.country;
+                                vm.errorCode = false;
+                            });
+
+                            
 
 
                         } else {
@@ -150,12 +155,12 @@
         }
 
         vm.getAddressInformation = function () {
-
+            
             if (vm.model.zipCode == null || vm.model.zipCode =='') {
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZip(vm.model.zipCode);
-                vm.getAddressInfoByZip(vm.model.zipCode);
+                
             }
 
 
