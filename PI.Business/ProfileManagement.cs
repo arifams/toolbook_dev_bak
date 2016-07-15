@@ -50,15 +50,8 @@ namespace PI.Business
                 currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
             }
 
-            if (currentCompany != null)
-            {
-                currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
 
-                if (currentCostCenters != null && currentCostCenters.Count() == 1)
-                {
-                    currentCostCenter = currentCostCenters.FirstOrDefault();
-                }
-            }
+            
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
@@ -102,6 +95,22 @@ namespace PI.Business
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
                 currentProfile.CompanyDetails.CompanyCode = currentCompany.CompanyCode;
+
+                currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
+
+                if (currentCostCenters != null && currentCostCenters.Count() == 1)
+                {
+                    currentCostCenter = currentCostCenters.FirstOrDefault();
+
+                    currentProfile.CompanyDetails.CostCenter = new CostCenterDto()
+                    {
+                        Id = currentCostCenter.Id,
+                        Status = currentCostCenter.Status,
+                        Type = currentCostCenter.Type,
+                        IsActive = currentCostCenter.IsActive
+
+                    };
+                }
 
 
             }

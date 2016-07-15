@@ -233,8 +233,51 @@
                     builderFactory.init();
                 };
 
+
+                vm.loadAddressInfo = function () {
+                    vm.loading = true;
+                    getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
+                     .then(function successCallback(response) {
+                         vm.loading = false;
+                         if (response.data.customerDetails != null) {
+                             // vm.model.customerDetails = response.data.customerDetails;
+                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
+                             // vm.model.companyDetails = response.data.companyDetails;
+                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
+                             vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
+                             vm.changeCountry();
+
+                             debugger;
+                             if (response.data.companyDetails.costCenter != null) {
+                                 vm.multipleCostCenters = true;
+                             }
+                             else {
+                                 vm.multipleCostCenters = false;
+                             }
+
+
+                             if (response.data.companyDetails.costCenter != null &&
+                                 response.data.companyDetails.costCenter.billingAddress != null) {
+
+                                 vm.model.companyDetails.costCenter.billingAddress = response.data.companyDetails.costCenter.billingAddress;
+                                 vm.changeBillingCountry();
+                             }
+                             else {
+                                 vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
+                                 vm.changeBillingCountry();
+                             }
+                         }
+
+                     }, function errorCallback(response) {
+                         vm.loading = false;
+                         //todo
+                     });
+                }
+
                 vm.loadProfile = function () {
                     vm.loading = true;
+                   
+
                     loadProfilefactory.loadProfileinfo()
                     .success(function (response) {
 
@@ -247,6 +290,7 @@
                                 vm.model.customerDetails = response.customerDetails;
                                  vm.model.companyDetails = response.companyDetails;
                                  vm.emailCopy = response.customerDetails.email;
+                                 vm.loadAddressInfo();
 
                                 if (response.customerDetails.isCorporateAccount) {
                                     vm.model.customerDetails.isCorporateAccount = "true";
@@ -458,44 +502,7 @@
                 }
 
 
-                vm.loadAddressInfo = function () {
-                    vm.loading = true;
-                    getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
-                     .then(function successCallback(response) {
-                         vm.loading = false;
-                         if (response.data.customerDetails != null) {
-                             // vm.model.customerDetails = response.data.customerDetails;
-                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             // vm.model.companyDetails = response.data.companyDetails;
-                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
-                             vm.changeCountry();
-
-                             if (response.data.companyDetails.costCenter != null) {
-                                 vm.multipleCostCenters = true;
-                             }
-                             else {
-                                 vm.multipleCostCenters = false;
-                             }
-                             
-
-                             if (response.data.companyDetails.costCenter != null &&
-                                 response.data.companyDetails.costCenter.billingAddress != null) {
-
-                                 vm.model.companyDetails.costCenter.billingAddress = response.data.companyDetails.costCenter.billingAddress;
-                                 vm.changeBillingCountry();
-                             }
-                             else {
-                                 vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
-                                 vm.changeBillingCountry();
-                             }
-                         }
-
-                     }, function errorCallback(response) {
-                         vm.loading = false;
-                         //todo
-                     });
-                }
+                
 
                 vm.loadAccountSettings = function () {
                     vm.loading = true;
