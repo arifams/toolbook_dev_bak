@@ -46,23 +46,29 @@
 
 
                                //triggering  the second step only for genaral details completed users
-                               if ((vm.model.customerDetails.firstName != null || vm.model.customerDetails.firstName != '') &&
-                                   (vm.model.customerDetails.lastName != null || vm.model.customerDetails.lastName != '') &&
-                                   (vm.model.customerDetails.salutation != null || vm.model.customerDetails.salutation != '')) {
+                               if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
+                                   (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
+                                   (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')) {
 
+                                  
+                               } else {
                                    vm.hideaddressDetails = true;
                                    generalDetailesCompleted = true;
+    
                                }
 
                                //closing the pop if all profile details are completed
-                               if (generalDetailesCompleted==true &&(vm.model.customerDetails.customerAddress.zipCode != null || vm.model.customerDetails.customerAddress.zipCode != '') &&
-                                   (vm.model.customerDetails.customerAddress.streetAddress1 != null || vm.model.customerDetails.customerAddress.streetAddress1 != '')&&
-                                   (vm.model.customerDetails.customerAddress.number != null || vm.model.customerDetails.customerAddress.number!='') &&
-                                   (vm.model.customerDetails.customerAddress.city != null || vm.model.customerDetails.customerAddress.city!='')&&
-                                   (vm.model.customerDetails.customerAddress.country != null || vm.model.customerDetails.customerAddress.country != '')) {
+                               if (generalDetailesCompleted==true &&(vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
+                                   (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '')||
+                                   (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number=='') ||
+                                   (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city=='')||
+                                   (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
+
+                                 
+
+                               } else {
 
                                    $scope.closePopup();
-
                                }
 
                                if (response.customerDetails.isCorporateAccount) {
