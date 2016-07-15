@@ -235,7 +235,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group input-group m-r-0">
+                                <div class="form-group input-group m-r-0 m-b-0">
                                         <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.postalcode" type="text" name="consignerpostalcode" class="form-control" ng-required="true" placeholder="{{'Postal/ZipCode*'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
                                                ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerpostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerpostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consignerpostalcodeFocus = true" ng-blur="consignerpostalcodeFocus = false"/>
@@ -244,14 +244,12 @@
                                                 LookUp
                                             </button>
                                         </span>
-                                          
-                                        <div ng-messages="consignerConsigneeInfoForm.consignerpostalcode.$error"
-                                             ng-show="(consignerConsigneeInfoForm.consignerpostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerpostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
-                                            <label ng-message="required" class="error" for="consignerpostalcode" translate>Consignor Postal/Zip code is required</label>
-                                            <label ng-message="maxlength" class="error" for="consignerpostalcode" translate>Max length should be 200 characters</label>
-                                        </div>
                                 </div>
-
+                                <div ng-messages="consignerConsigneeInfoForm.consignerpostalcode.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consignerpostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerpostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consignerpostalcode" translate>Consignor Postal/Zip code is required</label>
+                                    <label ng-message="maxlength" class="error" for="consignerpostalcode" translate>Max length should be 200 characters</label>
+                                </div>
                                 <div class="form-group">
                                     <div class="col-sm-12 p-r-1 p-l-0">
                                         <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.address2" type="text" name="consigneraddress2" class="form-control" placeholder="{{'Additional address information'|translate}}" ng-change="shipmentCtrl.consignorEdited()"
@@ -439,7 +437,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group input-group">
+                            <div class="form-group input-group m-b-0">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.postalcode" type="text" name="consigneepostalcode" class="form-control" ng-required="true" placeholder="{{'Postal/ZipCode*'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneepostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneepostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consigneepostalcodeFocus = true" ng-blur="consigneepostalcodeFocus = false"/>
@@ -448,12 +446,11 @@
                                         LookUp
                                     </button>
                                 </span>
-                                
-                                <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
-                                     ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneepostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneeName" translate>Consignee Postal/Zip code is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneeName" translate>Max length should be 200 characters</label>
-                                </div>
+                            </div>
+                            <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
+                                 ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneepostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
+                                <label ng-message="required" class="error" for="consigneeName" translate>Consignee Postal/Zip code is required</label>
+                                <label ng-message="maxlength" class="error" for="consigneeName" translate>Max length should be 200 characters</label>
                             </div>
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.address2" type="text" name="consigneeaddress2" class="form-control" placeholder="{{'Additional address information'|translate}}" ng-change="shipmentCtrl.consigneeEdited()"
