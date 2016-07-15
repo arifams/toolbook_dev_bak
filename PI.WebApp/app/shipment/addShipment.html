@@ -240,10 +240,11 @@
                                                ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerpostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignerpostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consignerpostalcodeFocus = true" ng-blur="consignerpostalcodeFocus = false"/>
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                            <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="shipmentCtrl.getAddressInformationConsignor()">
                                                 LookUp
                                             </button>
                                         </span>
+                                    <label class="error" for="consignorname" translate ng-show="shipmentCtrl.errorCodeConsignor">Invalid Postal/Zip Code</label>
                                 </div>
                                 <div ng-messages="consignerConsigneeInfoForm.consignerpostalcode.$error"
                                      ng-show="(consignerConsigneeInfoForm.consignerpostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerpostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
@@ -442,10 +443,11 @@
                                        ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneepostalcode.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneepostalcode.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consigneepostalcodeFocus = true" ng-blur="consigneepostalcodeFocus = false"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="shipmentCtrl.getAddressInformationConsignee()">
                                         LookUp
                                     </button>
                                 </span>
+                                <label class="error" for="consigneeName" translate ng-show="shipmentCtrl.errorCodeConsignee">Invalid Postal/Zip Code</label>
                             </div>
                             <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
                                  ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneepostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">

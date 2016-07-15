@@ -149,12 +149,12 @@
                                                                         (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Entetr Zip/Postal Code' | translate}}" ng-focus="zipCodeFocus = true" ng-blur="zipCodeFocus = false" />
 
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="addressCtrl.getAddressInformation()">
                                             LookUp
                                         </button>
                                     </span>
                                 </div>
-                                
+                                <label  class="error" for="postalcode" translate ng-show="addressCtrl.errorCode">Invalid Zip/Postal Code</label>
                                 <div ng-messages="saveAddressForm.postalcode.$error"
                                      ng-show="(saveAddressForm.postalcode.$dirty && !zipCodeFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="postalcode" translate>Postal Code is required</label>
