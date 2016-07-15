@@ -1,4 +1,4 @@
-﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm" ng-init="vm.loadProfile()">
+﻿<div class="modal fade" id="{{templateModal.id}}" tabindex="-1" role="dialog" aria-hidden="true" ng-controller="accountSetupCtrl as vm" ng-init="vm.loadProfile()" data-backdrop="static" data-keyboard="false">
     <div class="modal-dialog" >
         <form name="personalDetails" ng-hide="vm.hideaddressDetails">
             <div class="modal-content">
@@ -145,7 +145,7 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="form-group input-group">
+                            <div class="form-group input-group m-0">
 
                                 <input name="postalCode" type="text" class="form-control" ng-model="vm.model.customerDetails.customerAddress.zipCode" required
                                        placeholder="Zip/Postal Code *"
@@ -156,13 +156,12 @@
                                         LookUp
                                     </button>
                                 </span>
-                                <div ng-messages="addressDetails.postalCode.$error" ng-show="addressDetails.postalCode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="error" for="postalCode" translate>Enter your postal code</label>
-                                    <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
-                                </div>
-                                <label class="error" ng-show="vm.errorCode">Invalid PostalCode</label>
-
                             </div>
+                            <div ng-messages="addressDetails.postalCode.$error" ng-show="addressDetails.postalCode.$dirty || vm.isSubmit2">
+                                <label ng-message="required" class="error" for="postalCode" translate>Enter your postal code</label>
+                                <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
+                            </div>
+                            <label class="error" ng-show="vm.errorCode">Invalid PostalCode</label>
 
                         </div>
                     </div>

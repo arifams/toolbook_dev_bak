@@ -143,9 +143,18 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" translate>Postal/ Zip Code *</label>
                             <div class="col-sm-8">
-                                <input ng-model="addressCtrl.model.zipCode" type="text" name="postalcode" class="form-control" required
-                                       ng-maxlength="20" ng-class="{ 'error': saveAddressForm.postalcode.$invalid &&
-                                                                        (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Entetr Zip/Postal Code' | translate}}" ng-focus="zipCodeFocus = true" ng-blur="zipCodeFocus = false"/>
+                                <div class="form-group input-group m-0">
+                                    <input ng-model="addressCtrl.model.zipCode" type="text" name="postalcode" class="form-control" required
+                                           ng-maxlength="20" ng-class="{ 'error': saveAddressForm.postalcode.$invalid &&
+                                                                        (saveAddressForm.postalcode.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Entetr Zip/Postal Code' | translate}}" ng-focus="zipCodeFocus = true" ng-blur="zipCodeFocus = false" />
+
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                            LookUp
+                                        </button>
+                                    </span>
+                                </div>
+                                
                                 <div ng-messages="saveAddressForm.postalcode.$error"
                                      ng-show="(saveAddressForm.postalcode.$dirty && !zipCodeFocus) || addressCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="postalcode" translate>Postal Code is required</label>
