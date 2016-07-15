@@ -198,16 +198,20 @@
                                 <label class="control-label" translate>Postal/Zip Code </label>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="postalcode" class="form-control" required
-                                               ng-model="profileCtrl.model.customerDetails.customerAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileAddress.postalcode.$invalid && (formUpdateProfileAddress.postalcode.$dirty||profileCtrl.isSubmit2) }" ng-focus="postalCodeFocus = true" ng-blur="postalCodeFocus = false">
-                                        <div ng-messages="formUpdateProfileAddress.postalcode.$error" ng-show="(formUpdateProfileAddress.postalcode.$dirty && !postalCodeFocus) ||profileCtrl.isSubmit2">
-                                            <label ng-message="required" class="error" for="postalcode" translate>Enter your PostalCode/ZipCode</label>
-                                            <label ng-message="maxlength" class="error" for="postalcode" translate>Enter less than 100 characters</label>
-                                            <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
-                                        </div>
-                                    </div>
+                                <div class="form-group input-group m-0">
+                                    <input type="text" name="postalcode" class="form-control" required
+                                           ng-model="profileCtrl.model.customerDetails.customerAddress.zipCode" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileAddress.postalcode.$invalid && (formUpdateProfileAddress.postalcode.$dirty||profileCtrl.isSubmit2) }" ng-focus="postalCodeFocus = true" ng-blur="postalCodeFocus = false">
+
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                            LookUp
+                                        </button>
+                                    </span>
+                                </div>
+                                <div ng-messages="formUpdateProfileAddress.postalcode.$error" ng-show="(formUpdateProfileAddress.postalcode.$dirty && !postalCodeFocus) ||profileCtrl.isSubmit2">
+                                    <label ng-message="required" class="error" for="postalcode" translate>Enter your PostalCode/ZipCode</label>
+                                    <label ng-message="maxlength" class="error" for="postalcode" translate>Enter less than 100 characters</label>
+                                    <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                 </div>
                             </div>
                         </div>
@@ -419,17 +423,22 @@
                                 <label class="control-label" translate> Postal/Zip Code *</label>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="billing_postalcode" class="form-control" ng-required="true"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100"
-                                                ng-class="{ 'error': formUpdateProfileBillingAddress.billing_postalcode.$invalid && (formUpdateProfileBillingAddress.billing_postalcode.$dirty||profileCtrl.isSubmit3) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress" ng-focus="billing_postalcodeFocus = true" ng-blur="billing_postalcodeFocus = false">
-                                        <div ng-messages="formUpdateProfileBillingAddress.billing_postalcode.$error" ng-show="(formUpdateProfileBillingAddress.billing_postalcode.$dirty && !billing_postalcodeFocus) ||profileCtrl.isSubmit3">
-                                            <label ng-message="required" class="error" for="billing_postalcode" translate>Enter ZipCode</label>
-                                            <label ng-message="minlength" class="error" for="billing_postalcode" translate>Enter at least 3 characters or more</label>
-                                            <label ng-message="maxlength" class="error" for="billing_postalcode" translate>Enter less than 100 characters</label>
-                                        </div>
-                                    </div>
+                                <div class="form-group input-group m-0">
+                                    <input type="text" name="billing_postalcode" class="form-control" ng-required="true"
+                                           ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.zipCode" ng-minlength="3" ng-maxlength="100"
+                                           ng-class="{ 'error': formUpdateProfileBillingAddress.billing_postalcode.$invalid && (formUpdateProfileBillingAddress.billing_postalcode.$dirty||profileCtrl.isSubmit3) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress" ng-focus="billing_postalcodeFocus = true" ng-blur="billing_postalcodeFocus = false">
+
+
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn">
+                                            LookUp
+                                        </button>
+                                    </span>
+                                </div>
+                                <div ng-messages="formUpdateProfileBillingAddress.billing_postalcode.$error" ng-show="(formUpdateProfileBillingAddress.billing_postalcode.$dirty && !billing_postalcodeFocus) ||profileCtrl.isSubmit3">
+                                    <label ng-message="required" class="error" for="billing_postalcode" translate>Enter ZipCode</label>
+                                    <label ng-message="minlength" class="error" for="billing_postalcode" translate>Enter at least 3 characters or more</label>
+                                    <label ng-message="maxlength" class="error" for="billing_postalcode" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
