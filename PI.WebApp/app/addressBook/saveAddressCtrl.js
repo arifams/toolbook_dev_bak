@@ -155,6 +155,7 @@
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZip(vm.model.zipCode);
+                vm.getAddressInfoByZip(vm.model.zipCode);
             }
 
 
