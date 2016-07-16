@@ -32,10 +32,10 @@
                                 <div class="append-icon">
                                     <input type="text" ng-cloak name="firstname" class="form-control" minlength="3" placeholder="First Name *" required ng-model="vm.model.customerDetails.firstName"
                                             ng-class="{ 'error': personalDetails.firstname.$invalid &&
-                                                       (personalDetails.firstname.$dirty||vm.isSubmit1) }">
+                                                       (personalDetails.firstname.$dirty||vm.isSubmit1) }" ng-focus="firstnameFocus = true" ng-blur="firstnameFocus = false">
 
                                 </div>
-                                <div ng-messages="personalDetails.firstname.$error" ng-show="personalDetails.firstname.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.firstname.$error" ng-show="(personalDetails.firstname.$dirty && !firstnameFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
                                     <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
                                     <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
@@ -49,9 +49,9 @@
                                 <div class="append-icon">
                                     <input type="text" name="lastname" class="form-control" minlength="3" placeholder="Last Name *" required ng-model="vm.model.customerDetails.lastName"
                                            ng-class="{ 'error': personalDetails.lastname.$invalid &&
-                                                       (personalDetails.lastname.$dirty||vm.isSubmit1) }">
+                                                       (personalDetails.lastname.$dirty||vm.isSubmit1) }" ng-focus="lastnameFocus = true" ng-blur="lastnameFocus = false">
                                 </div>
-                                <div ng-messages="personalDetails.lastname.$error" ng-show="personalDetails.lastname.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.lastname.$error" ng-show="(personalDetails.lastname.$dirty && !lastnameFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
                                     <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                     <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
@@ -64,10 +64,10 @@
                             <div class="form-group">
                                 <div class="append-icon">
                                     <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *" valid-phone-no ng-model="vm.model.customerDetails.phoneNumber"
-                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && (personalDetails.phonenumber.$dirty||vm.isSubmit1) }">
+                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && (personalDetails.phonenumber.$dirty||vm.isSubmit1) }"  ng-focus="phonenumberFocus = true" ng-blur="phonenumberFocus = false">
                                    
                                 </div>
-                                <div ng-messages="personalDetails.phonenumber.$error" ng-show="personalDetails.phonenumber.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.phonenumber.$error" ng-show="(personalDetails.phonenumber.$dirty && !phonenumberFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
                                     <label ng-message="maxlength" class="error" for="phonenumber" translate>Enter less than 20 characters</label>
