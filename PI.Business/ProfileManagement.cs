@@ -619,6 +619,10 @@ namespace PI.Business
 
                 Address currentAddress = context.Addresses.SingleOrDefault(a => a.Id == currentCustomer.AddressId);
 
+                //get the account settings
+                AccountSettings accountSettings= context.AccountSettings.SingleOrDefault(s => s.CustomerId == currentCustomer.Id);
+               
+
                 if (currentAddress != null)
                 {
                     currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
@@ -628,6 +632,42 @@ namespace PI.Business
                     currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
                     currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
                     currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+
+                    if (accountSettings!=null)
+                    {
+                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                        {
+                            accountSettings.VolumeMetricId = 2;
+                            accountSettings.WeightMetricId = 2;
+                        }
+                        else
+                        {
+                            accountSettings.VolumeMetricId = 1;
+                            accountSettings.WeightMetricId = 1;
+
+                        }
+
+                    }
+                    else
+                    {
+                        AccountSettings newAccountSetting = new AccountSettings();
+                        newAccountSetting.CustomerId = currentCustomer.Id;
+                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                        {
+                            accountSettings.VolumeMetricId = 2;
+                            accountSettings.WeightMetricId = 2;
+                        }
+                        else
+                        {
+                            accountSettings.VolumeMetricId = 1;
+                            accountSettings.WeightMetricId = 1;
+
+                        }
+                        context.AccountSettings.Add(newAccountSetting);
+                        
+                    }
+                    //updating account settings according to the country
+                   
 
                     context.SaveChanges();
                 }
