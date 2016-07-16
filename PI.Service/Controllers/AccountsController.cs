@@ -711,8 +711,8 @@ namespace PI.Service.Controllers
             var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/resetPassword/resetPassword.html?userId=" + existingUser.Id + "&code=" + passwordResetToken));
 
             StringBuilder emailbody = new StringBuilder(userModel.TemplateLink);
-            emailbody.Replace("Salutation", existingUser.Salutation).Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName)
-                                        .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+
+            emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(existingUser.Id, "Reset your account password", emailbody.ToString());
 
