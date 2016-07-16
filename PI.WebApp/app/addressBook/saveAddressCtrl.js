@@ -140,17 +140,23 @@
 
 
                         } else {
-                            vm.errorCode = true;
+                            $scope.$apply(function () {
+                                vm.errorCode = true;
+                            });
 
                         }
                     } else {
 
-                        vm.errorCode = true;
+                        $scope.$apply(function () {
+                            vm.errorCode = true;
+                        });
 
                     }
                 });
             } else {
-                vm.errorCode = true;
+                $scope.$apply(function () {
+                    vm.errorCode = true;
+                });
             }
         }
 
