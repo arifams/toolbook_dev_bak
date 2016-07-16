@@ -1126,22 +1126,27 @@
                                         vm.model.customerDetails.customerAddress.city = addr.city;
                                         vm.model.customerDetails.customerAddress.state = addr.state;
                                         vm.model.customerDetails.customerAddress.country = addr.country;
-                                        vm.errorCode = false;
+                                        vm.errorCodeCustomer = false;
                                     });
                                   
 
                                 } else {
-                                    vm.errorCode = true;
+                                    $scope.$apply(function () {
+                                        vm.errorCodeCustomer = true;
+                                    });
 
                                 }
                             } else {
-
-                                vm.errorCode = true;
+                                $scope.$apply(function () {
+                                    vm.errorCodeCustomer = true;
+                                });
 
                             }
                         });
                     } else {
-                        vm.errorCode = true;
+                        $scope.$apply(function () {
+                            vm.errorCodeCustomer = true;
+                        });
                     }
                 }
 
@@ -1197,17 +1202,22 @@
 
 
                                 } else {
-                                    vm.errorCodeBilling = true;
+                                    $scope.$apply(function () {
+                                        vm.errorCodeBilling = true;
+                                    });
 
                                 }
                             } else {
-
-                                vm.errorCodeBilling = true;
+                                $scope.$apply(function () {
+                                    vm.errorCodeBilling = true;
+                                });
 
                             }
                         });
                     } else {
-                        vm.errorCodeBilling = true;
+                        $scope.$apply(function () {
+                            vm.errorCodeBilling = true;
+                        });
                     }
                 }
 

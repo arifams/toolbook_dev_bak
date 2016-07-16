@@ -908,17 +908,22 @@
                             });
 
                         } else {
-                            vm.errorCodeConsignor = true;
+                            $scope.$apply(function () {
+                                vm.errorCodeConsignor = true;
+                            });
 
                         }
                     } else {
-
-                        vm.errorCodeConsignor = true;
+                        $scope.$apply(function () {
+                            vm.errorCodeConsignor = true;
+                        });
 
                     }
                 });
             } else {
-                vm.errorCodeConsignor = true;
+                $scope.$apply(function () {
+                    vm.errorCodeConsignor = true;
+                });
             }
         }
 
@@ -972,17 +977,23 @@
 
 
                         } else {
-                            vm.errorCodeConsignee = true;
+                            $scope.$apply(function () {
+                                vm.errorCodeConsignee = true;
+                            });
 
                         }
                     } else {
+                        $scope.$apply(function () {
 
-                        vm.errorCodeConsignee = true;
+                            vm.errorCodeConsignee = true;
+                        });
 
                     }
                 });
             } else {
-                vm.errorCodeConsignee = true;
+                $scope.$apply(function () {
+                    vm.errorCodeConsignee = true;
+                });
             }
         }
 
