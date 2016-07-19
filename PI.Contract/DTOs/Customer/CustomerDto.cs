@@ -41,6 +41,7 @@ namespace PI.Contract.DTOs.Customer
 
         public long AddressId { get; set; }
 
+        public bool viaExternalLogin { get; set; }
         //public string HomeTown { get; set; }
 
         //public System.DateTime? BirthDate { get; set; }
