@@ -3,7 +3,7 @@
 (function (app) {
 
     app.controller('accountSetupCtrl',
-       ['$scope', 'updateProfilefactory', '$window', 'loadProfilefactory',
+       ['$scope','updateProfilefactory','$window','loadProfilefactory',
     function ($scope, updateProfilefactory, $window, loadProfilefactory) {
 
         var vm = this;
@@ -43,9 +43,8 @@
                         //setting the account type                        
                         vm.model.customerDetails = response.customerDetails;
                         vm.model.companyDetails = response.companyDetails;
-                        debugger;
-                        if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null)
-                        {
+
+                        if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
                             vm.model.customerDetails.salutation = 'Mr';
                         }
 
@@ -62,10 +61,10 @@
                         }
 
                         //closing the pop if all profile details are completed
-                        if (generalDetailesCompleted == true && (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
-                            (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '') ||
-                            (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number == '') ||
-                            (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city == '') ||
+                        if (generalDetailesCompleted==true &&(vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
+                            (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '')||
+                            (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number=='') ||
+                            (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city=='')||
                             (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
 
 
@@ -97,12 +96,12 @@
 
         vm.saveGeneralDetails = function () {
             debugger;
-            if (vm.model.customerDetails.isCorporateAccount == 'true') {
+            if (vm.model.customerDetails.isCorporateAccount=='true') {
                 vm.toCorporate = true;
             }
             updateProfilefactory.updateProfileGeneral(vm.model)
                                        .success(function (responce) {
-                                           if (responce != null && responce == 1) {
+                                           if (responce != null && responce==1) {
 
                                                vm.hideaddressDetails = true;
                                            }
@@ -116,7 +115,7 @@
 
             updateProfilefactory.updateProfileAddress(vm.model)
              .success(function (responce) {
-                 if (responce != null && responce == 1) {
+                 if (responce != null && responce == 1){
                      saveAddressSuccessfully = true;
                      if (vm.useCorpAddressAsBilling == true) {
 
@@ -208,23 +207,28 @@
                             });
 
                         } else {
-                            vm.errorCode = true;
+                            $scope.$apply(function () {
+                                vm.errorCode = true;
+                            });
 
                         }
                     } else {
-
-                        vm.errorCode = true;
+                        $scope.$apply(function () {
+                                       vm.errorCode = true;
+            });
 
                     }
                 });
             } else {
-                vm.errorCode = true;
+                $scope.$apply(function () {
+                    vm.errorCode = true;
+                });
             }
         }
 
         vm.getAddressInformation = function () {
 
-            if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') {
+            if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode=='') {
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZip(vm.model.customerDetails.customerAddress.zipCode);

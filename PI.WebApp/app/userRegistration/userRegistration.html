@@ -23,7 +23,17 @@
                     <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-hide="regCtrl.isSentMail" ng-submit="formSignup.$valid && regCtrl.register();">
                         <div class="reg" id="reg-stepOne" ng-show="showContent != true">
                             <div class="regheader" translate> Customer Registration </div>
-                            <div class="reg-contentwrapper">                                
+                            <div class="reg-contentwrapper">
+                                <p class="m-t-0 text-center f-16">
+                                    Register with one of your accounts using
+                                </p>
+                                <div class="row text-center">
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-fb icon-margin" type="button"><i class="fa fa-facebook"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-danger" type="button"><i class="fa fa-google-plus"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-blue" type="button"><i class="fa fa-windows"></i></button>
+                                </div>
+                                <hr>
+                                <p class="m-t-0 text-center f-16">Or register with a traditional account</p>                                
                                 <div class="row">
                                     <div class="col-sm-12">
                                         <div class="form-group">

@@ -50,15 +50,8 @@ namespace PI.Business
                 currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
             }
 
-            if (currentCompany != null)
-            {
-                currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
 
-                if (currentCostCenters != null && currentCostCenters.Count() == 1)
-                {
-                    currentCostCenter = currentCostCenters.FirstOrDefault();
-                }
-            }
+            
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
@@ -74,6 +67,21 @@ namespace PI.Business
             currentProfile.CustomerDetails.JobCapacity = currentCustomer.JobCapacity;
             currentProfile.CustomerDetails.AddressId = currentCustomer.AddressId;
 
+
+            //Assigning Address Details
+
+            if (currentCustomer.CustomerAddress!=null)
+            {
+                currentProfile.CustomerDetails.CustomerAddress.ZipCode = currentCustomer.CustomerAddress.ZipCode;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress1 = currentCustomer.CustomerAddress.StreetAddress1;
+                currentProfile.CustomerDetails.CustomerAddress.StreetAddress2 = currentCustomer.CustomerAddress.StreetAddress2;
+                currentProfile.CustomerDetails.CustomerAddress.Number = currentCustomer.CustomerAddress.Number;
+                currentProfile.CustomerDetails.CustomerAddress.City = currentCustomer.CustomerAddress.City;
+                currentProfile.CustomerDetails.CustomerAddress.State = currentCustomer.CustomerAddress.State;
+                currentProfile.CustomerDetails.CustomerAddress.Country = currentCustomer.CustomerAddress.Country;
+            }
+
+
             //currentProfile.CustomerDetails.UserName = currentCustomer.UserName;
             //currentProfile.CustomerDetails.Password = currentCustomer.Password;
             currentProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress = currentCustomer.IsCorpAddressUseAsBusinessAddress;
@@ -87,6 +95,22 @@ namespace PI.Business
                 currentProfile.CompanyDetails.VATNumber = currentCompany.VATNumber;
                 currentProfile.CompanyDetails.Name = currentCompany.Name;
                 currentProfile.CompanyDetails.CompanyCode = currentCompany.CompanyCode;
+
+                currentCostCenters = this.GetCostCenterByCompanyId(currentCompany.Id);
+
+                if (currentCostCenters != null && currentCostCenters.Count() == 1)
+                {
+                    currentCostCenter = currentCostCenters.FirstOrDefault();
+
+                    currentProfile.CompanyDetails.CostCenter = new CostCenterDto()
+                    {
+                        Id = currentCostCenter.Id,
+                        Status = currentCostCenter.Status,
+                        Type = currentCostCenter.Type,
+                        IsActive = currentCostCenter.IsActive
+
+                    };
+                }
 
 
             }
@@ -809,6 +833,8 @@ namespace PI.Business
                     currentAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     currentAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     currentAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+                    currentAccountSettings.WeightMetricId =(short)updatedProfile.DefaultWeightMetricId;
+                    currentAccountSettings.VolumeMetricId = (short)updatedProfile.DefaultVolumeMetricId;
 
                     context.SaveChanges();
                 }
@@ -819,6 +845,9 @@ namespace PI.Business
                     newAccountSettings.DefaultLanguageId = updatedProfile.DefaultLanguageId;
                     newAccountSettings.DefaultCurrencyId = updatedProfile.DefaultCurrencyId;
                     newAccountSettings.DefaultTimeZoneId = updatedProfile.DefaultTimeZoneId;
+
+                    newAccountSettings.WeightMetricId = (short)updatedProfile.DefaultWeightMetricId;
+                    newAccountSettings.VolumeMetricId = (short)updatedProfile.DefaultVolumeMetricId;
                     newAccountSettings.CreatedDate = DateTime.Now;
 
                     context.AccountSettings.Add(newAccountSettings);
@@ -1079,6 +1108,10 @@ namespace PI.Business
                 accountSettings.DefaultCurrencyId = dbSettings.DefaultCurrencyId;
                 accountSettings.DefaultLanguageId = dbSettings.DefaultLanguageId;
                 accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
+
+                //get volume and weight metrics
+                accountSettings.DefaultVolumeMetricId = dbSettings.VolumeMetricId;
+                accountSettings.DefaultWeightMetricId = dbSettings.WeightMetricId;
             }
 
             accountSettings.Languages = GetAllLanguages();
@@ -1165,6 +1198,8 @@ namespace PI.Business
                 return timeZones.ToList();
             }
         }
+
+      
 
     }
 }

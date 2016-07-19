@@ -2,13 +2,14 @@
 
 (function (app) {
 
-    app.controller('orgStructureCtrl', [function ($scope) {
+    app.controller('orgStructureCtrl',[ '$scope',function ($scope) {
 
+                $(document).ready(function () {
                     $("#org").jOrgChart({
                         chartElement: '#chart',
                         dragAndDrop: true
                     });
-
+                });
            }]);
 
 
