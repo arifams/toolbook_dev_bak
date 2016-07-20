@@ -5,7 +5,7 @@
 //var serverBaseUrl = 'http://pibooking.azurewebsites.net';
 //var serverBaseUrl = 'http://piserviceprod.azurewebsites.net';
 //var serverBaseUrl = 'http://piserviceqa.azurewebsites.net';
-var serverBaseUrl = 'https://service.transportal.it/';
+var serverBaseUrl = 'https://service.transportal.it';
 //var serverBaseUrl = 'http://piserviceuat.azurewebsites.net';
 
 

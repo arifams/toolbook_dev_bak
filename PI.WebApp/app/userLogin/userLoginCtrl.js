@@ -24,7 +24,7 @@
 
     });
 
-    var serviceBase = 'https://localhost:44339/';
+    var serviceBase = 'https://service.transportal.it/';
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
@@ -44,8 +44,9 @@
     });
 
     app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope', 'gettextCatalog',
-        '$location', 'authService', 'registerExternalUser',
-    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService, registerExternalUser) {
+        '$location', 'authService', 'registerExternalUser','ngAuthSettings',
+    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService, 
+registerExternalUser,ngAuthSettings) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -203,11 +204,27 @@
         };
 
 
+        //$scope.authExternalProvider = function (provider) {
+        //    debugger;
+        //    //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
+        //    var redirectUri = 'http://localhost:49995/app/authComplete.html';
+        //    var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+        //                                                                + "&response_type=token&client_id=" + 'ngAuthApp'
+        //                                                                + "&redirect_uri=" + redirectUri;
+        //    window.$windowScope = $scope;
+
+        //    var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        //};
+
         $scope.authExternalProvider = function (provider) {
             debugger;
-            //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
-            var redirectUri = 'http://localhost:49995/app/authComplete.html';
-            var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+
+            //var redirectUri = 'http://localhost:49995/app/authComplete.html';
+            var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
+
+            // var externalProviderUrl = 'https://localhost:44339/'
+
+            var externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" + provider
                                                                         + "&response_type=token&client_id=" + 'ngAuthApp'
                                                                         + "&redirect_uri=" + redirectUri;
             window.$windowScope = $scope;
