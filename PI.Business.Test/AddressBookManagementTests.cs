@@ -117,7 +117,7 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAddressBookDetailsByUserIdTest()
         {
-            byte[] response = address.GetAddressBookDetailsByUserId("1");
+            byte[] response = address.GetAddressBookDetailsByUserId("active","24234233344" ,"test", 1, 1);
 
             Assert.AreEqual(1, 1);
             //Assert.AreEqual(response.Length, 100);

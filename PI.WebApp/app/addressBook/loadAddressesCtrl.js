@@ -23,10 +23,12 @@
 
     app.factory('exportAddressExcelFactory', function ($http, $window) {
         return {
-            importAddressBookExcel: function () {
+            importAddressBookExcel: function (userId, searchText, type) {
                 return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsExcel', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid')
+                        userId: userId,
+                        searchtext: searchText,
+                        type: type
                     },
                 responseType: 'arraybuffer'  
                 });
@@ -226,7 +228,12 @@
         vm.searchAddresses();
 
         vm.ExportExcel = function () {
-            exportAddressExcelFactory.importAddressBookExcel()
+
+            var userId = $window.localStorage.getItem('userGuid');
+            var type = (vm.state == undefined) ? "" : vm.state;
+            var searchText = vm.searchText;
+
+            exportAddressExcelFactory.importAddressBookExcel(userId, searchText, type)
             .success(function (data, status, headers) {
 
                 var octetStreamMime = 'application/octet-stream';
