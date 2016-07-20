@@ -28,9 +28,12 @@
                                     Register with one of your accounts using
                                 </p>
                                 <div class="row text-center">
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-fb icon-margin" type="button"><i class="fa fa-facebook"></i></button>
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-danger" type="button"><i class="fa fa-google-plus"></i></button>
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-blue" type="button"><i class="fa fa-windows"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-fb icon-margin" type="button" data-ng-click="regCtrl.authExternalProvider('Facebook')">
+                                    <i class="fa fa-facebook"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-danger" type="button" data-ng-click="regCtrl.authExternalProvider('Google')">
+                                    <i class="fa fa-google-plus"></i></button>
+                                    <button class="btn btn-sm btn-icon btn-rounded btn-blue" type="button" data-ng-click="regCtrl.authExternalProvider('Microsoft')">
+                                    <i class="fa fa-windows"></i></button>
                                 </div>
                                 <hr>
                                 <p class="m-t-0 text-center f-16">Or register with a traditional account</p>                                
@@ -168,11 +171,18 @@
     <script src="../../global/plugins/noty/jquery.noty.packaged.min.js"></script>
     <script src="../../plugins/angular/angular.min.js"></script>
     <script src="../../plugins/angular-message/angular-messages.min.js"></script>
+    <script src="../../plugins/angular-cookies/angular-cookies.min.js"></script>
     <script src="../../global/js/pages/login-v1.js"></script>
 
     <script src="../../plugins/angular-gettext/dist/angular-gettext.min.js"></script>
     <script src="../../js/translations.js"></script>
 
     <script src="userRegistrationCtrl.js"></script>
+
+    <script src="../directive/angular-local-storage.min.js"></script>
+    <script src="../directive/tokensManagerService.js"></script>
+    <script src="../directive/authService.js"></script>
+    <script src="../directive/authInterceptorService.js"></script>
+
 </body>
 </html>
