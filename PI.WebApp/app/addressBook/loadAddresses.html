@@ -77,32 +77,40 @@
                                                                header="addressCtrl.csv.header"
                                                                separator="addressCtrl.csv.separator"
                                                                result="addressCtrl.csv.result"
-                                                               accept="addressCtrl.csv.accept"></ng-csv-import>
+                                                               accept="addressCtrl.csv.accept"  
+                                                               callback="addressCtrl.validateCsv()" ng-click="addressCtrl.validateCsv()"></ng-csv-import>
 
                                             </div>
+                                          
                                             <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='CSV'">
-                                                <button class="btn btn-primary btn-square btn-embossed" type="button"
+                                                <button class="btn btn-primary btn-square btn-embossed" type="button" ng-disabled="addressCtrl.csv.result.status"
                                                         ng-click="addressCtrl.Import()">
                                                     <i class="fa fa-arrow-circle-o-up"></i>
                                                     <translate>Import </translate> CSV
                                                 </button>
+                                            </div>
+                                            <div class="col-sm-3" ng-show="addressCtrl.searchTypeImport=='CSV'">                                              
+                                                <label class="label-danger" ng-show="addressCtrl.csv.result.status">You added invalid file, retry again</label>
                                             </div>
                                             
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12 m-t-10">
                                                 <div class="col-sm-3 excelContent" ng-show="addressCtrl.searchTypeImport=='EXCEL'">
-                                                    <input type="file" ngf-select ng-model="document" name="file"
-                                                           ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                                                    <input type="file" ngf-select ng-model="addressCtrl.document" name="file"
+                                                           ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="addressCtrl.validateExcelFormat(addressCtrl.document)">                                                   
+
                                                 </div>
                                                 <div class="col-sm-2" ng-show="addressCtrl.searchTypeImport=='EXCEL'">
-                                                    <button ng-click="document = null" ng-show="document" class="btn btn-primary btn-square btn-embossed" translate>Remove</button>
-                                                    <button ng-click="addressCtrl.uploadFile(document)" class="btn btn-primary btn-square btn-embossed">
+                                                    <button ng-click="addressCtrl.document = null" ng-show="addressCtrl.document" class="btn btn-primary btn-square btn-embossed" translate>Remove</button>
+                                                    <button ng-click="addressCtrl.uploadFile(addressCtrl.document)" class="btn btn-primary btn-square btn-embossed" ng-disabled="addressCtrl.errorExcelFormat">
                                                         <i class="fa fa-arrow-circle-o-up"></i> <translate>Import </translate> Excel
                                                     </button>
-                                                    {{errorMsg}}
+                                                    {{errorMsg}}                                                    
                                                 </div>
-                                                
+                                                <div class="col-sm-3" ng-show="addressCtrl.searchTypeImport=='EXCEL'">
+                                                    <label class="label-danger" ng-show="addressCtrl.errorExcelFormat">You added invalid file, retry again</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

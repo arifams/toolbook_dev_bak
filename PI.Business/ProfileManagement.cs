@@ -700,7 +700,7 @@ namespace PI.Business
                         {
                             newAccountSetting.VolumeMetricId = 1;
                             newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 1;
+                            newAccountSetting.DefaultCurrencyId = 3;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
                             newAccountSetting.CreatedDate = DateTime.Now;
@@ -709,7 +709,7 @@ namespace PI.Business
                         {
                             newAccountSetting.VolumeMetricId = 1;
                             newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 3;
+                            newAccountSetting.DefaultCurrencyId = 1;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
                             newAccountSetting.CreatedDate = DateTime.Now;
