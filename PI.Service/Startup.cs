@@ -155,8 +155,8 @@ namespace PI.Service
 
             // Uncomment the following lines to enable logging in with third party login providers
             app.UseMicrosoftAccountAuthentication(
-                clientId: "c2c7d7e5-1b51-4170-af5d-c1d584f1f10b", 70a1a68c-0c5e-445f-8724-5e433fe463e1
-                clientSecret: "vxfYc5vafgoLaMVwpyBxj5N"); dmtmssM17b8BNxnSHkOKU3E
+                clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", 
+                clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); 
 
             //app.UseTwitterAuthentication(
             //    consumerKey: "",
