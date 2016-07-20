@@ -654,13 +654,65 @@ namespace PI.Business
                         newAccountSetting.CustomerId = currentCustomer.Id;
                         if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
                         {
-                            accountSettings.VolumeMetricId = 2;
-                            accountSettings.WeightMetricId = 2;
+                            newAccountSetting.VolumeMetricId = 2;
+                            newAccountSetting.WeightMetricId = 2;
+                            newAccountSetting.DefaultCurrencyId = 4;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "DE")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 4;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "NL")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 2;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "AT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "BE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "CY" || updatedProfile.CustomerDetails.CustomerAddress.Country == "EE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "FI" || updatedProfile.CustomerDetails.CustomerAddress.Country == "FR" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "GR" || updatedProfile.CustomerDetails.CustomerAddress.Country == "IE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "IT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LV" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "LT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LU" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "MT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "PT" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "SK")
+                            
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "JP")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 1;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
                         }
                         else
                         {
-                            accountSettings.VolumeMetricId = 1;
-                            accountSettings.WeightMetricId = 1;
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 3;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
 
                         }
                         context.AccountSettings.Add(newAccountSetting);
