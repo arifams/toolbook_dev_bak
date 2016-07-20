@@ -24,7 +24,8 @@
 
     });
 
-    var serviceBase = 'https://localhost:44339/';
+    var serviceBase = 'https://service.transportal.it/';
+    //var serviceBase = 'https://localhost:44339/';
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
@@ -44,8 +45,9 @@
     });
 
     app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope', 'gettextCatalog',
-        '$location', 'authService', 'registerExternalUser',
-    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService, registerExternalUser) {
+        '$location', 'authService', 'registerExternalUser','ngAuthSettings',
+    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService, 
+registerExternalUser,ngAuthSettings) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -203,13 +205,42 @@
         };
 
 
+        //$scope.authExternalProvider = function (provider) {
+        //    debugger;
+        //    //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
+        //    var redirectUri = 'http://localhost:49995/app/authComplete.html';
+        //    var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+        //                                                                + "&response_type=token&client_id=" + 'ngAuthApp'
+        //                                                                + "&redirect_uri=" + redirectUri;
+        //    window.$windowScope = $scope;
+
+        //    var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");
+        //};
+
         $scope.authExternalProvider = function (provider) {
             debugger;
-            //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
-            var redirectUri = 'http://localhost:49995/app/authComplete.html';
-            var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+
+            var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
+
+            // var externalProviderUrl = 'https://localhost:44339/'
+
+            var externalProviderUrl  = "";
+            if (provider == 'Microsoft')
+            {
+                console.log('mi');
+                //externalProviderUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=openid+profile&response_type=id_token&redirect_uri=https://locahost&nonce=111111111123";
+                //externalProviderUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=openid+profile&response_type=id_token&redirect_uri=https://service.transportal.it&nonce=111111111123";
+                //externalProviderUrl = "https://login.live.com/oauth20_authorize.srf?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=SCOPES&response_type=code&redirect_uri=https://web.transportal.it/app/authComplete.html";
+
+                externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" +provider
                                                                         + "&response_type=token&client_id=" + 'ngAuthApp'
                                                                         + "&redirect_uri=" + redirectUri;
+            }
+            else{
+            externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" + provider
+                                                                        + "&response_type=token&client_id=" + 'ngAuthApp'
+                                                                        + "&redirect_uri=" + redirectUri;
+            }
             window.$windowScope = $scope;
 
             var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");

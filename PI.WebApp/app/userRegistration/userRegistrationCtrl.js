@@ -18,7 +18,7 @@
     });
 
 
-    var serviceBase = 'https://localhost:44339/';
+    var serviceBase = 'https://service.transportal.it/';
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
@@ -106,7 +106,8 @@
     }]);
 
     app.controller('userRegistrationCtrl',
-        ['registerUserService', '$window', '$rootScope', 'authService', '$scope', function (registerUserService, $window, $rootScope, authService, $scope) {
+        ['registerUserService', '$window', '$rootScope', 'authService', '$scope', 'ngAuthSettings',
+function (registerUserService, $window, $rootScope, authService, $scope, ngAuthSettings) {
 
             var vm = this;
             vm.user = {};
@@ -181,9 +182,13 @@
 
             vm.authExternalProvider = function (provider) {
                 debugger;
-                //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
-                var redirectUri = 'http://localhost:49995/app/authComplete.html';
-                var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
+
+                //var redirectUri = 'http://localhost:49995/app/authComplete.html';
+                var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
+
+                // var externalProviderUrl = 'https://localhost:44339/'
+
+                var externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" + provider
                                                                             + "&response_type=token&client_id=" + 'ngAuthApp'
                                                                             + "&redirect_uri=" + redirectUri;
                 window.$windowScope = vm;
