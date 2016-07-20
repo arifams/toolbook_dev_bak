@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Facebook;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
@@ -91,8 +92,10 @@ namespace PI.Service.Controllers
 
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
+        [HttpPost]
         [Route("create")]
         public int CreateUser(CustomerDto createUserModel)
         {
@@ -126,11 +129,13 @@ namespace PI.Service.Controllers
 
                 // Add tenant Id to user
                 user.TenantId = tenantId;
+                user.EmailConfirmed = createUserModel.viaExternalLogin ? true : false;
 
-                IdentityResult addUserResult = AppUserManager.Create(user, createUserModel.Password);
+                IdentityResult addUserResult = createUserModel.viaExternalLogin ? AppUserManager.Create(user) :
+                                                                                  AppUserManager.Create(user, createUserModel.Password);
 
                 createUserModel.UserId = user.Id;
-
+              
                 // Save in customer table.
                 customerManagement.SaveCustomer(createUserModel);
             }
@@ -140,26 +145,26 @@ namespace PI.Service.Controllers
                 //return GetErrorResult(IdentityResult.Failed("Email already exists!"));
             }
 
-
-
             // Add Business Owner Role to user
             AppUserManager.AddToRole(user.Id, "BusinessOwner");
 
             AppUserManager.Update(user);
 
 
+            if (!createUserModel.viaExternalLogin)
+            {
+                #region For Email Confirmaion
 
-            #region For Email Confirmaion
+                string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
+                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
-            string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
-            var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
+                StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+                emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
-            StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-            emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+                AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 
-            AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
-
-            #endregion
+                #endregion
+            }
 
             //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
@@ -286,7 +291,9 @@ namespace PI.Service.Controllers
         [Route("LoginUser")]
         public IHttpActionResult LoginUser(CustomerDto customer)
         {
-            var user = AppUserManager.Find(customer.UserName, customer.Password);
+
+            var user = (!customer.viaExternalLogin) ? AppUserManager.Find(customer.UserName, customer.Password) :
+                                                      AppUserManager.FindByName(customer.UserName); 
 
             if (user == null)
                 return Ok(new
@@ -600,6 +607,8 @@ namespace PI.Service.Controllers
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
+                string email = "";
+
                 if (identity == null)
                 {
                     return null;
@@ -617,11 +626,21 @@ namespace PI.Service.Controllers
                     return null;
                 }
 
+                // added the following lines
+                if (providerKeyClaim.Issuer == "Facebook")
+                {
+                    var access_token = identity.FindFirstValue("ExternalAccessToken");
+                    var fb = new FacebookClient(access_token);
+                    dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+                    email = myInfo.email;
+                }
+
                 return new ExternalLoginData
                 {
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
-                    UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    UserName = (providerKeyClaim.Issuer == "Facebook") ? email : identity.FindFirstValue(ClaimTypes.Email),
+                    // UserName = identity.FindFirstValue(ClaimTypes.Name),
                     ExternalAccessToken = identity.FindFirstValue("ExternalAccessToken"),
                 };
             }
