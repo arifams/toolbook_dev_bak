@@ -13,6 +13,17 @@
 
     });
 
+    app.factory('registerExternalUser', function ($http) {
+
+        return {
+            createUser: function (newuser) {
+                debugger;
+                return $http.post(serverBaseUrl + '/api/accounts/create', newuser);
+            }
+        };
+
+    });
+
     var serviceBase = 'https://localhost:44339/';
     //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
     app.constant('ngAuthSettings', {
@@ -33,8 +44,9 @@
         //gettextCatalog.debug = true;
     });
 
-    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope','gettextCatalog','$location','authService',
-    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService) {
+    app.controller('userLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', '$rootScope', 'gettextCatalog',
+        '$location', 'authService', 'registerExternalUser',
+    function (userManager, $window, $cookieStore, $scope, $rootScope, gettextCatalog, $location, authService, registerExternalUser) {
         var vm = this;
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
@@ -47,6 +59,7 @@
 
         vm.isSentPasswordResetMail = false;
         vm.passwordResetError = false;
+        vm.UserModel = {};
 
         var loggedusername = $cookieStore.get('username');
         var loggedpassword = $cookieStore.get('password');
@@ -71,44 +84,46 @@
         };
 
         vm.login = function (user) {
+            debugger;
+            if (!user.viaExternalLogin) {
+                if (vm.rememberme == true) {
+                    $cookieStore.put('username', user.username);
+                    $cookieStore.put('password', user.password);
+                }
 
-            if (vm.rememberme == true) {
-                $cookieStore.put('username', user.username);
-                $cookieStore.put('password', user.password);
+
+                if (window.location.search != "") {
+
+                    var splittedValues = window.location.search.replace("?", "").split('&');
+
+                    if (splittedValues.length != 2 || splittedValues[0].split('=').length != 2 || splittedValues[1].split('=').length != 2) {
+                        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
+                        return;
+                    }
+
+                    var userIdKeyValue = splittedValues[0].split('=');
+                    var codeKeyValue = splittedValues[1].split('=');
+
+                    if (userIdKeyValue[0] != 'userId') {
+                        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
+                        return;
+                    }
+                    if (codeKeyValue[0] != 'code') {
+                        vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
+                        return;
+                    }
+
+                    user.userId = userIdKeyValue[1];
+                    user.code = codeKeyValue[1];
+                    user.isConfirmEmail = true;
+                }
+
             }
-
-
-            if (window.location.search != "") {
-
-                var splittedValues = window.location.search.replace("?", "").split('&');
-
-                if (splittedValues.length != 2 || splittedValues[0].split('=').length != 2 || splittedValues[1].split('=').length != 2) {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
-                    return;
-                }
-
-                var userIdKeyValue = splittedValues[0].split('=');
-                var codeKeyValue = splittedValues[1].split('=');
-
-                if (userIdKeyValue[0] != 'userId') {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
-                    return;
-                }
-                if (codeKeyValue[0] != 'code') {
-                    vm.emailConfirmationMessage = "Confirmation URL link is not properly formatted. Please resend the confirmation URL!";
-                    return;
-                }
-
-                user.userId = userIdKeyValue[1];
-                user.code = codeKeyValue[1];
-                user.isConfirmEmail = true;
-            }
-
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
 
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
-
+                     debugger;
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id); 
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
@@ -216,18 +231,42 @@
                         externalAccessToken: fragment.external_access_token
                     };
 
-                    // $location.path('/index')  ;
+                    vm.UserModel.Email = fragment.external_user_name;
+                    vm.UserModel.viaExternalLogin = true;
                     debugger;
-                    window.location = webBaseUrl + "/app/index.html";
+                    
+                    // register external user
+                    registerExternalUser.createUser(vm.UserModel)
+                    .then(function (result) {
+                        debugger;
+                       var userDetails = {
+                            username: fragment.external_user_name,
+                            viaExternalLogin : true
+                       };
+                       debugger;
+                       vm.login(userDetails);
+                    },
+                    function (error) {
+                        console.log("failed");
+                    }
+                    );
+
+                    // end of register external user
+                    
+                    debugger;
                 }
                 else {
                     //Obtain access token and redirect to orders
                     var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
                     authService.obtainAccessToken(externalData).then(function (response) {
                         debugger;
-                        //$location.path('/orders');
-                        window.location = webBaseUrl + "/app/index.html";
-
+                        
+                        var userDetails = {
+                            username: fragment.external_user_name,
+                            viaExternalLogin: true
+                        };
+                        debugger;
+                        vm.login(userDetails);
                     },
                  function (err) {
                      debugger;
@@ -237,6 +276,10 @@
 
             });
         }
+
+        
+
+        
 
     }]);
 
