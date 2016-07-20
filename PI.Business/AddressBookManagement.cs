@@ -385,7 +385,7 @@ namespace PI.Business
 
         }
 
-        public byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
+        private byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
         {
             using (ExcelPackage pck = new ExcelPackage())
             {

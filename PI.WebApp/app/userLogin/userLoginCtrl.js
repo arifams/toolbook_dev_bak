@@ -25,7 +25,6 @@
     });
 
     var serviceBase = 'https://localhost:44339/';
-    //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
@@ -276,10 +275,6 @@
 
             });
         }
-
-        
-
-        
 
     }]);
 

@@ -135,7 +135,7 @@ namespace PI.Service.Controllers
                                                                                   AppUserManager.Create(user, createUserModel.Password);
 
                 createUserModel.UserId = user.Id;
-              
+
                 // Save in customer table.
                 customerManagement.SaveCustomer(createUserModel);
             }
@@ -293,7 +293,7 @@ namespace PI.Service.Controllers
         {
 
             var user = (!customer.viaExternalLogin) ? AppUserManager.Find(customer.UserName, customer.Password) :
-                                                      AppUserManager.FindByName(customer.UserName); 
+                                                      AppUserManager.FindByName(customer.UserName);
 
             if (user == null)
                 return Ok(new
@@ -470,8 +470,6 @@ namespace PI.Service.Controllers
 
                 string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
-
-
                 companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
                 return Ok(new
                 {
@@ -479,7 +477,6 @@ namespace PI.Service.Controllers
                     Role = roleName,
                     Result = 1,
                     token = _token
-
                 });
             }
         }
