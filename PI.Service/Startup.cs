@@ -212,6 +212,10 @@ namespace PI.Service
             };
             app.UseFacebookAuthentication(facebookAuthOptions);
 
+            app.UseMicrosoftAccountAuthentication(
+                clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", //70a1a68c-0c5e-445f-8724-5e433fe463e1
+                clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); //dmtmssM17b8BNxnSHkOKU3E
+
         }
 
     }
