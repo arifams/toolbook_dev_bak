@@ -7,6 +7,7 @@ using Microsoft.Owin.Security.DataHandler.Encoder;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Microsoft.Owin.Security.Jwt;
+using Microsoft.Owin.Security.MicrosoftAccount;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -212,9 +213,21 @@ namespace PI.Service
             };
             app.UseFacebookAuthentication(facebookAuthOptions);
 
-            app.UseMicrosoftAccountAuthentication(
-                clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", //70a1a68c-0c5e-445f-8724-5e433fe463e1
-                clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); //dmtmssM17b8BNxnSHkOKU3E
+            //app.UseMicrosoftAccountAuthentication(
+            //    clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", //70a1a68c-0c5e-445f-8724-5e433fe463e1
+            //    clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); //dmtmssM17b8BNxnSHkOKU3E
+
+            var mo = new MicrosoftAccountAuthenticationOptions
+            {
+                Caption = "Live",
+                ClientId = "70a1a68c-0c5e-445f-8724-5e433fe463e1",
+                ClientSecret = "dmtmssM17b8BNxnSHkOKU3E"
+            };
+
+            mo.Scope.Add("wl.basic");
+            mo.Scope.Add("wl.emails");
+
+            app.UseMicrosoftAccountAuthentication(mo);
 
         }
 
