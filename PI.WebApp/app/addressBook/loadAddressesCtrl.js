@@ -23,10 +23,12 @@
 
     app.factory('exportAddressExcelFactory', function ($http, $window) {
         return {
-            importAddressBookExcel: function () {
+            importAddressBookExcel: function (userId, searchText, type) {
                 return $http.get(serverBaseUrl + '/api/AddressBook/GetAddressBookDetailsExcel', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid')
+                        userId: userId,
+                        searchtext: searchText,
+                        type: type
                     },
                 responseType: 'arraybuffer'  
                 });
@@ -54,6 +56,9 @@
     app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope) {
         var vm = this;
         vm.stream = {};
+        vm.csv = {};
+        vm.csv.accept = '.csv';
+        vm.errorExcelFormat = false;
      
 
        
@@ -112,7 +117,25 @@
                 });
         };
 
+        //validating excel formt
+        vm.validateExcelFormat = function (doc) {
+            debugger;
+            var fileExtension = doc.name.split('.').pop();
+
+            if (fileExtension != 'xlsx' && fileExtension != 'xls') {
+                vm.document = null;
+                vm.errorExcelFormat = true;
+            } else {
+                vm.errorExcelFormat = false;
+            }
+
+            var file = vm.csv;
+        }
+
+      
+
         vm.Import = function () {
+          
             var importCollection = [];
             if (vm.csv) {
                 var addressList = vm.csv.result;
@@ -226,7 +249,12 @@
         vm.searchAddresses();
 
         vm.ExportExcel = function () {
-            exportAddressExcelFactory.importAddressBookExcel()
+
+            var userId = $window.localStorage.getItem('userGuid');
+            var type = (vm.state == undefined) ? "" : vm.state;
+            var searchText = vm.searchText;
+
+            exportAddressExcelFactory.importAddressBookExcel(userId, searchText, type)
             .success(function (data, status, headers) {
 
                 var octetStreamMime = 'application/octet-stream';
@@ -327,6 +355,7 @@
 
 
         vm.uploadFile = function (file) {
+            debugger;
             
             file.upload = Upload.upload({
                 url: serverBaseUrl + '/api/Shipments/UploadAddressBook',

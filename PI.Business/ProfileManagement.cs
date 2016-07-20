@@ -619,6 +619,10 @@ namespace PI.Business
 
                 Address currentAddress = context.Addresses.SingleOrDefault(a => a.Id == currentCustomer.AddressId);
 
+                //get the account settings
+                AccountSettings accountSettings= context.AccountSettings.SingleOrDefault(s => s.CustomerId == currentCustomer.Id);
+               
+
                 if (currentAddress != null)
                 {
                     currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
@@ -628,6 +632,94 @@ namespace PI.Business
                     currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
                     currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
                     currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+
+                    if (accountSettings!=null)
+                    {
+                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                        {
+                            accountSettings.VolumeMetricId = 2;
+                            accountSettings.WeightMetricId = 2;
+                        }
+                        else
+                        {
+                            accountSettings.VolumeMetricId = 1;
+                            accountSettings.WeightMetricId = 1;
+
+                        }
+
+                    }
+                    else
+                    {
+                        AccountSettings newAccountSetting = new AccountSettings();
+                        newAccountSetting.CustomerId = currentCustomer.Id;
+                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                        {
+                            newAccountSetting.VolumeMetricId = 2;
+                            newAccountSetting.WeightMetricId = 2;
+                            newAccountSetting.DefaultCurrencyId = 4;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "DE")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 4;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "NL")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 2;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "AT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "BE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "CY" || updatedProfile.CustomerDetails.CustomerAddress.Country == "EE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "FI" || updatedProfile.CustomerDetails.CustomerAddress.Country == "FR" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "GR" || updatedProfile.CustomerDetails.CustomerAddress.Country == "IE" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "IT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LV" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "LT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LU" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "MT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "PT" ||
+                            updatedProfile.CustomerDetails.CustomerAddress.Country == "SK")
+                            
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 2;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "JP")
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 3;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else
+                        {
+                            newAccountSetting.VolumeMetricId = 1;
+                            newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 1;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+
+                        }
+                        context.AccountSettings.Add(newAccountSetting);
+                        
+                    }
+                    //updating account settings according to the country
+                   
 
                     context.SaveChanges();
                 }

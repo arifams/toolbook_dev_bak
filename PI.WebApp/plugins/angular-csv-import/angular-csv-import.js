@@ -45,6 +45,7 @@ csvImport.directive('ngCsvImport', function () {
             });
 
             element.on('change', function (onChangeEvent) {
+               
                 var reader = new FileReader();
                 scope.filename = onChangeEvent.target.files[0].name;
                 reader.onload = function (onLoadEvent) {
@@ -57,6 +58,17 @@ csvImport.directive('ngCsvImport', function () {
                         scope.content = content.csv;
                         scope.result = csvToJSON(content);
                         scope.result.filename = scope.filename;
+                       
+                        debugger;
+                        var extension = scope.filename.split('.').pop();
+                        if (extension!='csv') {
+                            scope.content = null;                                                   
+                            scope.result.status = true;
+
+                        } else {
+                            scope.result.status = false;
+                        }
+
                     });
                 };
 
