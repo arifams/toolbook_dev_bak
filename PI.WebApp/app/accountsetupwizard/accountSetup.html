@@ -18,8 +18,8 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="option-group">
-                                    <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required" name="salutation" id="salutation" style="" 
-                                        ng-model="vm.model.customerDetails.salutation">
+                                    <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required" name="salutation"
+                                            ng-model="vm.model.customerDetails.salutation">
                                         <option translate value="Mr" >Mr</option>
                                         <option translate value="Mrs">Mrs</option>
                                         <option translate value="Ms">Ms</option>
@@ -31,11 +31,11 @@
                             <div class="form-group">
                                 <div class="append-icon">
                                     <input type="text" ng-cloak name="firstname" class="form-control" minlength="3" placeholder="First Name *" required ng-model="vm.model.customerDetails.firstName"
-                                            ng-class="{ 'error': personalDetails.firstname.$invalid &&
-                                                       (personalDetails.firstname.$dirty||vm.isSubmit1) }">
+                                           ng-class="{ 'error': personalDetails.firstname.$invalid &&
+                                                       (personalDetails.firstname.$dirty||vm.isSubmit1) }" ng-focus="firstnameFocus = true" ng-blur="firstnameFocus = false">
 
                                 </div>
-                                <div ng-messages="personalDetails.firstname.$error" ng-show="personalDetails.firstname.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.firstname.$error" ng-show="(personalDetails.firstname.$dirty && !firstnameFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
                                     <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
                                     <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
@@ -49,9 +49,9 @@
                                 <div class="append-icon">
                                     <input type="text" name="lastname" class="form-control" minlength="3" placeholder="Last Name *" required ng-model="vm.model.customerDetails.lastName"
                                            ng-class="{ 'error': personalDetails.lastname.$invalid &&
-                                                       (personalDetails.lastname.$dirty||vm.isSubmit1) }">
+                                                       (personalDetails.lastname.$dirty||vm.isSubmit1) }" ng-focus="lastnameFocus = true" ng-blur="lastnameFocus = false">
                                 </div>
-                                <div ng-messages="personalDetails.lastname.$error" ng-show="personalDetails.lastname.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.lastname.$error" ng-show="(personalDetails.lastname.$dirty && !lastnameFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
                                     <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                     <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
@@ -63,18 +63,18 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *" valid-phone-no ng-model="vm.model.customerDetails.phoneNumber"
-                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && (personalDetails.phonenumber.$dirty||vm.isSubmit1) }">
-                                   
+                                    <input type="text" name="phonenumber" class="form-control" ng-maxlength="20" placeholder="Phone Number *" valid-phone-no ng-model="vm.model.customerDetails.phoneNumber" required
+                                           ng-class="{ 'error': personalDetails.phonenumber.$invalid && (personalDetails.phonenumber.$dirty||vm.isSubmit1) }" ng-focus="phonenumberFocus = true" ng-blur="phonenumberFocus = false">
+
                                 </div>
-                                <div ng-messages="personalDetails.phonenumber.$error" ng-show="personalDetails.phonenumber.$dirty || vm.isSubmit1">
+                                <div ng-messages="personalDetails.phonenumber.$error" ng-show="(personalDetails.phonenumber.$dirty && !phonenumberFocus) || vm.isSubmit1">
                                     <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
                                     <label ng-message="maxlength" class="error" for="phonenumber" translate>Enter less than 20 characters</label>
                                 </div>
                             </div>
                         </div>
-                    </div>                   
+                    </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="skin skin-minimal">
@@ -107,7 +107,7 @@
                         <a class="modal-nav-right">Address Details</a>
                     </div>
                 </div>
-               
+
                 <div class="modal-body p-t-0 p-b-0 m-t-10" style="padding-left:60px;padding-right:60px">
                     <div class="row" ng-show="vm.toCorporate">
                         <div class="col-md-12">
@@ -115,28 +115,27 @@
                                 <div class="append-icon">
                                     <input type="text" name="companyName" class="form-control"  placeholder="Company Name *" ng-required="vm.toCorporate" ng-model="vm.model.companyDetails.name"
                                            ng-class="{ 'error': addressDetails.lastname.$invalid &&
-                                                       (addressDetails.lastname.$dirty||vm.isSubmit2) }">
+                                                       (addressDetails.lastname.$dirty||vm.isSubmit2) }" ng-focus="companyNameFocus = true" ng-blur="companyNameFocus = false">
 
                                 </div>
-                                <div ng-messages="addressDetails.companyName.$error" ng-show="addressDetails.companyName.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="error" for="companyName" translate>Enter your company name</label>                                    
+                                <div ng-messages="addressDetails.companyName.$error" ng-show="(addressDetails.companyName.$dirty && !companyNameFocus) || vm.isSubmit2">
+                                    <label ng-message="required" class="error" for="companyName" translate>Enter your company name</label>
                                     <label ng-message="maxlength" class="error" for="companyName" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
                     </div>
-                   
+
                     <div class="row" ng-show="vm.toCorporate">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="companyCode" class="form-control" ng-required="vm.toCorporate"  placeholder="Campany Register Number" ng-model="vm.model.companyDetails.companycode"
-                                           ng-class="{ 'error': addressDetails.companyCode.$invalid && 
-                                                       (addressDetails.companyCode.$dirty||vm.isSubmit2) }">
+                                    <input type="text" name="companyCode" class="form-control" placeholder="Company Register Number" ng-model="vm.model.companyDetails.companycode"
+                                           ng-class="{ 'error': addressDetails.companyCode.$invalid &&
+                                                       (addressDetails.companyCode.$dirty||vm.isSubmit2) }" ng-focus="companyCodeFocus = true" ng-blur="companyCodeFocus = false">
 
                                 </div>
-                                <div ng-messages="addressDetails.companyCode.$error" ng-show="addressDetails.companyCode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="error" for="companyCode" translate>Enter your last name</label>                                   
+                                <div ng-messages="addressDetails.companyCode.$error" ng-show="(addressDetails.companyCode.$dirty && !companyCodeFocus) || vm.isSubmit2">
                                     <label ng-message="maxlength" class="error" for="companyCode" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
@@ -149,16 +148,16 @@
 
                                 <input name="postalCode" type="text" class="form-control" ng-model="vm.model.customerDetails.customerAddress.zipCode" required
                                        placeholder="Zip/Postal Code *"
-                                        ng-class="{ 'error': addressDetails.postalCode.$invalid &&
-                                                       (addressDetails.postalCode.$dirty||vm.isSubmit2) }" />
+                                       ng-class="{ 'error': addressDetails.postalCode.$invalid &&
+                                                       (addressDetails.postalCode.$dirty||vm.isSubmit2) }" ng-focus="postalCodeFocus = true" ng-blur="postalCodeFocus = false"/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-large btn-primary no-margin" ng-click="vm.getAddressInformation()">
                                         LookUp
                                     </button>
                                 </span>
                             </div>
-                            <div ng-messages="addressDetails.postalCode.$error" ng-show="addressDetails.postalCode.$dirty || vm.isSubmit2">
-                                <label ng-message="required" class="error" for="postalCode" translate>Enter your postal code</label>
+                            <div ng-messages="addressDetails.postalCode.$error" ng-show="(addressDetails.postalCode.$dirty && !postalCodeFocus) || vm.isSubmit2">
+                                <label ng-message="required" class="error" for="postalCode" translate>Enter Postal Code</label>
                                 <label ng-message="maxlength" class="error" for="postalCode" translate>Enter less than 100 characters</label>
                             </div>
                             <label class="error" ng-show="vm.errorCode">Invalid PostalCode</label>
@@ -171,25 +170,25 @@
                                 <div class="append-icon">
                                     <input type="text" name="street" class="form-control" placeholder="Street *" required ng-model="vm.model.customerDetails.customerAddress.streetAddress1"
                                            ng-class="{ 'error': addressDetails.street.$invalid &&
-                                                       (addressDetails.street.$dirty||vm.isSubmit2) }" >
+                                                       (addressDetails.street.$dirty||vm.isSubmit2) }" ng-focus="streetFocus = true" ng-blur="streetFocus = false">
 
                                 </div>
-                                <div ng-messages="addressDetails.street.$error" ng-show="addressDetails.street.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="street" for="street" translate>Enter your street</label>
-                                    <label ng-message="maxlength" class="street" for="street" translate>Enter less than 100 characters</label>
+                                <div ng-messages="addressDetails.street.$error" ng-show="(addressDetails.street.$dirty && !streetFocus) || vm.isSubmit2">
+                                    <label ng-message="required" class="error" for="street" translate>Enter Street Name</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="number" class="form-control"  placeholder="Number *" required ng-model="vm.model.customerDetails.customerAddress.number"
-                                            ng-class="{ 'error': addressDetails.number.$invalid &&
-                                                       (addressDetails.number.$dirty||vm.isSubmit2) }" >
+                                    <input type="text" name="number" class="form-control" placeholder="Number *" required ng-model="vm.model.customerDetails.customerAddress.number"
+                                           ng-class="{ 'error': addressDetails.number.$invalid &&
+                                                       (addressDetails.number.$dirty||vm.isSubmit2) }" ng-focus="numberFocus = true" ng-blur="numberFocus = false">
                                 </div>
-                                <div ng-messages="addressDetails.number.$error" ng-show="addressDetails.number.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="number" for="street" translate>Enter your number</label>
-                                    <label ng-message="maxlength" class="number" for="street" translate>Enter less than 100 characters</label>
+                                <div ng-messages="addressDetails.number.$error" ng-show="(addressDetails.number.$dirty && !numberFocus) || vm.isSubmit2">
+                                    <label ng-message="required" class="error" for="number" translate>Enter Street Number</label>
+                                    <label ng-message="maxlength" class="error" for="number" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -199,11 +198,11 @@
                             <div class="form-group">
                                 <div class="append-icon">
                                     <input type="text" name="additionalDetails" class="form-control" placeholder="Additional Address Information" ng-model="vm.model.customerDetails.customerAddress.streetAddress2"
-                                            ng-class="{ 'error': addressDetails.additionalDetails.$invalid &&
-                                                       (addressDetails.additionalDetails.$dirty||vm.isSubmit2) }" >
+                                           ng-class="{ 'error': addressDetails.additionalDetails.$invalid &&
+                                                       (addressDetails.additionalDetails.$dirty||vm.isSubmit2) }" ng-focus="additionalDetailsFocus = true" ng-blur="additionalDetailsFocus = false">
 
                                 </div>
-                                <div ng-messages="addressDetails.additionalDetails.$error" ng-show="addressDetails.additionalDetails.$dirty || vm.isSubmit2">                                    
+                                <div ng-messages="addressDetails.additionalDetails.$error" ng-show="(addressDetails.additionalDetails.$dirty && !additionalDetailsFocus) || vm.isSubmit2">
                                     <label ng-message="maxlength" class="street" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
@@ -213,13 +212,13 @@
                         <div class="col-md-8">
                             <div class="form-group">
                                 <div class="append-icon">
-                                    <input type="text" name="city" class="form-control"  placeholder="City *" required ng-model="vm.model.customerDetails.customerAddress.city"
-                                             ng-class="{ 'error': addressDetails.city.$invalid &&
-                                                       (addressDetails.city.$dirty||vm.isSubmit2) }" >
+                                    <input type="text" name="city" class="form-control" placeholder="City *" required ng-model="vm.model.customerDetails.customerAddress.city"
+                                           ng-class="{ 'error': addressDetails.city.$invalid &&
+                                                       (addressDetails.city.$dirty||vm.isSubmit2) }" ng-focus="cityFocus = true" ng-blur="cityFocus = false">
                                 </div>
-                                <div ng-messages="addressDetails.city.$error" ng-show="addressDetails.city.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="street" for="street" translate>Enter your city</label>
-                                    <label ng-message="maxlength" class="street" for="street" translate>Enter less than 100 characters</label>
+                                <div ng-messages="addressDetails.city.$error" ng-show="(addressDetails.city.$dirty && !cityFocus) || vm.isSubmit2">
+                                    <label ng-message="required" class="error" for="street" translate>Enter City</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -228,12 +227,12 @@
                                 <div class="append-icon">
                                     <input type="text" name="statecode" class="form-control" placeholder="{{'State Code' | translate}} {{vm.isRequiredState ?'*':''}}" ng-required="vm.isRequiredState" ng-model="vm.model.customerDetails.customerAddress.state"
                                            ng-class="{ 'error': addressDetails.statecode.$invalid &&
-                                                       (addressDetails.statecode.$dirty||vm.isSubmit2) }">
+                                                       (addressDetails.statecode.$dirty||vm.isSubmit2) }" ng-focus="statecodeFocus = true" ng-blur="statecodeFocus = false">
 
                                 </div>
-                                <div ng-messages="addressDetails.statecode.$error" ng-show="addressDetails.statecode.$dirty || vm.isSubmit2">
-                                    <label ng-message="required" class="statecode" for="street" translate>Enter your statecode</label>
-                                    <label ng-message="maxlength" class="statecode" for="street" translate>Enter less than 100 characters</label>
+                                <div ng-messages="addressDetails.statecode.$error" ng-show="(addressDetails.statecode.$dirty && !statecodeFocus) || vm.isSubmit2">
+                                    <label ng-message="required" class="error" for="street" translate>Enter State Code</label>
+                                    <label ng-message="maxlength" class="error" for="street" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                         </div>
@@ -244,11 +243,11 @@
                                 <div class="option-group">
                                     <!--<country-select id="country" name="country"
                                                     class="form-control" ng-required="true"></country-select>-->
-                                   
-                                        <country-select id="country" name="country"
-                                                        ng-model="vm.model.customerDetails.customerAddress.country" ng-change="vm.changeCountry()"
-                                                        class="form-control"></country-select>
-                                   
+
+                                    <country-select id="country" name="country"
+                                                    ng-model="vm.model.customerDetails.customerAddress.country" ng-change="vm.changeCountry()"
+                                                    class="form-control"></country-select>
+
                                 </div>
 
                             </div>
@@ -272,7 +271,7 @@
                     <button class="btn btn-primary btn-embossed bnt-square pull-left" type="button" ng-click="vm.clickPrevious()">Previous</button>
                     <button class="btn btn-primary btn-embossed bnt-square" type="button"  ng-click="(addressDetails.$valid ? vm.saveAddressDetails():vm.isSubmit2=true)">Save</button>
                 </div>
-               
+
             </div>
         </form>
 

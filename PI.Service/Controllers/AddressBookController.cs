@@ -85,10 +85,11 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAddressBookDetailsExcel")]
-        public HttpResponseMessage GetAddressBookDetailsExcel([FromUri]string userId)
+        public HttpResponseMessage GetAddressBookDetailsExcel(string type, string userId, string searchtext = "",
+                                                   int page = 1, int pageSize = 10)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(userId));
+            result.Content = new ByteArrayContent(addressBookManagement.GetAddressBookDetailsByUserId(type, userId, searchtext, page, pageSize));
             result.Content.Headers.Add("x-filename", "AddressBook.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;

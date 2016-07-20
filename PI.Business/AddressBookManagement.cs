@@ -341,15 +341,20 @@ namespace PI.Business
      
         
         //get address details by userId  
-        public byte[] GetAddressBookDetailsByUserId(string userId)
+        public byte[] GetAddressBookDetailsByUserId(string type, string userId, string searchtext, int page = 1, int pageSize = 25)
         {
             List<AddressBookDto> addressList = new List<AddressBookDto>();
 
             using (PIContext context= new PIContext())
-            {
-                var content = (from addresses in context.AddressBooks
-                               where addresses.CreatedBy == userId
-                               select addresses).ToList();
+            {  
+                var content = (from a in context.AddressBooks
+                               where a.IsDelete == false &&
+                               a.UserId == userId &&
+                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
+                               (type == null || a.IsActive.ToString() == type)
+                               orderby a.CreatedDate ascending
+                               select a)
+                             .ToList();
 
                 foreach (var item in content)
                 {
@@ -385,7 +390,7 @@ namespace PI.Business
 
         }
 
-        public byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
+        private byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
         {
             using (ExcelPackage pck = new ExcelPackage())
             {

@@ -17,7 +17,7 @@ namespace PI.Contract.Business
         int SaveAddressDetail(AddressBookDto addressDetail);
         int ImportAddressBook(IList<ImportAddressDto> addressDetails, string userId);
         AddressBookDto GetAddressBookDtoById(long Id);
-        byte[] GetAddressBookDetailsByUserId(string userId);
+        byte[] GetAddressBookDetailsByUserId(string type, string userId, string searchtext, int page = 1, int pageSize = 25);
         bool UpdateAddressBookDatafromExcel(string URI, string userId);
     }
 }

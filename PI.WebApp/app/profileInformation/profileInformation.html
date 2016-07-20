@@ -293,11 +293,11 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="state" class="form-control" ng-required="profileCtrl.isRequiredState" placeholder="{{'State' | translate}} {{profileCtrl.isRequiredState?'*':''}}"
-                                               ng-model="profileCtrl.model.customerDetails.customerAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error' : formUpdateProfileAddress.state.$invalid && (formUpdateProfileAddress.state.$dirty||profileCtrl.isSubmit2)}" ng-focus="stateFocus = true" ng-blur="stateFocus = false">
+                                               ng-model="profileCtrl.model.customerDetails.customerAddress.state" ng-maxlength="100" ng-minlength="2" ng-class="{ 'error' : formUpdateProfileAddress.state.$invalid && (formUpdateProfileAddress.state.$dirty||profileCtrl.isSubmit2)}" ng-focus="stateFocus = true" ng-blur="stateFocus = false">
                                         <div ng-messages="formUpdateProfileAddress.state.$error" ng-show="(formUpdateProfileAddress.state.$dirty && !stateFocus) ||profileCtrl.isSubmit2">
                                             <label ng-message="required" class="error" for="state" translate>Enter State</label>
                                             <label ng-message="maxlength" class="error" for="state" translate>Enter less than 100 characters</label>
-                                            <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
+                                            <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 2 characters or more</label>
                                         </div>
                                     </div>
                                 </div>
@@ -522,12 +522,12 @@
                                     <div class="append-icon">
                                         <input type="text" name="billing_state" class="form-control" 
                                                ng-required="profileCtrl.isRequiredBillingState" placeholder="{{'State' | translate}} {{profileCtrl.isRequiredBillingState ?'*':''}}"
-                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="3" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_state.$invalid && (formUpdateProfileBillingAddress.billing_state.$dirty||profileCtrl.isSubmit3) }" 
+                                               ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.state" ng-maxlength="100" ng-minlength="2" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_state.$invalid && (formUpdateProfileBillingAddress.billing_state.$dirty||profileCtrl.isSubmit3) }" 
                                                ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress" ng-focus="billing_stateFocus = true" ng-blur="billing_stateFocus = false">
                                         <div ng-messages="formUpdateProfileBillingAddress.billing_state.$error" ng-show="(formUpdateProfileBillingAddress.billing_state.$dirty && !billing_stateFocus) ||profileCtrl.isSubmit3">
                                             <label ng-message="required" class="error" for="billing_city" translate>Enter State</label>
                                             <label ng-message="maxlength" class="error" for="billing_city" translate>Enter less than 100 characters</label>
-                                            <label ng-message="minlength" class="error" for="billing_city" translate>Enter at least 3 characters or more</label>
+                                            <label ng-message="minlength" class="error" for="billing_city" translate>Enter at least 2 characters or more</label>
                                         </div>
                                     </div>
                                 </div>
@@ -766,7 +766,7 @@
                                         <div class="form-group">
                                             <div class="input-group">
                                                 <div class="icheck-inline">
-                                                    <label><input type="radio" name="defaultVolumeMetric" icheck ng-model="profileCtrl.model.defaultVolumeMetricId" value="1"><translate> m</translate></label>
+                                                    <label><input type="radio" name="defaultVolumeMetric" icheck ng-model="profileCtrl.model.defaultVolumeMetricId" value="1"><translate> cm</translate></label>
                                                     <label><input type="radio" name="defaultVolumeMetric" icheck ng-model="profileCtrl.model.defaultVolumeMetricId" value="2"><translate>  inch</translate></label>
                                                 </div>
                                             </div>
