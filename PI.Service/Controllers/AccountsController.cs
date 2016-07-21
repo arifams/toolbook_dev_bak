@@ -600,6 +600,8 @@ namespace PI.Service.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }          
             public string ExternalAccessToken { get; set; }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
@@ -637,7 +639,8 @@ namespace PI.Service.Controllers
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
                     UserName = (providerKeyClaim.Issuer == "Facebook") ? email : identity.FindFirstValue(ClaimTypes.Email),
-                    // UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    FirstName = identity.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = identity.FindFirstValue(ClaimTypes.Surname),
                     ExternalAccessToken = identity.FindFirstValue("ExternalAccessToken"),
                 };
             }
