@@ -3,8 +3,8 @@
 (function (app) {
 
     app.controller('accountSetupCtrl',
-       ['$scope','updateProfilefactory','$window','loadProfilefactory',
-    function ($scope, updateProfilefactory, $window, loadProfilefactory) {
+       ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope',
+    function ($scope, updateProfilefactory, $window, loadProfilefactory,$rootScope) {
 
         var vm = this;
         vm.model = {};
@@ -54,14 +54,13 @@
                             (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')||
                             (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '')||
                             (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
-
-                            console.log('view 1st popup');
+                           
 
 
                         } else {
                             vm.hideaddressDetails = true;
                             generalDetailesCompleted = true;
-                             console.log('hide 1st popup');
+                             
 
                         }
 
@@ -71,13 +70,12 @@
                             (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number=='') ||
                             (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city=='')||
                             (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
-                            console.log('view 2nd popup');
+
 
 
                         } else {
 
                             $scope.closePopup();
-                            console.log('hide 2nd popup');
                         }
 
                         if (response.customerDetails.isCorporateAccount) {
@@ -128,6 +126,7 @@
                          updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null && responce == 1) {
+                                                                $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                                                                 $scope.closePopup();
                                                                 //  vm.hideaddressDetails = false;
                                                             }
@@ -137,7 +136,7 @@
                                                         });
 
                      } else {
-
+                         $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                          $scope.closePopup();
                          //vm.hideaddressDetails = false;
                      }
