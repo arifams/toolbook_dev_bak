@@ -608,7 +608,7 @@ namespace PI.Service.Controllers
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                string email = "";
+                string email = "",firstname = "",lastname = "";
 
                 if (identity == null)
                 {
@@ -632,8 +632,10 @@ namespace PI.Service.Controllers
                 {
                     var access_token = identity.FindFirstValue("ExternalAccessToken");
                     var fb = new FacebookClient(access_token);
-                    dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+                    dynamic myInfo = fb.Get("/me?fields=email,first_name,last_name"); // specify the email field
                     email = myInfo.email;
+                    firstname = myInfo.first_name;
+                    lastname = myInfo.last_name;
                 }
 
                 return new ExternalLoginData
@@ -641,8 +643,8 @@ namespace PI.Service.Controllers
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
                     UserName = (providerKeyClaim.Issuer == "Facebook") ? email : identity.FindFirstValue(ClaimTypes.Email),
-                    FirstName = identity.FindFirstValue(ClaimTypes.GivenName),
-                    LastName = identity.FindFirstValue(ClaimTypes.Surname),
+                    FirstName = (providerKeyClaim.Issuer == "Facebook") ? firstname : identity.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = (providerKeyClaim.Issuer == "Facebook") ? lastname : identity.FindFirstValue(ClaimTypes.Surname),
                     ExternalAccessToken = identity.FindFirstValue("ExternalAccessToken"),
                 };
             }
