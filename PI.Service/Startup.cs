@@ -211,6 +211,7 @@ namespace PI.Service
                 AppSecret = "4cbc794bf7555a0dfda6585ef2b6418d",
                 Provider = new FacebookAuthProvider()
             };
+            facebookAuthOptions.Scope.Add("email");
             app.UseFacebookAuthentication(facebookAuthOptions);
 
             //app.UseMicrosoftAccountAuthentication(
