@@ -18,7 +18,10 @@
     });
 
 
-    var serviceBase = 'https://service.transportal.it/';
+    //var serviceBase = 'https://service.transportal.it/';
+
+    var serviceBase = serverBaseUrl + '/';
+
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
