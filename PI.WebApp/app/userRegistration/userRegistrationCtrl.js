@@ -210,11 +210,15 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
                         authService.externalAuthData = {
                             provider: fragment.provider,
                             userName: fragment.external_user_name,
+                            firstName: fragment.external_first_name,
+                            lastName: fragment.external_last_name,
                             externalAccessToken: fragment.external_access_token
                         };
 
                         vm.UserModel.Email = fragment.external_user_name;
                         vm.UserModel.viaExternalLogin = true;
+                        vm.UserModel.firstName = fragment.external_first_name;
+                        vm.UserModel.lastName = fragment.external_last_name;
                         debugger;
 
                         // register external user

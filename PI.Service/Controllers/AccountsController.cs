@@ -109,9 +109,9 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
-                Salutation = "-", //createUserModel.Salutation,
-                FirstName = "-", //createUserModel.FirstName,
-                LastName = "-", //createUserModel.LastName,
+                Salutation = "-",
+                FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-", 
+                LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
                 //BirthDate = createUserModel.BirthDate,
@@ -526,12 +526,14 @@ namespace PI.Service.Controllers
 
             bool hasRegistered = user != null;
 
-            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}",
+            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}&external_first_name={5}&external_last_name={6}",
                                             redirectUri,
                                             externalLogin.ExternalAccessToken,
                                             externalLogin.LoginProvider,
                                             hasRegistered.ToString(),
-                                            externalLogin.UserName);
+                                            externalLogin.UserName,
+                                            externalLogin.FirstName,
+                                            externalLogin.LastName);
 
             return Redirect(redirectUri);
 
