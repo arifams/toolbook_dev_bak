@@ -83,7 +83,7 @@ namespace PI.Business.Tests
             List<AddressBookDto> pageRecord = address.GetAllAddresses(null, "1", "comp1234567890").Content as List<AddressBookDto>;
             addressId = pageRecord.First().Id;
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(pageRecord.First().Id, 1);
         }
 
@@ -92,7 +92,7 @@ namespace PI.Business.Tests
         {
             AddressBook response = address.GetAddressBookById(addressId);
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(response.Id, addressId);
         }
 
@@ -101,7 +101,7 @@ namespace PI.Business.Tests
         {
             PagedList pagedRecord = address.GetFilteredAddresses("", "comp1234567890");
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(pagedRecord.TotalRecords, 1);
         }
 
@@ -110,7 +110,7 @@ namespace PI.Business.Tests
         {
             AddressBookDto response = address.GetAddressBookDtoById(addressId);
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(response.Id, addressId);
         }
 
@@ -119,7 +119,7 @@ namespace PI.Business.Tests
         {
             byte[] response = address.GetAddressBookDetailsByUserId("active","24234233344" ,"test", 1, 1);
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(response.Length, 100);
         }
 
@@ -128,7 +128,7 @@ namespace PI.Business.Tests
         {
             int response = address.DeleteAddress(addressId);
 
-            Assert.AreEqual(1, 1);
+            
             //Assert.AreEqual(response, 1);
         }
 

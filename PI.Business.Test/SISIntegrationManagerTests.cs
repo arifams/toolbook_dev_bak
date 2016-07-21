@@ -14,31 +14,31 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetRateSheetForShipmentTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void SendShipmentDetailsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void DeleteShipmentTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetShipmentStatusTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetUpdatedShipmentStatusehistoryTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
@@ -50,7 +50,7 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetRateRequestURLTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]

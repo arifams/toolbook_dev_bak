@@ -14,55 +14,55 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAllInvoicesByCustomerTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void UpdateInvoiceStatusTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void PayInvoiceTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void DisputeInvoiceTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetDisputeInvoiceEmailTemplateTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAllInvoicesTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void SaveInvoiceDetailsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void SaveCreditNoteDetailsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void ExportInvoiceReportTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
     }
 }

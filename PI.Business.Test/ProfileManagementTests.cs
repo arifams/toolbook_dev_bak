@@ -14,31 +14,31 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void getProfileByUserNameTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void getProfileByUserNameForShipmentTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void updateProfileDataTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void UpdateProfileGeneralTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void UpdateProfileAddressTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
@@ -62,13 +62,13 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void UpdateProfileAccountSettingsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void UpdateThemeColourTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
@@ -80,7 +80,7 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetCustomerByUserIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
@@ -104,73 +104,73 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAddressbyIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAccountSettingByCustomerIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetNotificationCriteriaByCustomerIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetCompanyByTenantIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetTenantByIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetCostCenterByCompanyIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetCostCenterByIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetCustomerAddressDetailsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAccountSettingsTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetRoleNameByIdTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAllCurrenciesTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAllTimeZonesTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
     }
 }
