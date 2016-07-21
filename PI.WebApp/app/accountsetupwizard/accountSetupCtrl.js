@@ -47,16 +47,21 @@
                         if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
                             vm.model.customerDetails.salutation = 'Mr';
                         }
-
+                        
                         //triggering  the second step only for genaral details completed users
                         if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
                             (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
-                            (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')) {
+                            (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')||
+                            (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '')||
+                            (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
+
+                            console.log('view 1st popup');
 
 
                         } else {
                             vm.hideaddressDetails = true;
                             generalDetailesCompleted = true;
+                             console.log('hide 1st popup');
 
                         }
 
@@ -66,12 +71,13 @@
                             (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number=='') ||
                             (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city=='')||
                             (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
-
+                            console.log('view 2nd popup');
 
 
                         } else {
 
                             $scope.closePopup();
+                            console.log('hide 2nd popup');
                         }
 
                         if (response.customerDetails.isCorporateAccount) {
