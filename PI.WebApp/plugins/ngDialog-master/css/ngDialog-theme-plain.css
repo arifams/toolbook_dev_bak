@@ -6,8 +6,8 @@
 .ngdialog.ngdialog-theme-plain .ngdialog-content {
   background: #fff;
   color: #444;
-  font-family: 'Helvetica Neue',sans-serif;
-  font-size: 1.1em;
+  font-family: Lato,"Open Sans",Helvetica,sans-serif;
+  /*font-size: 1.1em;*/ /*commented for test org chart popup font size*/
   line-height: 1.5em;
   margin: 0 auto;
   max-width: 100%;
