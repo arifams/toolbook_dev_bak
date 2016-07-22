@@ -1,6 +1,6 @@
 .ngdialog.ngdialog-theme-plain.custom-width .ngdialog-content {
     width: 600px;
-    overflow: scroll;  
+    overflow: auto;  /*chaged scroll to auto because of org chart popup displayed as scrolled*/
 }
 
 .ngdialog.ngdialog-theme-plain.custom-width-max .ngdialog-content {
