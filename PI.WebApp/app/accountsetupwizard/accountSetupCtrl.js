@@ -126,7 +126,7 @@
                          updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null && responce == 1) {
-                                                                $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
+                                                                $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                                                                 $scope.closePopup();
                                                                 //  vm.hideaddressDetails = false;
                                                             }
@@ -136,7 +136,7 @@
                                                         });
 
                      } else {
-                         $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
+                         $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                          $scope.closePopup();
                          //vm.hideaddressDetails = false;
                      }
