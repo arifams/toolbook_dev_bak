@@ -865,7 +865,7 @@
   display: inline-block;
   top: 10px;
   left: 10px;
-  height: 800px;
+  height: auto;
   width: calc(100% - 24px);
   /* border: 2px dashed #aaa; */
   border-radius: 5px;
@@ -873,8 +873,8 @@
   text-align: center;
 }
 .costCenter {
-    border:2px solid #006699 !important;
-    
+    border-top:2px solid #00aaff !important;
+    text-align:center;
 }
 .orgchart .node .content.costcenter_parent { height: auto !important; }
 
@@ -932,7 +932,7 @@
 .orgchart .second-menu-icon {
     transition: opacity .5s;
     opacity: 1;
-    right: -5px;
+    right: -10px;
     top: -5px;
     z-index: 2;
     color: rgb(68, 157, 68);
@@ -951,7 +951,7 @@
   top: 0;
   right: -70px;
   border-radius: 35px;
-  box-shadow: 0 0 10px 1px #999;
+  /*box-shadow: 0 0 10px 1px #999;*/
   background-color: #fff;
   z-index: 1;
 }
@@ -961,4 +961,10 @@
   border-radius: 30px;
     float: left;
   margin: 5px;
+}
+.main-content .page-content .panel .panel-content ol, .main-content .page-content .panel .panel-content ul {
+    padding-left:5px;
+}
+.main-content .page-content .panel .panel-content i {
+    padding-right:0;
 }

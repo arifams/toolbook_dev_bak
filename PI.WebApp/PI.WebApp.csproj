@@ -152,7 +152,6 @@
     <None Include="app\shipment\jsonResourceFiles\shipmentTerms.json" />
     <None Include="app\shipment\jsonResourceFiles\productTypes.json" />
     <Content Include="css\custom-general.css" />
-    <Content Include="css\jquery.jOrgChart.css" />
     <Content Include="css\jquery.orgchart.css" />
     <Content Include="css\ol.min.css" />
     <Content Include="global\css\compressed-styles.css" />
