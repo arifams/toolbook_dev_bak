@@ -1,6 +1,6 @@
 ﻿<div ng-controller="saveDivisionCtrl as divCtrl">
     <h2 class="box-title" ng-hide="divCtrl.model.id > 0" > <translate>Add Division </translate>
-    &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a>
+    <!--&nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" style="width:auto;" role="button"> Manage Division</a>-->
 </h2>
     <h2 class="box-title" ng-show="divCtrl.model.id > 0" > <translate>Edit Division </translate> 
     &nbsp;&nbsp;&nbsp;&nbsp; <a href="#loadDivisions" class="btn btn-primary btn-primary active pull-right" 
@@ -9,12 +9,10 @@
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
-        <div class="panel-content panel-border">
+        <div class="panel-content panel-border m-0">
             <form class="form-horizontal" name="saveDivisionForm">
                 <!-- /.box-header -->
-
-                <div class="panel-header">
-                    <div class="row">
+                    <div class="row m-0">
                         <!-- left column -->
                         <div class="col-xs-12">
                             <div class="box-body">
@@ -25,8 +23,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label" translate>Division Name *</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-sm-4 control-label" translate>Division Name *</label>
+                                        <div class="col-sm-8">
                                             <input ng-model="divCtrl.model.name" type="text" name="divisionName" class="form-control" ng-required="true"
                                                    ng-maxlength="200" ng-class="{ 'error': saveDivisionForm.divisionName.$invalid &&
                                                                         (saveDivisionForm.divisionName.$dirty|| divCtrl.isSubmit) }" />
@@ -41,8 +39,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <label class="col-sm-2 control-label" translate>Division Description</label>
-                                        <div class="col-sm-10">
+                                        <label class="col-sm-4 control-label" translate>Division Description</label>
+                                        <div class="col-sm-8">
                                             <input ng-model="divCtrl.model.description" type="text" class="form-control" />
                                         </div>
                                     </div>
@@ -65,10 +63,10 @@
                                 <!--<p>{{divCtrl.model.assosiatedCostCenters}}</p>-->
                                 <div class="row">
                                     <div class="col-sm-12 form-group">
-                                        <div class="col-sm-2">
+                                        <div class="col-sm-4">
                                             <label class="control-label" translate>Status </label>
                                         </div>
-                                        <div class="col-sm-10 p-l-30">
+                                        <div class="col-sm-8 p-l-30">
                                             <div class="skin skin-minimal">
                                                 <div class="form-body">
                                                     <div class="form-group">
@@ -115,8 +113,6 @@
                             </div>
                         </div>
                     </div>
-
-                </div>
             </form>
         </div>
     </div>

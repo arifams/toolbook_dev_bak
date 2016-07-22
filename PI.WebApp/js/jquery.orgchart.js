@@ -30,13 +30,13 @@
             'nodeTitle': 'name',
             'nodeId': 'id',
             'nodeChildren': 'children',
-            'nodeCostCenter': 'costcenter',
+            'nodeCostCenter': 'costcenter', //added for node include inside a node
             'toggleSiblingsResp': false,
             'depth': 999,
             'chartClass': '',
             'exportButton': false,
             'exportFilename': 'OrgChart',
-            'parentNodeSymbol': 'fa-users',
+            'parentNodeSymbol': 'fa-pencil-square-o', //chaged icon to our req.
             'draggable': false,
             'direction': 't2b',
             'pan': false,
