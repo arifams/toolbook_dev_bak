@@ -3,8 +3,8 @@
 (function (app) {
 
     app.controller('accountSetupCtrl',
-       ['$scope','updateProfilefactory','$window','loadProfilefactory',
-    function ($scope, updateProfilefactory, $window, loadProfilefactory) {
+       ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope',
+    function ($scope, updateProfilefactory, $window, loadProfilefactory,$rootScope) {
 
         var vm = this;
         vm.model = {};
@@ -47,16 +47,20 @@
                         if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
                             vm.model.customerDetails.salutation = 'Mr';
                         }
-
+                        
                         //triggering  the second step only for genaral details completed users
                         if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
                             (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
-                            (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')) {
+                            (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')||
+                            (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '')||
+                            (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
+                           
 
 
                         } else {
                             vm.hideaddressDetails = true;
                             generalDetailesCompleted = true;
+                             
 
                         }
 
@@ -122,6 +126,7 @@
                          updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null && responce == 1) {
+                                                                $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                                                                 $scope.closePopup();
                                                                 //  vm.hideaddressDetails = false;
                                                             }
@@ -131,7 +136,7 @@
                                                         });
 
                      } else {
-
+                         $rootScope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                          $scope.closePopup();
                          //vm.hideaddressDetails = false;
                      }

@@ -14,19 +14,19 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void ImportRateSheetExcelTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void ManageInvoicePaymentSettingTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
 
         [TestMethod()]
         public void GetAuditTrailsForCustomerTest()
         {
-            Assert.AreEqual(1, 1);
+            
         }
     }
 }

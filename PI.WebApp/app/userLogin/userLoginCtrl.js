@@ -24,7 +24,10 @@
 
     });
 
-    var serviceBase = 'https://service.transportal.it/';
+    //var serviceBase = 'https://service.transportal.it/';
+    //var serviceBase = 'https://localhost:44339/';
+    var serviceBase = serverBaseUrl + '/';
+
     app.constant('ngAuthSettings', {
         apiServiceBaseUri: serviceBase,
         clientId: 'ngAuthApp'
@@ -219,14 +222,27 @@ registerExternalUser,ngAuthSettings) {
         $scope.authExternalProvider = function (provider) {
             debugger;
 
-            //var redirectUri = 'http://localhost:49995/app/authComplete.html';
             var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
 
             // var externalProviderUrl = 'https://localhost:44339/'
 
-            var externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" + provider
+            var externalProviderUrl  = "";
+            if (provider == 'Microsoft')
+            {
+                console.log('mi');
+                //externalProviderUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=openid+profile&response_type=id_token&redirect_uri=https://locahost&nonce=111111111123";
+                //externalProviderUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=openid+profile&response_type=id_token&redirect_uri=https://service.transportal.it&nonce=111111111123";
+                //externalProviderUrl = "https://login.live.com/oauth20_authorize.srf?client_id=70a1a68c-0c5e-445f-8724-5e433fe463e1&scope=SCOPES&response_type=code&redirect_uri=https://web.transportal.it/app/authComplete.html";
+
+                externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" +provider
                                                                         + "&response_type=token&client_id=" + 'ngAuthApp'
                                                                         + "&redirect_uri=" + redirectUri;
+            }
+            else{
+            externalProviderUrl = ngAuthSettings.apiServiceBaseUri + "api/accounts/ExternalLogin?provider=" + provider
+                                                                        + "&response_type=token&client_id=" + 'ngAuthApp'
+                                                                        + "&redirect_uri=" + redirectUri;
+            }
             window.$windowScope = $scope;
 
             var oauthWindow = window.open(externalProviderUrl, "Authenticate Account", "location=0,status=0,width=600,height=750");
@@ -240,24 +256,29 @@ registerExternalUser,ngAuthSettings) {
                 if (fragment.haslocalaccount == 'False') {
 
                     authService.logOut();
-
+                    
                     authService.externalAuthData = {
                         provider: fragment.provider,
                         userName: fragment.external_user_name,
+                        firstName: fragment.external_first_name,
+                        lastName: fragment.external_last_name,
                         externalAccessToken: fragment.external_access_token
                     };
 
                     vm.UserModel.Email = fragment.external_user_name;
                     vm.UserModel.viaExternalLogin = true;
+                    vm.UserModel.firstName = fragment.external_first_name;
+                    vm.UserModel.lastName = fragment.external_last_name;
                     debugger;
                     
                     // register external user
                     registerExternalUser.createUser(vm.UserModel)
+
                     .then(function (result) {
                         debugger;
                        var userDetails = {
                             username: fragment.external_user_name,
-                            viaExternalLogin : true
+                            viaExternalLogin: true
                        };
                        debugger;
                        vm.login(userDetails);

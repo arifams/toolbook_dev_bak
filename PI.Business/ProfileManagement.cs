@@ -635,7 +635,7 @@ namespace PI.Business
 
                     if (accountSettings!=null)
                     {
-                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB" || updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
                         {
                             accountSettings.VolumeMetricId = 2;
                             accountSettings.WeightMetricId = 2;
@@ -700,6 +700,15 @@ namespace PI.Business
                         {
                             newAccountSetting.VolumeMetricId = 1;
                             newAccountSetting.WeightMetricId = 1;
+                            newAccountSetting.DefaultCurrencyId = 3;
+                            newAccountSetting.DefaultLanguageId = 1;
+                            newAccountSetting.DefaultTimeZoneId = 1;
+                            newAccountSetting.CreatedDate = DateTime.Now;
+                        }
+                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
+                        {
+                            newAccountSetting.VolumeMetricId = 2;
+                            newAccountSetting.WeightMetricId = 2;
                             newAccountSetting.DefaultCurrencyId = 1;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
@@ -709,7 +718,7 @@ namespace PI.Business
                         {
                             newAccountSetting.VolumeMetricId = 1;
                             newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 3;
+                            newAccountSetting.DefaultCurrencyId = 1;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
                             newAccountSetting.CreatedDate = DateTime.Now;

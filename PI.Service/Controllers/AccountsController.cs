@@ -109,9 +109,9 @@ namespace PI.Service.Controllers
             {
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
-                Salutation = "-", //createUserModel.Salutation,
-                FirstName = "-", //createUserModel.FirstName,
-                LastName = "-", //createUserModel.LastName,
+                Salutation = "-",
+                FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-", 
+                LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
                 //BirthDate = createUserModel.BirthDate,
@@ -526,12 +526,14 @@ namespace PI.Service.Controllers
 
             bool hasRegistered = user != null;
 
-            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}",
+            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}&external_first_name={5}&external_last_name={6}",
                                             redirectUri,
                                             externalLogin.ExternalAccessToken,
                                             externalLogin.LoginProvider,
                                             hasRegistered.ToString(),
-                                            externalLogin.UserName);
+                                            externalLogin.UserName,
+                                            externalLogin.FirstName,
+                                            externalLogin.LastName);
 
             return Redirect(redirectUri);
 
@@ -600,11 +602,13 @@ namespace PI.Service.Controllers
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }          
             public string ExternalAccessToken { get; set; }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                string email = "";
+                string email = "",firstname = "",lastname = "";
 
                 if (identity == null)
                 {
@@ -628,8 +632,10 @@ namespace PI.Service.Controllers
                 {
                     var access_token = identity.FindFirstValue("ExternalAccessToken");
                     var fb = new FacebookClient(access_token);
-                    dynamic myInfo = fb.Get("/me?fields=email"); // specify the email field
+                    dynamic myInfo = fb.Get("/me?fields=email,first_name,last_name"); // specify the email field
                     email = myInfo.email;
+                    firstname = myInfo.first_name;
+                    lastname = myInfo.last_name;
                 }
 
                 return new ExternalLoginData
@@ -637,7 +643,8 @@ namespace PI.Service.Controllers
                     LoginProvider = providerKeyClaim.Issuer,
                     ProviderKey = providerKeyClaim.Value,
                     UserName = (providerKeyClaim.Issuer == "Facebook") ? email : identity.FindFirstValue(ClaimTypes.Email),
-                    // UserName = identity.FindFirstValue(ClaimTypes.Name),
+                    FirstName = (providerKeyClaim.Issuer == "Facebook") ? firstname : identity.FindFirstValue(ClaimTypes.GivenName),
+                    LastName = (providerKeyClaim.Issuer == "Facebook") ? lastname : identity.FindFirstValue(ClaimTypes.Surname),
                     ExternalAccessToken = identity.FindFirstValue("ExternalAccessToken"),
                 };
             }
