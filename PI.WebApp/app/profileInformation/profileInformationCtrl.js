@@ -116,8 +116,8 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'builderFactory', '$window','$rootScope','Upload','gettextCatalog','$scope',
-    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, builderFactory, $window, $rootScope, Upload,gettextCatalog, $scope) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'customBuilderFactory', '$window', '$rootScope', 'Upload', 'gettextCatalog', '$scope',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, customBuilderFactory, $window, $rootScope, Upload, gettextCatalog, $scope) {
    
 
            //applicationService.init();
@@ -231,7 +231,7 @@
                 };
 
                 vm.loadCustomize = function () {
-                    builderFactory.init();
+                    customBuilderFactory.init();
                 };
 
 

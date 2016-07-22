@@ -501,7 +501,7 @@
         var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + '</div>' + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '2') ? '<div class="costCenter">costcenter name1</div><div class="costCenter">costcenter name2</div>' : '') : '');
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '2') ? '<div class="costCenter">costcenter name</div><div class="costCenter">costcenter name</div>' : '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '1') ? '<div class="costCenter">costcenter name</div>' : '') :'' + '</div>' );
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {

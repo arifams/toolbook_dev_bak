@@ -153,7 +153,7 @@ var MakeApp = angular
           //organization structure page
           .when('/OrganizationStructure', {
               templateUrl: 'organizationstructure/organizationStructure.html',
-              controller: 'orgStructureCtrl'
+              //controller: 'orgStructureCtrl'
               
           })
           //profile Information Page
