@@ -48,9 +48,9 @@
             });
         }
 
-        function getUser() {
-
-            var userId = $routeParams.id == "0" ? "" : $routeParams.id;
+        function getUser(userId) {
+            debugger;
+            var userId = (userId == 0) ? "" : userId;
 
             return $http.get(serverBaseUrl + '/api/accounts/GetUserByUserId', {
                 params: {

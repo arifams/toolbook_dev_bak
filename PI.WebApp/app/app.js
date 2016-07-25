@@ -253,7 +253,7 @@ var MakeApp = angular
         })
         .when('/saveCostcenter/:id', {
             templateUrl: 'costcenter/saveCostCenter.html',
-            controller: 'saveCostCenterCtrl',
+            //controller: 'saveCostCenterCtrl',
         })
         .when('/loadCostcenters', {
             templateUrl: 'costcenter/loadCostCenters.html',
@@ -262,8 +262,7 @@ var MakeApp = angular
 
         .when('/saveUserManagement/:id', {
             templateUrl: 'userManagement/saveUserManagement.html',
-            controller: 'saveUserManagementCtrl',
-            controllerAs: 'saveUserCtrl'
+            controller: 'saveUserManagementCtrl'
         })
         .when('/loadUserManagement', {
             templateUrl: 'userManagement/loadUserManagement.html',

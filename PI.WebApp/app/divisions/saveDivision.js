@@ -15,9 +15,10 @@
         
         return {
             loadDivisioninfo: function () {
+                debugger;
                 return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {
                     params: {
-                        id: $routeParams.id,
+                        id: 0, //$routeParams.id
                         userId: $window.localStorage.getItem('userGuid')
                     }
                 });

@@ -37,16 +37,18 @@
         }
     });
 
-    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', function ($location, $window, userManagementFactory, $rootScope) {
+    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$scope', 'name',
+        function ($location, $window, userManagementFactory, $rootScope, $scope, name) {
         var vm = this;
         vm.user = {};
 
-        
+        debugger;
 
         var loadUser = function () {
-            userManagementFactory.getUser()
+            debugger;
+            userManagementFactory.getUser(name)
             .success(function (data) {
-                
+                debugger;
                 vm.user = data;
                 
                 
@@ -81,6 +83,7 @@
         loadUser();
 
         vm.saveUser = function () {
+            debugger;
             vm.user.loggedInUserId = $window.localStorage.getItem('userGuid');
 
             var body = $("html, body");
