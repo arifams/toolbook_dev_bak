@@ -16,7 +16,9 @@ namespace PI.Contract.DTOs.Shipment
         public bool VolumeCMM { get; set; }
         public List<ProductIngredientsDto> ProductIngredients { get; set; }
         public string HsCode { get; set; }
-        public string PreferredCollectionDate { get; set; }      
+        public string PreferredCollectionDate { get; set; }
+        public string EarliestPickupDate { get; set; }
+        public string EstDeliveryDate { get; set; }       
         public string Instructions { get; set; }
         public string IsInsuared { get; set; }
         public int ValueCurrency { get; set; }

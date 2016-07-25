@@ -21,12 +21,10 @@
 
         vm.shipmentCode = $location.search().SHIPMENT_CODE;   
 
+        GetshipmentByShipmentCodeForAirwayBill();
 
-     
-        getshipmentByShipmentCodeForInvoice();
-
-        function getshipmentByShipmentCodeForInvoice() {
-            shipmentFactory.getshipmentByShipmentCodeForInvoice(vm.shipmentCode)
+        function GetshipmentByShipmentCodeForAirwayBill() {
+            shipmentFactory.GetshipmentByShipmentCodeForAirwayBill(vm.shipmentCode)
             .success(function (data) {
 
                 debugger;
@@ -35,10 +33,7 @@
                 console.info(vm.shipment);
                 vm.shipment.termsOfPayment = "FREE OF CHARGE";
 
-                vm.GetServiceLabel(vm.shipment.shipmentServices);
-                vm.GetCurrencyLabel(vm.shipment.valueCurrency);
-                //vm.shipment.modeOfTransport = vm.shipment.carrierInformation.carrierName + " " + vm.shipment.carrierInformation.serviceLevel + " " + vm.shipment.generalInformation.trackingNumber;
-                //vm.shipment.item = {};
+               
                 if (vm.shipment.item.lineItems.length == 0) {
                     vm.addEmptyRow();
                 }

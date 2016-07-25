@@ -291,6 +291,14 @@
             });
         }
 
+        function getshipmentByShipmentCodeForInvoice(shipmentcode) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForInvoice', {
+                params: {
+                    shipmentCode: shipmentcode
+                }
+            });
+        }
+
         function deleteFile(fileDetails) {
             return $http.post(serverBaseUrl + '/api/shipments/DeleteFile', fileDetails)
         }

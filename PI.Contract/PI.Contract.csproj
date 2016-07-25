@@ -78,6 +78,7 @@
     <Compile Include="DTOs\Report\ShipmentReportDto.cs" />
     <Compile Include="DTOs\Role\RolesDto.cs" />
     <Compile Include="DTOs\Shipment\AddShipmentResponse.cs" />
+    <Compile Include="DTOs\Shipment\AirwayBillDto.cs" />
     <Compile Include="DTOs\Shipment\CarrierInformationDto.cs" />
     <Compile Include="DTOs\Shipment\CommercialInvoiceDto.cs" />
     <Compile Include="DTOs\Shipment\ConsigneeDto.cs" />
