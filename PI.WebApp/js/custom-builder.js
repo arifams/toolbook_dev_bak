@@ -70,39 +70,8 @@
         },
 
        
-        orgStructurePopup: function () {
-            var datascource = {
-                'id': '1',
-                'name': 'Business Owner',
-                'title': 'Business owner name',
-                'children': [
-                  {
-                      'id': '2', 'name': 'Manager- Active', 'title': 'manager active name',
-                      'children': [
-                      {
-                          'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name',
-                          'children': [
-                              {
-                                  'id': '5', 'name': 'Division', 'title': 'division name','costcenter': '2',
-                                  'children': [
-                                      { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name' },
-                                      { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
-                                  ] 
-                              }
-                          ]
-                      },
-                      {
-                          'id': '4', 'name': 'Division', 'title': 'division name', 'costcenter': '1',
-                          'children': [
-                                { 'id': '5', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
-                          ],
-                          'costcenter': '1'
-                      }
-                      ]
-                  },
-
-                ]
-            };
+        orgStructurePopup: function (datascource) {
+            
             $('#chart-container').orgchart({
                 'data': datascource,
                 'nodeContent': 'title',
