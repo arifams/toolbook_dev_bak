@@ -17,7 +17,7 @@
                 //    $scope: $scope,
                 //    name: userId
                 //}),
-                className: 'ngdialog-theme-plain custom-width',
+                className: 'ngdialog-theme-plain custom-width-max',
                 closeByDocument: false,
                 closeByEscape: false
            
@@ -38,7 +38,7 @@
             ngDialog.open({
                 scope: $scope,
                 template: '/app/costcenter/saveCostCenter.html',
-                className: 'ngdialog-theme-plain custom-width',
+                className: 'ngdialog-theme-plain custom-width-max',
                 closeByDocument: false,
                 closeByEscape: false
             });

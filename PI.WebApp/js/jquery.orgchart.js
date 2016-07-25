@@ -513,7 +513,7 @@
         }
         if (Number(flags.substr(2, 1))) {
             $nodeDiv.append('<i class="edge verticalEdge bottomEdge fa"></i>')
-              .children('.title').prepend('<i class="fa ' + opts.parentNodeSymbol + ' symbol"></i>');
+              .children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
         }
 
         $nodeDiv.on('mouseenter mouseleave', function (event) {
@@ -821,7 +821,7 @@
                     $node.append('<i class="edge verticalEdge bottomEdge fa"></i>');
                 }
                 if (!$node.find('.symbol').length) {
-                    $node.children('.title').prepend('<i class="fa ' + opts.parentNodeSymbol + ' symbol"></i>');
+                    $node.children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
                 }
                 showDescendants($node);
             }
