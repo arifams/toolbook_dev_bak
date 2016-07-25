@@ -37,8 +37,8 @@
         }
     });
 
-    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$scope', 'name',
-        function ($location, $window, userManagementFactory, $rootScope, $scope, name) {
+    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$scope',
+        function ($location, $window, userManagementFactory, $rootScope, $scope) {
         var vm = this;
         vm.user = {};
 
@@ -46,7 +46,7 @@
 
         var loadUser = function () {
             debugger;
-            userManagementFactory.getUser(name)
+            userManagementFactory.getUser($scope.userId)
             .success(function (data) {
                 debugger;
                 vm.user = data;
