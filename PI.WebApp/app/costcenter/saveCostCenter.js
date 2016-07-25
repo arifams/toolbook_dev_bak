@@ -16,7 +16,7 @@
             loadCostcenterInfo: function () {
                 return $http.get(serverBaseUrl + '/api/Company/GetCostCentersById', {
                     params: {
-                        id: $routeParams.id,
+                        id: 0,//$routeParams.id,
                         userId: $window.localStorage.getItem('userGuid')
                     }
                 });

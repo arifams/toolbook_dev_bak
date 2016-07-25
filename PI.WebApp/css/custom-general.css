@@ -185,6 +185,7 @@
 .pull-right {
     width:108px;
     height:30px;
+    float:right;
 }
 .float-left {
     float:left;
@@ -792,6 +793,7 @@
 
 .custom-table {
     overflow-x:auto; 
+    border:1px solid #ddd;
 }
 /*modal*/
 .modal-navigator {
@@ -943,4 +945,13 @@
 }
 .main-content .page-content .panel .panel-content i {
     padding-right:0;
+}
+
+/*address book*/
+.addheading {
+    margin-top:20px;
+}
+.nodatamsg {
+    color:red;
+    text-align:center;
 }

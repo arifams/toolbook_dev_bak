@@ -2,13 +2,20 @@
     width: 600px;
     overflow: auto;  /*chaged scroll to auto because of org chart popup displayed as scrolled*/
 }
-
+/*customized*/
 .ngdialog.ngdialog-theme-plain.custom-width-max .ngdialog-content {
+    width: 800px;
+    height:auto;
+    overflow: auto;  
+    
+}
+/*not changed*/
+/*.ngdialog.ngdialog-theme-plain.custom-width-max .ngdialog-content {
     width: 800px;
     height:1000px;
     overflow: scroll;  
     
-}
+}*/
 
 
 
