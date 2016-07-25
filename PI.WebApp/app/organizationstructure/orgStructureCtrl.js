@@ -2,15 +2,25 @@
 
 (function (app) {
 
-    app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', function ($scope, $compile, ngDialog, customBuilderFactory) {
+    app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller',
+        function ($scope, $compile, ngDialog, customBuilderFactory, $controller) {
       
-        $scope.loadUserManagment = function () {
+        
+            $scope.loadUserManagment = function (userId) {
+
+            $scope.userId = userId;
+
             ngDialog.open({
                 scope: $scope,
                 template: '/app/userManagement/saveUserManagement.html',
+                //controller: $controller('saveUserManagementCtrl', {
+                //    $scope: $scope,
+                //    name: userId
+                //}),
                 className: 'ngdialog-theme-plain custom-width',
                 closeByDocument: false,
                 closeByEscape: false
+           
             });
         }
 
