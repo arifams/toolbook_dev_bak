@@ -1,10 +1,29 @@
 ﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
-    <h2 class="box-title">
-        <translate>Manage Address Book</translate>
-        <a role="button" style="width:auto;" class="btn btn-primary active pull-right" href="#saveAddress/0" translate>
-            Add Address
+    <div class="row m-l-0 m-r-0 addheading">
+        <h2 style="display:inline">
+        <translate>Manage Address Book</translate></h2>
+        <a role="button" style="width:auto;" class="btn btn-primary active pull-right m-r-20" href="#saveAddress/0" translate>
+            <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>Add Address
         </a>
-    </h2>
+        <div dropdown="" class="btn-group pull-right m-r-20">
+            <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
+                <i class="fa fa-upload" aria-hidden="true"></i>Import <span class="caret"></span>
+            </button>
+            <span class="dropdown-arrow"></span>
+            <ul role="menu" class="dropdown-menu">
+                <li>
+                    <a href="#">Import</a>
+                </li>
+                <li>
+                    <a href="#">CSV Template</a>
+                </li>
+                <li>
+                    <a href="#">Excel Template</a>
+                </li>
+            </ul>
+        </div>
+        
+    </div>
 
     <div class="panel">
         <!-- form start -->
@@ -21,7 +40,7 @@
                                 <div class="col-sm-6">
                                     <div class="input-group">
                                         <input ng-model="addressCtrl.searchText" name="searchText" type="text" class="form-control"
-                                               placeholder="{{'Search by Names' | translate}}" />
+                                               placeholder="{{'Search by company, first or last name' | translate}}" />
                                         <span class="input-group-btn">
                                             <button type="button" class="btn btn-large btn-primary no-margin" ng-click="addressCtrl.searchAddresses()">
                                                 <i class="fa fa-search"></i>
@@ -29,12 +48,17 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2 p-l-40">
+                                <div class="col-sm-1">
+                                    <div class="font-animation" ng-show="">
+                                        <label><i class="fa fa-spinner faa-spin animated"></i> <translate>loading...</translate></label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
                                     <div class="form-group">
                                         <label class="control-label" translate>Filter by  </label>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
+                                <div class="col-sm-2">
                                     <div class="option-group">
                                         <select id="addressStatus" name="addressStatus" class="form-control"
                                                 ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
@@ -44,10 +68,25 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div dropdown="" class="col-sm-2 btn-group m-r-0 pull-right">
+                                    <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
+                                        <i class="fa fa-download" aria-hidden="true"></i>Export <span class="caret"></span>
+                                    </button>
+                                    <span class="dropdown-arrow"></span>
+                                    <ul role="menu" class="dropdown-menu">
+                                        <li>
+                                            <a href="#">CSV Export</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Excel Export</a>
+                                        </li>
+                                       
+                                    </ul>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="form-group">
                                 <div class="col-sm-12">
                                     <div class="col-sm-2 m-b-10">
@@ -142,14 +181,14 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
 
-                        <br />
+                        <hr>
                         <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
 
                         <div class="custom-table">
 
-                            <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped">
+                            <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped m-b-0">
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Company</th>
@@ -181,6 +220,7 @@
                                     </tr>
                                 </tfoot>
                             </table>
+                            <div class="nodatamsg"> No records to display</div>
                             <div id="panel-notif"></div>
 
                         </div>

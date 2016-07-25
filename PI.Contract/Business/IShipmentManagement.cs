@@ -79,6 +79,13 @@ namespace PI.Contract.Business
         /// <returns></returns>
         PagedList SearchShipmentsById(string number);
 
+        /// <summary>
+        /// Get shipmentBy ShipmentCodeForAirwayBill
+        /// </summary>
+        /// <param name="shipmentCode"></param>
+        /// <returns></returns>
+        AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode);
+
     }
 
 }
