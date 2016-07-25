@@ -476,7 +476,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
-        [Route("GetshipmentByShipmentCodeForInvoice")]
+        [Route("GetshipmentByShipmentCodeForAirwayBill")]
         public AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
         {
             AirwayBillDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForAirwayBill(shipmentCode);

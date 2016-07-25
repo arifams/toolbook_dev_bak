@@ -116,6 +116,7 @@
             })
         }
 
+        debugger;
         vm.save = function () {
             shipmentFactory.saveCommercialInvoice(vm.shipment)
             .success(function (data) {

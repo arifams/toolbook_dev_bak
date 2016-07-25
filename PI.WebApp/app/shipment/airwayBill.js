@@ -7,6 +7,15 @@
         var userId = $window.localStorage.getItem('userGuid');
 
         var vm = this;
+        vm.shipmnetCurrencyLabel = '';
+        vm.valueCurrencyList = [
+           { "Id": 1, "Name": "USD" },
+           { "Id": 2, "Name": "EUR" },
+           { "Id": 3, "Name": "YEN" },
+           { "Id": 4, "Name": "GBP" }
+        ];
+
+        vm.currentRole = $window.localStorage.getItem('userRole');
 
         vm.print = function (divId) {
 
@@ -18,6 +27,15 @@
             popupWin.document.close();
         }
 
+        vm.GetCurrencyLabel = function (id) {
+
+            angular.forEach(vm.valueCurrencyList, function (item, key) {
+                if (item.Id == id) {
+                    debugger;
+                    vm.shipmnetCurrencyLabel = item.Name;
+                }
+            });
+        }
 
         vm.shipmentCode = $location.search().SHIPMENT_CODE;   
 
@@ -28,18 +46,11 @@
             .success(function (data) {
 
                 debugger;
-                vm.shipment = data;
-                console.info("shipment info in commercial invoice");
-                console.info(vm.shipment);
-                vm.shipment.termsOfPayment = "FREE OF CHARGE";
-
+                vm.shipment = data;          
                
-                if (vm.shipment.item.lineItems.length == 0) {
-                    vm.addEmptyRow();
-                }
-                else {
-                    vm.calculateTotal();
-                }
+                vm.GetCurrencyLabel(vm.shipment.valueCurrency);
+               
+               
             })
             .error(function () {
             })

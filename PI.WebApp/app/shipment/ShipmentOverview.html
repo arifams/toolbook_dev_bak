@@ -155,7 +155,7 @@
                 </div> 
                 </div>
         </tab>
-        <tab>
+        <!--<tab>
             <tab-heading>
                 AIR WAYBILL
             </tab-heading>
@@ -168,7 +168,21 @@
             <div class="awb" id="awb">
               
             </div>
-        </tab>
+        </tab>-->
+
+                <tab>
+                    <tab-heading translate>
+                        AIR WAYBILL
+                    </tab-heading>
+                    <div class="panel-content panel-border">
+                        <div class="col-sm-10"></div>
+                        <div class="col-sm-2">
+                            <input type="button" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('awb')" />
+                        </div>
+                        <div ng-include="'shipment/airwayBill.html'"></div>
+                    </div>
+
+                </tab>
         <tab>
         <tab-heading>
             CMR
@@ -177,6 +191,7 @@
                         
                     </div>
          </tab>
+              
 
         <tab>
             <tab-heading translate>

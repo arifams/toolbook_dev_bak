@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PI.Contract.DTOs.Carrier;
+using PI.Contract.DTOs.CostCenter;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +13,8 @@ namespace PI.Contract.DTOs.Shipment
         public long ShipmentId { get; set; }
         public ConsignerAndConsigneeInformationDto AddressInformation { get; set; }
         public PackageDetailsDto PackageDetails { get; set; }
+        public CarrierDto CareerDetails { get; set; }
+        public CostCenterDto CostCenter { get; set; }
         public string ShipmentReferenceName { get; set; }
         public string CreatedDate { get; set; }
         public string InvoiceNo { get; set; }

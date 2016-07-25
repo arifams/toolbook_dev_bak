@@ -23,6 +23,8 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using PI.Contract.DTOs.CostCenter;
+using PI.Contract.DTOs.Address;
 
 namespace PI.Business
 {
@@ -1945,7 +1947,8 @@ namespace PI.Business
                             ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                             PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                             ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                            CarrierCost=currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                         },
                         CreatedDate = currentShipment.CommercialInvoice.CreatedDate.ToString("dd-MMM-yyyy"),
@@ -2038,7 +2041,8 @@ namespace PI.Business
                             ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                             PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                             ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                            CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                         },
                         Item = new InvoiceItemDto() { LineItems = new List<InvoiceItemLineDto>() },
@@ -2070,84 +2074,6 @@ namespace PI.Business
 
                 tenantId = currentShipment.Division.Company.TenantId;
 
-                if (currentShipment.CommercialInvoice != null)
-                {
-
-                    awbill = new AirwayBillDto()
-                    {
-                        ShipmentId = currentShipment.Id,
-                        ShipmentReferenceName = currentShipment.CommercialInvoice.ShipmentReferenceName,
-                        AddressInformation = new ConsignerAndConsigneeInformationDto
-                        {
-                            Consignee = new ConsigneeDto
-                            {
-                                Address1 = currentShipment.ConsigneeAddress.StreetAddress1,
-                                Address2 = currentShipment.ConsigneeAddress.StreetAddress2,
-                                Postalcode = currentShipment.ConsigneeAddress.ZipCode,
-                                City = currentShipment.ConsigneeAddress.City,
-                                Country = currentShipment.ConsigneeAddress.Country,
-                                State = currentShipment.ConsigneeAddress.State,
-                                FirstName = currentShipment.ConsigneeAddress.FirstName,
-                                LastName = currentShipment.ConsigneeAddress.LastName,
-                                ContactName = currentShipment.ConsigneeAddress.ContactName,
-                                ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
-                                Email = currentShipment.ConsigneeAddress.EmailAddress,
-                                Number = currentShipment.ConsigneeAddress.Number
-                            },
-                            Consigner = new ConsignerDto
-                            {
-                                Address1 = currentShipment.ConsignorAddress.StreetAddress1,
-                                Address2 = currentShipment.ConsignorAddress.StreetAddress2,
-                                Postalcode = currentShipment.ConsignorAddress.ZipCode,
-                                City = currentShipment.ConsignorAddress.City,
-                                Country = currentShipment.ConsignorAddress.Country,
-                                State = currentShipment.ConsignorAddress.State,
-                                FirstName = currentShipment.ConsignorAddress.FirstName,
-                                LastName = currentShipment.ConsignorAddress.LastName,
-                                ContactName = currentShipment.ConsignorAddress.ContactName,
-                                ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
-                                Email = currentShipment.ConsignorAddress.EmailAddress,
-                                Number = currentShipment.ConsignorAddress.Number
-                            }
-                        },
-                        PackageDetails = new PackageDetailsDto
-                        {
-                            CmLBS = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
-                            VolumeCMM = Convert.ToBoolean(currentShipment.ShipmentPackage.VolumeMetricId),
-                            Count = currentShipment.ShipmentPackage.PackageProducts.Count,
-                            DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
-                            HsCode = currentShipment.ShipmentPackage.HSCode,
-                            Instructions = currentShipment.ShipmentPackage.CarrierInstruction,
-                            IsInsuared = currentShipment.ShipmentPackage.IsInsured.ToString(),
-                            TotalVolume = currentShipment.ShipmentPackage.TotalVolume,
-                            TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
-                            ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
-                            PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
-                            EarliestPickupDate= currentShipment.ShipmentPackage.EarliestPickupDate.ToString(),
-                            EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.ToString(),
-                            ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
-
-                        },
-                        CreatedDate = currentShipment.CommercialInvoice.CreatedDate.ToString("dd-MMM-yyyy"),
-                        InvoiceNo = currentShipment.CommercialInvoice.InvoiceNo,
-                        ShipTo = currentShipment.CommercialInvoice.ShipTo,
-                        VatNo = currentShipment.CommercialInvoice.VatNo,
-                        CustomerNo = currentShipment.CommercialInvoice.CustomerNo,
-                        InvoiceTo = currentShipment.CommercialInvoice.InvoiceTo,
-                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.CommercialInvoice.ShipmentService),
-                        TermsOfPayment = currentShipment.CommercialInvoice.TermsOfPayment, //string.IsNullOrWhiteSpace(currentShipment.CommercialInvoice.TermsOfPayment) ? "FREE OF CHARGE" : currentShipment.CommercialInvoice.TermsOfPayment,
-                        CountryOfOrigin = currentShipment.CommercialInvoice.CountryOfOrigin,
-                        CountryOfDestination = currentShipment.CommercialInvoice.CountryOfDestination,
-                        ModeOfTransport = currentShipment.CommercialInvoice.ModeOfTransport,
-                        ImportBroker = currentShipment.CommercialInvoice.ImportBroker,
-                        Note = currentShipment.CommercialInvoice.Note,
-                        ValueCurrency = currentShipment.CommercialInvoice.ValueCurrency                     
-                        //  HSCode = currentShipment.CommercialInvoice.HSCode
-                    };
-                }
-                else
-                {
                     // Load invoice from Shipment
 
                     awbill = new AirwayBillDto()
@@ -2190,6 +2116,25 @@ namespace PI.Business
                                 Number = currentShipment.ConsignorAddress.Number
                             }
                         },
+                        CareerDetails = new CarrierDto{
+                            Name=currentShipment.Carrier.Name,
+                           
+                        },
+                        CostCenter = new CostCenterDto
+                        {
+                            Id=currentShipment.CostCenter.Id,
+                            Name=currentShipment.CostCenter.Name,
+                            BillingAddress= new AddressDto
+                            {
+                                Number=currentShipment.CostCenter.BillingAddress.Number,
+                                StreetAddress1=currentShipment.CostCenter.BillingAddress.StreetAddress1,
+                                StreetAddress2=currentShipment.CostCenter.BillingAddress.StreetAddress2,
+                                City=currentShipment.CostCenter.BillingAddress.City,
+                                ZipCode=currentShipment.CostCenter.BillingAddress.ZipCode,
+                                State=currentShipment.CostCenter.BillingAddress.State,
+                                Country=currentShipment.CostCenter.BillingAddress.Country
+                            }
+                        },
                         CreatedDate = currentShipment.CreatedDate.ToString("dd-MMM-yyyy"),
                         InvoiceTo = string.Format("{0} {1} \n {2} {3} \n {4} {5} {6} \n {7}",
                             currentShipment.ConsigneeAddress.FirstName, currentShipment.ConsigneeAddress.LastName, currentShipment.ConsigneeAddress.StreetAddress1, currentShipment.ConsigneeAddress.Number,
@@ -2218,14 +2163,17 @@ namespace PI.Business
                             ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                             PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                             ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+                            ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                            CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
+                            EarliestPickupDate=currentShipment.ShipmentPackage.EarliestPickupDate.ToString(),
+                            EstDeliveryDate=currentShipment.ShipmentPackage.EstDeliveryDate.ToString()
 
                         },
                       
                         VatNo = currentShipment.Division.Company.VATNumber,
                         // HSCode = currentShipment.ShipmentPackage.HSCode
                     };
-                }
+                
             }
 
 

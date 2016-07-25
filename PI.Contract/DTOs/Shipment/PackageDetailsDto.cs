@@ -27,6 +27,7 @@ namespace PI.Contract.DTOs.Shipment
         public bool IsDG { get; set; }
         public string DGType { get; set; }
         public bool Accessibility { get; set; }
+        public string CarrierCost { get; set; }
 
         public short PaymentTypeId { get; set; }
         public string ValueCurrencyString { get; set; }
