@@ -54,6 +54,7 @@
             getShipmentForCompanyAndSyncWithSIS: GetShipmentForCompanyAndSyncWithSIS,
             toggleFavourite: toggleFavourite,
             searchShipmentsById: searchShipmentsById,
+            GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill
         };
 
         function getProfileInfo() {
@@ -285,6 +286,14 @@
 
         function getshipmentByShipmentCodeForInvoice(shipmentcode) {
             return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForInvoice', {
+                params: {
+                    shipmentCode: shipmentcode
+                }
+            });
+        }
+
+        function GetshipmentByShipmentCodeForAirwayBill(shipmentcode) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetshipmentByShipmentCodeForAirwayBill', {
                 params: {
                     shipmentCode: shipmentcode
                 }

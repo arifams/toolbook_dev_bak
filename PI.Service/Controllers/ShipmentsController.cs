@@ -473,6 +473,16 @@ namespace PI.Service.Controllers
             return currentshipment;
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForAirwayBill")]
+        public AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
+        {
+            AirwayBillDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForAirwayBill(shipmentCode);
+            return currentshipment;
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

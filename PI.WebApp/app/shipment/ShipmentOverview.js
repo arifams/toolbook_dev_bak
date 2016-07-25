@@ -18,7 +18,7 @@
                var totalPrintlength = 0;
                var totalLenght = 0;
               
-
+               vm.currentRole = $window.localStorage.getItem('userRole');
                //vm.step = 3; //To Do - change this number with logic
 
                vm.openLabel = function (url) {
