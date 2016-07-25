@@ -207,10 +207,10 @@
 }
 
 .orgchart .node .title .symbol {
-  float: left;
-  margin-top: 4px;
+  float: right;
+  margin-top: 5px;
   margin-left: 2px;
-  display:none;
+  margin-right:5px;
 }
 
 .orgchart .node .content {

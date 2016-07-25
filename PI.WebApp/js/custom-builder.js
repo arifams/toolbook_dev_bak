@@ -115,7 +115,7 @@
 
                         }
                     });
-                    var secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu"><li><a href="javascript:;" ng-click="loadUserManagment()">add user1</a></li><li><a href="javascript:;" onclick="">add user2</a></li><li><a href="#">add user3</a></li></ul></div></div>';
+                    var secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu"><li><a href="javascript:;" ng-click="loadUserManagment()">add user1</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment()">add user2</a></li><li><a href="javascript:;" ng-click="loadCostcenterManagement()">add user3</a></li></ul></div></div>';
                     $node.append(secondMenuIcon).append(secondMenu);
                 }
             });

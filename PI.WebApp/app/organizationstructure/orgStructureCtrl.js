@@ -9,6 +9,28 @@
                 scope: $scope,
                 template: '/app/userManagement/saveUserManagement.html',
                 className: 'ngdialog-theme-plain custom-width',
+                closeByDocument: false,
+                closeByEscape: false
+            });
+        }
+
+        $scope.loadDivisionManagment = function () {
+            ngDialog.open({
+                scope: $scope,
+                template: '/app/divisions/saveDivision.html',
+                className: 'ngdialog-theme-plain custom-width',
+                closeByDocument: false,
+                closeByEscape: false
+            });
+        }
+
+        $scope.loadCostcenterManagement = function () {
+            ngDialog.open({
+                scope: $scope,
+                template: '/app/costcenter/saveCostCenter.html',
+                className: 'ngdialog-theme-plain custom-width',
+                closeByDocument: false,
+                closeByEscape: false
             });
         }
         

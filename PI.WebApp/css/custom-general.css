@@ -829,32 +829,7 @@
 	cursor 				: pointer;
 }
 
-/* Custom chart styling */
-.jOrgChart {
-  margin                : 10px;
-  padding               : 20px;
-}
 
-/* Custom node styling */
-.jOrgChart .node {
-	font-size 			: 14px;
-	background-color 	: #35363B;
-	border-radius 		: 8px;
-	border 				: 5px solid #396485;
-	color 				: #F38630;
-	-moz-border-radius 	: 8px;
-    padding:10px;
-    text-align:center;
-}
-.node p{
-		font-family 	: tahoma;
-		font-size 		: 10px;
-		line-height 	: 11px;
-		padding 		: 2px;
-	}
-/*.main-content .page-content .panel.org-background {
-    background-color:#9bd6e4;
-}*/
 .btn.btn-sm.btn-icon.btn-rounded.btn-fb.icon-margin {
     margin:0 10px 10px 10px;
 }
@@ -873,8 +848,9 @@
   text-align: center;
 }
 .costCenter {
-    border-top:2px solid #00aaff !important;
+    border-top:2px solid rgb(0, 102, 153) !important;
     text-align:center;
+    box-shadow:inset 0px 0px 20px 20px  #66ccff;
 }
 .orgchart .node .content.costcenter_parent { height: auto !important; }
 
