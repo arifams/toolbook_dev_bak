@@ -20,7 +20,7 @@
         </div>
 
         <div class="row">
-            <div class="col-sm-12 p-0">
+            <div class="col-sm-12 p-0 m-l-10">
                     <div class="col-sm-5 csvContent" ng-show="searchTypeImport=='CSV'">
 
                         <ng-csv-import content="csv.content"
@@ -39,7 +39,7 @@
                             <translate>Import </translate> CSV
                         </button>
                     </div>
-                    <div class="col-sm-3" ng-show="searchTypeImport=='CSV'">
+                    <div class="col-sm-5" ng-show="searchTypeImport=='CSV'">
                         <label class="label-danger" ng-show="csv.result.status">You added invalid file, retry again</label>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                     </button>
                     {{errorMsg}}
                 </div>
-                <div class="col-sm-3" ng-show="searchTypeImport=='EXCEL'">
+                <div class="col-sm-5 p-0 m-l-10" ng-show="searchTypeImport=='EXCEL'">
                     <label class="label-danger" ng-show="errorExcelFormat">You added invalid file, retry again</label>
                 </div>
             </div>
