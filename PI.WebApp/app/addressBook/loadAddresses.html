@@ -12,13 +12,13 @@
             <span class="dropdown-arrow"></span>
             <ul role="menu" class="dropdown-menu">
                 <li>
-                    <a href="#">Import</a>
+                    <a ng-click="addressCtrl.importAddressBook()">Import</a>
                 </li>
                 <li>
-                    <a href="#">CSV Template</a>
+                    <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBookDetails.csv">CSV Template</a>                   
                 </li>
                 <li>
-                    <a href="#">Excel Template</a>
+                    <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBook.xlsx">Excel Template</a>
                 </li>
             </ul>
         </div>
@@ -74,11 +74,14 @@
                                     </button>
                                     <span class="dropdown-arrow"></span>
                                     <ul role="menu" class="dropdown-menu">
-                                        <li>
-                                            <a href="#">CSV Export</a>
+                                        <li>                                        
+                                            <a ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">
+                                                CSV<translate>Export </translate>
+                                            </a>
+                                           
                                         </li>
                                         <li>
-                                            <a href="#">Excel Export</a>
+                                            <a ng-click="addressCtrl.ExportExcel()">Excel Export</a>                                            
                                         </li>
                                        
                                     </ul>

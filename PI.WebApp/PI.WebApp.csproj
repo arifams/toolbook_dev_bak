@@ -68,6 +68,8 @@
   <ItemGroup>
     <Content Include="app\accountsetupwizard\accountSetup.html" />
     <Content Include="app\accountsetupwizard\accountSetupCtrl.js" />
+    <Content Include="app\addressBook\AddressBookImport.html" />
+    <Content Include="app\addressBook\AddressBookImport.js" />
     <Content Include="app\addressBook\loadAddresses.html" />
     <Content Include="app\addressBook\loadAddressesCtrl.js" />
     <Content Include="app\addressBook\saveAddress.html" />
