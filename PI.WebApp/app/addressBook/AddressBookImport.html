@@ -21,7 +21,7 @@
 
         <div class="row">
             <div class="col-sm-12 p-0 m-l-10">
-                    <div class="col-sm-5 csvContent" ng-show="searchTypeImport=='CSV'">
+                    <div class="col-sm-6 csvContent m-l-20" ng-show="searchTypeImport=='CSV'">
 
                         <ng-csv-import content="csv.content"
                                        header="csv.header"
@@ -39,16 +39,18 @@
                             <translate>Import </translate> CSV
                         </button>
                     </div>
-                    <div class="col-sm-5" ng-show="searchTypeImport=='CSV'">
-                        <label class="label-danger" ng-show="csv.result.status">You added invalid file, retry again</label>
-                    </div>
+                    
                 </div>
             </div>
-
+        <div class="row m-0">
+            <div class="col-sm-6" ng-show="searchTypeImport=='CSV'">
+                <label class="label-danger" ng-show="csv.result.status">You added invalid file, retry again</label>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-sm-12">
-                <div class="col-sm-5 excelContent" ng-show="searchTypeImport=='EXCEL'">
+                <div class="col-sm-7 excelContent" ng-show="searchTypeImport=='EXCEL'">
                     <input type="file" ngf-select ng-model="document" name="file" accept=".xls,.xlsx"
                            ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="validateExcelFormat(document.name)">
 
@@ -60,9 +62,13 @@
                     </button>
                     {{errorMsg}}
                 </div>
-                <div class="col-sm-5 p-0 m-l-10" ng-show="searchTypeImport=='EXCEL'">
-                    <label class="label-danger" ng-show="errorExcelFormat">You added invalid file, retry again</label>
-                </div>
+                <div class="col-sm-3"></div>
+               
+            </div>
+        </div>
+        <div class="row m-0">
+            <div class="col-sm-6 p-0 m-l-10" ng-show="searchTypeImport=='EXCEL'">
+                <label class="label-danger" ng-show="errorExcelFormat">You added invalid file, retry again</label>
             </div>
         </div>
         </form>
