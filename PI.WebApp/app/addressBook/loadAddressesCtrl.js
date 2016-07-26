@@ -53,15 +53,11 @@
         }
     });
 
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', 'ngDialog', '$controller',
+        function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope, ngDialog, $controller) {
         var vm = this;
         vm.stream = {};
-        vm.csv = {};
-        vm.csv.accept = '.csv';
-        vm.errorExcelFormat = false;
-     
-
-       
+        vm.noAvailableAddressDetails = false;
 
         vm.searchAddresses = function () {
 
@@ -72,8 +68,13 @@
 
             loadAddressService.find(userId, searchText, type)
                 .then(function successCallback(responce) {
-
+                    debugger;
                     vm.rowCollection = responce.data.content;
+                    if (vm.rowCollection.length==0) {
+                        vm.noAvailableAddressDetails = true;
+                    } else {
+                        vm.noAvailableAddressDetails = false;
+                    }
                     vm.exportcollection = [];
 
                     //adding headers for export csv file
@@ -116,117 +117,6 @@
                     //todo
                 });
         };
-
-        //validating excel formt
-        vm.validateExcelFormat = function (doc) {
-            debugger;
-            var fileExtension = doc.name.split('.').pop();
-
-            if (fileExtension != 'xlsx' && fileExtension != 'xls') {
-                vm.document = null;
-                vm.errorExcelFormat = true;
-            } else {
-                vm.errorExcelFormat = false;
-            }
-
-            var file = vm.csv;
-        }
-
-      
-
-        vm.Import = function () {
-          
-            var importCollection = [];
-            if (vm.csv) {
-                var addressList = vm.csv.result;
-
-                $.each(addressList, function (index, value) {
-                    var address = { "csvContent": value[0] };
-                    importCollection.push(address);
-                });
-
-                importAddressBookFactory.importAddressBook(importCollection).then(function successCallback(responce) {
-                    var body = $("html, body");
-                    if (responce.data != -1) {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
-                            buttons: [
-                                    {
-                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-                                            $route.reload();
-                                            $noty.close();
-
-
-                                        }
-                                    }
-
-                            ],
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-
-                    } else {
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p> ' + $rootScope.translate('Invalid data import format') + '.</p></div>',
-                            buttons: [
-                                    {
-                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                            $noty.close();
-
-
-                                        }
-                                    }
-
-                            ],
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-                    }
-                }, function errorCallback(response) {
-                    //todo
-                });;
-            } else {
-                //  alert("No file uploaded");
-                $('#panel-notif').noty({
-                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('No File uploaded for import') + '</p></div>',
-                    buttons: [
-                            {
-                                addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                    $noty.close();
-
-
-                                }
-                            }
-
-                    ],
-                    layout: 'bottom-right',
-                    theme: 'made',
-                    animation: {
-                        open: 'animated bounceInLeft',
-                        close: 'animated bounceOutLeft'
-                    },
-                    timeout: 3000,
-                });
-            }
-
-
-
-        }
 
         vm.searchAddressesfor = function () {
 
@@ -353,68 +243,23 @@
             });
         }
 
+        vm.importAddressBook = function () {
 
-        vm.uploadFile = function (file) {
-            debugger;
-            
-            file.upload = Upload.upload({
-                url: serverBaseUrl + '/api/Shipments/UploadAddressBook',
-                data: {
-                    file: file,
-                    userId: $window.localStorage.getItem('userGuid'),
-                    documentType: "AddressBook",
-                },
-                params: {
-                    userId: $window.localStorage.getItem('userGuid'),
-                }
+            ngDialog.open({
+                scope: $scope,
+                template: '/app/addressBook/AddressBookImport.html',
+                className: 'ngdialog-theme-plain custom-width',
+                controller: $controller('addressBookImportCtrl', {                  
+                    $scope: $scope,
+                    parent: $scope
+                   
+                })
+
             });
 
-            file.upload.then(function (response) {
-               
-                var body = $("html, body");
-                if (response.statusText = 'OK') {
-                                       
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
-                            buttons: [
-                                    {
-                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-                                            $route.reload();
-                                            $noty.close();
-
-
-                                        }
-                                    }
-
-                            ],
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-                    
-
-                }
-
-                $timeout(function () {
-                    file.result = response.data;
-                    deleteFile();
-                });
-            }, function (response) {
-                if (response.status > 0)
-                    vm.errorMsg = response.status + ': ' + response.data;
-            }, function (evt) {
-                // Math.min is to fix IE which reports 200% sometimes
-                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-            });
         }
 
+        
         //detete address detail
         vm.deleteById = function (row) {
 
@@ -467,10 +312,130 @@
             return $sce.trustAsHtml(html_code);
         };
 
+        vm.closeWindow = function () {
+            debugger;
+            ngDialog.close()
+        }
+
+        vm.excelUploadSucces = function () {
+
+            var body = $("html, body");
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+            debugger;
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $route.reload();
+                                $noty.close();
+
+
+                            }
+                        }
+
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        vm.showError = function (response) {
+            vm.errorMsg = response.status + ': ' + response.data;
+        }
+
+        vm.csvImportResults = function (responce) {
+
+            debugger;
+          
+            var body = $("html, body");
+            if (responce.data != -1) {
+                body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                });
+
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-success media fade in"><p>' + responce.data + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
+                    buttons: [
+                            {
+                                addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                    $route.reload();
+                                    $noty.close();
+
+
+                                }
+                            }
+
+                    ],
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
+
+            } else {
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-warning media fade in"><p> ' + $rootScope.translate('Invalid data import format') + '.</p></div>',
+                    buttons: [
+                            {
+                                addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                    $noty.close();
+
+
+                                }
+                            }
+
+                    ],
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
+            }
+        }
         vm.itemsByPage = 25;
         vm.rowCollection = [];
         // Add dumy record, since data loading is async.
-        //vm.rowCollection.push(1);
+            //vm.rowCollection.push(1);
+        vm.showErrorCsv = function () {
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('No File uploaded for import') + '</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+
+                            }
+                        }
+
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        
 
     }]);
 
