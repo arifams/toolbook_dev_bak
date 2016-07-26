@@ -8,14 +8,16 @@
        ['$location', '$window', '$scope','addressManagmentService', '$routeParams', '$log', '$sce', 'importAddressBookFactory', 'Upload', '$timeout', '$rootScope', 'ngDialog', '$controller',
     function ($location, $window, $scope, addressManagmentService, $routeParams, $log, $sce, importAddressBookFactory, Upload, $timeout, $rootScope, ngDialog, $controller) {
 
-        debugger;        
+        debugger;
+     
         $scope.csv = {};
         $scope.csv.accept = '.csv';
         $scope.errorExcelFormat = false;
 
-        $scope.validateExcelFormat = function (doc) {
+        $scope.validateExcelFormat = function (name) {
             debugger;
-            var fileExtension = doc.name.split('.').pop();
+            var files = name;
+            var fileExtension = name.split('.').pop();
 
             if (fileExtension != 'xlsx' && fileExtension != 'xls') {
                 $scope.document = null;

@@ -177,8 +177,8 @@
                     <div class="panel-content panel-border">
                         <div class="col-sm-10"></div>
                         <div class="col-sm-2">
-                            <input type="button" ng-show="overviewShipCtrl.currentRole=='Admin'" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('formAirwayBillAdmin')" />
-                            <input type="button" ng-show="overviewShipCtrl.currentRole!='Admin'" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('formAirwayBillCustomer')" />
+                            <input type="button" ng-show="overviewShipCtrl.currentRole=='Admin'" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('AirwayBillAdminPrint')" />
+                            <input type="button" ng-show="overviewShipCtrl.currentRole!='Admin'" class="btn btn-primary" value="Print" ng-click="overviewShipCtrl.print('AirwayBillCustomerPrint')" />
                         </div>
                         <div ng-include="'shipment/airwayBill.html'"></div>
                     </div>

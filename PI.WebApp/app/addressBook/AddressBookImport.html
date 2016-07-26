@@ -49,8 +49,8 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="col-sm-5 excelContent" ng-show="searchTypeImport=='EXCEL'">
-                    <input type="file" ngf-select ng-model="document" name="file" ngf-pattern="'.xls,.xlsx'" accept=".xls,.xlsx"
-                           ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="validateExcelFormat(document)">
+                    <input type="file" ngf-select ng-model="document" name="file" accept=".xls,.xlsx"
+                           ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="validateExcelFormat(document.name)">
 
                 </div>
                 <div class="col-sm-2" ng-show="searchTypeImport=='EXCEL'">
