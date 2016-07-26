@@ -189,7 +189,7 @@
                         <hr>
                         <!--<div class="gridStyle" ng-grid="gridOptions"></div>-->
 
-                        <div class="custom-table">
+                        <div class="custom-table addbookNorecords">
 
                             <table st-table="displayedCollection" st-safe-src="addressCtrl.rowCollection" class="table table-striped m-b-0">
                                 <thead>
@@ -223,7 +223,11 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                            <div class="nodatamsg"> No records to display</div>
+                            <div class="nodatamsg"> No records found.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a href="#saveAddress/0" translate>
+                                    <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>Add Address
+                                </a>
+                            </div>
                             <div id="panel-notif"></div>
 
                         </div>

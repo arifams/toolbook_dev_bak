@@ -793,7 +793,10 @@
 
 .custom-table {
     overflow-x:auto; 
-    border:1px solid #ddd;
+   
+}
+.custom-table.addbookNorecords {
+    background-color:#ddd;
 }
 /*modal*/
 .modal-navigator {
@@ -952,6 +955,8 @@
     margin-top:20px;
 }
 .nodatamsg {
-    color:red;
+    color:#000;
+    font-size:14px;
     text-align:center;
+    background-color:#ddd;
 }

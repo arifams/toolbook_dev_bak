@@ -157,6 +157,8 @@
     <Content Include="css\jquery.orgchart.css" />
     <Content Include="css\ol.min.css" />
     <Content Include="global\css\compressed-styles.css" />
+    <Content Include="global\css\icons\font-awesome\font-awesome.css" />
+    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.svg" />
     <Content Include="global\images\preloader\1.gif" />
     <Content Include="global\images\preloader\10.gif" />
     <Content Include="global\images\preloader\11.gif" />
@@ -2821,11 +2823,6 @@
     <Content Include="app\shipment\loadAllShipments.html" />
     <None Include="App_Data\PublishProfiles\PIBookingService.pubxml" />
     <None Include="App_Data\PublishProfiles\PI_Web.pubxml" />
-    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.eot" />
-    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.ttf" />
-    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff" />
-    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff2" />
-    <Content Include="global\css\icons\font-awesome\FontAwesome.otf" />
     <Content Include="global\css\icons\glyphicons\glyphicons-halflings-regular.eot" />
     <Content Include="global\css\icons\glyphicons\glyphicons-halflings-regular.ttf" />
     <Content Include="global\css\icons\glyphicons\glyphicons-halflings-regular.woff" />
@@ -4945,6 +4942,11 @@
     <Content Include="po\de.po" />
     <Content Include="po\nl.mo" />
     <Content Include="po\nl.po" />
+    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.eot" />
+    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.ttf" />
+    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff" />
+    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff2" />
+    <Content Include="global\css\icons\font-awesome\FontAwesome.otf" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
@@ -4984,9 +4986,7 @@
     <Content Include="css\angular-theme.css" />
     <Content Include="css\custom.css" />
     <Content Include="directives\ngViewClass.js" />
-    <Content Include="global\css\icons\font-awesome\font-awesome.css" />
-    <Content Include="global\css\icons\font-awesome\font-awesome.min.css" />
-    <Content Include="global\css\icons\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="global\css\icons\fonts\font-awesome\font-awesome.min.css" />
     <Content Include="global\css\icons\glyphicons\glyphicons-halflings-regular.svg" />
     <Content Include="global\css\icons\line-icons\fonts\line-icons.svg" />
     <Content Include="global\css\icons\line-icons\fonts\Simple-Line-Icons.dev.svg" />
