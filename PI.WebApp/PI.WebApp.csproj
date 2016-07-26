@@ -106,6 +106,7 @@
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipment\airwayBill.html" />
     <Content Include="app\shipment\airwayBill.js" />
+    <Content Include="app\shipment\cmr.html" />
     <Content Include="app\shipment\commercialInvoice.html" />
     <Content Include="app\shipment\commercialInvoice.js" />
     <Content Include="app\admin\adminServices.js" />
