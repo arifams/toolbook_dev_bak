@@ -349,6 +349,27 @@
 
         vm.showError = function (response) {
             vm.errorMsg = response.status + ': ' + response.data;
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Upload Failed') + '</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+
+                            }
+                        }
+
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
         }
 
         vm.csvImportResults = function (responce) {

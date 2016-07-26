@@ -90,6 +90,7 @@
             }, function (response) {
                 if (response.status > 0)
                     debugger;
+                $scope.addressCtrl.closeWindow();
                 $scope.addressCtrl.showError(response);
                    
             }, function (evt) {
