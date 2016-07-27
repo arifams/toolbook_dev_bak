@@ -643,8 +643,10 @@ namespace PI.Business
 
             using (PIContext context = PIContext.Get())
             {
-                Company currentcompany = commonLogics.GetCompanyByUserId(userId);
+                string supervisorRoleId = context.Roles.Where(r => r.Name == "Supervisor").Select(r => r.Id).FirstOrDefault();
+                string operatorRoleId = context.Roles.Where(r => r.Name == "Operator").Select(r => r.Id).FirstOrDefault();
 
+                Company currentcompany = commonLogics.GetCompanyByUserId(userId);
                 var comapnyUserList = context.Users.Where(u => u.TenantId == currentcompany.TenantId && !u.IsDeleted).ToList();
 
                 // Assigned BO
@@ -687,9 +689,10 @@ namespace PI.Business
                     }
                 }
 
+
                 // find assigned division to supervisor and non assigned division.
                 var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
-                                                                         commonLogics.GetUserRoleById(d.UserId) == "Supervisor").ToList();
+                                                                         d.User.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
 
                 // unassigned + operator assigned division
                 var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
@@ -701,7 +704,7 @@ namespace PI.Business
                 //    .ForEach(s => (node.Children.Count() > 0 ? node.Children[0].Children.Add(new NodeDto { Id = 1 }) :
                 //node.Children.Add(new NodeDto { Id = s.Id })));
 
-                NodeDto nodeSupervisor = null;
+                NodeDto nodeSupervisor = null; /////////////////
 
                 foreach (var supervisorDivision in supervisorDivisions.Select(x => x.Divisions).Distinct())
                 {
@@ -749,7 +752,7 @@ namespace PI.Business
                     };
 
                     var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == supervisorDivision.Id &&
-                                                       commonLogics.GetUserRoleById(x.UserId) == "Operator").Select(x => x.User).ToList();
+                                                       x.User.Roles.Any(r => r.RoleId == operatorRoleId)).Select(x => x.User).ToList();
 
                     //operators for parents's divisons
                     operatorList.ForEach(o =>
@@ -785,7 +788,7 @@ namespace PI.Business
                     divisionOperators = new List<NodeDto>();
 
                     var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == division.Id &&
-                                   commonLogics.GetUserRoleById(x.UserId) == "Operator").Select(x => x.User).ToList();
+                                   x.User.Roles.Any(r => r.RoleId == operatorRoleId)).Select(x => x.User).ToList();
 
                     //operators for parents's divisons
                     operatorList.ForEach(o =>
