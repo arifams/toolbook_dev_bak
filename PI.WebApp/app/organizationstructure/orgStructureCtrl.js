@@ -64,12 +64,13 @@
             });
 
             $scope.editNode = function (type, id) {
+                debugger;
                 if (type == 'user')
-                    loadUserManagment(id);
+                    $scope.loadUserManagment(id);
                 else if (type == 'division')
-                    loadDivisionManagment(id);
+                    $scope.loadDivisionManagment(id);
                 else if (type == 'costcenter')
-                    loadCostcenterManagement(id);
+                    $scope.loadCostcenterManagement(id);
 
             };
 
