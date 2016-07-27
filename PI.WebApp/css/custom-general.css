@@ -859,6 +859,11 @@
 }
 .orgchart .node .content.costcenter_parent { height: auto !important; }
 
+.manager {
+    border-top:2px solid rgb(0, 102, 153) !important;
+    text-align:center;
+}
+
 .home-link {
   margin-top: 20px;
   margin-right: 20px;

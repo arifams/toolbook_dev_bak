@@ -31,6 +31,7 @@
             'nodeId': 'id',
             'nodeChildren': 'children',
             'nodeCostCenter': 'costcenter', //added for node include inside a node
+            'nodeManager': 'manager',
             'toggleSiblingsResp': false,
             'depth': 999,
             'chartClass': '',
@@ -498,10 +499,32 @@
         // construct the content of node
         //console.debug("---");
         //console.debug(opts);
+
+        var customTag = '';
+
+        if (opts.nodeContent !== 'undefined') {
+
+            if (typeof nodeData[opts.nodeCostCenter] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeCostCenter].length; i++) {
+                    console.log(nodeData[opts.nodeCostCenter][i]);
+                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '</div>';
+                }
+            }
+
+            if (typeof nodeData[opts.nodeManager] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeManager].length; i++) {
+                    console.log(nodeData[opts.nodeManager][i]);
+                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '</div>';
+                }
+            }
+        }
+
         var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '2') ? '<div class="costCenter">costcenter name</div><div class="costCenter">costcenter name</div>' : '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '1') ? '<div class="costCenter">costcenter name</div>' : '') :'' + '</div>' );
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + customTag : '' + '</div>');
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {
