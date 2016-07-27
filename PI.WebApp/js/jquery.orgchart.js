@@ -31,6 +31,7 @@
             'nodeId': 'id',
             'nodeChildren': 'children',
             'nodeCostCenter': 'costcenter', //added for node include inside a node
+            'nodeManager': 'manager',
             'toggleSiblingsResp': false,
             'depth': 999,
             'chartClass': '',
@@ -498,10 +499,31 @@
         // construct the content of node
         //console.debug("---");
         //console.debug(opts);
-        var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + '>')
+
+        var customTag = '';
+
+        if (opts.nodeContent !== 'undefined') {
+
+            if (typeof nodeData[opts.nodeCostCenter] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeCostCenter].length; i++) {
+
+                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeCostCenter][i].type + '\',' + nodeData[opts.nodeCostCenter][i].id + ')" style="color:#fff;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
+                }
+            }
+            else if (typeof nodeData[opts.nodeManager] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeManager].length; i++) {
+                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeManager][i].type + '\',' + nodeData[opts.nodeManager][i].id + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
+                }
+            }
+            
+        }
+
+        var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '2') ? '<div class="costCenter">costcenter name</div><div class="costCenter">costcenter name</div>' : '') + ((typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] == '1') ? '<div class="costCenter">costcenter name</div>' : '') :'' + '</div>' );
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',' + nodeData[opts.nodeId] + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>') || '') + customTag : '' + '</div>');
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {
@@ -512,8 +534,8 @@
               '<i class="edge horizontalEdge leftEdge fa"></i>');
         }
         if (Number(flags.substr(2, 1))) {
-            $nodeDiv.append('<i class="edge verticalEdge bottomEdge fa"></i>')
-              .children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
+            $nodeDiv.append('<i class="edge verticalEdge bottomEdge fa"></i>');
+              //.children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
         }
 
         $nodeDiv.on('mouseenter mouseleave', function (event) {

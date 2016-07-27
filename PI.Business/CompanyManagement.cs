@@ -171,6 +171,21 @@ namespace PI.Business
             return costCenterList;
         }
 
+        //Get default costcenter by division Id
+        public long GetDefaultCostCentersbyDivision(string divisionId)
+        {
+            long costCenterId = 0;
+
+            using (var context = new PIContext())
+            {
+                costCenterId =   (from division in context.Divisions
+                                  where division.Id.ToString() == divisionId                                  
+                                  select division.DefaultCostCenterId).FirstOrDefault();               
+
+            }           
+            return costCenterId;
+        }
+
 
         /// <summary>
         /// Get all divisions by given filter criteria

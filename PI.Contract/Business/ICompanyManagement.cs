@@ -34,6 +34,7 @@ namespace PI.Contract.Business
         int SaveCostCenter(CostCenterDto costCenter);
         IList<CostCenterDto> GetAllCostCentersForCompany(string userId);
         IList<CostCenterDto> GetCostCentersbyDivision(string divisionId);
+        long GetDefaultCostCentersbyDivision(string divisionId);
         IList<DivisionDto> GetAssignedDivisions(string userid);
         bool ChangeCompanyStatus(long comapnyId);
         int DeleteCostCenter(long id);

@@ -112,6 +112,17 @@ namespace PI.Service.Controllers
             return costCenterList;
         }
 
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetDefaultCostCentersbyDivision")]
+        public long GetDefaultCostCentersbyDivision([FromUri]string divisionId)
+        {
+            long costCenterList = companyManagement.GetDefaultCostCentersbyDivision(divisionId);
+            return costCenterList;
+        }
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]

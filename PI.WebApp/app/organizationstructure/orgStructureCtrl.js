@@ -5,9 +5,19 @@
     app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller',
         function ($scope, $compile, ngDialog, customBuilderFactory, $controller) {
       
-        
-            $scope.loadUserManagment = function (userId) {
+            $scope.editNode = function (type, id) {
+                if (type == 'user')
+                    loadUserManagment(id);
+                else if (type == 'division')
+                    loadDivisionManagment(id);
+                else if (type == 'costcenter')
+                    loadCostcenterManagement(id);
 
+            };
+
+
+            $scope.loadUserManagment = function (userId) {
+                debugger;
             $scope.userId = userId;
 
             ngDialog.open({
@@ -24,7 +34,8 @@
             });
         }
 
-        $scope.loadDivisionManagment = function () {
+            $scope.loadDivisionManagment = function (id) {
+                debugger;
             ngDialog.open({
                 scope: $scope,
                 template: '/app/divisions/saveDivision.html',
@@ -34,7 +45,8 @@
             });
         }
 
-        $scope.loadCostcenterManagement = function () {
+            $scope.loadCostcenterManagement = function (id) {
+                debugger;
             ngDialog.open({
                 scope: $scope,
                 template: '/app/costcenter/saveCostCenter.html',
@@ -59,61 +71,66 @@
 
         });
 
-        //var datascource = {
-        //    'name': 'Lao Lao',
-        //    'title': 'general manager',
-        //    'relationship': { 'children_num': 8 },
-        //    'children': [
-        //      { 'name': 'Bo Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      {
-        //          'name': 'Su Miao', 'title': 'department manager', 'relationship': { 'children_num': 2, 'parent_num': 1, 'sibling_num': 7 },
-        //          'children': [
-        //            { 'name': 'Tie Hua', 'title': 'senior engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } },
-        //            {
-        //                'name': 'Hei Hei', 'title': 'senior engineer', 'relationship': { 'children_num': 2, 'parent_num': 1, 'sibling_num': 1 },
-        //                'children': [
-        //                  { 'name': 'Pang Pang', 'title': 'engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } },
-        //                  { 'name': 'Xiang Xiang', 'title': 'UE engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } }
-        //                ]
-        //            }
-        //          ]
-        //      },
-        //      { 'name': 'Yu Jie', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Li', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Hong Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Wei', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Chun Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Tie', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } }
-        //    ]
-        //};
+            //var datascource = {
+            //    'name': 'Business Manager',
+            //    'title': 'Lao Lao1',
+            //    'relationship': { 'children_num': 8 },
+            //    'children': [
+            //      {
+            //          'name': 'Manager', 'title': 'Bo Miao',
+            //          'children': [
+            //            {
+            //                'name': 'Supervisor', 'title': 'Tie Hua',
+            //                'children': [
+            //                  { 'name': 'Division', 'title': 'Division A' },
+            //                  { 'name': 'Division', 'title': 'Division B' }
+            //                ]
+            //            }
+            //          ]
+            //      },
+            //      {
+            //          'name': 'Manager', 'title': 'Su Miao',
+            //          'children': [
+            //            {
+            //                'name': 'Supervisor', 'title': 'Tie Hua B',
+            //                'children': [
+            //                  { 'name': 'Division', 'title': 'Division B' },
+            //                  { 'name': 'Division', 'title': 'Division C' }
+            //                ]    
+            //            },
+            //            { 'name': 'Supervisor', 'title': 'Tie Hua A' }
+            //          ]
+            //      }
+            //    ]
+            //};
 
 
         var datascource = {
             'id': '1',
             'name': 'Business Owner',
             'title': 'Business owner name',
+            'type':'user1',
             'children': [
               {
-                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name',
+                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'type': 'user1', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name', 'type': 'user1' }],
                   'children': [
                   {
-                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name',
+                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user',
                       'children': [
                           {
-                              'id': '5', 'name': 'Division', 'title': 'division name', 'costcenter': '2',
+                              'id': '5', 'name': 'Division', 'title': 'division name', 'type': 'division1', 'costcenter': [{ 'id': '9', 'name': 'CostCenter', 'title': 'costcenter name A', 'type': 'costcenter1' }, { 'id': '10', 'name': 'Division B', 'title': 'costcenter name B', 'type': 'costcenter1' }],
                               'children': [
-                                  { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name' },
-                                  { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
+                                  { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name','type': 'user' },
+                                  { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
                               ]
                           }
                       ]
                   },
                   {
-                      'id': '4', 'name': 'Division', 'title': 'division name', 'costcenter': '1',
+                      'id': '4', 'name': 'Division', 'title': 'division name', 'type': 'division', 'costcenter': [{ 'id': '11', 'name': 'CostCenter', 'title': 'costcenter name B', 'type': 'costcenter' }],
                       'children': [
-                            { 'id': '5', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
-                      ],
-                      'costcenter': '1'
+                            { 'id': '6', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
+                      ]
                   }
                   ]
               },

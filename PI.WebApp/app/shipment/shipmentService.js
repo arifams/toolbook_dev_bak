@@ -54,7 +54,8 @@
             getShipmentForCompanyAndSyncWithSIS: GetShipmentForCompanyAndSyncWithSIS,
             toggleFavourite: toggleFavourite,
             searchShipmentsById: searchShipmentsById,
-            GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill
+            GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
+            loadDefaultCostCenterId: loadDefaultCostCenterId
         };
 
         function getProfileInfo() {
@@ -160,6 +161,17 @@
 
             // GetCostCentersbyDivision
             return $http.get(serverBaseUrl + '/api/Company/GetCostCentersbyDivision', {
+                params: {
+                    divisionId: divisionid
+                }
+            });
+        }
+
+
+        function loadDefaultCostCenterId(divisionid) {
+
+            // GetCostCentersbyDivision
+            return $http.get(serverBaseUrl + '/api/Company/GetDefaultCostCentersbyDivision', {
                 params: {
                     divisionId: divisionid
                 }

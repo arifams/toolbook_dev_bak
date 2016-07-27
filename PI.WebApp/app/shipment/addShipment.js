@@ -215,18 +215,38 @@
         vm.selectDivision = function () {
             var divisionId = vm.shipment.generalInformation.divisionId;
             vm.costcenterList = {};
+          
             
 
             //  loadAssignedCostCenters
             if (divisionId != '') {
-                shipmentFactory.loadAssignedCostCenters(divisionId).success(
-               function (responce) {
-                   
+
+               shipmentFactory.loadAssignedCostCenters(divisionId).success(
+               function (responce) {                   
 
                    if (responce.length>0) {
-                       vm.costcenterList = responce;
+                       vm.costcenterList = responce;                      
                        vm.hidecostcenters = false;
-                   }      
+                       //loading default cost center Id to bind to cost center dropdown
+                       shipmentFactory.loadDefaultCostCenterId(divisionId).success(
+
+                      function (responce) {
+                          debugger;
+                          if (responce != 0 || responce != null) {
+                              debugger;
+                              vm.shipment.generalInformation.costCenterId = responce;
+                           
+                          }
+
+                      }).error(function (error) {
+
+                          console.log("error occurd while retrieving defaultcost centers");
+                      });
+
+
+                   } else {
+                       vm.hidecostcenters = true;
+                   }
                   
                  
 
