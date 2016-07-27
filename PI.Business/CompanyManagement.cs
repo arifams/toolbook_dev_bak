@@ -178,11 +178,11 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                costCenterId =   (from division in context.Divisions
-                                  where division.Id.ToString() == divisionId                                  
-                                  select division.DefaultCostCenterId).FirstOrDefault();               
+                costCenterId = (from division in context.Divisions
+                                where division.Id.ToString() == divisionId
+                                select division.DefaultCostCenterId).FirstOrDefault();
 
-            }           
+            }
             return costCenterId;
         }
 
@@ -633,7 +633,7 @@ namespace PI.Business
         }
 
 
-        public Node GetOrganizationStructure1(string userId)
+        public Node GetOrganizationStructure(string userId)
         {
             Node node = new Node();
             Node managerNode = new Node();
@@ -662,16 +662,16 @@ namespace PI.Business
                 {
                     if (node.Children.Count == 0)
                     {
-                        node.Children.Add( new Node
+                        node.Children.Add(new Node
                         {
                             Id = manager.Id,
                             Type = "User",
-                            Name = "M",  //commonLogics.GetUserRoleById(user.Id);
+                            Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
                             Title = manager.FirstName + " " + manager.LastName,
                             IsActive = manager.IsActive,
                             Manager = new List<Node>(),
                             Children = new List<Node>()
-                        });                   
+                        });
                     }
                     else
                     {
@@ -687,12 +687,12 @@ namespace PI.Business
                 }
 
                 // find assigned division to supervisor and non assigned division.
-                var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id && 
+                var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
                                                                          commonLogics.GetUserRoleById(d.UserId) == "Supervisor").ToList();
 
                 // unassigned + operator assigned division
                 var unassignedDivisionsForCompany = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
-                                                    .Except(supervisorDivisions.Select(v=> v.Divisions)).ToList();
+                                                    .Except(supervisorDivisions.Select(v => v.Divisions)).ToList();
 
 
                 // Assign supervisor
@@ -706,7 +706,7 @@ namespace PI.Business
                 {
                     nodeSupervisor = null;
                     // get super
-                    var supervisors = supervisorDivision.UserInDivisions.Where(u => commonLogics.GetUserRoleById(u.UserId) == "Supervisor").Select(u=> u.User).ToList();
+                    var supervisors = supervisorDivision.UserInDivisions.Where(u => commonLogics.GetUserRoleById(u.UserId) == "Supervisor").Select(u => u.User).ToList();
 
                     foreach (var supervisor in supervisors)
                     {
@@ -737,258 +737,165 @@ namespace PI.Business
                         }
                     }
 
-                        //division for supervisors box
-                        var supDivision = new Node
+                    //division for supervisors box
+                    var supDivision = new Node
+                    {
+                        Id = supervisorDivision.Id.ToString(),
+                        Type = "Division",
+                        Name = "Division - " + (supervisorDivision.IsActive ? "Active" : "Inactive"),
+                        Title = supervisorDivision.Name,
+                        Children = new List<Node>()
+                    };
+
+                    var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == supervisorDivision.Id &&
+                                                       commonLogics.GetUserRoleById(x.UserId) == "Operator").Select(x => x.User).ToList();
+
+                    //operators for parents's divisons
+                    operatorList.ForEach(o =>
+                        supDivision.Children.Add(new Node
                         {
-                            Id = supervisorDivision.Id.ToString(),
-                            Type = "Division",
-                            Name = "Division - " + (supervisorDivision.IsActive ? "Active" : "Inactive"),  
-                            Title = supervisorDivision.Name,                       
-                            Children = new List<Node>()
-                        };
-
-                        var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == supervisorDivision.Id &&
-                                                           commonLogics.GetUserRoleById(x.UserId) == "Operator").Select(x=> x.User).ToList();
-
-                        //operators for parents's divisons
-                        operatorList.ForEach(o => 
-                            supDivision.Children.Add(new Node {
-                                Id = o.Id.ToString(),
-                                Type = "User",
-                                Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),  
-                                Title = o.FirstName + " " + o.LastName,
+                            Id = o.Id.ToString(),
+                            Type = "User",
+                            Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
+                            Title = o.FirstName + " " + o.LastName,
                         }));
 
-                        //attach divisions
-                        nodeSupervisor.Children.Add(supDivision);
+                    //attach divisions
+                    nodeSupervisor.Children.Add(supDivision);
 
-                        // attach supervisors
-                        if (node.Children.Count() > 0)
-                        {
-                            node.Children[0].Children.Add(nodeSupervisor); 
-                        }
-                        else
-                        {
-                            node.Children.Add(nodeSupervisor); //If there is no manager attach directly to BO.
-                        }
-
-                    }            
-                  
-                }
-
-                // Get the hightest position below opreations user by division
-                foreach (var division in context.Divisions.Where(x=> x.CompanyId == currentcompany.Id))
-                {
+                    // attach supervisors
+                    if (node.Children.Count() > 0)
+                    {
+                        node.Children[0].Children.Add(nodeSupervisor);
+                    }
+                    else
+                    {
+                        node.Children.Add(nodeSupervisor); //If there is no manager attach directly to BO.
+                    }
 
                 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                foreach (var user in comapnyUserList)
-                {
-                    if (commonLogics.GetUserRoleById(user.Id) == "BusinessOwner")
-                    {
-                        node.Id = user.Id;
-                        node.Type = "User";
-                        node.Name = "BO"; //commonLogics.GetUserRoleById(user.Id);
-                        node.Title = user.FirstName + " " + user.LastName;
-                        node.IsActive = user.IsActive;
-                        node.Children = new List<Node>();
-
-                    }
-
-                    if (commonLogics.GetUserRoleById(user.Id) == "Manager")
-                    {
-                        node.Children = new List<Node>();
-
-                        #region Get all managers
-                        if (node.ManagerCount == 0)
-                        {
-                            managerNode = new Node
-                            {
-                                Id = user.Id,
-                                Type = "User",
-                                Name = "M",  //commonLogics.GetUserRoleById(user.Id);
-                                Title = user.FirstName + " " + user.LastName,
-                                IsActive = user.IsActive,
-                                Manager = new List<Node>(),
-                                Children = new List<Node>()
-                            };
-                            node.ManagerCount = 1;
-                        }
-                        else
-                        {
-                            managerNode.Manager.Add(new Node
-                            {
-                                Id = user.Id,
-                                Type = "User",
-                                Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
-                                Title = user.FirstName + " " + user.LastName,
-                                IsActive = user.IsActive,
-                            });
-                        }
-                        #endregion
-                    }
-
-                    if (commonLogics.GetUserRoleById(user.Id) == "Supervisor")
-                    {
-                        supervisorNode = new Node
-                        {
-                            Id = user.Id,
-                            Type = "User",
-                            Name = "S",  //commonLogics.GetUserRoleById(user.Id);
-                            Title = user.FirstName + " " + user.LastName,
-                            IsActive = user.IsActive,
-                            Children = new List<Node>() // divisions
-                        };
-                        //divisions
-
-                        // Find divisions under the supervisor
-                        var divisionUserList = context.UsersInDivisions.Where(u => userId == user.Id).ToList();
-
-                        foreach (var divisionUser in divisionUserList)
-                        {
-                            Node division = new Node
-                            {
-                                Id = divisionUser.DivisionId.ToString(),
-                                Type = "Division",
-                                Name = "Division",
-                                Title = divisionUser.Divisions.Name,
-                                IsActive = user.IsActive,
-                            };
-
-                            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionUser.DivisionId).ToList();
-
-                            // Add costcenters for the considered division.
-                            Costcenters.ForEach(c => division.Costcenter.Add(new Node
-                            {
-                                Id = c.CostCenterId.ToString(),
-                                Type = "Costcenter",
-                                Name = "Costcenter",
-                                Title = c.CostCenters.Name,
-                                IsActive = user.IsActive
-                            }));
-
-
-                            var userList = context.UsersInDivisions.Where(div => div.DivisionId == divisionUser.DivisionId).ToList();
-
-                            // Add Operators for the division considered
-                            userList.Where(ul => commonLogics.GetUserRoleById(ul.UserId) == "Operator").ToList()
-                                .ForEach(ud => division.Children.Add(
-                                    new Node
-                                    {
-                                        Id = user.Id,
-                                        Type = "User",
-                                        Name = "Operator",  //commonLogics.GetUserRoleById(user.Id);
-                                        Title = user.FirstName + " " + user.LastName,
-                                        IsActive = user.IsActive
-                                    }
-                            ));
-
-                            divisionsWithOperatorList.Add(division);
-                        }
-
-                        supervisorNode.Children.AddRange(divisionsWithOperatorList);
-                        managerNode.Children.Add(supervisorNode);
-                    }
-
-
-                    // Add managers
-                    node.Children.Add(managerNode);
-                }
-            }
-        }
-
-        public Node GetOrganizationStructure1(string userId)
-        {
-            Node node = new Node();
-
-            using (PIContext context = PIContext.Get())
-            {
-                Company currentcompany = commonLogics.GetCompanyByUserId(userId);
-
-                var comapnyUserList = context.Users.Where(u => u.TenantId == currentcompany.TenantId && !u.IsDeleted).ToList();
-
-
-
-                //comapnyUserList.ForEach(x => nodeList.Add(new Node
-                //{
-                //    NodeReferenceId = x.Id,
-                //    NodeType = "User",
-                //    NodeName = commonLogics.GetUserRoleById(x.Id),
-                //    NodeTitle = x.FirstName + " " + x.LastName,
-                //    IsActive = x.IsActive,
-                //}));
-
-                foreach (var user in comapnyUserList)
-                {
-                    // Get upto supervisors
-                    if (context.RoleHierarchies.Where(role => role.Name == commonLogics.GetUserRoleById(user.Id) && role.Order <= 4).SingleOrDefault() != null)
-                    {
-                        nodeList.Add(new Node
-                        {
-                            Id = user.Id,
-                            NodeType = "User",
-                            NodeName = commonLogics.GetUserRoleById(user.Id),
-                            NodeTitle = user.FirstName + " " + user.LastName,
-                            IsActive = user.IsActive,
-                        });
-                    }
-                }
-
-
-                foreach (var node in nodeList)
-                {
-                    if (node.NodeName == "Supervisor") // OR Manager with no supervisors
-                    {
-                        var assignedDivisionList = context.UsersInDivisions.Where(d => d.UserId == node.NodeReferenceId).ToList();
-
-                        if (assignedDivisionList.Count() > 0)
-                        {
-                            node.Children = new List<Node>();
-                            assignedDivisionList.ForEach(a => node.Children.Add(new Node
-                            {
-                                Id = a.Id,
-                                NodeType = "Division",
-                                NodeName = "Division",
-                                NodeTitle = a.Divisions.Name,
-                                IsActive = a.IsActive
-                            }));
-
-                            foreach (var division in node.Children)
-                            {
-                                var divisionOperators = context.UsersInDivisions.Where(i => i.DivisionId == division.Id &
-                                                        commonLogics.GetUserRoleById(i.UserId) == "Operator").ToList();
-                                {
-                                    var operators = new List<Node>();
-                                    divisionOperators.ForEach(o => operators.Add(new Node
-                                    {
-                                        NodeReferenceId = o.UserId,
-                                        NodeType = "User",
-                                        NodeName = "Operator",
-                                        NodeTitle = o.User.FirstName + " " + o.User.LastName,
-                                        IsActive = o.User.IsActive
-                                    }));
-
-                                    division.Children = operators;
-                                }
-                            }
-                        }
-                    }
-                }
             }
 
-            dynamicObject = new
-            {
-                id = '1',
-                name = 'Business Owner',
-                title = 'Business owner name',
-                children =
-
-            };
-
-            return dynamicObject;
-
+            return node;
         }
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //foreach (var user in comapnyUserList)
+        //{
+        //    if (commonLogics.GetUserRoleById(user.Id) == "BusinessOwner")
+        //    {
+        //        node.Id = user.Id;
+        //        node.Type = "User";
+        //        node.Name = "BO"; //commonLogics.GetUserRoleById(user.Id);
+        //        node.Title = user.FirstName + " " + user.LastName;
+        //        node.IsActive = user.IsActive;
+        //        node.Children = new List<Node>();
+
+        //    }
+
+        //    if (commonLogics.GetUserRoleById(user.Id) == "Manager")
+        //    {
+        //        node.Children = new List<Node>();
+
+        //        #region Get all managers
+        //        if (node.ManagerCount == 0)
+        //        {
+        //            managerNode = new Node
+        //            {
+        //                Id = user.Id,
+        //                Type = "User",
+        //                Name = "M",  //commonLogics.GetUserRoleById(user.Id);
+        //                Title = user.FirstName + " " + user.LastName,
+        //                IsActive = user.IsActive,
+        //                Manager = new List<Node>(),
+        //                Children = new List<Node>()
+        //            };
+        //            node.ManagerCount = 1;
+        //        }
+        //        else
+        //        {
+        //            managerNode.Manager.Add(new Node
+        //            {
+        //                Id = user.Id,
+        //                Type = "User",
+        //                Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
+        //                Title = user.FirstName + " " + user.LastName,
+        //                IsActive = user.IsActive,
+        //            });
+        //        }
+        //        #endregion
+        //    }
+
+        //    if (commonLogics.GetUserRoleById(user.Id) == "Supervisor")
+        //    {
+        //        supervisorNode = new Node
+        //        {
+        //            Id = user.Id,
+        //            Type = "User",
+        //            Name = "S",  //commonLogics.GetUserRoleById(user.Id);
+        //            Title = user.FirstName + " " + user.LastName,
+        //            IsActive = user.IsActive,
+        //            Children = new List<Node>() // divisions
+        //        };
+        //        //divisions
+
+        //        // Find divisions under the supervisor
+        //        var divisionUserList = context.UsersInDivisions.Where(u => userId == user.Id).ToList();
+
+        //        foreach (var divisionUser in divisionUserList)
+        //        {
+        //            Node division = new Node
+        //            {
+        //                Id = divisionUser.DivisionId.ToString(),
+        //                Type = "Division",
+        //                Name = "Division",
+        //                Title = divisionUser.Divisions.Name,
+        //                IsActive = user.IsActive,
+        //            };
+
+        //            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionUser.DivisionId).ToList();
+
+        //            // Add costcenters for the considered division.
+        //            Costcenters.ForEach(c => division.Costcenter.Add(new Node
+        //            {
+        //                Id = c.CostCenterId.ToString(),
+        //                Type = "Costcenter",
+        //                Name = "Costcenter",
+        //                Title = c.CostCenters.Name,
+        //                IsActive = user.IsActive
+        //            }));
+
+
+        //            var userList = context.UsersInDivisions.Where(div => div.DivisionId == divisionUser.DivisionId).ToList();
+
+        //            // Add Operators for the division considered
+        //            userList.Where(ul => commonLogics.GetUserRoleById(ul.UserId) == "Operator").ToList()
+        //                .ForEach(ud => division.Children.Add(
+        //                    new Node
+        //                    {
+        //                        Id = user.Id,
+        //                        Type = "User",
+        //                        Name = "Operator",  //commonLogics.GetUserRoleById(user.Id);
+        //                        Title = user.FirstName + " " + user.LastName,
+        //                        IsActive = user.IsActive
+        //                    }
+        //            ));
+
+        //            divisionsWithOperatorList.Add(division);
+        //        }
+
+        //        supervisorNode.Children.AddRange(divisionsWithOperatorList);
+        //        managerNode.Children.Add(supervisorNode);
+        //    }
+
+
+        //    // Add managers
+        //    node.Children.Add(managerNode);
+        //}
+
 
         /// <summary>
         /// Get all divisions by given filter criteria
