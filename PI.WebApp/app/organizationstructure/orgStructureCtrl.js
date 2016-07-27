@@ -59,33 +59,38 @@
 
         });
 
-        //var datascource = {
-        //    'name': 'Lao Lao',
-        //    'title': 'general manager',
-        //    'relationship': { 'children_num': 8 },
-        //    'children': [
-        //      { 'name': 'Bo Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      {
-        //          'name': 'Su Miao', 'title': 'department manager', 'relationship': { 'children_num': 2, 'parent_num': 1, 'sibling_num': 7 },
-        //          'children': [
-        //            { 'name': 'Tie Hua', 'title': 'senior engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } },
-        //            {
-        //                'name': 'Hei Hei', 'title': 'senior engineer', 'relationship': { 'children_num': 2, 'parent_num': 1, 'sibling_num': 1 },
-        //                'children': [
-        //                  { 'name': 'Pang Pang', 'title': 'engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } },
-        //                  { 'name': 'Xiang Xiang', 'title': 'UE engineer', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 1 } }
-        //                ]
-        //            }
-        //          ]
-        //      },
-        //      { 'name': 'Yu Jie', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Li', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Hong Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Wei', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Chun Miao', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } },
-        //      { 'name': 'Yu Tie', 'title': 'department manager', 'relationship': { 'children_num': 0, 'parent_num': 1, 'sibling_num': 7 } }
-        //    ]
-        //};
+            //var datascource = {
+            //    'name': 'Business Manager',
+            //    'title': 'Lao Lao1',
+            //    'relationship': { 'children_num': 8 },
+            //    'children': [
+            //      {
+            //          'name': 'Manager', 'title': 'Bo Miao',
+            //          'children': [
+            //            {
+            //                'name': 'Supervisor', 'title': 'Tie Hua',
+            //                'children': [
+            //                  { 'name': 'Division', 'title': 'Division A' },
+            //                  { 'name': 'Division', 'title': 'Division B' }
+            //                ]
+            //            }
+            //          ]
+            //      },
+            //      {
+            //          'name': 'Manager', 'title': 'Su Miao',
+            //          'children': [
+            //            {
+            //                'name': 'Supervisor', 'title': 'Tie Hua B',
+            //                'children': [
+            //                  { 'name': 'Division', 'title': 'Division B' },
+            //                  { 'name': 'Division', 'title': 'Division C' }
+            //                ]    
+            //            },
+            //            { 'name': 'Supervisor', 'title': 'Tie Hua A' }
+            //          ]
+            //      }
+            //    ]
+            //};
 
 
         var datascource = {
@@ -94,13 +99,13 @@
             'title': 'Business owner name',
             'children': [
               {
-                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name',
+                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name' }],
                   'children': [
                   {
                       'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name',
                       'children': [
                           {
-                              'id': '5', 'name': 'Division', 'title': 'division name', 'costcenter': '2',
+                              'id': '5', 'name': 'Division', 'title': 'division name', 'costcenter': [{ 'id': '8', 'name': 'CostCenter', 'title': 'costcenter name A' }, { 'id': '9', 'name': 'Division B', 'title': 'costcenter name B' }],
                               'children': [
                                   { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name' },
                                   { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
@@ -109,11 +114,10 @@
                       ]
                   },
                   {
-                      'id': '4', 'name': 'Division', 'title': 'division name', 'costcenter': '1',
+                      'id': '4', 'name': 'Division', 'title': 'division name', 'costcenter': [{ 'id': '8', 'name': 'CostCenter', 'title': 'costcenter name B' }],
                       'children': [
                             { 'id': '5', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
-                      ],
-                      'costcenter': '1'
+                      ]
                   }
                   ]
               },
