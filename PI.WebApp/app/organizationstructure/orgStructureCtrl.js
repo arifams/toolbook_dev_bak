@@ -5,9 +5,19 @@
     app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller',
         function ($scope, $compile, ngDialog, customBuilderFactory, $controller) {
       
-        
-            $scope.loadUserManagment = function (userId) {
+            $scope.editNode = function (type, id) {
+                if (type == 'user')
+                    loadUserManagment(id);
+                else if (type == 'division')
+                    loadDivisionManagment(id);
+                else if (type == 'costcenter')
+                    loadCostcenterManagement(id);
 
+            };
+
+
+            $scope.loadUserManagment = function (userId) {
+                debugger;
             $scope.userId = userId;
 
             ngDialog.open({
@@ -24,7 +34,8 @@
             });
         }
 
-        $scope.loadDivisionManagment = function () {
+            $scope.loadDivisionManagment = function (id) {
+                debugger;
             ngDialog.open({
                 scope: $scope,
                 template: '/app/divisions/saveDivision.html',
@@ -34,7 +45,8 @@
             });
         }
 
-        $scope.loadCostcenterManagement = function () {
+            $scope.loadCostcenterManagement = function (id) {
+                debugger;
             ngDialog.open({
                 scope: $scope,
                 template: '/app/costcenter/saveCostCenter.html',
@@ -97,26 +109,27 @@
             'id': '1',
             'name': 'Business Owner',
             'title': 'Business owner name',
+            'type':'user1',
             'children': [
               {
-                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name' }],
+                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'type': 'user1', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name', 'type': 'user1' }],
                   'children': [
                   {
-                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name',
+                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user',
                       'children': [
                           {
-                              'id': '5', 'name': 'Division', 'title': 'division name', 'costcenter': [{ 'id': '8', 'name': 'CostCenter', 'title': 'costcenter name A' }, { 'id': '9', 'name': 'Division B', 'title': 'costcenter name B' }],
+                              'id': '5', 'name': 'Division', 'title': 'division name', 'type': 'division1', 'costcenter': [{ 'id': '9', 'name': 'CostCenter', 'title': 'costcenter name A', 'type': 'costcenter1' }, { 'id': '10', 'name': 'Division B', 'title': 'costcenter name B', 'type': 'costcenter1' }],
                               'children': [
-                                  { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name' },
-                                  { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
+                                  { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name','type': 'user' },
+                                  { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
                               ]
                           }
                       ]
                   },
                   {
-                      'id': '4', 'name': 'Division', 'title': 'division name', 'costcenter': [{ 'id': '8', 'name': 'CostCenter', 'title': 'costcenter name B' }],
+                      'id': '4', 'name': 'Division', 'title': 'division name', 'type': 'division', 'costcenter': [{ 'id': '11', 'name': 'CostCenter', 'title': 'costcenter name B', 'type': 'costcenter' }],
                       'children': [
-                            { 'id': '5', 'name': 'Operator-Inactive', 'title': 'operator inactive name' }
+                            { 'id': '6', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
                       ]
                   }
                   ]

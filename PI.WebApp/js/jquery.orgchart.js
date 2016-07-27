@@ -507,24 +507,23 @@
             if (typeof nodeData[opts.nodeCostCenter] !== 'undefined') {
 
                 for (var i = 0; i < nodeData[opts.nodeCostCenter].length; i++) {
-                    console.log(nodeData[opts.nodeCostCenter][i]);
-                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '</div>';
+
+                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeCostCenter][i].type + '\',' + nodeData[opts.nodeCostCenter][i].id + ')" style="color:#fff;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
-
-            if (typeof nodeData[opts.nodeManager] !== 'undefined') {
+            else if (typeof nodeData[opts.nodeManager] !== 'undefined') {
 
                 for (var i = 0; i < nodeData[opts.nodeManager].length; i++) {
-                    console.log(nodeData[opts.nodeManager][i]);
-                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '</div>';
+                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeManager][i].type + '\',' + nodeData[opts.nodeManager][i].id + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
+            
         }
 
-        var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + (nodeData[opts.nodeId] ? ' id="' + nodeData[opts.nodeId] + '"' : '') + '>')
+        var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + (nodeData[opts.nodeContent] || '') + customTag : '' + '</div>');
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',' + nodeData[opts.nodeId] + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>') || '') + customTag : '' + '</div>');
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {
@@ -535,8 +534,8 @@
               '<i class="edge horizontalEdge leftEdge fa"></i>');
         }
         if (Number(flags.substr(2, 1))) {
-            $nodeDiv.append('<i class="edge verticalEdge bottomEdge fa"></i>')
-              .children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
+            $nodeDiv.append('<i class="edge verticalEdge bottomEdge fa"></i>');
+              //.children('.title').prepend('<a href="#" style="color:#fff" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>');
         }
 
         $nodeDiv.on('mouseenter mouseleave', function (event) {

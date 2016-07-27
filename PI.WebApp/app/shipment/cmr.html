@@ -1,0 +1,918 @@
+﻿<div ng-controller="cmrCtrl">
+    <div id="panel-notif"></div>
+    <ng-form class="form-horizontal" role="form" id="formCMR" name="formCMR">
+                    <div class="panel-content" style="border:1px solid red">
+                        <table class="table table-bordered">
+
+                            <tbody>
+                                <tr>
+                                    <td class="col-sm-4">
+                                        RED-SENDER       
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <label></label><br />
+                                        
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <label translate></label><br />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Sender</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>International Consignment</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Consignee</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>SIS Reference number</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Place of delivery</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>Carrier</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Sending place/date</label><br />
+                                        
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>Successive carrier</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Documents attached</label><br />
+                                        
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>Carrier Resevation</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-size:12px;">Product Code</th>
+                                                    <th style="font-size:12px;">Quantity Sending</th>
+                                                    <th style="font-size:12px;">Packing</th>
+                                                    <th style="font-size:12px;">Goods Sending</th>
+                                                    <th style="font-size:12px;">Statistical Number</th>
+                                                    <th style="font-size:12px;">Gross Weight(kg)</th>
+                                                    <th style="font-size:12px;">Volume</th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>ENVELOPE</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PALLET</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>MIXPALLET</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>BOX</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Senders Introductions</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>Special agreements</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>Carriage payament</label><br />
+                                        
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>To be paid by</label><br />
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th style="font-size:12px;"></th>
+                                                    <th style="font-size:12px;" colspan="2">Sender</th>
+                                                    <th style="font-size:12px;">Currency</th>
+                                                    <th style="font-size:12px;" colspan="2">Consignee</th>
+                                                    <th style="font-size:12px;">Currency</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                   <td>Transport charge</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Deduction</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Net charge</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Other charges</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>TOTAL</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-6">
+                                        <label translate>CMR raised/date </label><br />
+                                        
+                                    </td>
+                                    <td class="col-sm-6" colspan="2">
+                                        <label translate>Cash on delivery</label><br />
+                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-4">
+                                        <label translate>Sender signature</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <label translate>Carrier signature</label><br />
+                                       
+                                    </td>
+                                    <td class="col-sm-4">
+                                        <label translate>Consignee signature</label><br />
+                                        
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+             </ng-form>
+    <br/>
+    <ng-form class="form-horizontal" role="form" id="formCMR" name="formCMR">
+        <div class="panel-content" style="border:1px solid blue">
+            <table class="table table-bordered">
+
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4">
+                            BLUE-RECIEVER
+                        </td>
+                        <td class="col-sm-4">
+                            <label></label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate></label><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sender</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>International Consignment</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Consignee</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>SIS Reference number</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Place of delivery</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sending place/date</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Successive carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Documents attached</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier Resevation</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;">Product Code</th>
+                                        <th style="font-size:12px;">Quantity Sending</th>
+                                        <th style="font-size:12px;">Packing</th>
+                                        <th style="font-size:12px;">Goods Sending</th>
+                                        <th style="font-size:12px;">Statistical Number</th>
+                                        <th style="font-size:12px;">Gross Weight(kg)</th>
+                                        <th style="font-size:12px;">Volume</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ENVELOPE</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MIXPALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BOX</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Senders Introductions</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Special agreements</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Carriage payament</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>To be paid by</label><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;"></th>
+                                        <th style="font-size:12px;" colspan="2">Sender</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                        <th style="font-size:12px;" colspan="2">Consignee</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Transport charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deduction</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other charges</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>CMR raised/date </label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Cash on delivery</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label translate>Sender signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Carrier signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Consignee signature</label><br />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-form>
+    <br/>
+    <ng-form class="form-horizontal" role="form" id="formCMR" name="formCMR">
+        <div class="panel-content" style="border:1px solid green">
+            <table class="table table-bordered">
+
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4">
+                            GREEN-CARRIER
+                        </td>
+                        <td class="col-sm-4">
+                            <label></label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate></label><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sender</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>International Consignment</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Consignee</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>SIS Reference number</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Place of delivery</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sending place/date</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Successive carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Documents attached</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier Resevation</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;">Product Code</th>
+                                        <th style="font-size:12px;">Quantity Sending</th>
+                                        <th style="font-size:12px;">Packing</th>
+                                        <th style="font-size:12px;">Goods Sending</th>
+                                        <th style="font-size:12px;">Statistical Number</th>
+                                        <th style="font-size:12px;">Gross Weight(kg)</th>
+                                        <th style="font-size:12px;">Volume</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ENVELOPE</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MIXPALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BOX</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Senders Introductions</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Special agreements</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Carriage payament</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>To be paid by</label><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;"></th>
+                                        <th style="font-size:12px;" colspan="2">Sender</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                        <th style="font-size:12px;" colspan="2">Consignee</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Transport charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deduction</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other charges</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>CMR raised/date </label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Cash on delivery</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label translate>Sender signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Carrier signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Consignee signature</label><br />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-form>
+    <br/>
+    <ng-form class="form-horizontal" role="form" id="formCMR" name="formCMR">
+        <div class="panel-content" style="border:1px solid black">
+            <table class="table table-bordered">
+
+                <tbody>
+                    <tr>
+                        <td class="col-sm-4">
+                            BLACK-CARRIER
+                        </td>
+                        <td class="col-sm-4">
+                            <label></label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate></label><br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sender</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>International Consignment</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Consignee</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>SIS Reference number</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Place of delivery</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Sending place/date</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Successive carrier</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Documents attached</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Carrier Resevation</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;">Product Code</th>
+                                        <th style="font-size:12px;">Quantity Sending</th>
+                                        <th style="font-size:12px;">Packing</th>
+                                        <th style="font-size:12px;">Goods Sending</th>
+                                        <th style="font-size:12px;">Statistical Number</th>
+                                        <th style="font-size:12px;">Gross Weight(kg)</th>
+                                        <th style="font-size:12px;">Volume</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ENVELOPE</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>PALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>MIXPALLET</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>BOX</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Senders Introductions</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Special agreements</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>Carriage payament</label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>To be paid by</label><br />
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th style="font-size:12px;"></th>
+                                        <th style="font-size:12px;" colspan="2">Sender</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                        <th style="font-size:12px;" colspan="2">Consignee</th>
+                                        <th style="font-size:12px;">Currency</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Transport charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Deduction</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Net charge</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Other charges</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>TOTAL</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-6">
+                            <label translate>CMR raised/date </label><br />
+
+                        </td>
+                        <td class="col-sm-6" colspan="2">
+                            <label translate>Cash on delivery</label><br />
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-4">
+                            <label translate>Sender signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Carrier signature</label><br />
+
+                        </td>
+                        <td class="col-sm-4">
+                            <label translate>Consignee signature</label><br />
+
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </ng-form>
+</div>
