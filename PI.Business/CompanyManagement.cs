@@ -7,6 +7,7 @@ using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Node;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using PI.Contract.Enums;
@@ -633,12 +634,12 @@ namespace PI.Business
         }
 
 
-        public Node GetOrganizationStructure(string userId)
+        public NodeDto GetOrganizationStructure(string userId)
         {
-            Node node = new Node();
-            Node managerNode = new Node();
-            Node supervisorNode = new Node();
-            List<Node> divisionsWithOperatorList = new List<Node>();
+            NodeDto node = new NodeDto();
+            NodeDto managerNode = new NodeDto();
+            NodeDto supervisorNode = new NodeDto();
+            List<NodeDto> divisionsWithOperatorList = new List<NodeDto>();
 
             using (PIContext context = PIContext.Get())
             {
@@ -653,7 +654,7 @@ namespace PI.Business
                 node.Type = "User";
                 node.Name = "BusinessOwner"; //commonLogics.GetUserRoleById(user.Id);
                 node.Title = businessOwner.FirstName + " " + businessOwner.LastName;
-                node.Children = new List<Node>();
+                node.Children = new List<NodeDto>();
 
                 // Assigned Managers
                 var managerList = comapnyUserList.Where(c => commonLogics.GetUserRoleById(c.Id) == "Manager").ToList();
@@ -662,21 +663,21 @@ namespace PI.Business
                 {
                     if (node.Children.Count == 0)
                     {
-                        node.Children.Add(new Node
+                        node.Children.Add(new NodeDto
                         {
                             Id = manager.Id,
                             Type = "User",
                             Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
                             Title = manager.FirstName + " " + manager.LastName,
                             IsActive = manager.IsActive,
-                            Manager = new List<Node>(),
-                            Children = new List<Node>()
+                            Manager = new List<NodeDto>(),
+                            Children = new List<NodeDto>()
                         });
                     }
                     else
                     {
                         // Can have only one children as manager to Business Owner acording to the data structure.
-                        node.Children[0].Manager.Add(new Node
+                        node.Children[0].Manager.Add(new NodeDto
                         {
                             Id = manager.Id,
                             Type = "User",
@@ -691,16 +692,16 @@ namespace PI.Business
                                                                          commonLogics.GetUserRoleById(d.UserId) == "Supervisor").ToList();
 
                 // unassigned + operator assigned division
-                var unassignedDivisionsForCompany = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
+                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
                                                     .Except(supervisorDivisions.Select(v => v.Divisions)).ToList();
 
 
                 // Assign supervisor
                 //supervisorDivisions.Select(x => x.User).ToList()
-                //    .ForEach(s => (node.Children.Count() > 0 ? node.Children[0].Children.Add(new Node { Id = 1 }) :
-                //node.Children.Add(new Node { Id = s.Id })));
+                //    .ForEach(s => (node.Children.Count() > 0 ? node.Children[0].Children.Add(new NodeDto { Id = 1 }) :
+                //node.Children.Add(new NodeDto { Id = s.Id })));
 
-                Node nodeSupervisor = null;
+                NodeDto nodeSupervisor = null;
 
                 foreach (var supervisorDivision in supervisorDivisions.Select(x => x.Divisions).Distinct())
                 {
@@ -712,21 +713,21 @@ namespace PI.Business
                     {
                         if (nodeSupervisor == null)
                         {
-                            nodeSupervisor = new Node
+                            nodeSupervisor = new NodeDto
                             {
                                 Id = supervisor.Id,
                                 Type = "User",
                                 Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                                 Title = supervisor.FirstName + " " + supervisor.LastName,
-                                Supervisor = new List<Node>(),
-                                Children = new List<Node>()
+                                Supervisor = new List<NodeDto>(),
+                                Children = new List<NodeDto>()
                             };
                         }
                         else
                         {
                             nodeSupervisor.Supervisor.Add
                             (
-                                new Node
+                                new NodeDto
                                 {
                                     Id = supervisor.Id,
                                     Type = "User",
@@ -738,13 +739,13 @@ namespace PI.Business
                     }
 
                     //division for supervisors box
-                    var supDivision = new Node
+                    var supDivision = new NodeDto
                     {
                         Id = supervisorDivision.Id.ToString(),
                         Type = "Division",
                         Name = "Division - " + (supervisorDivision.IsActive ? "Active" : "Inactive"),
                         Title = supervisorDivision.Name,
-                        Children = new List<Node>()
+                        Children = new List<NodeDto>()
                     };
 
                     var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == supervisorDivision.Id &&
@@ -752,7 +753,7 @@ namespace PI.Business
 
                     //operators for parents's divisons
                     operatorList.ForEach(o =>
-                        supDivision.Children.Add(new Node
+                        supDivision.Children.Add(new NodeDto
                         {
                             Id = o.Id.ToString(),
                             Type = "User",
@@ -773,6 +774,46 @@ namespace PI.Business
                         node.Children.Add(nodeSupervisor); //If there is no manager attach directly to BO.
                     }
 
+                }
+
+                // Add Unassigned divisions   
+                var nodeDivisionList = new List<NodeDto>();
+                List<NodeDto> divisionOperators = null;
+
+                foreach (var division in unassignedDivisions.Distinct())
+                {
+                    divisionOperators = new List<NodeDto>();
+
+                    var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == division.Id &&
+                                   commonLogics.GetUserRoleById(x.UserId) == "Operator").Select(x => x.User).ToList();
+
+                    //operators for parents's divisons
+                    operatorList.ForEach(o =>
+                        divisionOperators.Add(new NodeDto
+                        {
+                            Id = o.Id.ToString(),
+                            Type = "User",
+                            Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
+                            Title = o.FirstName + " " + o.LastName,
+                        }));
+                    
+                    nodeDivisionList.Add(new NodeDto()
+                    {
+                        Id = division.Id.ToString(),
+                        Type = "Division",
+                        Name = "Division - " + (division.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                        Title = division.Name,
+                        Children = divisionOperators
+                    });
+                }
+
+                if (node.Children.Count() > 0)
+                {
+                    node.Children[0].Children.AddRange(nodeDivisionList);
+                }
+                else
+                {
+                    node.Children.AddRange(nodeDivisionList); //If there is no manager attach directly to BO.
                 }
 
             }
