@@ -8,6 +8,14 @@ namespace PI.Contract.DTOs.Node
 {
    public class NodeDto
     {
+        public NodeDto()
+        {
+            Children = new List<NodeDto>();
+            Manager = new List<NodeDto>();
+            Costcenter = new List<NodeDto>();
+            Supervisor = new List<NodeDto>();
+        }
+
         public string Id { get; set; }
         public string Name { get; set; }
         public string Type { get; set; }
