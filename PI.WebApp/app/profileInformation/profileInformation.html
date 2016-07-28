@@ -239,7 +239,7 @@
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="number" class="form-control" placeholder="{{'Number' | translate}}"
-                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-minlength="3" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfileBillingAddress.number.$dirty||profileCtrl.isSubmit2) }" ng-focus="numberFocus = true" ng-blur="numberFocus = false">
+                                               required ng-model="profileCtrl.model.customerDetails.customerAddress.number" ng-maxlength="20" ng-class="{ 'error': formUpdateProfileAddress.number.$invalid && (formUpdateProfileBillingAddress.number.$dirty||profileCtrl.isSubmit2) }" ng-focus="numberFocus = true" ng-blur="numberFocus = false">
                                         <div ng-messages="formUpdateProfileAddress.number.$error" ng-show="(formUpdateProfileAddress.number.$dirty && !numberFocus) ||profileCtrl.isSubmit2">
                                             <label ng-message="required" class="error" for="number" translate>Enter your number</label>
                                             <label ng-message="maxlength" class="error" for="number" translate>Enter less than 20 characters</label>
