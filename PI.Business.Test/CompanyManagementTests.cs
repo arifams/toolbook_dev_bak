@@ -5,6 +5,8 @@ using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Role;
+using PI.Contract.DTOs.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +72,7 @@ namespace PI.Business.Tests
         {
             string userId = "cdf30573-1fba-412e-972f-ec867b02d07e";
             var response = company.GetAllCostCentersForCompany(userId);
-           // Assert.AreNotEqual(response.Count, 0);
+            Assert.AreNotEqual(response.Count, 0);
         }
 
         [TestMethod()]
@@ -78,7 +80,7 @@ namespace PI.Business.Tests
         {
             string companyId = "10";
             var response = company.GetCostCentersbyDivision(companyId);
-           // Assert.AreNotEqual(response.Count, 0);
+            Assert.AreNotEqual(response.Count, 0);
         }
 
         [TestMethod()]
@@ -87,7 +89,7 @@ namespace PI.Business.Tests
             long divId = 0;
             string userId = "";          
             PagedList pageRecords = company.GetAllCostCenters(divId, "Active", userId,"", 1, 10, "Id", "asc");
-            //Assert.AreNotEqual(pageRecords.TotalRecords, 0);
+            Assert.AreNotEqual(pageRecords.TotalRecords, 0);
         }
 
         [TestMethod()]
@@ -96,7 +98,7 @@ namespace PI.Business.Tests
             string userId = "";
             long id = 0;
             CostCenterDto response = company.GetCostCentersById(id, userId);
-            //Assert.AreNotEqual(response, null);
+            Assert.AreNotEqual(response, null);
 
         }
 
@@ -134,7 +136,7 @@ namespace PI.Business.Tests
             };
 
             int response = company.SaveCostCenter(costCenter);
-          //  Assert.AreEqual(response, 1);
+            Assert.AreEqual(response, 1);
         }
 
         [TestMethod()]
@@ -142,7 +144,7 @@ namespace PI.Business.Tests
         {
             long id = 10;
             int response = company.DeleteCostCenter(id);
-           // Assert.AreEqual(response, 1);
+            Assert.AreEqual(response, 1);
         }
 
         [TestMethod()]
@@ -185,37 +187,75 @@ namespace PI.Business.Tests
             long costcenterId = 0;
             string userId = "";
             PagedList pageRecords = company.GetAllDivisions(costcenterId, "Active", userId, "", 1, 10, "Id", "asc");
+            Assert.AreNotEqual(pageRecords.TotalRecords, 0);
 
         }
 
         [TestMethod()]
         public void GetDivisionByIdTest()
         {
-            
+            long divId = 1;
+            string userId = "";
+            DivisionDto response = company.GetDivisionById(divId, userId);
+            Assert.AreNotEqual(response, null);
+
         }
 
         [TestMethod()]
         public void SaveDivisionTest()
         {
-            
+            DivisionDto division = new DivisionDto()
+            {
+                Id=1,
+                CompanyId=1,
+                DefaultCostCenterId=1,
+                Description="Desc",
+                Name="Division1",
+                NumberOfUsers=1,
+                Status=1,
+                Type="USER",
+                UserId= "cdf30573-1fba-412e-972f-ec867b02d07e"
+
+            };
+
+            int response = company.SaveDivision(division);
+            Assert.AreEqual(response, 1);
+
         }
 
         [TestMethod()]
         public void DeleteDivisionTest()
         {
+            long divisionId = 1;
+            int response = company.DeleteDivision(divisionId);
+            Assert.AreEqual(response, 1);
             
         }
 
         [TestMethod()]
         public void IsLoggedInAsBusinessOwnerTest()
         {
+            string userId = "";
+            bool response = company.IsLoggedInAsBusinessOwner(userId);
+            Assert.AreEqual(response, true);
             
+        }
+
+        [TestMethod()]
+        public void IsLoggedInAsNotBusinessOwnerTest()
+        {
+            string userId = "";
+            bool response = company.IsLoggedInAsBusinessOwner(userId);
+            Assert.AreEqual(response, false);
+
         }
 
         [TestMethod()]
         public void GetLoggedInUserNameTest()
         {
-            
+            string userId = "";
+            string response = company.GetLoggedInUserName(userId);
+            Assert.AreEqual(response, null);
         }
 
         [TestMethod()]
@@ -227,48 +267,87 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAllActiveChildRolesTest()
         {
-            
+            string userId = "";
+            List<RolesDto> response = company.GetAllActiveChildRoles(userId);
+            Assert.AreNotEqual(response.Count, 0);
+
         }
 
         [TestMethod()]
         public void GetUserByIdTest()
         {
-            
+            string userId = "";
+            string loggedinUserId = "";
+            UserDto response = company.GetUserById(userId, loggedinUserId);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
         public void SaveUserTest()
         {
-            
+            UserDto user = new UserDto()
+            {
+                LoggedInUserId = "",
+                IsActive = true,
+                UserName = "",
+                FirstName = "",
+                LastName = "",
+                Email = "",
+                LastLoginTime = DateTime.Now.ToString(),
+                MiddleName = "",
+                RoleName = "BusinessOwner",
+                Password = "",
+                Salutation = "Mr"
+
+            };
+            UserResultDto response = company.SaveUser(user);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
         public void LoadUserManagementTest()
         {
-            
+            string logggedInUserId = "";
+            UserDto response = company.LoadUserManagement(logggedInUserId);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
         public void GetAllUsersTest()
         {
-            
+            long division=1;
+            string role = "BusinessOwner";
+            string userId = "";
+            string status = "1";
+            string searchtext = "";
+            PagedList response = company.GetAllUsers(division,role,userId,status,searchtext);
+            Assert.AreNotEqual(response.TotalRecords, 0);
+
         }
 
         [TestMethod()]
         public void GetRoleNameTest()
         {
-            
+            string roleId = "af354b00-317f-4f45-8b10-3671de73d918";
+            string responce = company.GetRoleName(roleId);
+            Assert.AreEqual(responce, "BusinessOwner");
         }
 
         [TestMethod()]
         public void GetAccountTypeTest()
         {
-            
+            string userId = "af354b00-317f-4f45-8b10-3671de73d918";
+            bool responce=company.GetAccountType(userId);
+            Assert.AreEqual(responce, true);
         }
 
         [TestMethod()]
         public void GetAllComapniesTest()
         {
+            string status="";
+            string searchtext = "";
+            PagedList response = company.GetAllComapnies(status, searchtext);
+            Assert.AreNotEqual(response.TotalRecords, 0);
             
         }
 
