@@ -70,7 +70,7 @@
             });
 
             $scope.editNode = function (type, id) {
-                debugger;
+
                 if (type == 'businessowner' || type == 'manager' || type == 'supervisor')
                     $scope.loadUserManagment(id);
                 else if (type == 'division')
@@ -81,7 +81,8 @@
             };
 
 
-            $scope.loadUserManagment = function (userId,userType) {
+            $scope.loadUserManagment = function (userId, userType) {
+                
                 $scope.userId = userId;
                 $scope.userType = userType;
 
@@ -131,10 +132,10 @@
 
             angular.element(document).ready(function () {
 
-                var e1 = angular.element(document.getElementById('chart-container'));
-                // Compile controller 2 html
-                var mController = angular.element(document.getElementById("chart-container"));
-                mController.scope().activateView(e1);
+                //var e1 = angular.element(document.getElementById('chart-container'));
+                //// Compile controller 2 html
+                //var mController = angular.element(document.getElementById("chart-container"));
+                //mController.scope().activateView(e1);
 
             });
 
