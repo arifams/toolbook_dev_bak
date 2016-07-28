@@ -58,9 +58,10 @@
         var vm = this;
         vm.stream = {};
         vm.noAvailableAddressDetails = false;
+        vm.loading = false;
 
         vm.searchAddresses = function () {
-
+            vm.loading = true;
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
             var type = (vm.state == undefined) ? "" : vm.state;
@@ -68,7 +69,7 @@
 
             loadAddressService.find(userId, searchText, type)
                 .then(function successCallback(responce) {
-                    debugger;
+                    vm.loading = false;
                     vm.rowCollection = responce.data.content;
                     if (vm.rowCollection.length==0) {
                         vm.noAvailableAddressDetails = true;
@@ -115,6 +116,7 @@
 
                 }, function errorCallback(response) {
                     //todo
+                    vm.loading = false;
                 });
         };
 
