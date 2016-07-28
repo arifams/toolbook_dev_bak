@@ -695,6 +695,54 @@ namespace PI.Business
                 var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER")
                                                     .Except(supervisorDivisions.Select(v => v.Divisions)).ToList();
 
+                var unassignedUsers = context.Users.Where(u => u.TenantId == currentcompany.TenantId
+                                                               && u.UserInDivisions.Count() == 0).ToList();
+
+                var unassignedSupervisors = unassignedUsers.Where(u => u.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
+
+                var unassignedOperators = unassignedUsers.Where(u => u.Roles.Any(r => r.RoleId == operatorRoleId)).ToList();
+
+                if (unassignedSupervisors.Count() > 0)
+                {
+                    List<NodeDto> operatorList = new List<NodeDto>();
+                    unassignedSupervisors.ForEach(x =>
+                                                     operatorList.Add(new NodeDto
+                                                     {
+                                                         Id = x.Id,
+                                                         Type = "supervisor",
+                                                         Name = "supervisor - " + (x.IsActive ? "Active" : "Inactive"),
+                                                         Title = x.FirstName + " " + x.LastName
+                                                     }));
+                    if (node.Children.Count() > 0)
+                    {
+                        node.Children[0].Children.AddRange(operatorList);
+                    }
+                    else
+                    {
+                        node.Children.AddRange(operatorList); //If there is no manager attach directly to BO.
+                    }
+                }
+
+                if (unassignedOperators.Count() > 0)
+                {
+                    List<NodeDto> operatorList = new List<NodeDto>();
+                    unassignedOperators.ForEach(x =>
+                                                     operatorList.Add(new NodeDto
+                                                     {
+                                                         Id = x.Id,
+                                                         Type = "operator",
+                                                         Name = "Operator - " + (x.IsActive ? "Active" : "Inactive"),
+                                                         Title = x.FirstName + " " + x.LastName
+                                                     }));
+                    if (node.Children.Count() > 0)
+                    {
+                        node.Children[0].Children.AddRange(operatorList);
+                    }
+                    else
+                    {
+                        node.Children.AddRange(operatorList); //If there is no manager attach directly to BO.
+                    }
+                }
 
                 // Assign supervisor
                 //supervisorDivisions.Select(x => x.User).ToList()
@@ -728,7 +776,7 @@ namespace PI.Business
                                 new NodeDto
                                 {
                                     Id = supervisor.Id,
-                                    Type = "supervisor",
+                                    Type = "Supervisor",
                                     Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                                     Title = supervisor.FirstName + " " + supervisor.LastName,
                                 }
@@ -804,7 +852,7 @@ namespace PI.Business
                         Children = divisionOperators,
                         Costcenter = GetCostCentersAsNodes(context, division.Id)
                     });
-                   
+
                 }
 
                 if (node.Children.Count() > 0)
@@ -821,9 +869,9 @@ namespace PI.Business
             return node;
         }
 
-        private List<NodeDto> GetCostCentersAsNodes(PIContext context,long divisionId)
+        private List<NodeDto> GetCostCentersAsNodes(PIContext context, long divisionId)
         {
-            List<NodeDto> costcenterList  = new List<NodeDto>();
+            List<NodeDto> costcenterList = new List<NodeDto>();
             var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId).ToList();
 
             // Add costcenters for the considered division.
