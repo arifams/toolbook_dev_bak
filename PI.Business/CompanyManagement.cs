@@ -691,13 +691,15 @@ namespace PI.Business
                 var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
                                                                          d.User.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
 
+                var allDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER").ToList();
+
                 var supervisorDivisionsToExclude = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
                                                                        d.User.Roles.Any(r => r.RoleId == supervisorRoleId))
                                                                        .Select(z=> z.Divisions).ToList();
 
                 // unassigned + operator assigned division
-                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER")
-                                                                 .Except(supervisorDivisionsToExclude).ToList();
+                var unassignedDivisions = allDivisions.Except(supervisorDivisionsToExclude).ToList();
+
 
                 var unassignedUsers = context.Users.Where(u => u.TenantId == currentcompany.TenantId
                                                                && u.UserInDivisions.Count() == 0).ToList();
