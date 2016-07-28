@@ -81,8 +81,8 @@
             };
 
 
-            $scope.loadUserManagment = function (userId, userType) {
-                
+            $scope.loadUserManagment = function (userId, userType,parentType,parentId) {
+                debugger;
                 $scope.userId = userId;
                 $scope.userType = userType;
 
@@ -100,8 +100,8 @@
                 });
             }
 
-            $scope.loadDivisionManagment = function (id) {
-
+            $scope.loadDivisionManagment = function (id, parentType, parentId) {
+                debugger;
                 $scope.divisionId = id;
 
                 ngDialog.open({
@@ -113,7 +113,8 @@
                 });
             }
 
-            $scope.loadCostcenterManagement = function (id) {
+            $scope.loadCostcenterManagement = function (id, parentType, parentId) {
+                debugger;
                 $scope.costCenterId = id;
                 ngDialog.open({
                     scope: $scope,

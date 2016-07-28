@@ -83,24 +83,21 @@
                     if (data.type == "businessowner") {
                         console.log('businessowner');
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'
-                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Manager\')">Manager</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Supervisor\')">Supervisor</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\')">Operator</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0)">Division</a></li>'
+                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Manager\',\'Businessowner\',\'' + data.id + '\')">Manager</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Supervisor\',\'Businessowner\',\'' + data.id + '\')">Supervisor</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\',\'Businessowner\',\'' + data.id + '\')">Operator</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Businessowner\',\'' + data.id + '\')">Division</a></li>'
                         + '</ul></div></div>';
                     }
                     else if (data.type == "manager"){
-                        console.log('manager');
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'
-                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Supervisor\')">Supervisor</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\')">Operator</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0)">Division</a></li>'
+                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Supervisor\',\'Manager\',\'' + data.id + '\')">Supervisor</a></li><li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\',\'Manager\',\'' + data.id + '\')">Operator</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Manager\',\'' + data.id + '\')">Division</a></li>'
                         + '</ul></div></div>';
                     }
                     else if (data.type == "supervisor") {
-                        console.log('supervisor');
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'
-                        + '<li><a href="javascript:;" ng-click="loadDivisionManagment(0)">Division</a></li></ul></div></div>';
+                        + '<li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Supervisor\',\'' + data.id + '\')">Division</a></li></ul></div></div>';
                     }
                     else if (data.type == "division") {
-                        console.log('division');
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'
-                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\')">Operator</a></li><li><a href="javascript:;" ng-click="loadCostcenterManagement(0)">Cost Center</a></li></ul></div></div>';
+                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\',\'Division\',\'' + data.id + '\')">Operator</a></li><li><a href="javascript:;" ng-click="loadCostcenterManagement(0,\'Division\',\'' + data.id + '\')">Cost Center</a></li></ul></div></div>';
                     }
 
                     var secondMenuIcon = $('<i>', {

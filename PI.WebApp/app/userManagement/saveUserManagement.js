@@ -42,6 +42,8 @@
         var vm = this;
         vm.user = {};
 
+        vm.isShowDivision = true;
+
         var loadUser = function () {
             
             userManagementFactory.getUser($scope.userId)
@@ -58,6 +60,11 @@
                     vm.user.salutation = 'Mr';
 
                     vm.user.assignedRoleName = $scope.userType;
+                    debugger;
+                    if (vm.user.assignedRoleName == 'Manager')
+                        vm.isShowDivision = false;
+                    else
+                        vm.isShowDivision = true;
                 }
                 else {
                     // Exisiting user.

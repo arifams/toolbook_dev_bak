@@ -79,9 +79,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row m-0">
+                            <div class="row m-0" ng-show="saveUserCtrl.isShowDivision">
                                 <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
-                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) * </label>
+                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
 
                                     <div class="col-sm-8">
                                         <div ng-repeat="division in saveUserCtrl.user.divisions">
