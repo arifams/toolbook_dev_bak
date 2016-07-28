@@ -58,7 +58,7 @@
 
                 datascource = responce.data;
                 customBuilderFactory.orgStructurePopup(datascource);
-
+                //console.log(datascource);
                 // Compile
                 var e1 = angular.element(document.getElementById('chart-container'));
                 // Compile controller 2 html
@@ -70,7 +70,7 @@
             });
 
             $scope.editNode = function (type, id) {
-                debugger;
+
                 if (type == 'businessowner' || type == 'manager' || type == 'supervisor')
                     $scope.loadUserManagment(id);
                 else if (type == 'division')
@@ -81,8 +81,12 @@
             };
 
 
-            $scope.loadUserManagment = function (userId) {
+            $scope.loadUserManagment = function (userId, userType,parentType,parentId) {
+                debugger;
                 $scope.userId = userId;
+                $scope.userType = userType;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
 
                 ngDialog.open({
                     scope: $scope,
@@ -98,9 +102,11 @@
                 });
             }
 
-            $scope.loadDivisionManagment = function (id) {
-
+            $scope.loadDivisionManagment = function (id, parentType, parentId) {
+                debugger;
                 $scope.divisionId = id;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
 
                 ngDialog.open({
                     scope: $scope,
@@ -111,8 +117,12 @@
                 });
             }
 
-            $scope.loadCostcenterManagement = function (id) {
+            $scope.loadCostcenterManagement = function (id, parentType, parentId) {
+                debugger;
                 $scope.costCenterId = id;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
+
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/costcenter/saveCostCenter.html',
@@ -130,10 +140,10 @@
 
             angular.element(document).ready(function () {
 
-                var e1 = angular.element(document.getElementById('chart-container'));
-                // Compile controller 2 html
-                var mController = angular.element(document.getElementById("chart-container"));
-                mController.scope().activateView(e1);
+                //var e1 = angular.element(document.getElementById('chart-container'));
+                //// Compile controller 2 html
+                //var mController = angular.element(document.getElementById("chart-container"));
+                //mController.scope().activateView(e1);
 
             });
 

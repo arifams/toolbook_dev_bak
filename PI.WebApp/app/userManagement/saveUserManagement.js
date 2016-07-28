@@ -42,23 +42,29 @@
         var vm = this;
         vm.user = {};
 
-        debugger;
+        vm.isShowDivision = true;
 
         var loadUser = function () {
-            debugger;
+            
             userManagementFactory.getUser($scope.userId)
             .success(function (data) {
-                debugger;
+                
                 vm.user = data;
-                
-                
+
                 vm.user.assignedDivisionIdList = [];
                 if (vm.user.id == 0 || vm.user.id == null) {
                     // New user.
-                    vm.user.assignedRoleName = vm.user.roles[0].roleName;
-                    
+                    //vm.user.assignedRoleName = vm.user.roles[0].roleName;
+                    //debugger;
                     vm.user.isActive = 'true';
                     vm.user.salutation = 'Mr';
+
+                    vm.user.assignedRoleName = $scope.userType;
+                    debugger;
+                    if (vm.user.assignedRoleName == 'Manager')
+                        vm.isShowDivision = false;
+                    else
+                        vm.isShowDivision = true;
                 }
                 else {
                     // Exisiting user.
