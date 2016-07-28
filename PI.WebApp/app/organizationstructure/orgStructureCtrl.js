@@ -82,7 +82,6 @@
 
 
             $scope.loadUserManagment = function (userId) {
-                debugger;
                 $scope.userId = userId;
 
                 ngDialog.open({
@@ -100,7 +99,9 @@
             }
 
             $scope.loadDivisionManagment = function (id) {
-                debugger;
+
+                $scope.divisionId = id;
+
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/divisions/saveDivision.html',
@@ -111,7 +112,7 @@
             }
 
             $scope.loadCostcenterManagement = function (id) {
-                debugger;
+                $scope.costCenterId = id;
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/costcenter/saveCostCenter.html',
