@@ -115,7 +115,7 @@
                   'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'type': 'user1', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name', 'type': 'user1' }],
                   'children': [
                   {
-                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user',
+                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user', 'supervisor': [{ 'id': '3', 'name': 'Supervisor', 'title': 'supervisor name', 'type': 'user' }],
                       'children': [
                           {
                               'id': '5', 'name': 'Division', 'title': 'division name', 'type': 'division1', 'costcenter': [{ 'id': '9', 'name': 'CostCenter', 'title': 'costcenter name A', 'type': 'costcenter1' }, { 'id': '10', 'name': 'Division B', 'title': 'costcenter name B', 'type': 'costcenter1' }],
@@ -129,6 +129,7 @@
                   {
                       'id': '4', 'name': 'Division', 'title': 'division name', 'type': 'division', 'costcenter': [{ 'id': '11', 'name': 'CostCenter', 'title': 'costcenter name B', 'type': 'costcenter' }],
                       'children': [
+                            { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' },
                             { 'id': '6', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
                       ]
                   }
@@ -137,7 +138,7 @@
 
             ]
         };
-
+        
         customBuilderFactory.orgStructurePopup(datascource);
 
     }]);
