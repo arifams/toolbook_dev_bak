@@ -235,7 +235,7 @@
 
                             <tbody>
                                 <tr>
-                                    <td rowspan="2" class="col-sm-6" style="border:1px solid #ddd">
+                                    <td rowspan="2" class="col-sm-6" style="border:1px solid #ddd;padding:5px">
                                         {{invoiceCtrl.shipment.consignerAddress}}<br />
                                         {{invoiceCtrl.shipment.addressInformation.consigner.firstName}} {{invoiceCtrl.shipment.addressInformation.consigner.lastName}}<br />
                                         {{invoiceCtrl.shipment.addressInformation.consigner.address1}} {{invoiceCtrl.shipment.addressInformation.consigner.number}}<br />
@@ -243,35 +243,35 @@
                                         {{invoiceCtrl.shipment.addressInformation.consigner.country}}<br />
                                         <translate>VAT number:</translate>
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Date of issue</label><br />
+                                    <td class="col-sm-3" style="border:1px solid #ddd;;padding:5px">
+                                        <label translate style="font-weight:bold;font-size:20px">Date of issue</label><br />
                                         <span  class="form-control">{{invoiceCtrl.shipment.createdDate}}</span>
 
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Invoice Number</label><br />
                                         <span  class="form-control" >{{invoiceCtrl.shipment.invoiceNo}}</span>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">VAT Number</label><br />
                                         <span  class="form-control" >{{invoiceCtrl.shipment.vatNo}}</span>
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Customer Number</label><br />
                                         <span class="form-control" >{{invoiceCtrl.shipment.customerNo}}</span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        <div class="form-group" style="border:1px solid #ddd">
+                                        <div class="form-group" style="border:1px solid #ddd;padding:5px">
                                             <label translate style="font-weight:bold;">Ship To</label><br />
                                             <span class="form-control" style="height:100px;">{{invoiceCtrl.shipment.shipTo}}</span>
                                         </div>
                                     </td>
                                     <td colspan="2">
-                                        <div class="form-group" style="border:1px solid #ddd">
+                                        <div class="form-group" style="border:1px solid #ddd;padding:5px">
                                             <label translate style="font-weight:bold;">Invoice To/Consigned To</label><br />
                                             <span class="form-control" style="height:100px;">{{invoiceCtrl.shipment.invoiceTo}}</span>
                                         </div>
@@ -280,23 +280,23 @@
 
                                 </tr>
                                 <tr>
-                                    <td class="col-sm-6" style="border:1px solid #ddd">
+                                    <td class="col-sm-6" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Terms of Delivery:</label>
                                         <span id="shipmentServices" class="form-control"                                                
                                                 name="shipmentType">{{invoiceCtrl.shipmnetServiceLabel}}</span>
                                         <br />
-                                        <div class="form-group" style="margin-right:0px;margin-left:0px;">
+                                        <div class="form-group" style="margin-right:0px;margin-left:0px;padding:5px">
                                             <label translate style="font-weight:bold;">Terms of payment:</label>
                                             <span type="text" class="form-control" >{{invoiceCtrl.shipment.termsOfPayment}}</span>
                                         </div>
 
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Country of origin</label><br />
                                         <span type="text" class="form-control" >{{invoiceCtrl.shipment.countryOfOrigin}}</span>
                                         <!--<input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consigner.country" />-->
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Country of destination</label><br />
                                         <span type="text" class="form-control">{{invoiceCtrl.shipment.countryOfDestination}}</span>
                                         <!--<input type="text" class="form-control" ng-model="invoiceCtrl.shipment.addressInformation.consignee.country" />-->
@@ -304,7 +304,7 @@
 
                                 </tr>
                                 <tr>
-                                    <td style="border:1px solid #ddd">
+                                    <td style="border:1px solid #ddd;padding:5px">
                                         <div class="form-group">
                                             <label translate style="font-weight:bold;">Mode of transport:</label><br />
                                             <span type="text" class="form-control">{{invoiceCtrl.shipment.modeOfTransport}}</span> <br />
@@ -312,7 +312,7 @@
                                             <span class="form-control" >{{invoiceCtrl.shipment.importBroker}}</span>
                                         </div>
                                     </td>
-                                    <td colspan="2" style="border:1px solid #ddd">
+                                    <td colspan="2" style="border:1px solid #ddd;padding:5px">
                                         <div class="form-group" style="margin-right:0px;margin-left:0px;">
                                             <label translate style="font-weight:bold;">Shipment for attension of:</label><br />
                                             {{invoiceCtrl.shipment.addressInformation.consignee.contactName}} <br />
@@ -324,14 +324,14 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td class="col-sm-6" style="border:1px solid #ddd">
+                                    <td class="col-sm-6" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;">Packages:</label><br />
                                         <div ng-repeat="product in invoiceCtrl.shipment.packageDetails.productIngredients">
                                             <label> {{product.quantity}} * {{product.productType}}  ({{product.length}} * {{product.width}} * {{product.height}} <span ng-if="invoiceCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-if="!invoiceCtrl.shipment.packageDetails.volumeCMM">inch</span>)</label>
                                         </div>
                                     </td>
                                    
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label style="font-weight:bold;">
                                             <translate> Gross</translate>
                                             ( <span ng-if="invoiceCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-if="!invoiceCtrl.shipment.packageDetails.cmlbs">lbs</span> ):
@@ -339,7 +339,7 @@
                                         <label style="font-weight:bold;">{{invoiceCtrl.shipment.packageDetails.totalWeight}}</label>
 
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd">
+                                    <td class="col-sm-3" style="border:1px solid #ddd;padding:5px">
                                         <label translate style="font-weight:bold;"Colli Number/Reference</label><br />
                                         <label>{{invoiceCtrl.shipment.shipmentReferenceName}}</label>
                                     </td>
@@ -389,15 +389,15 @@
 
 
                                                 <tr>
-                                                    <td colspan="3" style="border:1px solid #ddd">
+                                                    <td colspan="3" style="border:1px solid #ddd;text-align:center">
                                                         <label translate>VALUE FOR CUSTOMS PURPOSE ONLY</label>
                                                     </td>
-                                                    <td style="border:1px solid #ddd">
+                                                    <td style="border:1px solid #ddd;text-align:center">
                                                         <label translate>
                                                             Total:
                                                         </label>
                                                     </td>
-                                                    <td style="border:1px solid #ddd">
+                                                    <td style="border:1px solid #ddd;text-align:center">
                                                         <label>{{invoiceCtrl.shipment.item.totalPrice}}</label>
                                                     </td>
                                                     <td style="border:1px solid #ddd">

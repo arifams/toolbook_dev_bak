@@ -550,7 +550,7 @@
             console.log(key);
             console.log(value);
             console.log(dynamic_color);
-            sameChildCss += " .child_" + value + " {box-shadow: inset 0 0 10px " + dynamic_color + ";height:30px;padding:5px;text-align:center}";
+            sameChildCss += " .child_" + value + " {box-shadow: inset 0 0 10px " + dynamic_color + ";height:auto;padding:5px;text-align:center;border:1px solid " + dynamic_color + "}";
         });
         sameChildCss += "</style>";
 
@@ -584,7 +584,7 @@
         var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content"><div class="inside_content child_' + nodeData[opts.nodeId] + '">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',' + nodeData[opts.nodeId] + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a></div>') || '</div>') + customTag : '' + '</div>');
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content"><div class="inside_content child_' + nodeData[opts.nodeId] + '">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',' + nodeData[opts.nodeId] + ')" style="color:#006699;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a></div>') || '</div>') + customTag : '' + '</div>');
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {
