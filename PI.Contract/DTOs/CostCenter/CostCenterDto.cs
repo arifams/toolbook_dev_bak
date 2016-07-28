@@ -41,6 +41,9 @@ namespace PI.Contract.DTOs.CostCenter
         public bool IsActive { get; set; }
 
         public string StatusString { get; set; }
+
+        public string AssignedDivision { get; set; }
+
     }
 
 }
