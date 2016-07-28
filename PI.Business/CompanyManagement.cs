@@ -1206,6 +1206,20 @@ namespace PI.Business
                         CreatedBy = "1",// TODO : Get created user.                       
                     };
                     context.Divisions.Add(newDivision);
+                    context.SaveChanges();
+
+                    if (!string.IsNullOrEmpty(division.AssignedSupervisorId))
+                    {
+                        context.UsersInDivisions.Add(new UserInDivision
+                        {
+                            UserId = division.AssignedSupervisorId,
+                            DivisionId = newDivision.Id,
+                            IsActive = true,
+                            CreatedBy = "1",
+                            CreatedDate = DateTime.Now
+                        });
+                    }
+
                 }
                 else
                 {
