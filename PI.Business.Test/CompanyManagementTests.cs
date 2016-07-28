@@ -2,6 +2,7 @@
 using PI.Business;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Common;
+using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
@@ -354,31 +355,43 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAllComapniesForAdminSearchTest()
         {
-            
+            string searchtext = "";
+            PagedList response = company.GetAllComapniesForAdminSearch(searchtext);
+            Assert.AreNotEqual(response.TotalRecords, 0);
         }
 
         [TestMethod()]
         public void ChangeCompanyStatusTest()
         {
-            
+            long comapnyId = 0;
+            bool response = company.ChangeCompanyStatus(comapnyId);
+            Assert.AreEqual(response, true);
         }
 
         [TestMethod()]
         public void GetCompanyByUserIDTest()
         {
-            
+            string userID = "";
+            CompanyDto response = company.GetCompanyByUserID(userID);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
         public void GetBusinessOwneridbyCompanyIdTest()
         {
-            
+            string companyId = "";
+            string response = company.GetBusinessOwneridbyCompanyId(companyId);
+            Assert.AreNotEqual(response, string.Empty);
         }
 
         [TestMethod()]
         public void UpdateCompanyLogoTest()
         {
-            
+            string URL="";
+            string userId="";
+            bool response = company.UpdateCompanyLogo(URL, userId);
+            Assert.AreEqual(response, true);
+
         }
     }
 }
