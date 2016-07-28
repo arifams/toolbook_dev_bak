@@ -550,7 +550,7 @@
             console.log(key);
             console.log(value);
             console.log(dynamic_color);
-            sameChildCss += " .child_" + value + " {box-shadow: inset 0 0 10px " + dynamic_color + ";height:30px;padding:5px;text-align:center}";
+            sameChildCss += " .child_" + value + " {box-shadow: inset 0 0 10px " + dynamic_color + ";height:auto;padding:5px;text-align:center;border:1px solid " + dynamic_color + "}";
         });
         sameChildCss += "</style>";
 
