@@ -15,8 +15,8 @@
     });
 
     app.controller('dashboardCtrl',
-       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService',
-           function ($scope, customBuilderFactory, dashboardfactory, modalService) {
+       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService','$window',
+           function ($scope, customBuilderFactory, dashboardfactory, modalService, $window) {
                var vm = this;
                vm.model = {};
                debugger;
@@ -24,7 +24,14 @@
 
                $scope.closePopup = function () {
                    modalService.close('editrole_popup');
+                 
                };
+
+               $scope.closePopupAfterSetupWizard = function () {
+                   modalService.close('editrole_popup');
+                   $window.location.reload();
+               };
+
                $scope.templateModal = {
                    id: "editrole_popup",
                    header: "Edit Confirmation",
