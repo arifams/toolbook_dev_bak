@@ -58,7 +58,7 @@
 
                 datascource = responce.data;
                 customBuilderFactory.orgStructurePopup(datascource);
-
+                //console.log(datascource);
                 // Compile
                 var e1 = angular.element(document.getElementById('chart-container'));
                 // Compile controller 2 html
@@ -71,7 +71,7 @@
 
             $scope.editNode = function (type, id) {
                 debugger;
-                if (type == 'user')
+                if (type == 'businessowner' || type == 'manager' || type == 'supervisor')
                     $scope.loadUserManagment(id);
                 else if (type == 'division')
                     $scope.loadDivisionManagment(id);
@@ -81,9 +81,9 @@
             };
 
 
-            $scope.loadUserManagment = function (userId) {
-                debugger;
+            $scope.loadUserManagment = function (userId,userType) {
                 $scope.userId = userId;
+                $scope.userType = userType;
 
                 ngDialog.open({
                     scope: $scope,
@@ -100,7 +100,9 @@
             }
 
             $scope.loadDivisionManagment = function (id) {
-                debugger;
+
+                $scope.divisionId = id;
+
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/divisions/saveDivision.html',
@@ -111,7 +113,7 @@
             }
 
             $scope.loadCostcenterManagement = function (id) {
-                debugger;
+                $scope.costCenterId = id;
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/costcenter/saveCostCenter.html',

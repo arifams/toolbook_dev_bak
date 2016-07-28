@@ -12,13 +12,13 @@
     })
 
     app.factory('divisionService', function ($http, $routeParams, $window) {
-        
+
         return {
-            loadDivisioninfo: function () {
+            loadDivisioninfo: function (divisionId) {
                 debugger;
                 return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {
                     params: {
-                        id: 0, //$routeParams.id
+                        id: divisionId, //$routeParams.id
                         userId: $window.localStorage.getItem('userGuid')
                     }
                 });
@@ -27,10 +27,10 @@
     })
 
     app.controller('saveDivisionCtrl',
-       ['divisionManagmentFactory', 'divisionService', '$location', '$window','$rootScope',
-           function (divisionManagmentFactory, divisionService, $location, $window, $rootScope) {
+       ['divisionManagmentFactory', 'divisionService', '$location', '$window', '$rootScope', '$scope',
+           function (divisionManagmentFactory, divisionService, $location, $window, $rootScope, $scope) {
                var vm = this;
-           
+
                vm.saveDivision = function () {
                    vm.model.userId = $window.localStorage.getItem('userGuid')
 
@@ -66,27 +66,26 @@
                     .error(function () {
                     })
                }
-           
 
-           vm.close = function () {
-               $location.path('/loadDivisions');
-           }
+               vm.close = function () {
+                   $location.path('/loadDivisions');
+               }
 
-    var loadDivision = function () {
-        divisionService.loadDivisioninfo()
-        .success(function (data) {
-            vm.model = data;
+               var loadDivision = function (divisionId) {
+                   divisionService.loadDivisioninfo(divisionId)
+                    .success(function (data) {
+                        vm.model = data;
 
-            if (vm.model.id == 0) {
-                vm.model.status = 1;
-            }
-        })
-        .error(function () {
-        })
-    }
-
-    loadDivision();
-}]);
+                        if (vm.model.id == 0) {
+                            vm.model.status = 1;
+                        }
+                    })
+                    .error(function () {
+                    })
+               }
+               
+               loadDivision($scope.divisionId);
+           }]);
 
 
 })(angular.module('newApp'));
