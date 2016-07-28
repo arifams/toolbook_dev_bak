@@ -71,7 +71,7 @@
 
             $scope.editNode = function (type, id) {
                 debugger;
-                if (type == 'user')
+                if (type == 'businessowner' || type == 'manager' || type == 'supervisor')
                     $scope.loadUserManagment(id);
                 else if (type == 'division')
                     $scope.loadDivisionManagment(id);
