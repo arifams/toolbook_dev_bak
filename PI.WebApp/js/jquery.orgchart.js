@@ -566,13 +566,14 @@
                     customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeCostCenter][i].type + '\',\'' + nodeData[opts.nodeCostCenter][i].id + '\')" style="color:#006699;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
-            else if (typeof nodeData[opts.nodeManager] !== 'undefined' && nodeData[opts.nodeManager] !== null) {
+            if (typeof nodeData[opts.nodeManager] !== 'undefined' && nodeData[opts.nodeManager] !== null) {
 
                 for (var i = 0; i < nodeData[opts.nodeManager].length; i++) {
+                    
                     customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeManager][i].type + '\',\'' + nodeData[opts.nodeManager][i].id + '\')" style="color:#006699;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
-            else if (typeof nodeData[opts.nodeSupervisor] !== 'undefined') {
+            if (typeof nodeData[opts.nodeSupervisor] !== 'undefined') {
 
                 for (var i = 0; i < nodeData[opts.nodeSupervisor].length; i++) {
                     customTag = customTag + '<div class="supervisor child_' + nodeData[opts.nodeId] + '">' + nodeData[opts.nodeSupervisor][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeSupervisor][i].type + '\',\'' + nodeData[opts.nodeSupervisor][i].id + '\')" style="color:#006699;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
