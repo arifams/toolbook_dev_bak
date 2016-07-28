@@ -878,7 +878,7 @@ namespace PI.Business
         private List<NodeDto> GetCostCentersAsNodes(PIContext context, long divisionId)
         {
             List<NodeDto> costcenterList = new List<NodeDto>();
-            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId).ToList();
+            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId && !x.IsDelete).ToList();
 
             // Add costcenters for the considered division.
             Costcenters.ForEach(c => costcenterList.Add(new NodeDto
