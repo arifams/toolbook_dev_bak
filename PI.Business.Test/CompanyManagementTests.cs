@@ -4,6 +4,7 @@ using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
+using PI.Contract.DTOs.Division;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,7 +62,7 @@ namespace PI.Business.Tests
             };
 
             var response = company.CreateCompanyDetails(dto);
-            //Assert.AreNotEqual(response, 0);
+           
         }
 
         [TestMethod()]
@@ -147,31 +148,44 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void GetAllActiveDivisionsForCompanyTest()
         {
-            
+            string UserId = "";
+            IList<DivisionDto> response = company.GetAllActiveDivisionsForCompany(UserId);
+            Assert.AreNotEqual(response.Count, 0);
         }
 
         [TestMethod()]
         public void GetAllActiveDivisionsOfUserTest()
         {
-            
+            string UserId = "";
+            IList<DivisionDto> response = company.GetAllActiveDivisionsOfUser(UserId);
+            Assert.AreNotEqual(response.Count, 0);
         }
 
         [TestMethod()]
         public void GetAllDivisionsForCompanyTest()
         {
-            
+            string UserId = "";
+            IList<DivisionDto> response = company.GetAllDivisionsForCompany(UserId);
+            Assert.AreNotEqual(response.Count, 0);
+
         }
 
         [TestMethod()]
         public void GetAssignedDivisionsTest()
         {
-            
+            string UserId = "";
+            IList<DivisionDto> response = company.GetAssignedDivisions(UserId);
+            Assert.AreNotEqual(response.Count, 0);
+
         }
 
         [TestMethod()]
         public void GetAllDivisionsTest()
         {
-            
+            long costcenterId = 0;
+            string userId = "";
+            PagedList pageRecords = company.GetAllDivisions(costcenterId, "Active", userId, "", 1, 10, "Id", "asc");
+
         }
 
         [TestMethod()]
