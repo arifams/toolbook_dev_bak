@@ -32,7 +32,14 @@
                var vm = this;
 
                vm.saveDivision = function () {
+                   debugger;
                    vm.model.userId = $window.localStorage.getItem('userGuid')
+
+                   if ($scope.parentType = "Supervisor")
+                   {
+                       vm.model.assignedSupervisorId =  $scope.parentId;
+                   }
+
 
                    divisionManagmentFactory.saveDivision(vm.model)
                     .success(function (result) {
