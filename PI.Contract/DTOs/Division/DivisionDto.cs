@@ -39,5 +39,7 @@ namespace PI.Contract.DTOs.Division
 
         public string StatusString { get; set; }
 
+        public string AssignedSupervisor { get; set; }
+
     }
 }
