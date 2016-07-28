@@ -17,7 +17,7 @@
 
     app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller','loadOrganizationStructureFactory',
         function ($scope, $compile, ngDialog, customBuilderFactory, $controller, loadOrganizationStructureFactory) {
-      
+
             //var datascource = {
             //    'id': '1',
             //    'name': 'Business Owner',
@@ -55,9 +55,15 @@
 
             loadOrganizationStructureFactory.loadOrganizationStructure()
             .then(function successCallback(responce) {
-                debugger;
+
                 datascource = responce.data;
                 customBuilderFactory.orgStructurePopup(datascource);
+
+                // Compile
+                var e1 = angular.element(document.getElementById('chart-container'));
+                // Compile controller 2 html
+                var mController = angular.element(document.getElementById("chart-container"));
+                mController.scope().activateView(e1);
 
             }, function errorCallback(response) {
                 //todo
@@ -65,7 +71,7 @@
 
             $scope.editNode = function (type, id) {
                 debugger;
-                if (type == 'user')
+                if (type == 'businessowner' || type == 'manager' || type == 'supervisor')
                     $scope.loadUserManagment(id);
                 else if (type == 'division')
                     $scope.loadDivisionManagment(id);
@@ -76,59 +82,60 @@
 
 
             $scope.loadUserManagment = function (userId) {
-                debugger;
-            $scope.userId = userId;
+                $scope.userId = userId;
 
-            ngDialog.open({
-                scope: $scope,
-                template: '/app/userManagement/saveUserManagement.html',
-                //controller: $controller('saveUserManagementCtrl', {
-                //    $scope: $scope,
-                //    name: userId
-                //}),
-                className: 'ngdialog-theme-plain custom-width-max',
-                closeByDocument: false,
-                closeByEscape: false
-           
-            });
-        }
+                ngDialog.open({
+                    scope: $scope,
+                    template: '/app/userManagement/saveUserManagement.html',
+                    //controller: $controller('saveUserManagementCtrl', {
+                    //    $scope: $scope,
+                    //    name: userId
+                    //}),
+                    className: 'ngdialog-theme-plain custom-width-max',
+                    closeByDocument: false,
+                    closeByEscape: false
+
+                });
+            }
 
             $scope.loadDivisionManagment = function (id) {
-                debugger;
-            ngDialog.open({
-                scope: $scope,
-                template: '/app/divisions/saveDivision.html',
-                className: 'ngdialog-theme-plain custom-width',
-                closeByDocument: false,
-                closeByEscape: false
-            });
-        }
+
+                $scope.divisionId = id;
+
+                ngDialog.open({
+                    scope: $scope,
+                    template: '/app/divisions/saveDivision.html',
+                    className: 'ngdialog-theme-plain custom-width',
+                    closeByDocument: false,
+                    closeByEscape: false
+                });
+            }
 
             $scope.loadCostcenterManagement = function (id) {
-                debugger;
-            ngDialog.open({
-                scope: $scope,
-                template: '/app/costcenter/saveCostCenter.html',
-                className: 'ngdialog-theme-plain custom-width-max',
-                closeByDocument: false,
-                closeByEscape: false
-            });
-        }
-        
+                $scope.costCenterId = id;
+                ngDialog.open({
+                    scope: $scope,
+                    template: '/app/costcenter/saveCostCenter.html',
+                    className: 'ngdialog-theme-plain custom-width-max',
+                    closeByDocument: false,
+                    closeByEscape: false
+                });
+            }
+
             $scope.activateView = function (ele) {
                 $compile(ele.contents())($scope);
                 $scope.$apply();
             };
 
 
-        angular.element(document).ready(function () {
+            angular.element(document).ready(function () {
 
-            var e1 = angular.element(document.getElementById('chart-container'));
-            // Compile controller 2 html
-            var mController = angular.element(document.getElementById("chart-container"));
-            mController.scope().activateView(e1);
+                var e1 = angular.element(document.getElementById('chart-container'));
+                // Compile controller 2 html
+                var mController = angular.element(document.getElementById("chart-container"));
+                mController.scope().activateView(e1);
 
-        });
+            });
 
             //var datascource = {
             //    'name': 'Business Manager',
@@ -164,10 +171,10 @@
             //};
 
 
-        
 
-        customBuilderFactory.orgStructurePopup(datascource);
 
-    }]);
+            //customBuilderFactory.orgStructurePopup(datascource);
+
+        }]);
 
 })(angular.module('newApp'));

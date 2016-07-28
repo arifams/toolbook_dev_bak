@@ -32,6 +32,7 @@
             'nodeChildren': 'children',
             'nodeCostCenter': 'costcenter', //added for node include inside a node
             'nodeManager': 'manager',
+            'nodeSupervisor': 'supervisor',
             'toggleSiblingsResp': false,
             'depth': 999,
             'chartClass': '',
@@ -494,27 +495,87 @@
     }
 
     // create node
+    var $track_childs = [];
+    var dynamic_css = "";
+
+    function rgb2hex(rgb){
+        rgb = rgb.match(/^rgba?[\s+]?\([\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?,[\s+]?(\d+)[\s+]?/i);
+        return (rgb && rgb.length === 4) ? "#" +
+         ("0" + parseInt(rgb[1],10).toString(16)).slice(-2) +
+         ("0" + parseInt(rgb[2],10).toString(16)).slice(-2) +
+         ("0" + parseInt(rgb[3],10).toString(16)).slice(-2) : '';
+    }
+
+    function getRandom(maximum, minimum) { // Random numbers for colours        
+        return Math.floor(Math.random() * (maximum - minimum + 1)) + minimum;
+    }
+
     function createNode(nodeData, level, opts) {
         var dtd = $.Deferred();
         // construct the content of node
-        //console.debug("---");
-        //console.debug(opts);
-
+       
         var customTag = '';
 
+        $track_childs.push(nodeData[opts.nodeId]);
+
+        if (opts.nodeContent !== 'undefined') {
+
+            if (typeof nodeData[opts.nodeSupervisor] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeSupervisor].length; i++) {
+           
+                    $track_childs.push(nodeData[opts.nodeSupervisor][i].id);
+                }
+            }
+
+        }
+
+        var sorted_arr = $track_childs.slice().sort();
+        var cresults = [];
+        for (var i = 0; i < $track_childs.length - 1; i++) {
+            if (sorted_arr[i + 1] == sorted_arr[i]) {
+                cresults.push(sorted_arr[i]);
+            }
+        }
+       
+        var sameChildCss = "<style>";
+
+        $.each(cresults, function (key, value) {
+            var colour_red = getRandom(252, 1);
+            var colour_green = getRandom(252, 1);
+            var colour_blue = getRandom(252, 1);
+            var temp_val = "rgba(" + colour_red + ", " + colour_green + ", " + colour_blue + ",0.5)";
+            var dynamic_color = rgb2hex(temp_val);
+            console.log('it');
+            console.log(key);
+            console.log(value);
+            console.log(dynamic_color);
+            sameChildCss += " .child_" + value + " {box-shadow: inset 0 0 10px " + dynamic_color + ";height:30px;padding:5px;text-align:center}";
+        });
+        sameChildCss += "</style>";
+
+        $("#dynamic_css").html(sameChildCss);
+
+        
         if (opts.nodeContent !== 'undefined') {
 
             if (typeof nodeData[opts.nodeCostCenter] !== 'undefined' && nodeData[opts.nodeCostCenter] !== null) {
 
                 for (var i = 0; i < nodeData[opts.nodeCostCenter].length; i++) {
 
-                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeCostCenter][i].type + '\',' + nodeData[opts.nodeCostCenter][i].id + ')" style="color:#fff;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
+                    customTag = customTag + '<div class="costCenter">' + nodeData[opts.nodeCostCenter][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeCostCenter][i].type + '\',\'' + nodeData[opts.nodeCostCenter][i].id + '\')" style="color:#006699;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
             else if (typeof nodeData[opts.nodeManager] !== 'undefined' && nodeData[opts.nodeManager] !== null) {
 
                 for (var i = 0; i < nodeData[opts.nodeManager].length; i++) {
-                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeManager][i].type + '\',' + nodeData[opts.nodeManager][i].id + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
+                    customTag = customTag + '<div class="manager">' + nodeData[opts.nodeManager][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeManager][i].type + '\',\'' + nodeData[opts.nodeManager][i].id + '\')" style="color:#006699;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
+                }
+            }
+            else if (typeof nodeData[opts.nodeSupervisor] !== 'undefined') {
+
+                for (var i = 0; i < nodeData[opts.nodeSupervisor].length; i++) {
+                    customTag = customTag + '<div class="supervisor child_' + nodeData[opts.nodeId] + '">' + nodeData[opts.nodeSupervisor][i].title + '<a href="javascript:;" ng-click="editNode(\'' + nodeData[opts.nodeSupervisor][i].type + '\',\'' + nodeData[opts.nodeSupervisor][i].id + '\')" style="color:#006699;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>' + '</div>';
                 }
             }
             
@@ -523,7 +584,7 @@
         var $nodeDiv = $('<div' + (opts.draggable ? ' draggable="true"' : '') + '>')
           .addClass('node ' + (nodeData.className || '') + (level >= opts.depth ? ' slide-up' : ''))
           .append('<div class="title">' + nodeData[opts.nodeTitle] + '</div>')
-          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',' + nodeData[opts.nodeId] + ')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a>') || '') + customTag : '' + '</div>');
+          .append(typeof opts.nodeContent !== 'undefined' ? '<div class="content"><div class="inside_content child_' + nodeData[opts.nodeId] + '">' + ((nodeData[opts.nodeContent] + '<a href="javascript:;" ng-click="editNode(\'' + nodeData.type + '\',\'' + nodeData[opts.nodeId] + '\')" style="color:darkblue;font-weight:bold;margin-left:5px;" class="fa ' + opts.parentNodeSymbol + ' symbol"></a></div>') || '</div>') + customTag : '' + '</div>');
         // append 4 direction arrows
         var flags = nodeData.relationship || '';
         if (Number(flags.substr(0, 1))) {

@@ -13,10 +13,10 @@
 
     app.factory('costCentrMngtFactory', function ($http, $routeParams, $window) {
         return {
-            loadCostcenterInfo: function () {
+            loadCostcenterInfo: function (costCenterId) {
                 return $http.get(serverBaseUrl + '/api/Company/GetCostCentersById', {
                     params: {
-                        id: 0,//$routeParams.id,
+                        id: costCenterId,//$routeParams.id,
                         userId: $window.localStorage.getItem('userGuid')
                     }
                 });
@@ -25,8 +25,8 @@
     })
 
     app.controller('saveCostCenterCtrl',
-       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window','$rootScope',
-           function (costCentrMngtFactory, costCenterSaveFactory, $location, $window, $rootScope) {
+       ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window', '$rootScope', '$scope',
+           function (costCentrMngtFactory, costCenterSaveFactory, $location, $window, $rootScope, $scope) {
                var vm = this;
                
                vm.saveCostCenter = function () {
@@ -85,8 +85,8 @@
 
                };
 
-               var loadCostcenter = function () {
-                   costCentrMngtFactory.loadCostcenterInfo()
+               var loadCostcenter = function (costCenterId) {
+                   costCentrMngtFactory.loadCostcenterInfo(costCenterId)
                    .success(function (data) {
                        
                        vm.model = data;
@@ -114,7 +114,7 @@
                    })
                }
 
-               loadCostcenter();
+               loadCostcenter($scope.costCenterId);
 
 
 

@@ -653,10 +653,9 @@ namespace PI.Business
                 var businessOwner = comapnyUserList.Where(c => commonLogics.GetUserRoleById(c.Id) == "BusinessOwner").SingleOrDefault();
 
                 node.Id = businessOwner.Id;
-                node.Type = "user";
+                node.Type = "businessowner";
                 node.Name = "BusinessOwner"; //commonLogics.GetUserRoleById(user.Id);
                 node.Title = businessOwner.FirstName + " " + businessOwner.LastName;
-                node.Children = new List<NodeDto>();
 
                 // Assigned Managers
                 var managerList = comapnyUserList.Where(c => commonLogics.GetUserRoleById(c.Id) == "Manager").ToList();
@@ -668,12 +667,10 @@ namespace PI.Business
                         node.Children.Add(new NodeDto
                         {
                             Id = manager.Id,
-                            Type = "user",
+                            Type = "manager",
                             Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
                             Title = manager.FirstName + " " + manager.LastName,
-                            IsActive = manager.IsActive,
-                            Manager = new List<NodeDto>(),
-                            Children = new List<NodeDto>()
+                            IsActive = manager.IsActive
                         });
                     }
                     else
@@ -682,7 +679,7 @@ namespace PI.Business
                         node.Children[0].Manager.Add(new NodeDto
                         {
                             Id = manager.Id,
-                            Type = "user",
+                            Type = "manager",
                             Name = "Manager - " + (manager.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                             Title = manager.FirstName + " " + manager.LastName
                         });
@@ -695,7 +692,7 @@ namespace PI.Business
                                                                          d.User.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
 
                 // unassigned + operator assigned division
-                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
+                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER")
                                                     .Except(supervisorDivisions.Select(v => v.Divisions)).ToList();
 
 
@@ -719,11 +716,9 @@ namespace PI.Business
                             nodeSupervisor = new NodeDto
                             {
                                 Id = supervisor.Id,
-                                Type = "user",
+                                Type = "supervisor",
                                 Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
-                                Title = supervisor.FirstName + " " + supervisor.LastName,
-                                Supervisor = new List<NodeDto>(),
-                                Children = new List<NodeDto>()
+                                Title = supervisor.FirstName + " " + supervisor.LastName
                             };
                         }
                         else
@@ -733,7 +728,7 @@ namespace PI.Business
                                 new NodeDto
                                 {
                                     Id = supervisor.Id,
-                                    Type = "user",
+                                    Type = "supervisor",
                                     Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                                     Title = supervisor.FirstName + " " + supervisor.LastName,
                                 }
@@ -748,7 +743,6 @@ namespace PI.Business
                         Type = "division",
                         Name = "Division - " + (supervisorDivision.IsActive ? "Active" : "Inactive"),
                         Title = supervisorDivision.Name,
-                        Children = new List<NodeDto>(),
                         Costcenter = GetCostCentersAsNodes(context, supervisorDivision.Id)
                     };
 
@@ -760,9 +754,9 @@ namespace PI.Business
                         supDivision.Children.Add(new NodeDto
                         {
                             Id = o.Id.ToString(),
-                            Type = "user",
+                            Type = "operator",
                             Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
-                            Title = o.FirstName + " " + o.LastName,
+                            Title = o.FirstName + " " + o.LastName
                         }));
 
                     //attach divisions
@@ -796,7 +790,7 @@ namespace PI.Business
                         divisionOperators.Add(new NodeDto
                         {
                             Id = o.Id.ToString(),
-                            Type = "user",
+                            Type = "operator",
                             Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
                             Title = o.FirstName + " " + o.LastName,
                         }));
