@@ -58,7 +58,7 @@
 
                 datascource = responce.data;
                 customBuilderFactory.orgStructurePopup(datascource);
-
+                //console.log(datascource);
                 // Compile
                 var e1 = angular.element(document.getElementById('chart-container'));
                 // Compile controller 2 html
@@ -81,8 +81,9 @@
             };
 
 
-            $scope.loadUserManagment = function (userId) {
+            $scope.loadUserManagment = function (userId,userType) {
                 $scope.userId = userId;
+                $scope.userType = userType;
 
                 ngDialog.open({
                     scope: $scope,
