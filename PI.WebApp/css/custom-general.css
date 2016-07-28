@@ -944,7 +944,7 @@
   display: none;
   position: absolute;
   top: 0;
-  right: -70px;
+  right: -150px;
   border-radius: 35px;
   /*box-shadow: 0 0 10px 1px #999;*/
   background-color: none;
@@ -980,4 +980,13 @@
 }
 div.inside_content {
     word-wrap: break-word;
+}
+.orgPopList {
+    margin-left:75px;
+    list-style:none;
+    border:1px solid #ddd;
+    border-radius:4px;
+}
+.second-menu.dropdown-toggle {
+    width:214px;
 }
