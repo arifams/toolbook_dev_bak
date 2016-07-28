@@ -13,6 +13,8 @@ using PI.Contract.DTOs.Customer;
 using PI.Service.Models;
 using PI.Contract.DTOs.Common;
 using PI.Contract.Business;
+using PI.Data.Entity;
+using PI.Contract.DTOs.Node;
 
 namespace PI.Service.Controllers
 {
@@ -229,10 +231,21 @@ namespace PI.Service.Controllers
             else
             {
                 return null;
-            }        
-                   
-            
+            }      
+           
         }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetOrganizationStructure")]
+        public NodeDto GetOrganizationStructure(string userId)
+        {
+            var node = companyManagement.GetOrganizationStructure(userId);
+            return node;
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]

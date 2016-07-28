@@ -2,16 +2,75 @@
 
 (function (app) {
 
-    app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller',
-        function ($scope, $compile, ngDialog, customBuilderFactory, $controller) {
+    app.factory('loadOrganizationStructureFactory', function ($http, $window) {
+        return {
+            loadOrganizationStructure: function () {
+                return $http.get(serverBaseUrl + '/api/Company/GetOrganizationStructure', {
+                    params: {
+                        userId: $window.localStorage.getItem('userGuid')
+                    }
+                });
+            }
+        }
+
+    });
+
+    app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller','loadOrganizationStructureFactory',
+        function ($scope, $compile, ngDialog, customBuilderFactory, $controller, loadOrganizationStructureFactory) {
       
+            //var datascource = {
+            //    'id': '1',
+            //    'name': 'Business Owner',
+            //    'title': 'Business owner name',
+            //    'type': 'user1',
+            //    'children': [
+            //      {
+            //          'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'type': 'user1', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name', 'type': 'user1' }],
+            //          'children': [
+            //          {
+            //              'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user',
+            //              'children': [
+            //                  {
+            //                      'id': '5', 'name': 'Division', 'title': 'division name', 'type': 'division1', 'costcenter': [{ 'id': '9', 'name': 'CostCenter', 'title': 'costcenter name A', 'type': 'costcenter1' }, { 'id': '10', 'name': 'Division B', 'title': 'costcenter name B', 'type': 'costcenter1' }],
+            //                      'children': [
+            //                          { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name', 'type': 'user' },
+            //                          { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
+            //                      ]
+            //                  }
+            //              ]
+            //          },
+            //          {
+            //              'id': '4', 'name': 'Division', 'title': 'division name', 'type': 'division', 'costcenter': [{ 'id': '11', 'name': 'CostCenter', 'title': 'costcenter name B', 'type': 'costcenter' }],
+            //              'children': [
+            //                    { 'id': '6', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
+            //              ]
+            //          }
+            //          ]
+            //      },
+
+            //    ]
+            //};
+
+            var datascource = {};
+
+            loadOrganizationStructureFactory.loadOrganizationStructure()
+            .then(function successCallback(responce) {
+                debugger;
+                datascource = responce.data;
+                customBuilderFactory.orgStructurePopup(datascource);
+
+            }, function errorCallback(response) {
+                //todo
+            });
+
             $scope.editNode = function (type, id) {
+                debugger;
                 if (type == 'user')
-                    loadUserManagment(id);
+                    $scope.loadUserManagment(id);
                 else if (type == 'division')
-                    loadDivisionManagment(id);
+                    $scope.loadDivisionManagment(id);
                 else if (type == 'costcenter')
-                    loadCostcenterManagement(id);
+                    $scope.loadCostcenterManagement(id);
 
             };
 
@@ -105,38 +164,7 @@
             //};
 
 
-        var datascource = {
-            'id': '1',
-            'name': 'Business Owner',
-            'title': 'Business owner name',
-            'type':'user1',
-            'children': [
-              {
-                  'id': '2', 'name': 'Manager- Active', 'title': 'manager active name', 'type': 'user1', 'manager': [{ 'id': '8', 'name': 'Manager', 'title': 'manager name', 'type': 'user1' }],
-                  'children': [
-                  {
-                      'id': '3', 'name': 'Supervisor- Active', 'title': 'supervisor active name', 'type': 'user',
-                      'children': [
-                          {
-                              'id': '5', 'name': 'Division', 'title': 'division name', 'type': 'division1', 'costcenter': [{ 'id': '9', 'name': 'CostCenter', 'title': 'costcenter name A', 'type': 'costcenter1' }, { 'id': '10', 'name': 'Division B', 'title': 'costcenter name B', 'type': 'costcenter1' }],
-                              'children': [
-                                  { 'id': '6', 'name': 'Operator- Active', 'title': 'operator active name','type': 'user' },
-                                  { 'id': '7', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
-                              ]
-                          }
-                      ]
-                  },
-                  {
-                      'id': '4', 'name': 'Division', 'title': 'division name', 'type': 'division', 'costcenter': [{ 'id': '11', 'name': 'CostCenter', 'title': 'costcenter name B', 'type': 'costcenter' }],
-                      'children': [
-                            { 'id': '6', 'name': 'Operator-Inactive', 'title': 'operator inactive name', 'type': 'user' }
-                      ]
-                  }
-                  ]
-              },
-
-            ]
-        };
+        
 
         customBuilderFactory.orgStructurePopup(datascource);
 

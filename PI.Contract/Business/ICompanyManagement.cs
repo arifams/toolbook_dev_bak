@@ -3,6 +3,7 @@ using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Node;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using System;
@@ -46,5 +47,6 @@ namespace PI.Contract.Business
         string GetBusinessOwneridbyCompanyId(string companyId);
         CompanyDto GetCompanyByUserID(string userID);
         bool UpdateCompanyLogo(string URL, string userId);
+        NodeDto GetOrganizationStructure(string userId);
     }
 }

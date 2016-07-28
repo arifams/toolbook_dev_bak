@@ -108,6 +108,7 @@
     <Compile Include="Entity\InvoiceDisputeHistory.cs" />
     <Compile Include="Entity\Language.cs" />
     <Compile Include="Entity\LongIdBaseEntity.cs" />
+    <Compile Include="Entity\Node.cs" />
     <Compile Include="Entity\NotificationCriteria.cs" />
     <Compile Include="Entity\RateEngine\CarrierService.cs" />
     <Compile Include="Entity\RateEngine\Rate.cs" />

@@ -7,6 +7,7 @@ using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Node;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using PI.Contract.Enums;
@@ -128,7 +129,7 @@ namespace PI.Business
             {
                 var costcenters = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id &&
                                                                  c.Type == "USER"
-                    // TODO: get the company id of the logged in user.
+                                                                  // TODO: get the company id of the logged in user.
                                                                   && c.IsDelete == false).ToList();
 
 
@@ -178,11 +179,11 @@ namespace PI.Business
 
             using (var context = new PIContext())
             {
-                costCenterId =   (from division in context.Divisions
-                                  where division.Id.ToString() == divisionId                                  
-                                  select division.DefaultCostCenterId).FirstOrDefault();               
+                costCenterId = (from division in context.Divisions
+                                where division.Id.ToString() == divisionId
+                                select division.DefaultCostCenterId).FirstOrDefault();
 
-            }           
+            }
             return costCenterId;
         }
 
@@ -410,7 +411,7 @@ namespace PI.Business
                     context.CostCenters.Add(newCostCenter);
                     context.SaveChanges();
 
-                    divcostList.ToList().ForEach(x=> x.CostCenterId = newCostCenter.Id);
+                    divcostList.ToList().ForEach(x => x.CostCenterId = newCostCenter.Id);
                     context.DivisionCostCenters.AddRange(divcostList);
                     context.SaveChanges();
 
@@ -615,8 +616,8 @@ namespace PI.Business
                 var divisions = from division in context.Divisions
                                 join divUser in context.UsersInDivisions on division.Id equals divUser.DivisionId
                                 where divUser.UserId == userid
-                                && divUser.IsDelete!=true
-                                && divUser.IsActive!=false
+                                && divUser.IsDelete != true
+                                && divUser.IsActive != false
                                 select division;
 
                 foreach (var item in divisions)
@@ -631,6 +632,334 @@ namespace PI.Business
 
             return divisionList;
         }
+
+
+        public NodeDto GetOrganizationStructure(string userId)
+        {
+            NodeDto node = new NodeDto();
+            NodeDto managerNode = new NodeDto();
+            NodeDto supervisorNode = new NodeDto();
+            List<NodeDto> divisionsWithOperatorList = new List<NodeDto>();
+
+            using (PIContext context = PIContext.Get())
+            {
+                string supervisorRoleId = context.Roles.Where(r => r.Name == "Supervisor").Select(r => r.Id).FirstOrDefault();
+                string operatorRoleId = context.Roles.Where(r => r.Name == "Operator").Select(r => r.Id).FirstOrDefault();
+
+                Company currentcompany = commonLogics.GetCompanyByUserId(userId);
+                var comapnyUserList = context.Users.Where(u => u.TenantId == currentcompany.TenantId && !u.IsDeleted).ToList();
+
+                // Assigned BO
+                var businessOwner = comapnyUserList.Where(c => commonLogics.GetUserRoleById(c.Id) == "BusinessOwner").SingleOrDefault();
+
+                node.Id = businessOwner.Id;
+                node.Type = "user";
+                node.Name = "BusinessOwner"; //commonLogics.GetUserRoleById(user.Id);
+                node.Title = businessOwner.FirstName + " " + businessOwner.LastName;
+                node.Children = new List<NodeDto>();
+
+                // Assigned Managers
+                var managerList = comapnyUserList.Where(c => commonLogics.GetUserRoleById(c.Id) == "Manager").ToList();
+
+                foreach (var manager in managerList)
+                {
+                    if (node.Children.Count == 0)
+                    {
+                        node.Children.Add(new NodeDto
+                        {
+                            Id = manager.Id,
+                            Type = "user",
+                            Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
+                            Title = manager.FirstName + " " + manager.LastName,
+                            IsActive = manager.IsActive,
+                            Manager = new List<NodeDto>(),
+                            Children = new List<NodeDto>()
+                        });
+                    }
+                    else
+                    {
+                        // Can have only one children as manager to Business Owner acording to the data structure.
+                        node.Children[0].Manager.Add(new NodeDto
+                        {
+                            Id = manager.Id,
+                            Type = "user",
+                            Name = "Manager - " + (manager.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                            Title = manager.FirstName + " " + manager.LastName
+                        });
+                    }
+                }
+
+
+                // find assigned division to supervisor and non assigned division.
+                var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
+                                                                         d.User.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
+
+                // unassigned + operator assigned division
+                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id)
+                                                    .Except(supervisorDivisions.Select(v => v.Divisions)).ToList();
+
+
+                // Assign supervisor
+                //supervisorDivisions.Select(x => x.User).ToList()
+                //    .ForEach(s => (node.Children.Count() > 0 ? node.Children[0].Children.Add(new NodeDto { Id = 1 }) :
+                //node.Children.Add(new NodeDto { Id = s.Id })));
+
+                NodeDto nodeSupervisor = null; /////////////////
+
+                foreach (var supervisorDivision in supervisorDivisions.Select(x => x.Divisions).Distinct())
+                {
+                    nodeSupervisor = null;
+                    // get super
+                    var supervisors = supervisorDivision.UserInDivisions.Where(u => commonLogics.GetUserRoleById(u.UserId) == "Supervisor").Select(u => u.User).ToList();
+
+                    foreach (var supervisor in supervisors)
+                    {
+                        if (nodeSupervisor == null)
+                        {
+                            nodeSupervisor = new NodeDto
+                            {
+                                Id = supervisor.Id,
+                                Type = "user",
+                                Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                                Title = supervisor.FirstName + " " + supervisor.LastName,
+                                Supervisor = new List<NodeDto>(),
+                                Children = new List<NodeDto>()
+                            };
+                        }
+                        else
+                        {
+                            nodeSupervisor.Supervisor.Add
+                            (
+                                new NodeDto
+                                {
+                                    Id = supervisor.Id,
+                                    Type = "user",
+                                    Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                                    Title = supervisor.FirstName + " " + supervisor.LastName,
+                                }
+                            );
+                        }
+                    }
+
+                    //division for supervisors box
+                    var supDivision = new NodeDto
+                    {
+                        Id = supervisorDivision.Id.ToString(),
+                        Type = "division",
+                        Name = "Division - " + (supervisorDivision.IsActive ? "Active" : "Inactive"),
+                        Title = supervisorDivision.Name,
+                        Children = new List<NodeDto>(),
+                        Costcenter = GetCostCentersAsNodes(context, supervisorDivision.Id)
+                    };
+
+                    var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == supervisorDivision.Id &&
+                                                       x.User.Roles.Any(r => r.RoleId == operatorRoleId)).Select(x => x.User).ToList();
+
+                    //operators for parents's divisons
+                    operatorList.ForEach(o =>
+                        supDivision.Children.Add(new NodeDto
+                        {
+                            Id = o.Id.ToString(),
+                            Type = "user",
+                            Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
+                            Title = o.FirstName + " " + o.LastName,
+                        }));
+
+                    //attach divisions
+                    nodeSupervisor.Children.Add(supDivision);
+
+                    // attach supervisors
+                    if (node.Children.Count() > 0)
+                    {
+                        node.Children[0].Children.Add(nodeSupervisor);
+                    }
+                    else
+                    {
+                        node.Children.Add(nodeSupervisor); //If there is no manager attach directly to BO.
+                    }
+
+                }
+
+                // Add Unassigned divisions   
+                var nodeDivisionList = new List<NodeDto>();
+                List<NodeDto> divisionOperators = null;
+
+                foreach (var division in unassignedDivisions.Distinct())
+                {
+                    divisionOperators = new List<NodeDto>();
+
+                    var operatorList = context.UsersInDivisions.Where(x => x.DivisionId == division.Id &&
+                                   x.User.Roles.Any(r => r.RoleId == operatorRoleId)).Select(x => x.User).ToList();
+
+                    //operators for parents's divisons
+                    operatorList.ForEach(o =>
+                        divisionOperators.Add(new NodeDto
+                        {
+                            Id = o.Id.ToString(),
+                            Type = "user",
+                            Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
+                            Title = o.FirstName + " " + o.LastName,
+                        }));
+
+                    nodeDivisionList.Add(new NodeDto()
+                    {
+                        Id = division.Id.ToString(),
+                        Type = "division",
+                        Name = "Division - " + (division.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                        Title = division.Name,
+                        Children = divisionOperators,
+                        Costcenter = GetCostCentersAsNodes(context, division.Id)
+                    });
+                   
+                }
+
+                if (node.Children.Count() > 0)
+                {
+                    node.Children[0].Children.AddRange(nodeDivisionList);
+                }
+                else
+                {
+                    node.Children.AddRange(nodeDivisionList); //If there is no manager attach directly to BO.
+                }
+
+            }
+
+            return node;
+        }
+
+        private List<NodeDto> GetCostCentersAsNodes(PIContext context,long divisionId)
+        {
+            List<NodeDto> costcenterList  = new List<NodeDto>();
+            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId).ToList();
+
+            // Add costcenters for the considered division.
+            Costcenters.ForEach(c => costcenterList.Add(new NodeDto
+            {
+                Id = c.CostCenterId.ToString(),
+                Type = "costcenter",
+                Name = "Costcenter",
+                Title = c.CostCenters.Name,
+                IsActive = c.CostCenters.IsActive
+            }));
+
+            return costcenterList;
+        }
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //foreach (var user in comapnyUserList)
+        //{
+        //    if (commonLogics.GetUserRoleById(user.Id) == "BusinessOwner")
+        //    {
+        //        node.Id = user.Id;
+        //        node.Type = "User";
+        //        node.Name = "BO"; //commonLogics.GetUserRoleById(user.Id);
+        //        node.Title = user.FirstName + " " + user.LastName;
+        //        node.IsActive = user.IsActive;
+        //        node.Children = new List<Node>();
+
+        //    }
+
+        //    if (commonLogics.GetUserRoleById(user.Id) == "Manager")
+        //    {
+        //        node.Children = new List<Node>();
+
+        //        #region Get all managers
+        //        if (node.ManagerCount == 0)
+        //        {
+        //            managerNode = new Node
+        //            {
+        //                Id = user.Id,
+        //                Type = "User",
+        //                Name = "M",  //commonLogics.GetUserRoleById(user.Id);
+        //                Title = user.FirstName + " " + user.LastName,
+        //                IsActive = user.IsActive,
+        //                Manager = new List<Node>(),
+        //                Children = new List<Node>()
+        //            };
+        //            node.ManagerCount = 1;
+        //        }
+        //        else
+        //        {
+        //            managerNode.Manager.Add(new Node
+        //            {
+        //                Id = user.Id,
+        //                Type = "User",
+        //                Name = "Manager",  //commonLogics.GetUserRoleById(user.Id);
+        //                Title = user.FirstName + " " + user.LastName,
+        //                IsActive = user.IsActive,
+        //            });
+        //        }
+        //        #endregion
+        //    }
+
+        //    if (commonLogics.GetUserRoleById(user.Id) == "Supervisor")
+        //    {
+        //        supervisorNode = new Node
+        //        {
+        //            Id = user.Id,
+        //            Type = "User",
+        //            Name = "S",  //commonLogics.GetUserRoleById(user.Id);
+        //            Title = user.FirstName + " " + user.LastName,
+        //            IsActive = user.IsActive,
+        //            Children = new List<Node>() // divisions
+        //        };
+        //        //divisions
+
+        //        // Find divisions under the supervisor
+        //        var divisionUserList = context.UsersInDivisions.Where(u => userId == user.Id).ToList();
+
+        //        foreach (var divisionUser in divisionUserList)
+        //        {
+        //            Node division = new Node
+        //            {
+        //                Id = divisionUser.DivisionId.ToString(),
+        //                Type = "Division",
+        //                Name = "Division",
+        //                Title = divisionUser.Divisions.Name,
+        //                IsActive = user.IsActive,
+        //            };
+
+        //            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionUser.DivisionId).ToList();
+
+        //            // Add costcenters for the considered division.
+        //            Costcenters.ForEach(c => division.Costcenter.Add(new Node
+        //            {
+        //                Id = c.CostCenterId.ToString(),
+        //                Type = "Costcenter",
+        //                Name = "Costcenter",
+        //                Title = c.CostCenters.Name,
+        //                IsActive = user.IsActive
+        //            }));
+
+
+        //            var userList = context.UsersInDivisions.Where(div => div.DivisionId == divisionUser.DivisionId).ToList();
+
+        //            // Add Operators for the division considered
+        //            userList.Where(ul => commonLogics.GetUserRoleById(ul.UserId) == "Operator").ToList()
+        //                .ForEach(ud => division.Children.Add(
+        //                    new Node
+        //                    {
+        //                        Id = user.Id,
+        //                        Type = "User",
+        //                        Name = "Operator",  //commonLogics.GetUserRoleById(user.Id);
+        //                        Title = user.FirstName + " " + user.LastName,
+        //                        IsActive = user.IsActive
+        //                    }
+        //            ));
+
+        //            divisionsWithOperatorList.Add(division);
+        //        }
+
+        //        supervisorNode.Children.AddRange(divisionsWithOperatorList);
+        //        managerNode.Children.Add(supervisorNode);
+        //    }
+
+
+        //    // Add managers
+        //    node.Children.Add(managerNode);
+        //}
 
 
         /// <summary>
@@ -695,7 +1024,7 @@ namespace PI.Business
                         Status = item.Status,
                         StatusString = item.IsActive ? "Active" : "InActive",
                         Type = item.Type,
-                        NumberOfUsers = item.UserInDivisions.Where(x => x.DivisionId==item.Id && x.IsActive).ToList().Count() + 1, //Add the business owner since he is not in the UserInDivisions table.
+                        NumberOfUsers = item.UserInDivisions.Where(x => x.DivisionId == item.Id && x.IsActive).ToList().Count() + 1, //Add the business owner since he is not in the UserInDivisions table.
                         AssosiatedCostCentersForGrid = assosiatedCostCentersForGrid
                     });
                 }
@@ -759,10 +1088,10 @@ namespace PI.Business
 
                 division.DivisionCostCenters.ToList()
                                               .ForEach(c => costCenterList.Add(new CostCenterDto
-                                                                {
-                                                                    Id = c.CostCenterId,
-                                                                    Name = c.CostCenters.Name
-                                                                }));
+                                              {
+                                                  Id = c.CostCenterId,
+                                                  Name = c.CostCenters.Name
+                                              }));
 
                 if (division != null)
                 {
@@ -897,7 +1226,7 @@ namespace PI.Business
             }
 
         }
-    
+
 
         #endregion
 
@@ -926,7 +1255,7 @@ namespace PI.Business
 
                 if (user != null)
                 {
-                    userName = user.FirstName+" "+ user.LastName;
+                    userName = user.FirstName + " " + user.LastName;
                 }
             }
 
@@ -960,7 +1289,7 @@ namespace PI.Business
                     CreatedBy = "1",
                     CreatedDate = DateTime.Now
                 });
-                
+
             }
         }
 
@@ -1238,7 +1567,7 @@ namespace PI.Business
                     context.AuditTrail.Add(new AuditTrail
                     {
                         ReferenceId = appUser.Id,
-                        AppFunctionality = string.IsNullOrEmpty(userDto.Id)? AppFunctionality.AddUser : AppFunctionality.EditUser,
+                        AppFunctionality = string.IsNullOrEmpty(userDto.Id) ? AppFunctionality.AddUser : AppFunctionality.EditUser,
                         Result = "SUCCESS",
                         CreatedBy = "1",
                         CreatedDate = DateTime.Now
@@ -1456,7 +1785,7 @@ namespace PI.Business
                 var content = (from customer in context.Customers
                                join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
                                where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
-                               customer.IsDelete == false &&                               
+                               customer.IsDelete == false &&
                                (string.IsNullOrEmpty(searchtext) || customer.FirstName.Contains(searchtext) || customer.LastName.Contains(searchtext)
                                  || comapny.Name.Contains(searchtext))
                                select new
@@ -1499,7 +1828,7 @@ namespace PI.Business
             {
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
                 bool isActivate = !comapny.IsActive;
-             
+
                 // Inactivate/activate company
                 if (comapny != null)
                 {
@@ -1545,12 +1874,12 @@ namespace PI.Business
             var currentCompany = commonLogics.GetCompanyByUserId(userID);
             return new CompanyDto()
             {
-                Id= currentCompany.Id,
-                CompanyCode=currentCompany.CompanyCode,
-                Name=currentCompany.Name,
-                COCNumber=currentCompany.COCNumber,
-                VATNumber=currentCompany.VATNumber,
-                LogoUrl= currentCompany.LogoUrl
+                Id = currentCompany.Id,
+                CompanyCode = currentCompany.CompanyCode,
+                Name = currentCompany.Name,
+                COCNumber = currentCompany.COCNumber,
+                VATNumber = currentCompany.VATNumber,
+                LogoUrl = currentCompany.LogoUrl
             };
 
         }
@@ -1558,28 +1887,28 @@ namespace PI.Business
         public string GetBusinessOwneridbyCompanyId(string companyId)
         {
             string userId = string.Empty;
-            using (PIContext context= new PIContext())
+            using (PIContext context = new PIContext())
             {
                 var tenantId = context.Companies.Where(x => x.Id.ToString() == companyId).SingleOrDefault().TenantId;
-                string BusinessOwnerId= context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                 userId = (from user in context.Users
-                            where user.TenantId == tenantId
-                            && user.Roles.FirstOrDefault().RoleId == BusinessOwnerId
-                          select user.Id).SingleOrDefault();                
+                          where user.TenantId == tenantId
+                          && user.Roles.FirstOrDefault().RoleId == BusinessOwnerId
+                          select user.Id).SingleOrDefault();
             }
-            
+
             return userId;
         }
 
 
-       public bool UpdateCompanyLogo(string URL,string userId)
+        public bool UpdateCompanyLogo(string URL, string userId)
         {
-            using (PIContext context= new PIContext())
-            {                
+            using (PIContext context = new PIContext())
+            {
                 var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
-                var currentCompany= context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
-                currentCompany.LogoUrl = URL;               
+                var currentCompany = context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
+                currentCompany.LogoUrl = URL;
                 context.SaveChanges();
             }
 
