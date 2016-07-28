@@ -53,21 +53,23 @@
 
             var datascource = {};
 
-            loadOrganizationStructureFactory.loadOrganizationStructure()
-            .then(function successCallback(responce) {
+            $scope.loadOrganizationStructure = function () {
+                loadOrganizationStructureFactory.loadOrganizationStructure()
+                .then(function successCallback(responce) {
 
-                datascource = responce.data;
-                customBuilderFactory.orgStructurePopup(datascource);
-                //console.log(datascource);
-                // Compile
-                var e1 = angular.element(document.getElementById('chart-container'));
-                // Compile controller 2 html
-                var mController = angular.element(document.getElementById("chart-container"));
-                mController.scope().activateView(e1);
+                    datascource = responce.data;
+                    customBuilderFactory.orgStructurePopup(datascource);
+                    //console.log(datascource);
+                    // Compile
+                    var e1 = angular.element(document.getElementById('chart-container'));
+                    // Compile controller 2 html
+                    var mController = angular.element(document.getElementById("chart-container"));
+                    mController.scope().activateView(e1);
 
-            }, function errorCallback(response) {
-                //todo
-            });
+                }, function errorCallback(response) {
+                    //todo
+                });
+            }
 
             $scope.editNode = function (type, id) {
 
@@ -181,9 +183,7 @@
             //};
 
 
-
-
-            //customBuilderFactory.orgStructurePopup(datascource);
+            $scope.loadOrganizationStructure();
 
         }]);
 
