@@ -1208,13 +1208,17 @@ namespace PI.Business
                     context.Divisions.Add(newDivision);
                     context.SaveChanges();
 
-                    context.UsersInDivisions.Add(new UserInDivision {
-                        UserId = division.AssignedSupervisor,
-                        DivisionId = newDivision.Id,
-                        IsActive = true,
-                        CreatedBy = "1",
-                        CreatedDate = DateTime.Now
-                    });
+                    if (!string.IsNullOrEmpty(division.AssignedSupervisorId))
+                    {
+                        context.UsersInDivisions.Add(new UserInDivision
+                        {
+                            UserId = division.AssignedSupervisorId,
+                            DivisionId = newDivision.Id,
+                            IsActive = true,
+                            CreatedBy = "1",
+                            CreatedDate = DateTime.Now
+                        });
+                    }
 
                 }
                 else
