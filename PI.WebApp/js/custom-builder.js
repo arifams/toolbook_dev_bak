@@ -93,7 +93,7 @@
                     }
                     else if (data.type == "supervisor") {
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'
-                        + '<li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Supervisor\',\'' + data.id + '\')">Division</a></li></ul></div></div>';
+                        + '<li><a href="javascript:;" ng-click="loadUserManagment(0,\'Operator\',\'Supervisor\',\'' + data.id + '\')">Operator</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Supervisor\',\'' + data.id + '\')">Division</a></li></ul></div></div>';
                     }
                     else if (data.type == "division") {
                         secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu">'

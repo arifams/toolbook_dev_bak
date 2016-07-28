@@ -85,6 +85,8 @@
                 debugger;
                 $scope.userId = userId;
                 $scope.userType = userType;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
 
                 ngDialog.open({
                     scope: $scope,
@@ -103,6 +105,8 @@
             $scope.loadDivisionManagment = function (id, parentType, parentId) {
                 debugger;
                 $scope.divisionId = id;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
 
                 ngDialog.open({
                     scope: $scope,
@@ -116,6 +120,9 @@
             $scope.loadCostcenterManagement = function (id, parentType, parentId) {
                 debugger;
                 $scope.costCenterId = id;
+                $scope.parentType = parentType;
+                $scope.parentId = parentId;
+
                 ngDialog.open({
                     scope: $scope,
                     template: '/app/costcenter/saveCostCenter.html',
