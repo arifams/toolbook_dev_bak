@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PI.Business;
+using PI.Contract.DTOs.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,30 @@ namespace PI.Business.Tests
     [TestClass()]
     public class ProfileManagementTests
     {
+
+        ProfileManagement profile = null;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            profile = new ProfileManagement();
+
+        }
+
         [TestMethod()]
         public void getProfileByUserNameTest()
         {
-            
+            string username = "";
+            ProfileDto response = profile.getProfileByUserName(username);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
         public void getProfileByUserNameForShipmentTest()
         {
-            
+            string username = "";
+            ProfileDto response = profile.getProfileByUserNameForShipment(username);
+            Assert.AreNotEqual(response, null);
         }
 
         [TestMethod()]
