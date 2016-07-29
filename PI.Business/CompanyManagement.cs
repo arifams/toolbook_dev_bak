@@ -322,7 +322,7 @@ namespace PI.Business
                         Type = costCenter.Type,
                         PhoneNumber = costCenter.PhoneNumber,
                         Description = costCenter.Description,
-                        Status = costCenter.Status,
+                        Status = costCenter.IsActive ? 1 : 2,
                         CompanyId = costCenter.CompanyId,
                         BillingAddress = new Contract.DTOs.Address.AddressDto
                         {
@@ -1149,7 +1149,7 @@ namespace PI.Business
                         Name = division.Name,
                         Type = division.Type,
                         Description = division.Description,
-                        Status = division.Status,
+                        Status = division.IsActive ? 1 : 2,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         CompanyId = division.CompanyId,
                         AssosiatedCostCenters = costCenterList
