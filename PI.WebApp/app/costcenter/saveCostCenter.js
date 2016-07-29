@@ -28,7 +28,7 @@
        ['costCentrMngtFactory', 'costCenterSaveFactory', '$location', '$window', '$rootScope', '$scope',
            function (costCentrMngtFactory, costCenterSaveFactory, $location, $window, $rootScope, $scope) {
                var vm = this;
-               
+
                vm.saveCostCenter = function () {
                    vm.model.userId = $window.localStorage.getItem('userGuid')
                    var body = $("html, body");
@@ -97,6 +97,19 @@
                                        country: 'US'
                                    };
                            vm.isRequiredState = true;
+
+                           if ($scope.parentType == "Division") {
+
+                               angular.forEach(vm.model.allDivisions, function (division) {
+
+                                   if (division.id == $scope.parentId) {
+
+                                       division.isAssigned = true;
+                                       vm.model.assignedDivisionIdList.push(division.id);
+                                   }
+                               });
+                           }
+
                        }
                        else {
                            vm.changeCountry();

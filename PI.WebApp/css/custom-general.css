@@ -849,7 +849,7 @@
   width: calc(100% - 24px);
   /* border: 2px dashed #aaa; */
   border-radius: 5px;
-  /*overflow: auto;*/
+  overflow: auto;
   text-align: center;
 }
 .costCenter {
