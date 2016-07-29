@@ -1,5 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PI.Business;
+using PI.Contract.DTOs.Address;
+using PI.Contract.DTOs.Company;
+using PI.Contract.DTOs.CostCenter;
+using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Profile;
 using System;
 using System.Collections.Generic;
@@ -41,25 +45,92 @@ namespace PI.Business.Tests
         [TestMethod()]
         public void updateProfileDataTest()
         {
-            
+            ProfileDto updatedProfile = new ProfileDto()
+            {
+                CustomerDetails = new CustomerDto()
+                {
+                    UserId="",
+                    Salutation="",
+                    FirstName="",
+                    MiddleName="",
+                    LastName="",
+                    Email=""
+                }
+            };
+            int response = profile.updateProfileData(updatedProfile);
+            Assert.AreEqual(response, 1);
         }
 
         [TestMethod()]
         public void UpdateProfileGeneralTest()
         {
-            
+            ProfileDto updatedProfile = new ProfileDto()
+            {
+                CustomerDetails = new CustomerDto()
+                {
+                    UserId = "",
+                    UserName= "UserName",
+                    Salutation = "Mr",
+                    FirstName = "FirstName",
+                    MiddleName = "MiddleName",
+                    LastName = "LastName",
+                    Email = "Email@E.com",
+                    JobCapacity= "JobCapacity",
+                    IsCorporateAccount=true
+                }
+            };
+            int response = profile.UpdateProfileGeneral(updatedProfile);
+            Assert.AreEqual(response, 1);
+
         }
 
         [TestMethod()]
         public void UpdateProfileAddressTest()
         {
-            
+            ProfileDto updatedProfile = new ProfileDto()
+            {
+                CustomerDetails = new CustomerDto()
+                {
+                    UserId = "",
+                    UserName = "UserName",
+                    Salutation = "Mr",
+                    FirstName = "FirstName",
+                    MiddleName = "MiddleName",
+                    LastName = "LastName",
+                    Email = "Email@E.com",
+                    JobCapacity = "JobCapacity",
+                    IsCorporateAccount = true
+                }
+            };
+            int response = profile.UpdateProfileAddress(updatedProfile);
         }
 
         [TestMethod()]
         public void UpdateProfileBillingAddressTest()
         {
-            new NotImplementedException();
+            ProfileDto profileDto = new ProfileDto()
+            {
+                CompanyDetails=new CompanyDto
+                {
+                   CostCenter= new CostCenterDto
+                   {
+                    BillingAddress= new AddressDto
+                    {
+                        Number="123",
+                        StreetAddress1= "StreetAddress1",
+                        StreetAddress2= "StreetAddress2",
+                        City= "City",
+                        State= "State",
+                        ZipCode= "ZipCode",
+                        Country= "Country"
+                    }  
+                }
+                }
+            };
+
+            int response = profile.UpdateProfileBillingAddress(profileDto);
+            Assert.AreEqual(response, 1);
+           
         }
 
         [TestMethod()]

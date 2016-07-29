@@ -94,10 +94,19 @@
                                                         <div class="icheck-inline">
                                                             <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck translate> Active</label>
                                                             <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck translate> Inactive</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
+                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
+
+                                    <div class="col-sm-8">
+                                        <div ng-repeat="division in saveUserCtrl.user.divisions">
+                                            <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
+                                                   ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
+                                            <label for="{{division.name}}}">{{division.name}}</label>
                                         </div>
                                     </div>
                                 </div>
@@ -176,10 +185,10 @@
                                                     data-placement="top"
                                                     data-html="true"
                                                     data-content="User role will determine the user's permisssion level."></select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                             <div class="row m-0" ng-show="saveUserCtrl.isShowDivision">
                                 <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
                                     <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
