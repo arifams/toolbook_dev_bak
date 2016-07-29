@@ -948,7 +948,7 @@
   border-radius: 35px;
   /*box-shadow: 0 0 10px 1px #999;*/
   background-color: none;
-  /*z-index: 1;*/
+  z-index: 1;
 }
 .orgchart .node .second-menu .avatar {
   width: 60px;
@@ -990,5 +990,5 @@ div.inside_content {
 }
 .second-menu.dropdown-toggle {
     width:214px;
-    z-index:2;
+    z-index:1;
 }

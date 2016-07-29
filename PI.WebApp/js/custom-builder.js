@@ -74,6 +74,7 @@
             
             var secondMenu = '';
 
+
             $('#chart-container').orgchart({
                 'data': datascource,
                 'nodeContent': 'title',
@@ -104,11 +105,30 @@
                     var secondMenuIcon = $('<i>', {
                         'class': 'fa fa-plus-circle second-menu-icon',
                         click: function () {
-                            $(this).siblings('.second-menu').toggle();
+                         //$(this).addClass('fa-plus-circle').removeClass('fa-minus-circle');
+                            if ($(this).siblings('.second-menu').is(":visible")) {                         
+                                $(this).siblings('.second-menu').hide();
+                                $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
+                            }
+                            else {
+                                
+                               // alert($(this).attr('class'));
+                                $(".second-menu").each(function () {
+                                    $(this).hide();
+                                    
+                                });
 
+                                $(".fa-minus-circle").each(function () {
+                                    $(this).removeClass('fa-minus-circle').addClass('fa-plus-circle');
+                                });
+                                $(this).addClass('fa-minus-circle').removeClass('fa-plus-circle');
+                                $(this).siblings('.second-menu').show();
+                                
+                            }
+                            
                         }
                     });
-
+                    
                    // var secondMenu = '<div class="second-menu"><div dropdown="" class="btn-group"><button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button" aria-haspopup="true" data-toggle="dropdown"><span class="caret"></span></button><span class="dropdown-arrow"></span><ul role="menu" class="dropdown-menu"><li><a href="javascript:;" ng-click="loadUserManagment(0)">add user1</a></li><li><a href="javascript:;" ng-click="loadDivisionManagment(0)">add user2</a></li><li><a href="javascript:;" ng-click="loadCostcenterManagement(0)">add user3</a></li></ul></div></div>';
                     if (data.type != "operator")
                         $node.append(secondMenuIcon).append(secondMenu);
