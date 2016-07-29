@@ -42,8 +42,6 @@
         var vm = this;
         vm.user = {};
 
-        vm.isShowDivision = false;
-
         var loadUser = function () {
             
             userManagementFactory.getUser($scope.userId)
@@ -70,11 +68,10 @@
                                 division.isAssigned = true;
                                 vm.user.assignedDivisionIdList.push(division.id);
                             }
-                        })
+                        });
                     }
                 }
                 else {
-                    vm.isShowDivision = true;
 
                     // Exisiting user.
                     if (vm.user.isActive)
