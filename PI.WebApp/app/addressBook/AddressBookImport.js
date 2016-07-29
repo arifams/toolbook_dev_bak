@@ -13,6 +13,7 @@
         $scope.csv = {};
         $scope.csv.accept = '.csv';
         $scope.errorExcelFormat = false;
+        $scope.loading = false;
 
         $scope.validateExcelFormat = function (name) {
             debugger;
@@ -30,7 +31,7 @@
         }
 
         $scope.Import = function () {
-
+            $scope.loading = true;
             var importCollection = [];
             if ($scope.csv) {
                 var addressList = $scope.csv.result;
@@ -41,15 +42,17 @@
                 });
 
                 importAddressBookFactory.importAddressBook(importCollection).then(function successCallback(responce) {
+                    $scope.loading = false;
                     $scope.addressCtrl.closeWindow();
                     debugger;
                     $scope.addressCtrl.csvImportResults(responce);
                     
                 }, function errorCallback(response) {
+                    $scope.loading = false;
                     //todo
                 });;
             } else {
-
+                $scope.loading = false;
                 $scope.addressCtrl.showErrorCsv();
                 //  alert("No file uploaded");
                
@@ -61,7 +64,7 @@
      
         $scope.uploadFile = function (file) {
             debugger;
-
+            $scope.loading = true;
             file.upload = Upload.upload({
                 url: serverBaseUrl + '/api/Shipments/UploadAddressBook',
                 data: {
@@ -77,7 +80,7 @@
             file.upload.then(function (response) {
                 debugger;
                 if (response.statusText = 'OK') {
-
+                    $scope.loading = false;
                     $scope.addressCtrl.closeWindow();
                     $scope.addressCtrl.excelUploadSucces();
                    
@@ -90,6 +93,7 @@
             }, function (response) {
                 if (response.status > 0)
                     debugger;
+                $scope.loading = false;
                 $scope.addressCtrl.closeWindow();
                 $scope.addressCtrl.showError(response);
                    
