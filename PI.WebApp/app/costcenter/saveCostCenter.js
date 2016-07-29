@@ -30,8 +30,28 @@
                var vm = this;
 
                vm.saveCostCenter = function () {
-                   vm.model.userId = $window.localStorage.getItem('userGuid')
+
+                   vm.model.userId = $window.localStorage.getItem('userGuid');
                    var body = $("html, body");
+
+                   // Validate division has selected.
+                   if (vm.model.assignedDivisionIdList.length == 0) {
+
+                           body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                           $('#panel-notif').noty({
+                               text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Division need to select') + '!</p></div>',
+                               layout: 'bottom-right',
+                               theme: 'made',
+                               animation: {
+                                   open: 'animated bounceInLeft',
+                                   close: 'animated bounceOutLeft'
+                               },
+                               timeout: 3000,
+                           });
+
+                           return;
+                    }
 
                    costCenterSaveFactory.saveCostCenter(vm.model)
                    .success(function (result) {
