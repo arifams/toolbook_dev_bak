@@ -322,7 +322,7 @@ namespace PI.Business
                         Type = costCenter.Type,
                         PhoneNumber = costCenter.PhoneNumber,
                         Description = costCenter.Description,
-                        Status = costCenter.Status,
+                        Status = costCenter.IsActive ? 1 : 2,
                         CompanyId = costCenter.CompanyId,
                         BillingAddress = new Contract.DTOs.Address.AddressDto
                         {
@@ -691,13 +691,15 @@ namespace PI.Business
                 var supervisorDivisions = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
                                                                          d.User.Roles.Any(r => r.RoleId == supervisorRoleId)).ToList();
 
+                var allDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER").ToList();
+
                 var supervisorDivisionsToExclude = context.UsersInDivisions.Where(d => d.Divisions.CompanyId == currentcompany.Id &&
                                                                        d.User.Roles.Any(r => r.RoleId == supervisorRoleId))
                                                                        .Select(z=> z.Divisions).ToList();
 
                 // unassigned + operator assigned division
-                var unassignedDivisions = context.Divisions.Where(d => d.CompanyId == currentcompany.Id && d.Type == "USER")
-                                                                 .Except(supervisorDivisionsToExclude).ToList();
+                var unassignedDivisions = allDivisions.Except(supervisorDivisionsToExclude).ToList();
+
 
                 var unassignedUsers = context.Users.Where(u => u.TenantId == currentcompany.TenantId
                                                                && u.UserInDivisions.Count() == 0).ToList();
@@ -714,7 +716,7 @@ namespace PI.Business
                                                      {
                                                          Id = x.Id,
                                                          Type = "supervisor",
-                                                         Name = "supervisor - " + (x.IsActive ? "Active" : "Inactive"),
+                                                         Name = "Supervisor - " + (x.IsActive ? "Active" : "Inactive"),
                                                          Title = x.FirstName + " " + x.LastName
                                                      }));
                     if (node.Children.Count() > 0)
@@ -769,7 +771,7 @@ namespace PI.Business
                             {
                                 Id = supervisor.Id,
                                 Type = "supervisor",
-                                Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                                Name = "Supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                                 Title = supervisor.FirstName + " " + supervisor.LastName
                             };
                         }
@@ -781,7 +783,7 @@ namespace PI.Business
                                 {
                                     Id = supervisor.Id,
                                     Type = "Supervisor",
-                                    Name = "supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                                    Name = "Supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
                                     Title = supervisor.FirstName + " " + supervisor.LastName,
                                 }
                             );
@@ -876,7 +878,7 @@ namespace PI.Business
         private List<NodeDto> GetCostCentersAsNodes(PIContext context, long divisionId)
         {
             List<NodeDto> costcenterList = new List<NodeDto>();
-            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId).ToList();
+            var Costcenters = context.DivisionCostCenters.Where(x => x.DivisionId == divisionId && !x.IsDelete).ToList();
 
             // Add costcenters for the considered division.
             Costcenters.ForEach(c => costcenterList.Add(new NodeDto
@@ -1147,7 +1149,7 @@ namespace PI.Business
                         Name = division.Name,
                         Type = division.Type,
                         Description = division.Description,
-                        Status = division.Status,
+                        Status = division.IsActive ? 1 : 2,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         CompanyId = division.CompanyId,
                         AssosiatedCostCenters = costCenterList

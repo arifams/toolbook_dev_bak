@@ -42,8 +42,6 @@
         var vm = this;
         vm.user = {};
 
-        vm.isShowDivision = true;
-
         var loadUser = function () {
             
             userManagementFactory.getUser($scope.userId)
@@ -55,18 +53,26 @@
                 if (vm.user.id == 0 || vm.user.id == null) {
                     // New user.
                     //vm.user.assignedRoleName = vm.user.roles[0].roleName;
-                    //debugger;
+
                     vm.user.isActive = 'true';
                     vm.user.salutation = 'Mr';
 
                     vm.user.assignedRoleName = $scope.userType;
-                    debugger;
-                    if (vm.user.assignedRoleName == 'Manager')
-                        vm.isShowDivision = false;
-                    else
-                        vm.isShowDivision = true;
+
+                    if($scope.parentType == "Division"){
+
+                        angular.forEach(vm.user.divisions, function (division) {
+
+                            if (division.id == $scope.parentId) {
+
+                                division.isAssigned = true;
+                                vm.user.assignedDivisionIdList.push(division.id);
+                            }
+                        });
+                    }
                 }
                 else {
+
                     // Exisiting user.
                     if (vm.user.isActive)
                         vm.user.isActive = 'true';
