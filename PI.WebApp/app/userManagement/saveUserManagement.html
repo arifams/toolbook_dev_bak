@@ -80,11 +80,10 @@
                                     </div>
                                 </div>
                             </div>
-                           
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0">
                                     <div class="col-sm-4 p-0">
-                                        <label class="control-label p-0" translate>Status </label>
+                                        <label class="control-label" translate>Status </label>
                                     </div>
                                     <div class="col-sm-8 p-l-30">
                                         <div class="skin skin-minimal">
@@ -94,28 +93,22 @@
                                                         <div class="icheck-inline">
                                                             <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck translate> Active</label>
                                                             <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck translate> Inactive</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
-                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
-
-                                    <div class="col-sm-8">
-                                        <div ng-repeat="division in saveUserCtrl.user.divisions">
-                                            <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
-                                                   ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
-                                            <label for="{{division.name}}}">{{division.name}}</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
+                            
+                            
                         </div>
 
 
                         <div class="col-sm-6">
+                            
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0">
                                     <label class="col-sm-4 control-label" translate>Email Address *</label>
@@ -131,7 +124,6 @@
                                     </div>
                                 </div>
                             </div>
-                            
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.id == 0 || saveUserCtrl.user.id == null">
                                     <label class="col-sm-4 control-label" translate>Password *</label>
@@ -185,13 +177,13 @@
                                                     data-placement="top"
                                                     data-html="true"
                                                     data-content="User role will determine the user's permisssion level."></select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                            <div class="row m-0" ng-show="saveUserCtrl.isShowDivision">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
-                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
+                                    <label class="col-sm-4 control-label" translate>Assigned Division(s) </label>
 
                                     <div class="col-sm-8">
                                         <div ng-repeat="division in saveUserCtrl.user.divisions">
@@ -208,8 +200,8 @@
                 <div class="row m-0">
                     <div class="form-group m-0">
                         <!--<button ng-click="saveUserCtrl.close()" class="btn btn-primary btn-app pull-right">
-                <i class="fa fa-close"></i> <translate>Close</translate>
-            </button>-->
+                            <i class="fa fa-close"></i> <translate>Close</translate>
+                        </button>-->
                         <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
                                 class="btn btn-primary btn-app pull-right">
                             <i class="fa fa-save"></i> <translate>Save</translate>
