@@ -102,6 +102,8 @@
             debugger;
             if (vm.model.customerDetails.isCorporateAccount=='true') {
                 vm.toCorporate = true;
+                $window.localStorage.setItem('isCorporateAccount', true);
+
             }
             updateProfilefactory.updateProfileGeneral(vm.model)
                                        .success(function (responce) {
@@ -127,7 +129,12 @@
                                                         .success(function (responce) {
                                                             if (responce != null && responce == 1) {
                                                                 $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
-                                                                $scope.closePopup();
+                                                                
+                                                                if (vm.model.customerDetails.isCorporateAccount == 'true') {
+                                                                    $scope.closePopupAfterSetupWizard();
+                                                                } else {
+                                                                    $scope.closePopup();
+                                                                }
                                                                 //  vm.hideaddressDetails = false;
                                                             }
 
@@ -137,7 +144,11 @@
 
                      } else {
                          $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
-                         $scope.closePopup();
+                         if (vm.model.customerDetails.isCorporateAccount == 'true') {
+                             $scope.closePopupAfterSetupWizard();
+                         } else {
+                             $scope.closePopup();
+                         }
                          //vm.hideaddressDetails = false;
                      }
 

@@ -986,7 +986,9 @@ div.inside_content {
     list-style:none;
     border:1px solid #ddd;
     border-radius:4px;
+    background-color:#fff;
 }
 .second-menu.dropdown-toggle {
     width:214px;
+    z-index:2;
 }
