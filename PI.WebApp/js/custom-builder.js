@@ -96,7 +96,7 @@
                     else if (data.type == "supervisor") {
                         console.log('supervisor');
                         secondMenu = '<div dropdown="" class="second-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"><ul class="orgPopList">'
-                        + '<li><a href="javascript:;" ng-click="loadDivisionManagment(0)">Division</a></li></ul></div>';
+                        + '<li><a href="javascript:;" ng-click="loadDivisionManagment(0,\'Supervisor\',\'' + data.id + '\')">Division</a></li></ul></div>';
                     }
                     else if (data.type == "division") {
                         secondMenu = '<div dropdown="" class="second-menu dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"><ul class="orgPopList">'
