@@ -14,7 +14,7 @@ angular.module('angular-jwt',
 
  angular.module('angular-jwt.interceptor', [])
   .provider('jwtInterceptor', function() {
-
+      debugger;
     this.urlParam = null;
     this.authHeader = 'Authorization';
     this.authPrefix = 'Bearer ';
@@ -24,7 +24,7 @@ angular.module('angular-jwt',
 
     var config = this;
 
-    this.$get = ["$q", "$injector", "$rootScope", function ($q, $injector, $rootScope) {
+    this.$get = ["$q", "$injector", "$rootScope", "$window", function ($q, $injector, $rootScope, $window) {
       return {
         request: function (request) {
           if (request.skipAuthorization) {
@@ -61,9 +61,21 @@ angular.module('angular-jwt',
           });
         },
         responseError: function (response) {
+            debugger;
           // handle the case where the user is not authenticated
-          if (response.status === 401) {
-            $rootScope.$broadcast('unauthenticated', response);
+            if (response.status === 401) {
+                var currentRole = $window.localStorage.getItem('userRole');
+
+                debugger;
+                    //redirect to login and clear the local storage
+                    if (currentRole != 'Admin') {
+                        $window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+                    } else {
+                        $window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
+                    }
+                    $window.localStorage.setItem('lastLogin', null);
+
+               $rootScope.$broadcast('unauthenticated', response);
           }
           return $q.reject(response);
         }
