@@ -130,6 +130,14 @@
                         </ul>
                     </li>-->
 
+                    <li class="nav-parent">
+                        <a href="#"><span translate>SHIPMENT CONTROL CENTER</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/Dashboard')}"><a href="#Dashboard" translate>DASHBOARD</a></li>
+                            <li ng-class="{ active  : isActive('/')}"><a href="#ShipmentOverview" translate>SHIPMENT OVERVIEW</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#CustomerMangement"><span translate>CUSTOMER MANAGEMENT</span></a>
                     </li>

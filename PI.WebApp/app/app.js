@@ -343,6 +343,11 @@ var MakeApp = angular
               templateUrl: 'admin/SearchSpecificShipments.html',  
               controller: 'shipmentSearchCtrl',
           })
+          .when('/Dashboard', {
+              templateUrl: 'shipmentControlCenter/dashboard.html',
+              controller: 'dashboardCtrl',
+             
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {
