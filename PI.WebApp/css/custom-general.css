@@ -992,3 +992,13 @@ div.inside_content {
     width:214px;
     z-index:1;
 }
+/*custom widgets*/
+.widget-infobox .infobox {
+    border:2px solid #ddd;
+    border-radius:4px;
+}
+.badge {
+    font-weight:800;
+    border-radius:10px;
+    font-size:16px;
+}
