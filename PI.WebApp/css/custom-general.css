@@ -997,3 +997,8 @@ div.inside_content {
     border:2px solid #ddd;
     border-radius:4px;
 }
+.badge {
+    font-weight:800;
+    border-radius:10px;
+    font-size:16px;
+}

@@ -343,9 +343,9 @@ var MakeApp = angular
               templateUrl: 'admin/SearchSpecificShipments.html',  
               controller: 'shipmentSearchCtrl',
           })
-          .when('/Dashboard', {
-              templateUrl: 'shipmentControlCenter/dashboard.html',
-              controller: 'dashboardCtrl',
+          .when('/AdminDashboard', {
+              templateUrl: 'shipmentControlCenter/adminDashboard.html',
+              controller: 'adminDashboardCtrl',
              
           })
         .otherwise({

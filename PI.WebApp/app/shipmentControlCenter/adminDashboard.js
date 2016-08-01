@@ -2,7 +2,7 @@
 
 (function (app) {
 
-    app.controller('dashboardCtrl', ['$scope', function ($scope) {
+    app.controller('adminDashboardCtrl', ['$scope', function ($scope) {
               
 
            }]);
