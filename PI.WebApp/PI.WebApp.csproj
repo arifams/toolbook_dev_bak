@@ -104,6 +104,8 @@
     <Content Include="app\organizationstructure\organizationStructure.html" />
     <Content Include="app\organizationstructure\orgStructureCtrl.js" />
     <Content Include="app\reports\ShipmentReport.js" />
+    <Content Include="app\shipmentControlCenter\adminDashboard.html" />
+    <Content Include="app\shipmentControlCenter\adminDashboard.js" />
     <Content Include="app\shipment\airwayBill.html" />
     <Content Include="app\shipment\airwayBill.js" />
     <Content Include="app\shipment\cmr.html" />

@@ -343,6 +343,11 @@ var MakeApp = angular
               templateUrl: 'admin/SearchSpecificShipments.html',  
               controller: 'shipmentSearchCtrl',
           })
+          .when('/AdminDashboard', {
+              templateUrl: 'shipmentControlCenter/adminDashboard.html',
+              controller: 'adminDashboardCtrl',
+             
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {
@@ -352,7 +357,7 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-
+          debugger;
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
           

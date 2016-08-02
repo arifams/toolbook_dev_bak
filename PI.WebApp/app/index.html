@@ -130,6 +130,14 @@
                         </ul>
                     </li>-->
 
+                    <li class="nav-parent">
+                        <a href="#"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/AdminDashboard')}"><a href="#AdminDashboard" translate>DASHBOARD</a></li>
+                            <li ng-class="{ active  : isActive('/')}"><a href="#ShipmentOverview" translate>SHIPMENT OVERVIEW</a></li>
+                        </ul>
+                    </li>
+
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/CustomerMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#CustomerMangement"><span translate>CUSTOMER MANAGEMENT</span></a>
                     </li>
@@ -193,14 +201,14 @@
                     </li>
 
                     <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}" ng-show="currentRole == 'Admin'">
-                        <a href="#InvoiceandBillingAdmin"><i class="icon-screen-desktop"></i><span translate>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                        <a href="#InvoiceandBillingAdmin"><i class="icon-note"></i><span translate>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
                         <!--<ul class="children collapse" style="background-color:#0D4773;">
                                            <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
                         </ul>-->
                     </li>
 
                     <li ng-class="{ active  : isActive('/InvoiceandBilling')}" ng-show="currentRole != 'Admin'">
-                        <a href="#InvoiceandBilling"><i class="icon-screen-desktop"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                        <a href="#InvoiceandBilling"><i class="icon-note"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
                         <!--<ul class="children collapse" style="background-color:#0D4773;">
                                            <li ng-class="{ active  : isActive('/shipmentManagement')}"><a href="#shipmentManagement">SHIPMENT MANAGEMENT</a></li>
                         </ul>-->
@@ -1289,7 +1297,7 @@
     <script src="../global/plugins/google-maps/gmaps.js"></script>
     <!--<script src="../global/plugins/google-maps/markerclusterer.js"></script>-->
     <script src="../plugins/ngDialog-master/js/ngDialog.js"></script>
-    <!--<script src="../plugins/angular-jwt-master/dist/angular-jwt.js"></script>-->
+    <script src="../plugins/angular-jwt-master/dist/angular-jwt.js"></script>
     <!--<script src="../global/plugins/ng-file-upload/ng-file-upload-shim.min.js"></script>-->
     <!--<script src="../global/plugins/ng-file-upload/ng-file-upload.min.js"></script>-->
     <!--<script src="directive/fileUploader.js"></script>-->
@@ -1399,6 +1407,7 @@
     <script src="shipment/airwayBill.js"></script>
     <script src="addressBook/AddressBookImport.js"></script>
     <script src="shipment/cmr.js"></script>
+    <script src="shipmentControlCenter/adminDashboard.js"></script>
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

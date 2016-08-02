@@ -3,7 +3,7 @@
     <!-- Main content -->
     <form class="form-horizontal" name="loadAddressForm" novalidate>
 
-        <div class="panel-header"> 
+        <div class="panel-header" style="margin-left:15px;"> 
             <h5><strong> Upload Address Book </strong></h5>
         </div>
         <div class="row m-0">
@@ -19,9 +19,9 @@
             </div>
         </div>
 
-        <div class="row">
+        <div class="row m-r-10">
             <div class="col-sm-12 p-0 m-l-10">
-                    <div class="col-sm-6 csvContent m-l-20" ng-show="searchTypeImport=='CSV'">
+                    <div class="col-sm-8 csvContent m-l-20" ng-show="searchTypeImport=='CSV'">
 
                         <ng-csv-import content="csv.content"
                                        header="csv.header"
@@ -50,7 +50,7 @@
 
         <div class="row">
             <div class="col-sm-12">
-                <div class="col-sm-7 excelContent" ng-show="searchTypeImport=='EXCEL'">
+                <div class="col-sm-8 excelContent" ng-show="searchTypeImport=='EXCEL'">
                     <input type="file" ngf-select ng-model="document" name="file" accept=".xls,.xlsx"
                            ngf-max-size="2MB" required ngf-model-invalid="errorFile" ng-change="validateExcelFormat(document.name)">
 
@@ -62,13 +62,16 @@
                     </button>
                     {{errorMsg}}
                 </div>
-                <div class="col-sm-3"></div>
-               
             </div>
         </div>
         <div class="row m-0">
             <div class="col-sm-6 p-0 m-l-10" ng-show="searchTypeImport=='EXCEL'">
                 <label class="label-danger" ng-show="errorExcelFormat">You added invalid file, retry again</label>
+            </div>
+        </div>
+        <div class="col-sm-1">
+            <div class="font-animation" ng-show="loading">
+                <label><i class="fa fa-spinner faa-spin animated"></i> <translate>loading...</translate></label>
             </div>
         </div>
         </form>

@@ -322,7 +322,7 @@ namespace PI.Business
                         Type = costCenter.Type,
                         PhoneNumber = costCenter.PhoneNumber,
                         Description = costCenter.Description,
-                        Status = costCenter.Status,
+                        Status = costCenter.IsActive ? 1 : 2,
                         CompanyId = costCenter.CompanyId,
                         BillingAddress = new Contract.DTOs.Address.AddressDto
                         {
@@ -756,6 +756,74 @@ namespace PI.Business
                 //node.Children.Add(new NodeDto { Id = s.Id })));
 
                 NodeDto nodeSupervisor = null; /////////////////
+                IList<NodeDto> nodeSupervisorList = new List<NodeDto>();
+                NodeDto nodeDivison = null;
+                IList<Division> nodeSupervisorDivisonsList = null;
+                IList <NodeDto> nodeDivisonsList = new List<NodeDto>();
+                List<ApplicationUser> nodeDivisionOpreatorList = null;
+                // new code
+
+                //// Get all supervisors
+                //var supervisorList = context.Users.Where(u => u.Roles.Any(r => r.RoleId == "94977161-a177-455d-8070-740d4b2d8b2f")).ToList();
+
+                //foreach (var supervisor in supervisorList)
+                //{
+                //    // Make supervisor node.
+                //    nodeSupervisor = new NodeDto
+                //    {
+                //        Id = supervisor.Id,
+                //        Type = "supervisor",
+                //        Name = "Supervisor - " + (supervisor.IsActive ? "Active" : "Inactive"),  //commonLogics.GetUserRoleById(user.Id);
+                //        Title = supervisor.FirstName + " " + supervisor.LastName
+                //    };
+
+                //    // Get divisions, which has above supervisor.
+                //    nodeSupervisorDivisonsList = context.UsersInDivisions.Where(u => u.User.Id == supervisor.Id).Select(d => d.Divisions).ToList();
+
+                //    foreach (var division in nodeSupervisorDivisonsList)
+                //    {
+                //        nodeDivison = new NodeDto
+                //        {
+                //            Id = division.Id.ToString(),
+                //            Type = "division",
+                //            Name = "Division - " + (division.IsActive ? "Active" : "Inactive"),
+                //            Title = division.Name,
+                //            Costcenter = GetCostCentersAsNodes(context, division.Id)
+                //        };
+
+                //        // Get opreator list of particular division.
+                //        nodeDivisionOpreatorList = context.UsersInDivisions.Where(x => x.DivisionId == division.Id &&
+                //                                       x.User.Roles.Any(r => r.RoleId == operatorRoleId)).Select(x => x.User).ToList();
+
+                //        nodeDivisionOpreatorList.ForEach(o =>
+                //            nodeDivison.Children.Add(new NodeDto
+                //            {
+                //                Id = o.Id.ToString(),
+                //                Type = "operator",
+                //                Name = "Operator - " + (o.IsActive ? "Active" : "Inactive"),
+                //                Title = o.FirstName + " " + o.LastName
+                //            }));
+
+                //        nodeDivisonsList.Add(nodeDivison);
+                //    }
+
+                //    // Attached divison list to supervisor.
+                //    nodeSupervisor.Children.AddRange(nodeDivisonsList);
+
+                //    nodeSupervisorList.Add(nodeSupervisor);
+                //}
+
+                //// Attach supervisor list to manager/ business owner
+                //if (node.Children.Count() > 0)
+                //{
+                //    node.Children[0].Children.AddRange(nodeSupervisorList);
+                //}
+                //else
+                //{
+                //    node.Children.AddRange(nodeSupervisorList); //If there is no manager attach directly to BO.
+                //}
+
+                // end of new code
 
                 foreach (var supervisorDivision in supervisorDivisions.Select(x => x.Divisions).Distinct())
                 {
@@ -1149,7 +1217,7 @@ namespace PI.Business
                         Name = division.Name,
                         Type = division.Type,
                         Description = division.Description,
-                        Status = division.Status,
+                        Status = division.IsActive ? 1 : 2,
                         DefaultCostCenterId = division.DefaultCostCenterId,
                         CompanyId = division.CompanyId,
                         AssosiatedCostCenters = costCenterList

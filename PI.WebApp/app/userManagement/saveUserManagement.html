@@ -35,70 +35,7 @@
                             </div>
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0">
-                                    <label class="col-sm-4 control-label p-0" translate>Middle Name</label>
-                                    <div class="col-sm-8">
-                                        <div class="append-icon">
-                                            <input type="text" name="middlename" class="form-control"
-                                                   ng-model="saveUserCtrl.user.middleName" maxlength="100" ng-minlength="3" ng-class="{ 'error': formSaveUser.middlename.$invalid && (formSaveUser.middlename.$dirty||regCtrl.isSubmit) }">
-                                            <div ng-messages="formSaveUser.middlename.$error" ng-show="formSaveUser.middlename.$dirty || saveUserCtrl.isSubmit">
-                                                <label ng-message="maxlength" class="error" for="middlename" translate>Enter less than 100 characters</label>
-                                                <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="form-group m-l-0 m-r-0">
-                                    <label class="col-sm-4 control-label p-0" translate>Email Address *</label>
-                                    <div class="col-sm-8">
-                                        <div class="append-icon">
-                                            <input type="email" name="email" class="form-control"
-                                                   ng-model="saveUserCtrl.user.email" required ng-maxlength="100" ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||saveUserCtrl.isSubmit) }">
-                                            <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || saveUserCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
-                                                <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="form-group m-l-0 m-r-0">
-                                    <label class="col-sm-4 control-label p-0" translate>User Role *</label>
-                                    <div class="col-sm-8">
-                                        <div class="option-group">
-                                            <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
-                                                    convert-to-number ng-options="option.roleName as option.roleName for option in
-                                                saveUserCtrl.user.roles" ng-required="true"
-                                                    rel="popover" data-container="body" data-toggle="popover"
-                                                    data-placement="top"
-                                                    data-html="true"
-                                                    data-content="User role will determine the user's permisssion level."></select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
-                                    <label class="col-sm-4 control-label p-0" translate>Assigned Division(s) </label>
-
-                                    <div class="col-sm-8">
-                                        <div ng-repeat="division in saveUserCtrl.user.divisions">
-                                            <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
-                                                   ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
-                                            <label for="{{division.name}}}">{{division.name}}</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-sm-6">
-                            <div class="row m-0">
-                                <div class="form-group m-l-0 m-r-0">
-                                    <label class="col-sm-4 control-label" translate>First Name *</label>
+                                    <label class="col-sm-4 control-label p-0" translate>First Name *</label>
                                     <div class="col-sm-8">
                                         <div class="append-icon">
                                             <input type="text" name="firstname" class="form-control"
@@ -114,7 +51,22 @@
                             </div>
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0">
-                                    <label class="col-sm-4 control-label" translate>Last Name *</label>
+                                    <label class="col-sm-4 control-label p-0" translate>Middle Name</label>
+                                    <div class="col-sm-8">
+                                        <div class="append-icon">
+                                            <input type="text" name="middlename" class="form-control"
+                                                   ng-model="saveUserCtrl.user.middleName" maxlength="100" ng-minlength="3" ng-class="{ 'error': formSaveUser.middlename.$invalid && (formSaveUser.middlename.$dirty||regCtrl.isSubmit) }">
+                                            <div ng-messages="formSaveUser.middlename.$error" ng-show="formSaveUser.middlename.$dirty || saveUserCtrl.isSubmit">
+                                                <label ng-message="maxlength" class="error" for="middlename" translate>Enter less than 100 characters</label>
+                                                <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="form-group m-l-0 m-r-0">
+                                    <label class="col-sm-4 control-label p-0" translate>Last Name *</label>
                                     <div class="col-sm-8">
                                         <div class="append-icon">
                                             <input type="text" name="lastname" class="form-control" minlength="4" required
@@ -123,6 +75,50 @@
                                                 <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
                                                 <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                                 <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="form-group m-l-0 m-r-0">
+                                    <div class="col-sm-4 p-0">
+                                        <label class="control-label" translate>Status </label>
+                                    </div>
+                                    <div class="col-sm-8 p-l-30">
+                                        <div class="skin skin-minimal">
+                                            <div class="form-body">
+                                                <div class="form-group">
+                                                    <div class="input-group">
+                                                        <div class="icheck-inline">
+                                                            <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck translate> Active</label>
+                                                            <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck translate> Inactive</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            
+                            
+                        </div>
+
+
+                        <div class="col-sm-6">
+                            
+                            <div class="row m-0">
+                                <div class="form-group m-l-0 m-r-0">
+                                    <label class="col-sm-4 control-label" translate>Email Address *</label>
+                                    <div class="col-sm-8">
+                                        <div class="append-icon">
+                                            <input type="email" name="email" class="form-control"
+                                                   ng-model="saveUserCtrl.user.email" required ng-maxlength="100" ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||saveUserCtrl.isSubmit) }">
+                                            <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || saveUserCtrl.isSubmit">
+                                                <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                                <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                             </div>
                                         </div>
                                     </div>
@@ -171,25 +167,32 @@
                             </div>
                             <div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0">
-                                    <div class="col-sm-4">
-                                        <label class="control-label" translate>Status </label>
-                                    </div>
-                                    <div class="col-sm-8 p-l-30">
-                                        <div class="skin skin-minimal">
-                                            <div class="form-body">
-                                                <div class="form-group">
-                                                    <div class="input-group">
-                                                        <div class="icheck-inline">
-                                                            <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="true" icheck translate> Active</label>
-                                                            <label><input type="radio" name="status" ng-model="saveUserCtrl.user.isActive" value="false" icheck translate> Inactive</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    <label class="col-sm-4 control-label" translate>User Role *</label>
+                                    <div class="col-sm-8">
+                                        <div class="option-group">
+                                            <select name="mySelect" class="form-control" ng-model="saveUserCtrl.user.assignedRoleName"
+                                                    convert-to-number ng-options="option.roleName as option.roleName for option in
+                                                saveUserCtrl.user.roles" ng-required="true"
+                                                    rel="popover" data-container="body" data-toggle="popover"
+                                                    data-placement="top"
+                                                    data-html="true"
+                                                    data-content="User role will determine the user's permisssion level."></select>
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            <div class="row m-0">
+                                <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
+                                    <label class="col-sm-4 control-label" translate>Assigned Division(s) </label>
+
+                                    <div class="col-sm-8">
+                                        <div ng-repeat="division in saveUserCtrl.user.divisions">
+                                            <input type="checkbox" id="{{division.id}}" ng-model="division.isAssigned"
+                                                   ng-click="saveUserCtrl.toggleDivisionSelection(division)" />
+                                            <label for="{{division.name}}}">{{division.name}}</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,8 +200,8 @@
                 <div class="row m-0">
                     <div class="form-group m-0">
                         <!--<button ng-click="saveUserCtrl.close()" class="btn btn-primary btn-app pull-right">
-                <i class="fa fa-close"></i> <translate>Close</translate>
-            </button>-->
+                            <i class="fa fa-close"></i> <translate>Close</translate>
+                        </button>-->
                         <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
                                 class="btn btn-primary btn-app pull-right">
                             <i class="fa fa-save"></i> <translate>Save</translate>

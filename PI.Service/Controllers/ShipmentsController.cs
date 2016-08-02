@@ -79,6 +79,20 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("UpdateShipmentStatusesByJob")]
+        public bool UpdateShipmentStatusesByJob()
+        {
+            string environment = "taleus";
+            IList<ShipmentDto> shipments = shipmentManagement.GetAllShipmentsForAdmins();
+            foreach (var shipment in shipments)
+            {
+                shipmentManagement.GetLocationHistoryInfoForShipment(shipment.CarrierInformation.CarrierName, shipment.GeneralInformation.TrackingNumber, shipment.GeneralInformation.ShipmentCode, environment);
+            }
+            return true;
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SaveShipment")]
         public ShipmentOperationResult SaveShipment([FromBody]ShipmentDto addShipment)
