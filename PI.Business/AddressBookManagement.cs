@@ -27,7 +27,7 @@ namespace PI.Business
             var pagedRecord = new PagedList();
 
             pagedRecord.Content = new List<AddressBookDto>();
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var content = (from a in context.AddressBooks
                               where a.IsDelete == false &&
@@ -81,7 +81,7 @@ namespace PI.Business
 
         public int DeleteAddress(long id)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var AddressDetail = context.AddressBooks.SingleOrDefault(d => d.Id == id);
 
@@ -129,7 +129,7 @@ namespace PI.Business
                     }
                                
                 }
-                using (PIContext context=new PIContext())
+                using (PIContext context=PIContext.Get())
                 {
                     if (list.ContainsKey("companyName") && list.ContainsKey("salutation") && list.ContainsKey("firstName") && list.ContainsKey("lastName") && list.ContainsKey("emailAddress") && list.ContainsKey("phoneNumber") && list.ContainsKey("accountNumber") &&
                         list.ContainsKey("country") && list.ContainsKey("zipCode") && list.ContainsKey("number") && list.ContainsKey("streetAddress1") && list.ContainsKey("streetAddress2") && list.ContainsKey("city") &&
@@ -172,7 +172,7 @@ namespace PI.Business
         public int SaveAddressDetail(AddressBookDto addressDetail)
         {
             AddressBook currentAddress = null;
-            using (PIContext context=new PIContext())
+            using (PIContext context=PIContext.Get())
             {
                 if (addressDetail!=null)
                 {
@@ -239,7 +239,7 @@ namespace PI.Business
         //get addressbook detail by id
         public AddressBook GetAddressBookById(long Id)
         {           
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 return context.AddressBooks.SingleOrDefault(n => n.Id == Id);
             }
@@ -254,7 +254,7 @@ namespace PI.Business
             var pagedRecord = new PagedList();
 
             pagedRecord.Content = new List<AddressBookDto>();
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var content = (from a in context.AddressBooks
                                where a.IsDelete == false &&
@@ -345,7 +345,7 @@ namespace PI.Business
         {
             List<AddressBookDto> addressList = new List<AddressBookDto>();
 
-            using (PIContext context= new PIContext())
+            using (PIContext context= PIContext.Get())
             {  
                 var content = (from a in context.AddressBooks
                                where a.IsDelete == false &&
@@ -549,7 +549,7 @@ namespace PI.Business
 
             }
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {                
                 context.AddressBooks.AddRange(addressList);
                 context.SaveChanges();

@@ -90,7 +90,7 @@ namespace PI.Business
                     }
                 }
 
-                using (PIContext context = new PIContext())
+                using (PIContext context = PIContext.Get())
                 {
                     context.CarrierService.AddRange(carrierList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
@@ -124,7 +124,7 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                using (PIContext context = new PIContext())
+                using (PIContext context = PIContext.Get())
                 {
                     foreach (var item in excelData.DataRows)
                     {
@@ -213,7 +213,7 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                using (PIContext context = new PIContext())
+                using (PIContext context = PIContext.Get())
                 {
                     foreach (var item in excelData.DataRows)
                     {
@@ -281,7 +281,7 @@ namespace PI.Business
                     opResult.Status = Status.Error;
                 }
 
-                using (PIContext context = new PIContext())
+                using (PIContext context = PIContext.Get())
                 {
                     foreach (var item in excelData.DataRows)
                     {
@@ -338,7 +338,7 @@ namespace PI.Business
         /// <returns></returns>
         public bool ManageInvoicePaymentSetting(long comapnyId)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
 
@@ -361,7 +361,7 @@ namespace PI.Business
         public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
         {
             List<AuditTrailDto> customerAuditRecords = new List<AuditTrailDto>();
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var auditRecords = context.AuditTrail.Where(x => x.CreatedBy == userId).ToList();
 

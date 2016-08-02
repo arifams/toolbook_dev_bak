@@ -221,7 +221,7 @@ namespace PI.Business
         //get customer details 
         public CustomerDto GetCustomerByCompanyId(int companyId)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 

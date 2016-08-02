@@ -125,7 +125,7 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = new PIContext())//PIContext.Get())
+            using (var context = PIContext.Get())//PIContext.Get())
             {
                 var costcenters = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id &&
                                                                  c.Type == "USER"
@@ -152,7 +152,7 @@ namespace PI.Business
         {
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
 
-            using (var context = new PIContext())
+            using (var context =  PIContext.Get())
             {
                 var costCenters = from costcenter in context.CostCenters
                                   join ccdivision in context.DivisionCostCenters on costcenter.Id equals ccdivision.CostCenterId
@@ -177,7 +177,7 @@ namespace PI.Business
         {
             long costCenterId = 0;
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 costCenterId = (from division in context.Divisions
                                 where division.Id.ToString() == divisionId
@@ -210,7 +210,7 @@ namespace PI.Business
             pagedRecord.Content = new List<CostCenterDto>();
             bool isBusinessOwner = IsLoggedInAsBusinessOwner(userId);
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = context.CostCenters.Include("BillingAddress").Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id &&
@@ -278,7 +278,7 @@ namespace PI.Business
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 //var divisions = context.Divisions.Where(c => c.CompanyId == 1 &&  // TODO: get comapnyId from Tenanant
                 //                                             c.Type == "USER" && c.IsDelete == false).ToList();
@@ -354,7 +354,7 @@ namespace PI.Business
         {
             long comapnyId = commonLogics.GetCompanyByUserId(costCenter.UserId).Id;
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 // var isSpaceOrEmpty = String.IsNullOrWhiteSpace(costCenter.Description);
                 var isSameCostName = context.CostCenters.Where(c => c.CompanyId == comapnyId &&
@@ -474,7 +474,7 @@ namespace PI.Business
 
         public int DeleteCostCenter(long id)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var costCenter = context.CostCenters.SingleOrDefault(d => d.Id == id);
 
@@ -524,7 +524,7 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = new PIContext())//PIContext.Get())
+            using (var context = PIContext.Get())//PIContext.Get())
             {
                 var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
                                                              c.Type == "USER" && c.IsActive == true).ToList();
@@ -551,7 +551,7 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var divisions = context.UsersInDivisions.Where(ud => ud.UserId == userId
                                                                      && !ud.IsDelete
@@ -588,7 +588,7 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = new PIContext())//PIContext.Get())
+            using (var context = PIContext.Get())//PIContext.Get())
             {
                 var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
                                                              c.Type == "USER" && c.IsDelete == false).ToList();
@@ -611,7 +611,7 @@ namespace PI.Business
         {
             IList<DivisionDto> divisionList = new List<DivisionDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var divisions = from division in context.Divisions
                                 join divUser in context.UsersInDivisions on division.Id equals divUser.DivisionId
@@ -1032,7 +1032,7 @@ namespace PI.Business
             }
             pagedRecord.Content = new List<DivisionDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = context.Divisions.Include("DivisionCostCenters")
                                         .Where(x => x.CompanyId == currentcompany.Id && x.Type == "USER" &&
@@ -1118,7 +1118,7 @@ namespace PI.Business
             IList<CostCenterDto> costCenterList = new List<CostCenterDto>();
             long companyId = commonLogics.GetCompanyByUserId(userId).Id;
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 if (id == 0)
                 {
@@ -1265,7 +1265,7 @@ namespace PI.Business
         /// <returns></returns>
         public int DeleteDivision(long id)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var division = context.Divisions.SingleOrDefault(d => d.Id == id);
 
@@ -1298,7 +1298,7 @@ namespace PI.Business
 
         public bool IsLoggedInAsBusinessOwner(string userId)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                 string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
@@ -1311,7 +1311,7 @@ namespace PI.Business
         {
             string userName = null;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
@@ -1331,7 +1331,7 @@ namespace PI.Business
         /// <param name="userId"></param>
         public void UpdateLastLoginTimeAndAduitTrail(string userId)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
@@ -1369,7 +1369,7 @@ namespace PI.Business
             string userRoleName = "";
             List<IdentityRole> allRoles = new List<IdentityRole>();
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 ApplicationUser user = context.Users.Where(u => u.Id == userId).SingleOrDefault();
 
@@ -1393,7 +1393,7 @@ namespace PI.Business
             }
 
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 RoleHierarchy roleHierarchy = context.RoleHierarchies.Where(rh => rh.ParentName == userRoleName).FirstOrDefault();
                 if (roleHierarchy != null)
@@ -1421,7 +1421,7 @@ namespace PI.Business
             ApplicationUser user = new ApplicationUser();
             string assignedRole = null;
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 // Get all divisions, if user role is business owner.
                 string roleId = context.Users.Where(u => u.Id == loggedInUser).FirstOrDefault().Roles.FirstOrDefault().RoleId;
@@ -1445,7 +1445,7 @@ namespace PI.Business
                     };
                 }
 
-                using (var userContext = new PIContext())
+                using (var userContext = PIContext.Get())
                 {
                     user = userContext.Users.SingleOrDefault(c => c.Id == userId);
 
@@ -1474,7 +1474,7 @@ namespace PI.Business
 
                     //string assignedRoleId = user.Roles.FirstOrDefault().RoleId;
 
-                    //using (PIContext appContext = new PIContext())
+                    //using (PIContext appContext = PIContext.Get())
                     //{
                     //    assignedRole = appContext.Roles.Where(r => r.Id == assignedRoleId).Select(e => e.Name).FirstOrDefault().ToString();
                     //}
@@ -1516,7 +1516,7 @@ namespace PI.Business
 
             UserResultDto result = new UserResultDto();
 
-            using (var userContext = new PIContext())
+            using (var userContext = PIContext.Get())
             {
                 var isSameEmail = userContext.Users.Where(u => u.Id != userDto.Id
                                                                && u.TenantId == tenantId
@@ -1593,7 +1593,7 @@ namespace PI.Business
                 }
 
 
-                using (PIContext context = new PIContext())
+                using (PIContext context = PIContext.Get())
                 {
                     // -- Get whole userdivision list by userid to prevent multiple service call.
                     IList<UserInDivision> udList = context.UsersInDivisions.Where(ud => ud.UserId == appUser.Id && ud.IsActive && !ud.IsDelete).ToList();
@@ -1649,7 +1649,7 @@ namespace PI.Business
             IList<DivisionDto> assignedDivisionList;
             IList<RolesDto> roleList;
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 assignedDivisionList = GetAllActiveDivisionsForCompany(loggedInUser);
                 roleList = GetAllActiveChildRoles(loggedInUser);
@@ -1679,7 +1679,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<UserDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = context.Users.Where(x => x.TenantId == tenantId &&
                                                     x.IsDeleted == false &&
@@ -1731,7 +1731,7 @@ namespace PI.Business
         /// <returns></returns>
         public string GetRoleName(string roleId)
         {
-            using (var userContext = new PIContext())
+            using (var userContext = PIContext.Get())
             {
                 string userRoleName = userContext.Roles.Where(r => r.Id == roleId).Select(e => e.Name).FirstOrDefault();
 
@@ -1744,7 +1744,7 @@ namespace PI.Business
         public bool GetAccountType(string userId)
         {
             ApplicationUser currentuser = null;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
 
@@ -1755,7 +1755,7 @@ namespace PI.Business
 
             }
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 Tenant tenant = context.Tenants.SingleOrDefault(t => t.Id == currentuser.TenantId);
                 return tenant.IsCorporateAccount;
@@ -1778,7 +1778,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<CustomerListDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
@@ -1840,7 +1840,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<CustomerListDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
@@ -1886,7 +1886,7 @@ namespace PI.Business
 
         public bool ChangeCompanyStatus(long comapnyId)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
                 bool isActivate = !comapny.IsActive;
@@ -1949,7 +1949,7 @@ namespace PI.Business
         public string GetBusinessOwneridbyCompanyId(string companyId)
         {
             string userId = string.Empty;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var tenantId = context.Companies.Where(x => x.Id.ToString() == companyId).SingleOrDefault().TenantId;
                 string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
@@ -1966,7 +1966,7 @@ namespace PI.Business
 
         public bool UpdateCompanyLogo(string URL, string userId)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
                 var currentCompany = context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
