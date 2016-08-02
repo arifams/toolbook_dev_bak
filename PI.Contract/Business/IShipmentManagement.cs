@@ -86,6 +86,13 @@ namespace PI.Contract.Business
         /// <returns></returns>
         AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode);
 
+        /// <summary>
+        ///Get All Shipments For Admins
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        IList<ShipmentDto> GetAllShipmentsForAdmins();
+
     }
 
 }
