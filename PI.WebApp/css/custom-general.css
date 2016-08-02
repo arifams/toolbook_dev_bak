@@ -994,11 +994,53 @@ div.inside_content {
 }
 /*custom widgets*/
 .widget-infobox .infobox {
-    border:2px solid #ddd;
+    border:2px solid #319db5;
     border-radius:4px;
 }
 .badge {
     font-weight:800;
     border-radius:10px;
     font-size:16px;
+}
+.middle-data {
+    padding:10px;
+}
+.notify-bubble {
+    float:right;
+}
+.notify-bubble .badge-header {
+    padding: 4px 7px;
+    position: relative;
+    right: -14px;
+    top: -18px;    
+}
+
+.widget-infobox .txt-label {
+    text-align:center;
+}
+.badge-notify {
+    background-color: #319db5;
+}
+.widget-infobox {
+    margin-top:0;
+}
+.col-sm-2.infobox.left-widget {
+    margin-right:40px;
+}
+.col-sm-2.infobox.middle-widget {
+    margin-right:40px;
+    margin-left:40px;
+}
+.col-sm-2.infobox.right-widget {
+    margin-left:40px;
+}
+.prepend-icon i {
+    z-index:2;
+    padding-right:20px;
+}
+.form-horizontal .prepend-icon .glyphicon.glyphicon-search {
+    left:6px;
+}
+.fa.fa-refresh.faa-spin.animated {
+    font-size:20px;
 }
