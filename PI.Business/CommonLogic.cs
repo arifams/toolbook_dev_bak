@@ -19,7 +19,7 @@ namespace PI.Business
        /// <returns></returns>
        public string GetUserRoleById(string userId)
        {
-           using (PIContext context = new PIContext())
+           using (PIContext context = PIContext.Get())
            {
                string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
@@ -55,7 +55,7 @@ namespace PI.Business
        public long GetTenantIdByUserId(string userid)
        {
            ApplicationUser currentuser = null;
-           using (PIContext context = new PIContext())
+           using (PIContext context = PIContext.Get())
            {
                currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
            }
@@ -69,7 +69,7 @@ namespace PI.Business
 
         public string GetLanguageCodeById(short id)
         {
-            using (PIContext context= new PIContext())
+            using (PIContext context= PIContext.Get())
             {
                 var language = context.Languages.SingleOrDefault(l => l.Id == id).LanguageCode;
                 return language;

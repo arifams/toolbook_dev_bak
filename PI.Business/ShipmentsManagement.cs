@@ -115,7 +115,7 @@ namespace PI.Business
                 int count = 0;
                 string codeCurrenyString = "";
 
-                using (var context = new PIContext())
+                using (var context = PIContext.Get())
                 {
                     codeCurrenyString = context.Currencies.Where(c => c.Id == currentShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
                 }
@@ -286,7 +286,7 @@ namespace PI.Business
         {
             string status = "N";
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var countryCode = string.Empty;
                 var addressId = context.Customers.Where(c => c.UserId == userId).Select(c => c.AddressId).SingleOrDefault();
@@ -316,7 +316,7 @@ namespace PI.Business
             long sysDivisionId = 0;
             long sysCostCenterId = 0;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var packageProductList = new List<PackageProduct>();
                 addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
@@ -675,7 +675,7 @@ namespace PI.Business
                 }
             }
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var latestStatusHistory = context.ShipmentLocationHistories.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
                 //latestStatusHistory.CreatedDate 
@@ -794,7 +794,7 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByDivisionId(long divid)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 //currentShipments = (from shipment in context.Shipments
                 //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
@@ -813,7 +813,7 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByUserId(string userId)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 //currentShipments = (from shipment in context.Shipments
                 //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
@@ -833,7 +833,7 @@ namespace PI.Business
         public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
         {
             List<Shipment> currentShipments = null;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
@@ -844,7 +844,7 @@ namespace PI.Business
         public List<Shipment> GetshipmentsByReference(string userId, string reference)
         {
             List<Shipment> currentShipments = null;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference) && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             }
@@ -855,7 +855,7 @@ namespace PI.Business
         //update shipment status manually only by admin
         public int UpdateshipmentStatusManually(string codeShipment, string status)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var shipment = (from shipmentinfo in context.Shipments
                                 where shipmentinfo.ShipmentCode == codeShipment
@@ -873,7 +873,7 @@ namespace PI.Business
 
         public void UpdateShipmentStatus(string codeShipment, short status)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var shipment = (from shipmentinfo in context.Shipments
                                 where shipmentinfo.ShipmentCode == codeShipment
@@ -890,7 +890,7 @@ namespace PI.Business
         {
             Shipment currentShipment = new Shipment();
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentShipment = (from shipment in context.Shipments
                                    where shipment.ShipmentCode == codeShipment
@@ -908,7 +908,7 @@ namespace PI.Business
             long tenantId = 0;
             string countryCodeFromTarrifText = string.Empty;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 if(!string.IsNullOrWhiteSpace(shipmentCode))
                     currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
@@ -1045,7 +1045,7 @@ namespace PI.Business
             AddShipmentResponse response;
             ShipmentOperationResult result = new ShipmentOperationResult();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
 
@@ -1211,7 +1211,7 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = new PIContext())//PIContext.Get())
+            using (var context = PIContext.Get())//PIContext.Get())
             {
                 var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
                                                             c.IsDelete == false).ToList();
@@ -1235,7 +1235,7 @@ namespace PI.Business
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.Id == shipmentId
@@ -1362,7 +1362,7 @@ namespace PI.Business
         public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
             string environment = "";
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var shipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).FirstOrDefault();
 
@@ -1387,7 +1387,7 @@ namespace PI.Business
         //get shipment details by tracking number
         public Shipment GetShipmentByTrackingNo(string trackingNo)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.TrackingNumber == trackingNo
@@ -1403,7 +1403,7 @@ namespace PI.Business
         public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
         {
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 foreach (var item in statusHistory.history.Items)
                 {
@@ -1508,7 +1508,7 @@ namespace PI.Business
 
         public void DeleteLocationActivityByLocationHistoryId(long historyId)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 List<LocationActivity> activities = (from activity in context.LocationActivities
                                                      where activity.ShipmentLocationHistoryId == historyId
@@ -1524,7 +1524,7 @@ namespace PI.Business
         public void DeleteShipmentLocationHistoryByShipmentId(long shipmentId)
         {
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
                                                            where history.ShipmentId == shipmentId
@@ -1538,7 +1538,7 @@ namespace PI.Business
 
         public List<LocationActivity> GetLocationActivityByLocationHistoryId(long historyId)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 List<LocationActivity> histories = (from activity in context.LocationActivities
                                                     where activity.ShipmentLocationHistoryId == historyId
@@ -1552,7 +1552,7 @@ namespace PI.Business
         public List<ShipmentLocationHistory> GetShipmentLocationHistoryByShipmentId(long shipmentId)
         {
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
                                                            where history.ShipmentId == shipmentId
@@ -1565,7 +1565,7 @@ namespace PI.Business
         //get the shipment by code shipment
         public Shipment GetShipmentByCodeShipment(string codeShipment)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 Shipment shipmentContent = (from shipment in context.Shipments
                                             where shipment.ShipmentCode == codeShipment
@@ -1583,7 +1583,7 @@ namespace PI.Business
         /// <param name="fileDetails"></param>
         public void InsertShipmentDocument(FileUploadDto fileDetails)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var shipement = context.Shipments.Where(x => x.ShipmentCode == fileDetails.CodeReference).SingleOrDefault();
 
@@ -1611,7 +1611,7 @@ namespace PI.Business
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
             var tenantId = commonLogics.GetTenantIdByUserId(userId);
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
                                                     && x.Shipment.ShipmentCode == shipmentCode).
@@ -1881,7 +1881,7 @@ namespace PI.Business
         //    SISIntegrationManager sisManager = new SISIntegrationManager();
         //    string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
 
-        //    using (var context = new PIContext())
+        //    using (var context = PIContext.Get())
         //    {
         //        var shipmentList = context.ShipmentStatusHistory.Where(x=> x.NewStatus != "Completed")
         //                           .Select(x => x.Shipment).ToList();
@@ -1912,7 +1912,7 @@ namespace PI.Business
             long tenantId = 0;
             CommercialInvoiceDto invocieDto = null;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
 
@@ -2104,7 +2104,7 @@ namespace PI.Business
             long tenantId = 0;
             AirwayBillDto awbill = null;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
 
@@ -2221,7 +2221,7 @@ namespace PI.Business
 
         public void DeleteFileInDB(FileUploadDto fileDetails)
         {
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var document = context.ShipmentDocument.Where(x => x.Id == fileDetails.Id).SingleOrDefault();
 
@@ -2239,7 +2239,7 @@ namespace PI.Business
             //long sysDivisionId = 0;
             //long sysCostCenterId = 0;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 // If has invoice from shipment id, delete
                 var inv = context.CommercialInvoices.Where(e => e.ShipmentId == addInvoice.ShipmentId).FirstOrDefault();
@@ -2401,7 +2401,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId == companyId
@@ -2517,7 +2517,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId.ToString() == companyId
@@ -2623,7 +2623,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId.ToString() == companyId &&
@@ -2864,7 +2864,7 @@ namespace PI.Business
 
             List<ShipmentReportDto> reportList = new List<ShipmentReportDto>();
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
 
@@ -3021,7 +3021,7 @@ namespace PI.Business
         {
             List<CarrierDto> carriers = new List<CarrierDto>();
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var carrierList = context.Carrier.ToList();
 
@@ -3039,7 +3039,7 @@ namespace PI.Business
         /// <returns></returns>
         public bool ToggleShipmentFavourites(ShipmentDto shipment)
         {
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var existingShipment = context.Shipments
                                    .Where(x => x.ShipmentCode == shipment.GeneralInformation.ShipmentCode).SingleOrDefault();
@@ -3065,7 +3065,7 @@ namespace PI.Business
             CompanyManagement company = new CompanyManagement();
             DashboardShipments shipmentCounts = new DashboardShipments();
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 if (userId == null)
                 {
@@ -3128,7 +3128,7 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = new PIContext())
+            using (var context = PIContext.Get())
             {
                 var content = (from shipment in context.Shipments
                                where shipment.TrackingNumber == number || shipment.ShipmentCode == number
@@ -3240,7 +3240,7 @@ namespace PI.Business
         {
             string environment = string.Empty;
 
-            using (PIContext context = new PIContext())
+            using (PIContext context = PIContext.Get())
             {
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == tarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
