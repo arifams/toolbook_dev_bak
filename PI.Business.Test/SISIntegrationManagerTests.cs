@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using System;
 using System.Collections.Generic;
@@ -8,52 +8,59 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class SISIntegrationManagerTests
     {
-        [TestMethod()]
+        SISIntegrationManager sisManager = null;
+
+        public SISIntegrationManagerTests()
+        {
+            sisManager = new SISIntegrationManager();
+        }
+
+        [Test]
         public void GetRateSheetForShipmentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void SendShipmentDetailsTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteShipmentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentStatusTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetUpdatedShipmentStatusehistoryTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void TrackAndTraceShipmentTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRateRequestURLTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLabelTest()
         {
             new NotImplementedException();

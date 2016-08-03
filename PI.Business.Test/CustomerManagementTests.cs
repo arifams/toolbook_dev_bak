@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Customer;
@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class CustomerManagementTests
     {
         CustomerManagement customer = null;
 
-        [TestInitialize]
-        public void Initialize()
+        
+        public CustomerManagementTests()
         {
             customer = new CustomerManagement();
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveCustomerTest()
         {
             CustomerDto customerDetail = new CustomerDto()
@@ -55,7 +55,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCustomerByIdTest()
         {
             long custId = 1;
@@ -64,7 +64,7 @@ namespace PI.Business.Tests
         }
         
 
-        [TestMethod()]
+        [Test]
         public void VerifyUserLoginTest()
         {
             CustomerDto customerDetail = new CustomerDto()
@@ -96,7 +96,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetJwtTokenTest()
         {
             string userid = "";
@@ -109,7 +109,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, string.Empty);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetBytesTest()
         {
             string input = "";
@@ -117,7 +117,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetThemeColourTest()
         {
             string loggedInUserId = "";
@@ -125,7 +125,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCustomerByCompanyIdTest()
         {
             int companyId = 1;

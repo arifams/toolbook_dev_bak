@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Address;
@@ -16,20 +16,20 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ProfileManagementTests
     {
 
         ProfileManagement profile = null;
 
-        [TestInitialize]
-        public void Initialize()
+      
+        public ProfileManagementTests()
         {
             profile = new ProfileManagement();
 
         }
 
-        [TestMethod()]
+        [Test]
         public void getProfileByUserNameTest()
         {
             string username = "";
@@ -37,7 +37,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void getProfileByUserNameForShipmentTest()
         {
             string username = "";
@@ -45,7 +45,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void updateProfileDataTest()
         {
             ProfileDto updatedProfile = new ProfileDto()
@@ -64,7 +64,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateProfileGeneralTest()
         {
             ProfileDto updatedProfile = new ProfileDto()
@@ -87,7 +87,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateProfileAddressTest()
         {
             ProfileDto updatedProfile = new ProfileDto()
@@ -108,7 +108,7 @@ namespace PI.Business.Tests
             int response = profile.UpdateProfileAddress(updatedProfile);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateProfileBillingAddressTest()
         {
             ProfileDto profileDto = new ProfileDto()
@@ -136,7 +136,7 @@ namespace PI.Business.Tests
            
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateSetupWizardBillingAddressTest()
         {
             ProfileDto profileDto = new ProfileDto()
@@ -159,7 +159,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1)
 ;        }
 
-        [TestMethod()]
+        [Test]
         public void UpdateProfileLoginDetailsTest()
         {
             ProfileDto profileDto = new ProfileDto()
@@ -177,7 +177,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateProfileAccountSettingsTest()
         {
             ProfileDto profileDto = new ProfileDto()
@@ -208,7 +208,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateThemeColourTest()
         {
             ProfileDto profileDto = new ProfileDto()
@@ -225,7 +225,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetUserbyUserNameTest()
         {
             string UserName = "info@parcelinternational.com";
@@ -233,7 +233,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCustomerByUserIdTest()
         {
             string userId = "";
@@ -241,7 +241,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLanguageCodeByUserIdTest()
         {
             string userId = "";
@@ -249,7 +249,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCustomerByUserEmailTest()
         {
             string username = "";
@@ -257,7 +257,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetUserByIdTest()
         {
             string userId = "";
@@ -265,7 +265,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAddressbyIdTest()
         {
             long addressId = 1;
@@ -273,7 +273,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAccountSettingByCustomerIdTest()
         {
             long customerId = 1;
@@ -281,7 +281,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetNotificationCriteriaByCustomerIdTest()
         {
             long customerId = 1;
@@ -289,7 +289,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCompanyByTenantIdTest()
         {
             long TenantId = 1;
@@ -297,7 +297,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetTenantByIdTest()
         {
             long TenantId = 1;
@@ -306,7 +306,7 @@ namespace PI.Business.Tests
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCostCenterByCompanyIdTest()
         {
             long companyId = 1;
@@ -314,7 +314,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count(), 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCostCenterByIdTest()
         {
             long CostCenterId = 1;
@@ -322,7 +322,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCustomerAddressDetailsTest()
         {
             long cusomerAddressId=1;
@@ -331,7 +331,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAccountSettingsTest()
         {
             long customerId = 1;
@@ -339,7 +339,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRoleNameByIdTest()
         {
             string id = "";
@@ -347,14 +347,14 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, string.Empty);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllCurrenciesTest()
         {
             List<CurrencyDto> response = profile.GetAllCurrencies();
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllTimeZonesTest()
         {
             List<TimeZoneDto> response = profile.GetAllTimeZones();

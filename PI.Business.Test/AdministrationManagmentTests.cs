@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using System;
 using System.Collections.Generic;
@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class AdministrationManagmentTests
     {
-        [TestMethod()]
+        [Test]
         public void ImportRateSheetExcelTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void ManageInvoicePaymentSettingTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAuditTrailsForCustomerTest()
         {
             

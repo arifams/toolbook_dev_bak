@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class ShipmentsManagementTests
     {
         ShipmentsManagement shipment = null;
 
-        [TestInitialize]
-        public void Initialize()
+       
+        public ShipmentsManagementTests()
         {
             shipment = new ShipmentsManagement();
 
         }
 
-        //[TestMethod()]
+        //[Test]
         //public void SaveShipmentTest()
         //{
         //    ShipmentDto addShipment = new ShipmentDto()
@@ -153,7 +153,7 @@ namespace PI.Business.Tests
         //    ShipmentOperationResult response= shipment.SaveShipment(addShipment);  
         //}
 
-        [TestMethod()]
+        [Test]
         public void GetRateSheetTest()
         {
             ShipmentDto currentShipment = new ShipmentDto()
@@ -165,7 +165,7 @@ namespace PI.Business.Tests
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetInboundoutBoundStatusTest()
         {
             string userId = "";
@@ -178,247 +178,247 @@ namespace PI.Business.Tests
         }
        
 
-        [TestMethod()]
+        [Test]
         public void GetHashForPayLaneTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllShipmentsbyUserTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentsByDivisionIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentsByUserIdTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentsByUserIdAndCreatedDateTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentsByReferenceTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateshipmentStatusManuallyTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateShipmentStatusTest()
         {
             new NotImplementedException();
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentByShipmentCodeTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentByIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void getPackageDetailsTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void SendShipmentDetailsTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllDivisionsinCompanyTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteShipmentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLocationHistoryInfoForShipmentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetTrackAndTraceInfoTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentByTrackingNoTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateStatusHistoriesTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void getUpdatedShipmentHistoryFromDBTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteLocationActivityByLocationHistoryIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteShipmentLocationHistoryByShipmentIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLocationActivityByLocationHistoryIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentLocationHistoryByShipmentIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentByCodeShipmentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void InsertShipmentDocumentTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAvailableFilesForShipmentbyTenantTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllPendingShipmentsbyUserTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllshipmentsForManifestTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetshipmentByShipmentCodeForInvoiceTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteFileInDBTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveCommercialInvoiceTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void RequestForQuoteTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentForCompanyAndSyncWithSISTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllShipmentByCompanyIdTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void loadAllShipmentsFromCompanyAndSearchTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void ShipmentReportTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void ShipmentReportForExcelTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void LoadAllCarriersTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void ToggleShipmentFavouritesTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetShipmentStatusCountsTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void SearchShipmentsByIdTest()
         {
             

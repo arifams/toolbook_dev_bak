@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Common;
@@ -16,19 +16,18 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class CompanyManagementTests
     {
         CompanyManagement company = null;
-
-        [TestInitialize]
-        public void Initialize()
+        
+        public CompanyManagementTests()
         {
             company = new CompanyManagement();
 
         }
 
-        [TestMethod()]
+        [Test]
         public void CreateCompanyDetailsTest()
         {
            
@@ -68,7 +67,7 @@ namespace PI.Business.Tests
            
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllCostCentersForCompanyTest()
         {
             string userId = "cdf30573-1fba-412e-972f-ec867b02d07e";
@@ -76,7 +75,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCostCentersbyDivisionTest()
         {
             string companyId = "10";
@@ -84,7 +83,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllCostCentersTest()
         {
             long divId = 0;
@@ -93,7 +92,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(pageRecords.TotalRecords, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCostCentersByIdTest()
         {
             string userId = "";
@@ -103,7 +102,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveCostCenterTest()
         {
             IList<long> divList = new List<long>();
@@ -140,7 +139,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteCostCenterTest()
         {
             long id = 10;
@@ -148,7 +147,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, 1);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllActiveDivisionsForCompanyTest()
         {
             string UserId = "";
@@ -156,7 +155,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllActiveDivisionsOfUserTest()
         {
             string UserId = "";
@@ -164,7 +163,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllDivisionsForCompanyTest()
         {
             string UserId = "";
@@ -173,7 +172,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAssignedDivisionsTest()
         {
             string UserId = "";
@@ -182,7 +181,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllDivisionsTest()
         {
             long costcenterId = 0;
@@ -192,7 +191,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetDivisionByIdTest()
         {
             long divId = 1;
@@ -202,7 +201,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveDivisionTest()
         {
             DivisionDto division = new DivisionDto()
@@ -224,7 +223,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void DeleteDivisionTest()
         {
             long divisionId = 1;
@@ -233,7 +232,7 @@ namespace PI.Business.Tests
             
         }
 
-        [TestMethod()]
+        [Test]
         public void IsLoggedInAsBusinessOwnerTest()
         {
             string userId = "";
@@ -242,7 +241,7 @@ namespace PI.Business.Tests
             
         }
 
-        [TestMethod()]
+        [Test]
         public void IsLoggedInAsNotBusinessOwnerTest()
         {
             string userId = "";
@@ -251,7 +250,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetLoggedInUserNameTest()
         {
             string userId = "";
@@ -259,13 +258,13 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateLastLoginTimeAndAduitTrailTest()
         {
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllActiveChildRolesTest()
         {
             string userId = "";
@@ -274,7 +273,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetUserByIdTest()
         {
             string userId = "";
@@ -283,7 +282,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveUserTest()
         {
             UserDto user = new UserDto()
@@ -305,7 +304,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void LoadUserManagementTest()
         {
             string logggedInUserId = "";
@@ -313,7 +312,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllUsersTest()
         {
             long division=1;
@@ -326,7 +325,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetRoleNameTest()
         {
             string roleId = "af354b00-317f-4f45-8b10-3671de73d918";
@@ -334,7 +333,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(responce, "BusinessOwner");
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAccountTypeTest()
         {
             string userId = "af354b00-317f-4f45-8b10-3671de73d918";
@@ -342,7 +341,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(responce, true);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllComapniesTest()
         {
             string status="";
@@ -352,7 +351,7 @@ namespace PI.Business.Tests
             
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllComapniesForAdminSearchTest()
         {
             string searchtext = "";
@@ -360,7 +359,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.TotalRecords, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void ChangeCompanyStatusTest()
         {
             long comapnyId = 0;
@@ -368,7 +367,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, true);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetCompanyByUserIDTest()
         {
             string userID = "";
@@ -376,7 +375,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, null);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetBusinessOwneridbyCompanyIdTest()
         {
             string companyId = "";
@@ -384,7 +383,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, string.Empty);
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateCompanyLogoTest()
         {
             string URL="";

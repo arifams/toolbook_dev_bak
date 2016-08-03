@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using PI.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
@@ -11,19 +11,19 @@ using System.Threading.Tasks;
 
 namespace PI.Business.Tests
 {
-    [TestClass()]
+    [TestFixture]
     public class InvoiceMangementTests
     {
         InvoiceMangement invoice = null;
 
-        [TestInitialize]
-        public void Initialize()
+        
+        public InvoiceMangementTests()
         {
             invoice = new InvoiceMangement();
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllInvoicesByCustomerTest()
         {
             string status = "";
@@ -40,7 +40,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void UpdateInvoiceStatusTest()
         {
             InvoiceDto invoiceDto = new InvoiceDto()
@@ -52,7 +52,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response, invoiceDto.InvoiceStatus);
         }
 
-        [TestMethod()]
+        [Test]
         public void PayInvoiceTest()
         {
             long invoiceId = 1;
@@ -60,7 +60,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, InvoiceStatus.Paid);
         }
 
-        [TestMethod()]
+        [Test]
         public void DisputeInvoiceTest()
         {
             InvoiceDto invoicedto = new InvoiceDto()
@@ -73,7 +73,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, InvoiceStatus.Disputed);
         }
 
-        [TestMethod()]
+        [Test]
         public void GetDisputeInvoiceEmailTemplateTest()
         {
             InvoiceDto invoiceDto = new InvoiceDto()
@@ -91,7 +91,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void GetAllInvoicesTest()
         {
             string status = "";
@@ -107,7 +107,7 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.TotalRecords, 0);
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveInvoiceDetailsTest()
         {
             InvoiceDto invoiceDto = new InvoiceDto()
@@ -125,7 +125,7 @@ namespace PI.Business.Tests
 
         }
 
-        [TestMethod()]
+        [Test]
         public void SaveCreditNoteDetailsTest()
         {
             InvoiceDto invoiceDto = new InvoiceDto()
@@ -140,7 +140,7 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, true);
         }
 
-        [TestMethod()]
+        [Test]
         public void ExportInvoiceReportTest()
         {
             
