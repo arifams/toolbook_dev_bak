@@ -20,6 +20,14 @@ namespace PI.Business
 {
     public class AdministrationManagment : IAdministrationManagment
     {
+
+        private PIContext context;
+
+        public AdministrationManagment(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
+
         public OperationResult ImportRateSheetExcel(string URI)
         {
             OperationResult result = new OperationResult();

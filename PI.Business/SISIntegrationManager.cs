@@ -21,6 +21,14 @@ namespace PI.Business
 {
     public class SISIntegrationManager : ICarrierIntegrationManager
     {
+
+        private PIContext context;
+
+        public SISIntegrationManager(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
+
         public string SISWebURLUS
         {
             get

@@ -31,6 +31,12 @@ namespace PI.Business
     public class ShipmentsManagement : IShipmentManagement
     {
         CommonLogic commonLogics = new CommonLogic();
+        private PIContext context;
+
+        public ShipmentsManagement(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
         {

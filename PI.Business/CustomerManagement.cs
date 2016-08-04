@@ -16,11 +16,19 @@ using System.Reflection;
 using System.IdentityModel.Protocols.WSTrust;
 using System.Configuration;
 using PI.Contract.Enums;
+using System.Data.Entity;
 
 namespace PI.Business
 {
     public class CustomerManagement : ICustomerManagement
     {
+        private PIContext context;
+
+        public CustomerManagement(PIContext _context = null)
+        {          
+            context = _context ?? PIContext.Get();
+        }
+
         public string WebURL
         {
             get
@@ -39,10 +47,7 @@ namespace PI.Business
 
         public Customer GetCustomerById(long id)
         {
-            using (var context = PIContext.Get())
-            {
-                return context.Customers.Single(c => c.Id == id);
-            }
+            return context.Customers.Single(c => c.Id == id);
         }
 
         public int SaveCustomer(CustomerDto customer, bool isCustomerRegistration = false)
@@ -50,81 +55,77 @@ namespace PI.Business
             Customer newCustomer = null;
             try
             {
-                using (var context = PIContext.Get())
+                if (customer.Id == 0)
                 {
-                    if (customer.Id == 0)
+                    newCustomer = new Customer()
                     {
-                        newCustomer = new Customer()
+                        FirstName = customer.FirstName,
+                        MiddleName = customer.MiddleName,
+                        LastName = customer.LastName,
+                        Salutation = customer.Salutation,
+                        Email = customer.Email,
+                        PhoneNumber = customer.PhoneNumber,
+                        MobileNumber = customer.MobileNumber,
+                        CreatedDate = DateTime.Now,
+                        CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
+                        UserId = customer.UserId,
+                        //CompanyId = customer.CompanyId,
+                        AddressId = (customer.AddressId > 0) ? customer.AddressId : 0,
+                        CustomerAddress = (customer.AddressId > 0) ? null : new Address()
                         {
-                            FirstName = customer.FirstName,
-                            MiddleName = customer.MiddleName,
-                            LastName = customer.LastName,
-                            Salutation = customer.Salutation,
-                            Email = customer.Email,
-                            PhoneNumber = customer.PhoneNumber,
-                            MobileNumber = customer.MobileNumber,
+                            Country = customer.CustomerAddress.Country,
+                            ZipCode = customer.CustomerAddress.ZipCode,
+                            Number = customer.CustomerAddress.Number,
+                            StreetAddress1 = customer.CustomerAddress.StreetAddress1,
+                            StreetAddress2 = customer.CustomerAddress.StreetAddress2,
+                            City = customer.CustomerAddress.City,
+                            State = customer.CustomerAddress.State,
                             CreatedDate = DateTime.Now,
                             CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                            UserName = customer.Email,
-                            Password = customer.Password,
-                            UserId = customer.UserId,
-                            //CompanyId = customer.CompanyId,
-                            AddressId = (customer.AddressId > 0) ? customer.AddressId : 0,
-                            CustomerAddress = (customer.AddressId > 0) ? null : new Address()
-                            {
-                                Country = customer.CustomerAddress.Country,
-                                ZipCode = customer.CustomerAddress.ZipCode,
-                                Number = customer.CustomerAddress.Number,
-                                StreetAddress1 = customer.CustomerAddress.StreetAddress1,
-                                StreetAddress2 = customer.CustomerAddress.StreetAddress2,
-                                City = customer.CustomerAddress.City,
-                                State = customer.CustomerAddress.State,
-                                CreatedDate = DateTime.Now,
-                                CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
-                            }
-                        };
-                        context.Customers.Add(newCustomer);                     
+                        }
+                    };
+                    context.Customers.Add(newCustomer);
 
-                    }
-                    else
-                    {
-                        var existingCustomer = context.Customers.Single(c => c.Id == customer.Id);
-                        //Never use context.Customers.Find(id) method to retrieve tenant entities
-                        //If we do, that will enable malicious users to modify data belongs to another tenant
-                        existingCustomer.FirstName = customer.FirstName;
-                        existingCustomer.MiddleName = customer.MiddleName;
-                        existingCustomer.LastName = customer.LastName;
-                        existingCustomer.Salutation = customer.Salutation;
-                        existingCustomer.Email = customer.Email;
-                        existingCustomer.PhoneNumber = customer.PhoneNumber;
-                        existingCustomer.MobileNumber = customer.MobileNumber;
-                        existingCustomer.CreatedDate = DateTime.Now;
-                        existingCustomer.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
-                        existingCustomer.UserId = customer.UserId;
-
-                        existingCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
-                        existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
-                        existingCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
-                        existingCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
-                        existingCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
-                        existingCustomer.CustomerAddress.City = customer.CustomerAddress.City;
-                        existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
-                    }
-                    context.SaveChanges();
-
-                    //Add Audit Trail Record for customer Registrations
-                    if (customer.Id == 0 && isCustomerRegistration)
-                    {                        
-                        context.AuditTrail.Add(new AuditTrail
-                        {
-                            ReferenceId = newCustomer.Id.ToString(),
-                            AppFunctionality = AppFunctionality.UserRegistration,
-                            Result = "SUCCESS",
-                            CreatedBy = "1",
-                            CreatedDate = DateTime.Now
-                        });
-                    }
                 }
+                else
+                {
+                    var existingCustomer = context.Customers.Single(c => c.Id == customer.Id);
+                    //Never use context.Customers.Find(id) method to retrieve tenant entities
+                    //If we do, that will enable malicious users to modify data belongs to another tenant
+                    existingCustomer.FirstName = customer.FirstName;
+                    existingCustomer.MiddleName = customer.MiddleName;
+                    existingCustomer.LastName = customer.LastName;
+                    existingCustomer.Salutation = customer.Salutation;
+                    existingCustomer.Email = customer.Email;
+                    existingCustomer.PhoneNumber = customer.PhoneNumber;
+                    existingCustomer.MobileNumber = customer.MobileNumber;
+                    existingCustomer.CreatedDate = DateTime.Now;
+                    existingCustomer.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
+                    existingCustomer.UserId = customer.UserId;
+
+                    existingCustomer.CustomerAddress.Country = customer.CustomerAddress.Country;
+                    existingCustomer.CustomerAddress.ZipCode = customer.CustomerAddress.ZipCode;
+                    existingCustomer.CustomerAddress.Number = customer.CustomerAddress.Number;
+                    existingCustomer.CustomerAddress.StreetAddress1 = customer.CustomerAddress.StreetAddress1;
+                    existingCustomer.CustomerAddress.StreetAddress2 = customer.CustomerAddress.StreetAddress2;
+                    existingCustomer.CustomerAddress.City = customer.CustomerAddress.City;
+                    existingCustomer.CustomerAddress.State = customer.CustomerAddress.State;
+                }
+                context.SaveChanges();
+
+                //Add Audit Trail Record for customer Registrations
+                if (customer.Id == 0 && isCustomerRegistration)
+                {
+                    context.AuditTrail.Add(new AuditTrail
+                    {
+                        ReferenceId = newCustomer.Id.ToString(),
+                        AppFunctionality = AppFunctionality.UserRegistration,
+                        Result = "SUCCESS",
+                        CreatedBy = "1",
+                        CreatedDate = DateTime.Now
+                    });
+                }
+
             }
             catch (DbEntityValidationException e)
             {
@@ -140,27 +141,28 @@ namespace PI.Business
                 }
                 throw;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 throw ex;
             }
 
             return 1;
         }
 
-        public int VerifyUserLogin(CustomerDto customer)
-        {
-            using (var context = PIContext.Get())
-            {
-                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserName == customer.UserName &&
-                    c.Password == customer.Password);
+        //public int VerifyUserLogin(CustomerDto customer)
+        //{
+        //    using (var context = PIContext.Get())
+        //    {
+        //        var existingCustomer = context.Customers.SingleOrDefault(c => c.Email == customer.UserName &&
+        //            c.Password == customer.Password);
 
-                if (existingCustomer != null)
-                {
-                    return 1;
-                }
-                return 0;
-            }
-        }
+        //        if (existingCustomer != null)
+        //        {
+        //            return 1;
+        //        }
+        //        return 0;
+        //    }
+        //}
 
         public string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId)
         {
@@ -207,64 +209,56 @@ namespace PI.Business
         /// <returns></returns>
         public string GetThemeColour(string loggedInUserId)
         {
-            using (var context = PIContext.Get())
-            {
-                var existingCustomer = context.Customers.SingleOrDefault(c => c.UserId == loggedInUserId);
+            var existingCustomer = context.Customers.SingleOrDefault(c => c.UserId == loggedInUserId);
 
-                if (existingCustomer == null)
-                    return null;
+            if (existingCustomer == null)
+                return null;
 
-                return existingCustomer.SelectedColour;
-            }
+            return existingCustomer.SelectedColour;
         }
 
         //get customer details 
         public CustomerDto GetCustomerByCompanyId(int companyId)
         {
-            using (PIContext context = PIContext.Get())
+            string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+            var content = (from customer in context.Customers
+                           join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
+                           where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
+                           comapny.Id == companyId
+                           select new
+                           {
+                               Customer = customer,
+                               Company = comapny
+                           }).SingleOrDefault();
+
+            return new CustomerDto()
             {
-                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+                CompanyName = content.Company.Name,
+                FirstName = content.Customer.FirstName,
+                LastName = content.Customer.LastName,
+                Email = content.Customer.Email,
+                PhoneNumber = content.Customer.PhoneNumber,
+                Salutation = content.Customer.Salutation,
+                MobileNumber = content.Customer.MobileNumber,
 
-                var content = (from customer in context.Customers
-                               join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
-                               where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
-                               comapny.Id == companyId
-                               select new
-                               {
-                                   Customer = customer,
-                                   Company = comapny
-                               }).SingleOrDefault();
 
-                return new CustomerDto()
+                CustomerAddress = new Contract.DTOs.Address.AddressDto()
                 {
-                    CompanyName=content.Company.Name,
-                    FirstName=content.Customer.FirstName,
-                    LastName=content.Customer.LastName,
-                    Email=content.Customer.Email,
-                    PhoneNumber=content.Customer.PhoneNumber,
-                    Salutation=content.Customer.Salutation,
-                    MobileNumber=content.Customer.MobileNumber, 
-                   
+                    Id = content.Customer.CustomerAddress.Id,
+                    City = content.Customer.CustomerAddress.City,
+                    Country = content.Customer.CustomerAddress.Country,
+                    Number = content.Customer.CustomerAddress.Number,
+                    State = content.Customer.CustomerAddress.State,
+                    StreetAddress1 = content.Customer.CustomerAddress.StreetAddress1,
+                    StreetAddress2 = content.Customer.CustomerAddress.StreetAddress2,
+                    ZipCode = content.Customer.CustomerAddress.ZipCode
+                }
 
-                    CustomerAddress = new Contract.DTOs.Address.AddressDto()
-                    {
-                        Id = content.Customer.CustomerAddress.Id,
-                        City = content.Customer.CustomerAddress.City,
-                        Country=content.Customer.CustomerAddress.Country,
-                        Number=content.Customer.CustomerAddress.Number,
-                        State=content.Customer.CustomerAddress.State,
-                        StreetAddress1=content.Customer.CustomerAddress.StreetAddress1,
-                        StreetAddress2=content.Customer.CustomerAddress.StreetAddress2,
-                        ZipCode=content.Customer.CustomerAddress.ZipCode
-                    }
 
-                    
-                };
-             
-
-                
-            }
+            };
 
         }
+
     }
 }

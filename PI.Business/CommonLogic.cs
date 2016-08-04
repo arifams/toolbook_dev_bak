@@ -12,12 +12,19 @@ namespace PI.Business
    public class CommonLogic
     {
 
-       /// <summary>
-       /// Get user role by userId
-       /// </summary>
-       /// <param name="userId"></param>
-       /// <returns></returns>
-       public string GetUserRoleById(string userId)
+        private PIContext context;
+
+        public CommonLogic(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
+
+        /// <summary>
+        /// Get user role by userId
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public string GetUserRoleById(string userId)
        {
            using (PIContext context = PIContext.Get())
            {

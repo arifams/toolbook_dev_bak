@@ -26,6 +26,15 @@ namespace PI.Business
 {
     public class CompanyManagement : ICompanyManagement
     {
+
+        private PIContext context;
+
+        public CompanyManagement(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
+
+
         #region Create Comapny Details with default settings
         CommonLogic commonLogics = new CommonLogic();
 

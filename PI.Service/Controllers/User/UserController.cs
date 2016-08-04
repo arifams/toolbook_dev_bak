@@ -14,7 +14,6 @@ namespace PI.Service.Controllers.User
     {
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
-        //[InitializeSimpleMembershipAttribute]
         public int CreateUser([FromBody]CustomerDto customer)
         {
             CustomerManagement customerManagement = new CustomerManagement();
@@ -22,18 +21,17 @@ namespace PI.Service.Controllers.User
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        //[InitializeSimpleMembershipAttribute]
-        public int LoginUser([FromBody]CustomerDto customer)
-        {
-            CustomerManagement customerManagement = new CustomerManagement();
-            return customerManagement.VerifyUserLogin(customer);
-        }
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[HttpPost]
+        ////[InitializeSimpleMembershipAttribute]
+        //public int LoginUser([FromBody]CustomerDto customer)
+        //{
+        //    CustomerManagement customerManagement = new CustomerManagement();
+        //    return customerManagement.VerifyUserLogin(customer);
+        //}
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
-        //[InitializeSimpleMembershipAttribute]
         public int TestApi()
         {
             return 1;

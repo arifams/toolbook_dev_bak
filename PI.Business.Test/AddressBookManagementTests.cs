@@ -17,8 +17,7 @@ namespace PI.Business.Tests
     [TestFixture]
     public class AddressBookManagementTests
     {
-        readonly AddressBookManagement address = null;
-      
+        readonly AddressBookManagement addressBookManagement = null;      
         readonly Mock<PIContext>  mockContext = null;
 
         public AddressBookManagementTests()
@@ -59,8 +58,8 @@ namespace PI.Business.Tests
             mockSet.As<IQueryable<AddressBook>>().Setup(m => m.Expression).Returns(queryableList.Expression);
             mockSet.As<IQueryable<AddressBook>>().Setup(m => m.ElementType).Returns(queryableList.ElementType);
             mockSet.As<IQueryable<AddressBook>>().Setup(m => m.GetEnumerator()).Returns(queryableList.GetEnumerator());
-            address = new AddressBookManagement();
-            address.context = mockContext.Object;
+
+            var addressBookManagement = new AddressBookManagement(mockContext.Object);    
         }
         
 
@@ -87,7 +86,7 @@ namespace PI.Business.Tests
             dto.State = "State";
             dto.IsActive = true;
 
-            int response = address.SaveAddressDetail(dto);
+            int response = addressBookManagement.SaveAddressDetail(dto);
             Assert.AreEqual(response, 1);
         }
 
@@ -97,14 +96,14 @@ namespace PI.Business.Tests
             string userId= "07264f19-3362-4e26-ba6d-e6ffd244e822";
             string searchtext = "";
 
-            PagedList pageRecord = address.GetAllAddresses(null, userId, searchtext);                    
+            PagedList pageRecord = addressBookManagement.GetAllAddresses(null, userId, searchtext);                    
             Assert.AreNotEqual(pageRecord.TotalRecords,0);
         }
 
         [Test]
         public void GetAddressBookByIdTest()
         {
-            AddressBook response = address.GetAddressBookById(0);            
+            AddressBook response = addressBookManagement.GetAddressBookById(0);            
             Assert.AreEqual(response.Id, 0);
         }
 
@@ -114,14 +113,14 @@ namespace PI.Business.Tests
             string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
             string searchtext = "";
 
-            PagedList pagedRecord = address.GetFilteredAddresses(userId, searchtext);          
+            PagedList pagedRecord = addressBookManagement.GetFilteredAddresses(userId, searchtext);          
             Assert.AreEqual(pagedRecord.TotalRecords, 1);
         }
 
         [Test]
         public void GetAddressBookDtoByIdTest()
         {
-            AddressBookDto response = address.GetAddressBookDtoById(0);                       
+            AddressBookDto response = addressBookManagement.GetAddressBookDtoById(0);                       
             Assert.AreEqual(response.Id, 0);
         }
 
@@ -131,14 +130,14 @@ namespace PI.Business.Tests
             string type=null;
             string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
             string searchtext = "";
-            byte[] response = address.GetAddressBookDetailsByUserId(type,userId ,searchtext, 1, 1);                       
+            byte[] response = addressBookManagement.GetAddressBookDetailsByUserId(type,userId ,searchtext, 1, 1);                       
             Assert.AreNotEqual(response, null);
         }
 
         [Test]
         public void DeleteAddressTest()
         {
-            int response = address.DeleteAddress(0);            
+            int response = addressBookManagement.DeleteAddress(0);            
             Assert.AreEqual(response, 1);
         }
 

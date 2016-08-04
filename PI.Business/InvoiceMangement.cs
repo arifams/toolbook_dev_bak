@@ -20,6 +20,12 @@ namespace PI.Business
     {
         CommonLogic genericMethods = new CommonLogic();
 
+        private PIContext context;
+
+        public InvoiceMangement(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
 
         /// <summary>
         /// Get all invoices by customer
