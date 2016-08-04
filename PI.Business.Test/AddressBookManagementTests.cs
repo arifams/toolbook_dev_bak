@@ -62,6 +62,9 @@ namespace PI.Business.Tests
 
             var mockContext = MoqHelper.CreateMockForDbContext<PIContext, AddressBook>(mockSet);
 
+            // Prevent context null
+            mockContext.Setup(c => c.AddressBooks).Returns(mockSet.Object);
+
             addressBookManagement = new AddressBookManagement(mockContext.Object);    
         }
         
