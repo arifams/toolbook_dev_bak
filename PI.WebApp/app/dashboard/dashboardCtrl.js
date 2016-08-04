@@ -29,7 +29,7 @@
 
                $scope.closePopupAfterSetupWizard = function () {
                    modalService.close('editrole_popup');
-                  // $window.location.reload();
+                   $window.location.reload();
                };
 
                $scope.templateModal = {

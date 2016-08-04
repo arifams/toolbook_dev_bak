@@ -42,10 +42,12 @@ namespace PI.Business.Tests
                  StreetAddress2="address2",
                  UserId="07264f19-3362-4e26-ba6d-e6ffd244e822",
                  ZipCode="12345",
-                 IsActive=true
-
-             },
-           };
+                 IsActive=true,
+                 IsDelete=false,
+                 CreatedDate=DateTime.Now
+                 
+             },            
+            };
 
             //////
             //var mockSet = new Mock<DbSet<AddressBook>>();
@@ -98,8 +100,8 @@ namespace PI.Business.Tests
             string userId= "07264f19-3362-4e26-ba6d-e6ffd244e822";
             string searchtext = "";
 
-            List<AddressBookDto> pageRecord = addressBookManagement.GetAllAddresses(null, userId, searchtext).Content as List<AddressBookDto>;                    
-            Assert.AreNotEqual(pageRecord.Count,0);
+            PagedList pageRecord = addressBookManagement.GetAllAddresses(null, userId, searchtext);                    
+            Assert.AreNotEqual(pageRecord.TotalRecords,0);
         }
 
         [Test]
@@ -129,8 +131,11 @@ namespace PI.Business.Tests
         [Test]
         public void GetAddressBookDetailsByUserIdTest()
         {
-            byte[] response = addressBookManagement.GetAddressBookDetailsByUserId("active","24234233344" ,"test", 1, 1);                       
-            Assert.AreEqual(response.Length, 100);
+            string type=null;
+            string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
+            string searchtext = "";
+            byte[] response = addressBookManagement.GetAddressBookDetailsByUserId(type,userId ,searchtext, 1, 1);                       
+            Assert.AreNotEqual(response, null);
         }
 
         [Test]
@@ -143,7 +148,7 @@ namespace PI.Business.Tests
         [Test]
         public void ImportAddressBookTest()
         {
-            new NotImplementedException();
+           // int response= address.ImportAddressBook(IList<ImportAddressDto> addressDetails, userId)
         }
     }
 }
