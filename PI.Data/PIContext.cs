@@ -20,63 +20,63 @@ namespace PI.Data
         /// </summary>
         [ThreadStatic]
         private static PIContext context = null;       
-        public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<webpages_Membership> Membership { get; set; }
-        public DbSet<Customer> Customers { get; set; }
-        public DbSet<Address> Addresses { get; set; }
-        public DbSet<Company> Companies { get; set; }
-        public DbSet<Division> Divisions { get; set; }
-        public DbSet<CostCenter> CostCenters { get; set; }
-        public DbSet<Language> Languages { get; set; }
-        public DbSet<Currency> Currencies { get; set; }
-        public DbSet<Entity.TimeZone> TimeZones { get; set; }
-        public DbSet<AccountSettings> AccountSettings { get; set; }
-        public DbSet<NotificationCriteria> NotificationCriterias { get; set; }
-        public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
-        public DbSet<UserInDivision> UsersInDivisions { get; set; }
-        public DbSet<AddressBook> AddressBooks { get; set; }
-        public DbSet<RoleHierarchy> RoleHierarchies { get; set; }
+        public virtual DbSet<UserProfile> UserProfiles { get; set; }
+        public virtual DbSet<webpages_Membership> Membership { get; set; }
+        public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<Address> Addresses { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
+        public virtual DbSet<Division> Divisions { get; set; }
+        public virtual DbSet<CostCenter> CostCenters { get; set; }
+        public virtual DbSet<Language> Languages { get; set; }
+        public virtual DbSet<Currency> Currencies { get; set; }
+        public virtual DbSet<Entity.TimeZone> TimeZones { get; set; }
+        public virtual DbSet<AccountSettings> AccountSettings { get; set; }
+        public virtual DbSet<NotificationCriteria> NotificationCriterias { get; set; }
+        public virtual DbSet<Tenant> Tenants { get; set; }
+        public virtual DbSet<DivisionCostCenter> DivisionCostCenters { get; set; }
+        public virtual DbSet<UserInDivision> UsersInDivisions { get; set; }
+        public virtual DbSet<AddressBook> AddressBooks { get; set; }
+        public virtual DbSet<RoleHierarchy> RoleHierarchies { get; set; }
 
         // Shipment
-        public DbSet<Shipment> Shipments { get; set; }
-        public DbSet<ShipmentAddress> ShipmentAddresses { get; set; }
-        public DbSet<ShipmentPackage> ShipmentPackages { get; set; }
-        public DbSet<PackageProduct> PackageProducts { get; set; }
-        public DbSet<PaymentType> PaymentTypes { get; set; }
-        public DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
-        public DbSet<LocationActivity> LocationActivities { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
-        public DbSet<InvoiceDisputeHistory> InvoiceDisputeHistories { get; set; }
+        public virtual DbSet<Shipment> Shipments { get; set; }
+        public virtual DbSet<ShipmentAddress> ShipmentAddresses { get; set; }
+        public virtual DbSet<ShipmentPackage> ShipmentPackages { get; set; }
+        public virtual DbSet<PackageProduct> PackageProducts { get; set; }
+        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
+        public virtual DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
+        public virtual DbSet<LocationActivity> LocationActivities { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoiceDisputeHistory> InvoiceDisputeHistories { get; set; }
 
-        public DbSet<VolumeMetric> VolumeMetrics { get; set; }
-        public DbSet<WeightMetric> WeightMetrics { get; set; }
-        public DbSet<ShipmentPayment> ShipmentPayments { get; set; }
-        public DbSet<ShipmentDocument> ShipmentDocument { get; set; }
-
-        public DbSet<CommercialInvoice> CommercialInvoices { get; set; }
-        
-        public DbSet<CarrierService> CarrierService { get; set; }
-
-        public DbSet<Carrier> Carrier { get; set; }
-
-        public DbSet<Rate> Rate { get; set; }
-
-        public DbSet<Zone> Zone { get; set; }
-
-        public DbSet<TransmitTime> TransmitTime { get; set; }
-
-        public DbSet<TariffType> TariffType { get; set; }
-
-        public DbSet<AuditTrail> AuditTrail { get; set; }           
-        
-        public DbSet<CreditNote> CreditNotes { get; set; }
-
-        public DbSet<TarrifTextCode> TarrifTextCodes { get; set; }
-
-        public DbSet<Client> Clients { get; set; }
-        
-        public DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<VolumeMetric> VolumeMetrics { get; set; }
+        public virtual DbSet<WeightMetric> WeightMetrics { get; set; }
+        public virtual DbSet<ShipmentPayment> ShipmentPayments { get; set; }
+        public virtual DbSet<ShipmentDocument> ShipmentDocument { get; set; }
+              
+        public virtual DbSet<CommercialInvoice> CommercialInvoices { get; set; }
+              
+        public virtual DbSet<CarrierService> CarrierService { get; set; }
+              
+        public virtual DbSet<Carrier> Carrier { get; set; }
+             
+        public virtual DbSet<Rate> Rate { get; set; }
+              
+        public virtual DbSet<Zone> Zone { get; set; }
+              
+        public virtual DbSet<TransmitTime> TransmitTime { get; set; }
+              
+        public virtual DbSet<TariffType> TariffType { get; set; }
+               
+        public virtual DbSet<AuditTrail> AuditTrail { get; set; }           
+              
+        public virtual DbSet<CreditNote> CreditNotes { get; set; }
+               
+        public virtual DbSet<TarrifTextCode> TarrifTextCodes { get; set; }
+               
+        public virtual DbSet<Client> Clients { get; set; }
+              
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
 
         public PIContext()
