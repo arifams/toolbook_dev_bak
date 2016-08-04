@@ -20,6 +20,12 @@ namespace PI.Business
 {
     public class AddressBookManagement: IAddressBookManagement
     {
+        private PIContext context;
+
+        public AddressBookManagement(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
 
         public PagedList GetAllAddresses(string type, string userId, string searchtext, int page = 1, int pageSize = 25)
                                          

@@ -76,6 +76,7 @@
     <Compile Include="CompanyManagementTests.cs" />
     <Compile Include="CustomerManagementTests.cs" />
     <Compile Include="InvoiceMangementTests.cs" />
+    <Compile Include="MoqHelper.cs" />
     <Compile Include="ProfileManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipmentsManagementTests.cs" />

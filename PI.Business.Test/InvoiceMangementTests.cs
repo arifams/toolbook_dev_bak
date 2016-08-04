@@ -37,7 +37,6 @@ namespace PI.Business.Tests
                                                    shipmentNumber, invoiceNumber);
 
             Assert.AreNotEqual(response.TotalRecords, 0);
-
         }
 
         [Test]

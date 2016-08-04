@@ -12,7 +12,6 @@
 
         vm.model.customerDetails = {};
         vm.model.customerDetails.customerAddress = {};
-        //vm.model.customerDetails.salutation = 'Mr';
         vm.model.customerDetails.customerAddress.country = 'US';
         vm.hidePanel = false;
         vm.errorCode = false;

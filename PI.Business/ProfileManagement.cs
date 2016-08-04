@@ -21,6 +21,13 @@ namespace PI.Business
     {
         CommonLogic commonLogics = new CommonLogic();
 
+        private PIContext context;
+
+        public ProfileManagement(PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+        }
+
         //get the profile details
         public ProfileDto getProfileByUserName(string username)
         {
@@ -288,8 +295,6 @@ namespace PI.Business
                 currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
                 currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber;
                 currentCustomer.MobileNumber = updatedProfile.CustomerDetails.MobileNumber;
-                currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
-                currentCustomer.Password = updatedProfile.CustomerDetails.Password;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
                 currentCustomer.JobCapacity = updatedProfile.CustomerDetails.JobCapacity;
                 //set customer entity state as modified
@@ -500,10 +505,6 @@ namespace PI.Business
 
 
                 //this section added for updating profile details for the first time user Login
-                if (updatedProfile.CustomerDetails.UserName!=null)
-                {
-                    currentCustomer.UserName = updatedProfile.CustomerDetails.UserName;
-                }
                 if (updatedProfile.CustomerDetails.Email!=null)
                 {
                     currentCustomer.Email = updatedProfile.CustomerDetails.Email;
@@ -908,9 +909,9 @@ namespace PI.Business
         {
             using (PIContext context = PIContext.Get())
             {
-                Customer currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
-                currentCustomer.Password = updatedProfile.NewPassword;
-                context.SaveChanges();
+                ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == updatedProfile.CustomerDetails.UserId);
+                //currentCustomer.Password = updatedProfile.NewPassword;
+                //context.SaveChanges();
             }
 
             return 1;
