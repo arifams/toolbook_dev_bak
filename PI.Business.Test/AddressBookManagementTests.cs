@@ -11,23 +11,19 @@ using PI.Data.Entity;
 using Moq;
 using System.Data.Entity;
 using PI.Data;
+using PI.Business.Test;
 
 namespace PI.Business.Tests
 {
     [TestFixture]
     public class AddressBookManagementTests
     {
-        readonly AddressBookManagement addressBookManagement = null;      
-        readonly Mock<PIContext>  mockContext = null;
+        private AddressBookManagement addressBookManagement = null;      
+        //readonly Mock<PIContext>  mockContext = null;
 
-        public AddressBookManagementTests()
-        {          
-            var mockSet = new Mock<DbSet<AddressBook>>();
-            mockContext = new Mock<PIContext>();
-
-            mockContext.Setup(m => m.AddressBooks).Returns(mockSet.Object);
-
-            List<AddressBook> list = new List<AddressBook>
+        public void Init()
+        {
+            List<AddressBook> addresses = new List<AddressBook>
             {
              new AddressBook {
                  Id=0,
@@ -47,23 +43,31 @@ namespace PI.Business.Tests
                  UserId="07264f19-3362-4e26-ba6d-e6ffd244e822",
                  ZipCode="12345",
                  IsActive=true
-                 
-             },            
-            };
 
-            IQueryable<AddressBook> queryableList = list.AsQueryable();
-            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.Provider).Returns(queryableList.Provider);
-            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.Expression).Returns(queryableList.Expression);
-            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.ElementType).Returns(queryableList.ElementType);
-            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.GetEnumerator()).Returns(queryableList.GetEnumerator());
+             },
+           };
 
-            var addressBookManagement = new AddressBookManagement(mockContext.Object);    
+            //////
+            //var mockSet = new Mock<DbSet<AddressBook>>();
+            //Mock<PIContext> mockContext  = new Mock<PIContext>();
+
+            //mockContext.Setup(m => m.AddressBooks).Returns(mockSet.Object);
+            ////////
+
+            var mockSet = MoqHelper.CreateMockForDbSet<AddressBook>()
+                                                .SetupForQueryOn(addresses)
+                                                .WithAdd(addresses);
+
+            var mockContext = MoqHelper.CreateMockForDbContext<PIContext, AddressBook>(mockSet);
+
+            addressBookManagement = new AddressBookManagement(mockContext.Object);    
         }
         
 
         [Test]
         public void SaveAddressDetailTest()
         {
+            Init();
             AddressBookDto dto = new AddressBookDto();
             dto.CompanyName = "comp1234567890";
             dto.UserId = "1";
