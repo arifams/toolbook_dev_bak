@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PI.Data.Entity;
-
+using Moq;
+using System.Data.Entity;
+using PI.Data;
 
 namespace PI.Business.Tests
 {
@@ -16,11 +18,47 @@ namespace PI.Business.Tests
     public class AddressBookManagementTests
     {
         readonly AddressBookManagement address = null;
-        long addressId = 0;
+      
+        readonly Mock<PIContext>  mockContext = null;
 
         public AddressBookManagementTests()
-        {
+        {          
+            var mockSet = new Mock<DbSet<AddressBook>>();
+            mockContext = new Mock<PIContext>();
+
+            mockContext.Setup(m => m.AddressBooks).Returns(mockSet.Object);
+
+            List<AddressBook> list = new List<AddressBook>
+            {
+             new AddressBook {
+                 Id=0,
+                 AccountNumber="1234",
+                 City="City1",
+                 CompanyName="Company Name",
+                 Country="US",
+                 EmailAddress="test@mail.com",
+                 FirstName="fname",
+                 LastName="lname",
+                 PhoneNumber="1231231233",
+                 Number="1234",
+                 Salutation="Mr",
+                 State="State1",
+                 StreetAddress1="address1",
+                 StreetAddress2="address2",
+                 UserId="07264f19-3362-4e26-ba6d-e6ffd244e822",
+                 ZipCode="12345",
+                 IsActive=true
+                 
+             },            
+            };
+
+            IQueryable<AddressBook> queryableList = list.AsQueryable();
+            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.Provider).Returns(queryableList.Provider);
+            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.Expression).Returns(queryableList.Expression);
+            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.ElementType).Returns(queryableList.ElementType);
+            mockSet.As<IQueryable<AddressBook>>().Setup(m => m.GetEnumerator()).Returns(queryableList.GetEnumerator());
             address = new AddressBookManagement();
+            address.context = mockContext.Object;
         }
         
 
@@ -53,57 +91,50 @@ namespace PI.Business.Tests
 
         [Test]
         public void GetAllAddressesTest()
-        {
-            List<AddressBookDto> pageRecord = address.GetAllAddresses(null, "1", "comp1234567890").Content as List<AddressBookDto>;
-            addressId = pageRecord.First().Id;
+        {           
+            string userId= "07264f19-3362-4e26-ba6d-e6ffd244e822";
+            string searchtext = "";
 
-            
-            //Assert.AreEqual(pageRecord.First().Id, 1);
+            List<AddressBookDto> pageRecord = address.GetAllAddresses(null, userId, searchtext).Content as List<AddressBookDto>;                    
+            Assert.AreNotEqual(pageRecord.Count,0);
         }
 
         [Test]
         public void GetAddressBookByIdTest()
         {
-            AddressBook response = address.GetAddressBookById(addressId);
-
-            
-            //Assert.AreEqual(response.Id, addressId);
+            AddressBook response = address.GetAddressBookById(0);            
+            Assert.AreEqual(response.Id, 0);
         }
 
         [Test]
         public void GetFilteredAddressesTest()
         {
-            PagedList pagedRecord = address.GetFilteredAddresses("", "comp1234567890");
+            string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
+            string searchtext = "";
 
-            
-            //Assert.AreEqual(pagedRecord.TotalRecords, 1);
+            PagedList pagedRecord = address.GetFilteredAddresses(userId, searchtext);          
+            Assert.AreEqual(pagedRecord.TotalRecords, 1);
         }
 
         [Test]
         public void GetAddressBookDtoByIdTest()
         {
-            AddressBookDto response = address.GetAddressBookDtoById(addressId);
-
-            
-            //Assert.AreEqual(response.Id, addressId);
+            AddressBookDto response = address.GetAddressBookDtoById(0);                       
+            Assert.AreEqual(response.Id, 0);
         }
 
         [Test]
         public void GetAddressBookDetailsByUserIdTest()
         {
-            byte[] response = address.GetAddressBookDetailsByUserId("active","24234233344" ,"test", 1, 1);
-
-            
-            //Assert.AreEqual(response.Length, 100);
+            byte[] response = address.GetAddressBookDetailsByUserId("active","24234233344" ,"test", 1, 1);                       
+            Assert.AreEqual(response.Length, 100);
         }
 
         [Test]
         public void DeleteAddressTest()
         {
-            int response = address.DeleteAddress(addressId);
-
-            
-            //Assert.AreEqual(response, 1);
+            int response = address.DeleteAddress(0);            
+            Assert.AreEqual(response, 1);
         }
 
         [Test]
