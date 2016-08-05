@@ -8,23 +8,263 @@ using PI.Contract.DTOs.Customer;
 using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
+using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Moq;
+using PI.Business.Test;
+using PI.Data;
+using PI.Data.Entity.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PI.Business.Tests
 {
     [TestFixture]
     public class CompanyManagementTests
     {
-        CompanyManagement company = null;
-        
-        public CompanyManagementTests()
-        {
-            company = new CompanyManagement();
+       private CompanyManagement companyManagement = null;
 
+        [TestFixtureSetUp]
+        public void Init()
+        {
+            List<IdentityRole> roles = new List<IdentityRole>()
+            {
+                new IdentityRole
+                {
+                    Id="1",
+                    Name="BusinessOwner",
+                 
+                }
+            };
+
+            List<IdentityUserRole> userroles = new List<IdentityUserRole>()
+            {
+                new IdentityUserRole
+                {
+                   RoleId="1",
+                   UserId="1"
+
+                }
+            };
+
+
+            List<ApplicationUser> users = new List<ApplicationUser>()
+            {
+                new ApplicationUser()
+                {
+                        Id="1",
+                        UserName="user1",
+                        Email="user1@parcel.com",
+                        FirstName="fname",
+                        LastName="lname",
+                        IsActive=true,
+                        IsDeleted=false,
+                        Salutation="Mr",
+                        TenantId=1,
+                        PhoneNumber="1231231233",
+                       
+                }
+            };
+
+            List<DivisionCostCenter> divisionCostCenters = new List<DivisionCostCenter>()
+            {
+                new DivisionCostCenter
+                {
+                    CostCenterId=1,
+                    DivisionId=1,
+                    Id=1,
+                    IsAssigned=true,
+                    IsActive=true,
+                    IsDelete=false,
+                    CostCenters=new CostCenter(),
+                    Divisions= new Division()
+
+                }
+            };
+
+            List<CostCenter> costCenters = new List<CostCenter>()
+            {
+               new CostCenter
+                {
+                    Id = 1,
+                    BillingAddressId = 1,
+                    CompanyId = 1,
+                    Description = "costcenter",
+                    Name = "cc_finance",
+                    IsActive = true,
+                    IsDelete = false,
+                    PhoneNumber = "12312312312",
+                    Type="USER"
+                   // DivisionCostCenters= divisionCostCenters
+,
+                },
+            };
+
+            List<Company> companies = new List<Company>()
+            {
+                new Company
+                {
+                    Id=1,
+                     Name="comp1",
+                     IsActive=true,
+                     IsDelete=false,
+                     CompanyCode="comp1",
+                     LogoUrl="http://parcelinternational.com",
+                     TenantId=1,
+                     COCNumber="1234",
+                     VATNumber="vat123",
+                     IsInvoiceEnabled=true,
+                }
+            };
+
+           
+
+            List<Tenant> tenants = new List<Tenant>()
+            {
+              new Tenant
+              {
+                    Id = 1,
+                    TenancyName = "tenant1",
+                    IsCorporateAccount = true,
+                    IsActive = true,
+                    IsDelete = false
+              }
+            };
+
+
+            List<UserInDivision> userindivisions = new List<UserInDivision>()
+            {
+                new UserInDivision
+                {
+                    UserId="1",
+                    DivisionId=1,
+                    User= new ApplicationUser
+                    {
+                        Id="1",
+                        UserName="user1",
+                        Email="user1@parcel.com",
+                        FirstName="fname",
+                        LastName="lname",
+                        IsActive=true,
+                        IsDeleted=false,
+                        Salutation="Mr",
+                        TenantId=1,
+                        PhoneNumber="1231231233",                                                
+                    }
+                }
+            };
+
+            List<Division> divisions = new List<Division>
+            {  
+               
+             new Division {
+
+                 Id=1,
+                 CompanyId=1,
+                 IsActive=true,
+                 IsDelete=false,
+                 Name="div1",
+                 Description="finance_div",
+                 DefaultCostCenterId=1,
+                 UserInDivisions=userindivisions,
+                 Type="USER",
+                 
+                
+                 CostCenter= new CostCenter
+                 {
+                     Id=1,
+                     BillingAddressId=1,
+                     CompanyId=1,
+                     Description="costcenter",
+                     Name="cc_finance",
+                     IsActive=true,
+                     IsDelete=false,
+                     PhoneNumber="12312312312",
+                     Type="USER"
+,                 },
+
+                 Company= new Company
+                 {
+                     Id=1,
+                     Name="comp1",
+                     IsActive=true,
+                     IsDelete=false,
+                     CompanyCode="comp1",
+                     LogoUrl="http://parcelinternational.com",
+                     TenantId=1,
+                     COCNumber="1234",
+                     VATNumber="vat123",
+                     IsInvoiceEnabled=true,
+                     
+
+                     Tenant= new Tenant
+                     {
+                         Id=1,
+                         TenancyName="tenant1",
+                         IsCorporateAccount=true,
+                         IsActive=true,
+                         IsDelete=false
+                     }
+                 }
+             },             
+                     
+            };
+
+            List<Customer> customers = new List<Customer>()
+            {
+                new Customer
+                {
+                    UserId="1",
+                    AddressId=1,
+                    Email="user1@parcel.com",
+                    FirstName="fname",
+                    JobCapacity="jobcapacity",
+                    LastName="lname",
+                    Id=1                  
+
+                }
+            };        
+
+            var mockSetDivisions = MoqHelper.CreateMockForDbSet<Division>()
+                                                .SetupForQueryOn(divisions)
+                                                .WithAdd(divisions);
+            var mockSetUserindivisions = MoqHelper.CreateMockForDbSet<UserInDivision>()
+                                               .SetupForQueryOn(userindivisions)
+                                               .WithAdd(userindivisions);
+            var mockSetCostCenters = MoqHelper.CreateMockForDbSet<CostCenter>()
+                                             .SetupForQueryOn(costCenters)
+                                             .WithAdd(costCenters);
+            var mockSetCompanies = MoqHelper.CreateMockForDbSet<Company>()
+                                             .SetupForQueryOn(companies)
+                                             .WithAdd(companies);
+            var mockSetTenants = MoqHelper.CreateMockForDbSet<Tenant>()
+                                             .SetupForQueryOn(tenants)
+                                             .WithAdd(tenants);
+            var mockSetDivisionCostCenters= MoqHelper.CreateMockForDbSet<DivisionCostCenter>()
+                                             .SetupForQueryOn(divisionCostCenters)
+                                             .WithAdd(divisionCostCenters);
+            var mockSetusers = MoqHelper.CreateMockForDbSet<ApplicationUser>()
+                                            .SetupForQueryOn(users)
+                                            .WithAdd(users);
+
+
+
+            var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Division>(mockSetDivisions);
+
+
+            mockContext.Setup(c => c.Divisions).Returns(mockSetDivisions.Object);
+            mockContext.Setup(c => c.UsersInDivisions).Returns(mockSetUserindivisions.Object);
+            mockContext.Setup(c => c.CostCenters).Returns(mockSetCostCenters.Object);
+            mockContext.Setup(c => c.Companies).Returns(mockSetCompanies.Object);
+            mockContext.Setup(c => c.Tenants).Returns(mockSetTenants.Object);
+            mockContext.Setup(c => c.DivisionCostCenters).Returns(mockSetDivisionCostCenters.Object);
+            mockContext.Setup(c => c.Users).Returns(mockSetusers.Object);
+
+
+            companyManagement = new CompanyManagement(mockContext.Object);
         }
 
         [Test]
@@ -63,47 +303,51 @@ namespace PI.Business.Tests
                 }             
             };
 
-            var response = company.CreateCompanyDetails(dto);
+            var response = companyManagement.CreateCompanyDetails(dto);
+            Assert.AreEqual(response, 0);
            
         }
 
+        //using common methods 
         [Test]
         public void GetAllCostCentersForCompanyTest()
         {
-            string userId = "cdf30573-1fba-412e-972f-ec867b02d07e";
-            var response = company.GetAllCostCentersForCompany(userId);
-            Assert.AreNotEqual(response.Count, 0);
+            string userId = "1";
+            var response = companyManagement.GetAllCostCentersForCompany(userId);
+            Assert.AreEqual(response.FirstOrDefault().Id, 1);
         }
 
         [Test]
         public void GetCostCentersbyDivisionTest()
         {
-            string companyId = "10";
-            var response = company.GetCostCentersbyDivision(companyId);
-            Assert.AreNotEqual(response.Count, 0);
+            string companyId = "1";
+            var response = companyManagement.GetCostCentersbyDivision(companyId);
+            Assert.AreEqual(response.FirstOrDefault().Id, 1);
         }
 
+        //using common methods// roles ?? 
         [Test]
         public void GetAllCostCentersTest()
         {
-            long divId = 0;
-            string userId = "";          
-            PagedList pageRecords = company.GetAllCostCenters(divId, "Active", userId,"", 1, 10, "Id", "asc");
+            long divId = 1;
+            string userId = "1";          
+            PagedList pageRecords = companyManagement.GetAllCostCenters(divId, "USER", userId,"", 1, 10, "Id", "asc");
             Assert.AreNotEqual(pageRecords.TotalRecords, 0);
         }
 
         [Test]
         public void GetCostCentersByIdTest()
         {
-            string userId = "";
+            string userId = "1";
             long id = 0;
-            CostCenterDto response = company.GetCostCentersById(id, userId);
+            CostCenterDto response = companyManagement.GetCostCentersById(id, userId);
             Assert.AreNotEqual(response, null);
 
         }
 
-        [Test]
-        public void SaveCostCenterTest()
+        [TestCase("cc_finance")]
+        [TestCase("cc_hr")]
+        public void SaveCostCenterTest(string name)
         {
             IList<long> divList = new List<long>();
             divList.Add(1);
@@ -111,13 +355,14 @@ namespace PI.Business.Tests
 
             CostCenterDto costCenter = new CostCenterDto()
             {
-                Id=0,
-                Name = "TestCost Center",
+                Id=2,
+                Name = name,
                 Description = "Test Desc",
                 PhoneNumber = "34534534555",
                 Status = 1,
                 CompanyId =1, //costCenter.CompanyId, TODO H - why?
-                Type = "USER",            
+                Type = "USER",  
+                UserId="1",          
                     
                 BillingAddress = new AddressDto()
                 {
@@ -135,39 +380,47 @@ namespace PI.Business.Tests
 
             };
 
-            int response = company.SaveCostCenter(costCenter);
-            Assert.AreEqual(response, 1);
+            int response = companyManagement.SaveCostCenter(costCenter);
+            if (name== "cc_finance")
+            {
+                Assert.AreEqual(response, -1);
+            }
+            else
+            {
+                Assert.AreEqual(response, 1);
+            }
+          
         }
 
         [Test]
         public void DeleteCostCenterTest()
         {
-            long id = 10;
-            int response = company.DeleteCostCenter(id);
+            long id = 1;
+            int response = companyManagement.DeleteCostCenter(id);
             Assert.AreEqual(response, 1);
         }
 
         [Test]
         public void GetAllActiveDivisionsForCompanyTest()
         {
-            string UserId = "";
-            IList<DivisionDto> response = company.GetAllActiveDivisionsForCompany(UserId);
-            Assert.AreNotEqual(response.Count, 0);
+            string UserId = "1";
+            IList<DivisionDto> response = companyManagement.GetAllActiveDivisionsForCompany(UserId);
+            Assert.AreEqual(response.Count, 1);
         }
 
         [Test]
         public void GetAllActiveDivisionsOfUserTest()
         {
-            string UserId = "";
-            IList<DivisionDto> response = company.GetAllActiveDivisionsOfUser(UserId);
+            string UserId = "1";
+            IList<DivisionDto> response = companyManagement.GetAllActiveDivisionsOfUser(UserId);
             Assert.AreNotEqual(response.Count, 0);
         }
 
         [Test]
         public void GetAllDivisionsForCompanyTest()
         {
-            string UserId = "";
-            IList<DivisionDto> response = company.GetAllDivisionsForCompany(UserId);
+            string UserId = "1";
+            IList<DivisionDto> response = companyManagement.GetAllDivisionsForCompany(UserId);
             Assert.AreNotEqual(response.Count, 0);
 
         }
@@ -175,8 +428,8 @@ namespace PI.Business.Tests
         [Test]
         public void GetAssignedDivisionsTest()
         {
-            string UserId = "";
-            IList<DivisionDto> response = company.GetAssignedDivisions(UserId);
+            string UserId = "1";
+            IList<DivisionDto> response = companyManagement.GetAssignedDivisions(UserId);
             Assert.AreNotEqual(response.Count, 0);
 
         }
@@ -184,9 +437,9 @@ namespace PI.Business.Tests
         [Test]
         public void GetAllDivisionsTest()
         {
-            long costcenterId = 0;
-            string userId = "";
-            PagedList pageRecords = company.GetAllDivisions(costcenterId, "Active", userId, "", 1, 10, "Id", "asc");
+            long costcenterId = 1;
+            string userId = "1";
+            PagedList pageRecords = companyManagement.GetAllDivisions(costcenterId, "USER", userId, "", 1, 10, "Id", "asc");
             Assert.AreNotEqual(pageRecords.TotalRecords, 0);
 
         }
@@ -195,14 +448,15 @@ namespace PI.Business.Tests
         public void GetDivisionByIdTest()
         {
             long divId = 1;
-            string userId = "";
-            DivisionDto response = company.GetDivisionById(divId, userId);
+            string userId = "1";
+            DivisionDto response = companyManagement.GetDivisionById(divId, userId);
             Assert.AreNotEqual(response, null);
 
         }
 
-        [Test]
-        public void SaveDivisionTest()
+        [TestCase("div1")]
+        [TestCase("div2")]
+        public void SaveDivisionTest(string name)
         {
             DivisionDto division = new DivisionDto()
             {
@@ -210,16 +464,22 @@ namespace PI.Business.Tests
                 CompanyId=1,
                 DefaultCostCenterId=1,
                 Description="Desc",
-                Name="Division1",
+                Name= name,
                 NumberOfUsers=1,
                 Status=1,
                 Type="USER",
-                UserId= "cdf30573-1fba-412e-972f-ec867b02d07e"
-
+                UserId= "1"
             };
 
-            int response = company.SaveDivision(division);
-            Assert.AreEqual(response, 1);
+            int response = companyManagement.SaveDivision(division);
+            if (name== "div1")
+            {
+                Assert.AreEqual(response, -1);
+            }
+            else
+            {
+                Assert.AreEqual(response, 1);
+            }            
 
         }
 
@@ -227,7 +487,7 @@ namespace PI.Business.Tests
         public void DeleteDivisionTest()
         {
             long divisionId = 1;
-            int response = company.DeleteDivision(divisionId);
+            int response = companyManagement.DeleteDivision(divisionId);
             Assert.AreEqual(response, 1);
             
         }
@@ -235,8 +495,8 @@ namespace PI.Business.Tests
         [Test]
         public void IsLoggedInAsBusinessOwnerTest()
         {
-            string userId = "";
-            bool response = company.IsLoggedInAsBusinessOwner(userId);
+            string userId = "1";
+            bool response = companyManagement.IsLoggedInAsBusinessOwner(userId);
             Assert.AreEqual(response, true);
             
         }
@@ -244,8 +504,8 @@ namespace PI.Business.Tests
         [Test]
         public void IsLoggedInAsNotBusinessOwnerTest()
         {
-            string userId = "";
-            bool response = company.IsLoggedInAsBusinessOwner(userId);
+            string userId = "1";
+            bool response = companyManagement.IsLoggedInAsBusinessOwner(userId);
             Assert.AreEqual(response, false);
 
         }
@@ -253,8 +513,8 @@ namespace PI.Business.Tests
         [Test]
         public void GetLoggedInUserNameTest()
         {
-            string userId = "";
-            string response = company.GetLoggedInUserName(userId);
+            string userId = "1";
+            string response = companyManagement.GetLoggedInUserName(userId);
             Assert.AreEqual(response, null);
         }
 
@@ -267,8 +527,8 @@ namespace PI.Business.Tests
         [Test]
         public void GetAllActiveChildRolesTest()
         {
-            string userId = "";
-            List<RolesDto> response = company.GetAllActiveChildRoles(userId);
+            string userId = "1";
+            List<RolesDto> response = companyManagement.GetAllActiveChildRoles(userId);
             Assert.AreNotEqual(response.Count, 0);
 
         }
@@ -276,9 +536,9 @@ namespace PI.Business.Tests
         [Test]
         public void GetUserByIdTest()
         {
-            string userId = "";
-            string loggedinUserId = "";
-            UserDto response = company.GetUserById(userId, loggedinUserId);
+            string userId = "1";
+            string loggedinUserId = "1";
+            UserDto response = companyManagement.GetUserById(userId, loggedinUserId);
             Assert.AreNotEqual(response, null);
         }
 
@@ -287,28 +547,28 @@ namespace PI.Business.Tests
         {
             UserDto user = new UserDto()
             {
-                LoggedInUserId = "",
+                LoggedInUserId = "2",
                 IsActive = true,
-                UserName = "",
-                FirstName = "",
-                LastName = "",
-                Email = "",
+                UserName = "UserName@sdfs",
+                FirstName = "FirstName",
+                LastName = "LastName",
+                Email = "UserName@sdfs",
                 LastLoginTime = DateTime.Now.ToString(),
-                MiddleName = "",
+                MiddleName = "MiddleName",
                 RoleName = "BusinessOwner",
-                Password = "",
+                Password = "123333",
                 Salutation = "Mr"
 
             };
-            UserResultDto response = company.SaveUser(user);
+            UserResultDto response = companyManagement.SaveUser(user);
             Assert.AreNotEqual(response, null);
         }
 
         [Test]
         public void LoadUserManagementTest()
         {
-            string logggedInUserId = "";
-            UserDto response = company.LoadUserManagement(logggedInUserId);
+            string logggedInUserId = "1";
+            UserDto response = companyManagement.LoadUserManagement(logggedInUserId);
             Assert.AreNotEqual(response, null);
         }
 
@@ -317,10 +577,10 @@ namespace PI.Business.Tests
         {
             long division=1;
             string role = "BusinessOwner";
-            string userId = "";
-            string status = "1";
+            string userId = "1";
+            string status = "True";
             string searchtext = "";
-            PagedList response = company.GetAllUsers(division,role,userId,status,searchtext);
+            PagedList response = companyManagement.GetAllUsers(division,role,userId,status,searchtext);
             Assert.AreNotEqual(response.TotalRecords, 0);
 
         }
@@ -328,25 +588,25 @@ namespace PI.Business.Tests
         [Test]
         public void GetRoleNameTest()
         {
-            string roleId = "af354b00-317f-4f45-8b10-3671de73d918";
-            string responce = company.GetRoleName(roleId);
+            string roleId = "1";
+            string responce = companyManagement.GetRoleName(roleId);
             Assert.AreEqual(responce, "BusinessOwner");
         }
 
         [Test]
         public void GetAccountTypeTest()
         {
-            string userId = "af354b00-317f-4f45-8b10-3671de73d918";
-            bool responce=company.GetAccountType(userId);
+            string userId = "1";
+            bool responce= companyManagement.GetAccountType(userId);
             Assert.AreEqual(responce, true);
         }
 
         [Test]
         public void GetAllComapniesTest()
         {
-            string status="";
+            string status=null;
             string searchtext = "";
-            PagedList response = company.GetAllComapnies(status, searchtext);
+            PagedList response = companyManagement.GetAllComapnies(status, searchtext);
             Assert.AreNotEqual(response.TotalRecords, 0);
             
         }
@@ -355,7 +615,7 @@ namespace PI.Business.Tests
         public void GetAllComapniesForAdminSearchTest()
         {
             string searchtext = "";
-            PagedList response = company.GetAllComapniesForAdminSearch(searchtext);
+            PagedList response = companyManagement.GetAllComapniesForAdminSearch(searchtext);
             Assert.AreNotEqual(response.TotalRecords, 0);
         }
 
@@ -363,7 +623,7 @@ namespace PI.Business.Tests
         public void ChangeCompanyStatusTest()
         {
             long comapnyId = 0;
-            bool response = company.ChangeCompanyStatus(comapnyId);
+            bool response = companyManagement.ChangeCompanyStatus(comapnyId);
             Assert.AreEqual(response, true);
         }
 
@@ -371,7 +631,7 @@ namespace PI.Business.Tests
         public void GetCompanyByUserIDTest()
         {
             string userID = "";
-            CompanyDto response = company.GetCompanyByUserID(userID);
+            CompanyDto response = companyManagement.GetCompanyByUserID(userID);
             Assert.AreNotEqual(response, null);
         }
 
@@ -379,7 +639,7 @@ namespace PI.Business.Tests
         public void GetBusinessOwneridbyCompanyIdTest()
         {
             string companyId = "";
-            string response = company.GetBusinessOwneridbyCompanyId(companyId);
+            string response = companyManagement.GetBusinessOwneridbyCompanyId(companyId);
             Assert.AreNotEqual(response, string.Empty);
         }
 
@@ -388,7 +648,7 @@ namespace PI.Business.Tests
         {
             string URL="";
             string userId="";
-            bool response = company.UpdateCompanyLogo(URL, userId);
+            bool response = companyManagement.UpdateCompanyLogo(URL, userId);
             Assert.AreEqual(response, true);
 
         }

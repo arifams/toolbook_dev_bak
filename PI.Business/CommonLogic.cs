@@ -26,12 +26,12 @@ namespace PI.Business
         /// <returns></returns>
         public string GetUserRoleById(string userId)
        {
-           using (PIContext context = PIContext.Get())
-           {
+           //using (PIContext context = PIContext.Get())
+           //{
                string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
                string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
                return roleName;
-           }
+          // }
        }
 
 
@@ -45,12 +45,12 @@ namespace PI.Business
 
             if (string.IsNullOrWhiteSpace(userId))
                 return new Company { Name = ""};
-           using (PIContext context = PIContext.Get())
-           {
+           //using (PIContext context = PIContext.Get())
+           //{
                var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
 
                return context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
-           }
+         //  }
        }
 
 
@@ -62,10 +62,10 @@ namespace PI.Business
        public long GetTenantIdByUserId(string userid)
        {
            ApplicationUser currentuser = null;
-           using (PIContext context = PIContext.Get())
-           {
+           //using (PIContext context = PIContext.Get())
+           //{
                currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
-           }
+           //}
            if (currentuser == null)
            {
                return 0;
@@ -76,11 +76,11 @@ namespace PI.Business
 
         public string GetLanguageCodeById(short id)
         {
-            using (PIContext context= PIContext.Get())
-            {
+            //using (PIContext context= PIContext.Get())
+            //{
                 var language = context.Languages.SingleOrDefault(l => l.Id == id).LanguageCode;
                 return language;
-            }
+           // }
         }
 
     }
