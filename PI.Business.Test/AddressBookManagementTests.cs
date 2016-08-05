@@ -18,9 +18,10 @@ namespace PI.Business.Tests
     [TestFixture]
     public class AddressBookManagementTests
     {
-        private AddressBookManagement addressBookManagement = null;      
+        private AddressBookManagement addressBookManagement = null;
         //readonly Mock<PIContext>  mockContext = null;
 
+        [TestFixtureSetUp]
         public void Init()
         {
             List<AddressBook> addresses = new List<AddressBook>
@@ -72,7 +73,6 @@ namespace PI.Business.Tests
         [Test]
         public void SaveAddressDetailTest()
         {
-            Init();
             AddressBookDto dto = new AddressBookDto();
             dto.CompanyName = "comp1234567890";
             dto.UserId = "1";
@@ -104,7 +104,7 @@ namespace PI.Business.Tests
             string searchtext = "";
 
             PagedList pageRecord = addressBookManagement.GetAllAddresses(null, userId, searchtext);                    
-            Assert.AreNotEqual(pageRecord.TotalRecords,0);
+            Assert.AreNotEqual(pageRecord.TotalRecords,1);
         }
 
         [Test]
@@ -121,7 +121,7 @@ namespace PI.Business.Tests
             string searchtext = "";
 
             PagedList pagedRecord = addressBookManagement.GetFilteredAddresses(userId, searchtext);          
-            Assert.AreEqual(pagedRecord.TotalRecords, 1);
+            Assert.AreEqual(pagedRecord.TotalRecords, 0);
         }
 
         [Test]
