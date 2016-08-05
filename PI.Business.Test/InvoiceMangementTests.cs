@@ -1,8 +1,11 @@
 ﻿using NUnit.Framework;
 using PI.Business;
+using PI.Business.Test;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.Enums;
+using PI.Data;
+using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +17,35 @@ namespace PI.Business.Tests
     [TestFixture]
     public class InvoiceMangementTests
     {
-        InvoiceMangement invoice = null;
+       private InvoiceMangement invoiceManagement = null;
 
-        
-        public InvoiceMangementTests()
+        [TestFixtureSetUp]
+        public void Init()
         {
-            invoice = new InvoiceMangement();
+            List<Invoice> invoices = new List<Invoice>()
+            {
+                new Invoice()
+                {
+                    Id=1,
+                    InvoiceStatus=InvoiceStatus.Pending,
+                    InvoiceNumber="inv123",
+                    InvoiceValue=100,                  
+                    Shipment= new Shipment
+                    {
+                        Id=1,
+                        CarrierId=1,
+                        
+                    }
+                }
+            };
+
+            var mockSetinvoices = MoqHelper.CreateMockForDbSet<Invoice>()
+                                           .SetupForQueryOn(invoices)
+                                           .WithAdd(invoices);
+
+            var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Invoice>(mockSetinvoices);
+            mockContext.Setup(c => c.Invoices).Returns(mockSetinvoices.Object);
+            invoiceManagement = new InvoiceMangement(mockContext.Object);
 
         }
 
@@ -33,7 +59,7 @@ namespace PI.Business.Tests
             string shipmentNumber = "";
             string invoiceNumber = "";
 
-            PagedList response = invoice.GetAllInvoicesByCustomer(status, userId, startDate, endDate,
+            PagedList response = invoiceManagement.GetAllInvoicesByCustomer(status, userId, startDate, endDate,
                                                    shipmentNumber, invoiceNumber);
 
             Assert.AreNotEqual(response.TotalRecords, 0);
@@ -45,9 +71,9 @@ namespace PI.Business.Tests
             InvoiceDto invoiceDto = new InvoiceDto()
             {
              Id=1,
-             InvoiceStatus="1"  
+             InvoiceStatus= "1"
             };
-            InvoiceStatus response=invoice.UpdateInvoiceStatus(invoiceDto);
+            InvoiceStatus response= invoiceManagement.UpdateInvoiceStatus(invoiceDto);
             Assert.AreNotEqual(response, invoiceDto.InvoiceStatus);
         }
 
@@ -55,7 +81,7 @@ namespace PI.Business.Tests
         public void PayInvoiceTest()
         {
             long invoiceId = 1;
-            InvoiceStatus response = invoice.PayInvoice(invoiceId);
+            InvoiceStatus response = invoiceManagement.PayInvoice(invoiceId);
             Assert.AreEqual(response, InvoiceStatus.Paid);
         }
 
@@ -68,7 +94,7 @@ namespace PI.Business.Tests
                 DisputeComment="Dispute Test",
                 CreatedBy="1"
             };
-            InvoiceStatus response = invoice.DisputeInvoice(invoicedto);
+            InvoiceStatus response = invoiceManagement.DisputeInvoice(invoicedto);
             Assert.AreEqual(response, InvoiceStatus.Disputed);
         }
 
@@ -85,7 +111,7 @@ namespace PI.Business.Tests
                 DisputeComment="Dispute comment"
             };
 
-            string response = invoice.GetDisputeInvoiceEmailTemplate(invoiceDto);
+            string response = invoiceManagement.GetDisputeInvoiceEmailTemplate(invoiceDto);
             Assert.AreNotEqual(response, null);
 
         }
@@ -100,7 +126,7 @@ namespace PI.Business.Tests
             string shipmentnumber = "";
             string businessowner = "";
             string invoicenumber = "";
-            PagedList response = invoice.GetAllInvoices(status, userId, startDate, endDate,
+            PagedList response = invoiceManagement.GetAllInvoices(status, userId, startDate, endDate,
                                        shipmentnumber, businessowner, invoicenumber);
 
             Assert.AreNotEqual(response.TotalRecords, 0);
@@ -119,7 +145,7 @@ namespace PI.Business.Tests
                 URL = "invoice_url"
             };
 
-            bool response = invoice.SaveInvoiceDetails(invoiceDto);
+            bool response = invoiceManagement.SaveInvoiceDetails(invoiceDto);
             Assert.AreEqual(response, true);
 
         }
@@ -135,7 +161,7 @@ namespace PI.Business.Tests
                 CreatedBy="",                
                 URL ="URL"
             };
-            bool response = invoice.SaveCreditNoteDetails(invoiceDto);
+            bool response = invoiceManagement.SaveCreditNoteDetails(invoiceDto);
             Assert.AreEqual(response, true);
         }
 

@@ -1,7 +1,9 @@
 ﻿using NUnit.Framework;
 using PI.Business;
+using PI.Business.Test;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Customer;
+using PI.Data;
 using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -14,12 +16,34 @@ namespace PI.Business.Tests
     [TestFixture]
     public class CustomerManagementTests
     {
-        CustomerManagement customer = null;
+        private CustomerManagement customerManagement = null;
 
-        
-        public CustomerManagementTests()
+        [TestFixtureSetUp]
+        public void Init()
         {
-            customer = new CustomerManagement();
+            List<Customer> customers = new List<Customer>
+            {
+                new Customer()
+                {
+                    Id=1,
+                    UserId="1",
+                    AddressId=1,
+                    Email="user1@parcel.com",
+                    FirstName="fname",
+                    JobCapacity="jobcapacity",
+                    LastName="lname",
+                    SelectedColour="#FF0000"
+                }
+            };
+
+            var mockSetcustomers = MoqHelper.CreateMockForDbSet<Customer>()
+                                           .SetupForQueryOn(customers)
+                                           .WithAdd(customers);
+
+            var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Customer>(mockSetcustomers);
+            mockContext.Setup(c => c.Customers).Returns(mockSetcustomers.Object);
+            
+            customerManagement = new CustomerManagement(mockContext.Object);           
 
         }
 
@@ -37,7 +61,7 @@ namespace PI.Business.Tests
                 MobileNumber = "1231231233",               
                 UserName = "test@t.com",
                 Password = "pass",
-                UserId = "",
+                UserId = "1",
                 //CompanyId = customer.CompanyId,
                 AddressId = 0,
                 CustomerAddress = new AddressDto()
@@ -51,7 +75,7 @@ namespace PI.Business.Tests
                     State = "State"              
                 }
             };
-            int response = customer.SaveCustomer(customerDetail, false);
+            int response = customerManagement.SaveCustomer(customerDetail, false);
             Assert.AreEqual(response, 1);
         }
 
@@ -59,10 +83,10 @@ namespace PI.Business.Tests
         public void GetCustomerByIdTest()
         {
             long custId = 1;
-            Customer response = customer.GetCustomerById(custId);
+            Customer response = customerManagement.GetCustomerById(custId);
             Assert.AreNotEqual(response, null);
         }
-        
+
 
         //[Test]
         //public void VerifyUserLoginTest()
@@ -92,44 +116,44 @@ namespace PI.Business.Tests
         //            State = "State"
         //        }
         //    };
-        //    int response = customer.VerifyUserLogin(customerDetail);
+        //    int response = customerManagement.VerifyUserLogin(customerDetail);
         //    Assert.AreEqual(response, 1);
         //}
 
         [Test]
         public void GetJwtTokenTest()
         {
-            string userid = "";
-            string role = "";
-            string tenantId = "";
-            string userName = "";
-            string companyId = "";
+            string userid = "1";
+            string role = "BusinessOwner";
+            string tenantId = "1";
+            string userName = "uaser1";
+            string companyId = "1";
 
-            string response=customer.GetJwtToken(userid, role, tenantId, userName, companyId);
+            string response= customerManagement.GetJwtToken(userid, role, tenantId, userName, companyId);
             Assert.AreNotEqual(response, string.Empty);
         }
 
         [Test]
         public void GetBytesTest()
         {
-            string input = "";
-            byte[] response = customer.GetBytes(input);
+            string input = "testinput";
+            byte[] response = customerManagement.GetBytes(input);
             Assert.AreNotEqual(response, null);
         }
 
         [Test]
         public void GetThemeColourTest()
         {
-            string loggedInUserId = "";
-            string response = customer.GetThemeColour(loggedInUserId);
-            Assert.AreNotEqual(response, null);
+            string loggedInUserId = "1";
+            string response = customerManagement.GetThemeColour(loggedInUserId);
+            Assert.AreEqual(response, "#FF0000");
         }
 
         [Test]
         public void GetCustomerByCompanyIdTest()
         {
             int companyId = 1;
-            CustomerDto response = customer.GetCustomerByCompanyId(companyId);
+            CustomerDto response = customerManagement.GetCustomerByCompanyId(companyId);
             Assert.AreNotEqual(response, null);
         }
     }
