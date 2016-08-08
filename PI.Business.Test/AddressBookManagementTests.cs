@@ -12,6 +12,7 @@ using Moq;
 using System.Data.Entity;
 using PI.Data;
 using PI.Business.Test;
+using PI.Contract.DTOs.ImportAddress;
 
 namespace PI.Business.Tests
 {
@@ -151,7 +152,23 @@ namespace PI.Business.Tests
         [Test]
         public void ImportAddressBookTest()
         {
-           // int response= address.ImportAddressBook(IList<ImportAddressDto> addressDetails, userId)
+            string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
+            int response = addressBookManagement.ImportAddressBook(new List<ImportAddressDto>()
+            {
+                new ImportAddressDto()
+                {
+                    CsvContent = ""
+                }
+            }, userId);
+            Assert.AreEqual(response, 0);
+        }
+
+        [Test]
+        public void UpdateAddressBookDatafromExcel()
+        {
+            string userId = "07264f19-3362-4e26-ba6d-e6ffd244e822";
+            bool response = addressBookManagement.UpdateAddressBookDatafromExcel("", userId);
+            Assert.AreEqual(response, false);
         }
     }
 }
