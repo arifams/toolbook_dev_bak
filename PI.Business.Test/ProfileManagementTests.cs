@@ -637,14 +637,15 @@ namespace PI.Business.Tests
 
         }
 
-        [Test]
-        public void UpdateProfileAddressTest()
+        [TestCase("1")]
+        [TestCase("10")]
+        public void UpdateProfileAddressTest(string userId)
         {
             ProfileDto updatedProfile = new ProfileDto()
             {
                 CustomerDetails = new CustomerDto()
                 {
-                    UserId = "1",
+                    UserId = userId,
                     UserName = "UserName",
                     Salutation = "Mr",
                     FirstName = "FirstName",
@@ -652,10 +653,30 @@ namespace PI.Business.Tests
                     LastName = "LastName",
                     Email = "Email@E.com",
                     JobCapacity = "JobCapacity",
-                    IsCorporateAccount = true
+                    IsCorporateAccount = true,
+                    CustomerAddress= new AddressDto
+                    {
+                        Id = 1,
+                        City = "city",
+                        Country = "US",
+                        Number = "123",
+                        State = "state",
+                        StreetAddress1 = "add1",
+                        StreetAddress2 = "add2",
+                        ZipCode = "zip"
+                    }
                 }
             };
             int response = profileManagement.UpdateProfileAddress(updatedProfile);
+           
+            if (userId=="1")
+            {
+                Assert.AreEqual(response, 1);
+            }
+            else if (userId == "10")
+            {
+                Assert.AreEqual(response, 0);
+            }
         }
 
         [Test]
