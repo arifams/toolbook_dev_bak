@@ -226,8 +226,8 @@ namespace PI.Business
                 return 0;
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currntUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
                 if (currntUser == null)
                 {
@@ -261,7 +261,7 @@ namespace PI.Business
 
                 }
 
-            }
+          //  }
 
             currentTenant = this.GetTenantById(currntUser.TenantId);
 
@@ -284,8 +284,8 @@ namespace PI.Business
                 currentCostCenter = currentCostCenters.FirstOrDefault();
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 //updating basic customer details
                 currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
                 currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
@@ -440,7 +440,7 @@ namespace PI.Business
 
                 //saving changes of updated profile
                 //context.SaveChanges();
-            }
+          //  }
             if (updateUserName)
             {
                 return 3;
@@ -457,8 +457,8 @@ namespace PI.Business
         {
             bool updateUserName = false;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 Customer currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                 if (currentCustomer == null)
                 {
@@ -537,7 +537,7 @@ namespace PI.Business
 
                 currentTenant.IsCorporateAccount = updatedProfile.CustomerDetails.IsCorporateAccount;
                 context.SaveChanges();
-            }
+           // }
 
             if (updateUserName)
             {
@@ -551,8 +551,8 @@ namespace PI.Business
 
         public int UpdateProfileAddress(ProfileDto updatedProfile)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 Customer currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                 if (currentCustomer == null)
                 {
@@ -733,7 +733,7 @@ namespace PI.Business
 
                     context.SaveChanges();
                 }
-            }
+           // }
 
             return 1;
         }
@@ -741,8 +741,8 @@ namespace PI.Business
         public int UpdateProfileBillingAddress(ProfileDto updatedProfile)
         {
             Customer currentCustomer;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                 if (currentCustomer == null)
                 {
@@ -753,17 +753,17 @@ namespace PI.Business
                 currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
                 context.SaveChanges();
-            }
+           // }
 
             ApplicationUser currentUser;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
                 if (currentUser == null)
                 {
                     return 0;
                 }
-            }
+        //    }
 
             Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
             if (currentTenant == null)
@@ -777,8 +777,8 @@ namespace PI.Business
                 return 0;
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 CostCenter currentCostCenter = (from c in context.CostCenters
                                                 where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
                                                 select c).FirstOrDefault();
@@ -816,7 +816,7 @@ namespace PI.Business
                         context.SaveChanges();
                     }
                 }
-            }
+           // }
             return 1;
         }
 
@@ -825,8 +825,8 @@ namespace PI.Business
         public int UpdateSetupWizardBillingAddress(ProfileDto updatedProfile)
         {
             Customer currentCustomer;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                 if (currentCustomer == null)
                 {
@@ -837,17 +837,17 @@ namespace PI.Business
                 currentCustomer.SecondaryEmail = updatedProfile.CustomerDetails.SecondaryEmail;
                 currentCustomer.IsCorpAddressUseAsBusinessAddress = updatedProfile.CustomerDetails.IsCorpAddressUseAsBusinessAddress;
                 context.SaveChanges();
-            }
+            //}
 
             ApplicationUser currentUser;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentUser = context.Users.SingleOrDefault(c => c.Id == currentCustomer.UserId);
                 if (currentUser == null)
                 {
                     return 0;
                 }
-            }
+           // }
 
             Tenant currentTenant = this.GetTenantById(currentUser.TenantId);
             if (currentTenant == null)
@@ -861,8 +861,8 @@ namespace PI.Business
                 return 0;
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 CostCenter currentCostCenter = (from c in context.CostCenters
                                                 where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
                                                 select c).FirstOrDefault();
@@ -901,18 +901,18 @@ namespace PI.Business
                         context.SaveChanges();
                     }
                 }
-            }
+          //  }
             return 1;
         }
 
         public int UpdateProfileLoginDetails(ProfileDto updatedProfile)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == updatedProfile.CustomerDetails.UserId);
                 //currentCustomer.Password = updatedProfile.NewPassword;
                 //context.SaveChanges();
-            }
+           // }
 
             return 1;
         }
@@ -925,8 +925,8 @@ namespace PI.Business
                 return 0;
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 AccountSettings currentAccountSettings = context.AccountSettings.SingleOrDefault(s => s.CustomerId == currentCustomer.Id);
 
                 //Assign Account setting values to the Profile Dto
@@ -985,7 +985,7 @@ namespace PI.Business
                     context.NotificationCriterias.Add(newNotificationCriteria);
                     context.SaveChanges();
                 }
-            }
+            //}
 
             return 1;
         }
@@ -1000,8 +1000,8 @@ namespace PI.Business
         {
             try
             {
-                using (PIContext context = PIContext.Get())
-                {
+                //using (PIContext context = PIContext.Get())
+                //{
                     Customer currentCustomer = context.Customers.SingleOrDefault(c => c.UserId == updatedProfile.CustomerDetails.UserId);
                     if (currentCustomer == null)
                     {
@@ -1010,7 +1010,7 @@ namespace PI.Business
 
                     currentCustomer.SelectedColour = updatedProfile.SelectedColour;
                     context.SaveChanges();
-                }
+                //}
 
                 return 1;
             }
@@ -1024,19 +1024,19 @@ namespace PI.Business
         //check wheteher the updated user name is using by another user
         public ApplicationUser GetUserbyUserName(string UserName)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Users.SingleOrDefault(c => c.UserName == UserName);
-            }
+           // }
         }
 
         //get the customer details by userId
         public Customer GetCustomerByUserId(string userId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Customers.SingleOrDefault(c => c.UserId == userId);
-            }
+           // }
         }
 
 
@@ -1059,71 +1059,71 @@ namespace PI.Business
         //get the customer by user name
         public Customer GetCustomerByUserEmail(string username)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Customers.SingleOrDefault(c => c.Email == username);
-            }
+            //}
         }
 
         //get the user by ID
         public ApplicationUser GetUserById(string userId)
         {
-            using (PIContext context = PIContext.Create())
-            {
+            //using (PIContext context = PIContext.Create())
+            //{
                 return context.Users.SingleOrDefault(c => c.Id == userId);
-            }
+           // }
 
         }
 
         //get address details by Id
         public Address GetAddressbyId(long addressId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Addresses.SingleOrDefault(a => a.Id == addressId);
-            }
+            //}
         }
 
         //get Account Settings by customer Id
         public AccountSettings GetAccountSettingByCustomerId(long customerId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.AccountSettings.SingleOrDefault(s => s.CustomerId == customerId);
-            }
+           // }
         }
 
         //get the notofication criterias bt customer Id
         public NotificationCriteria GetNotificationCriteriaByCustomerId(long customerId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.NotificationCriterias.SingleOrDefault(n => n.CustomerId == customerId);
-            }
+          //  }
         }
 
         public Company GetCompanyByTenantId(long TenantId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Companies.SingleOrDefault(n => n.TenantId == TenantId);
-            }
+           // }
 
         }
 
         public Tenant GetTenantById(long TenantId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.Tenants.SingleOrDefault(n => n.Id == TenantId);
-            }
+           // }
         }
 
         //get costcenter by company ID
         public IQueryable<CostCenter> GetCostCenterByCompanyId(long companyId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 // return context.CostCenters.Include("BillingAddress").(n => n.CompanyId == companyId);
 
                 var costCenters = from c in context.CostCenters
@@ -1132,16 +1132,16 @@ namespace PI.Business
                                   select c;
 
                 return costCenters;
-            }
+           // }
 
         }
 
         public CostCenter GetCostCenterById(long CostCenterId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 return context.CostCenters.SingleOrDefault(n => n.Id == CostCenterId);
-            }
+           // }
         }
 
 
@@ -1242,12 +1242,12 @@ namespace PI.Business
         {
             var roleName = "";
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 roleName = (from n in context.Roles
                             where n.Id.Equals(id)
                             select n.Name).FirstOrDefault();
-            }
+           // }
             return roleName;
         }
 
@@ -1256,8 +1256,8 @@ namespace PI.Business
         //retrieve all languages
         private List<LanguageDto> GetAllLanguages()
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var languages = from l in context.Languages
                                 select new LanguageDto()
                                 {
@@ -1266,14 +1266,14 @@ namespace PI.Business
                                     LanguageName = l.LanguageName
                                 };
                 return languages.ToList();
-            }
+            //}
         }
 
         //retrieve all currencies
         public List<CurrencyDto> GetAllCurrencies()
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var currencies = from c in context.Currencies
                                  select new CurrencyDto()
                                  {
@@ -1282,14 +1282,14 @@ namespace PI.Business
                                      CurrencyName = c.CurrencyName
                                  };
                 return currencies.ToList();
-            }
+            //}
         }
 
         //retrieve all TimeZones
         public List<TimeZoneDto> GetAllTimeZones()
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var timeZones = from t in context.TimeZones
                                 select new TimeZoneDto()
                                 {
@@ -1298,7 +1298,7 @@ namespace PI.Business
                                     CountryName = t.CountryName
                                 };
                 return timeZones.ToList();
-            }
+          //  }
         }
 
       
