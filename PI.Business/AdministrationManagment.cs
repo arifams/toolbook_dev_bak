@@ -98,11 +98,11 @@ namespace PI.Business
                     }
                 }
 
-                using (PIContext context = PIContext.Get())
-                {
+                //using (PIContext context = PIContext.Get())
+                //{
                     context.CarrierService.AddRange(carrierList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -132,8 +132,8 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                using (PIContext context = PIContext.Get())
-                {
+                //using (PIContext context = PIContext.Get())
+                //{
                     foreach (var item in excelData.DataRows)
                     {
                         if (item.Count != 0)
@@ -191,7 +191,7 @@ namespace PI.Business
 
                     context.Rate.AddRange(rateList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                }
+                //}
 
             }
             catch (Exception ex)
@@ -221,8 +221,8 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                using (PIContext context = PIContext.Get())
-                {
+                //using (PIContext context = PIContext.Get())
+                //{
                     foreach (var item in excelData.DataRows)
                     {
 
@@ -256,7 +256,7 @@ namespace PI.Business
 
                     context.Zone.AddRange(zoneList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                }
+               // }
 
             }
             catch (Exception ex)
@@ -289,8 +289,8 @@ namespace PI.Business
                     opResult.Status = Status.Error;
                 }
 
-                using (PIContext context = PIContext.Get())
-                {
+                //using (PIContext context = PIContext.Get())
+                //{
                     foreach (var item in excelData.DataRows)
                     {
                         if (item.Count != 0)
@@ -327,7 +327,7 @@ namespace PI.Business
 
                     context.TransmitTime.AddRange(transmitTimeList);
                     opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                }
+               // }
             }
             catch (Exception ex)
             {
@@ -346,8 +346,8 @@ namespace PI.Business
         /// <returns></returns>
         public bool ManageInvoicePaymentSetting(long comapnyId)
         {
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
 
                 if (comapny != null)
@@ -357,7 +357,7 @@ namespace PI.Business
                 }
 
                 return comapny.IsInvoiceEnabled;
-            }
+           // }
         }
 
 
@@ -369,8 +369,8 @@ namespace PI.Business
         public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
         {
             List<AuditTrailDto> customerAuditRecords = new List<AuditTrailDto>();
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var auditRecords = context.AuditTrail.Where(x => x.CreatedBy == userId).ToList();
 
                 foreach (var record in auditRecords)
@@ -382,7 +382,7 @@ namespace PI.Business
                         Result = record.Result,
                     });
                 }
-            }
+           // }
 
             return customerAuditRecords;
         }
