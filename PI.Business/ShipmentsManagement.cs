@@ -30,12 +30,13 @@ namespace PI.Business
 {
     public class ShipmentsManagement : IShipmentManagement
     {
-        CommonLogic commonLogics = new CommonLogic();
+        CommonLogic commonLogics = null;
         private PIContext context;
 
         public ShipmentsManagement(PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            commonLogics = new CommonLogic(context);
         }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
@@ -121,10 +122,10 @@ namespace PI.Business
                 int count = 0;
                 string codeCurrenyString = "";
 
-                using (var context = PIContext.Get())
-                {
+                //using (var context = PIContext.Get())
+                //{
                     codeCurrenyString = context.Currencies.Where(c => c.Id == currentShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
-                }
+                //}
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
@@ -292,8 +293,8 @@ namespace PI.Business
         {
             string status = "N";
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var countryCode = string.Empty;
                 var addressId = context.Customers.Where(c => c.UserId == userId).Select(c => c.AddressId).SingleOrDefault();
                 if (addressId != 0)
@@ -309,7 +310,7 @@ namespace PI.Business
                     status = "N";
                 }
 
-            }
+           // }
 
             return status;
         }
@@ -322,8 +323,8 @@ namespace PI.Business
             long sysDivisionId = 0;
             long sysCostCenterId = 0;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var packageProductList = new List<PackageProduct>();
                 addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
                 {
@@ -538,7 +539,7 @@ namespace PI.Business
                 });
                 context.SaveChanges();
 
-            }
+            //}
 
             return result;
         }
@@ -618,7 +619,7 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company = new CompanyManagement();
+            CompanyManagement company = new CompanyManagement(context);
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Shipment> Shipments = new List<Shipment>();
@@ -681,8 +682,8 @@ namespace PI.Business
                 }
             }
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var latestStatusHistory = context.ShipmentLocationHistories.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
                 //latestStatusHistory.CreatedDate 
 
@@ -787,7 +788,7 @@ namespace PI.Business
 
                     });
                 }
-            }
+           // }
             pagedRecord.TotalRecords = Shipments.Count();
             pagedRecord.CurrentPage = page;
             pagedRecord.PageSize = pageSize;
@@ -800,8 +801,8 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByDivisionId(long divid)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 //currentShipments = (from shipment in context.Shipments
                 //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                 //                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
@@ -810,7 +811,7 @@ namespace PI.Business
                 //                    select shipment).ToList();
                 currentShipments = context.Shipments.Where(x => x.DivisionId == divid).ToList();
 
-            }
+           // }
 
             return currentShipments;
         }
@@ -819,8 +820,8 @@ namespace PI.Business
         public IList<Shipment> GetshipmentsByUserId(string userId)
         {
             IList<Shipment> currentShipments = null;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 //currentShipments = (from shipment in context.Shipments
                 //                    join shipmentAddress1 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress1.Id
                 //                    join shipmentAddress2 in context.ShipmentAddresses on shipment.ConsigneeAddress.Id equals shipmentAddress2.Id
@@ -830,7 +831,7 @@ namespace PI.Business
 
                 currentShipments = context.Shipments.Where(x => x.CreatedBy == userId).ToList();
 
-            }
+          //  }
 
             return currentShipments;
         }
@@ -839,10 +840,10 @@ namespace PI.Business
         public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
         {
             List<Shipment> currentShipments = null;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            }
+            //}
             return currentShipments;
         }
 
@@ -850,10 +851,10 @@ namespace PI.Business
         public List<Shipment> GetshipmentsByReference(string userId, string reference)
         {
             List<Shipment> currentShipments = null;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference) && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            }
+            //}
             return currentShipments;
         }
 
@@ -861,26 +862,28 @@ namespace PI.Business
         //update shipment status manually only by admin
         public int UpdateshipmentStatusManually(string codeShipment, string status)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var shipment = (from shipmentinfo in context.Shipments
                                 where shipmentinfo.ShipmentCode == codeShipment
                                 select shipmentinfo).FirstOrDefault();
-                if (shipment != null)
+                if (shipment==null)
                 {
-                    shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
-                    shipment.ManualStatusUpdatedDate = DateTime.Now;
+                   return 0;
                 }
+                
+                shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
+                shipment.ManualStatusUpdatedDate = DateTime.Now;                
                 context.SaveChanges();
                 return 1;
-            }
+            //}
 
         }
 
         public void UpdateShipmentStatus(string codeShipment, short status)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var shipment = (from shipmentinfo in context.Shipments
                                 where shipmentinfo.ShipmentCode == codeShipment
                                 select shipmentinfo).FirstOrDefault();
@@ -889,19 +892,19 @@ namespace PI.Business
                     shipment.Status = status;
                 }
                 context.SaveChanges();
-            }
+           // }
         }
 
         public Shipment GetShipmentByShipmentCode(string codeShipment)
         {
             Shipment currentShipment = new Shipment();
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentShipment = (from shipment in context.Shipments
                                    where shipment.ShipmentCode == codeShipment
                                    select shipment).FirstOrDefault();
-            }
+           // }
 
             return currentShipment;
         }
@@ -914,8 +917,8 @@ namespace PI.Business
             long tenantId = 0;
             string countryCodeFromTarrifText = string.Empty;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 if(!string.IsNullOrWhiteSpace(shipmentCode))
                     currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
                 else
@@ -936,7 +939,7 @@ namespace PI.Business
                     countryCodeFromTarrifText = tarrifTextCode.CountryCode;
                 else
                     countryCodeFromTarrifText = "US";
-            }
+            //}
             if (currentShipment == null)
             {
                 return null;
@@ -1051,8 +1054,8 @@ namespace PI.Business
             AddShipmentResponse response;
             ShipmentOperationResult result = new ShipmentOperationResult();
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
 
                 // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
@@ -1204,7 +1207,7 @@ namespace PI.Business
 
                 context.SaveChanges();
                 return result;
-            }
+           // }
         }
 
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
@@ -1217,8 +1220,8 @@ namespace PI.Business
                 return null;
             }
 
-            using (var context = PIContext.Get())//PIContext.Get())
-            {
+            //using (var context = PIContext.Get())//PIContext.Get())
+            //{
                 var divisions = context.Divisions.Where(c => c.CompanyId == currentcompany.Id &&
                                                             c.IsDelete == false).ToList();
 
@@ -1230,7 +1233,7 @@ namespace PI.Business
                         Name = item.Name
                     });
                 }
-            }
+            //}
 
             return divisionList;
         }
@@ -1241,8 +1244,8 @@ namespace PI.Business
 
             SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.Id == shipmentId
                                        select shipment).SingleOrDefault();
@@ -1299,7 +1302,7 @@ namespace PI.Business
                     }
 
                 }
-            }
+            //}
 
         }
 
@@ -1368,15 +1371,15 @@ namespace PI.Business
         public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
             string environment = "";
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var shipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).FirstOrDefault();
 
                 if (shipment != null)
                     environment = GetEnvironmentByTarrif(shipment.TariffText);
                 else
                     environment = "taleus";
-            }
+          //  }
 
             StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
@@ -1393,14 +1396,14 @@ namespace PI.Business
         //get shipment details by tracking number
         public Shipment GetShipmentByTrackingNo(string trackingNo)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.TrackingNumber == trackingNo
                                        select shipment).SingleOrDefault();
 
                 return currentShipment;
-            }
+            //}
 
 
         }
@@ -1409,8 +1412,8 @@ namespace PI.Business
         public void UpdateStatusHistories(StatusHistoryResponce statusHistory, long ShipmntId)
         {
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 foreach (var item in statusHistory.history.Items)
                 {
                     ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
@@ -1451,7 +1454,7 @@ namespace PI.Business
                     }
                 }
 
-            }
+          //  }
 
         }
 
@@ -1514,8 +1517,8 @@ namespace PI.Business
 
         public void DeleteLocationActivityByLocationHistoryId(long historyId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 List<LocationActivity> activities = (from activity in context.LocationActivities
                                                      where activity.ShipmentLocationHistoryId == historyId
                                                      select activity).ToList();
@@ -1523,62 +1526,62 @@ namespace PI.Business
                 context.LocationActivities.RemoveRange(activities);
                 context.SaveChanges();
 
-            }
+          //  }
         }
 
         //get shipmentLocation from database
         public void DeleteShipmentLocationHistoryByShipmentId(long shipmentId)
         {
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
                                                            where history.ShipmentId == shipmentId
                                                            select history).ToList();
 
                 context.ShipmentLocationHistories.RemoveRange(histories);
                 context.SaveChanges();
-            }
+           // }
         }
 
 
         public List<LocationActivity> GetLocationActivityByLocationHistoryId(long historyId)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 List<LocationActivity> histories = (from activity in context.LocationActivities
                                                     where activity.ShipmentLocationHistoryId == historyId
                                                     select activity).ToList();
 
                 return histories;
-            }
+            //}
         }
 
         //get shipmentLocation from database
         public List<ShipmentLocationHistory> GetShipmentLocationHistoryByShipmentId(long shipmentId)
         {
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 List<ShipmentLocationHistory> histories = (from history in context.ShipmentLocationHistories
                                                            where history.ShipmentId == shipmentId
                                                            select history).ToList();
 
                 return histories;
-            }
+            //}
         }
 
         //get the shipment by code shipment
         public Shipment GetShipmentByCodeShipment(string codeShipment)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 Shipment shipmentContent = (from shipment in context.Shipments
                                             where shipment.ShipmentCode == codeShipment
                                             select shipment).FirstOrDefault();
 
                 return shipmentContent;
-            }
+            //}
 
         }
 
@@ -1589,8 +1592,8 @@ namespace PI.Business
         /// <param name="fileDetails"></param>
         public void InsertShipmentDocument(FileUploadDto fileDetails)
         {
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var shipement = context.Shipments.Where(x => x.ShipmentCode == fileDetails.CodeReference).SingleOrDefault();
 
                 context.ShipmentDocument.Add(new ShipmentDocument
@@ -1606,7 +1609,7 @@ namespace PI.Business
                 });
 
                 context.SaveChanges();
-            }
+           // }
         }
 
 
@@ -1617,8 +1620,8 @@ namespace PI.Business
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
             var tenantId = commonLogics.GetTenantIdByUserId(userId);
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var docList = context.ShipmentDocument.Where(x => x.TenantId == tenantId
                                                     && x.Shipment.ShipmentCode == shipmentCode).
                                                     OrderByDescending(x => x.CreatedDate).ToList();
@@ -1635,7 +1638,7 @@ namespace PI.Business
                 returnList.ForEach(e =>
                     e.FileAbsoluteURL = baseUrl + "TENANT_" + e.TenantId + "/" + Utility.GetEnumDescription(DocumentType.Shipment) + "/" + e.UploadedFileName
                 );
-            }
+           // }
             return returnList;
         }
 
@@ -1918,8 +1921,8 @@ namespace PI.Business
             long tenantId = 0;
             CommercialInvoiceDto invocieDto = null;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
 
                 tenantId = currentShipment.Division.Company.TenantId;
@@ -2092,7 +2095,7 @@ namespace PI.Business
                        // HSCode = currentShipment.ShipmentPackage.HSCode
                     };
                 }
-            }
+          //  }
 
 
 
@@ -2110,8 +2113,8 @@ namespace PI.Business
             long tenantId = 0;
             AirwayBillDto awbill = null;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 currentShipment = context.Shipments.Where(x => x.ShipmentCode.ToString() == shipmentCode).FirstOrDefault();
 
                 tenantId = currentShipment.Division.Company.TenantId;
@@ -2216,7 +2219,7 @@ namespace PI.Business
                         // HSCode = currentShipment.ShipmentPackage.HSCode
                     };
                 
-            }
+            //}
 
 
 
@@ -2227,13 +2230,13 @@ namespace PI.Business
 
         public void DeleteFileInDB(FileUploadDto fileDetails)
         {
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var document = context.ShipmentDocument.Where(x => x.Id == fileDetails.Id).SingleOrDefault();
 
                 context.ShipmentDocument.Remove(document);
                 context.SaveChanges();
-            }
+            //}
         }
 
         public ShipmentOperationResult SaveCommercialInvoice(CommercialInvoiceDto addInvoice)
@@ -2245,8 +2248,8 @@ namespace PI.Business
             //long sysDivisionId = 0;
             //long sysCostCenterId = 0;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 // If has invoice from shipment id, delete
                 var inv = context.CommercialInvoices.Where(e => e.ShipmentId == addInvoice.ShipmentId).FirstOrDefault();
                 if (inv != null)
@@ -2297,7 +2300,7 @@ namespace PI.Business
 
                 context.CommercialInvoices.Add(invoice);
                 context.SaveChanges();
-            }
+           // }
             return result;
         }
 
@@ -2407,8 +2410,8 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId == companyId
                                select shipment).ToList();
@@ -2511,7 +2514,7 @@ namespace PI.Business
                 pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
-            }
+           // }
         }
 
 
@@ -2523,8 +2526,8 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId.ToString() == companyId
                                select shipment).ToList();
@@ -2616,7 +2619,7 @@ namespace PI.Business
                 pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
-            }
+            //}
         }
 
 
@@ -2629,8 +2632,8 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var content = (from shipment in context.Shipments
                                where shipment.Division.CompanyId.ToString() == companyId &&
                                (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
@@ -2728,7 +2731,7 @@ namespace PI.Business
                 pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
-            }
+           // }
         }
 
 
@@ -2870,8 +2873,8 @@ namespace PI.Business
 
             List<ShipmentReportDto> reportList = new List<ShipmentReportDto>();
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
 
                 var roleName = context.Roles.Where(r => r.Id == roleId).FirstOrDefault().Name;
@@ -3006,7 +3009,7 @@ namespace PI.Business
                 }
 
 
-            }
+            //}
 
             return reportList;
         }
@@ -3027,12 +3030,12 @@ namespace PI.Business
         {
             List<CarrierDto> carriers = new List<CarrierDto>();
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var carrierList = context.Carrier.ToList();
 
                 carrierList.ForEach(x => carriers.Add(new CarrierDto { Id = x.Id, Name = x.Name }));
-            }
+            //}
 
             return carriers;
         }
@@ -3045,8 +3048,8 @@ namespace PI.Business
         /// <returns></returns>
         public bool ToggleShipmentFavourites(ShipmentDto shipment)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var existingShipment = context.Shipments
                                    .Where(x => x.ShipmentCode == shipment.GeneralInformation.ShipmentCode).SingleOrDefault();
 
@@ -3054,7 +3057,7 @@ namespace PI.Business
                 context.SaveChanges();
 
                 return existingShipment.IsFavourite;
-            }
+            //}
         }
 
 
@@ -3071,8 +3074,8 @@ namespace PI.Business
             CompanyManagement company = new CompanyManagement();
             DashboardShipments shipmentCounts = new DashboardShipments();
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 if (userId == null)
                 {
                     return null;
@@ -3117,7 +3120,7 @@ namespace PI.Business
                 shipmentCounts.DelayedStatusCount = delayed;
 
                 return shipmentCounts;
-            }
+            //}
         }
 
 
@@ -3134,8 +3137,8 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var content = (from shipment in context.Shipments
                                where shipment.TrackingNumber == number || shipment.ShipmentCode == number
                                select shipment).ToList();
@@ -3239,22 +3242,22 @@ namespace PI.Business
                 pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
                 return pagedRecord;
-            }
+            //}
         }
 
         private string GetEnvironmentByTarrif(string tarrifText)
         {
             string environment = string.Empty;
 
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == tarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
                 if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
                     environment = "tale";
                 else
                     environment = "taleus";
-            }
+         //   }
 
             return environment;
         }
