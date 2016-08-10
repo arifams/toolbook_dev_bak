@@ -409,10 +409,7 @@ namespace PI.Service.Controllers
                 return Ok(new
                 {
                     Id = "",
-                    Role = roleName,
                     Result = -1
-
-
                 });
             else
             {   //set last logon time as current datetime
@@ -439,6 +436,7 @@ namespace PI.Service.Controllers
                 string _token = customerManagement.GetJwtToken(userId, roleName, tenantId.ToString(), userName, companyId.ToString());
 
                 companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
+
                 return Ok(new
                 {
                     Id = user.Id,

@@ -39,7 +39,7 @@
                    var invoicenumber = (vm.invoiceNumber == undefined) ? null : vm.invoiceNumber;
 
                    adminFactory.loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber)
-                        .success(
+                        .then(
                                function (responce) {
                                    if (from == 'fromDisputed')
                                    {
@@ -48,7 +48,8 @@
                                    else {
                                        vm.rowCollection = responce.content;
                                    }
-                               }).error(function (error) {
+                               },
+                               function (error) {
                                    console.log("error occurd while retrieving shiments");
                                });
 
@@ -179,7 +180,7 @@
                                        $noty.close();
                                        
                                        adminFactory.updateInvoiceStatus(row)
-                                                  .success(
+                                                  .then(
                                                          function (responce) {
                                                              row.invoiceStatus = responce;
                                                              $('#panel-notif').noty({
@@ -200,7 +201,8 @@
                                                                  },
                                                                  timeout: 3000,
                                                              });
-                                                         }).error(function (error) {
+                                                         },
+                                                         function (error) {
                                                              console.log("error occurd while retrieving shiments");
                                                          });
             

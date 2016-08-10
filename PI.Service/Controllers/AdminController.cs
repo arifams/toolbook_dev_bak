@@ -76,9 +76,8 @@ namespace PI.Service.Controllers
             }
 
             return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode == HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
-            ///////////////////////
-
         }
+
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload(MultipartFormDataStreamProvider results)
@@ -189,10 +188,10 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpPost]
-        // This is from System.Web.Http, and not from System.Web.Mvc
         [Route("UploadInvoice")]
         public async Task<HttpResponseMessage> UploadInvoice()
         {
@@ -295,11 +294,9 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpPost]
-        // This is from System.Web.Http, and not from System.Web.Mvc
         [Route("UploadLogo")]
         public async Task<HttpResponseMessage> UploadLogo()
         {
-
             HttpResponseMessage uploadResult = new HttpResponseMessage();
             var logoUpdated = false;
             try
@@ -333,11 +330,69 @@ namespace PI.Service.Controllers
             }
 
             return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
+        }
+           
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ManageInvoicePaymentSetting")]
+        public IHttpActionResult ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
+        {
+            return Ok(adminManagement.ManageInvoicePaymentSetting(copmany.Id));
         }
 
-        public MultipartFormDataStreamProvider GetMultipartProvider()
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [System.Web.Http.AcceptVerbs("GET", "POST")]
+        [System.Web.Http.HttpGet]
+        // [Authorize]        
+        [Route("GetAllInvoices")]
+        public IHttpActionResult GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                         string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
+        {
+            return Ok(invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, 
+                      businessowner, invoicenumber));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ExportInvoiceReport")]
+        public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList, true));
+
+            result.Content.Headers.Add("x-filename", "InvoiceReport.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateInvoiceStatus")]
+        public IHttpActionResult UpdateInvoiceStatus([FromBody] InvoiceDto invoice)
+        {
+            var status = invoiceMangement.UpdateInvoiceStatus(invoice);
+            return Ok(status.ToString());
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetAuditTrailsForCustomer")]
+        public IHttpActionResult GetAuditTrailsForCustomer(string userId)
+        {
+            return Ok(adminManagement.GetAuditTrailsForCustomer(userId));
+        }
+
+
+        #region Private methods
+
+        private MultipartFormDataStreamProvider GetMultipartProvider()
         {
             var uploadFolder = "~/App_Data/Tmp/FileUploads"; // you could put this to web.config
             var root = HttpContext.Current.Server.MapPath(uploadFolder);
@@ -367,76 +422,19 @@ namespace PI.Service.Controllers
         }
 
 
-
         private string GetDeserializedFileName(MultipartFileData fileData)
         {
             var fileName = GetFileName(fileData);
             return JsonConvert.DeserializeObject(fileName).ToString();
         }
 
-        public string GetFileName(MultipartFileData fileData)
+
+        private string GetFileName(MultipartFileData fileData)
         {
             return fileData.Headers.ContentDisposition.FileName;
         }
 
+        #endregion
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpPost]
-        [Route("ManageInvoicePaymentSetting")]
-        public bool ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
-        {
-            return adminManagement.ManageInvoicePaymentSetting(copmany.Id);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpGet]
-        // [Authorize]        
-        [Route("GetAllInvoices")]
-        public PagedList GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
-        {
-            return invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, businessowner, invoicenumber);
-
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpPost]
-        [Route("ExportInvoiceReport")]
-        public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
-        {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList, true));
-
-            result.Content.Headers.Add("x-filename", "InvoiceReport.xlsx");
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            return result;
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpPost]
-        [Route("UpdateInvoiceStatus")]
-        public string UpdateInvoiceStatus([FromBody] InvoiceDto invoice)
-        {
-            var status = invoiceMangement.UpdateInvoiceStatus(invoice);
-
-            return status.ToString();
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpGet]
-        [Route("GetAuditTrailsForCustomer")]
-        public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
-        {
-            return adminManagement.GetAuditTrailsForCustomer(userId);
-        }
     }
 }
