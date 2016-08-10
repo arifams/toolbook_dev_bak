@@ -1,5 +1,6 @@
 ﻿
-using LightInject;
+using Autofac;
+using Autofac.Integration.WebApi;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
@@ -21,6 +22,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Formatting;
+using System.Reflection;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Http;
@@ -29,8 +31,6 @@ namespace PI.Service
 {
     public class Startup
     {
-        public ServiceContainer container = new ServiceContainer();
-
         public static OAuthAuthorizationServerOptions OAuthOptions { get; private set; }
         public static string PublicClientId { get; private set; }
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
@@ -40,26 +40,22 @@ namespace PI.Service
 
         public void Configuration(IAppBuilder app)
         {
-
             HttpConfiguration httpConfig = new HttpConfiguration();
-
-            //creating light inject controller
-            container.RegisterApiControllers();
-            container.EnableWebApi(httpConfig);
-            container.ScopeManagerProvider = new PerLogicalCallContextScopeManagerProvider();
 
             ConfigureOAuth(app);
 
-            container.Register<IShipmentManagement, ShipmentsManagement>();
-            container.Register<IAddressBookManagement, AddressBookManagement>();
-            container.Register<IAdministrationManagment, AdministrationManagment>();
-            container.Register<ICarrierIntegrationManager, SISIntegrationManager>();
-            container.Register<ICompanyManagement, CompanyManagement>();
-            container.Register<ICustomerManagement, CustomerManagement>();
-            container.Register<IProfileManagement, ProfileManagement>();
-
-            httpConfig.DependencyResolver = new LightInjectResolver(container);
-            //registering the dependencies           
+            // autofac
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerLifetimeScope();
+            builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerLifetimeScope();
+            builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
+            var container = builder.Build();
+            httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver
 
             ConfigureOAuthTokenGeneration(app);
             //ConfigureOAuthTokenConsumption(app);
@@ -68,8 +64,13 @@ namespace PI.Service
 
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
+            // autofac
+            app.UseAutofacMiddleware(container);
+            app.UseAutofacWebApi(httpConfig);
+
             app.UseWebApi(httpConfig);
 
+            
         }
 
 
