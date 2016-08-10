@@ -41,15 +41,18 @@
                     importCollection.push(address);
                 });
 
-                importAddressBookFactory.importAddressBook(importCollection).then(function successCallback(responce) {
+                importAddressBookFactory.importAddressBook(importCollection)
+                    .then(function successCallback(responce) {
+                        debugger;
                     $scope.loading = false;
                     $scope.addressCtrl.closeWindow();
                     debugger;
                     $scope.addressCtrl.csvImportResults(responce);
                     
-                }, function errorCallback(response) {
+                    }, function errorCallback(response) {
+                        debugger;
                     $scope.loading = false;
-                    //todo
+                    
                 });;
             } else {
                 $scope.loading = false;

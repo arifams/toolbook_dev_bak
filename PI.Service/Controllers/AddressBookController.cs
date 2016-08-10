@@ -30,55 +30,75 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllAddressBookDetailsByFilter")]
-        public PagedList GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",
+        public IHttpActionResult GetAllAddressBookDetailsByFilter(string type, string userId, string searchtext = "",
                                                    int page = 1, int pageSize = 10)
         {
-            return addressBookManagement.GetAllAddresses(type, userId, searchtext, page, pageSize);
+            return Ok(addressBookManagement.GetAllAddresses(type, userId, searchtext, page, pageSize));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetSerchedAddressList")]
-        public PagedList GetSerchedAddressList(string userId, string searchtext = "")
+        public IHttpActionResult GetSerchedAddressList(string userId, string searchtext = "")
         {
-            return addressBookManagement.GetFilteredAddresses(userId, searchtext);
+            return Ok(addressBookManagement.GetFilteredAddresses(userId, searchtext));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpPost]
         [Route("DeleteAddress")]
-        public int DeleteAddress([FromBody] AddressBookDto address)
+        public IHttpActionResult DeleteAddress([FromBody] AddressBookDto address)
         {
-            return addressBookManagement.DeleteAddress(address.Id);
+            int result = addressBookManagement.DeleteAddress(address.Id);
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [CustomAuthorize]
         [HttpPost]
         [Route("SaveAddress")]
-        public int SaveAddress([FromBody] AddressBookDto address)
+        public IHttpActionResult SaveAddress([FromBody] AddressBookDto address)
         {
-            return addressBookManagement.SaveAddressDetail(address);
+            int result = addressBookManagement.SaveAddressDetail(address);
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+            return Ok();
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpPost]
         [Route("ImportAddresses")]
-        public int ImportAddresses([FromBody]IList<ImportAddressDto> addresses, string userId)
+        public IHttpActionResult ImportAddresses([FromBody]IList<ImportAddressDto> addresses, string userId)
         {
-            return addressBookManagement.ImportAddressBook(addresses, userId);
+            int result = addressBookManagement.ImportAddressBook(addresses, userId);
+
+            if (result == 0)
+            {
+                return BadRequest();
+            }
+            else if (result == -1)
+            {
+                return BadRequest("");
+            }
+            return Ok();
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("LoadAddress")]
-        public AddressBookDto LoadAddress([FromUri]long Id)
+        public IHttpActionResult LoadAddress([FromUri]long Id)
         {
-            return addressBookManagement.GetAddressBookDtoById(Id);
+            return Ok(addressBookManagement.GetAddressBookDtoById(Id));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
