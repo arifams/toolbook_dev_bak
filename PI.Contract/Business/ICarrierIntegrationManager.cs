@@ -21,5 +21,7 @@ namespace PI.Contract.Business
         string TrackAndTraceShipment(string URL);
 
         string GetLabel(string shipmentCode);
+
+        StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment);
     }
 }

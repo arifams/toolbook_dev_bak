@@ -32,16 +32,25 @@ namespace PI.Business
     {
         CommonLogic commonLogics = null;
         private PIContext context;
+        ICarrierIntegrationManager sisManager =null;
 
         public ShipmentsManagement(PIContext _context = null)
         {
+            if (_context==null)
+            {
+                sisManager = new SISIntegrationManager();
+            }
+            else
+            {
+                sisManager = new MockSISIntegrationManager(_context);
+            }
             context = _context ?? PIContext.Get();
             commonLogics = new CommonLogic(context);
         }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
         {
-            SISIntegrationManager sisManager = new SISIntegrationManager();
+           // SISIntegrationManager sisManager = new SISIntegrationManager();
             RateSheetParametersDto currentRateSheetDetails = new RateSheetParametersDto();
 
 
@@ -1168,7 +1177,7 @@ namespace PI.Business
                 };
 
                 // Add Shipment to SIS.
-                response = new SISIntegrationManager().SendShipmentDetails(shipmentDto);
+                response = sisManager.SendShipmentDetails(shipmentDto);
 
                 shipment.ShipmentCode = response.CodeShipment;
                 shipment.TrackingNumber = response.Awb;
@@ -1194,7 +1203,7 @@ namespace PI.Business
                     // If response.PDF is empty, get from following url.
                     if (string.IsNullOrWhiteSpace(response.PDF))
                     {
-                        ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+                       // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
                         result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
                     }
                     else
@@ -1242,7 +1251,7 @@ namespace PI.Business
         public int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin,long shipmentId)
         {
 
-            SISIntegrationManager sisManager = new SISIntegrationManager();
+           // SISIntegrationManager sisManager = new SISIntegrationManager();
             string URL = "http://parcelinternational.pro/status/" + carrierName + "/" + trackingNumber;
             //using (PIContext context = PIContext.Get())
             //{
@@ -1332,7 +1341,7 @@ namespace PI.Business
 
         private info UpdateLocationHistory(string carrier, string trackingNumber, string codeShipment, string environment, long currentShipmetId)
         {
-            SISIntegrationManager sisManager = new SISIntegrationManager();
+           // SISIntegrationManager sisManager = new SISIntegrationManager();
             info info = new info();
             var currentSisLocationHistory = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, codeShipment, environment);
 
@@ -1383,7 +1392,7 @@ namespace PI.Business
 
             StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
-            SISIntegrationManager sisManager = new SISIntegrationManager();
+           // SISIntegrationManager sisManager = new SISIntegrationManager();
             if (currentShipment != null)
             {
                 trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
