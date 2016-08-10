@@ -18,7 +18,7 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace PI.Business
 {
-    public class AddressBookManagement: IAddressBookManagement
+    public class AddressBookManagement : IAddressBookManagement
     {
         private PIContext context;
 
@@ -28,103 +28,97 @@ namespace PI.Business
         }
 
         public PagedList GetAllAddresses(string type, string userId, string searchtext, int page = 1, int pageSize = 25)
-                                         
         {
             var pagedRecord = new PagedList();
 
             pagedRecord.Content = new List<AddressBookDto>();
-            //using (PIContext context = PIContext.Get())
-            //{
 
+            var content = (from a in context.AddressBooks
+                           where a.IsDelete == false && a.UserId == userId &&
+                           (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
+                           (type == null || a.IsActive.ToString() == type)
+                           orderby a.CreatedDate ascending
+                           select a).ToList();
 
-                var content = (from a in context.AddressBooks
-                              where a.IsDelete == false &&
-                              a.UserId==userId &&
-                              (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
-                              (type == null || a.IsActive.ToString() == type)  
-                              orderby a.CreatedDate ascending                             
-                              select a)                            
-                              .ToList();              
-
-                foreach (var item in content)
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new AddressBookDto
                 {
-                    pagedRecord.Content.Add(new AddressBookDto
-                    {
-                        Id = item.Id,
-                        CompanyName = item.CompanyName,
-                        FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
-                        FullName = item.FirstName+ " "+ item.LastName,
-                        IsActive = item.IsActive,
-                        FirstName=item.FirstName,
-                        LastName=item.LastName,
-                        UserId =item.UserId,
-                        Salutation =item.Salutation,                    
-                        EmailAddress=item.EmailAddress,
-                        PhoneNumber=item.PhoneNumber,
-                        AccountNumber=item.AccountNumber,
+                    Id = item.Id,
+                    CompanyName = item.CompanyName,
+                    FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
+                    FullName = item.FirstName + " " + item.LastName,
+                    IsActive = item.IsActive,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    UserId = item.UserId,
+                    Salutation = item.Salutation,
+                    EmailAddress = item.EmailAddress,
+                    PhoneNumber = item.PhoneNumber,
+                    AccountNumber = item.AccountNumber,
+                    Country = item.Country,
+                    ZipCode = item.ZipCode,
+                    Number = item.Number,
+                    StreetAddress1 = item.StreetAddress1,
+                    StreetAddress2 = item.StreetAddress2,
+                    City = item.City,
+                    State = item.State
+                });
+            }
 
-                        Country=item.Country,
-                        ZipCode=item.ZipCode,                        
-                        Number =item.Number,
-                        StreetAddress1=item.StreetAddress1,
-                        StreetAddress2=item.StreetAddress2,
-                        City =item.City,                           
-                        State=item.State                                 
- 
-                    });
-                }
+            // Count
+            pagedRecord.TotalRecords = content.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
 
-                // Count
-                pagedRecord.TotalRecords = content.Count();
-
-                pagedRecord.CurrentPage = page;
-                pagedRecord.PageSize = pageSize;
-
-                return pagedRecord;
-
-
-           // }
-
+            return pagedRecord;
         }
 
+        /// <summary>
+        /// Delete an Address
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public int DeleteAddress(long id)
         {
-            //using (var context = PIContext.Get())
-            //{
-                var AddressDetail = context.AddressBooks.SingleOrDefault(d => d.Id == id);
+            var AddressDetail = context.AddressBooks.SingleOrDefault(d => d.Id == id);
 
-                if (AddressDetail == null)
-                {
-                    return -1;
-                }
-                else
-                {
-                    AddressDetail.IsActive = false;
-                    AddressDetail.IsDelete = true;
-                    context.SaveChanges();
-                    return 1;
-                }
-         //   }
-
+            if (AddressDetail == null)
+            {
+                return -1;
+            }
+            else
+            {
+                AddressDetail.IsActive = false;
+                AddressDetail.IsDelete = true;
+                context.SaveChanges();
+                return 1;
+            }
         }
 
-        public int ImportAddressBook(IList<ImportAddressDto> addressDetails,string userId)
+
+        /// <summary>
+        /// Import Address Book Details
+        /// </summary>
+        /// <param name="addressDetails"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public int ImportAddressBook(IList<ImportAddressDto> addressDetails, string userId)
         {
-           // IList<AddressBook> currentAddress =null;
+            Dictionary<string, string> list = new Dictionary<string, string>();
             AddressBook currentAddress = new AddressBook();
             int addressCount = 0;
 
             var headerContent = addressDetails[0].CsvContent.ToString();
             string[] headerArray = headerContent.Split(',');
 
-            //remove the header details
+            //remove the header(column) details
             addressDetails.Remove(addressDetails[0]);
-            //var list = new Dictionary<KeyValuePair<string, string>>();
-            Dictionary<string, string> list =new Dictionary<string, string>();
 
             foreach (var address in addressDetails)
             {
                 string[] dataArray = address.CsvContent.ToString().Split(',');
+
                 for (int i = 0; i < dataArray.Length; i++)
                 {
                     try
@@ -135,193 +129,206 @@ namespace PI.Business
                     {
                         return -1;
                     }
-                               
+
                 }
-                //using (PIContext context=PIContext.Get())
-                //{
-                    if (list.ContainsKey("companyName") && list.ContainsKey("salutation") && list.ContainsKey("firstName") && list.ContainsKey("lastName") && list.ContainsKey("emailAddress") && list.ContainsKey("phoneNumber") && list.ContainsKey("accountNumber") &&
-                        list.ContainsKey("country") && list.ContainsKey("zipCode") && list.ContainsKey("number") && list.ContainsKey("streetAddress1") && list.ContainsKey("streetAddress2") && list.ContainsKey("city") &&
-                        list.ContainsKey("state") && list.ContainsKey("isActive")  &&
-                        list["companyName"]!= string.Empty&& list["salutation"]!=string.Empty && list["firstName"]!=string.Empty && list["lastName"] != string.Empty && list["emailAddress"] != string.Empty && list["phoneNumber"] != string.Empty && list["accountNumber"] != string.Empty 
-                        && list["country"] != string.Empty && list["zipCode"] != string.Empty && list["number"] != string.Empty && list["streetAddress1"] != string.Empty && list["streetAddress2"] != string.Empty && list["city"] != string.Empty && list["state"] != string.Empty && list["isActive"] != string.Empty)
-                    {
-                        currentAddress.CompanyName = list["companyName"];
-                        currentAddress.UserId = userId;
-                        currentAddress.CreatedBy = userId;
-                        currentAddress.Salutation = list["salutation"];
-                        currentAddress.FirstName = list["firstName"];
-                        currentAddress.LastName = list["lastName"];
-                        currentAddress.EmailAddress = list["emailAddress"];
-                        currentAddress.PhoneNumber = list["phoneNumber"];
-                        currentAddress.AccountNumber = list["accountNumber"];
-                        currentAddress.Country = list["country"];
-                        currentAddress.ZipCode = list["zipCode"];
-                        currentAddress.Number = list["number"];
-                        currentAddress.StreetAddress1 = list["streetAddress1"];
-                        currentAddress.StreetAddress2 = list["streetAddress2"];
-                        currentAddress.City = list["city"];
-                        currentAddress.State = list["state"];
-                        currentAddress.IsActive = true;
-                        currentAddress.CreatedDate = DateTime.Now;
 
+                if (list.ContainsKey("companyName") && list.ContainsKey("salutation") && list.ContainsKey("firstName") &&
+                    list.ContainsKey("lastName") && list.ContainsKey("emailAddress") && list.ContainsKey("phoneNumber") &&
+                    list.ContainsKey("accountNumber") && list.ContainsKey("country") && list.ContainsKey("zipCode") &&
+                    list.ContainsKey("number") && list.ContainsKey("streetAddress1") && list.ContainsKey("streetAddress2") && list.ContainsKey("city") &&
+                    list.ContainsKey("state") && list.ContainsKey("isActive") && list["companyName"] != string.Empty &&
+                    list["salutation"] != string.Empty && list["firstName"] != string.Empty && list["lastName"] != string.Empty &&
+                    list["emailAddress"] != string.Empty && list["phoneNumber"] != string.Empty && list["accountNumber"] != string.Empty &&
+                    list["country"] != string.Empty && list["zipCode"] != string.Empty && list["number"] != string.Empty &&
+                    list["streetAddress1"] != string.Empty && list["streetAddress2"] != string.Empty && list["city"] != string.Empty &&
+                    list["state"] != string.Empty && list["isActive"] != string.Empty)
+                {
+                    currentAddress.CompanyName = list["companyName"];
+                    currentAddress.Salutation = list["salutation"];
+                    currentAddress.FirstName = list["firstName"];
+                    currentAddress.LastName = list["lastName"];
+                    currentAddress.EmailAddress = list["emailAddress"];
+                    currentAddress.PhoneNumber = list["phoneNumber"];
+                    currentAddress.AccountNumber = list["accountNumber"];
+                    currentAddress.Country = list["country"];
+                    currentAddress.ZipCode = list["zipCode"];
+                    currentAddress.Number = list["number"];
+                    currentAddress.StreetAddress1 = list["streetAddress1"];
+                    currentAddress.StreetAddress2 = list["streetAddress2"];
+                    currentAddress.City = list["city"];
+                    currentAddress.State = list["state"];
+                    currentAddress.UserId = userId;
+                    currentAddress.CreatedBy = userId;
+                    currentAddress.IsActive = true;
+                    currentAddress.CreatedDate = DateTime.Now;
 
-                        context.AddressBooks.Add(currentAddress);
-                        context.SaveChanges();
-                        addressCount++;
-                    }
-               // }
-               
+                    context.AddressBooks.Add(currentAddress);
+                    context.SaveChanges();
+                    addressCount++;
+                }
+
                 list.Clear();
-            }           
-            
+            }
+
             return addressCount;
         }
 
+
+        /// <summary>
+        /// Save address details.
+        /// </summary>
+        /// <param name="addressDetail"></param>
+        /// <returns></returns>
         public int SaveAddressDetail(AddressBookDto addressDetail)
         {
-            AddressBook currentAddress = null;
-            //using (PIContext context=PIContext.Get())
-            //{
-                if (addressDetail!=null)
-                {
-                    currentAddress = context.AddressBooks.SingleOrDefault(n => n.Id == addressDetail.Id); 
-                }
-             
-                if (currentAddress!=null)
-                {
-                    currentAddress.CompanyName = addressDetail.CompanyName;
-                    currentAddress.UserId = addressDetail.UserId;
-                    currentAddress.CreatedBy = addressDetail.UserId;
-                    currentAddress.Salutation = addressDetail.Salutation;
-                    currentAddress.FirstName = addressDetail.FirstName;
-                    currentAddress.LastName = addressDetail.LastName;
-                    currentAddress.EmailAddress = addressDetail.EmailAddress;
-                    currentAddress.PhoneNumber = addressDetail.PhoneNumber;
-                    currentAddress.AccountNumber = addressDetail.AccountNumber;
 
-                    //Address Status
-                    currentAddress.Country = addressDetail.Country;
-                    currentAddress.ZipCode = addressDetail.ZipCode;
-                    currentAddress.Number = addressDetail.Number;
-                    currentAddress.StreetAddress1 = addressDetail.StreetAddress1;
-                    currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
-                    currentAddress.City = addressDetail.City;
-                    currentAddress.State = addressDetail.State;
-                    currentAddress.IsActive = addressDetail.IsActive;
-                   // context.AddressBooks.Add(currentAddress);
-                    context.SaveChanges();
-                 }
-                else
-                {
-                    currentAddress = new AddressBook();
-                    currentAddress.CompanyName = addressDetail.CompanyName;
-                    currentAddress.UserId = addressDetail.UserId;
-                    currentAddress.CreatedBy = addressDetail.UserId;
-                    currentAddress.Salutation = addressDetail.Salutation;
-                    currentAddress.FirstName = addressDetail.FirstName;
-                    currentAddress.LastName = addressDetail.LastName;
-                    currentAddress.EmailAddress = addressDetail.EmailAddress;
-                    currentAddress.PhoneNumber = addressDetail.PhoneNumber;
-                    currentAddress.AccountNumber = addressDetail.AccountNumber;
+            if (addressDetail == null)
+            {
+                return 0;
+            }
 
-                    //Address Status                    
-                    currentAddress.Country = addressDetail.Country;
-                    currentAddress.ZipCode = addressDetail.ZipCode;
-                    currentAddress.Number = addressDetail.Number;
-                    currentAddress.StreetAddress1 = addressDetail.StreetAddress1;
-                    currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
-                    currentAddress.City = addressDetail.City;
-                    currentAddress.State = addressDetail.State;
-                    currentAddress.IsActive = addressDetail.IsActive;
-                    currentAddress.CreatedDate = DateTime.Now;
-                    context.AddressBooks.Add(currentAddress);
-                    context.SaveChanges();
+            AddressBook currentAddress = context.AddressBooks.SingleOrDefault(n => n.Id == addressDetail.Id);
 
-                }
+            if (currentAddress != null)
+            {
+                currentAddress.CompanyName = addressDetail.CompanyName;
+                currentAddress.UserId = addressDetail.UserId;
+                currentAddress.CreatedBy = addressDetail.UserId;
+                currentAddress.Salutation = addressDetail.Salutation;
+                currentAddress.FirstName = addressDetail.FirstName;
+                currentAddress.LastName = addressDetail.LastName;
+                currentAddress.EmailAddress = addressDetail.EmailAddress;
+                currentAddress.PhoneNumber = addressDetail.PhoneNumber;
+                currentAddress.AccountNumber = addressDetail.AccountNumber;
 
-           // }
+                //Address Status
+                currentAddress.Country = addressDetail.Country;
+                currentAddress.ZipCode = addressDetail.ZipCode;
+                currentAddress.Number = addressDetail.Number;
+                currentAddress.StreetAddress1 = addressDetail.StreetAddress1;
+                currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
+                currentAddress.City = addressDetail.City;
+                currentAddress.State = addressDetail.State;
+                currentAddress.IsActive = addressDetail.IsActive;
+
+                //Update record
+                context.SaveChanges();
+            }
+            else
+            {
+                currentAddress = new AddressBook();
+                currentAddress.CompanyName = addressDetail.CompanyName;
+                currentAddress.UserId = addressDetail.UserId;
+                currentAddress.CreatedBy = addressDetail.UserId;
+                currentAddress.Salutation = addressDetail.Salutation;
+                currentAddress.FirstName = addressDetail.FirstName;
+                currentAddress.LastName = addressDetail.LastName;
+                currentAddress.EmailAddress = addressDetail.EmailAddress;
+                currentAddress.PhoneNumber = addressDetail.PhoneNumber;
+                currentAddress.AccountNumber = addressDetail.AccountNumber;
+
+                //Address Status                    
+                currentAddress.Country = addressDetail.Country;
+                currentAddress.ZipCode = addressDetail.ZipCode;
+                currentAddress.Number = addressDetail.Number;
+                currentAddress.StreetAddress1 = addressDetail.StreetAddress1;
+                currentAddress.StreetAddress2 = addressDetail.StreetAddress2;
+                currentAddress.City = addressDetail.City;
+                currentAddress.State = addressDetail.State;
+                currentAddress.IsActive = addressDetail.IsActive;
+                currentAddress.CreatedDate = DateTime.Now;
+
+                // Add new record
+                context.AddressBooks.Add(currentAddress);
+                context.SaveChanges();
+            }
             return 1;
-
         }
 
-        //get addressbook detail by id
+        
+        /// <summary>
+        /// Get addressbook detail by id
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public AddressBook GetAddressBookById(long Id)
-        {           
-            //using (PIContext context = PIContext.Get())
-            //{
-                return context.AddressBooks.SingleOrDefault(n => n.Id == Id);
-           // }
-
+        {
+            return context.AddressBooks.SingleOrDefault(n => n.Id == Id);
         }
 
-
-        //get addressbook detail by id
-        public PagedList GetFilteredAddresses( string userId, string searchtext, int page = 1, int pageSize = 25)
+        
+        /// <summary>
+        /// Get addressbook detail by filter
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
+        public PagedList GetFilteredAddresses(string userId, string searchtext, int page = 1, int pageSize = 25)
 
         {
             var pagedRecord = new PagedList();
-
             pagedRecord.Content = new List<AddressBookDto>();
-            //using (PIContext context = PIContext.Get())
-            //{
-                var content = (from a in context.AddressBooks
-                               where a.IsDelete == false &&
-                               a.CreatedBy == userId &&
-                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext))                              
-                               orderby a.CreatedDate ascending
-                               select a)
-                              .ToList();
 
-                foreach (var item in content)
+            var content = (from a in context.AddressBooks
+                           where a.IsDelete == false && a.CreatedBy == userId &&
+                           (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) ||
+                            a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext))
+                           orderby a.CreatedDate ascending
+                           select a).ToList();
+
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new AddressBookDto
                 {
-                    pagedRecord.Content.Add(new AddressBookDto
-                    {
-                        Id = item.Id,
-                        CompanyName = item.CompanyName,
-                        FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
-                        FullName = item.FirstName + " " + item.LastName,
-                        IsActive = item.IsActive,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        UserId = item.UserId,
-                        Salutation = item.Salutation,
-                        EmailAddress = item.EmailAddress,
-                        PhoneNumber = item.PhoneNumber,
-                        AccountNumber = item.AccountNumber,
+                    Id = item.Id,
+                    CompanyName = item.CompanyName,
+                    FullAddress = item.Number + "/ " + item.StreetAddress1 + "/ " + item.StreetAddress2,
+                    FullName = item.FirstName + " " + item.LastName,
+                    IsActive = item.IsActive,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    UserId = item.UserId,
+                    Salutation = item.Salutation,
+                    EmailAddress = item.EmailAddress,
+                    PhoneNumber = item.PhoneNumber,
+                    AccountNumber = item.AccountNumber,
 
-                        Country = item.Country,
-                        ZipCode = item.ZipCode,
-                        Number = item.Number,
-                        StreetAddress1 = item.StreetAddress1,
-                        StreetAddress2 = item.StreetAddress2,
-                        City = item.City,
-                        State = item.State
+                    Country = item.Country,
+                    ZipCode = item.ZipCode,
+                    Number = item.Number,
+                    StreetAddress1 = item.StreetAddress1,
+                    StreetAddress2 = item.StreetAddress2,
+                    City = item.City,
+                    State = item.State
 
-                    });
-                }
+                });
+            }
 
-                // Count
-                pagedRecord.TotalRecords = content.Count();
+            // Count
+            pagedRecord.TotalRecords = content.Count();
+            pagedRecord.CurrentPage = page;
+            pagedRecord.PageSize = pageSize;
 
-                pagedRecord.CurrentPage = page;
-                pagedRecord.PageSize = pageSize;
-
-                return pagedRecord;
-
-
-          //  }
-
+            return pagedRecord;
         }
 
-        //rturn the address book detail if available
+
+        /// <summary>
+        /// Get the address book detail if available
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         public AddressBookDto GetAddressBookDtoById(long Id)
         {
-           AddressBook currentAddress=  this.GetAddressBookById(Id);
+            AddressBook currentAddress = this.GetAddressBookById(Id);
             AddressBookDto resultAddress = new AddressBookDto();
-            if (currentAddress!=null)
+
+            if (currentAddress != null)
             {
-                resultAddress.CompanyName= currentAddress.CompanyName;
-                resultAddress.UserId=currentAddress.UserId;
+                resultAddress.CompanyName = currentAddress.CompanyName;
+                resultAddress.UserId = currentAddress.UserId;
                 resultAddress.Salutation = currentAddress.Salutation;
                 resultAddress.FirstName = currentAddress.FirstName;
                 resultAddress.LastName = currentAddress.LastName;
@@ -330,7 +337,6 @@ namespace PI.Business
                 resultAddress.AccountNumber = currentAddress.AccountNumber;
 
                 //Address Status      
-               
                 resultAddress.Country = currentAddress.Country;
                 resultAddress.ZipCode = currentAddress.ZipCode;
                 resultAddress.Number = currentAddress.Number;
@@ -342,62 +348,67 @@ namespace PI.Business
 
             }
             return resultAddress;
-
         }
 
-      
-     
-        
-        //get address details by userId  
+
+        /// <summary>
+        /// Get address details for user as a byte array
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="userId"></param>
+        /// <param name="searchtext"></param>
+        /// <param name="page"></param>
+        /// <param name="pageSize"></param>
+        /// <returns></returns>
         public byte[] GetAddressBookDetailsByUserId(string type, string userId, string searchtext, int page = 1, int pageSize = 25)
         {
             List<AddressBookDto> addressList = new List<AddressBookDto>();
 
-            //using (PIContext context= PIContext.Get())
-            //{  
-                var content = (from a in context.AddressBooks
-                               where a.IsDelete == false &&
-                               a.UserId == userId &&
-                               (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
-                               (type == null || a.IsActive.ToString() == type)
-                               orderby a.CreatedDate ascending
-                               select a)
-                             .ToList();
+            var content = (from a in context.AddressBooks
+                           where a.IsDelete == false &&
+                           a.UserId == userId &&
+                           (string.IsNullOrEmpty(searchtext) || a.CompanyName.Contains(searchtext) || a.FirstName.Contains(searchtext) || a.LastName.Contains(searchtext)) &&
+                           (type == null || a.IsActive.ToString() == type)
+                           orderby a.CreatedDate ascending
+                           select a)
+                         .ToList();
 
-                foreach (var item in content)
+            foreach (var item in content)
+            {
+                AddressBookDto address = new AddressBookDto()
                 {
-                    AddressBookDto address = new AddressBookDto()
-                    {
-                        Id = item.Id,
-                        CompanyName = item.CompanyName,                        
-                        IsActive = item.IsActive,
-                        FirstName = item.FirstName,
-                        LastName = item.LastName,
-                        UserId = item.UserId,
-                        Salutation = item.Salutation,
-                        EmailAddress = item.EmailAddress,
-                        PhoneNumber = item.PhoneNumber,
-                        AccountNumber = item.AccountNumber,
-                        Country = item.Country,
-                        ZipCode = item.ZipCode,
-                        Number = item.Number,
-                        StreetAddress1 = item.StreetAddress1,
-                        StreetAddress2 = item.StreetAddress2,
-                        City = item.City,
-                        State = item.State
+                    Id = item.Id,
+                    CompanyName = item.CompanyName,
+                    IsActive = item.IsActive,
+                    FirstName = item.FirstName,
+                    LastName = item.LastName,
+                    UserId = item.UserId,
+                    Salutation = item.Salutation,
+                    EmailAddress = item.EmailAddress,
+                    PhoneNumber = item.PhoneNumber,
+                    AccountNumber = item.AccountNumber,
+                    Country = item.Country,
+                    ZipCode = item.ZipCode,
+                    Number = item.Number,
+                    StreetAddress1 = item.StreetAddress1,
+                    StreetAddress2 = item.StreetAddress2,
+                    City = item.City,
+                    State = item.State
 
-                    };
+                };
 
-                    addressList.Add(address);
-                }
-           // }
-
-
-            byte[] stream = this.GenerateExcelSheetFromAddressBook(addressList);
-            return stream;
-
+                addressList.Add(address);
+            }
+   
+            return this.GenerateExcelSheetFromAddressBook(addressList);
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addressBookDtoList"></param>
+        /// <returns></returns>
         private byte[] GenerateExcelSheetFromAddressBook(List<AddressBookDto> addressBookDtoList)
         {
             using (ExcelPackage pck = new ExcelPackage())
@@ -438,15 +449,13 @@ namespace PI.Business
                     rng.Style.Font.Color.SetColor(Color.White);
                 }
 
-                //ws.Cells["A6:H6"].AutoFitColumns();
-
                 // Set data.
                 int rowIndex = 6;
                 foreach (AddressBookDto addressBook in addressBookDtoList) // Adding Data into rows
                 {
                     rowIndex++;
 
-                    var cell = ws.Cells[rowIndex, 1];                    
+                    var cell = ws.Cells[rowIndex, 1];
                     cell.Value = addressBook.Salutation;
 
                     cell = ws.Cells[rowIndex, 2];
@@ -484,54 +493,49 @@ namespace PI.Business
 
                     cell = ws.Cells[rowIndex, 13];
                     cell.Value = addressBook.AccountNumber;
-                    
+
 
                     ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width
-                ws.Column(1).Width = 25;
-                ws.Column(2).Width = 25;
-                ws.Column(3).Width = 25;
-                ws.Column(4).Width = 25;
-                ws.Column(5).Width = 25;
-                ws.Column(6).Width = 22;
-                ws.Column(7).Width = 25;
-                ws.Column(8).Width = 25;
-                ws.Column(9).Width = 20;
-                ws.Column(10).Width = 20;
-                ws.Column(11).Width = 20;
-                ws.Column(12).Width = 20;
-                ws.Column(13).Width = 20;
+                for (int i = 1; i <= 13; i++)
+                {
+                    ws.Column(i).Width = 25;
+                }
 
                 return pck.GetAsByteArray();
             }
         }
 
-        //update addressBook details with records in excel
+
+        /// <summary>
+        /// Update addressBook details from excel to DB.
+        /// </summary>
+        /// <param name="URI"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         public bool UpdateAddressBookDatafromExcel(string URI, string userId)
         {
-            SLExcelReader s = new SLExcelReader();
-
-            SLExcelData sss = s.ReadExcel(URI);
-
+            SLExcelReader excelReaders = new SLExcelReader();
             List<AddressBook> addressList = new List<AddressBook>();
 
-            if (sss.DataRows.Count == 0)
+            SLExcelData excelData = excelReaders.ReadExcel(URI);
+
+            if (excelData.DataRows.Count == 0)
             {
                 return false;
             }
-            foreach (var item in sss.DataRows)
+            foreach (var item in excelData.DataRows)
             {
-
-                if (item.Count!=0)
+                if (item.Count != 0)
                 {
-                     var detailsarray = item.ToArray();
-                        if (detailsarray.Length!=0)
-                        {
+                    var detailsarray = item.ToArray();
+                    if (detailsarray.Length != 0)
+                    {
                         addressList.Add(new AddressBook()
                         {
-                            Salutation =detailsarray[0].ToString(),
+                            Salutation = detailsarray[0].ToString(),
                             FirstName = detailsarray[1].ToString(),
                             LastName = detailsarray[2].ToString(),
                             CompanyName = detailsarray[3].ToString(),
@@ -539,34 +543,30 @@ namespace PI.Business
                             Number = detailsarray[5].ToString(),
                             StreetAddress1 = detailsarray[6].ToString(),
                             StreetAddress2 = detailsarray[7].ToString(),
-                            City= detailsarray[8].ToString(),
+                            City = detailsarray[8].ToString(),
                             State = detailsarray[9].ToString(),
                             EmailAddress = detailsarray[10].ToString(),
                             PhoneNumber = detailsarray[11].ToString(),
                             Country = detailsarray[12].ToString(),
-                            AccountNumber = detailsarray.Length>13? detailsarray[12].ToString(): string.Empty,
+                            AccountNumber = detailsarray.Length > 13 ? detailsarray[12].ToString() : string.Empty,
                             CreatedBy = userId,
                             CreatedDate = DateTime.Now,
-                            UserId= userId,
-                            IsActive=true
+                            UserId = userId,
+                            IsActive = true
                         });
-                        }               
-                  
-
-                }            
+                    }
+                }
 
             }
 
-            //using (PIContext context = PIContext.Get())
-            //{                
-                context.AddressBooks.AddRange(addressList);
-                context.SaveChanges();
-            //}
+            context.AddressBooks.AddRange(addressList);
+            context.SaveChanges();
+
             return true;
         }
 
-          
-    }
 
     }
+
+}
 

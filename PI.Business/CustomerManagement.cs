@@ -45,14 +45,27 @@ namespace PI.Business
             }
         }
 
+        /// <summary>
+        /// Get customer by Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Customer GetCustomerById(long id)
         {
             return context.Customers.Single(c => c.Id == id);
         }
 
+
+        /// <summary>
+        /// Save customer details
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <param name="isCustomerRegistration"></param>
+        /// <returns></returns>
         public int SaveCustomer(CustomerDto customer, bool isCustomerRegistration = false)
         {
             Customer newCustomer = null;
+
             try
             {
                 if (customer.Id == 0)
@@ -149,21 +162,16 @@ namespace PI.Business
             return 1;
         }
 
-        //public int VerifyUserLogin(CustomerDto customer)
-        //{
-        //    using (var context = PIContext.Get())
-        //    {
-        //        var existingCustomer = context.Customers.SingleOrDefault(c => c.Email == customer.UserName &&
-        //            c.Password == customer.Password);
 
-        //        if (existingCustomer != null)
-        //        {
-        //            return 1;
-        //        }
-        //        return 0;
-        //    }
-        //}
-
+        /// <summary>
+        /// Get Jwt token for user
+        /// </summary>
+        /// <param name="userid"></param>
+        /// <param name="role"></param>
+        /// <param name="tenantId"></param>
+        /// <param name="userName"></param>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
         public string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId)
         {
 
@@ -203,7 +211,7 @@ namespace PI.Business
 
 
         /// <summary>
-        /// 
+        /// Get theme colour for user
         /// </summary>
         /// <param name="loggedInUserId"></param>
         /// <returns></returns>
@@ -217,7 +225,12 @@ namespace PI.Business
             return existingCustomer.SelectedColour;
         }
 
-        //get customer details 
+
+        /// <summary>
+        /// Get customer details
+        /// </summary>
+        /// <param name="companyId"></param>
+        /// <returns></returns>
         public CustomerDto GetCustomerByCompanyId(int companyId)
         {
             string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
@@ -242,7 +255,6 @@ namespace PI.Business
                 Salutation = content.Customer.Salutation,
                 MobileNumber = content.Customer.MobileNumber,
 
-
                 CustomerAddress = new Contract.DTOs.Address.AddressDto()
                 {
                     Id = content.Customer.CustomerAddress.Id,
@@ -254,10 +266,7 @@ namespace PI.Business
                     StreetAddress2 = content.Customer.CustomerAddress.StreetAddress2,
                     ZipCode = content.Customer.CustomerAddress.ZipCode
                 }
-
-
             };
-
         }
 
     }
