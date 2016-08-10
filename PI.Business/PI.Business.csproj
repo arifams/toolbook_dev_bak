@@ -122,6 +122,7 @@
     <Compile Include="AuthRepository.cs" />
     <Compile Include="CommonLogic.cs" />
     <Compile Include="InvoiceMangement.cs" />
+    <Compile Include="MockSISIntegrationManager.cs" />
     <Compile Include="SISIntegrationManager.cs" />
     <Compile Include="CompanyManagement.cs" />
     <Compile Include="CustomerManagement.cs" />

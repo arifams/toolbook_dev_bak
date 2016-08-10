@@ -13,6 +13,7 @@ using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
+using PI.Data.Entity.RateEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace PI.Business.Tests
                     ShipmentName = "ship1",
                     DivisionId = 1,
                     CostCenterId = 1,
-                    ShipmentMode ="1",
+                    ShipmentMode = "Express",
                     ShipmentServices = "DD-DDP-PP",
                     ShipmentPaymentTypeId = 1,
                     IsFavourite = true,
@@ -364,10 +365,10 @@ namespace PI.Business.Tests
             {
                 new Shipment
                 {
-                  Id=1,
+                  Id=2,
                   ShipmentName ="ship1",
-                  ShipmentReferenceName="ref123",
-                  ShipmentCode="ship123",
+                  ShipmentReferenceName="ref1234",
+                  ShipmentCode="",
                   DivisionId =1,
                   CostCenterId =1,
                   ShipmentMode=CarrierType.Express,  
@@ -496,6 +497,7 @@ namespace PI.Business.Tests
                   ShipmentPackage = new ShipmentPackage
                   {
                       Id=1,
+                      InsuranceCurrencyType=1,
                       PackageProducts=new List<PackageProduct>
                       {
                           new PackageProduct
@@ -549,7 +551,383 @@ namespace PI.Business.Tests
                      IsDelete=false                     
                   }                
 
-               }
+               }, 
+                 new Shipment
+                 {
+
+                  Id=1,
+                  ShipmentName ="ship1",
+                  ShipmentReferenceName="ref123",
+                  ShipmentCode="ship123",
+                  DivisionId =1,
+                  CostCenterId =1,
+                  ShipmentMode=CarrierType.Express,
+                  ShipmentService= 1,
+                  CreatedBy="1",
+                  CreatedDate=DateTime.Now,
+                  TarriffType="DHL_EXP",
+                  TariffText="DHL_EXP",
+                  ServiceLevel="",
+                  PickUpDate=DateTime.Now,
+                  Status=4,
+                  TrackingNumber="4345353533535",
+                  ConsignorId =1,
+                  ConsigneeId =1,
+                  ShipmentPackageId=1,
+                  ParentShipmentId=1,
+                  IsParent=false,
+                  ShipmentPaymentTypeId =1,
+                  ManualStatusUpdatedDate =DateTime.Now,
+                  IsFavourite =true,
+                  CarrierId=1,
+                  Division = new Division
+                  {
+                      Id=1,
+                      CompanyId=1,
+                      IsActive=true,
+                      IsDelete=false,
+                      Name="div1",
+                      Description="Desc",
+                      DefaultCostCenterId=1,
+                      UserInDivisions=userindivisions,
+                      Type="SYSTEM",
+
+
+                 CostCenter= new CostCenter
+                 {
+                     Id=1,
+                     BillingAddressId=1,
+                     CompanyId=1,
+                     Description="costcenter",
+                     Name="cc_finance",
+                     IsActive=true,
+                     IsDelete=false,
+                     PhoneNumber="12312312312",
+                     Type="SYSTEM"
+,                 },
+
+                 Company= new Company
+                 {
+                     Id=1,
+                     Name="comp1",
+                     IsActive=true,
+                     IsDelete=false,
+                     CompanyCode="comp1",
+                     LogoUrl="http://parcelinternational.com",
+                     TenantId=1,
+                     COCNumber="1234",
+                     VATNumber="vat123",
+                     IsInvoiceEnabled=true,
+
+
+                     Tenant= new Tenant
+                     {
+                         Id=1,
+                         TenancyName="tenant1",
+                         IsCorporateAccount=true,
+                         IsActive=true,
+                         IsDelete=false
+                     }
+                  }
+                  },
+                  CostCenter = new  CostCenter
+                  {
+                      Id = 1,
+                      BillingAddressId = 1,
+                      CompanyId = 1,
+                      Description = "costcenter",
+                      Name = "cc_finance",
+                      IsActive = true,
+                      IsDelete = false,
+                      PhoneNumber = "12312312312",
+                      Type="SYSTEM"
+
+                  },
+                  ConsignorAddress = new ShipmentAddress
+                  {
+                      Id=1,
+                      FirstName="fname",
+                      LastName="lname",
+                      City="city",
+                      CompanyName="comp1",
+                      EmailAddress="test@shipment.com",
+                      Country="US",
+                      ContactName="cont_name",
+                      IsActive=true,
+                      IsDelete=false,
+                      Number="123123123",
+                      State="State",
+                      PhoneNumber="12312311",
+                      StreetAddress1="stadd1",
+                      StreetAddress2="stadd2",
+                      ZipCode="123ABC"
+
+
+                  },
+                  ConsigneeAddress= new ShipmentAddress
+                  {
+                      Id=2,
+                      FirstName="fname",
+                      LastName="lname",
+                      City="city",
+                      CompanyName="comp1",
+                      EmailAddress="test2@shipment.com",
+                      Country="US",
+                      ContactName="cont_name",
+                      IsActive=true,
+                      IsDelete=false,
+                      Number="123123123",
+                      State="State",
+                      PhoneNumber="12312311",
+                      StreetAddress1="stadd1",
+                      StreetAddress2="stadd2",
+                      ZipCode="123ABC"
+
+                  },
+                  ShipmentPackage = new ShipmentPackage
+                  {
+                      Id=1,
+                      PackageProducts=new List<PackageProduct>
+                      {
+                          new PackageProduct
+                          {
+                              Id=1,
+                              Height=10,
+                              Length=10,
+                              Width=10,
+                              Quantity=2,
+                              Description="desc",
+                              IsActive=true,
+                              IsDelete=false,
+                              Weight=10,
+                              ProductTypeId=1,
+                              CreatedDate=DateTime.Now,
+                              ShipmentPackageId=1
+                          }
+                      },
+
+                      IsInsured=true,
+                      Currency=new Currency
+                      {
+                          Id=1,
+                          CurrencyCode="USD",
+                          CurrencyName="US Dollars",
+                          IsActive=true,
+                          IsDelete=false,
+                          CreatedDate=DateTime.Now,
+                          CreatedBy="1"
+                      }
+                  },
+                  ShipmentPayment = new ShipmentPayment
+                  {
+                      ShipmentId=1,
+                      SaleId=1,
+                      Status="4",
+                      IsActive=true
+
+                  },
+                  //CommercialInvoice= new CommercialInvoice
+                  //{
+
+                  //},           
+                
+                  Carrier= new Carrier
+                  {
+                     IsActive=true,
+                     Id=1,
+                     Name="DHL",
+                     CarrierNameLong="DHL Express",
+                     IsDelete=false
+                  }               
+                 },
+
+
+                 new Shipment { 
+                  Id=3,
+                  ShipmentName ="ship1",
+                  ShipmentReferenceName="ref123",
+                  ShipmentCode="ship123",
+                  DivisionId =1,
+                  CostCenterId =1,
+                  ShipmentMode=CarrierType.Express,
+                  ShipmentService= 1,
+                  CreatedBy="1",
+                  CreatedDate=DateTime.Now,
+                  TarriffType="DHL_EXP",
+                  TariffText="DHL_EXP",
+                  ServiceLevel="",
+                  PickUpDate=DateTime.Now,
+                  Status=4,
+                  TrackingNumber="4345353533535",
+                  ConsignorId =1,
+                  ConsigneeId =1,
+                  ShipmentPackageId=1,
+                  ParentShipmentId=1,
+                  IsParent=false,
+                  ShipmentPaymentTypeId =1,
+                  ManualStatusUpdatedDate =DateTime.Now,
+                  IsFavourite =true,
+                  CarrierId=1,
+                  Division = new Division
+                  {
+                      Id=1,
+                      CompanyId=1,
+                      IsActive=true,
+                      IsDelete=false,
+                      Name="div1",
+                      Description="Desc",
+                      DefaultCostCenterId=1,
+                      UserInDivisions=userindivisions,
+                      Type="SYSTEM",
+
+
+                 CostCenter= new CostCenter
+                 {
+                     Id=1,
+                     BillingAddressId=1,
+                     CompanyId=1,
+                     Description="costcenter",
+                     Name="cc_finance",
+                     IsActive=true,
+                     IsDelete=false,
+                     PhoneNumber="12312312312",
+                     Type="SYSTEM"
+,                 },
+
+                 Company= new Company
+                 {
+                     Id=1,
+                     Name="comp1",
+                     IsActive=true,
+                     IsDelete=false,
+                     CompanyCode="comp1",
+                     LogoUrl="http://parcelinternational.com",
+                     TenantId=1,
+                     COCNumber="1234",
+                     VATNumber="vat123",
+                     IsInvoiceEnabled=true,
+
+
+                     Tenant= new Tenant
+                     {
+                         Id=1,
+                         TenancyName="tenant1",
+                         IsCorporateAccount=true,
+                         IsActive=true,
+                         IsDelete=false
+                     }
+                  }
+                  },
+                  CostCenter = new  CostCenter
+                  {
+                      Id = 1,
+                      BillingAddressId = 1,
+                      CompanyId = 1,
+                      Description = "costcenter",
+                      Name = "cc_finance",
+                      IsActive = true,
+                      IsDelete = false,
+                      PhoneNumber = "12312312312",
+                      Type="SYSTEM"
+
+                  },
+                  ConsignorAddress = new ShipmentAddress
+                  {
+                      Id=1,
+                      FirstName="fname",
+                      LastName="lname",
+                      City="city",
+                      CompanyName="comp1",
+                      EmailAddress="test@shipment.com",
+                      Country="US",
+                      ContactName="cont_name",
+                      IsActive=true,
+                      IsDelete=false,
+                      Number="123123123",
+                      State="State",
+                      PhoneNumber="12312311",
+                      StreetAddress1="stadd1",
+                      StreetAddress2="stadd2",
+                      ZipCode="123ABC"
+
+
+                  },
+                  ConsigneeAddress= new ShipmentAddress
+                  {
+                      Id=2,
+                      FirstName="fname",
+                      LastName="lname",
+                      City="city",
+                      CompanyName="comp1",
+                      EmailAddress="test2@shipment.com",
+                      Country="US",
+                      ContactName="cont_name",
+                      IsActive=true,
+                      IsDelete=false,
+                      Number="123123123",
+                      State="State",
+                      PhoneNumber="12312311",
+                      StreetAddress1="stadd1",
+                      StreetAddress2="stadd2",
+                      ZipCode="123ABC"
+
+                  },
+                  ShipmentPackage = new ShipmentPackage
+                  {
+                      Id=1,
+                      PackageProducts=new List<PackageProduct>
+                      {
+                          new PackageProduct
+                          {
+                              Id=1,
+                              Height=10,
+                              Length=10,
+                              Width=10,
+                              Quantity=2,
+                              Description="desc",
+                              IsActive=true,
+                              IsDelete=false,
+                              Weight=10,
+                              ProductTypeId=1,
+                              CreatedDate=DateTime.Now,
+                              ShipmentPackageId=1
+                          }
+                      },
+
+                      IsInsured=true,
+                      Currency=new Currency
+                      {
+                          Id=1,
+                          CurrencyCode="USD",
+                          CurrencyName="US Dollars",
+                          IsActive=true,
+                          IsDelete=false,
+                          CreatedDate=DateTime.Now,
+                          CreatedBy="1"
+                      }
+                  },
+                  ShipmentPayment = new ShipmentPayment
+                  {
+                      ShipmentId=1,
+                      SaleId=1,
+                      Status="4",
+                      IsActive=true
+
+                  },
+                  //CommercialInvoice= new CommercialInvoice
+                  //{
+
+                  //},           
+                
+                  Carrier= new Carrier
+                  {
+                     IsActive=true,
+                     Id=1,
+                     Name="DHL",
+                     CarrierNameLong="DHL Express",
+                     IsDelete=false
+                  }
+                 }
             };
 
             List<AddressBook> addressBooks = new List<AddressBook>()
@@ -613,6 +991,109 @@ namespace PI.Business.Tests
                 }
             };
 
+            List<Rate> rates = new List<Rate>()
+            {
+                 new Rate
+                 {
+                     Id=1,
+                     IsInbound=false,
+                     CarrierId=1,
+                     MaxDimension=1000,
+                     MaxLength=100,
+                     MaxWeightPerPiece=1000,
+                     VolumeFactor=1,
+                     WeightMin=1,
+                     WeightMax=1000,
+                     Service=ProductType.Box,
+                     Currency=CurrencyType.USD,
+                     SellOrBuy=RatesSell.Sell,
+                     TariffType=new TariffType
+                     {
+                         Id=1,
+                         TarrifName="Express",
+                         IsActive=true,
+                     },
+                     IsActive=true,
+                     CountryFrom="US",
+                     RateZoneList= new List<RateZone>
+                     {
+                         new RateZone
+                         {
+                             Id=1,
+                             ZoneId=1,
+                             Price=1000,
+                             RateId=1,
+                             Zone= new Zone
+                             {
+                                 Id=1, 
+                                 CountryFrom="US",
+                                 CountryTo="US",
+                                 LocationFrom="1234-1234",
+                                 LocationTo="1234-1234",
+                                 TransmitTimeList= new List<TransmitTime>()
+                                 {
+                                     new TransmitTime
+                                     {
+                                         Id=1,
+                                         CarrierId=1,
+                                         
+                                         TransitTimeProductList= new List<TransitTimeProduct>()
+                                         {
+                                             
+                                             new TransitTimeProduct
+                                             {
+                                                 Id=1,                                                
+                                                 ProductType= ProductType.Box,
+                                                 Days=10
+                                             }
+                                         }
+                                     }
+                                 }
+                             },
+                             
+                         }
+                     },
+                     Carrier= new CarrierService
+                     {
+                         Id=1,
+                         CarrierAccountNumber="123",
+                         CarrierId=1,
+                         ServiceLevel="Express",
+                         CarrierType=CarrierType.Express,
+                         CarrierCountryCode="US",
+                         IsActive=true,
+                         IsDelete=false,
+                         CreatedBy="1",
+                         CreatedDate=DateTime.Now,
+
+                         Carrier=  new Carrier
+                         {
+                             Id=1,
+                             CarrierNameLong="DHL Express",
+                             Name="DHL",
+                             IsActive=true,
+                             IsDelete=false,
+                             CreatedBy="1",
+                             CreatedDate=DateTime.Now
+                         }
+                        
+
+                     }
+                     
+                 }
+            };
+
+            List<Currency> currencies = new List<Currency>()
+            {
+                 new Currency
+                 {
+                     Id=1,
+                     CurrencyName="USD",
+                     CurrencyCode="USD",
+                     IsActive=true
+                 }
+            };
+
             var mockSetDivisions = MoqHelper.CreateMockForDbSet<Division>()
                                                 .SetupForQueryOn(divisions)
                                                 .WithAdd(divisions);
@@ -661,6 +1142,15 @@ namespace PI.Business.Tests
                                                 .SetupForQueryOn(tarrifTextCodes)
                                                 .WithAdd(tarrifTextCodes);
 
+            var mockSetRates = MoqHelper.CreateMockForDbSet<Rate>()
+                                                .SetupForQueryOn(rates)
+                                                .WithAdd(rates);
+
+            var mockSetCurrencies = MoqHelper.CreateMockForDbSet<Currency>()
+                                                .SetupForQueryOn(currencies)
+                                                .WithAdd(currencies);
+
+
 
             var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Division>(mockSetDivisions);
 
@@ -679,6 +1169,9 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.Addresses).Returns(mockSetAddresses.Object);
             mockContext.Setup(c => c.AddressBooks).Returns(mockSetAddressBooks.Object);
             mockContext.Setup(c => c.TarrifTextCodes).Returns(mockSetTarriftexts.Object);
+            mockContext.Setup(c => c.Rate).Returns(mockSetRates.Object);
+            mockContext.Setup(c => c.Currencies).Returns(mockSetCurrencies.Object);
+            
 
             shipmentManagement = new ShipmentsManagement(mockContext.Object);
             #endregion
@@ -901,22 +1394,37 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
-        [Test]
-        public void SendShipmentDetailsTest()
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public void SendShipmentDetailsTest(long _shipmentId)
         {
             SendShipmentDetailsDto sendShipmentDetails = new SendShipmentDetailsDto()
             {
-                ShipmentId =2,
+                ShipmentId = _shipmentId,
                 PayLane = new PayLaneDto
                 {
                     SaleId=2,
                     Status= "Status",                  
                 },
-                UserId="",
+                UserId="1",
                 TemplateLink=""
              };
             ShipmentOperationResult response = shipmentManagement.SendShipmentDetails(sendShipmentDetails);
-           Assert.AreNotEqual(response.Status, Status.Error);
+
+            if (_shipmentId == 1)
+            {
+                Assert.AreEqual(response.Status, Status.Error);
+            }
+            else if (_shipmentId == 2)
+            {
+                Assert.AreEqual(response.Status, Status.Success);
+            }
+            else if (_shipmentId == 1)
+            {
+                Assert.AreEqual(response.Status, Status.SISError);
+            }           
+
         }
 
         [TestCase("1")]       
@@ -926,20 +1434,7 @@ namespace PI.Business.Tests
             List<DivisionDto> response = shipmentManagement.GetAllDivisionsinCompany(userId);
             Assert.AreEqual(response.Count, 1);               
         }
-
-        [Test]
-        public void DeleteShipmentTest()
-        {
-            string shipmentCode = "";
-            string trackingNumber = "";
-            string carrierName = "";
-            bool isAdmin = true;
-            long shipmentId = 1;
-
-            int response = shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
-            Assert.AreEqual(response, 1);
-        }
-        
+               
 
         [Test]
         public void GetLocationHistoryInfoForShipmentTest()
@@ -1196,5 +1691,22 @@ namespace PI.Business.Tests
             PagedList response = shipmentManagement.SearchShipmentsById(trackingNumber);
             Assert.AreNotEqual(response.TotalRecords, 0);
         }
+
+
+        [Order(45)]
+        [TestCase(true, "", "ship123")]
+        [TestCase(false, "", "ship1234")]        
+        public void DeleteShipmentTest(bool _isadmin, string trackingNo, string _shipmentCode)
+        {
+            string shipmentCode = _shipmentCode;
+            string trackingNumber = trackingNo;
+            string carrierName = "DHL";
+            bool isAdmin = _isadmin;
+            long shipmentId = 1;
+
+            int response = shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
+            Assert.AreEqual(response, 1);
+        }
+
     }
 }
