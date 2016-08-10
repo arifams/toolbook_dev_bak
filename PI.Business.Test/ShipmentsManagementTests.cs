@@ -367,7 +367,7 @@ namespace PI.Business.Tests
                 {
                   Id=2,
                   ShipmentName ="ship1",
-                  ShipmentReferenceName="ref123",
+                  ShipmentReferenceName="ref1234",
                   ShipmentCode="",
                   DivisionId =1,
                   CostCenterId =1,
@@ -1434,20 +1434,7 @@ namespace PI.Business.Tests
             List<DivisionDto> response = shipmentManagement.GetAllDivisionsinCompany(userId);
             Assert.AreEqual(response.Count, 1);               
         }
-
-        [Test]
-        public void DeleteShipmentTest()
-        {
-            string shipmentCode = "";
-            string trackingNumber = "";
-            string carrierName = "";
-            bool isAdmin = true;
-            long shipmentId = 1;
-
-            int response = shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
-            Assert.AreEqual(response, 1);
-        }
-        
+               
 
         [Test]
         public void GetLocationHistoryInfoForShipmentTest()
@@ -1704,5 +1691,22 @@ namespace PI.Business.Tests
             PagedList response = shipmentManagement.SearchShipmentsById(trackingNumber);
             Assert.AreNotEqual(response.TotalRecords, 0);
         }
+
+
+        [Order(45)]
+        [TestCase(true, "", "ship123")]
+        [TestCase(false, "", "ship1234")]        
+        public void DeleteShipmentTest(bool _isadmin, string trackingNo, string _shipmentCode)
+        {
+            string shipmentCode = _shipmentCode;
+            string trackingNumber = trackingNo;
+            string carrierName = "DHL";
+            bool isAdmin = _isadmin;
+            long shipmentId = 1;
+
+            int response = shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
+            Assert.AreEqual(response, 1);
+        }
+
     }
 }
