@@ -46,14 +46,14 @@ namespace PI.Service
 
             // autofac
             var builder = new ContainerBuilder();
-            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerRequest();
-            builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerRequest();
-            builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerRequest();
-            builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerRequest();
-            builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerRequest();
-            builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerRequest();
-            builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerRequest();
-            builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerRequest();
+            builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerLifetimeScope();
+            builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerLifetimeScope();
+            builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
             var container = builder.Build();
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver
 
