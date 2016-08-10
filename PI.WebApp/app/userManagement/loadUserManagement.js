@@ -16,23 +16,6 @@
                 //todo
             });
 
-        //userManagementFactory.getAllDivisionsByCompany()
-        //    .then(function successCallback(response) {
-
-        //        vm.divisionList = response.data;
-
-        //    }, function errorCallback(response) {
-        //        //todo
-        //    });
-
-        //userManagementFactory.getAllRolesByUser()
-        //            .then(function successCallback(response) {
-
-        //                vm.roleList = response.data;
-
-        //            }, function errorCallback(response) {
-        //                //todo
-        //            });
 
         vm.itemsByPage = 25;
         vm.rowCollection = [];
@@ -52,7 +35,6 @@
             
             userManagementFactory.getUsersByFilter(userId, searchText, division, role, status)
                 .then(function successCallback(responce) {
-
                     vm.rowCollection = responce.data.content;
                     
                 }, function errorCallback(response) {

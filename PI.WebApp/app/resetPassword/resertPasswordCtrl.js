@@ -106,13 +106,14 @@
             
             userManager.loginUser(user, 'api/accounts/resetForgetPasswordConfirm')
              .then(function (returnedResult) {
-                 
-                 if (returnedResult.data == "1") {
+
+                 if (returnedResult.status == 200) {
                      vm.successReset = true;
                      $timeout(function () {
                          window.location = webBaseUrl + "/app/userLogin/userLogin.html";
                      }, 4000);
                  }
+                
                  else if (returnedResult.data == "-1") {
                      vm.invalidToken = true;
                      vm.erroMessage = "Valid token and password required";
@@ -123,8 +124,14 @@
                  }
              },
             function (error) {
-
                 console.log("failed");
+                debugger;
+                vm.invalidToken = true;
+                vm.erroMessage = error.data.message;
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.erroMessage = 'Error occured while processing your request.';
+                }                
             });
 
         };

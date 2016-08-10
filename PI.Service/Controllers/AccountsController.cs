@@ -2,39 +2,24 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.OAuth;
-using Newtonsoft.Json.Linq;
 using PI.Business;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
-using PI.Contract.DTOs.Company;
-using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
-using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.Role;
 using PI.Contract.DTOs.User;
 using PI.Data.Entity.Identity;
 using PI.Service.Models;
-using PI.Service.Providers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Diagnostics;
-using System.IdentityModel.Protocols.WSTrust;
-using System.IdentityModel.Tokens;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Reflection;
 using System.Security.Claims;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using System.Web.Script.Serialization;
 using WebApplication3.Results;
 
 namespace PI.Service.Controllers
@@ -51,7 +36,6 @@ namespace PI.Service.Controllers
             this.companyManagement = companymanagement;
             this.customerManagement = customermanagement;
             authRepo = new AuthRepository();
-
         }
 
 
@@ -74,7 +58,6 @@ namespace PI.Service.Controllers
             }
 
             return NotFound();
-
         }
 
         [CustomAuthorize]
@@ -89,7 +72,6 @@ namespace PI.Service.Controllers
             }
 
             return NotFound();
-
         }
 
 
@@ -97,12 +79,12 @@ namespace PI.Service.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("create")]
-        public int CreateUser(CustomerDto createUserModel)
+        public IHttpActionResult CreateUser(CustomerDto createUserModel)
         {
             if (!ModelState.IsValid)
             {
-                // return BadRequest(ModelState);
-                return -1;
+                //return SendError();
+                return BadRequest(ModelState);
             }
 
             var user = new ApplicationUser()
@@ -110,12 +92,10 @@ namespace PI.Service.Controllers
                 UserName = createUserModel.Email,
                 Email = createUserModel.Email,
                 Salutation = "-",
-                FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-", 
+                FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
                 LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
                 Level = 3,
                 JoinDate = DateTime.Now.Date,
-                //BirthDate = createUserModel.BirthDate,
-                //HomeTown = createUserModel.HomeTown,
                 IsActive = true
             };
 
@@ -141,8 +121,9 @@ namespace PI.Service.Controllers
             }
             else
             {
-                return -2;
-                //return GetErrorResult(IdentityResult.Failed("Email already exists!"));
+                return BadRequest("Email address is already in use!");
+
+                //return GetErrorResult(IdentityResult.Failed("Email address is already in use!"));
             }
 
             // Add Business Owner Role to user
@@ -168,9 +149,9 @@ namespace PI.Service.Controllers
 
             //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
 
-            //return Created(locationHeader, TheModelFactory.Create(user));
-            return 1;
+            return Ok();
         }
+
 
         [AllowAnonymous]
         [HttpGet]
@@ -354,12 +335,8 @@ namespace PI.Service.Controllers
                             Message = "Unfortunately your account is inactive, please contact Parcel International",
                             Result = -1
                         });
-
                     }
-
-
                 }
-
                 else
                     return Ok(new
                     {
@@ -367,12 +344,6 @@ namespace PI.Service.Controllers
                         Message = "This email address is not yet confirmed by you. Please check your inbox and confirm the email address before logging in!",
                         Result = -1
                     });
-                //return Ok(new
-                //{
-                //    Id = user.Id,
-                //    Role = roleName,
-                //    Result = -11 //You must have a confirmed email to log in
-                //});
             }
             else
             {
@@ -422,9 +393,6 @@ namespace PI.Service.Controllers
                 }
             }
         }
-
-
-
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -480,7 +448,6 @@ namespace PI.Service.Controllers
                 });
             }
         }
-
 
 
         // GET api/Account/ExternalLogin
@@ -539,19 +506,19 @@ namespace PI.Service.Controllers
 
         }
 
-        
+
         private class ExternalLoginData
         {
             public string LoginProvider { get; set; }
             public string ProviderKey { get; set; }
             public string UserName { get; set; }
             public string FirstName { get; set; }
-            public string LastName { get; set; }          
+            public string LastName { get; set; }
             public string ExternalAccessToken { get; set; }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                string email = "",firstname = "",lastname = "";
+                string email = "", firstname = "", lastname = "";
 
                 if (identity == null)
                 {
@@ -656,21 +623,13 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [Route("resetForgetPassword")]
-        public int ResetForgetPassword(CustomerDto userModel)
+        public IHttpActionResult ResetForgetPassword(CustomerDto userModel)
         {
             ApplicationUser existingUser = AppUserManager.FindByName(userModel.Email);
             if (existingUser == null)
             {
-                return -1; // No account find by this email.
+                return BadRequest("No account found by this email. Please enter the registered Email"); // No account find by this email.
             }
-            //else
-            //{
-            //    if (!AppUserManager.IsEmailConfirmed(existingUser.Id))
-            //    {
-            //        // user hasn't confirm his email yet. So user can't reset password.
-            //        return -11;
-            //    }
-            //}
 
             var passwordResetToken = AppUserManager.GeneratePasswordResetToken(existingUser.Id);
 
@@ -682,32 +641,31 @@ namespace PI.Service.Controllers
 
             AppUserManager.SendEmail(existingUser.Id, "Reset your account password", emailbody.ToString());
 
-            return 1;
+            return Ok();
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]
         [Route("resetForgetPasswordConfirm")]
-        public int ResetForgetPasswordConfirm(CustomerDto customer)
+        public IHttpActionResult ResetForgetPasswordConfirm(CustomerDto customer)
         {
             if (string.IsNullOrWhiteSpace(customer.UserId) || string.IsNullOrWhiteSpace(customer.Code) || string.IsNullOrWhiteSpace(customer.Password))
             {
-                ModelState.AddModelError("", "User Id, Code and Password are required");
-                return -1;
+                return BadRequest("Valid token and password required!");
             }
+
             string code = AppUserManager.GenerateEmailConfirmationToken(customer.UserId);
             IdentityResult resultEmail = this.AppUserManager.ConfirmEmail(customer.UserId, code);
             IdentityResult result = this.AppUserManager.ResetPassword(customer.UserId, customer.Code, customer.Password);
 
-
             if (result.Succeeded && resultEmail.Succeeded)
             {
-                return 1;
+                return Ok();
             }
             else
             {
-                return -2;
+                return BadRequest("Invalid token. Please resend the password reset URL.");
             }
         }
 
@@ -715,61 +673,51 @@ namespace PI.Service.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("ValidateUserToken")]
-        public bool ValidateUserToken(CustomerDto customer)
+        public IHttpActionResult ValidateUserToken(CustomerDto customer)
         {
-            bool isValid = this.AppUserManager.VerifyUserToken(customer.UserId, "ValidateUserToken", customer.Code);
-            return isValid;
+            return Ok(this.AppUserManager.VerifyUserToken(customer.UserId, "ValidateUserToken", customer.Code));
         }
+
 
         // User Management
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpPost]
-        [Route("DeleteUser")]
-        public int DeleteUser([FromBody] CustomerDto customerDto)
-        {
-            return 1;
-            //return companyManagement.DeleteDivision(division.Id);
-        }
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetAllRolesByUser")]
-        public List<RolesDto> GetAllRolesByUser(string userId)
+        public IHttpActionResult GetAllRolesByUser(string userId)
         {
-            return companyManagement.GetAllActiveChildRoles(userId);
+            return Ok(companyManagement.GetAllActiveChildRoles(userId));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetUsersByFilter")]
-        public PagedList GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
+        public IHttpActionResult GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
         {
-            return companyManagement.GetAllUsers(division, role, userId, status, searchtext);
+            return Ok(companyManagement.GetAllUsers(division, role, userId, status, searchtext));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpPost]
         [Route("SaveUser")]
-        public int SaveUser([FromBody] UserDto user)
+        public IHttpActionResult SaveUser([FromBody] UserDto user)
         {
             UserResultDto result = companyManagement.SaveUser(user);
 
             // Existing email address
             if (!result.IsSucess)
             {
-                return -1;
+                return BadRequest("There is already an user with the same email address");
             }
 
             AssignRolesToUser(result.UserId, new string[1] { user.AssignedRoleName });
 
             if (result.IsAddUser)
             {
-
                 AppUserManager.AddPassword(result.UserId, user.Password);
 
                 #region For Email Confirmaion
@@ -786,36 +734,36 @@ namespace PI.Service.Controllers
                 #endregion
             }
 
-            return 1;
+            return Ok();
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetUserByUserId")]
-        public UserDto GetUserByUserId(string userId, string loggedInUser)
+        public IHttpActionResult GetUserByUserId(string userId, string loggedInUser)
         {
-            return companyManagement.GetUserById(userId, loggedInUser);
+            return Ok(companyManagement.GetUserById(userId, loggedInUser));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("LoadUserManagement")]
-        public UserDto LoadUserManagement(string loggedInUser)
+        public IHttpActionResult LoadUserManagement(string loggedInUser)
         {
-            return companyManagement.LoadUserManagement(loggedInUser);
+            return Ok(companyManagement.LoadUserManagement(loggedInUser));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]
         [Route("GetLoggedInUserName")]
-        public string GetLoggedInUserName(string loggedInUserId)
+        public IHttpActionResult GetLoggedInUserName(string loggedInUserId)
         {
-            return companyManagement.GetLoggedInUserName(loggedInUserId);
+            return Ok(companyManagement.GetLoggedInUserName(loggedInUserId));
         }
-
 
         #region Helpers
         private IAuthenticationManager Authentication
@@ -853,5 +801,6 @@ namespace PI.Service.Controllers
         }
 
         #endregion
+
     }
 }
