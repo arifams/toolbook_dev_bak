@@ -28,6 +28,11 @@ namespace PI.Business
             context = _context ?? PIContext.Get();
         }
 
+        /// <summary>
+        /// Import rate sheets to DB
+        /// </summary>
+        /// <param name="URI"></param>
+        /// <returns></returns>
         public OperationResult ImportRateSheetExcel(string URI)
         {
             OperationResult result = new OperationResult();
@@ -64,7 +69,6 @@ namespace PI.Business
             SLExcelData excelData = excelReader.ReadExcel(URI, 1);
             try
             {
-
                 if (excelData.DataRows.Count == 0)
                 {
                     opResult.Status = Status.Error;
@@ -98,11 +102,8 @@ namespace PI.Business
                     }
                 }
 
-                //using (PIContext context = PIContext.Get())
-                //{
-                    context.CarrierService.AddRange(carrierList);
-                    opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                //}
+                context.CarrierService.AddRange(carrierList);
+                opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
             }
             catch (Exception ex)
             {
@@ -132,67 +133,63 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                //using (PIContext context = PIContext.Get())
-                //{
-                    foreach (var item in excelData.DataRows)
+                foreach (var item in excelData.DataRows)
+                {
+                    if (item.Count != 0)
                     {
-                        if (item.Count != 0)
+                        var cellArray = item.ToArray();
+
+                        if (cellArray.Length != 0)
                         {
-                            var cellArray = item.ToArray();
+                            string service = cellArray[1].ToString();
+                            string carriername = cellArray[2].ToString();
+                            string tarrifName = cellArray[18].ToString();
 
-                            if (cellArray.Length != 0)
+                            var rateZoneList = new List<RateZone>();
+
+                            decimal zonePriceUS1 = decimal.Parse(cellArray[14].ToString());
+                            Zone zone1 = context.Zone.Where(z => z.ZoneName == "US1").FirstOrDefault();
+                            rateZoneList.Add(new RateZone() { Zone = zone1, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS1 });
+
+                            decimal zonePriceUS2 = decimal.Parse(cellArray[15].ToString());
+                            Zone zone2 = context.Zone.Where(z => z.ZoneName == "US2").FirstOrDefault();
+                            rateZoneList.Add(new RateZone() { Zone = zone2, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS2 });
+
+                            decimal zonePriceUS3 = decimal.Parse(cellArray[16].ToString());
+                            Zone zone3 = context.Zone.Where(z => z.ZoneName == "US3").FirstOrDefault();
+                            rateZoneList.Add(new RateZone() { Zone = zone3, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS3 });
+
+                            decimal zonePriceUS4 = decimal.Parse(cellArray[17].ToString());
+                            Zone zone4 = context.Zone.Where(z => z.ZoneName == "US4").FirstOrDefault();
+                            rateZoneList.Add(new RateZone() { Zone = zone4, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS4 });
+
+                            rateList.Add(new Rate
                             {
-                                string service = cellArray[1].ToString();
-                                string carriername = cellArray[2].ToString();
-                                string tarrifName = cellArray[18].ToString();
-
-                                var rateZoneList = new List<RateZone>();
-
-                                decimal zonePriceUS1 = decimal.Parse(cellArray[14].ToString());
-                                Zone zone1 = context.Zone.Where(z => z.ZoneName == "US1").FirstOrDefault();
-                                rateZoneList.Add(new RateZone() { Zone = zone1, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS1 });
-
-                                decimal zonePriceUS2 = decimal.Parse(cellArray[15].ToString());
-                                Zone zone2 = context.Zone.Where(z => z.ZoneName == "US2").FirstOrDefault();
-                                rateZoneList.Add(new RateZone() { Zone = zone2, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS2 });
-
-                                decimal zonePriceUS3 = decimal.Parse(cellArray[16].ToString());
-                                Zone zone3 = context.Zone.Where(z => z.ZoneName == "US3").FirstOrDefault();
-                                rateZoneList.Add(new RateZone() { Zone = zone3, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS3 });
-
-                                decimal zonePriceUS4 = decimal.Parse(cellArray[17].ToString());
-                                Zone zone4 = context.Zone.Where(z => z.ZoneName == "US4").FirstOrDefault();
-                                rateZoneList.Add(new RateZone() { Zone = zone4, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS4 });
-
-                                rateList.Add(new Rate
-                                {
-                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
-                                    CountryFrom = cellArray[3].ToString(),
-                                    IsInbound = string.Equals(cellArray[4].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
-                                    Service = (ProductType)Enum.Parse(typeof(ProductType), cellArray[5].ToString(), true),
-                                    WeightMin = Convert.ToDecimal(cellArray[6].ToString()),
-                                    WeightMax = Convert.ToDecimal(cellArray[7].ToString()),
-                                    Currency = (CurrencyType)Enum.Parse(typeof(CurrencyType), cellArray[8].ToString(), true),
-                                    CalculationMethod = (RatesCalculationMethod)Enum.Parse(typeof(RatesCalculationMethod), cellArray[9].ToString(), true),
-                                    VolumeFactor = Convert.ToInt32(cellArray[10].ToString()),
-                                    MaxLength = Convert.ToDecimal(cellArray[11].ToString()),
-                                    MaxWeightPerPiece = Convert.ToDecimal(cellArray[12].ToString()),
-                                    SellOrBuy = (RatesSell)Enum.Parse(typeof(RatesSell), cellArray[13].ToString(), true),
-                                    TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
-                                    MaxDimension = Convert.ToDecimal(cellArray[19].ToString()),
-                                    CreatedBy = "1",//userId,
-                                    CreatedDate = DateTime.Now,
-                                    RateZoneList = rateZoneList
-                                });
-                            }
+                                Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
+                                CountryFrom = cellArray[3].ToString(),
+                                IsInbound = string.Equals(cellArray[4].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
+                                Service = (ProductType)Enum.Parse(typeof(ProductType), cellArray[5].ToString(), true),
+                                WeightMin = Convert.ToDecimal(cellArray[6].ToString()),
+                                WeightMax = Convert.ToDecimal(cellArray[7].ToString()),
+                                Currency = (CurrencyType)Enum.Parse(typeof(CurrencyType), cellArray[8].ToString(), true),
+                                CalculationMethod = (RatesCalculationMethod)Enum.Parse(typeof(RatesCalculationMethod), cellArray[9].ToString(), true),
+                                VolumeFactor = Convert.ToInt32(cellArray[10].ToString()),
+                                MaxLength = Convert.ToDecimal(cellArray[11].ToString()),
+                                MaxWeightPerPiece = Convert.ToDecimal(cellArray[12].ToString()),
+                                SellOrBuy = (RatesSell)Enum.Parse(typeof(RatesSell), cellArray[13].ToString(), true),
+                                TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
+                                MaxDimension = Convert.ToDecimal(cellArray[19].ToString()),
+                                CreatedBy = "1",//userId,
+                                CreatedDate = DateTime.Now,
+                                RateZoneList = rateZoneList
+                            });
                         }
-
                     }
 
-                    context.Rate.AddRange(rateList);
-                    opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-                //}
+                }
 
+                context.Rate.AddRange(rateList);
+                opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
             }
             catch (Exception ex)
             {
@@ -221,42 +218,40 @@ namespace PI.Business
                 {
                     opResult.Status = Status.Error;
                 }
-                //using (PIContext context = PIContext.Get())
-                //{
-                    foreach (var item in excelData.DataRows)
+
+                foreach (var item in excelData.DataRows)
+                {
+
+                    if (item.Count != 0)
                     {
+                        var cellArray = item.ToArray();
 
-                        if (item.Count != 0)
+                        if (cellArray.Length != 0)
                         {
-                            var cellArray = item.ToArray();
+                            string service = cellArray[1].ToString();
+                            string carriername = cellArray[2].ToString();
+                            string tarrifName = cellArray[8].ToString();
 
-                            if (cellArray.Length != 0)
+                            zoneList.Add(new Zone
                             {
-                                string service = cellArray[1].ToString();
-                                string carriername = cellArray[2].ToString();
-                                string tarrifName = cellArray[8].ToString();
-
-                                zoneList.Add(new Zone
-                                {
-                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
-                                    CountryFrom = cellArray[3].ToString(),
-                                    CountryTo = cellArray[4].ToString(),
-                                    ZoneName = cellArray[5].ToString(),
-                                    LocationFrom = cellArray[6].ToString(),
-                                    LocationTo = cellArray[7].ToString(),
-                                    TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
-                                    IsInbound = string.Equals(cellArray[9].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
-                                    CreatedBy = "1",//userId,
-                                    CreatedDate = DateTime.Now
-                                });
-                            }
+                                Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
+                                CountryFrom = cellArray[3].ToString(),
+                                CountryTo = cellArray[4].ToString(),
+                                ZoneName = cellArray[5].ToString(),
+                                LocationFrom = cellArray[6].ToString(),
+                                LocationTo = cellArray[7].ToString(),
+                                TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
+                                IsInbound = string.Equals(cellArray[9].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
+                                CreatedBy = "1",//userId,
+                                CreatedDate = DateTime.Now
+                            });
                         }
-
                     }
 
-                    context.Zone.AddRange(zoneList);
-                    opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-               // }
+                }
+
+                context.Zone.AddRange(zoneList);
+                opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
 
             }
             catch (Exception ex)
@@ -289,45 +284,43 @@ namespace PI.Business
                     opResult.Status = Status.Error;
                 }
 
-                //using (PIContext context = PIContext.Get())
-                //{
-                    foreach (var item in excelData.DataRows)
+                foreach (var item in excelData.DataRows)
+                {
+                    if (item.Count != 0)
                     {
-                        if (item.Count != 0)
+                        var cellArray = item.ToArray();
+
+                        if (cellArray.Length != 0)
                         {
-                            var cellArray = item.ToArray();
+                            string service = cellArray[1].ToString();
+                            string carriername = cellArray[2].ToString();
+                            string zoneName = cellArray[5].ToString();
 
-                            if (cellArray.Length != 0)
+                            transitTimeProdList = new List<TransitTimeProduct>();
+
+                            if (cellArray[6] != null && !string.IsNullOrWhiteSpace(cellArray[6].ToString()))
+                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(cellArray[6].ToString()), CreatedDate = DateTime.Now });
+
+                            if (cellArray[7].ToString() != null && !string.IsNullOrWhiteSpace(cellArray[7].ToString()))
+                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Box, Days = Convert.ToInt16(cellArray[7].ToString()), CreatedDate = DateTime.Now });
+
+                            transmitTimeList.Add(new TransmitTime()
                             {
-                                string service = cellArray[1].ToString();
-                                string carriername = cellArray[2].ToString();
-                                string zoneName = cellArray[5].ToString();
-
-                                transitTimeProdList = new List<TransitTimeProduct>();
-
-                                if (cellArray[6] != null && !string.IsNullOrWhiteSpace(cellArray[6].ToString()))
-                                    transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(cellArray[6].ToString()), CreatedDate = DateTime.Now });
-
-                                if (cellArray[7].ToString() != null && !string.IsNullOrWhiteSpace(cellArray[7].ToString()))
-                                    transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Box, Days = Convert.ToInt16(cellArray[7].ToString()), CreatedDate = DateTime.Now });
-
-                                transmitTimeList.Add(new TransmitTime()
-                                {
-                                    Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
-                                    CountryFrom = cellArray[3].ToString(),
-                                    CountryTo = cellArray[4].ToString(),
-                                    Zone = context.Zone.Where(z => z.ZoneName == zoneName).FirstOrDefault(),
-                                    TransitTimeProductList = transitTimeProdList,
-                                    CreatedBy = "1",//userId,
-                                    CreatedDate = DateTime.Now
-                                });
-                            }
+                                Carrier = context.CarrierService.Where(c => c.ServiceLevel == service && c.Carrier.Name == carriername).FirstOrDefault(),
+                                CountryFrom = cellArray[3].ToString(),
+                                CountryTo = cellArray[4].ToString(),
+                                Zone = context.Zone.Where(z => z.ZoneName == zoneName).FirstOrDefault(),
+                                TransitTimeProductList = transitTimeProdList,
+                                CreatedBy = "1",//userId,
+                                CreatedDate = DateTime.Now
+                            });
                         }
                     }
+                }
 
-                    context.TransmitTime.AddRange(transmitTimeList);
-                    opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
-               // }
+                context.TransmitTime.AddRange(transmitTimeList);
+                opResult.Status = (context.SaveChanges() > 0) ? Status.Success : Status.Error;
+
             }
             catch (Exception ex)
             {
@@ -346,18 +339,15 @@ namespace PI.Business
         /// <returns></returns>
         public bool ManageInvoicePaymentSetting(long comapnyId)
         {
-            //using (var context = PIContext.Get())
-            //{
-                var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
+            var comapny = context.Companies.Where(x => x.Id == comapnyId).SingleOrDefault();
 
-                if (comapny != null)
-                {
-                    comapny.IsInvoiceEnabled = !comapny.IsInvoiceEnabled;
-                    context.SaveChanges();
-                }
+            if (comapny != null)
+            {
+                comapny.IsInvoiceEnabled = !comapny.IsInvoiceEnabled;
+                context.SaveChanges();
+            }
 
-                return comapny.IsInvoiceEnabled;
-           // }
+            return comapny.IsInvoiceEnabled;        
         }
 
 
@@ -369,20 +359,18 @@ namespace PI.Business
         public List<AuditTrailDto> GetAuditTrailsForCustomer(string userId)
         {
             List<AuditTrailDto> customerAuditRecords = new List<AuditTrailDto>();
-            //using (var context = PIContext.Get())
-            //{
-                var auditRecords = context.AuditTrail.Where(x => x.CreatedBy == userId).ToList();
+       
+            var auditRecords = context.AuditTrail.Where(x => x.CreatedBy == userId).ToList();
 
-                foreach (var record in auditRecords)
+            foreach (var record in auditRecords)
+            {
+                customerAuditRecords.Add(new AuditTrailDto
                 {
-                    customerAuditRecords.Add(new AuditTrailDto
-                    {
-                        AppFunctionality = record.AppFunctionality,
-                        Comments = record.Comments,
-                        Result = record.Result,
-                    });
-                }
-           // }
+                    AppFunctionality = record.AppFunctionality,
+                    Comments = record.Comments,
+                    Result = record.Result,
+                });
+            }
 
             return customerAuditRecords;
         }
