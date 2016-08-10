@@ -1,10 +1,10 @@
 //****************** YOUR CUSTOMIZED JAVASCRIPT **********************//
 
 // Service base url
-//var serverBaseUrl = 'https://localhost:44339/';
+//var serverBaseUrl = 'https://localhost:44339';
 //var serverBaseUrl = 'http://pibooking.azurewebsites.net';
 //var serverBaseUrl = 'http://piserviceprod.azurewebsites.net';
-//var serverBaseUrl = 'http://piserviceqa.azurewebsites.net';
+//var serverBaseUrl = 'http://piserviceqa.azurewebsites.net'; // This is not using anymore
 var serverBaseUrl = 'https://service.transportal.it';
 //var serverBaseUrl = 'http://piserviceuat.azurewebsites.net';
 

@@ -357,7 +357,7 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-          debugger;
+          
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
           

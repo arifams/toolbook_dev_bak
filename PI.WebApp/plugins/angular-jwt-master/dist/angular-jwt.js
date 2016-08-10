@@ -14,7 +14,7 @@ angular.module('angular-jwt',
 
  angular.module('angular-jwt.interceptor', [])
   .provider('jwtInterceptor', function() {
-      debugger;
+      
     this.urlParam = null;
     this.authHeader = 'Authorization';
     this.authPrefix = 'Bearer ';
@@ -61,12 +61,11 @@ angular.module('angular-jwt',
           });
         },
         responseError: function (response) {
-            debugger;
+            
           // handle the case where the user is not authenticated
             if (response.status === 401) {
                 var currentRole = $window.localStorage.getItem('userRole');
 
-                debugger;
                     //redirect to login and clear the local storage
                     if (currentRole != 'Admin') {
                         $window.location = webBaseUrl + "/app/userLogin/userLogin.html";
