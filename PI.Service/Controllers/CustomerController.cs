@@ -1,20 +1,15 @@
 ﻿using PI.Business;
 using PI.Contract.Business;
-using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using Microsoft.AspNet.Identity;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net;
-using Newtonsoft.Json.Linq;
-using PI.Contract.DTOs.Customer;
 
 namespace PI.Service.Controllers
 {
@@ -35,10 +30,10 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetAllInvoicesByCustomer")]
-        public PagedList GetAllInvoicesByCustomer(string userId, string status = null, DateTime? startDate = null,
+        public IHttpActionResult GetAllInvoicesByCustomer(string userId, string status = null, DateTime? startDate = null,
                                                   DateTime? endDate = null, string shipmentNumber = null, string invoiceNumber = null)
         {
-            return invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, shipmentNumber, invoiceNumber);
+            return Ok(invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, shipmentNumber, invoiceNumber));
         }
 
 
@@ -46,9 +41,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpPost]
         [Route("PayInvoice")]
-        public InvoiceStatus PayInvoice([FromBody] InvoiceDto invoice)
+        public IHttpActionResult PayInvoice([FromBody] InvoiceDto invoice)
         {
-            return invoiceMangement.PayInvoice(invoice.Id);
+            return Ok(invoiceMangement.PayInvoice(invoice.Id));
         }
 
 
@@ -56,7 +51,7 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpPost]
         [Route("DisputeInvoice")]
-        public InvoiceStatus DisputeInvoice([FromBody] InvoiceDto invoice)
+        public IHttpActionResult DisputeInvoice([FromBody] InvoiceDto invoice)
         {
             var result = invoiceMangement.DisputeInvoice(invoice);
             var subject = "Dispute invoice :" + invoice.ShipmentReference + "_" + invoice.InvoiceNumber;
@@ -74,7 +69,8 @@ namespace PI.Service.Controllers
                 }
 
             }
-            return result;
+
+            return Ok(result);
         }
 
 
@@ -97,9 +93,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetThemeColour")]
-        public string GetThemeColour ([FromUri] string loggedInUserId)
+        public IHttpActionResult GetThemeColour ([FromUri] string loggedInUserId)
         {
-            return customerManagement.GetThemeColour(loggedInUserId);
+            return Ok(customerManagement.GetThemeColour(loggedInUserId));
         }
         
         
@@ -107,9 +103,9 @@ namespace PI.Service.Controllers
         // [Authorize]
         [HttpGet]
         [Route("GetCustomerByCompanyId")]
-        public CustomerDto GetCustomerByCompanyId(int companyid)
+        public IHttpActionResult GetCustomerByCompanyId(int companyid)
         {
-            return customerManagement.GetCustomerByCompanyId(companyid);
+            return Ok(customerManagement.GetCustomerByCompanyId(companyid));
         }
 
     }

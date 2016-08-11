@@ -42,7 +42,7 @@
     });
 
 
-    app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService,$rootScope,
+    app.controller('loadCostCentersCtrl', function ($scope, $location, loadAllDivisions, loadCostCenterService, $rootScope,
                                         costCenterManagmentService, $routeParams, $log, $window, $sce) {
 
         loadAllDivisions.loadAllDivisions()
@@ -60,18 +60,18 @@
         //$scope.rowCollection.push();
 
         $scope.searchCostCenters = function () {
-            
+
             // Get values from view.
             var userId = $window.localStorage.getItem('userGuid');
             var division = ($scope.selectedDivision == undefined || $scope.selectedDivision == "") ? 0 : $scope.selectedDivision;
             var type = ($scope.status == undefined || $scope.status == "") ? 0 : $scope.status;
             var searchText = $scope.searchText;
-            
+
             loadCostCenterService.find(userId, searchText, division, type)
                 .then(function successCallback(responce) {
 
                     $scope.rowCollection = responce.data.content;
-                    
+
                 }, function errorCallback(response) {
                     //todo
                 });
@@ -90,78 +90,68 @@
 
         $scope.deleteById = function (row) {
 
-            //var r = confirm("Do you want to delete the record?");
-            //if (r == true) {
-            //    costCenterManagmentService.deleteCostCenter({ Id: row.id })
-            //        .success(function (response) {
-            //            if (response == 1) {
-            //                var index = $scope.rowCollection.indexOf(row);
-            //                if (index !== -1) {
-            //                    $scope.rowCollection.splice(index, 1);
-            //                }
-            //            }
-            //        })
-            //        .error(function () {
-            //        })
-            //}
-       
+            var body = $("html, body");
 
-        var body = $("html, body");
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
 
-        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-        });
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Do you want to delete the record') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
-        $('#panel-notif').noty({
-            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Do you want to delete the record') + '?</p></div>',
-            buttons: [
-                    {
-                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                $noty.close();
 
-                            $noty.close();
+                                costCenterManagmentService.deleteCostCenter({ Id: row.id })
+                               .then(function (response) {
+                                   if (response.status == 200) {
+                                       var index = $scope.rowCollection.indexOf(row);
+                                       if (index !== -1) {
+                                           $scope.rowCollection.splice(index, 1);
+                                       }
+                                   }
+                               },
+                                function (error) {
 
-                            costCenterManagmentService.deleteCostCenter({ Id: row.id })
-                           .success(function (response) {
-                           if (response == 1) {
-                              var index = $scope.rowCollection.indexOf(row);
-                           if (index !== -1) {
-                               $scope.rowCollection.splice(index, 1);
+                                    var errorMessage = error.data.message;
+
+                                    if (error.data.message == undefined) {
+                                        errorMessage = 'Error occured while processing your request';
+                                    }
+
+                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                                    });
+
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(errorMessage) + '</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 3000,
+                                    });
+                            });
                             }
-                       }
-                   })
-                   .error(function () {
-
-                       body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                       });
-
-                       $('#panel-notif').noty({
-                           text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                           layout: 'bottom-right',
-                           theme: 'made',
-                           animation: {
-                               open: 'animated bounceInLeft',
-                               close: 'animated bounceOutLeft'
-                           },
-                           timeout: 3000,
-                       });
-                   })
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
                         }
-                    },
-                    {
-                        addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                            $noty.close();
-                            return;
-                        }
-                    }
-            ],
-            layout: 'bottom-right',
-            theme: 'made',
-            animation: {
-                open: 'animated bounceInLeft',
-                close: 'animated bounceOutLeft'
-            },
-            timeout: 3000,
-        });
-            
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+
         };
 
         $scope.renderHtml = function (html_code) {
