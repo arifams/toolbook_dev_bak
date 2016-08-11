@@ -46,7 +46,7 @@
             
             userManagementFactory.getUser($scope.userId)
             .success(function (data) {
-                
+                debugger;
                 vm.user = data;
 
                 vm.user.assignedDivisionIdList = [];
@@ -97,29 +97,13 @@
         vm.saveUser = function () {
             debugger;
             vm.user.loggedInUserId = $window.localStorage.getItem('userGuid');
-
-            var body = $("html, body");
             vm.user.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Account Activation</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Thank you for registering. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>';
+            var body = $("html, body");
 
             userManagementFactory.saveUser(vm.user)
-            .success(function (result) {
-                
-                if (result == -1) {
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('There is already an user with the same email address') + '!</p></div>',
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-                } else {
-
+            .then(function (result) {
+                debugger;
+                if (result.status == 200) {
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                     $('#panel-notif').noty({
                         text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('User saved successfully') + '!</p></div>',
@@ -132,10 +116,24 @@
                         timeout: 3000,
                     });
                 }
-
-            })
-            .error(function () {
-            })
+            },
+            function (error) {
+                debugger;
+                if (error.data.message == "") {
+                    error.data.message = 'Error occured while processing your request';
+                }
+                body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(error.data.message) + '!</p></div>',
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
+            });
         }
 
         vm.close = function () {

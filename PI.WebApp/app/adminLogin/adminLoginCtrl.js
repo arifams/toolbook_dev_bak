@@ -13,7 +13,7 @@
 
     });
 
-    app.controller('adminLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope','gettextCatalog',
+    app.controller('adminLoginCtrl', ['userManager', '$window', '$cookieStore', '$scope', 'gettextCatalog',
     function (userManager, $window, $cookieStore, $scope, gettextCatalog) {
         var vm = this;
         //$localStorage.userGuid = '';
@@ -50,7 +50,7 @@
 
         vm.login = function (user) {
 
-            
+
             if (vm.rememberme == true) {
                 $cookieStore.put('username', user.username);
                 $cookieStore.put('password', user.password);
@@ -85,9 +85,9 @@
 
             userManager.loginUser(user, 'api/accounts/LoginAdmin')
              .then(function (returnedResult) {
-                 
+
                  if (returnedResult.data.result == "1") {
-                     
+
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
@@ -101,8 +101,8 @@
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
                  }
-                
-                
+
+
              },
             //.then(function (result) {
 
@@ -135,26 +135,20 @@
 
             userManager.loginUser(vm.pwdReset, 'api/accounts/ResetForgetPassword')
              .then(function (returnedResult) {
-                 
 
-                 if (returnedResult.data == "1") {
+                 if (returnedResult.status == 200) {
                      vm.passwordResetError = false;
                      vm.isSentPasswordResetMail = true;
-                 }
-                 else if (returnedResult.data == "-1") {
-                     //No account find by this email.
-                     vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = "No account found by this email. Please enter registered Email";
-                 }
-                 else if (returnedResult.data == "-11") {
-                     //No account find by this email.
-                     vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = "You must have a confirmed email to log in.";
                  }
              },
             function (error) {
                 vm.passwordResetError = true;
-                vm.passwordResetErrorMsg = "Server error occured while reseting password";
+
+                vm.passwordResetErrorMsg = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.passwordResetErrorMsg = $rootScope.translate('Error occured while processing your request.');
+                }
             });
         };
 

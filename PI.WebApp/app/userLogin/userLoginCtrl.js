@@ -124,7 +124,7 @@ registerExternalUser,ngAuthSettings) {
             }
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
-
+                 debugger;
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
                      debugger;
                      // TODO: To be coverted to a token.
@@ -170,7 +170,7 @@ registerExternalUser,ngAuthSettings) {
                  }
              },
             function (error) {
-
+                debugger;
                 console.log("failed");
             });
 
@@ -185,24 +185,19 @@ registerExternalUser,ngAuthSettings) {
             userManager.loginUser(vm.pwdReset, 'api/accounts/ResetForgetPassword')
              .then(function (returnedResult) {
 
-                 if (returnedResult.data == "1") {
+                 if (returnedResult.status == 200) {
                      vm.passwordResetError = false;
                      vm.isSentPasswordResetMail = true;
-                 }
-                 else if (returnedResult.data == "-1") {
-                     //No account find by this email.
-                     vm.passwordResetError = true;
-                     vm.passwordResetErrorMsg = $rootScope.translate("No account found by this email. Please enter registered Email");
-                 }
-                 //else if (returnedResult.data == "-11") {
-                 //    //No account find by this email.
-                 //    vm.passwordResetError = true;
-                 //    vm.passwordResetErrorMsg = $rootScope.translate("You must have a confirmed email to log in!");
-                 //}
+                 }         
              },
             function (error) {
                 vm.passwordResetError = true;
-                vm.passwordResetErrorMsg = $rootScope.translate("Server error occured while reseting password");
+                   
+                vm.passwordResetErrorMsg = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.passwordResetErrorMsg = $rootScope.translate('Error occured while processing your request.');
+                }       
             });
         };
 

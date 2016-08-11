@@ -12,8 +12,8 @@
     app.factory('loadAddressBookFactory', function ($http, $routeParams, $window, jwtHelper) {
         return {
             loadAddressInfo: function () {
-                var token= $window.localStorage.getItem('token')
-                
+                var token = $window.localStorage.getItem('token')
+
                 var tokenPayload = jwtHelper.decodeToken(token);
 
 
@@ -30,37 +30,38 @@
     app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', '$scope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope, $scope) {
 
         var vm = this;
-       
+
         vm.errorCode = false;
 
         vm.changeCountry = function () {
             vm.isRequiredState = vm.model.country == 'US' || vm.model.country == 'CA' || vm.model.country == 'PR' || vm.model.country == 'AU';
-        };      
+        };
 
         vm.saveAddressDetail = function () {
             vm.model.userId = $window.localStorage.getItem('userGuid');
             vm.model.id = $routeParams.id;
             var body = $("html, body");
             saveAddressBookFactory.saveAddressBook(vm.model)
-           .success(function (result) {
-               if (result == 1) {
+           .then(function (result) {
+               debugger;
+               if (result.status == 200) {
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Address Detail saved successfully') + '</p></div>',
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-                } 
+                   $('#panel-notif').noty({
+                       text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Address details saved successfully') + '</p></div>',
+                       layout: 'bottom-right',
+                       theme: 'made',
+                       animation: {
+                           open: 'animated bounceInLeft',
+                           close: 'animated bounceOutLeft'
+                       },
+                       timeout: 3000,
+                   });
+               }
 
-                })
-                .error(function () {
-                })
+           },
+           function (error) {
+                });
         }
         vm.close = function () {
             $location.path('/loadAddresses');
@@ -69,9 +70,9 @@
         var loadDivision = function () {
             loadAddressBookFactory.loadAddressInfo()
             .success(function (data) {
-                
+
                 vm.model = data;
-                if (data.isActive == true || data.firstName==null) {
+                if (data.isActive == true || data.firstName == null) {
                     vm.model.isActive = "true";
                 } else {
                     vm.model.isActive = "false";
@@ -136,7 +137,7 @@
                                 vm.errorCode = false;
                             });
 
-                            
+
 
 
                         } else {
@@ -161,12 +162,12 @@
         }
 
         vm.getAddressInformation = function () {
-            
-            if (vm.model.zipCode == null || vm.model.zipCode =='') {
+
+            if (vm.model.zipCode == null || vm.model.zipCode == '') {
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZip(vm.model.zipCode);
-                
+
             }
 
 
@@ -174,7 +175,7 @@
 
 
         loadDivision();
-       
+
 
     }]);
 
