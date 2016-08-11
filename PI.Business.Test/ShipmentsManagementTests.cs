@@ -27,6 +27,7 @@ namespace PI.Business.Tests
     {
         ShipmentsManagement shipmentManagement = null;
         ShipmentDto shipmentDto = null;
+        ShipmentDto shipmentDto2 = null;
 
         public ShipmentsManagementTests()
         {
@@ -141,6 +142,119 @@ namespace PI.Business.Tests
                     }
                 }
             };
+
+            shipmentDto2 = new ShipmentDto()
+            {
+                UserId = "1",
+                SISCompanyCode = "123",
+                GeneralInformation = new GeneralInformationDto
+                {
+                    ShipmentName = "ship1",
+                    DivisionId = 1,
+                    CostCenterId = 1,
+                    ShipmentMode = "Express",
+                    ShipmentServices = "DD-DDP-PP",
+                    ShipmentPaymentTypeId = 1,
+                    IsFavourite = true,
+                    ShipmentCode = "ship123"
+                },
+                CarrierInformation = new CarrierInformationDto
+                {
+                    CarrierName = "UPS",
+                    serviceLevel = "1",
+                    tarriffType = "1",
+                    tariffText = "test",
+                    PickupDate = DateTime.Now,
+                    Price = 100,
+                    Insurance = 10,
+                    DeliveryTime = DateTime.Now,
+
+                },
+
+                CreatedBy = "1",
+
+                AddressInformation = new ConsignerAndConsigneeInformationDto
+                {
+                    Consigner = new ConsignerDto
+                    {
+                        CompanyName = "CompanyName",
+                        FirstName = "FirstName",
+                        LastName = "",
+                        Country = "US",
+                        Postalcode = "1234",
+                        Number = "1234",
+                        Address1 = "Address1",
+                        Address2 = "Address2",
+                        City = "City",
+                        State = "State",
+                        Email = "Email@email",
+                        ContactNumber = "2342342344",
+                        ContactName = "ContactName",
+                        SaveNewAddress=true
+
+                    },
+
+                    Consignee = new ConsigneeDto
+                    {
+                        CompanyName = "CompanyName",
+                        FirstName = "FirstName",
+                        LastName = "",
+                        Country = "US",
+                        Postalcode = "1234",
+                        Number = "1234",
+                        Address1 = "Address1",
+                        Address2 = "Address2",
+                        City = "City",
+                        State = "State",
+                        Email = "Email@email",
+                        ContactNumber = "2342342344",
+                        ContactName = "ContactName",
+                        SaveNewAddress=true
+
+                    },
+
+
+                },
+
+                PackageDetails = new PackageDetailsDto
+                {
+                    ShipmentDescription = "",
+                    TotalVolume = 10,
+                    TotalWeight = 10,
+                    HsCode = "123Code",
+                    PreferredCollectionDate = "2017-12-12",
+                    Instructions = "instruction",
+                    IsInsuared = "True",
+                    DeclaredValue = 10,
+                    ValueCurrency = 1,
+                    PaymentTypeId = 1,
+                    CmLBS = true,
+                    VolumeCMM = false,
+                    IsDG = true,
+                    ProductIngredients = new List<ProductIngredientsDto>
+                    {
+                        new ProductIngredientsDto
+                        {
+                             Height=10,
+                             Length=10,
+                             Weight=10,
+                             Width=10,
+                             Quantity=10,
+                             ProductType=ProductType.Box.ToString()
+                        },
+                        new ProductIngredientsDto
+                        {
+                             Height=20,
+                             Length=20,
+                             Weight=20,
+                             Width=20,
+                             Quantity=20,
+                             ProductType=ProductType.Document.ToString()
+                        }
+                    }
+                }
+            };
+
             #endregion
 
             #region mocking Data
@@ -1319,11 +1433,28 @@ namespace PI.Business.Tests
             #endregion
         }
 
-
         [Test]
-        public void SaveShipmentTest()
-        {           
-            ShipmentOperationResult response = shipmentManagement.SaveShipment(shipmentDto);
+        public void GetAllShipmentsForAdminsTest()
+        {
+            IList<ShipmentDto> response = shipmentManagement.GetAllShipmentsForAdmins();
+            Assert.AreEqual(response.Count, 3);
+        }
+
+
+        [TestCase(1)]
+        [TestCase(2)]
+        public void SaveShipmentTest(long number)
+        {
+            ShipmentDto dto = null;
+            if (number==1)
+            {
+                dto = shipmentDto;
+            }
+            else if (number == 2)
+            {
+                dto = shipmentDto2;
+            }    
+            ShipmentOperationResult response = shipmentManagement.SaveShipment(dto);
             Assert.AreEqual(response.Status, Status.Success);
         }
 

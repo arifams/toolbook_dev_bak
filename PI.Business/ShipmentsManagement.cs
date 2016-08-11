@@ -592,8 +592,8 @@ namespace PI.Business
         {
             IList<ShipmentDto> shipmentList = new List<ShipmentDto>();
 
-            using (PIContext context = new PIContext())
-            {
+            //using (PIContext context = new PIContext())
+            //{
                 var content = (from shipment in context.Shipments
                                where shipment.Status != (short)ShipmentStatus.Delivered
                                select shipment).ToList();
@@ -617,7 +617,7 @@ namespace PI.Business
                         );
 
                 }
-            }
+           // }
 
             return shipmentList;
         }
