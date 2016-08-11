@@ -93,6 +93,12 @@ namespace PI.Contract.Business
         /// <returns></returns>
         IList<ShipmentDto> GetAllShipmentsForAdmins();
 
+        /// <summary>
+        /// Get shipment by CodeShipment
+        /// </summary>
+        /// <param name="codeShipment">codeShipment</param>
+        /// <returns></returns>
+        ShipmentDto GetShipmentByCodeShipment(string codeShipment);
     }
 
 }

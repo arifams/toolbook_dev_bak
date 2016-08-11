@@ -25,6 +25,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
+using PI.Contract.DTOs.Company;
 
 namespace PI.Business
 {
@@ -1472,7 +1473,7 @@ namespace PI.Business
         public StatusHistoryResponce getUpdatedShipmentHistoryFromDB(string codeShipment)
         {
             StatusHistoryResponce statusHistory = new StatusHistoryResponce();
-            Shipment currentShipment = this.GetShipmentByCodeShipment(codeShipment);
+            ShipmentDto currentShipment = this.GetShipmentByCodeShipment(codeShipment);
 
             List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
             history historynew = new history();
@@ -1581,17 +1582,25 @@ namespace PI.Business
         }
 
         //get the shipment by code shipment
-        public Shipment GetShipmentByCodeShipment(string codeShipment)
+        public ShipmentDto GetShipmentByCodeShipment(string codeShipment)
         {
-            //using (PIContext context = PIContext.Get())
-            //{
-                Shipment shipmentContent = (from shipment in context.Shipments
-                                            where shipment.ShipmentCode == codeShipment
-                                            select shipment).FirstOrDefault();
+            Shipment shipmentContent = (from shipment in context.Shipments
+                                        where shipment.ShipmentCode == codeShipment
+                                        select shipment).FirstOrDefault();
 
-                return shipmentContent;
-            //}
+            ShipmentDto shipmentDto = new ShipmentDto()
+            {
+                Id = shipmentContent.Id,
+                Division = new DivisionDto()
+                {
+                    Company = new CompanyDto()
+                    {
+                        TenantId = shipmentContent.Division.Company.TenantId
+                    }
+                }
+            };
 
+            return shipmentDto;
         }
 
 
