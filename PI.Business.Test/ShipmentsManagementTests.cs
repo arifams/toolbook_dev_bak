@@ -1791,7 +1791,19 @@ namespace PI.Business.Tests
         [Test]
         public void InsertShipmentDocumentTest()
         {
-            
+            FileUploadDto fileDetails = new FileUploadDto
+            {
+                CodeReference="ship123",
+                CategoryId=1,
+                Id=1,
+                TenantId=1,                
+                ClientFileName="client file",
+                DocumentType=DocumentType.Shipment,
+                UploadedFileName="shipment doc",
+
+            };
+
+            shipmentManagement.InsertShipmentDocument(fileDetails);
         }
 
         [Test]
