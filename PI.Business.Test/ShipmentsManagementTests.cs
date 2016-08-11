@@ -1453,7 +1453,8 @@ namespace PI.Business.Tests
             else if (number == 2)
             {
                 dto = shipmentDto2;
-            }    
+            }
+             
             ShipmentOperationResult response = shipmentManagement.SaveShipment(dto);
             Assert.AreEqual(response.Status, Status.Success);
         }
@@ -1783,7 +1784,7 @@ namespace PI.Business.Tests
         public void GetShipmentByCodeShipmentTest()
         {
             string codeShipment = "ship123";
-            Shipment response = shipmentManagement.GetShipmentByCodeShipment(codeShipment);
+            ShipmentDto response = shipmentManagement.GetShipmentByCodeShipment(codeShipment);
             Assert.AreNotEqual(response, null);
         }
 

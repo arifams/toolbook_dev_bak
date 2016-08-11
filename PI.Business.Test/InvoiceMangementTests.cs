@@ -39,6 +39,39 @@ namespace PI.Business.Tests
                 }
             };
 
+            List<InvoiceDisputeHistory> invoiceDisputeHistories = new List<InvoiceDisputeHistory>()
+            {
+                 new InvoiceDisputeHistory
+                 {
+                     Id=1,
+                     DisputeComment="disputed",
+                     InvoiceId=1,
+                     IsActive=true,
+                     IsDelete=false,
+                     CreatedBy="1",
+                     CreatedDate=DateTime.Now,
+                     Invoice= new Invoice
+                     {
+                         Id=1,
+                         InvoiceNumber="1",
+                         InvoiceValue=100,
+                         ShipmentId=1,
+                         InvoiceStatus=InvoiceStatus.Pending,
+                         URL="url",
+                         IsActive=true,
+                         IsDelete=false,
+                         creditNoteList= new List<CreditNote>
+                         {
+                             new CreditNote
+                             {
+                                 Id=1,
+                                 InvoiceId=1,                                 
+                             }
+                         }
+                     }
+                 }
+            };
+
             var mockSetinvoices = MoqHelper.CreateMockForDbSet<Invoice>()
                                            .SetupForQueryOn(invoices)
                                            .WithAdd(invoices);
