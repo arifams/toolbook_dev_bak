@@ -111,21 +111,21 @@ namespace PI.Business.Tests
         }
 
         ////blocked by mocking role
-        //[Test]
-        //public void GetAllInvoicesByCustomerTest()
-        //{
-        //    string status = "";
-        //    string userId = "1";
-        //    DateTime? startDate = DateTime.Now;
-        //    DateTime? endDate = DateTime.Now;
-        //    string shipmentNumber = "";
-        //    string invoiceNumber = "";
+        [Test]
+        public void GetAllInvoicesByCustomerTest()
+        {
+            string status = "";
+            string userId = "1";
+            DateTime? startDate = DateTime.Now;
+            DateTime? endDate = DateTime.Now;
+            string shipmentNumber = "";
+            string invoiceNumber = "";
 
-        //    PagedList response = invoiceManagement.GetAllInvoicesByCustomer(status, userId, startDate, endDate,
-        //                                           shipmentNumber, invoiceNumber);
+            //PagedList response = invoiceManagement.GetAllInvoicesByCustomer(status, userId, startDate, endDate,
+            //                                       shipmentNumber, invoiceNumber);
 
-        //    Assert.AreNotEqual(response.TotalRecords, 0);
-        //}
+            //Assert.AreNotEqual(response.TotalRecords, 0);
+        }
 
         [Test]
         public void UpdateInvoiceStatusTest()
@@ -179,21 +179,21 @@ namespace PI.Business.Tests
         }
 
         //blocked by role
-        //[Test]
-        //public void GetAllInvoicesTest()
-        //{
-        //    string status = "";
-        //    string userId = "";
-        //    DateTime? startDate = DateTime.Now;
-        //    DateTime? endDate = DateTime.Now;
-        //    string shipmentnumber = "";
-        //    string businessowner = "";
-        //    string invoicenumber = "";
-        //    PagedList response = invoiceManagement.GetAllInvoices(status, userId, startDate, endDate,
-        //                               shipmentnumber, businessowner, invoicenumber);
+        [Test]
+        public void GetAllInvoicesTest()
+        {
+            string status = "";
+            string userId = "";
+            DateTime? startDate = DateTime.Now;
+            DateTime? endDate = DateTime.Now;
+            string shipmentnumber = "";
+            string businessowner = "";
+            string invoicenumber = "";
+            PagedList response = invoiceManagement.GetAllInvoices(status, userId, startDate, endDate,
+                                       shipmentnumber, businessowner, invoicenumber);
 
-        //    Assert.AreNotEqual(response.TotalRecords, 0);
-        //}
+            Assert.AreNotEqual(response.TotalRecords, 0);
+        }
 
         [Test]
         public void SaveInvoiceDetailsTest()
@@ -228,10 +228,34 @@ namespace PI.Business.Tests
             Assert.AreEqual(response, true);
         }
 
+       
         [Test]
         public void ExportInvoiceReportTest()
         {
-            
+            List<InvoiceDto> invoiceList = new List<InvoiceDto>()
+            {
+
+                new InvoiceDto
+                {
+                    BusinessOwner="owner",
+                    CompanyName="companyName",
+                    CreatedBy="1",
+                    CreditNoteURL="URL",
+                    DisputeComment="coment",
+                    Id=1,
+                    InvoiceDate=DateTime.Now.ToString(),
+                    InvoiceNumber="1",
+                    InvoiceStatus=InvoiceStatus.Pending.ToString(),
+                    InvoiceValue=1000,
+                    ShipmentId=1,
+                    ShipmentReference="ship123",
+                    URL="URL"
+                    
+                }
+            };
+            bool isAdmin = true;
+            byte[] response = invoiceManagement.ExportInvoiceReport(invoiceList, isAdmin);
+            Assert.AreNotEqual(response, null);
         }
     }
 }

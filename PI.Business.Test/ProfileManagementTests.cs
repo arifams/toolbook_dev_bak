@@ -715,7 +715,7 @@ namespace PI.Business.Tests
         public void GetLanguageCodeByUserIdTest()
         {
             string userId = "1";
-            string response= profileManagement.GetLanguageCodeByUserId(userId);
+           // string response= profileManagement.GetLanguageCodeByUserId(userId);
            // Assert.AreNotEqual(response, null);
         }
 
