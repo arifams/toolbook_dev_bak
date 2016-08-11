@@ -380,7 +380,7 @@ namespace PI.Business.Tests
                   ServiceLevel="",
                   PickUpDate=DateTime.Now,
                   Status=4,
-                  TrackingNumber="4345353533535",        
+                  TrackingNumber="43453535335356",        
                   ConsignorId =1,
                   ConsigneeId =1,        
                   ShipmentPackageId=1,                 
@@ -758,7 +758,7 @@ namespace PI.Business.Tests
                   ServiceLevel="",
                   PickUpDate=DateTime.Now,
                   Status=4,
-                  TrackingNumber="4345353533535",
+                  TrackingNumber="434535353353567",
                   ConsignorId =1,
                   ConsigneeId =1,
                   ShipmentPackageId=1,
@@ -905,6 +905,7 @@ namespace PI.Business.Tests
                           CreatedDate=DateTime.Now,
                           CreatedBy="1"
                       }
+
                   },
                   ShipmentPayment = new ShipmentPayment
                   {
@@ -1164,6 +1165,57 @@ namespace PI.Business.Tests
                  }
             };
 
+            List<CommercialInvoice> invoices = new List<CommercialInvoice>()
+            {
+                new CommercialInvoice
+                {
+                    CountryOfDestination="US",
+                    CountryOfOrigin="GB",
+                    CreatedBy="1",
+                    CreatedDate=DateTime.Now,
+                    CustomerNo="cus1234",
+                    HSCode="HScode123",
+                    ImportBroker="broker",
+                    InvoiceItemId=1,
+                    InvoiceNo="1",
+                    InvoiceTo="to",
+                    IsActive=true,
+                    IsDelete=false,
+                    ModeOfTransport="SHIP",
+                    Note="note",
+                    ShipmentId=1,
+                    TermsOfPayment="top",
+                    ValueCurrency=1,
+                    ShipTo="US",
+                    VatNo="vatno",
+                    ShipmentReferenceName="ship123",
+                    ShipmentService=1,
+                   
+                    InvoiceItem= new InvoiceItem
+                    {
+                        Id=1,
+                        CreatedBy="1",
+                        CreatedDate=DateTime.Now,
+                        IsActive=true,
+                        IsDelete=false,
+                        InvoiceItemLines= new List<InvoiceItemLine>
+                        {
+                            new InvoiceItemLine
+                            {
+                                  Description="desc",
+                                  Quantity =2,
+                                  PricePerPiece=10,
+                                  InvoiceItemId=1,
+                                  HSCode="HScode1234"
+                            }
+                            }
+                           
+                    }
+                }
+            };
+
+
+
             var mockSetDivisions = MoqHelper.CreateMockForDbSet<Division>()
                                                 .SetupForQueryOn(divisions)
                                                 .WithAdd(divisions);
@@ -1232,6 +1284,10 @@ namespace PI.Business.Tests
                                             .SetupForQueryOn(locationActivities)
                                             .WithAdd(locationActivities);
 
+            var mockSetInvoices = MoqHelper.CreateMockForDbSet<CommercialInvoice>()
+                                            .SetupForQueryOn(invoices)
+                                            .WithAdd(invoices);
+
 
             var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Division>(mockSetDivisions);
 
@@ -1255,6 +1311,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.ShipmentDocument).Returns(mockSetDocuments.Object);
             mockContext.Setup(c => c.ShipmentLocationHistories).Returns(mockSetLocationHistories.Object);
             mockContext.Setup(c => c.LocationActivities).Returns(mockSetLocationActivities.Object);
+            mockContext.Setup(c => c.CommercialInvoices).Returns(mockSetInvoices.Object);
 
 
 
@@ -1345,7 +1402,7 @@ namespace PI.Business.Tests
             IList<Shipment> response = shipmentManagement.GetshipmentsByDivisionId(divid);
             if (_divId==1)
             {
-                Assert.AreEqual(response.Count(), 1);
+                Assert.AreEqual(response.Count(), 3);
             }
             else
             {
@@ -1362,7 +1419,7 @@ namespace PI.Business.Tests
             IList<Shipment> response=shipmentManagement.GetshipmentsByUserId(userId);
             if (_userId=="1")
             {
-                Assert.AreEqual(response.Count, 1);
+                Assert.AreEqual(response.Count, 3);
             }
             else
             {
@@ -1382,7 +1439,7 @@ namespace PI.Business.Tests
 
             if (_userId=="1")
             {
-                Assert.AreEqual(reponse.Count, 1);
+                Assert.AreEqual(reponse.Count, 3);
             }
             else
             {
@@ -1399,7 +1456,7 @@ namespace PI.Business.Tests
             string reference = "ref123";
             List<Shipment> response = shipmentManagement.GetshipmentsByReference(userId, reference);
            
-            if (_userId=="1")
+            if (_userId=="2")
             {
                 Assert.AreEqual(response.Count, 1);
             }
@@ -1535,16 +1592,16 @@ namespace PI.Business.Tests
         [Test]
         public void GetTrackAndTraceInfoTest()
         {
-            string carrier="";
-            string trackingNumber="";
+            string carrier="DHL";
+            string trackingNumber= "4345353533535";
             StatusHistoryResponce response = shipmentManagement.GetTrackAndTraceInfo(carrier, trackingNumber);
-            Assert.AreNotEqual(response.info, null);
+            Assert.AreEqual(response.info.carrier, "DHL");
         }
 
         [Test]
         public void GetShipmentByTrackingNoTest()
         {
-            string trackingNo = "";
+            string trackingNo = "4345353533535";
             Shipment response = shipmentManagement.GetShipmentByTrackingNo(trackingNo);
             Assert.AreNotEqual(response, null);
         }
@@ -1638,7 +1695,7 @@ namespace PI.Business.Tests
             string reference = _reference;
 
             List<ShipmentDto> response= shipmentManagement.GetAllshipmentsForManifest(userId, date, carreer, reference);
-            Assert.AreEqual(response.Count, 1);
+            Assert.AreEqual(response.Count, 3);
         }
 
         [Test]
@@ -1665,9 +1722,109 @@ namespace PI.Business.Tests
         {
             CommercialInvoiceDto addInvoice = new CommercialInvoiceDto()
             {
+                AddressInformation= new ConsignerAndConsigneeInformationDto
+                {
+                    Consignee= new ConsigneeDto
+                    {
+                        FirstName= "FirstName",
+                        LastName= "LastName",
+                        Number= "Number",
+                        Address1= "Address1",
+                        Address2= "Address2",
+                        Postalcode="123",
+                        City= "City",
+                        CompanyName= "CompanyName",
+                        ContactName= "ContactName",
+                        ContactNumber= "ContactNumber",
+                        Country="US",
+                        Details= "Details",
+                        Email= "Email",
+                        State= "State"
+                    },
+                    Consigner= new ConsignerDto
+                    {
+                        FirstName = "FirstName",
+                        LastName = "LastName",
+                        Number = "Number",
+                        Address1 = "Address1",
+                        Address2 = "Address2",
+                        Postalcode = "123",
+                        City = "City",
+                        CompanyName = "CompanyName",
+                        ContactName = "ContactName",
+                        ContactNumber = "ContactNumber",
+                        Country = "US",
+                        Details = "Details",
+                        Email = "Email",
+                        State = "State"
+                    }
+                    
+                },
+                CountryOfDestination="",
+                CountryOfOrigin="",
+                CustomerNo="1234",
+                ImportBroker="broker",
+                InvoiceNo="1",
+                InvoiceTo="to",
+                Item= new InvoiceItemDto
+                {
+                    LineItems= new List<InvoiceItemLineDto>
+                    {
+                        new InvoiceItemLineDto
+                        {
+                            Description="desc",
+                            HSCode="hscode",
+                            PricePerPiece=10,
+                            Quantity=2
+                        }
+                    }
+                },
+                ModeOfTransport="SHIP",
+                PackageDetails= new PackageDetailsDto
+                {
+                    Accessibility=true,
+                    CarrierCost="100",
+                    CmLBS=true,
+                    VolumeCMM=true,
+                    Count=2,
+                    DeclaredValue=100,
+                    DGType="N",
+                    EarliestPickupDate="2016-10-10",
+                    EstDeliveryDate= "2016-10-10",
+                    HsCode="123hs",
+                    Instructions="instruction",
+                    IsDG=true,
+                    IsInsuared="false",
+                    PaymentTypeId=1,
+                    PreferredCollectionDate= "2016-10-10",
+                    ProductIngredients= new List<ProductIngredientsDto>
+                    {
+                        new ProductIngredientsDto
+                        {
+                            Description="desc",
+                            Height=1,
+                            Length=1,
+                            Weight=1,
+                            Quantity=1,
+                            Width=1,
+                            ProductType="Box"
+                        }
+                    }                  
+
+                },
+                Note="note",
+                ShipmentId=1,
+                ShipmentReferenceName="ship123",
+                ShipTo="to",
+                TermsOfPayment="top",
+                ValueCurrency=1,
+                VatNo="vatno",
+                ShipmentServices= "DD-DDP-PP",
+                CreatedDate="2016-10-10"
 
             };
             ShipmentOperationResult response = shipmentManagement.SaveCommercialInvoice(addInvoice);
+            Assert.AreNotEqual(response, null);
         }
 
         [Test]
@@ -1696,10 +1853,10 @@ namespace PI.Business.Tests
         [Test]
         public void loadAllShipmentsFromCompanyAndSearchTest()
         {
-            string companyId = "";
+            string companyId = "1";
             string status = "";
-            DateTime startDate = DateTime.Now.AddDays(1);
-            DateTime endDate = DateTime.Now.AddDays(10);
+            DateTime? startDate=null;
+            DateTime? endDate=null;
             string number = "";
             string source = "";
             string destination = "";
@@ -1707,19 +1864,21 @@ namespace PI.Business.Tests
             PagedList response = shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate,
                                            number, source, destination);
 
-            Assert.AreNotEqual(response.TotalRecords, 0);
+            Assert.AreEqual(response.TotalRecords,3);
         }
 
+
+        //blocked because of mocking role
         [Test]
         public void ShipmentReportTest()
         {
-            string userId = "";
-            short carrierId = 0;
-            long companyId = 0;
+            string userId = "1";
+            short carrierId = 1;
+            long companyId = 1;
             DateTime startDate = DateTime.Now.AddDays(1);
             DateTime endDate = DateTime.Now.AddDays(10);
-            short status = 0;
-            string countryOfOrigin = null;
+            short status = 1;
+            string countryOfOrigin = "US";
             string countryOfDestination = null;
             short product = 0;
             short packageType = 0;
@@ -1728,10 +1887,12 @@ namespace PI.Business.Tests
             Assert.AreNotEqual(response.Count, 0);
         }
 
+
+        //blocked by mocking role
         [Test]
         public void ShipmentReportForExcelTest()
         {
-            string userId="";
+            string userId="1";
             short carrierId = 0;
             long companyId = 0;
             DateTime startDate = DateTime.Now;
