@@ -23,13 +23,14 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Customer")]
     public class CustomerController : BaseApiController
     {
-        readonly IInvoiceMangement invoiceMangement = new InvoiceMangement();
-        readonly ICustomerManagement customerManagement = new CustomerManagement();
+        readonly IInvoiceMangement invoiceMangement;
+        readonly ICustomerManagement customerManagement;
 
-        //public CustomerController(IInvoiceMangement invoiceMangement)
-        //{
-        //    this.invoiceMangement = invoiceMangement;
-        //}
+        public CustomerController(IInvoiceMangement invoiceMangement, ICustomerManagement customerManagement)
+        {
+            this.invoiceMangement = invoiceMangement;
+            this.customerManagement = customerManagement;
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
