@@ -21,7 +21,7 @@
             UpdateSetupWizardBillingAddress: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/UpdateSetupWizardBillingAddress', updatedProfile);
             },
-            
+
             updateProfileLoginDetails: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/updateProfileLoginDetails', updatedProfile);
             },
@@ -79,7 +79,7 @@
 
     });
 
-    
+
     app.directive('validPasswordC', function () {
         return {
             require: 'ngModel',
@@ -118,1135 +118,824 @@
     app.controller('profileInformationCtrl',
         ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'customBuilderFactory', '$window', '$rootScope', 'Upload', 'gettextCatalog', '$scope',
     function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, customBuilderFactory, $window, $rootScope, Upload, gettextCatalog, $scope) {
-   
 
-           //applicationService.init();
-                
-                //mainColor();
 
-                // return if user not logged. -- Need to move this to global service.
+        //applicationService.init();
+
+        //mainColor();
+
+        // return if user not logged. -- Need to move this to global service.
         if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
             debugger;
-                    window.location = webBaseUrl + "/app/userLogin/userLogin.html";
-                    return;
-                }
+            window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+            return;
+        }
 
-                var vm = this;
+        var vm = this;
 
-                vm.loading = false;
+        vm.loading = false;
 
-                vm.t_timezones;
-                vm.model = {};
-                vm.model.accountSettings = {};
-                vm.model.doNotUpdateAccountSettings = false;
+        vm.t_timezones;
+        vm.model = {};
+        vm.model.accountSettings = {};
+        vm.model.doNotUpdateAccountSettings = false;
+        vm.isImagetype = false;
+        vm.emailCopy = '';
+        vm.errorCodeCustomer = false;
+        vm.errorCodeBilling = false;
+
+
+        vm.isImage = function (ext) {
+
+            if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
+
+                return vm.isImagetype = true;
+            } else {
+
                 vm.isImagetype = false;
-                vm.emailCopy = '';
-                vm.errorCodeCustomer = false;
-                vm.errorCodeBilling = false;
-               
+            }
+        }
 
-                vm.isImage = function (ext) {
-                    
-                    if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
+        vm.OnLogoChange = function (logo) {
+            if (logo.length > 0) {
+                vm.isImage(logo[0].type);
+            }
 
-                        return vm.isImagetype = true;
-                    } else {
+        }
 
-                        vm.isImagetype = false;
-                    }
-                }
-
-                vm.OnLogoChange = function (logo) {                   
-                    if (logo.length>0) {
-                        vm.isImage(logo[0].type);
-                    }
-                   
-                }
-        
         //auto update the default language bofore the accept
-                vm.getCurrentLnguage = function (language) {
-                    debugger;
-                    if (language.languageCode == "en") {
-                        $window.localStorage.setItem('currentLnguage', "")
-                        gettextCatalog.setCurrentLanguage("");
-                    }
-                    else {
-                        $window.localStorage.setItem('currentLnguage', language.languageCode);
-                        gettextCatalog.setCurrentLanguage(language.languageCode);
-                    }
-                    //$route.reload();
-                };
+        vm.getCurrentLnguage = function (language) {
+            debugger;
+            if (language.languageCode == "en") {
+                $window.localStorage.setItem('currentLnguage', "")
+                gettextCatalog.setCurrentLanguage("");
+            }
+            else {
+                $window.localStorage.setItem('currentLnguage', language.languageCode);
+                gettextCatalog.setCurrentLanguage(language.languageCode);
+            }
+            //$route.reload();
+        };
 
+        vm.CheckMail = function () {
+            if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
+                vm.invalidEmail = true;
+            }
+            else {
+                vm.invalidEmail = false;
+            }
 
-               
+        }
+        //clear password data 
+        vm.clearPassword = function () {
 
-                vm.CheckMail = function () {
-                    if (vm.model.customerDetails.email == vm.model.customerDetails.secondaryEmail) {
-                        vm.invalidEmail = true;
-                    }
-                    else {
-                        vm.invalidEmail = false;
-                    }
+            if (vm.model.changeLoginData == false) {
 
+                vm.model.newPassword = "";
+                vm.model.confirmPassword = "";
+                vm.model.oldPassword = "";
+            }
+        };
+
+        vm.changeCountry = function () {
+            vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
+        };
+
+        vm.changeBillingCountry = function () {
+            vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR' || vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
+        };
+
+        vm.useCorpAddressAsBilling = function () {
+
+            if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
+                vm.model.companyDetails.costCenter = {};
+                vm.model.companyDetails.costCenter.billingAddress = vm.model.customerDetails.customerAddress;
+                if (vm.model.customerDetails.phoneNumber) {
+
+                    vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.phoneNumber;
+
+                } else if (vm.model.customerDetails.mobileNumber) {
+
+                    vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.mobileNumber;
                 }
-                //clear password data 
-                vm.clearPassword = function () {
+            }
 
-                    if (vm.model.changeLoginData == false) {
+            if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == false) {
+                vm.model.companyDetails.costCenter = {};
+                vm.model.companyDetails.costCenter.billingAddress = {};
+                vm.model.companyDetails.costCenter.phoneNumber = "";
+            }
+        };
 
-                        vm.model.newPassword = "";
-                        vm.model.confirmPassword = "";
-                        vm.model.oldPassword = "";
-                    }
-                };
+        vm.loadCustomize = function () {
+            customBuilderFactory.init();
+        };
 
-                vm.changeCountry = function () {
-                    vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
-                };
 
-                vm.changeBillingCountry = function () {
-                    vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR' || vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
-                };
+        vm.loadAddressInfo = function () {
+            vm.loading = true;
+            getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
+             .then(function successCallback(response) {
+                 vm.loading = false;
+                 if (response.data.customerDetails != null) {
+                     // vm.model.customerDetails = response.data.customerDetails;
+                     vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
+                     // vm.model.companyDetails = response.data.companyDetails;
+                     vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
+                     vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
+                     vm.changeCountry();
 
-                vm.useCorpAddressAsBilling = function () {
+                     debugger;
+                     if (response.data.companyDetails.costCenter != null) {
+                         vm.multipleCostCenters = true;
+                     }
+                     else {
+                         vm.multipleCostCenters = false;
+                     }
 
-                    if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == true) {
-                        vm.model.companyDetails.costCenter = {};
-                        vm.model.companyDetails.costCenter.billingAddress = vm.model.customerDetails.customerAddress;
-                        if (vm.model.customerDetails.phoneNumber) {
 
-                            vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.phoneNumber;
+                     if (response.data.companyDetails.costCenter != null &&
+                         response.data.companyDetails.costCenter.billingAddress != null) {
 
-                        } else if (vm.model.customerDetails.mobileNumber) {
+                         vm.model.companyDetails.costCenter.billingAddress = response.data.companyDetails.costCenter.billingAddress;
+                         vm.changeBillingCountry();
+                     }
+                     else {
+                         vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
+                         vm.changeBillingCountry();
+                     }
+                 }
 
-                            vm.model.companyDetails.costCenter.phoneNumber = vm.model.customerDetails.mobileNumber;
+             }, function errorCallback(response) {
+                 vm.loading = false;
+                 //todo
+             });
+        }
+
+        vm.loadProfile = function () {
+            vm.loading = true;
+
+
+            loadProfilefactory.loadProfileinfo()
+            .success(function (response) {
+
+                if (response != null) {
+                    vm.model = response;
+                    vm.loading = false;
+
+                    if (response.customerDetails != null) {
+                        //setting the account type                        
+                        vm.model.customerDetails = response.customerDetails;
+                        vm.model.companyDetails = response.companyDetails;
+                        vm.emailCopy = response.customerDetails.email;
+                        vm.loadAddressInfo();
+
+                        if (response.customerDetails.isCorporateAccount) {
+                            vm.model.customerDetails.isCorporateAccount = "true";
+                            vm.corpAccount = "true";
                         }
+                        else {
+                            vm.model.customerDetails.isCorporateAccount = "false";
+                        }
+
+
                     }
-
-                    if (vm.model.customerDetails.isCorpAddressUseAsBusinessAddress == false) {
-                        vm.model.companyDetails.costCenter = {};
-                        vm.model.companyDetails.costCenter.billingAddress = {};
-                        vm.model.companyDetails.costCenter.phoneNumber = "";
-                    }
-                };
-
-                vm.loadCustomize = function () {
-                    customBuilderFactory.init();
-                };
-
-
-                vm.loadAddressInfo = function () {
-                    vm.loading = true;
-                    getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
-                     .then(function successCallback(response) {
-                         vm.loading = false;
-                         if (response.data.customerDetails != null) {
-                             // vm.model.customerDetails = response.data.customerDetails;
-                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             // vm.model.companyDetails = response.data.companyDetails;
-                             vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
-                             vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
-                             vm.changeCountry();
-
-                             debugger;
-                             if (response.data.companyDetails.costCenter != null) {
-                                 vm.multipleCostCenters = true;
-                             }
-                             else {
-                                 vm.multipleCostCenters = false;
-                             }
-
-
-                             if (response.data.companyDetails.costCenter != null &&
-                                 response.data.companyDetails.costCenter.billingAddress != null) {
-
-                                 vm.model.companyDetails.costCenter.billingAddress = response.data.companyDetails.costCenter.billingAddress;
-                                 vm.changeBillingCountry();
-                             }
-                             else {
-                                 vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
-                                 vm.changeBillingCountry();
-                             }
-                         }
-
-                     }, function errorCallback(response) {
-                         vm.loading = false;
-                         //todo
-                     });
                 }
+            })
+           .error(function () {
+               vm.model.isServerError = "true";
+               vm.loading = false;
+           })
+        }
 
-                vm.loadProfile = function () {
-                    vm.loading = true;
-                   
+        vm.loadAccountSettings = function () {
+            vm.loading = true;
 
-                    loadProfilefactory.loadProfileinfo()
-                    .success(function (response) {
+            getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
+             .then(function successCallback(response) {
+                 vm.loading = false;
 
-                        if (response != null) {
-                            vm.model = response;
-                            vm.loading = false;
+                 vm.languageList = response.data.accountSettings.languages;
+                 vm.defaultLanguage = response.data.accountSettings.languages[0];
 
-                            if (response.customerDetails != null) {
-                                //setting the account type                        
-                                vm.model.customerDetails = response.customerDetails;
-                                 vm.model.companyDetails = response.companyDetails;
-                                 vm.emailCopy = response.customerDetails.email;
-                                 vm.loadAddressInfo();
+                 vm.currencyList = response.data.accountSettings.currencies;
+                 vm.defaultCurrency = response.data.accountSettings.currencies[0];
 
-                                if (response.customerDetails.isCorporateAccount) {
-                                    vm.model.customerDetails.isCorporateAccount = "true";
-                                    vm.corpAccount = "true";
+                 vm.timezoneList = response.data.accountSettings.timeZones;
+                 vm.defaultTimezone = response.data.accountSettings.timeZones[0];
+
+                 if (response.data.accountSettings.defaultCurrencyId != 0)
+                     vm.defaultCurrency = { id: response.data.accountSettings.defaultCurrencyId };
+                 if (response.data.accountSettings.defaultLanguageId != 0)
+                     vm.defaultLanguage = { id: response.data.accountSettings.defaultLanguageId };
+                 if (response.data.accountSettings.defaultTimeZoneId != 0)
+                     vm.defaultTimezone = { id: response.data.accountSettings.defaultTimeZoneId };
+
+                 vm.model.bookingConfirmation = response.data.bookingConfirmation;
+                 vm.model.pickupConfirmation = response.data.pickupConfirmation;
+                 vm.model.shipmentDelay = response.data.shipmentDelay;
+                 vm.model.shipmentException = response.data.shipmentException;
+                 vm.model.notifyNewSolution = response.data.notifyNewSolution;
+                 vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
+
+                 vm.model.defaultVolumeMetricId = response.data.accountSettings.defaultVolumeMetricId;
+                 vm.model.defaultWeightMetricId = response.data.accountSettings.defaultWeightMetricId;
+
+             }, function errorCallback(response) {
+                 vm.loading = false;
+                 //todo
+             });
+        }
+
+
+        function getSuccessMessage(body, responce) {
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Profile updated successfully!') + '</p></div>',
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        function getErrorMessage(body, error) {
+
+            var errorMessage = error.data.message;
+
+            if (error.data.message == "" || error.data.message == undefined) {
+                errorMessage = "Error occured while processing your request";
+            }
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(errorMessage) + '</p></div>',
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        // Split the User Profile update to seperate sections.
+
+        vm.updateProfileGeneral = function () {
+
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+            var body = $("html, body");
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+                                vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification- Parcel International</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Email verification required</h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:14px">Dear Salutation FirstName LastName,</p><br/><p style="font-weight:700;font-style:italic;font-size:14px">Welcome to Parcel International, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click <span style="color:#80d4ff;font-size:14px;">ActivationURL</span> to verify your email address.</p><p style="font-weight:700;font-style:italic;font-size:14px">IMPORTANT! Please note that this link is valid for 24 hours only. <p><p style="font-weight:700;font-style:italic;font-size:14px">Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p style="font-weight:700;font-style:italic;font-size:14px">Thank you,</p><p style="font-weight:700;font-style:italic;font-size:14px">Parcel International Service Team</p></br>Phone: <span style="font-size:14px;color:#80d4ff">+1 858 914 4414</span> </br>Email address:<a href="mailto:helpdesk@parcelinternational.com" style="color:#80d4ff">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com" style="color:#80d4ff">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
+
+                                var updatedtoCorporate = false;
+
+                                if (vm.model.companyDetails.name != null && $window.localStorage.getItem('isCorporateAccount') == 'false') {
+
+                                    $window.localStorage.setItem('isCorporateAccount', true);
+                                    updatedtoCorporate = true;
                                 }
-                                else {
-                                    vm.model.customerDetails.isCorporateAccount = "false";
-                                }
 
+                                updateProfilefactory.updateProfileGeneral(vm.model)
+                                        .then(function (responce) {
+                                            debugger
+                                            if (responce.status == 200) {
 
+                                                getSuccessMessage(body, responce);
+
+                                                if (updatedtoCorporate == true) {
+                                                    $window.location.reload();
+                                                }
+                                            }
+
+                                        },
+                                        function (error) {
+                                            getErrorMessage(body, error);
+                                        });
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+
+                                $noty.close();
+                                return;
                             }
                         }
-                    })
-                   .error(function () {
-                       vm.model.isServerError = "true";
-                       vm.loading = false;
-                   })
-                }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
 
+        }
 
-                vm.updateProfile = function () {                    
+        vm.updateProfileAddress = function () {
 
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
 
-                    if (vm.defaultLanguage != undefined) {
-                        vm.model.defaultLanguageId = vm.defaultLanguage.id;
-                        vm.model.defaultCurrencyId = vm.defaultCurrency.id;
-                        vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
-                    }
-                    else {
-                        vm.model.doNotUpdateAccountSettings = true;
-                    }
+            var body = $("html, body");
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
 
-                    var body = $("html, body");
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
-                    if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
+                                $noty.close();
 
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-
-                        return;
-                    }
-
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Do you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-                                        vm.model.customerDetails.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Email Verification</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Your Username has updated. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>'
-                                        
-                                        updateProfilefactory.updateProfileInfo(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-
-                                                                if (responce == 1) {
-
-                                                                    // var body = $("html, body");
-                                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                                    });
-
-                                                                    $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Profile Updated Successfully') + '</p></div>',
-                                                                        layout: 'bottom-right',
-                                                                        theme: 'made',
-                                                                        animation: {
-                                                                            open: 'animated bounceInLeft',
-                                                                            close: 'animated bounceOutLeft'
-                                                                        },
-                                                                        timeout: 3000,
-                                                                    });
-
-                                                                }
-                                                                else if (responce == 3) {
-                                                                    // vm.model.emailExist = "true";
-                                                                    //  var body = $("html, body");
-                                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                                    });
-
-                                                                    $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have send the username change confirmation email. Please confirm before login') + '</p></div>',
-                                                                        layout: 'bottom-right',
-                                                                        theme: 'made',
-                                                                        animation: {
-                                                                            open: 'animated bounceInLeft',
-                                                                            close: 'animated bounceOutLeft'
-                                                                        },
-                                                                        timeout: 5000,
-                                                                    });
-                                                                }
-                                                                else if (responce == -2) {
-                                                                    // vm.model.emailExist = "true";
-                                                                    //  var body = $("html, body");
-                                                                    debugger;
-                                                                   
-                                                                  
-                                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                                    });
-
-                                                                    $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('This email address is already in use') + '</p></div>',
-                                                                        layout: 'bottom-right',
-                                                                        theme: 'made',
-                                                                        animation: {
-                                                                            open: 'animated bounceInLeft',
-                                                                            close: 'animated bounceOutLeft'
-                                                                        },
-                                                                        timeout: 3000,
-                                                                    });
-                                                                    vm.model.customerDetails.email = vm.emailCopy;
-                                                                    
-                                                                }
-                                                                else if (responce == -3) {
-                                                                    //vm.model.oldPasswordWrong = "true";
-
-                                                                    // var body = $("html, body");
-                                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                                    });
-
-                                                                    $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Old password You Entered is Invalid') + '</p></div>',
-                                                                        layout: 'bottom-right',
-                                                                        theme: 'made',
-                                                                        animation: {
-                                                                            open: 'animated bounceInLeft',
-                                                                            close: 'animated bounceOutLeft'
-                                                                        },
-                                                                        timeout: 3000,
-                                                                    });
-                                                                }
-                                                                else {
-                                                                    //vm.model.unsuccess = "true";
-
-                                                                    //  var body = $("html, body");
-                                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                                    });
-
-                                                                    $('#panel-notif').noty({
-                                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Profile Update Failed') + '</p></div>',
-                                                                        layout: 'bottom-right',
-                                                                        theme: 'made',
-                                                                        animation: {
-                                                                            open: 'animated bounceInLeft',
-                                                                            close: 'animated bounceOutLeft'
-                                                                        },
-                                                                        timeout: 3000,
-                                                                    });
-                                                                }
-                                                            }
-
-                                                        }).error(function (error) {
-                                                            // console.log("failed" + error);
-                                                            // vm.model.isServerError = "true";
-
-                                                            // var body = $("html, body");
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-
-
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        
-                                        // updateProfile = false;
-                                        $noty.close();
-                                        return;
-                                        // noty({text: 'You clicked "Cancel" button', type: 'error'});
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-
-                }
-
-
-                
-
-                vm.loadAccountSettings = function () {
-                    vm.loading = true;
-                    
-                    getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
-                     .then(function successCallback(response) {
-                         vm.loading = false;
-                         
-                         vm.languageList = response.data.accountSettings.languages;
-                         vm.defaultLanguage = response.data.accountSettings.languages[0];
-
-                         vm.currencyList = response.data.accountSettings.currencies;
-                         vm.defaultCurrency = response.data.accountSettings.currencies[0];
-
-                         vm.timezoneList = response.data.accountSettings.timeZones;
-                         vm.defaultTimezone = response.data.accountSettings.timeZones[0];
-
-                         if (response.data.accountSettings.defaultCurrencyId != 0)
-                             vm.defaultCurrency = { id: response.data.accountSettings.defaultCurrencyId };
-                         if (response.data.accountSettings.defaultLanguageId != 0)
-                             vm.defaultLanguage = { id: response.data.accountSettings.defaultLanguageId };
-                         if (response.data.accountSettings.defaultTimeZoneId != 0)
-                             vm.defaultTimezone = { id: response.data.accountSettings.defaultTimeZoneId };
-
-                         vm.model.bookingConfirmation = response.data.bookingConfirmation;
-                         vm.model.pickupConfirmation= response.data.pickupConfirmation;
-                         vm.model.shipmentDelay= response.data.shipmentDelay;
-                         vm.model.shipmentException= response.data.shipmentException;
-                         vm.model.notifyNewSolution= response.data.notifyNewSolution;
-                         vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
-
-                         vm.model.defaultVolumeMetricId = response.data.accountSettings.defaultVolumeMetricId;
-                         vm.model.defaultWeightMetricId = response.data.accountSettings.defaultWeightMetricId;
-
-                     }, function errorCallback(response) {
-                         vm.loading = false;
-                         //todo
-                     });
-                }
-
-
-                // Split the User Profile update to seperate sections.
-
-                vm.updateProfileGeneral = function () {
-
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    var body = $("html, body");
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-                                        vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification- Parcel International</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 150px; height: 150px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Email verification required</h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:14px">Dear Salutation FirstName LastName,</p><br/><p style="font-weight:700;font-style:italic;font-size:14px">Welcome to Parcel International, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click <span style="color:#80d4ff;font-size:14px;">ActivationURL</span> to verify your email address.</p><p style="font-weight:700;font-style:italic;font-size:14px">IMPORTANT! Please note that this link is valid for 24 hours only. <p><p style="font-weight:700;font-style:italic;font-size:14px">Should you have any questions or concerns, please contact Parcel International helpdesk for support.</p></br><p style="font-weight:700;font-style:italic;font-size:14px">Thank you,</p><p style="font-weight:700;font-style:italic;font-size:14px">Parcel International Service Team</p></br>Phone: <span style="font-size:14px;color:#80d4ff">+1 858 914 4414</span> </br>Email address:<a href="mailto:helpdesk@parcelinternational.com" style="color:#80d4ff">  helpdesk@parcelinternational.com</a></br>Website: <a href="http://www.parcelinternational.com" style="color:#80d4ff">www.parcelinternational.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
-                                        
-                                        var updatedtoCorporate = false;
-                                        
-                                        if (vm.model.companyDetails.name != null && $window.localStorage.getItem('isCorporateAccount')=='false') {
-
-                                            $window.localStorage.setItem('isCorporateAccount', true);
-                                            updatedtoCorporate = true;
-                                        }
-
-                                        updateProfilefactory.updateProfileGeneral(vm.model)
-                                                .success(function (responce) {
-                                                    if (responce != null) {
-                                                        updateProfileResponse(responce);
-                                                        if (updatedtoCorporate == true) {
-                                                            $window.location.reload();
-                                                        }
+                                updateProfilefactory.updateProfileAddress(vm.model)
+                                                .then(function (responce) {
+                                                    if (responce.status == 200) {
+                                                        getSuccessMessage(body, responce);
                                                     }
 
-                                                }).error(function (error) {
-
-                                                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                    });
-
-                                                    $('#panel-notif').noty({
-                                                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                        layout: 'bottom-right',
-                                                        theme: 'made',
-                                                        animation: {
-                                                            open: 'animated bounceInLeft',
-                                                            close: 'animated bounceOutLeft'
-                                                        },
-                                                        timeout: 3000,
-                                                    });
+                                                },
+                                                function (error) {
+                                                    getErrorMessage(body, error);
                                                 });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-
-                }
-
-                vm.updateProfileAddress = function () {
-
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    var body = $("html, body");
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-                                        
-                                        updateProfilefactory.updateProfileAddress(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-                                                                updateProfileResponse(responce);
-                                                            }
-
-                                                        }).error(function (error) {
-
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-
-                }
-
-                vm.updateProfileBillingAddress = function () {
-
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    var body = $("html, body");
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-
-                                        updateProfilefactory.updateProfileBillingAddress(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-                                                                updateProfileResponse(responce);
-                                                            }
-
-                                                        }).error(function (error) {
-
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-
-                }
-
-                vm.updateProfileLoginDetails = function () {
-
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    var body = $("html, body");
-
-                    if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
-
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-
-                        return;
-                    }
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-                                        
-                                        updateProfilefactory.updateProfileLoginDetails(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-                                                                updateProfileResponse(responce);
-                                                            }
-                                                        }).error(function (error) {
-
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-                }
-
-                vm.updateProfileAccountSettings = function () {
-
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    if (vm.defaultLanguage != undefined) {
-                        vm.model.defaultLanguageId = vm.defaultLanguage.id;
-                        vm.model.defaultCurrencyId = vm.defaultCurrency.id;
-                        vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
-                    }
-                    else {
-                        vm.model.doNotUpdateAccountSettings = true;
-                    }
-
-                    var body = $("html, body");
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-
-                                        updateProfilefactory.updateProfileAccountSettings(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-                                                                updateProfileResponse(responce);
-                                                               
-                                                            }
-                                                        }).error(function (error) {
-
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-                }
-
-                vm.updateThemeColour = function(){
-                    
-                    vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
-
-                    var body = $("html, body");
-
-                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                    });
-
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the theme colour') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
-                                        $noty.close();
-
-                                        updateProfilefactory.updateThemeColour(vm.model)
-                                                        .success(function (responce) {
-                                                            if (responce != null) {
-                                                                updateProfileResponse(responce);
-                                                            }
-                                                        }).error(function (error) {
-
-                                                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                                                            });
-
-                                                            $('#panel-notif').noty({
-                                                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Server Error Occured') + '</p></div>',
-                                                                layout: 'bottom-right',
-                                                                theme: 'made',
-                                                                animation: {
-                                                                    open: 'animated bounceInLeft',
-                                                                    close: 'animated bounceOutLeft'
-                                                                },
-                                                                timeout: 3000,
-                                                            });
-                                                        });
-                                    }
-                                },
-                                {
-                                    addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-                                        $noty.close();
-                                        return;
-                                    }
-                                }
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-                }
-
-                // Response of Update Profile.
-                function updateProfileResponse(response) {
-
-                    var body = $("html, body");
-
-                    if (response == 1) {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Profile Updated Successfully') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-
-                    }
-                    else if (response == 3) {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('We have sent a confirmation message to your new email address. Please check your inbox to confirm before login.') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 5000,
-                        });
-                    }
-                    else if (response == -2) {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('This email address is already in use') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-                        vm.model.customerDetails.email = vm.emailCopy;
-                    }
-                    else if (response == -3) {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Old password You Entered is Invalid') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-                    }
-                    else {
-                        body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                        });
-
-                        $('#panel-notif').noty({
-                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Profile Update Failed') + '</p></div>',
-                            layout: 'bottom-right',
-                            theme: 'made',
-                            animation: {
-                                open: 'animated bounceInLeft',
-                                close: 'animated bounceOutLeft'
-                            },
-                            timeout: 3000,
-                        });
-                    }
-                }
-
-                vm.uploadLogo = function (file) {
-
-                    
-                    file.upload = Upload.upload({
-                        url: serverBaseUrl + '/api/Admin/UploadLogo',
-                        data: {
-                            file: file,
-                            userId: $window.localStorage.getItem('userGuid'),
-                            documentType: "LOGO"
-                            
-                        },
-                    });
-
-                    file.upload.then(function (response) {
-                        
-                        if (response.status==200) {
-                            var body = $("html, body");
-                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
-                            });
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company Logo updated, click ok to reload the page') + '?</p></div>',
-                                buttons: [
-                                        {
-                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-                                                $noty.close();
-                                                $window.location.reload();
-                                               
-                                            }
-                                        }
-                                     
-                                ],
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 3000,
-                            });
-
-                          //  $window.location.reload();
-
-                    }
-                        //$timeout(function () {
-
-                        //    file.result = response.data;
-                        //    //deleteFile();
-                        //    $scope.document = null;
-                        //    //$scope.loadAllUploadedFiles();
-                        //});
-                    }, function (response) {
-                        if (response.status > 0)
-                            $scope.errorMsg = response.status + ': ' + response.data;
-                    }, function (evt) {
-                        // Math.min is to fix IE which reports 200% sometimes
-                        file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-                    });
-                }
-
-                vm.getAddressInfoByZipCustomer = function (zip) {
-
-                    if (zip.length >= 5 && typeof google != 'undefined') {
-                        var addr = {};
-                        var geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({ 'address': zip }, function (results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                if (results.length >= 1) {
-                                    var street_number = '';
-                                    var route = '';
-                                    var street = '';
-                                    var city = '';
-                                    var state = '';
-                                    var zipcode = '';
-                                    var country = '';
-                                    var formatted_address = '';
-
-                                    for (var ii = 0; ii < results[0].address_components.length; ii++) {
-
-                                        var types = results[0].address_components[ii].types.join(",");
-                                        if (types == "street_number") {
-                                            addr.street_number = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "route" || types == "point_of_interest,establishment") {
-                                            addr.route = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "sublocality,political" || types == "locality,political" || types == "neighborhood,political" || types == "administrative_area_level_3,political") {
-                                            addr.city = (city == '' || types == "locality,political") ? results[0].address_components[ii].long_name : city;
-                                        }
-                                        if (types == "administrative_area_level_1,political") {
-                                            addr.state = results[0].address_components[ii].short_name;
-                                        }
-                                        if (types == "postal_code" || types == "postal_code_prefix,postal_code") {
-                                            addr.zipcode = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "country,political") {
-                                            addr.country = results[0].address_components[ii].short_name;
-                                        }
-                                    }
-                                    addr.success = true;
-                                    //assign retrieved address details
-                                    $scope.$apply(function () {
-                                        vm.model.customerDetails.customerAddress.city = addr.city;
-                                        vm.model.customerDetails.customerAddress.state = addr.state;
-                                        vm.model.customerDetails.customerAddress.country = addr.country;
-                                        vm.errorCodeCustomer = false;
-                                    });
-                                  
-
-                                } else {
-                                    $scope.$apply(function () {
-                                        vm.errorCodeCustomer = true;
-                                    });
-
-                                }
-                            } else {
-                                $scope.$apply(function () {
-                                    vm.errorCodeCustomer = true;
-                                });
-
                             }
-                        });
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+
+        }
+
+        vm.updateProfileBillingAddress = function () {
+
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+            var body = $("html, body");
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+                                updateProfilefactory.updateProfileBillingAddress(vm.model)
+                                                .then(function (responce) {
+
+                                                    if (responce.status == 200) {
+                                                        getSuccessMessage(body, responce);
+                                                    }
+                                                },
+                                                function (error) {
+                                                    getErrorMessage(body, error);
+                                                });
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+
+        }
+
+        vm.updateProfileLoginDetails = function () {
+
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+            var body = $("html, body");
+
+            if ((vm.model.newPassword && vm.model.oldPassword) && vm.model.newPassword == vm.model.oldPassword && vm.model.changeLoginData == true) {
+
+                body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                });
+
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 3000,
+                });
+
+                return;
+            }
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+                                updateProfilefactory.updateProfileLoginDetails(vm.model)
+                                                .then(function (responce) {
+                                                    if (responce.status == 200) {
+                                                        getSuccessMessage(body, responce);
+                                                    }
+                                                },
+                                                function (error) {
+
+                                                    getErrorMessage(body, error);
+                                                });
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        vm.updateProfileAccountSettings = function () {
+
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+            if (vm.defaultLanguage != undefined) {
+                vm.model.defaultLanguageId = vm.defaultLanguage.id;
+                vm.model.defaultCurrencyId = vm.defaultCurrency.id;
+                vm.model.defaultTimeZoneId = vm.defaultTimezone.id;
+            }
+            else {
+                vm.model.doNotUpdateAccountSettings = true;
+            }
+
+            var body = $("html, body");
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+                                updateProfilefactory.updateProfileAccountSettings(vm.model)
+                                                .then(function (responce) {
+                                                    if (responce.status == 200) {
+                                                        getSuccessMessage(body, responce);
+                                                    }
+                                                },
+                                                function (error) {
+                                                    getErrorMessage(body, error);
+                                                });
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+
+        vm.updateThemeColour = function () {
+
+            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+
+            var body = $("html, body");
+
+            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+            });
+
+            $('#panel-notif').noty({
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the theme colour') + '?</p></div>',
+                buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                $noty.close();
+
+                                updateProfilefactory.updateThemeColour(vm.model)
+                                              .then(function (responce) {
+                                                  if (responce.status == 200) {
+                                                      getSuccessMessage(body, responce);
+                                                  }
+                                                },
+                                                function (error) {
+                                                    getErrorMessage(body, error);
+                                                });
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+                                $noty.close();
+                                return;
+                            }
+                        }
+                ],
+                layout: 'bottom-right',
+                theme: 'made',
+                animation: {
+                    open: 'animated bounceInLeft',
+                    close: 'animated bounceOutLeft'
+                },
+                timeout: 3000,
+            });
+        }
+               
+        vm.uploadLogo = function (file) {
+
+
+            file.upload = Upload.upload({
+                url: serverBaseUrl + '/api/Admin/UploadLogo',
+                data: {
+                    file: file,
+                    userId: $window.localStorage.getItem('userGuid'),
+                    documentType: "LOGO"
+
+                },
+            });
+
+            file.upload.then(function (response) {
+
+                if (response.status == 200) {
+                    var body = $("html, body");
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                    });
+
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company Logo updated, click ok to reload the page') + '?</p></div>',
+                        buttons: [
+                                {
+                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                        $noty.close();
+                                        $window.location.reload();
+
+                                    }
+                                }
+
+                        ],
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
+
+                    //  $window.location.reload();
+
+                }
+                //$timeout(function () {
+
+                //    file.result = response.data;
+                //    //deleteFile();
+                //    $scope.document = null;
+                //    //$scope.loadAllUploadedFiles();
+                //});
+            }, function (response) {
+                if (response.status > 0)
+                    $scope.errorMsg = response.status + ': ' + response.data;
+            }, function (evt) {
+                // Math.min is to fix IE which reports 200% sometimes
+                file.progress = Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+            });
+        }
+
+        vm.getAddressInfoByZipCustomer = function (zip) {
+
+            if (zip.length >= 5 && typeof google != 'undefined') {
+                var addr = {};
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': zip }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results.length >= 1) {
+                            var street_number = '';
+                            var route = '';
+                            var street = '';
+                            var city = '';
+                            var state = '';
+                            var zipcode = '';
+                            var country = '';
+                            var formatted_address = '';
+
+                            for (var ii = 0; ii < results[0].address_components.length; ii++) {
+
+                                var types = results[0].address_components[ii].types.join(",");
+                                if (types == "street_number") {
+                                    addr.street_number = results[0].address_components[ii].long_name;
+                                }
+                                if (types == "route" || types == "point_of_interest,establishment") {
+                                    addr.route = results[0].address_components[ii].long_name;
+                                }
+                                if (types == "sublocality,political" || types == "locality,political" || types == "neighborhood,political" || types == "administrative_area_level_3,political") {
+                                    addr.city = (city == '' || types == "locality,political") ? results[0].address_components[ii].long_name : city;
+                                }
+                                if (types == "administrative_area_level_1,political") {
+                                    addr.state = results[0].address_components[ii].short_name;
+                                }
+                                if (types == "postal_code" || types == "postal_code_prefix,postal_code") {
+                                    addr.zipcode = results[0].address_components[ii].long_name;
+                                }
+                                if (types == "country,political") {
+                                    addr.country = results[0].address_components[ii].short_name;
+                                }
+                            }
+                            addr.success = true;
+                            //assign retrieved address details
+                            $scope.$apply(function () {
+                                vm.model.customerDetails.customerAddress.city = addr.city;
+                                vm.model.customerDetails.customerAddress.state = addr.state;
+                                vm.model.customerDetails.customerAddress.country = addr.country;
+                                vm.errorCodeCustomer = false;
+                            });
+
+
+                        } else {
+                            $scope.$apply(function () {
+                                vm.errorCodeCustomer = true;
+                            });
+
+                        }
                     } else {
                         $scope.$apply(function () {
                             vm.errorCodeCustomer = true;
                         });
+
                     }
-                }
+                });
+            } else {
+                $scope.$apply(function () {
+                    vm.errorCodeCustomer = true;
+                });
+            }
+        }
 
-                vm.getAddressInfoByZipBilling = function (zip) {
+        vm.getAddressInfoByZipBilling = function (zip) {
 
-                    if (zip.length >= 5 && typeof google != 'undefined') {
-                        var addr = {};
-                        var geocoder = new google.maps.Geocoder();
-                        geocoder.geocode({ 'address': zip }, function (results, status) {
-                            if (status == google.maps.GeocoderStatus.OK) {
-                                if (results.length >= 1) {
-                                    var street_number = '';
-                                    var route = '';
-                                    var street = '';
-                                    var city = '';
-                                    var state = '';
-                                    var zipcode = '';
-                                    var country = '';
-                                    var formatted_address = '';
+            if (zip.length >= 5 && typeof google != 'undefined') {
+                var addr = {};
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': zip }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        if (results.length >= 1) {
+                            var street_number = '';
+                            var route = '';
+                            var street = '';
+                            var city = '';
+                            var state = '';
+                            var zipcode = '';
+                            var country = '';
+                            var formatted_address = '';
 
-                                    for (var ii = 0; ii < results[0].address_components.length; ii++) {
+                            for (var ii = 0; ii < results[0].address_components.length; ii++) {
 
-                                        var types = results[0].address_components[ii].types.join(",");
-                                        if (types == "street_number") {
-                                            addr.street_number = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "route" || types == "point_of_interest,establishment") {
-                                            addr.route = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "sublocality,political" || types == "locality,political" || types == "neighborhood,political" || types == "administrative_area_level_3,political") {
-                                            addr.city = (city == '' || types == "locality,political") ? results[0].address_components[ii].long_name : city;
-                                        }
-                                        if (types == "administrative_area_level_1,political") {
-                                            addr.state = results[0].address_components[ii].short_name;
-                                        }
-                                        if (types == "postal_code" || types == "postal_code_prefix,postal_code") {
-                                            addr.zipcode = results[0].address_components[ii].long_name;
-                                        }
-                                        if (types == "country,political") {
-                                            addr.country = results[0].address_components[ii].short_name;
-                                        }
-                                    }
-                                    addr.success = true;
-                                    //assign retrieved address details
-                                    $scope.$apply(function () {
-                                        vm.model.companyDetails.costCenter.billingAddress.city = addr.city;
-                                        vm.model.companyDetails.costCenter.billingAddress.state = addr.state;
-                                        vm.model.companyDetails.costCenter.billingAddress.country = addr.country;
-                                        vm.errorCodeBilling = false;
-                                    });
-                                    
-
-
-
-                                } else {
-                                    $scope.$apply(function () {
-                                        vm.errorCodeBilling = true;
-                                    });
-
+                                var types = results[0].address_components[ii].types.join(",");
+                                if (types == "street_number") {
+                                    addr.street_number = results[0].address_components[ii].long_name;
                                 }
-                            } else {
-                                $scope.$apply(function () {
-                                    vm.errorCodeBilling = true;
-                                });
-
+                                if (types == "route" || types == "point_of_interest,establishment") {
+                                    addr.route = results[0].address_components[ii].long_name;
+                                }
+                                if (types == "sublocality,political" || types == "locality,political" || types == "neighborhood,political" || types == "administrative_area_level_3,political") {
+                                    addr.city = (city == '' || types == "locality,political") ? results[0].address_components[ii].long_name : city;
+                                }
+                                if (types == "administrative_area_level_1,political") {
+                                    addr.state = results[0].address_components[ii].short_name;
+                                }
+                                if (types == "postal_code" || types == "postal_code_prefix,postal_code") {
+                                    addr.zipcode = results[0].address_components[ii].long_name;
+                                }
+                                if (types == "country,political") {
+                                    addr.country = results[0].address_components[ii].short_name;
+                                }
                             }
-                        });
+                            addr.success = true;
+                            //assign retrieved address details
+                            $scope.$apply(function () {
+                                vm.model.companyDetails.costCenter.billingAddress.city = addr.city;
+                                vm.model.companyDetails.costCenter.billingAddress.state = addr.state;
+                                vm.model.companyDetails.costCenter.billingAddress.country = addr.country;
+                                vm.errorCodeBilling = false;
+                            });
+
+
+
+
+                        } else {
+                            $scope.$apply(function () {
+                                vm.errorCodeBilling = true;
+                            });
+
+                        }
                     } else {
                         $scope.$apply(function () {
                             vm.errorCodeBilling = true;
                         });
+
                     }
-                }
+                });
+            } else {
+                $scope.$apply(function () {
+                    vm.errorCodeBilling = true;
+                });
+            }
+        }
 
-                //get the address details via google API
-                vm.getAddressInformationCustomer = function () {
+        //get the address details via google API
+        vm.getAddressInformationCustomer = function () {
 
-                    if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') {
-                        vm.errorCode = true;
-                    } else {
-                        vm.getAddressInfoByZipCustomer(vm.model.customerDetails.customerAddress.zipCode);
-                    }
-
-
-                }
-
-             //get the address details via google API
-                vm.getAddressInformationBilling = function () {
-
-                    if (vm.model.companyDetails.costCenter.billingAddress.zipCode == null || vm.model.companyDetails.costCenter.billingAddress.zipCode == '') {
-                        vm.errorCode = true;
-                    } else {
-                        vm.getAddressInfoByZipBilling(vm.model.companyDetails.costCenter.billingAddress.zipCode);
-                    }
+            if (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') {
+                vm.errorCode = true;
+            } else {
+                vm.getAddressInfoByZipCustomer(vm.model.customerDetails.customerAddress.zipCode);
+            }
 
 
-                }
+        }
+
+        //get the address details via google API
+        vm.getAddressInformationBilling = function () {
+
+            if (vm.model.companyDetails.costCenter.billingAddress.zipCode == null || vm.model.companyDetails.costCenter.billingAddress.zipCode == '') {
+                vm.errorCode = true;
+            } else {
+                vm.getAddressInfoByZipBilling(vm.model.companyDetails.costCenter.billingAddress.zipCode);
+            }
 
 
-            }]);
+        }
+
+
+    }]);
 
 })(angular.module('newApp'));
 
