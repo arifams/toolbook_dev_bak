@@ -1785,7 +1785,7 @@ namespace PI.Business.Tests
         {
             string codeShipment = "ship123";
             ShipmentDto response = shipmentManagement.GetShipmentByCodeShipment(codeShipment);
-            Assert.AreNotEqual(response, null);
+            Assert.AreNotEqual(response, InvoiceStatus.Paid);
         }
 
         [Test]
