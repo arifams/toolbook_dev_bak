@@ -140,8 +140,8 @@ namespace PI.Business
         /// <returns></returns>
         public InvoiceStatus DisputeInvoice(InvoiceDto invoice)
         {
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var currentinvoice = context.Invoices.Where(i => i.Id == invoice.Id).SingleOrDefault();
                 currentinvoice.InvoiceStatus = InvoiceStatus.Disputed;
 
@@ -158,7 +158,7 @@ namespace PI.Business
                 context.SaveChanges();
 
                 return currentinvoice.InvoiceStatus;
-            }
+            //}
         }
 
 

@@ -13,6 +13,8 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using PI.Business;
+using PI.Common;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Data;
 using PI.Service.Providers;
@@ -47,9 +49,13 @@ namespace PI.Service
             // autofac
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerLifetimeScope();
+
+            builder.RegisterType<Log4NetLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
+            //builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope();
             builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerLifetimeScope();
+            //builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().WithParameter("companyManagement", builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope()).InstancePerLifetimeScope();
             builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerLifetimeScope();
             builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerLifetimeScope();
             builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();

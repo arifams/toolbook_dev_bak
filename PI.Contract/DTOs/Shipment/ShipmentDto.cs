@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.DTOs.Division;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ namespace PI.Contract.DTOs.Shipment
 {
     public class ShipmentDto
     {
+        public long Id { get; set; }
         public GeneralInformationDto GeneralInformation { get; set; }
         public ConsignerAndConsigneeInformationDto AddressInformation { get; set; }
         public PackageDetailsDto PackageDetails { get; set; }
@@ -15,5 +17,6 @@ namespace PI.Contract.DTOs.Shipment
         public string UserId { get; set; }
         public string CreatedBy { get; set; }
         public string SISCompanyCode { get; set; }
+        public DivisionDto Division { get; set; }
     }
 }

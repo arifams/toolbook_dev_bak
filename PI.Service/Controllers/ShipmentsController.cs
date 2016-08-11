@@ -38,10 +38,18 @@ namespace PI.Service.Controllers
     public class ShipmentsController : BaseApiController
     {
 
-        readonly ICompanyManagement comapnyManagement = new CompanyManagement();
-        readonly IShipmentManagement shipmentManagement = new ShipmentsManagement();
-        readonly IAddressBookManagement addressManagement = new AddressBookManagement();
-        readonly CommonLogic commonLogic = new CommonLogic();
+        readonly ICompanyManagement comapnyManagement;
+        readonly IShipmentManagement shipmentManagement;
+        readonly IAddressBookManagement addressManagement;
+        readonly CommonLogic commonLogic;
+
+        public ShipmentsController(ICompanyManagement comapnyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement)
+        {
+            this.comapnyManagement = comapnyManagement;
+            this.shipmentManagement = shipmentManagement;
+            this.addressManagement = addressManagement;
+            commonLogic = new CommonLogic(); // TODO : H - Need to initialize from DI
+        }
 
         public string RequestForQuoteEmail
         {

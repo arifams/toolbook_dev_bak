@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.CostCenter;
+﻿using PI.Contract.DTOs.Company;
+using PI.Contract.DTOs.CostCenter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,5 +42,6 @@ namespace PI.Contract.DTOs.Division
 
         public string AssignedSupervisorId { get; set; }
 
+        public CompanyDto Company { get; set; }
     }
 }

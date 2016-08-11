@@ -30,14 +30,18 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
-        readonly IAdministrationManagment adminManagement = new AdministrationManagment();
-        readonly IInvoiceMangement invoiceMangement = new InvoiceMangement();
-        readonly ICompanyManagement companyManagement = new CompanyManagement();
-        readonly CommonLogic commonLogic = new CommonLogic();
-        //public AdminController(IAdministrationManagment adminmanagementa)
-        //{
-        //    this.adminManagement = adminmanagementa;
-        //}
+        readonly IAdministrationManagment adminManagement;
+        readonly IInvoiceMangement invoiceMangement;
+        readonly ICompanyManagement companyManagement;
+        readonly CommonLogic commonLogic;  
+
+        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, ICompanyManagement companyManagement)
+        {
+            this.adminManagement = adminManagement;
+            this.invoiceMangement = invoiceMangement;
+            this.companyManagement = companyManagement;
+            commonLogic = new CommonLogic(); // TODO: H - need to pass from DI.
+        }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]

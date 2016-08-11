@@ -343,7 +343,109 @@ namespace PI.Business
 
         public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
         {
-            throw new NotImplementedException();
+            //TODO change the web url to production 
+            //string userID = SISUserName;
+            //string password = SISPassword;
+            StatusHistoryResponce statusHistoryResponce = new StatusHistoryResponce()
+            {
+                history= new history
+                {
+                    Items=new List<items>
+                    {
+                        new items
+                        {
+                            activity=new activity
+                            {
+                                Items= new List<item>
+                                {
+                                    new item
+                                    {
+                                        status="pending",
+                                        timestamp=new timestamp
+                                        {
+                                            date="8/10/2016",
+                                            time="12:10"
+                                        }
+                                    }
+                                }
+                            },
+                            location= new location
+                            {
+                                city="newyork",
+                                country="US",
+                                geo= new geo
+                                {
+                                    lat="1.001",
+                                    lng="44.2"
+                                }
+                            }
+                        }
+                    }
+                },
+                info= new info
+                {
+                    awb="awb url",
+                    carrier="DHL",
+                    link="link",
+                    status= "Booking confirmation",
+                    system=new system
+                    {
+                        status="pending",
+                        codeshipment="ship123",
+                        consignee=new consignee {
+                            address= "address",
+                            address_extra="",
+                            address_nr="",
+                            city="",
+                            company="",
+                            country="US",
+                            geo=new geo
+                            {
+                                lat="21.22",
+                                lng="12.22"
+                            },
+                            state="state",
+                            zipcode="z1233"
+                            
+                        },
+                        consignor= new consignor {
+                        },
+                        expected_arrival="expected arrival",
+                        reference="reference"
+                    }
+                }
+            };
+            // string URL = "http://parcelinternational.pro/status/DHL/9167479650";
+            //string URL = "http://parcelinternational.pro/status/" + carrier + "/" + trackingNumber;
+            //using (var wb = new WebClient())
+            //{
+            //    var data = new NameValueCollection();
+            //    data["codeshipment"] = codeShipment;
+            //    data["userid"] = userID;
+            //    data["password"] = password;
+            //    data["environment"] = environment;
+
+                //data["codeshipment"] = "38165364";
+                //data["userid"] = "info@parcelinternational.com";
+                //data["password"] = "Shipper01";
+                //data["environment"] = "taleus";
+
+
+                //var response = wb.UploadValues(URL, "POST", data);
+                //var responseString = Encoding.Default.GetString(response);
+                //if (string.IsNullOrWhiteSpace(responseString))
+                //    statusHistoryResponce = null;
+                //else
+                //{
+                //    XDocument doc = XDocument.Parse(responseString);
+
+                //    XmlSerializer mySerializer = new XmlSerializer(typeof(StatusHistoryResponce));
+                //    statusHistoryResponce = (StatusHistoryResponce)mySerializer.Deserialize(new StringReader(responseString));
+                //}
+
+
+            //}
+            return statusHistoryResponce;
         }
 
         private string BuildAddShipmentXMLString(ShipmentDto addShipment)
