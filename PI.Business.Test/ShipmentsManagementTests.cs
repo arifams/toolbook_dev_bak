@@ -745,8 +745,8 @@ namespace PI.Business.Tests
                  new Shipment { 
                   Id=3,
                   ShipmentName ="ship1",
-                  ShipmentReferenceName="ref123",
-                  ShipmentCode="ship123",
+                  ShipmentReferenceName="ref12345",
+                  ShipmentCode="ship12345",
                   DivisionId =1,
                   CostCenterId =1,
                   ShipmentMode=CarrierType.Express,
@@ -1083,6 +1083,24 @@ namespace PI.Business.Tests
                  }
             };
 
+
+            List<ShipmentDocument> documents = new List<ShipmentDocument>()
+            {
+                new ShipmentDocument
+                {
+                    Id=1,
+                    DocumentType=4,
+                    IsActive=true,
+                    ShipmentId=1,
+                    TenantId=1,
+                    UploadedFileName="shipment_AWB",
+                    Shipment= new Shipment
+                    {
+                        ShipmentCode="ship123"
+                    }
+                }
+            };
+
             List<Currency> currencies = new List<Currency>()
             {
                  new Currency
@@ -1091,6 +1109,58 @@ namespace PI.Business.Tests
                      CurrencyName="USD",
                      CurrencyCode="USD",
                      IsActive=true
+                 }
+            };
+
+            List<ShipmentLocationHistory> locationHistories = new List<ShipmentLocationHistory>()
+            {
+                 new ShipmentLocationHistory
+                 {
+                     Id=1,
+                     ShipmentId=1,
+                     Latitude=21.2,
+                     Longitude=22.2,
+                     City="city",
+                     Country="US", 
+                     CreatedDate=DateTime.Now,
+                     CreatedBy="1",
+                     IsActive=true,
+                     IsDelete=false,
+                     LocaionActivities= new List<LocationActivity>{
+
+                         new LocationActivity
+                         {
+                             ShipmentLocationHistoryId=1,
+                             Id=1,
+                             Status="pending",
+                             Time=DateTime.Now,
+                             Date=DateTime.Now.Date,
+                             IsActive=true,
+                             IsDelete=false,
+                             CreatedBy="1",
+                             CreatedDate=DateTime.Now                             
+                         }
+                     }
+
+                     
+                 }
+            };
+
+
+            List<LocationActivity> locationActivities = new List<LocationActivity>()
+            {
+                 new LocationActivity
+                 {
+                     ShipmentLocationHistoryId=1,
+                     Id=1,
+                     Status="pending",
+                     Time=DateTime.Now,
+                     Date=DateTime.Now.Date,
+                     IsActive=true,
+                     IsDelete=false,
+                     CreatedBy="1",
+                     CreatedDate=DateTime.Now
+
                  }
             };
 
@@ -1150,6 +1220,17 @@ namespace PI.Business.Tests
                                                 .SetupForQueryOn(currencies)
                                                 .WithAdd(currencies);
 
+            var mockSetDocuments = MoqHelper.CreateMockForDbSet<ShipmentDocument>()
+                                               .SetupForQueryOn(documents)
+                                               .WithAdd(documents);
+
+            var mockSetLocationHistories = MoqHelper.CreateMockForDbSet<ShipmentLocationHistory>()
+                                             .SetupForQueryOn(locationHistories)
+                                             .WithAdd(locationHistories);
+
+            var mockSetLocationActivities = MoqHelper.CreateMockForDbSet<LocationActivity>()
+                                            .SetupForQueryOn(locationActivities)
+                                            .WithAdd(locationActivities);
 
 
             var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Division>(mockSetDivisions);
@@ -1171,7 +1252,11 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.TarrifTextCodes).Returns(mockSetTarriftexts.Object);
             mockContext.Setup(c => c.Rate).Returns(mockSetRates.Object);
             mockContext.Setup(c => c.Currencies).Returns(mockSetCurrencies.Object);
-            
+            mockContext.Setup(c => c.ShipmentDocument).Returns(mockSetDocuments.Object);
+            mockContext.Setup(c => c.ShipmentLocationHistories).Returns(mockSetLocationHistories.Object);
+            mockContext.Setup(c => c.LocationActivities).Returns(mockSetLocationActivities.Object);
+
+
 
             shipmentManagement = new ShipmentsManagement(mockContext.Object);
             #endregion
@@ -1242,9 +1327,9 @@ namespace PI.Business.Tests
             string userId = "1";
             DateTime? startDate = DateTime.Now;
             DateTime? endDate = DateTime.Now;
-            string number = "12345";
-            string source = "source";
-            string destination = "destination";
+            string number = "";
+            string source = "";
+            string destination = "";
             bool viaDashboard = true;
 
             PagedList response=shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
@@ -1326,7 +1411,7 @@ namespace PI.Business.Tests
         }
 
         [TestCase("ship123")]
-        [TestCase("ship12345")]
+        [TestCase("ship123456")]
         public void UpdateshipmentStatusManuallyTest(string _codeShipment)
         {
             string codeShipment= _codeShipment;
@@ -1370,8 +1455,8 @@ namespace PI.Business.Tests
         [Test]
         public void GetshipmentByIdTest()
         {
-            string shipmentCode="";
-            long shipmentId = 0;
+            string shipmentCode= "ship123";
+            long shipmentId = 1;
             ShipmentDto response= shipmentManagement.GetshipmentById(shipmentCode, shipmentId);
             Assert.AreNotEqual(response, null);
         }
@@ -1473,7 +1558,7 @@ namespace PI.Business.Tests
         [Test]
         public void getUpdatedShipmentHistoryFromDBTest()
         {
-            string codeShipment = "";
+            string codeShipment = "ship123";
             StatusHistoryResponce response = shipmentManagement.getUpdatedShipmentHistoryFromDB(codeShipment);
             Assert.AreNotEqual(response, null);
         }
@@ -1509,7 +1594,7 @@ namespace PI.Business.Tests
         [Test]
         public void GetShipmentByCodeShipmentTest()
         {
-            string codeShipment = "";
+            string codeShipment = "ship123";
             Shipment response = shipmentManagement.GetShipmentByCodeShipment(codeShipment);
             Assert.AreNotEqual(response, null);
         }
@@ -1523,8 +1608,8 @@ namespace PI.Business.Tests
         [Test]
         public void GetAvailableFilesForShipmentbyTenantTest()
         {
-            string shipmentCode = "";
-            string userId = "";
+            string shipmentCode = "ship123";
+            string userId = "1";
             List<FileUploadDto> response = shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
             Assert.AreNotEqual(response.Count, 0);
         }
@@ -1567,7 +1652,12 @@ namespace PI.Business.Tests
         [Test]
         public void DeleteFileInDBTest()
         {
-            
+            FileUploadDto fileDetails = new FileUploadDto
+            {
+                Id = 1
+            };
+
+            shipmentManagement.DeleteFileInDB(fileDetails);
         }
 
         [Test]
