@@ -1447,7 +1447,7 @@ namespace PI.Business
                 {
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
+                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (!string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
                         {
                             foreach (var activityItems in his.activity.Items)
                             {
