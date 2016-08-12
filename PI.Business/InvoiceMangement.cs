@@ -52,8 +52,8 @@ namespace PI.Business
             Company company = genericMethods.GetCompanyByUserId(userId);
 
             
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 if (role == "BusinessOwner" || role == "Manager")
                 {
                     // Business Owners
@@ -91,7 +91,7 @@ namespace PI.Business
                 }
 
                 return pagedRecord;
-            }
+           // }
         }
 
 
@@ -102,15 +102,15 @@ namespace PI.Business
         /// <returns></returns>
         public InvoiceStatus UpdateInvoiceStatus(InvoiceDto invoiceDto)
         {
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
                 var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
                 invoice.InvoiceStatus = (InvoiceStatus)Enum.Parse( typeof(InvoiceStatus), invoiceDto.InvoiceStatus,true);
 
                 context.SaveChanges();
 
                 return invoice.InvoiceStatus;
-            }
+           // }
         }
 
 
@@ -121,15 +121,15 @@ namespace PI.Business
         /// <returns></returns>
         public InvoiceStatus PayInvoice(long invoiceId)
         {            
-            using (var context = PIContext.Get())
-            {
+            //using (var context = PIContext.Get())
+            //{
               var invoice = context.Invoices.Where(i => i.Id == invoiceId).SingleOrDefault();
               invoice.InvoiceStatus = InvoiceStatus.Paid;
 
               context.SaveChanges();
 
               return invoice.InvoiceStatus;
-            }
+           // }
         }
 
 
@@ -205,8 +205,8 @@ namespace PI.Business
             int pageSize = 10;
             pagedRecord.Content = new List<InvoiceDto>();
 
-            using (PIContext context = PIContext.Get())
-            {            
+            //using (PIContext context = PIContext.Get())
+            //{            
                 string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                 var content = (from customer in context.Customers
@@ -246,7 +246,7 @@ namespace PI.Business
                         });                    
                 }
 
-            }
+          //  }
 
             pagedRecord.TotalRecords = pagedRecord.Content.Count;
             pagedRecord.CurrentPage = page;
@@ -267,8 +267,8 @@ namespace PI.Business
         public bool SaveInvoiceDetails(InvoiceDto invoiceDetails)
         {
             bool invoiceSaved = false;
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
 
                 Invoice invoice = new Invoice()
                 {
@@ -285,7 +285,7 @@ namespace PI.Business
                 context.SaveChanges();
                 invoiceSaved = true;
 
-            }
+            //}
             return invoiceSaved;
 
         }
@@ -298,8 +298,8 @@ namespace PI.Business
         /// <returns></returns>
         public bool SaveCreditNoteDetails(InvoiceDto creditNoteDetails)
         {
-            using (PIContext context = PIContext.Get())
-            {
+            //using (PIContext context = PIContext.Get())
+            //{
                 try
                 {
                     CreditNote creditNote = new CreditNote()
@@ -332,7 +332,7 @@ namespace PI.Business
                     return false;
                 }
 
-            }
+           // }
         }
 
 

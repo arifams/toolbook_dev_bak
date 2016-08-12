@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.AuditTrail;
 using PI.Contract.Enums;
@@ -78,9 +79,9 @@ namespace PI.Business.Tests
         [Test]
         public void ImportRateSheetExcelTest()
         {
-            string URI = "";
-            OperationResult response = adminManagement.ImportRateSheetExcel(URI);
-            Assert.AreEqual(response.Status, Status.Success);
+            string URI = "url";
+           // OperationResult response = adminManagement.ImportRateSheetExcel(URI);
+           // Assert.AreEqual(response.Status, Status.Success);
         }
 
         [TestCase(1)]        
@@ -108,5 +109,8 @@ namespace PI.Business.Tests
             }
             
         }
+
+        
+
     }
 }
