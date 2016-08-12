@@ -20,20 +20,16 @@ using System.IO;
 using Newtonsoft.Json;
 using System.Configuration;
 using PI.Contract.DTOs.AddressBook;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
 using Microsoft.AspNet.Identity;
 using System.Text;
 using PI.Contract.Business;
 using System.Net.Http.Headers;
-using PI.Contract.DTOs.Report;
 using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Dashboard;
 
 namespace PI.Service.Controllers
 {
     //[CustomAuthorize]
-    //[RequireHttps]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
@@ -59,37 +55,33 @@ namespace PI.Service.Controllers
             }
         }
 
-        //public ShipmentsController(ICompanyManagement companymanagement, IShipmentManagement shipmentmanagement, IAddressBookManagement addressmanagement)
-        //{
-        //    this.comapnyManagement = companymanagement;
-        //    this.shipmentManagement = shipmentmanagement;
-        //    this.addressManagement = addressmanagement;
-        //}
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("GetRatesforShipment")]
-        public ShipmentcostList GetRatesforShipment([FromBody]ShipmentDto currentShipment)
+        public IHttpActionResult GetRatesforShipment([FromBody]ShipmentDto currentShipment)
         {
-            return shipmentManagement.GetRateSheet(currentShipment);
+            return Ok(shipmentManagement.GetRateSheet(currentShipment));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("GetLocationHistoryforShipment")]
-        public StatusHistoryResponce GetLocationHistoryforShipment([FromBody]ShipmentDto currentShipment)
+        public IHttpActionResult GetLocationHistoryforShipment([FromBody]ShipmentDto currentShipment)
         {
             string carrier = currentShipment.CarrierInformation.CarrierName;
             string trackingNumber = currentShipment.GeneralInformation.TrackingNumber;
             string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
             string environment = "taleus";
-            return shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+
+            return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, 
+                                                                           codeShipment, environment));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("UpdateShipmentStatusesByJob")]
-        public bool UpdateShipmentStatusesByJob()
+        public IHttpActionResult UpdateShipmentStatusesByJob()
         {
             string environment = "taleus";
             IList<ShipmentDto> shipments = shipmentManagement.GetAllShipmentsForAdmins();
@@ -97,15 +89,17 @@ namespace PI.Service.Controllers
             {
                 shipmentManagement.GetLocationHistoryInfoForShipment(shipment.CarrierInformation.CarrierName, shipment.GeneralInformation.TrackingNumber, shipment.GeneralInformation.ShipmentCode, environment);
             }
-            return true;
+
+            return Ok(true);
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SaveShipment")]
-        public ShipmentOperationResult SaveShipment([FromBody]ShipmentDto addShipment)
+        public IHttpActionResult SaveShipment([FromBody]ShipmentDto addShipment)
         {
-            return shipmentManagement.SaveShipment(addShipment);
+            return Ok(shipmentManagement.SaveShipment(addShipment));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -119,69 +113,76 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAllCurrencies")]
-        public List<CurrencyDto> GetAllCurrencies()
+        public IHttpActionResult GetAllCurrencies()
         {
             ProfileManagement userprofile = new ProfileManagement();
-            List<CurrencyDto> currencies = userprofile.GetAllCurrencies();
-            return currencies;
+
+            return Ok(userprofile.GetAllCurrencies());
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("GetHashForPayLane")]
-        public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
+        public IHttpActionResult GetHashForPayLane(PayLaneDto payLaneDto)
         {
-            return shipmentManagement.GetHashForPayLane(payLaneDto);
+            return Ok(shipmentManagement.GetHashForPayLane(payLaneDto));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetAllShipments")]
-        public PagedList GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+        public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null, bool viaDashboard = false)
         {
-            return shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
-                                                                          number, source, destination, viaDashboard);
+            return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
+                                                               number, source, destination, viaDashboard));
 
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetAllShipmentByCompanyId")]
-        public PagedList GetAllShipmentByCompanyId(string companyId)
+        public IHttpActionResult GetAllShipmentByCompanyId(string companyId)
         {
-            return shipmentManagement.GetAllShipmentByCompanyId(companyId);
+            return Ok(shipmentManagement.GetAllShipmentByCompanyId(companyId));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetBusinessOwneridbyCompanyId")]
-        public string GetBusinessOwneridbyCompanyId(string companyId)
+        public IHttpActionResult GetBusinessOwneridbyCompanyId(string companyId)
         {
-            return comapnyManagement.GetBusinessOwneridbyCompanyId(companyId);
+            return Ok(comapnyManagement.GetBusinessOwneridbyCompanyId(companyId));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("loadAllShipmentsFromCompanyAndSearch")]
-        public PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
+        public IHttpActionResult loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
         {
-            return shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination);
+            return Ok(shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, 
+                                                                              endDate, number, source, destination));
 
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetAllshipmentsForManifest")]
-        public List<ShipmentDto> GetAllshipmentsForManifest(string userId, string createdDate, string carreer, string reference)
+        public IHttpActionResult GetAllshipmentsForManifest(string userId, string createdDate, string carreer, string reference)
         {
-            return shipmentManagement.GetAllshipmentsForManifest(userId, createdDate, carreer, reference);
+            return Ok(shipmentManagement.GetAllshipmentsForManifest(userId, createdDate, carreer, reference));
         }
 
 
@@ -189,22 +190,22 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("GetAllPendingShipments")]
-        public PagedList GetAllPendingShipments(string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+        public IHttpActionResult GetAllPendingShipments(string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                                 string number = null)
         {
-            return shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number);
+            return Ok(shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number));
         }
 
-
-
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
         [Route("GetShipmentbyId")]
-        public ShipmentDto GetShipmentbyId([FromUri] string shipmentCode, long shipmentId = 0)
+        public IHttpActionResult GetShipmentbyId([FromUri] string shipmentCode, long shipmentId = 0)
         {
-            return shipmentManagement.GetshipmentById(shipmentCode, shipmentId);
+            return Ok(shipmentManagement.GetshipmentById(shipmentCode, shipmentId));
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
@@ -215,10 +216,11 @@ namespace PI.Service.Controllers
             return shipmentManagement.DeleteShipment(shipmentCode, trackingNumber, carrierName, isAdmin, shipmentId);
         }
 
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SendShipmentDetails")]
-        public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
+        public IHttpActionResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
             ShipmentOperationResult operationResult = new ShipmentOperationResult();
 
@@ -286,7 +288,7 @@ namespace PI.Service.Controllers
             #endregion
 
 
-            return operationResult;
+            return Ok(operationResult);
         }
 
 
@@ -294,9 +296,9 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetTrackAndTraceInfo")]
-        public StatusHistoryResponce GetTrackAndTraceInfo(string career, string trackingNumber)
+        public IHttpActionResult GetTrackAndTraceInfo(string career, string trackingNumber)
         {
-            return shipmentManagement.GetTrackAndTraceInfo(career, trackingNumber);
+            return Ok(shipmentManagement.GetTrackAndTraceInfo(career, trackingNumber));
         }
 
 
@@ -314,6 +316,7 @@ namespace PI.Service.Controllers
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
+
 
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
@@ -417,8 +420,7 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
-
-
+        
         [HttpPost]
         public async Task<HttpResponseMessage> UploadAddressBook()
         {
@@ -435,14 +437,163 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
-        public MultipartFormDataStreamProvider GetMultipartProvider()
+       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetAvailableFilesForShipment")]
+        public IHttpActionResult GetAvailableFilesForShipment(string shipmentCode, string userId)
+        {
+            return Ok(shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForInvoice")]
+        public IHttpActionResult GetshipmentByShipmentCodeForInvoice(string shipmentCode)
+        {
+            return Ok(shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("GetshipmentByShipmentCodeForAirwayBill")]
+        public IHttpActionResult GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
+        {
+            return Ok(shipmentManagement.GetshipmentByShipmentCodeForAirwayBill(shipmentCode));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("DeleteFile")]
+        public IHttpActionResult DeleteFile(FileUploadDto fileDetails)
+        {
+            try
+            {
+                AzureFileManager media = new AzureFileManager();
+                media.InitializeStorage(fileDetails.TenantId.ToString(), "SHIPMENT_DOCUMENTS");//Utility.GetEnumDescription(fileDetails.DocumentType));
+                var result = media.Delete(fileDetails.FileAbsoluteURL);
+
+                shipmentManagement.DeleteFileInDB(fileDetails);
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("SaveCommercialInvoice")]
+        public IHttpActionResult SaveCommercialInvoice([FromBody]CommercialInvoiceDto addShipment)
+        {
+            return Ok(shipmentManagement.SaveCommercialInvoice(addShipment));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("RequestForQuote")]
+        public IHttpActionResult RequestForQuote(ShipmentDto addShipment)
+        {
+            string quoteTemplate = shipmentManagement.RequestForQuote(addShipment);
+            string requestForQuoteEmail = RequestForQuoteEmail;
+            var adminUser = AppUserManager.FindByEmail(requestForQuoteEmail);    //support@parcelinternational.com
+            ShipmentOperationResult oResult = new ShipmentOperationResult();
+
+            if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
+            {
+                AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
+
+                oResult.Status = Status.Success;               
+            }
+            else
+            {
+                oResult.Status = Status.Error;
+            }
+
+            return Ok(oResult);
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetShipmentDetails")]
+        public HttpResponseMessage GetShipmentDetails(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
+                                                      DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(shipmentManagement.ShipmentReportForExcel(userId, carrierId,
+                                                                                            companyId, startDate, endDate, status, countryOfOrigin, countryOfDestination, product, packageType));
+            result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("LoadAllCarriers")]
+        public IHttpActionResult LoadAllCarriers()
+        {
+            return Ok(shipmentManagement.LoadAllCarriers());
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetShipmentForCompanyAndSyncWithSIS")]
+        public IHttpActionResult GetShipmentForCompanyAndSyncWithSIS(long companyId)
+        {
+            return Ok(shipmentManagement.GetShipmentForCompanyAndSyncWithSIS(companyId));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("ToggleShipmentFavourites")]
+        public IHttpActionResult ToggleShipmentFavourites(ShipmentDto shipment)
+        {
+            return Ok(shipmentManagement.ToggleShipmentFavourites(shipment));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetShipmentStatusCounts")]
+        public IHttpActionResult GetShipmentStatusCounts(string userId)
+        {
+            return Ok(shipmentManagement.GetShipmentStatusCounts(userId));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("SearchShipmentsById")]
+        public IHttpActionResult SearchShipmentsById(string number)
+        {
+            return Ok(shipmentManagement.SearchShipmentsById(number));
+        }
+
+
+        #region Private methods
+
+        private MultipartFormDataStreamProvider GetMultipartProvider()
         {
             var uploadFolder = "~/App_Data/Tmp/FileUploads"; // you could put this to web.config
             var root = HttpContext.Current.Server.MapPath(uploadFolder);
             Directory.CreateDirectory(root);
             return new MultipartFormDataStreamProvider(root);
         }
-
 
         // Extracts Request FormatData as a strongly typed model
         private FileUploadDto GetFormData<T>(MultipartFormDataStreamProvider result)
@@ -464,6 +615,7 @@ namespace PI.Service.Controllers
             return fileUploadDto;
         }
 
+
         private string GetDeserializedFileName(MultipartFileData fileData)
         {
             var fileName = GetFileName(fileData);
@@ -471,156 +623,12 @@ namespace PI.Service.Controllers
         }
 
 
-        public string GetFileName(MultipartFileData fileData)
+        private string GetFileName(MultipartFileData fileData)
         {
             return fileData.Headers.ContentDisposition.FileName;
         }
 
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("GetAvailableFilesForShipment")]
-        public List<FileUploadDto> GetAvailableFilesForShipment(string shipmentCode, string userId)
-        {
-            return shipmentManagement.GetAvailableFilesForShipmentbyTenant(shipmentCode, userId);
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
-        [HttpGet]
-        [Route("GetshipmentByShipmentCodeForInvoice")]
-        public CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode)
-        {
-            CommercialInvoiceDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForInvoice(shipmentCode);
-            return currentshipment;
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
-        [HttpGet]
-        [Route("GetshipmentByShipmentCodeForAirwayBill")]
-        public AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
-        {
-            AirwayBillDto currentshipment = shipmentManagement.GetshipmentByShipmentCodeForAirwayBill(shipmentCode);
-            return currentshipment;
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("DeleteFile")]
-        public void DeleteFile(FileUploadDto fileDetails)
-        {
-            try
-            {
-                AzureFileManager media = new AzureFileManager();
-                media.InitializeStorage(fileDetails.TenantId.ToString(), "SHIPMENT_DOCUMENTS");//Utility.GetEnumDescription(fileDetails.DocumentType));
-                var result = media.Delete(fileDetails.FileAbsoluteURL);
-
-                shipmentManagement.DeleteFileInDB(fileDetails);
-
-            }
-            catch (Exception ex)
-            {
-                //throw;
-            }
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("SaveCommercialInvoice")]
-        public ShipmentOperationResult SaveCommercialInvoice([FromBody]CommercialInvoiceDto addShipment)
-        {
-            return shipmentManagement.SaveCommercialInvoice(addShipment);
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("RequestForQuote")]
-        public ShipmentOperationResult RequestForQuote(ShipmentDto addShipment)
-        {
-            string quoteTemplate = shipmentManagement.RequestForQuote(addShipment);
-            string requestForQuoteEmail = RequestForQuoteEmail;
-            var adminUser = AppUserManager.FindByEmail(requestForQuoteEmail);    //support@parcelinternational.com
-
-            if (adminUser != null && !string.IsNullOrWhiteSpace(quoteTemplate))
-            {
-                AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
-
-                return new ShipmentOperationResult()
-                {
-                    Status = Status.Success
-                };
-            }
-            else
-            {
-                return new ShipmentOperationResult()
-                {
-                    Status = Status.Error
-                };
-            }
-
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpGet]
-        [Route("GetShipmentDetails")]
-        public HttpResponseMessage GetShipmentDetails(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
-                                                      DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
-        {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(shipmentManagement.ShipmentReportForExcel(userId, carrierId,
-                                                                                            companyId, startDate, endDate, status, countryOfOrigin, countryOfDestination, product, packageType));
-            result.Content.Headers.Add("x-filename", "ShipmentDetailsReport.xlsx");
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            return result;
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("LoadAllCarriers")]
-        public List<CarrierDto> LoadAllCarriers()
-        {
-            return shipmentManagement.LoadAllCarriers();
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("GetShipmentForCompanyAndSyncWithSIS")]
-        public PagedList GetShipmentForCompanyAndSyncWithSIS(long companyId)
-        {
-            return shipmentManagement.GetShipmentForCompanyAndSyncWithSIS(companyId);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("ToggleShipmentFavourites")]
-        public bool ToggleShipmentFavourites(ShipmentDto shipment)
-        {
-            return shipmentManagement.ToggleShipmentFavourites(shipment);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("GetShipmentStatusCounts")]
-        public DashboardShipments GetShipmentStatusCounts(string userId)
-        {
-            return shipmentManagement.GetShipmentStatusCounts(userId);
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("SearchShipmentsById")]
-        public PagedList SearchShipmentsById(string number)
-        {
-            return shipmentManagement.SearchShipmentsById(number);
-        }
+        #endregion
 
     }
 
