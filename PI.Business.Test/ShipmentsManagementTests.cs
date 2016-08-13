@@ -1454,7 +1454,8 @@ namespace PI.Business.Tests
             else if (number == 2)
             {
                 dto = shipmentDto2;
-            }    
+            }
+             
             ShipmentOperationResult response = shipmentManagement.SaveShipment(dto);
             Assert.AreEqual(response.Status, Status.Success);
         }
@@ -1785,13 +1786,25 @@ namespace PI.Business.Tests
         {
             string codeShipment = "ship123";
             ShipmentDto response = shipmentManagement.GetShipmentByCodeShipment(codeShipment);
-            Assert.AreNotEqual(response, null);
+            Assert.AreNotEqual(response, InvoiceStatus.Paid);
         }
 
         [Test]
         public void InsertShipmentDocumentTest()
         {
-            
+            FileUploadDto fileDetails = new FileUploadDto
+            {
+                CodeReference="ship123",
+                CategoryId=1,
+                Id=1,
+                TenantId=1,                
+                ClientFileName="client file",
+                DocumentType=DocumentType.Shipment,
+                UploadedFileName="shipment doc",
+
+            };
+
+            shipmentManagement.InsertShipmentDocument(fileDetails);
         }
 
         [Test]

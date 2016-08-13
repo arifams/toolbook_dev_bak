@@ -32,12 +32,12 @@ namespace PI.Service.Controllers
         }
 
         //get profile details on profile page on load
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetProfile")]
-        public ProfileDto GetProfile([FromUri]string userId)
+        public IHttpActionResult GetProfile([FromUri]string userId)
         {
-            return userprofile.getProfileByUserName(userId);
+            return Ok(userprofile.getProfileByUserName(userId));
         }
 
 
@@ -45,91 +45,45 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetProfileLanguageByUserId")]
-        public string GetProfileLanguageByUserId(string userId)
+        public IHttpActionResult GetProfileLanguageByUserId(string userId)
         {
-           return userprofile.GetLanguageCodeByUserId(userId);
+            return Ok(userprofile.GetLanguageCodeByUserId(userId));
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetProfileForShipment")]
-        public ProfileDto GetProfileForShipment([FromUri]string userId)
+        public IHttpActionResult GetProfileForShipment([FromUri]string userId)
         {
-            return userprofile.getProfileByUserNameForShipment(userId);
+            return Ok(userprofile.getProfileByUserNameForShipment(userId));
         }
 
-        
 
-        [HttpGet]        
+        [HttpGet]
         [Route("GetAllAccountSettings")]
-        public ProfileDto GetAllAccountSettings(long customerId)
+        public IHttpActionResult GetAllAccountSettings(long customerId)
         {
-           return userprofile.GetAccountSettings(customerId);
+            return Ok(userprofile.GetAccountSettings(customerId));
         }
 
-        
+
         [HttpGet]
         [Route("GetCustomerAddressDetails")]
-        public ProfileDto GetCustomerAddressDetails(long cusomerAddressId, long companyId)
+        public IHttpActionResult GetCustomerAddressDetails(long cusomerAddressId, long companyId)
         {
-            return userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId);
+            return Ok(userprofile.GetCustomerAddressDetails(cusomerAddressId, companyId));
         }
 
 
-        
-        [EnableCors(origins: "*", headers: "*", methods: "*")]        
-        [HttpPost]
-        [Route("UpdateProfile")]
-        public int UpdateProfile([FromBody] ProfileDto profile)
-        {
-            if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
-            {
-                IdentityResult result = this.AppUserManager.ChangePassword(profile.CustomerDetails.UserId,
-                                                            profile.OldPassword,
-                                                           profile.NewPassword);
-                if (result.Errors!=null && result.Errors.Count()> 0)
-                {
-                    return -3;
-                } 
-            }
-
-            var updatedStatus = userprofile.updateProfileData(profile);
-
-            if (updatedStatus==3)
-            {
-                ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
-
-                #region For Email Confirmaion
-
-                string code = AppUserManager.GenerateEmailConfirmationToken(existingUser.Id);
-                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + existingUser.Id + "&code=" + code));
-
-              StringBuilder emailbody = new StringBuilder(profile.CustomerDetails.TemplateLink);
-              emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName).Replace("Salutation", profile.CustomerDetails.Salutation + ".")
-                                           .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
-              AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
-
-                #endregion
-              
-            }
-
-            if (updatedStatus == 1 || updatedStatus == -2 || updatedStatus == 3)
-            {
-              return  updatedStatus;
-            }           
-
-            return -1;
-        }
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateProfileGeneral")]
-        public int UpdateProfileGeneral(ProfileDto profile)
+        public IHttpActionResult UpdateProfileGeneral(ProfileDto profile)
         {
             var updatedStatus = userprofile.UpdateProfileGeneral(profile);
 
-            if (updatedStatus == 3)
+            if (updatedStatus == 2)
             {
                 ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
 
@@ -144,68 +98,77 @@ namespace PI.Service.Controllers
                 AppUserManager.SendEmail(existingUser.Id, "Your account has been provisioned!", emailbody.ToString());
 
                 #endregion
-
             }
 
-            if (updatedStatus == 1 || updatedStatus == -2 || updatedStatus == 3)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
+            }
+            else if (updatedStatus == -1)
+            {
+                return BadRequest("This email address is already in use!");
+            }
+            else if (updatedStatus == 2)
+            {
+                return Ok("We have inbox you the username change confirmation email. Please confirm before login.");
             }
 
-            return -1;
+            return Ok("Profile Updated Successfully!");
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateProfileAddress")]
-        public int UpdateProfileAddress(ProfileDto profile)
+        public IHttpActionResult UpdateProfileAddress(ProfileDto profile)
         {
             var updatedStatus = userprofile.UpdateProfileAddress(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
             }
 
-            return -1;
+            return Ok();
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateProfileBillingAddress")]
-        public int UpdateProfileBillingAddress(ProfileDto profile)
+        public IHttpActionResult UpdateProfileBillingAddress(ProfileDto profile)
         {
             var updatedStatus = userprofile.UpdateProfileBillingAddress(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
             }
 
-            return -1;
+            return Ok();
         }
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateSetupWizardBillingAddress")]
-        public int UpdateSetupWizardBillingAddress(ProfileDto profile)
+        public IHttpActionResult UpdateSetupWizardBillingAddress(ProfileDto profile)
         {
             var updatedStatus = userprofile.UpdateSetupWizardBillingAddress(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
             }
 
-            return -1;
-            
+            return Ok();
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("updateProfileLoginDetails")]
-        public int updateProfileLoginDetails(ProfileDto profile)
+        public IHttpActionResult updateProfileLoginDetails(ProfileDto profile)
         {
             if (!string.IsNullOrWhiteSpace(profile.NewPassword) && (!string.IsNullOrWhiteSpace(profile.CustomerDetails.UserId)))
             {
@@ -214,34 +177,27 @@ namespace PI.Service.Controllers
                                                            profile.NewPassword);
                 if (result.Errors != null && result.Errors.Count() > 0)
                 {
-                    return -3;
+                    return BadRequest("Old password You Entered is Invalid");
                 }
+                return Ok();
             }
-
-            var updatedStatus = userprofile.UpdateProfileLoginDetails(profile);
-
-            if (updatedStatus == 1 || updatedStatus == -2)
-            {
-                return updatedStatus;
-            }
-
-            return -1;
-        }        
+            return BadRequest();
+        }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("updateProfileAccountSettings")]
-        public int updateProfileAccountSettings(ProfileDto profile)
+        public IHttpActionResult updateProfileAccountSettings(ProfileDto profile)
         {
             var updatedStatus = userprofile.UpdateProfileAccountSettings(profile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
             }
 
-            return -1;
+            return Ok();
         }
 
 
@@ -253,16 +209,16 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateThemeColour")]
-        public int UpdateThemeColour(ProfileDto updatedProfile)
-        { 
+        public IHttpActionResult UpdateThemeColour(ProfileDto updatedProfile)
+        {
             var updatedStatus = userprofile.UpdateThemeColour(updatedProfile);
 
-            if (updatedStatus == 1 || updatedStatus == -2)
+            if (updatedStatus == 0)
             {
-                return updatedStatus;
+                return BadRequest();
             }
 
-            return -1;
+            return Ok();
         }
 
     }

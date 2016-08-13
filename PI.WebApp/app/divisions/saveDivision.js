@@ -1,6 +1,5 @@
 ﻿'use strict';
 
-
 (function (app) {
 
     app.factory('divisionManagmentFactory', function ($http) {
@@ -38,25 +37,11 @@
                    if ($scope.parentType = "Supervisor")
                    {
                        vm.model.assignedSupervisorId =  $scope.parentId;
-                   }
-
-
+                   }                   
                    divisionManagmentFactory.saveDivision(vm.model)
-                    .success(function (result) {
-                        if (result == -1) {
-
-                            $('#panel-notif').noty({
-                                text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('A division with the same name/description already exists') + '!</p></div>',
-                                layout: 'bottom-right',
-                                theme: 'made',
-                                animation: {
-                                    open: 'animated bounceInLeft',
-                                    close: 'animated bounceOutLeft'
-                                },
-                                timeout: 3000,
-                            });
-                        } else {
-
+                    .then(function (result) {
+                        debugger;
+                        if (result.status == 200) {
                             $('#panel-notif').noty({
                                 text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Division saved successfully!') + '</p></div>',
                                 layout: 'bottom-right',
@@ -68,10 +53,25 @@
                                 timeout: 3000,
                             });
                         }
+                    },
+                    function (error) {
 
-                    })
-                    .error(function () {
-                    })
+                        var errorMessage = error.data.message;
+
+                        if (error.data.message == "" || error.data.message == undefined) {
+                            errorMessage = "Error occured while processing your request";
+                        }
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(errorMessage) + '!</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    });
                }
 
                vm.close = function () {
@@ -81,6 +81,7 @@
                var loadDivision = function (divisionId) {
                    divisionService.loadDivisioninfo(divisionId)
                     .success(function (data) {
+                        debugger;
                         vm.model = data;
 
                         if (vm.model.id == 0) {

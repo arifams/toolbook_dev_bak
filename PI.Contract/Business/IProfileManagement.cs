@@ -18,9 +18,7 @@ namespace PI.Contract.Business
         int UpdateProfileAddress(ProfileDto updatedProfile);
         int UpdateProfileBillingAddress(ProfileDto updatedProfile);
         int UpdateSetupWizardBillingAddress(ProfileDto updatedProfile);
-        int UpdateProfileLoginDetails(ProfileDto updatedProfile);
         int UpdateProfileGeneral(ProfileDto updatedProfile);
-        int updateProfileData(ProfileDto updatedProfile);
 
         /// <summary>
         /// Update Theme Colour

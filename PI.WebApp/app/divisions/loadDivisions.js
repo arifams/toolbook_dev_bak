@@ -16,7 +16,7 @@
             loadCostCenters: function () {
                 return $http.get(serverBaseUrl + '/api/Company/GetAllCostCenters', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid') 
+                        userId: $window.localStorage.getItem('userGuid')
                     }
                 });
             }
@@ -44,7 +44,7 @@
 
 
     app.controller('loadDivisionsCtrl', function ($scope, $location, loadAllCostCenters, loadDivisionService, divisionManagmentService, $routeParams, $log, $window, $sce) {
-        
+
         // Load all cost centers
         loadAllCostCenters.loadCostCenters()
             .then(function successCallback(responce) {
@@ -67,7 +67,7 @@
             var costCenter = ($scope.costcenter == undefined || $scope.costcenter == "") ? 0 : $scope.costcenter;
             var type = ($scope.status == undefined || $scope.status == "") ? 0 : $scope.status;
             var searchText = $scope.searchText;
-            
+
             loadDivisionService.find(userId, searchText, costCenter, type)
                 .then(function successCallback(responce) {
 
@@ -87,7 +87,6 @@
         };
 
         $scope.selectDivisionforCostCenter = function () {
-  
             $scope.searchDivisions();
         }
 
@@ -97,19 +96,34 @@
             var r = confirm("Do you want to delete the record?");
             if (r == true) {
                 divisionManagmentService.deleteDivision({ Id: row.id })
-                .success(function (response) {
-
-                    if (response == 1) {
+                .then(function (response) {
+                    if (response.status == 200) {
                         var index = $scope.rowCollection.indexOf(row);
                         if (index !== -1) {
                             $scope.rowCollection.splice(index, 1);
                         }
                     }
-                })
-                .error(function () {
-                    
+                },
+                function (error) {
+
+                    var errorMessage = error.data.message;
+
+                    if (error.data.message == undefined) {
+                        errorMessage = 'Error occured while processing your request';
+                    }
+                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                    $('#panel-notif').noty({
+                        text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(errorMessage) + '!</p></div>',
+                        layout: 'bottom-right',
+                        theme: 'made',
+                        animation: {
+                            open: 'animated bounceInLeft',
+                            close: 'animated bounceOutLeft'
+                        },
+                        timeout: 3000,
+                    });
                 });
-            }
+            };
         };
 
         $scope.renderHtml = function (html_code) {

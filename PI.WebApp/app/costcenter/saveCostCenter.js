@@ -37,40 +37,26 @@
                    // Validate division has selected.
                    if (vm.model.assignedDivisionIdList.length == 0) {
 
-                           body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+                       body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
 
-                           $('#panel-notif').noty({
-                               text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Division need to select') + '!</p></div>',
-                               layout: 'bottom-right',
-                               theme: 'made',
-                               animation: {
-                                   open: 'animated bounceInLeft',
-                                   close: 'animated bounceOutLeft'
-                               },
-                               timeout: 3000,
-                           });
+                       $('#panel-notif').noty({
+                           text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('Division need to select') + '!</p></div>',
+                           layout: 'bottom-right',
+                           theme: 'made',
+                           animation: {
+                               open: 'animated bounceInLeft',
+                               close: 'animated bounceOutLeft'
+                           },
+                           timeout: 3000,
+                       });
 
-                           return;
-                    }
+                       return;
+                   }
 
                    costCenterSaveFactory.saveCostCenter(vm.model)
-                   .success(function (result) {
-                       
-                       if (result == -1) {
+                   .then(function (result) {
 
-                           body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {});
-
-                           $('#panel-notif').noty({
-                               text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('A cost center with the same name already exists') + '!</p></div>',
-                               layout: 'bottom-right',
-                               theme: 'made',
-                               animation: {
-                                   open: 'animated bounceInLeft',
-                                   close: 'animated bounceOutLeft'
-                               },
-                               timeout: 3000,
-                           });
-                       } else {
+                       if (result.status == 200) {
 
                            body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                            $('#panel-notif').noty({
@@ -84,10 +70,26 @@
                                timeout: 3000,
                            });
                        }
+                   }, function (error) {
 
-                   })
-                   .error(function () {
-                   })
+                       var errorMessage = error.data.message;
+
+                       if (error.data.message == undefined) {
+                           errorMessage = 'Error occured while processing your request';
+                       }
+                       body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
+
+                       $('#panel-notif').noty({
+                           text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate(errorMessage) + '!</p></div>',
+                           layout: 'bottom-right',
+                           theme: 'made',
+                           animation: {
+                               open: 'animated bounceInLeft',
+                               close: 'animated bounceOutLeft'
+                           },
+                           timeout: 3000,
+                       });
+                   });
                }
 
                vm.close = function () {
@@ -108,14 +110,14 @@
                var loadCostcenter = function (costCenterId) {
                    costCentrMngtFactory.loadCostcenterInfo(costCenterId)
                    .success(function (data) {
-                       
+
                        vm.model = data;
                        vm.model.assignedDivisionIdList = [];
                        if (vm.model.id == 0) {
                            vm.model.status = 1;
                            vm.model.billingAddress = {
-                                       country: 'US'
-                                   };
+                               country: 'US'
+                           };
                            vm.isRequiredState = true;
 
                            if ($scope.parentType == "Division") {
@@ -133,7 +135,7 @@
                        }
                        else {
                            vm.changeCountry();
-                           
+
                            //Add selected sites
                            angular.forEach(vm.model.allDivisions, function (availableDivision) {
                                if (availableDivision.isAssigned) {
@@ -143,7 +145,7 @@
                        }
                    })
                    .error(function () {
-                       
+
                    })
                }
 
