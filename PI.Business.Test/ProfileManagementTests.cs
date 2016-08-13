@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
@@ -435,7 +436,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.NotificationCriterias).Returns(mockSetNotoficationCriterias.Object);
 
             mockContext.Setup(c => c.Addresses).Returns(mockSetAddresses.Object);
-            profileManagement = new ProfileManagement(mockContext.Object);
+            profileManagement = new ProfileManagement(new Log4NetLogger(),mockContext.Object);
 
         }
 

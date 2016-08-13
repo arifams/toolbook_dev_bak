@@ -15,6 +15,7 @@ using PI.Data.Entity;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.AuditTrail;
+using PI.Contract;
 
 namespace PI.Business
 {
@@ -22,10 +23,12 @@ namespace PI.Business
     {
 
         private PIContext context;
+        private ILogger logger;
 
-        public AdministrationManagment(PIContext _context = null)
+        public AdministrationManagment(ILogger logger, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         /// <summary>

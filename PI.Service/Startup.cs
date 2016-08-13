@@ -55,11 +55,11 @@ namespace PI.Service
             //builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope();
             builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerLifetimeScope();
-            //builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().WithParameter("companyManagement", builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope()).InstancePerLifetimeScope();
             builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerLifetimeScope();
             builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerLifetimeScope();
             builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
+            builder.RegisterType<ProfileManagement>().As<ProfileManagement>().InstancePerLifetimeScope();   // TODO H : Remove this register, after convert Prof to IProf
             var container = builder.Build();
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver
 

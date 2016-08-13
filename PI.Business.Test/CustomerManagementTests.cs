@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Customer;
 using PI.Data;
@@ -43,7 +44,7 @@ namespace PI.Business.Tests
             var mockContext = MoqHelper.CreateMockForDbContext<PIContext, Customer>(mockSetcustomers);
             mockContext.Setup(c => c.Customers).Returns(mockSetcustomers.Object);
             
-            customerManagement = new CustomerManagement(mockContext.Object);           
+            customerManagement = new CustomerManagement(new Log4NetLogger(),mockContext.Object);           
 
         }
 

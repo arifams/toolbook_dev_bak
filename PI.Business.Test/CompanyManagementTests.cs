@@ -19,6 +19,7 @@ using PI.Business.Test;
 using PI.Data;
 using PI.Data.Entity.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PI.Common;
 
 namespace PI.Business.Tests
 {
@@ -301,7 +302,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.Customers).Returns(mockSetcustomers.Object);
 
 
-            companyManagement = new CompanyManagement(mockContext.Object);
+            companyManagement = new CompanyManagement(new Log4NetLogger(), new CustomerManagement(new Log4NetLogger()),mockContext.Object);
         }
 
         [Order(1)]

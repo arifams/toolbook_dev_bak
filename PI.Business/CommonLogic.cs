@@ -1,4 +1,5 @@
-﻿using PI.Data;
+﻿using PI.Contract;
+using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
 using System;

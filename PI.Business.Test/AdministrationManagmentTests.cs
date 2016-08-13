@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.AuditTrail;
 using PI.Contract.Enums;
@@ -72,7 +73,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.Companies).Returns(mockSet.Object);
             mockContext.Setup(c => c.AuditTrail).Returns(mockSetAuditTrail.Object);
 
-            adminManagement = new AdministrationManagment(mockContext.Object);
+            adminManagement = new AdministrationManagment(new Log4NetLogger(),mockContext.Object);
         }
 
         [Test]

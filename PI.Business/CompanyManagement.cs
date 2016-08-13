@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Admin;
 using PI.Contract.DTOs.Common;
@@ -28,12 +29,16 @@ namespace PI.Business
     {
 
         private PIContext context;
+        private ILogger logger;
         CommonLogic commonLogics = null;
+        private ICustomerManagement customerManagement;
 
-        public CompanyManagement(PIContext _context = null)
+        public CompanyManagement(ILogger logger, ICustomerManagement customerManagement, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
-            commonLogics = new CommonLogic(context);
+            commonLogics = new CommonLogic(context); // TODO : H - Pass common logic from service level using autofac
+            this.logger = logger;
+            this.customerManagement = customerManagement;
         }
 
 
@@ -1631,14 +1636,14 @@ namespace PI.Business
                     context.SaveChanges();
 
                     // Add customer record for the newly added user.
-                    CustomerManagement customerMgr = new CustomerManagement(context);
+                    
                     //string roleId = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                     //var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
                     //                                                     && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
 
 
-                    customerMgr.SaveCustomer(new CustomerDto
+                    customerManagement.SaveCustomer(new CustomerDto
                     {
                         Salutation = userDto.Salutation,
                         FirstName = userDto.FirstName,

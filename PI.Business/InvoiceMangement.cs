@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Common;
@@ -21,10 +22,12 @@ namespace PI.Business
         CommonLogic genericMethods = new CommonLogic();
 
         private PIContext context;
+        private ILogger logger;
 
-        public InvoiceMangement(PIContext _context = null)
+        public InvoiceMangement(ILogger logger, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         /// <summary>

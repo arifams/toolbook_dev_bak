@@ -26,6 +26,7 @@ using System.Threading.Tasks;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
+using PI.Contract;
 
 namespace PI.Business
 {
@@ -34,19 +35,23 @@ namespace PI.Business
         CommonLogic commonLogics = null;
         private PIContext context;
         ICarrierIntegrationManager sisManager =null;
+        ICompanyManagement companyManagment;
+        private ILogger logger;
 
-        public ShipmentsManagement(PIContext _context = null)
+        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, PIContext _context = null)
         {
             if (_context==null)
             {
-                sisManager = new SISIntegrationManager();
+                sisManager = new SISIntegrationManager(logger); // TODO : H - Need to pass from service using autofac
             }
             else
             {
-                sisManager = new MockSISIntegrationManager(_context);
+                sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             }
             context = _context ?? PIContext.Get();
             commonLogics = new CommonLogic(context);
+            this.companyManagment = companyManagment;
+            this.logger = logger;
         }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
@@ -629,7 +634,6 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company = new CompanyManagement(context);
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Shipment> Shipments = new List<Shipment>();
@@ -645,7 +649,7 @@ namespace PI.Business
             }
             else if (role == "Supervisor")
             {
-                divisions = company.GetAssignedDivisions(userId);
+                divisions = companyManagment.GetAssignedDivisions(userId);
             }
             if (divisions != null && divisions.Count > 0)
             {
@@ -1668,7 +1672,6 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company = new CompanyManagement();
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Shipment> Shipments = new List<Shipment>();
@@ -1684,7 +1687,7 @@ namespace PI.Business
             }
             else if (role == "Supervisor")
             {
-                divisions = company.GetAssignedDivisions(userId);
+                divisions = companyManagment.GetAssignedDivisions(userId);
             }
             if (divisions.Count > 0)
             {
@@ -3089,7 +3092,6 @@ namespace PI.Business
 
             IList<DivisionDto> divisions = null;
             List<Shipment> Shipments = new List<Shipment>();
-            CompanyManagement company = new CompanyManagement();
             DashboardShipments shipmentCounts = new DashboardShipments();
 
             //using (PIContext context = PIContext.Get())
@@ -3105,7 +3107,7 @@ namespace PI.Business
                 }
                 else if (role == "Supervisor")
                 {
-                    divisions = company.GetAssignedDivisions(userId);
+                    divisions = companyManagment.GetAssignedDivisions(userId);
                 }
                 if (divisions.Count > 0)
                 {

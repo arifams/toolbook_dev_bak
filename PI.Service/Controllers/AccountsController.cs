@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using PI.Business;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Customer;
@@ -30,12 +31,14 @@ namespace PI.Service.Controllers
         readonly ICompanyManagement companyManagement;
         readonly ICustomerManagement customerManagement;
         private AuthRepository authRepo = null;
+        private ProfileManagement profileManagement;    // TODO : H - Change this to interface
 
-        public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement)
+        public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement,ILogger logger, ProfileManagement profileManagement)
         {
             this.companyManagement = companymanagement;
             this.customerManagement = customermanagement;
             authRepo = new AuthRepository();
+            this.profileManagement = profileManagement;
         }
 
 
@@ -300,8 +303,6 @@ namespace PI.Service.Controllers
                     long companyId = 0;
                     var userName = string.Empty;
 
-                    ProfileManagement profileManagement = new ProfileManagement();
-
                     var profile = profileManagement.GetUserById(userId);
                     if (profile != null)
                     {
@@ -352,7 +353,6 @@ namespace PI.Service.Controllers
                 {
                     //set last logon time as current datetime
                     companyManagement.UpdateLastLoginTimeAndAduitTrail(user.Id);
-                    ProfileManagement profileManagement = new ProfileManagement();
 
                     string userId = user.Id;
                     long tenantId = 0;
@@ -413,9 +413,6 @@ namespace PI.Service.Controllers
                 });
             else
             {   //set last logon time as current datetime
-
-                ProfileManagement profileManagement = new ProfileManagement();
-
                 string userId = user.Id;
                 long tenantId = 0;
                 long companyId = 0;

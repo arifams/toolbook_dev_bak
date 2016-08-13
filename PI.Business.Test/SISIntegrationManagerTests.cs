@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PI.Business;
+using PI.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace PI.Business.Tests
 
         public SISIntegrationManagerTests()
         {
-            sisManager = new SISIntegrationManager();
+            sisManager = new SISIntegrationManager(new Log4NetLogger());
         }
 
         [Test]

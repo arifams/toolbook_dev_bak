@@ -33,13 +33,15 @@ namespace PI.Service.Controllers
         readonly IAdministrationManagment adminManagement;
         readonly IInvoiceMangement invoiceMangement;
         readonly ICompanyManagement companyManagement;
-        readonly CommonLogic commonLogic;  
+        readonly CommonLogic commonLogic;
+        readonly IShipmentManagement shipmentManagement;
 
-        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, ICompanyManagement companyManagement)
+        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, ICompanyManagement companyManagement, IShipmentManagement shipmentManagement)
         {
             this.adminManagement = adminManagement;
             this.invoiceMangement = invoiceMangement;
             this.companyManagement = companyManagement;
+            this.shipmentManagement = shipmentManagement;
             commonLogic = new CommonLogic(); // TODO: H - need to pass from DI.
         }
 
@@ -172,7 +174,6 @@ namespace PI.Service.Controllers
             if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType != DocumentType.Logo)
             {
                 // Insert document record to DB.
-                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
                 shipmentManagement.InsertShipmentDocument(fileDetails);
 
                 //Delete the temporary saved file.
@@ -232,7 +233,6 @@ namespace PI.Service.Controllers
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
                 var codeshipment = invoiceDetails[0];
-                ShipmentsManagement shipmentManagement = new ShipmentsManagement();
                 var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
 
                 if (currentShipment != null)

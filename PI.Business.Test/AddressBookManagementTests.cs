@@ -13,6 +13,7 @@ using System.Data.Entity;
 using PI.Data;
 using PI.Business.Test;
 using PI.Contract.DTOs.ImportAddress;
+using PI.Common;
 
 namespace PI.Business.Tests
 {
@@ -20,6 +21,7 @@ namespace PI.Business.Tests
     public class AddressBookManagementTests
     {
         private AddressBookManagement addressBookManagement = null;
+
         //readonly Mock<PIContext>  mockContext = null;
 
         [TestFixtureSetUp]
@@ -67,7 +69,7 @@ namespace PI.Business.Tests
             // Prevent context null
             mockContext.Setup(c => c.AddressBooks).Returns(mockSet.Object);
 
-            addressBookManagement = new AddressBookManagement(mockContext.Object);    
+            addressBookManagement = new AddressBookManagement(new Log4NetLogger(), mockContext.Object);    
         }
         
 

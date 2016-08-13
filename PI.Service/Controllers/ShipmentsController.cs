@@ -42,13 +42,15 @@ namespace PI.Service.Controllers
         readonly IShipmentManagement shipmentManagement;
         readonly IAddressBookManagement addressManagement;
         readonly CommonLogic commonLogic;
+        readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
 
-        public ShipmentsController(ICompanyManagement comapnyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement)
+        public ShipmentsController(ICompanyManagement comapnyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement)
         {
             this.comapnyManagement = comapnyManagement;
             this.shipmentManagement = shipmentManagement;
             this.addressManagement = addressManagement;
             commonLogic = new CommonLogic(); // TODO : H - Need to initialize from DI
+            this.profileManagement = profileManagement;
         }
 
         public string RequestForQuoteEmail
