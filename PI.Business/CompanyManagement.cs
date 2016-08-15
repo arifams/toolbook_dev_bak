@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Microsoft.AspNet.Identity.EntityFramework;
-using PI.Common;
 using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs.Admin;
@@ -35,19 +34,11 @@ namespace PI.Business
 
         public CompanyManagement(ILogger logger, ICustomerManagement customerManagement, PIContext _context = null)
         {
-            if (_context==null)
-            {
-                this.customerManagement = customerManagement;
-            }
-            else
-            {
-                this.customerManagement = new CustomerManagement(new Log4NetLogger(),_context);
-            }
-
             context = _context ?? PIContext.Get();
             commonLogics = new CommonLogic(context); // TODO : H - Pass common logic from service level using autofac
             this.logger = logger;
-            
+            this.customerManagement = customerManagement;
+
         }
 
         #region Create Tenant/Comapny Details with default settings
