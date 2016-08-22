@@ -338,7 +338,8 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.Customers).Returns(mockSetcustomers.Object);
 
 
-            companyManagement = new CompanyManagement(new Log4NetLogger(), new CustomerManagement(new Log4NetLogger()),mockContext.Object);
+            companyManagement = new CompanyManagement(new Log4NetLogger(),
+                new CustomerManagement(new Log4NetLogger(), mockContext.Object), mockContext.Object);
         }
 
         [Order(1)]

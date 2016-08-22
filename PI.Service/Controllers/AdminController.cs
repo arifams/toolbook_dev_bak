@@ -33,7 +33,6 @@ namespace PI.Service.Controllers
         readonly IAdministrationManagment adminManagement;
         readonly IInvoiceMangement invoiceMangement;
         readonly ICompanyManagement companyManagement;
-        readonly CommonLogic commonLogic;
         readonly IShipmentManagement shipmentManagement;
 
         public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, ICompanyManagement companyManagement, IShipmentManagement shipmentManagement)
@@ -42,7 +41,6 @@ namespace PI.Service.Controllers
             this.invoiceMangement = invoiceMangement;
             this.companyManagement = companyManagement;
             this.shipmentManagement = shipmentManagement;
-            commonLogic = new CommonLogic(); // TODO: H - need to pass from DI.
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -114,7 +112,7 @@ namespace PI.Service.Controllers
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-            var tenantId = commonLogic.GetTenantIdByUserId(fileDetails.UserId);
+            var tenantId = companyManagement.GetTenantIdByUserId(fileDetails.UserId);
             fileDetails.TenantId = tenantId;
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)

@@ -32,7 +32,6 @@ namespace PI.Business
 {
     public class ShipmentsManagement : IShipmentManagement
     {
-        CommonLogic commonLogics = null;
         private PIContext context;
         ICarrierIntegrationManager sisManager =null;
         ICompanyManagement companyManagment;
@@ -49,7 +48,6 @@ namespace PI.Business
                 sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             }
             context = _context ?? PIContext.Get();
-            commonLogics = new CommonLogic(context);
             this.companyManagment = companyManagment;
             this.logger = logger;
         }
@@ -334,7 +332,7 @@ namespace PI.Business
         {
 
             ShipmentOperationResult result = new ShipmentOperationResult();
-            Company currentcompany = commonLogics.GetCompanyByUserId(addShipment.UserId);
+            Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
             long sysDivisionId = 0;
             long sysCostCenterId = 0;
 
@@ -642,7 +640,7 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = commonLogics.GetUserRoleById(userId);
+            string role = context.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
@@ -1227,7 +1225,7 @@ namespace PI.Business
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
         {
             List<DivisionDto> divisionList = new List<DivisionDto>();
-            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
+            Company currentcompany = context.GetCompanyByUserId(userId);
 
             if (currentcompany == null)
             {
@@ -1640,7 +1638,7 @@ namespace PI.Business
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-            var tenantId = commonLogics.GetTenantIdByUserId(userId);
+            var tenantId = context.GetTenantIdByUserId(userId);
 
             //using (var context = PIContext.Get())
             //{
@@ -1680,7 +1678,7 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = commonLogics.GetUserRoleById(userId);
+            string role = context.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
@@ -2899,7 +2897,7 @@ namespace PI.Business
                 {
                     if (roleName == "BusinessOwner")
                     {
-                        companyId = commonLogics.GetCompanyByUserId(userId).Id;
+                        companyId = context.GetCompanyByUserId(userId).Id;
                     }
 
                     shipmentList =
@@ -3093,7 +3091,7 @@ namespace PI.Business
                 {
                     return null;
                 }
-                string role = commonLogics.GetUserRoleById(userId);
+                string role = context.GetUserRoleById(userId);
                 if (role == "BusinessOwner" || role == "Manager")
                 {
                     divisions = this.GetAllDivisionsinCompany(userId);

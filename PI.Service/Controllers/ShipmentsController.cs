@@ -33,19 +33,16 @@ namespace PI.Service.Controllers
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
-
-        readonly ICompanyManagement comapnyManagement;
+        readonly ICompanyManagement companyManagement;
         readonly IShipmentManagement shipmentManagement;
         readonly IAddressBookManagement addressManagement;
-        readonly CommonLogic commonLogic;
         readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
 
-        public ShipmentsController(ICompanyManagement comapnyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement)
+        public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement)
         {
-            this.comapnyManagement = comapnyManagement;
+            this.companyManagement = companyManagement;
             this.shipmentManagement = shipmentManagement;
             this.addressManagement = addressManagement;
-            commonLogic = new CommonLogic(); // TODO : H - Need to initialize from DI
             this.profileManagement = profileManagement;
         }
 
@@ -161,7 +158,7 @@ namespace PI.Service.Controllers
         [Route("GetBusinessOwneridbyCompanyId")]
         public IHttpActionResult GetBusinessOwneridbyCompanyId(string companyId)
         {
-            return Ok(comapnyManagement.GetBusinessOwneridbyCompanyId(companyId));
+            return Ok(companyManagement.GetBusinessOwneridbyCompanyId(companyId));
         }
 
 
@@ -232,7 +229,7 @@ namespace PI.Service.Controllers
             #region  Add shipment label to azure storage
 
             AzureFileManager media = new AzureFileManager();
-            long tenantId = commonLogic.GetTenantIdByUserId(sendShipmentDetails.UserId);
+            long tenantId = companyManagement.GetTenantIdByUserId(sendShipmentDetails.UserId);
             media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.ShipmentLabel));
             var result = media.UploadFromFileURL(operationResult.LabelURL, operationResult.ShipmentId.ToString() + ".pdf");
 
@@ -351,7 +348,7 @@ namespace PI.Service.Controllers
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-            var tenantId = commonLogic.GetTenantIdByUserId(fileDetails.UserId);
+            var tenantId = companyManagement.GetTenantIdByUserId(fileDetails.UserId);
             fileDetails.TenantId = tenantId;
 
             if (fileDetails.DocumentType == DocumentType.AddressBook)

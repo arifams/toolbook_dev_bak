@@ -20,7 +20,6 @@ namespace PI.Business
 {
     public class ProfileManagement : IProfileManagement
     {
-        CommonLogic commonLogics = new CommonLogic();
         private ILogger logger;
         private PIContext context;
 
@@ -768,7 +767,7 @@ namespace PI.Business
             {
                 return null;
             }
-            return commonLogics.GetLanguageCodeById(accountsettings.DefaultLanguageId);
+            return context.GetLanguageCodeById(accountsettings.DefaultLanguageId);
         }
 
         //get the customer by user name
