@@ -251,6 +251,9 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Preprod.config" />
+    <None Include="Web.Production.config" />
+    <None Include="Web.QA.config" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
