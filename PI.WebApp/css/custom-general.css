@@ -3,18 +3,14 @@
 }
 
 /*index.html*/
-.sidebar-condensed:not(.sidebar-collapsed) .sidebar .sidebar-inner .nav-sidebar > li > a i {
-    	display:none;
-}
+
 .sidebar .sidebar-inner .nav-sidebar > li > a {
-    padding:7px 6px;
+    padding:7px 20px;
 }
 .sidebar .sidebar-inner .nav-sidebar .nav-parent .children {
     background:none;
 }
-.sidebar {
-    background-color:#0d4773;
-}
+
 .sidebar .sidebar-inner .nav-sidebar .children > .li{
     background-color:#0d4773;    
     }
@@ -86,9 +82,7 @@
 .sidebar .sidebar-inner .nav-sidebar .children > li > a {
     font-size:12px;
 }
-.sidebar {
-    top:85px;
-}
+
 .main-content .page-content .panel {
     margin-bottom:0px;
 }
@@ -117,10 +111,9 @@
     font-weight:normal;
     margin-top:5px;
 }
-.panel-border {
-    border: 1px solid #E8E8E8;
+/*.panel-border {
     margin:12px; 
-}
+}*/
 .main-content .page-content .panel .panel-header h3 {
     margin-bottom:0px;
 }
@@ -1043,4 +1036,52 @@ div.inside_content {
 }
 .fa.fa-refresh.faa-spin.animated {
     font-size:20px;
+}
+.sidebar .sidebar-inner .nav-sidebar > li > a i {
+    display: block;
+    float: none;
+    text-align: center;
+    font-size: 13px;
+}
+.sidebar:not(.sidebar-collapsed) .sidebar-inner .nav-sidebar > li > a span {
+    display: block;
+    float: none;
+    text-align: center;
+}
+.sidebar .sidebar-inner .nav-sidebar .arrow {
+    right:0;
+}
+
+.sidebar {
+    width:190px;
+    background-color:#0d4773;
+     top:50px;
+}
+.sidebar .sidebar-inner .nav-sidebar .children > li > a, .sidebar .sidebar-inner .nav-sidebar > li > a, .sidebar .sidebar-inner .nav-sidebar > li > a span {
+    white-space:initial;  
+}
+.main-content {
+    background: #f2f2f2 none repeat scroll 0 0;
+    margin-left: 190px;
+    min-height: 750px;
+}
+.sidebar .logopanel {
+    width:190px;
+}
+.theme-sdtl.color-default .sidebar .logopanel{
+    text-align:left;
+}
+.fixed-topbar .topbar {
+    left:190px;
+}
+.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar li a i {
+    margin-top:0;
+}
+.sidebar-show .main-content {
+    margin-left: 190px !important;
+    overflow: hidden;
+}
+.sidebar-show.fixed-topbar .topbar {
+    left: 190px !important;
+    overflow: hidden;
 }

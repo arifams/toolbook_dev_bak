@@ -127,7 +127,8 @@
                                 <td>{{row.carrierInformation.carrierName}}</td>
                                 <td>{{row.addressInformation.consigner.city}}</td>
                                 <td>{{row.addressInformation.consignee.city}}</td>
-                                <td>{{row.generalInformation.status}}</td>
+                                <td><span ng-class="{'label label-danger' : row.generalInformation.status === 'Deleted','label label-primary' : row.generalInformation.status === 'Booking confirmation','label label-warning':row.generalInformation.status === 'Pending'} ">
+                                    {{row.generalInformation.status}}</span></td>
                                 <td>
                                     <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
                                        ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
