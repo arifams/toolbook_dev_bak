@@ -1,5 +1,94 @@
 ﻿<div>
    <div ng-include="modalWizard"></div>
+    <div class="row m-0">
+        <div class="widget-infobox">
+            <div class="infobox">
+                <div class="left">
+                    <i class="fa fa-shopping-cart bg-blue"></i>
+                </div>
+                <div class="right">
+                    <div>
+                        <h2 class="bg-blue">{{dashCtrl.model.inTransitStatusCount}} </h2>
+
+                    </div>
+                    <div class="txt">In-Transit</div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="left">
+                    <i class="fa fa-rocket bg-red"></i>
+                </div>
+                <div class="right">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="bg-red">{{dashCtrl.model.delayedStatusCount}}</h2>
+
+                        </div>
+                        <div class="txt">Delayed</div>
+                    </div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="left">
+                    <i class="fa fa-bug bg-green"></i>
+                </div>
+                <div class="right">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="bg-green">{{dashCtrl.model.pendingStatusCount}}</h2>
+
+                        </div>
+                        <div class="txt">Error</div>
+                    </div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="left">
+                    <i class="icon-picture bg-purple"></i>
+                </div>
+                <div class="right">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="bg-purple">{{dashCtrl.model.bookingConfStatusCount}}</h2>
+
+                        </div>
+                        <div class="txt">Not picked-up</div>
+                    </div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="left">
+                    <i class="icon-heart bg-orange"></i>
+                </div>
+                <div class="right">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="bg-orange">{{dashCtrl.model.exceptionStatusCount}}</h2>
+                            
+                        </div>
+                        <div class="txt">Exceptions </div>
+                    </div>
+                </div>
+            </div>
+            <div class="infobox">
+                <div class="left">
+                    <i class="icon-microphone bg-dark"></i>
+                </div>
+                <div class="right">
+                    <div class="clearfix">
+                        <div>
+                            <h2 class="bg-dark">{{dashCtrl.model.deliveredStatusCount}}</h2>
+
+                        </div>
+                        <div class="txt">Delivered</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
@@ -19,7 +108,7 @@
                     </div>
                 </div><hr class="m-t-0">-->
 
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-sm-12 col-xs-12 col-md-12 form-group m-l-0 m-r-0 p-r-0">
                         <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-orange">
                             <div class="Widgetleft">
@@ -77,7 +166,11 @@
                       
                     </div>
 
-                </div>
+                </div>-->
+
+
+
+
 
                 <!--<div class="row m-0">
                     <div class="col-sm-6 p-0">
