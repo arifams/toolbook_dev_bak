@@ -39,6 +39,7 @@ namespace PI.Service.Controllers
             this.customerManagement = customermanagement;
             authRepo = new AuthRepository();
             this.profileManagement = profileManagement;
+            logger.SetType(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         }
 
 
