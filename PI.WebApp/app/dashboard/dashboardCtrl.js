@@ -45,16 +45,17 @@
                    modalService.load('editrole_popup');
                });
                
-
-               //$scope.$on('$viewContentLoaded', function () {
-               //   /* builderFactory.loadLineChart();
-               //    builderFactory.loadDougnutChart1();
-               //    builderFactory.loadDougnutChart2();
-               //    builderFactory.loadDougnutChart3();
-               //    builderFactory.loadDougnutChart4();
-               //    builderFactory.loadMap();*/
               
-               //});
+               $scope.$on('$viewContentLoaded', function () {
+                   customBuilderFactory.loadMap();
+                  /* builderFactory.loadLineChart();
+                   builderFactory.loadDougnutChart1();
+                   builderFactory.loadDougnutChart2();
+                   builderFactory.loadDougnutChart3();
+                   builderFactory.loadDougnutChart4();
+                   builderFactory.loadMap();*/
+              
+               });
        
                vm.getShipmentStatusCounts = function () {
 

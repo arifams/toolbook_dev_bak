@@ -1094,3 +1094,10 @@ div.inside_content {
 .label-danger {
     opacity:0.5;
 }
+.widget-infobox .infobox {
+    margin-right:17px;
+}
+.widget-infobox .right .pull-left {
+    margin-bottom: 10px;
+    margin-top: 20px;
+}
