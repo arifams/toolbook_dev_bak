@@ -517,11 +517,6 @@
           var dataProvider = {
               mapVar: AmCharts.maps.worldLow,
               images: [],
-              "areas": [
-                            { "id": "AU", "color": "#CC0000" },
-                            { "id": "US", "color": "#00CC00" },
-                            { "id": "FR", "color": "#0000CC" }
-                        ]
           }
           // create circle for each country
           for (var i = 0; i < mapData.length; i++) {
