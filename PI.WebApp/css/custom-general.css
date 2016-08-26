@@ -1070,9 +1070,13 @@ div.inside_content {
 }
 .sidebar .logopanel {
     width:215px;
+    padding:2px 38px;
 }
 .theme-sdtl.color-default .sidebar .logopanel{
     text-align:left;
+}
+.topbar {
+    height:54px;
 }
 .fixed-topbar .topbar {
     left:215px;
@@ -1090,14 +1094,36 @@ div.inside_content {
 }
 .label.lbl-height{
     line-height:1.5;
+    font-weight:bold;
 }
-.label-danger {
+/*.label-danger {
     opacity:0.5;
-}
+}*/
 .widget-infobox .infobox {
     margin-right:17px;
+    margin-bottom:17px;
 }
 .widget-infobox .right .pull-left {
     margin-bottom: 10px;
-    margin-top: 20px;
+  
+}
+.widget-infobox .txt {
+    min-width:0;
+}
+.widget-infobox .left i::before {
+    width:49px;
+    height:49px;
+}
+[class^="flaticon-"]::before, [class*=" flaticon-"]::before, [class^="flaticon-"]::after, [class*=" flaticon-"]::after {
+margin-left:0;
+font-size:28px;
+}
+.widget-infobox .left i.flaticon-transport::before {
+    padding:5px;
+}
+.widget-infobox .left i.flaticon-clock::before {
+    padding:5px;
+}
+.widget-infobox .left i.flaticon-symbol::before {
+    padding:5px;
 }

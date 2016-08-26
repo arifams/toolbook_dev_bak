@@ -15,7 +15,7 @@
     });
 
     app.controller('dashboardCtrl',
-       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService','$window',
+       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService', '$window',
            function ($scope, customBuilderFactory, dashboardfactory, modalService, $window) {
                var vm = this;
                vm.model = {};

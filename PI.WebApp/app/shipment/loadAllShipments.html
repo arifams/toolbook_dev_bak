@@ -105,6 +105,7 @@
                     <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-striped">
                         <thead>
                             <tr>
+                                <th translate></th>
                                 <th st-sort="name" translate style="width: 32%;">Order Submitted</th>
                                 <th translate>Tracking Number</th>
                                 <th translate style="width: 18%;">Shipment ID</th>
@@ -112,7 +113,7 @@
                                 <th translate style="width: 19%;padding-right:0;">Origin City</th>
                                 <th translate style="width: 27%;padding-right:0;">Destination City</th>
                                 <th translate>Status</th>
-                                <th translate>Favourites</th>
+                                
                                 <th translate>View</th>
                                 <th translate>Edit</th>
                                 <th translate>Delete</th>
@@ -121,6 +122,11 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in shipmentList">
+                                <td>
+                                    <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
+                                       ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
+                                    </a>
+                                </td>
                                 <td>{{row.generalInformation.createdDate}}</td>
                                 <td>{{row.generalInformation.trackingNumber}}</td>
                                 <td>{{row.generalInformation.shipmentCode}}</td>
@@ -128,21 +134,18 @@
                                 <td>{{row.addressInformation.consigner.city}}</td>
                                 <td>{{row.addressInformation.consignee.city}}</td>
                                 <td><span style="display:block;" ng-class="{'label label-danger lbl-height' : row.generalInformation.status === 'Deleted','label label-primary lbl-height' : row.generalInformation.status === 'Booking confirmation','label label-warning lbl-height':row.generalInformation.status === 'Pending'} ">
-                                    {{row.generalInformation.status}}</span></td>
-                                <td>
-                                    <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
-                                       ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
-                                    </a>
+                                    {{row.generalInformation.status}}</span>
                                 </td>
+                               
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                       class="edit btn btn-sm btn-default">
+                                       class="btn btn-sm btn-primary btn-transparent">
                                         <i class="fa fa-eye" style="color: #319db5"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentId}}"
-                                       class="edit btn btn-sm btn-default">
+                                       class="btn btn-sm btn-primary btn-transparent">
                                         <i class="icon-note" style="color: #319db5"></i>
                                     </a>
                                 </td>
@@ -163,6 +166,121 @@
                         </tfoot>
                     </table>
                 </div>
+                <!--<div id="table2_wrapper" class="dataTables_wrapper form-inline no-footer" st-safe-src="loadShipCtrl.rowCollection">
+
+                    <table id="table2" class="table dataTable no-footer" role="grid" aria-describedby="table2_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 15px;" aria-label="">
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting" aria-controls="table2" aria-label=": activate to sort column ascending">
+                                </th>
+                                <th style="width:32%;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    ORDER SUBMITTED
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    TRACKING NUMBER
+                                </th>
+                                <th style="width:18%;" colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    SHIPMENT ID
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    CARRIER
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    STATUS
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    VIEW
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    EDIT
+                                </th>
+                                <th colspan="1" rowspan="1" tabindex="0" class="sorting_asc" aria-controls="table2" aria-label="Rendering engine: activate to sort column ascending" aria-sort="ascending">
+                                    DELETE
+                                </th>
+
+                            </tr>
+                        </thead>
+                        <tbody aria-relevant="all" aria-live="polite" role="alert">
+                            <tr class="gradeA odd" role="row" ng-repeat="row in shipmentList">
+                                <td class="center"><i class="fa fa-minus-square-o"></i></td>
+
+                                <td class="center">
+                                    <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
+                                       ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
+                                    </a>
+                                </td>
+                                <td class="sorting_1">{{row.generalInformation.createdDate}}</td>
+                                <td class=" ">{{row.generalInformation.trackingNumber}}</td>
+                                <td class=" ">{{row.generalInformation.shipmentCode}}</td>
+                                <td class="center ">{{row.carrierInformation.carrierName}}</td>
+                                <td class="center ">A</td>
+                            </tr>
+                            <tr ng-repeat="row in shipmentList">
+                                <td class="details" colspan="7">
+                                    <table cellspacing="0" cellpadding="5" border="0" style="padding-left:50px;">
+                                        <tbody>
+                                            <tr><td style="width:19%">ORIGIN CITY</td><td>{{row.addressInformation.consigner.city}}</td></tr>
+                                            <tr><td style="width:27%">DESTINATION CITY</td><td>{{row.addressInformation.consignee.city}}</td></tr>
+                                            <tr>
+                                                <td>
+                                                    <span style="display:block;" ng-class="{'label label-danger lbl-height' : row.generalInformation.status === 'Deleted','label label-primary lbl-height' : row.generalInformation.status === 'Booking confirmation','label label-warning lbl-height':row.generalInformation.status === 'Pending'} ">
+                                                        {{row.generalInformation.status}}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
+                                                       class="btn btn-sm btn-primary btn-transparent">
+                                                        <i class="fa fa-eye" style="color: #319db5"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentId}}"
+                                                       class="btn btn-sm btn-primary btn-transparent">
+                                                        <i class="icon-note" style="color: #319db5"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <a ng-show="row.generalInformation.isEnableDelete" ng-click="loadShipCtrl.deleteById(row)"
+                                                       class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                        <i class="icons-office-52" style="color:#c14444"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dataTables_info" id="table2_info" role="status" aria-live="polite">Showing 1 to 25 of 25 entries</div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dataTables_paginate paging_simple_numbers" id="table2_paginate">
+                                <ul class="pagination">
+                                    <li class="paginate_button previous disabled" aria-controls="table2" tabindex="0" id="table2_previous">
+                                        <a href="#"><i class="fa fa-angle-left"></i></a>
+                                    </li>
+                                    <li class="paginate_button active" aria-controls="table2" tabindex="0">
+                                        <a href="#">1</a>
+                                    </li>
+                                    <li class="paginate_button next disabled" aria-controls="table2" tabindex="0" id="table2_next">
+                                        <a href="#"><i class="fa fa-angle-right"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
                 <div id="panel-notif"></div>
             </div>
         </form>

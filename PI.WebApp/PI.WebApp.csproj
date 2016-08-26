@@ -180,6 +180,10 @@
     <Content Include="global\images\preloader\puff.svg" />
     <Content Include="global\plugins\angular-smart-table\smart-table.js" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js" />
+    <Content Include="global\plugins\maps-amcharts\ammap\chartDiv.css" />
+    <Content Include="global\plugins\maps-amcharts\ammap\export.css" />
+    <Content Include="global\plugins\maps-amcharts\ammap\export.min.js" />
+    <Content Include="global\plugins\maps-amcharts\ammap\light.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload-shim.min.js" />
     <Content Include="global\plugins\ng-file-upload\ng-file-upload.min.js" />
     <Content Include="Gruntfile.js" />
