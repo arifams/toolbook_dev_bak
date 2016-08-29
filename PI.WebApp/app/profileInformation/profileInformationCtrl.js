@@ -197,9 +197,9 @@
             }
         };
 
-        vm.changeCountry = function () {
-            vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
-        };
+        //vm.changeCountry = function () {
+        //    vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
+        //};
 
         vm.changeBillingCountry = function () {
             vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR' || vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
@@ -814,7 +814,7 @@
                             $scope.$apply(function () {
                                 vm.model.customerDetails.customerAddress.city = addr.city;
                                 vm.model.customerDetails.customerAddress.state = addr.state;
-                                vm.model.customerDetails.customerAddress.country = addr.country;
+                                //vm.model.customerDetails.customerAddress.country = addr.country;
                                 vm.errorCodeCustomer = false;
                             });
 

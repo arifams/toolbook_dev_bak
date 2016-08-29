@@ -1127,3 +1127,7 @@ font-size:28px;
 .widget-infobox .left i.flaticon-symbol::before {
     padding:5px;
 }
+#chartdiv {
+  width: 100%;
+  height: 500px;
+}
