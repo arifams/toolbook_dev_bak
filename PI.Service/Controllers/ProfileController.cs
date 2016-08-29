@@ -23,12 +23,10 @@ namespace PI.Service.Controllers
     public class ProfileController : BaseApiController
     {
         readonly IProfileManagement userprofile;
-        readonly CommonLogic commonLogics;
 
         public ProfileController(IProfileManagement userprofile)
         {
             this.userprofile = userprofile;
-            commonLogics = new CommonLogic(); // TODO: H - initialize from DI
         }
 
         //get profile details on profile page on load

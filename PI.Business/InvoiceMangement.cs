@@ -19,8 +19,6 @@ namespace PI.Business
 {
     public class InvoiceMangement : IInvoiceMangement
     {
-        CommonLogic genericMethods = new CommonLogic();
-
         private PIContext context;
         private ILogger logger;
 
@@ -51,8 +49,8 @@ namespace PI.Business
             {
                 invoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), status, true);
             }
-            string role = genericMethods.GetUserRoleById(userId);
-            Company company = genericMethods.GetCompanyByUserId(userId);
+            string role = context.GetUserRoleById(userId);
+            Company company = context.GetCompanyByUserId(userId);
 
             
             //using (var context = PIContext.Get())

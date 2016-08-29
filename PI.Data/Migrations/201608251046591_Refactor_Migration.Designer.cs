@@ -7,13 +7,13 @@ namespace PI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Ph2Customerthemecolour : IMigrationMetadata
+    public sealed partial class Refactor_Migration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Ph2Customerthemecolour));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Refactor_Migration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201605310550134_Ph2 - Customer theme colour"; }
+            get { return "201608251046591_Refactor_Migration"; }
         }
         
         string IMigrationMetadata.Source
