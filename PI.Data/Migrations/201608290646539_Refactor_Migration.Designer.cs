@@ -13,7 +13,7 @@ namespace PI.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201608251046591_Refactor_Migration"; }
+            get { return "201608290646539_Refactor_Migration"; }
         }
         
         string IMigrationMetadata.Source
