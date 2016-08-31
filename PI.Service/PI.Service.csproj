@@ -209,6 +209,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionLogging\UnhandledExceptionLogger.cs" />
     <Compile Include="App_Start\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
