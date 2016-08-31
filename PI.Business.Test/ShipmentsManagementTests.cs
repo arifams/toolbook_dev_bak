@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Dashboard;
@@ -1429,7 +1430,7 @@ namespace PI.Business.Tests
 
 
 
-            shipmentManagement = new ShipmentsManagement(mockContext.Object);
+            shipmentManagement = new ShipmentsManagement(new Log4NetLogger(),new CompanyManagement(new Log4NetLogger(),new CustomerManagement(new Log4NetLogger())),mockContext.Object);
             #endregion
         }
 

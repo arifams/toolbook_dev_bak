@@ -1,4 +1,5 @@
-﻿using PI.Contract.Business;
+﻿using PI.Contract;
+using PI.Contract.Business;
 using PI.Contract.DTOs.AccountSettings;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
@@ -19,13 +20,13 @@ namespace PI.Business
 {
     public class ProfileManagement : IProfileManagement
     {
-        CommonLogic commonLogics = new CommonLogic();
-
+        private ILogger logger;
         private PIContext context;
 
-        public ProfileManagement(PIContext _context = null)
+        public ProfileManagement(ILogger logger = null, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;   // TODO : H - Before use this, initialize from customAuthorize;
         }
 
         //get the profile details
@@ -766,7 +767,7 @@ namespace PI.Business
             {
                 return null;
             }
-            return commonLogics.GetLanguageCodeById(accountsettings.DefaultLanguageId);
+            return context.GetLanguageCodeById(accountsettings.DefaultLanguageId);
         }
 
         //get the customer by user name

@@ -1,6 +1,7 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PI.Common;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs.AddressBook;
 using PI.Contract.DTOs.Common;
@@ -21,10 +22,12 @@ namespace PI.Business
     public class AddressBookManagement : IAddressBookManagement
     {
         private PIContext context;
+        private ILogger logger;
 
-        public AddressBookManagement(PIContext _context = null)
+        public AddressBookManagement(ILogger logger, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         public PagedList GetAllAddresses(string type, string userId, string searchtext, int page = 1, int pageSize = 25)

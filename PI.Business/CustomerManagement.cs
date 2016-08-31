@@ -17,16 +17,19 @@ using System.IdentityModel.Protocols.WSTrust;
 using System.Configuration;
 using PI.Contract.Enums;
 using System.Data.Entity;
+using PI.Contract;
 
 namespace PI.Business
 {
     public class CustomerManagement : ICustomerManagement
     {
         private PIContext context;
+        private ILogger logger;
 
-        public CustomerManagement(PIContext _context = null)
+        public CustomerManagement(ILogger logger, PIContext _context = null)
         {          
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         public string WebURL

@@ -1,4 +1,5 @@
-﻿using PI.Contract.Business;
+﻿using PI.Contract;
+using PI.Contract.Business;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
@@ -23,10 +24,11 @@ namespace PI.Business
     {
 
         private PIContext context;
-
-        public SISIntegrationManager(PIContext _context = null)
+        private ILogger logger;
+        public SISIntegrationManager(ILogger logger, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         public string SISWebURLUS

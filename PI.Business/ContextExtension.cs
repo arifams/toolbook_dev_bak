@@ -1,4 +1,5 @@
-﻿using PI.Data;
+﻿using PI.Contract;
+using PI.Data;
 using PI.Data.Entity;
 using PI.Data.Entity.Identity;
 using System;
@@ -9,21 +10,15 @@ using System.Threading.Tasks;
 
 namespace PI.Business
 {
-    public class CommonLogic
+    public static class ContextExtension
     {
-        private PIContext context;
-
-        public CommonLogic(PIContext _context = null)
-        {
-            context = _context ?? PIContext.Get();
-        }
-
         /// <summary>
         /// Get user role by userId
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="context">Db Context</param>
+        /// <param name="userId">User Id</param>
         /// <returns></returns>
-        public string GetUserRoleById(string userId)
+        public static string GetUserRoleById(this PIContext context,string userId)
         {
             string roleId = context.Users.Where(u => u.Id == userId).FirstOrDefault().Roles.FirstOrDefault().RoleId;
             string roleName = context.Roles.Where(r => r.Id == roleId).Select(r => r.Name).FirstOrDefault();
@@ -34,9 +29,10 @@ namespace PI.Business
         /// <summary>
         /// Get comany details by userId
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="context">Db Context</param>
+        /// <param name="userId">User Id</param>
         /// <returns></returns>
-        public Company GetCompanyByUserId(string userId)
+        public static Company GetCompanyByUserId(this PIContext context, string userId)
         {
             if (string.IsNullOrWhiteSpace(userId))
                 return new Company { Name = "" };
@@ -50,9 +46,10 @@ namespace PI.Business
         /// <summary>
         /// Get Tenant by UserId
         /// </summary>
-        /// <param name="userid"></param>
+        /// <param name="context">Db Context</param>
+        /// <param name="userid">User Id</param>
         /// <returns></returns>
-        public long GetTenantIdByUserId(string userid)
+        public static long GetTenantIdByUserId(this PIContext context, string userid)
         {
             ApplicationUser currentuser = null;
      
@@ -69,9 +66,10 @@ namespace PI.Business
         /// <summary>
         /// Get language code by languageId
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="context">Db Context</param>
+        /// <param name="id">Id</param>
         /// <returns></returns>
-        public string GetLanguageCodeById(short id)
+        public static string GetLanguageCodeById(this PIContext context, short id)
         {
             return context.Languages.SingleOrDefault(l => l.Id == id).LanguageCode;
         }

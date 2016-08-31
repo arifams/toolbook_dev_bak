@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PI.Business;
 using PI.Business.Test;
+using PI.Common;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.Enums;
@@ -106,7 +107,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.CreditNotes).Returns(mockSetinvoiceCreditNotes.Object);
 
 
-            invoiceManagement = new InvoiceMangement(mockContext.Object);
+            invoiceManagement = new InvoiceMangement(new Log4NetLogger(), mockContext.Object);
 
         }
 

@@ -1,5 +1,6 @@
 ﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
+using PI.Contract;
 using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Common;
@@ -18,13 +19,13 @@ namespace PI.Business
 {
     public class InvoiceMangement : IInvoiceMangement
     {
-        CommonLogic genericMethods = new CommonLogic();
-
         private PIContext context;
+        private ILogger logger;
 
-        public InvoiceMangement(PIContext _context = null)
+        public InvoiceMangement(ILogger logger, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.logger = logger;
         }
 
         /// <summary>
@@ -48,8 +49,8 @@ namespace PI.Business
             {
                 invoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), status, true);
             }
-            string role = genericMethods.GetUserRoleById(userId);
-            Company company = genericMethods.GetCompanyByUserId(userId);
+            string role = context.GetUserRoleById(userId);
+            Company company = context.GetCompanyByUserId(userId);
 
             
             //using (var context = PIContext.Get())

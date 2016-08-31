@@ -48,5 +48,6 @@ namespace PI.Contract.Business
         CompanyDto GetCompanyByUserID(string userID);
         bool UpdateCompanyLogo(string URL, string userId);
         NodeDto GetOrganizationStructure(string userId);
+        long GetTenantIdByUserId(string userid);
     }
 }

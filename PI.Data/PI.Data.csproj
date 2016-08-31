@@ -140,53 +140,9 @@
     <Compile Include="Entity\UserInDivision.cs" />
     <Compile Include="Entity\VolumeMetric.cs" />
     <Compile Include="Entity\WeightMetric.cs" />
-    <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs" />
-    <Compile Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.Designer.cs">
-      <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs" />
-    <Compile Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.Designer.cs">
-      <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605200551243_Billing and Invoicing.cs" />
-    <Compile Include="Migrations\201605200551243_Billing and Invoicing.Designer.cs">
-      <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605300448550_Ph2- change Company with Logo URL.cs" />
-    <Compile Include="Migrations\201605300448550_Ph2- change Company with Logo URL.Designer.cs">
-      <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201605310550134_Ph2 - Customer theme colour.cs" />
-    <Compile Include="Migrations\201605310550134_Ph2 - Customer theme colour.Designer.cs">
-      <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.cs" />
-    <Compile Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.Designer.cs">
-      <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.cs" />
-    <Compile Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.Designer.cs">
-      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.cs" />
-    <Compile Include="Migrations\201606080525228_Ph2 Add TarifText entity.Designer.cs">
-      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.cs" />
-    <Compile Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.Designer.cs">
-      <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.cs" />
-    <Compile Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.Designer.cs">
-      <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.cs" />
-    <Compile Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.Designer.cs">
-      <DependentUpon>201607140557254_Ph3-Add client entity for external authentication.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.cs" />
-    <Compile Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.Designer.cs">
-      <DependentUpon>201607140859383_Ph3-Add refresh token entity for external authentication.cs</DependentUpon>
+    <Compile Include="Migrations\201608290646539_Refactor_Migration.cs" />
+    <Compile Include="Migrations\201608290646539_Refactor_Migration.Designer.cs">
+      <DependentUpon>201608290646539_Refactor_Migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
@@ -210,44 +166,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201605091115201_Ph2 - Add Rate Engine with Update Carrier.resx">
-      <DependentUpon>201605091115201_Ph2 - Add Rate Engine with Update Carrier.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605101034423_Ph2 - Add Invoice setting And Shipment Changes.resx">
-      <DependentUpon>201605101034423_Ph2 - Add Invoice setting And Shipment Changes.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605200551243_Billing and Invoicing.resx">
-      <DependentUpon>201605200551243_Billing and Invoicing.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605300448550_Ph2- change Company with Logo URL.resx">
-      <DependentUpon>201605300448550_Ph2- change Company with Logo URL.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201605310550134_Ph2 - Customer theme colour.resx">
-      <DependentUpon>201605310550134_Ph2 - Customer theme colour.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606030616183_Ph2 - Added column for favourite shipments.resx">
-      <DependentUpon>201606030616183_Ph2 - Added column for favourite shipments.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606080525228_Ph2 Add TarifText entity.resx">
-      <DependentUpon>201606080525228_Ph2 Add TarifText entity.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606071247390_Ph2 - Add company name to shipment address.resx">
-      <DependentUpon>201606071247390_Ph2 - Add company name to shipment address.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201606201348144_Update InvoiceLineItem with HSCode.resx">
-      <DependentUpon>201606201348144_Update InvoiceLineItem with HSCode.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607070546187_Ph2 - Add weigh &amp; volume matrix.resx">
-      <DependentUpon>201607070546187_Ph2 - Add weigh &amp; volume matrix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607140557254_Ph3-Add client entity for external authentication.resx">
-      <DependentUpon>201607140557254_Ph3-Add client entity for external authentication.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201607140859383_Ph3-Add refresh token entity for external authentication.resx">
-      <DependentUpon>201607140859383_Ph3-Add refresh token entity for external authentication.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608290646539_Refactor_Migration.resx">
+      <DependentUpon>201608290646539_Refactor_Migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\OctoPack.3.0.53\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.53\tools\OctoPack.targets')" />
   <Target Name="EnsureOctoPackImported" BeforeTargets="BeforeBuild" Condition="'$(OctoPackImported)' == ''">

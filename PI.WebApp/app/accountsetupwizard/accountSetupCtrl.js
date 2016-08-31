@@ -106,7 +106,7 @@
             }
             updateProfilefactory.updateProfileGeneral(vm.model)
                                        .success(function (responce) {
-                                           if (responce != null && responce==1) {
+                                           if (responce != null) {
 
                                                vm.hideaddressDetails = true;
                                            }
@@ -120,13 +120,13 @@
 
             updateProfilefactory.updateProfileAddress(vm.model)
              .success(function (responce) {
-                 if (responce != null && responce == 1){
+                 if (responce != null){
                      saveAddressSuccessfully = true;
                      if (vm.useCorpAddressAsBilling == true) {
 
                          updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                         .success(function (responce) {
-                                                            if (responce != null && responce == 1) {
+                                                            if (responce != null) {
                                                                 $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                                                                 
                                                                 if (vm.model.customerDetails.isCorporateAccount == 'true') {

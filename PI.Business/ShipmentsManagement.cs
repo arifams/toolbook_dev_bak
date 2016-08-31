@@ -26,27 +26,30 @@ using System.Threading.Tasks;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
+using PI.Contract;
 
 namespace PI.Business
 {
     public class ShipmentsManagement : IShipmentManagement
     {
-        CommonLogic commonLogics = null;
         private PIContext context;
         ICarrierIntegrationManager sisManager =null;
+        ICompanyManagement companyManagment;
+        private ILogger logger;
 
-        public ShipmentsManagement(PIContext _context = null)
+        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, PIContext _context = null)
         {
             if (_context==null)
             {
-                sisManager = new SISIntegrationManager();
+                sisManager = new SISIntegrationManager(logger); // TODO : H - Need to pass from service using autofac
             }
             else
             {
-                sisManager = new MockSISIntegrationManager(_context);
+                sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             }
             context = _context ?? PIContext.Get();
-            commonLogics = new CommonLogic(context);
+            this.companyManagment = companyManagment;
+            this.logger = logger;
         }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
@@ -329,7 +332,7 @@ namespace PI.Business
         {
 
             ShipmentOperationResult result = new ShipmentOperationResult();
-            Company currentcompany = commonLogics.GetCompanyByUserId(addShipment.UserId);
+            Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
             long sysDivisionId = 0;
             long sysCostCenterId = 0;
 
@@ -629,7 +632,6 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company = new CompanyManagement(context);
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Shipment> Shipments = new List<Shipment>();
@@ -638,14 +640,14 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = commonLogics.GetUserRoleById(userId);
+            string role = context.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
             }
             else if (role == "Supervisor")
             {
-                divisions = company.GetAssignedDivisions(userId);
+                divisions = companyManagment.GetAssignedDivisions(userId);
             }
             if (divisions != null && divisions.Count > 0)
             {
@@ -1223,7 +1225,7 @@ namespace PI.Business
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
         {
             List<DivisionDto> divisionList = new List<DivisionDto>();
-            Company currentcompany = commonLogics.GetCompanyByUserId(userId);
+            Company currentcompany = context.GetCompanyByUserId(userId);
 
             if (currentcompany == null)
             {
@@ -1447,7 +1449,7 @@ namespace PI.Business
                 {
                     foreach (var his in statusHistory.history.Items)
                     {
-                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
+                        if ((his.location.geo != null && item.Longitude.ToString() == his.location.geo.lng && item.Latitude.ToString() == his.location.geo.lat) || (!string.IsNullOrEmpty(his.location.city) && item.City.Equals(his.location.city)))
                         {
                             foreach (var activityItems in his.activity.Items)
                             {
@@ -1636,7 +1638,7 @@ namespace PI.Business
             List<FileUploadDto> returnList = new List<FileUploadDto>();
             // Make absolute link
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-            var tenantId = commonLogics.GetTenantIdByUserId(userId);
+            var tenantId = context.GetTenantIdByUserId(userId);
 
             //using (var context = PIContext.Get())
             //{
@@ -1668,7 +1670,6 @@ namespace PI.Business
         {
             int page = 1;
             int pageSize = 10;
-            CompanyManagement company = new CompanyManagement();
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Shipment> Shipments = new List<Shipment>();
@@ -1677,14 +1678,14 @@ namespace PI.Business
             {
                 return null;
             }
-            string role = commonLogics.GetUserRoleById(userId);
+            string role = context.GetUserRoleById(userId);
             if (role == "BusinessOwner" || role == "Manager")
             {
                 divisions = this.GetAllDivisionsinCompany(userId);
             }
             else if (role == "Supervisor")
             {
-                divisions = company.GetAssignedDivisions(userId);
+                divisions = companyManagment.GetAssignedDivisions(userId);
             }
             if (divisions.Count > 0)
             {
@@ -2896,7 +2897,7 @@ namespace PI.Business
                 {
                     if (roleName == "BusinessOwner")
                     {
-                        companyId = commonLogics.GetCompanyByUserId(userId).Id;
+                        companyId = context.GetCompanyByUserId(userId).Id;
                     }
 
                     shipmentList =
@@ -3082,7 +3083,6 @@ namespace PI.Business
 
             IList<DivisionDto> divisions = null;
             List<Shipment> Shipments = new List<Shipment>();
-            CompanyManagement company = new CompanyManagement();
             DashboardShipments shipmentCounts = new DashboardShipments();
 
             //using (PIContext context = PIContext.Get())
@@ -3091,14 +3091,14 @@ namespace PI.Business
                 {
                     return null;
                 }
-                string role = commonLogics.GetUserRoleById(userId);
+                string role = context.GetUserRoleById(userId);
                 if (role == "BusinessOwner" || role == "Manager")
                 {
                     divisions = this.GetAllDivisionsinCompany(userId);
                 }
                 else if (role == "Supervisor")
                 {
-                    divisions = company.GetAssignedDivisions(userId);
+                    divisions = companyManagment.GetAssignedDivisions(userId);
                 }
                 if (divisions.Count > 0)
                 {
