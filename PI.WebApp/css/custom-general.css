@@ -742,6 +742,7 @@
 
 .icon-favorite {
     color:  orange;
+    cursor:pointer;
     
 }
 .icon-favorite:before {
@@ -754,8 +755,7 @@
     border-bottom:1px solid #DDD;
     text-align:center;
 }
-
-
+ 
 /*add shipment*/
 .border {
     min-height: 26px;
@@ -781,9 +781,11 @@
     background-color:#80d4ff;
 }
 .page-spinner-loader.shipmentLoad {
-    padding-top:276px;
+    padding-top:220px;
 }
-
+.page-spinner-loader {
+    padding-top:220px;
+}
 .custom-table {
     overflow-x:auto; 
    
@@ -1096,9 +1098,15 @@ div.inside_content {
     line-height:1.5;
     font-weight:bold;
 }
-/*.label-danger {
-    opacity:0.5;
-}*/
+.label-danger:hover, .label-danger:focus {
+    background-color: #c75757;
+}
+.label-primary:hover, .label-primary:focus {
+     background-color: #319db5;
+}
+.label-warning:hover, .label-warning:focus {
+     background-color: #ff9122;
+}
 .widget-infobox .infobox {
     margin-right:17px;
     margin-bottom:17px;
@@ -1130,4 +1138,16 @@ font-size:28px;
 #chartdiv {
   width: 100%;
   height: 500px;
+}
+.btn-primary.btn-transparent:hover {
+  background-color:rgba(31, 116, 173,0.1)!important;
+}
+.pagination > a, .pagination > a:focus, .pagination > .active > a:hover, .pagination > .active > span, .pagination > .active > span:focus, .pagination > .active > span:hover {
+    cursor:pointer;
+}
+.pagination li a:hover {
+    cursor:pointer;
+}
+.fa-star {
+    cursor:pointer;
 }
