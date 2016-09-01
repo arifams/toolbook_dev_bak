@@ -1,9 +1,11 @@
 ﻿using JwtAuthForWebAPI;
 using PI.Business;
+using PI.Service.ExceptionLogging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 
 namespace PI.Service
 {
@@ -37,6 +39,9 @@ namespace PI.Service
             //config.MessageHandlers.Add(jwtHandler);
 
             config.Filters.Add(new CustomAuthorizeAttribute());
+
+            //config.Services.Replace(typeof(IExceptionLogger), new UnhandledExceptionLogger());
+            config.Services.Replace(typeof(IExceptionHandler), new UnhandledExceptionLogger());
 
         }
     }
