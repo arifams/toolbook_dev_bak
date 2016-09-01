@@ -4,7 +4,7 @@
 
     app.controller('accountSetupCtrl',
        ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope',
-    function ($scope, updateProfilefactory, $window, loadProfilefactory,$rootScope) {
+    function ($scope, updateProfilefactory, $window, loadProfilefactory, $rootScope) {
 
         var vm = this;
         vm.model = {};
@@ -30,68 +30,75 @@
 
         vm.loadProfile = function () {
 
-            debugger;
+            debugger;        
+           
             loadProfilefactory.loadProfileinfo()
-            .success(function (response) {
+                .success(function (response) {
 
-                if (response != null) {
-                    vm.model = response;
-                    vm.loading = false;
+                    var profileData = response;
 
-                    if (response.customerDetails != null) {
-                        //setting the account type                        
-                        vm.model.customerDetails = response.customerDetails;
-                        vm.model.companyDetails = response.companyDetails;
+                    if (profileData != null) {
 
-                        if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
-                            vm.model.customerDetails.salutation = 'Mr';
+                        debugger;
+                        vm.model = profileData;
+                        vm.loading = false;
+
+                        if (profileData.customerDetails != null) {
+                            //setting the account type                        
+                            vm.model.customerDetails = profileData.customerDetails;
+                            vm.model.companyDetails = profileData.companyDetails;
+
+                            if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
+                                vm.model.customerDetails.salutation = 'Mr';
+                            }
+
+                            //triggering  the second step only for genaral details completed users
+                            if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
+                                (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
+                                (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '') ||
+                                (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '') ||
+                                (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
+
+
+
+                            } else {
+                                debugger;
+                                vm.hideaddressDetails = true;
+                                generalDetailesCompleted = true;
+
+                            }
+
+                            //closing the pop if all profile details are completed
+                            if (generalDetailesCompleted == true && (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
+                                (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '') ||
+                                (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number == '') ||
+                                (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city == '') ||
+                                (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
+
+
+
+                            } else {
+
+                                $scope.closePopup();
+                            }
+
+                            if (profileData.customerDetails.isCorporateAccount) {
+                                vm.model.customerDetails.isCorporateAccount = "true";
+                            }
+                            else {
+                                vm.model.customerDetails.isCorporateAccount = "false";
+                            }
+
+
                         }
-                        
-                        //triggering  the second step only for genaral details completed users
-                        if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
-                            (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
-                            (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '')||
-                            (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '')||
-                            (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
-                           
-
-
-                        } else {
-                            vm.hideaddressDetails = true;
-                            generalDetailesCompleted = true;
-                             
-
-                        }
-
-                        //closing the pop if all profile details are completed
-                        if (generalDetailesCompleted==true &&(vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
-                            (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '')||
-                            (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number=='') ||
-                            (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city=='')||
-                            (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
-
-
-
-                        } else {
-
-                            $scope.closePopup();
-                        }
-
-                        if (response.customerDetails.isCorporateAccount) {
-                            vm.model.customerDetails.isCorporateAccount = "true";
-                        }
-                        else {
-                            vm.model.customerDetails.isCorporateAccount = "false";
-                        }
-
-
                     }
                 }
-            })
-           .error(function () {
-               vm.model.isServerError = "true";
-               vm.loading = false;
-           })
+                ).error(function () {
+
+                    vm.model.isServerError = "true";
+                    vm.loading = false;
+                })
+          
         }
 
 
