@@ -1,6 +1,7 @@
 ﻿using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace PI.Data.Entity.RateEngine
 {
     public class Rate : LongIdBaseEntity
     {
+        [MaxLength(2)]
         public string CountryFrom { get; set; }
 
         public bool IsInbound { get; set; }

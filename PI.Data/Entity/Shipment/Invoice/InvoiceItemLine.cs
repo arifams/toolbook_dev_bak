@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -13,6 +14,7 @@ namespace PI.Data.Entity
         public short Quantity { get; set; }
         public decimal PricePerPiece { get; set; }
         public long InvoiceItemId { get; set; }
+        [MaxLength(50)]
         public string HSCode { get; set; }
         #region Navigation properties
 

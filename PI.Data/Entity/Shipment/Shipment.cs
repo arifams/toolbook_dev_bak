@@ -12,8 +12,11 @@ namespace PI.Data.Entity
     public class Shipment : LongIdBaseEntity
     {
         // General Information
+        [MaxLength(100)]
         public string ShipmentName { get; set; }
+        [MaxLength(100)]
         public string ShipmentReferenceName { get; set; }
+        [MaxLength(100)]
         public string ShipmentCode { get; set; }
         public long? DivisionId { get; set; }
         public long? CostCenterId { get; set; }
@@ -23,11 +26,15 @@ namespace PI.Data.Entity
         //public string ShipmentTermCode { get; set; }
 
         //public string CarrierName { get; set; }
+        [MaxLength(50)]
         public string TarriffType { get; set; }
+        [MaxLength(50)]
         public string TariffText { get; set; }
+        [MaxLength(20)]
         public string ServiceLevel {get;set;}
         public DateTime? PickUpDate { get; set; }
         public short Status { get; set; }
+        [MaxLength(50)]
         public string TrackingNumber { get; set; }
 
 
