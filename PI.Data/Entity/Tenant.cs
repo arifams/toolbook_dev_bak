@@ -10,10 +10,9 @@ namespace PI.Data.Entity
 {
     public class Tenant : LongIdBaseEntity
     {
+        [MaxLength(100)]
         public string TenancyName { get; set; }
-
         public bool IsCorporateAccount { get; set; }
-
 
         #region Navigation Property
 

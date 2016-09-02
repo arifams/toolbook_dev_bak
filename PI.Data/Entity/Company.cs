@@ -10,15 +10,17 @@ namespace PI.Data.Entity
 {
     public class Company : LongIdBaseEntity
     {
+        [MaxLength(100)]
         public string Name { get; set; }
-
         public long TenantId { get; set; }
+        [MaxLength(100)]
         public string COCNumber { get; set; }
+        [MaxLength(100)]
         public string VATNumber { get; set; }
+        [MaxLength(100)]
         public string CompanyCode { get; set; }
         public bool IsInvoiceEnabled { get; set; }
         public string LogoUrl { get; set; }
-
 
         #region Navigation Property
 

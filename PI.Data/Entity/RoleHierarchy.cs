@@ -10,7 +10,9 @@ namespace PI.Data.Entity
     public class RoleHierarchy
     {
         [Key]
+        [MaxLength(30)]
         public string Name { get; set; }
+        [MaxLength(30)]
         public string ParentName { get; set; }
         public short Order { get; set; }
     }

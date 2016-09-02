@@ -144,6 +144,10 @@
     <Compile Include="Migrations\201608290646539_Refactor_Migration.Designer.cs">
       <DependentUpon>201608290646539_Refactor_Migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609020313299_Set Max Length for properties.cs" />
+    <Compile Include="Migrations\201609020313299_Set Max Length for properties.Designer.cs">
+      <DependentUpon>201609020313299_Set Max Length for properties.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -168,6 +172,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201608290646539_Refactor_Migration.resx">
       <DependentUpon>201608290646539_Refactor_Migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609020313299_Set Max Length for properties.resx">
+      <DependentUpon>201609020313299_Set Max Length for properties.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
