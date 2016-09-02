@@ -13,7 +13,7 @@ namespace PI.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609020313299_Set Max Length for properties"; }
+            get { return "201609020751067_Set Max Length for properties"; }
         }
         
         string IMigrationMetadata.Source
