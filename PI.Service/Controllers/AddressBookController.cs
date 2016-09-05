@@ -37,7 +37,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
         [HttpGet]
         [Route("GetSerchedAddressList")]
         public IHttpActionResult GetSerchedAddressList(string userId, string searchtext = "")
@@ -46,7 +45,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("DeleteAddress")]
         public IHttpActionResult DeleteAddress([FromBody] AddressBookDto address)
@@ -60,7 +58,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [CustomAuthorize]
         [HttpPost]
         [Route("SaveAddress")]
         public IHttpActionResult SaveAddress([FromBody] AddressBookDto address)
@@ -74,7 +71,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("ImportAddresses")]
         public IHttpActionResult ImportAddresses([FromBody]IList<ImportAddressDto> addresses, string userId)
@@ -93,7 +89,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("LoadAddress")]
         public IHttpActionResult LoadAddress([FromUri]long Id)
@@ -102,7 +97,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetAddressBookDetailsExcel")]
         public HttpResponseMessage GetAddressBookDetailsExcel(string type, string userId, string searchtext = "",

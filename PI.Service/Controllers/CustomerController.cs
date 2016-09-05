@@ -13,8 +13,7 @@ using System.Net;
 
 namespace PI.Service.Controllers
 {
-
-    //[CustomAuthorize]
+    [CustomAuthorize]
     [RoutePrefix("api/Customer")]
     public class CustomerController : BaseApiController
     {
@@ -28,7 +27,6 @@ namespace PI.Service.Controllers
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetAllInvoicesByCustomer")]
         public IHttpActionResult GetAllInvoicesByCustomer(string userId, string status = null, DateTime? startDate = null,
@@ -39,7 +37,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("PayInvoice")]
         public IHttpActionResult PayInvoice([FromBody] InvoiceDto invoice)
@@ -49,7 +46,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("DisputeInvoice")]
         public IHttpActionResult DisputeInvoice([FromBody] InvoiceDto invoice)
@@ -76,7 +72,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("ExportInvoiceReport")]
         public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
@@ -91,7 +86,6 @@ namespace PI.Service.Controllers
         
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetThemeColour")]
         public IHttpActionResult GetThemeColour ([FromUri] string loggedInUserId)
@@ -101,7 +95,6 @@ namespace PI.Service.Controllers
         
         
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetCustomerByCompanyId")]
         public IHttpActionResult GetCustomerByCompanyId(int companyid)

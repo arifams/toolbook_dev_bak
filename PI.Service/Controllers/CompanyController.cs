@@ -18,7 +18,7 @@ using PI.Contract.DTOs.Node;
 
 namespace PI.Service.Controllers
 {
-    //[CustomAuthorize]0
+    [CustomAuthorize]
     [RoutePrefix("api/Company")]
     public class CompanyController : BaseApiController
     {
@@ -273,6 +273,7 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
         [HttpGet]
         [Route("TestMethodA")]
         public string TestMethodA(string param)
@@ -280,6 +281,7 @@ namespace PI.Service.Controllers
             return "Success: " + param;
         }
 
+        [AllowAnonymous]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("TestMethodB")]
