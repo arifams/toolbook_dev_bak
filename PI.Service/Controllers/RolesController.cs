@@ -11,12 +11,10 @@ using System.Web.Http;
 
 namespace PI.Service.Controllers
 {
-
     [CustomAuthorize]
     [RoutePrefix("api/roles")]
     public class RolesController : BaseApiController
     {
-
         [Route("{id:guid}", Name = "GetRoleById")]
         public async Task<IHttpActionResult> GetRole(string Id)
         {

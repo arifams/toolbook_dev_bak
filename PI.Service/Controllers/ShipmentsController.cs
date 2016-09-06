@@ -29,21 +29,33 @@ using PI.Contract.DTOs.Dashboard;
 
 namespace PI.Service.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     [RoutePrefix("api/shipments")]
     public class ShipmentsController : BaseApiController
     {
         readonly ICompanyManagement companyManagement;
+        readonly ICustomerManagement customerManagement;
         readonly IShipmentManagement shipmentManagement;
         readonly IAddressBookManagement addressManagement;
         readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
+        
+        public ShipmentsController()
+        {
+            // TODO : H - Remove default constructor.
+            customerManagement = new CustomerManagement(null);
+            companyManagement = new CompanyManagement(null, customerManagement);
+            shipmentManagement = new ShipmentsManagement(null, companyManagement);
+            addressManagement = new AddressBookManagement(null);
+            profileManagement = new ProfileManagement();
+        }
 
-        public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement)
+        public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement, ICustomerManagement customerManagement)
         {
             this.companyManagement = companyManagement;
             this.shipmentManagement = shipmentManagement;
             this.addressManagement = addressManagement;
             this.profileManagement = profileManagement;
+            this.customerManagement = customerManagement;
         }
 
         public string RequestForQuoteEmail

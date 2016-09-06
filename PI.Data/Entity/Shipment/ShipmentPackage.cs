@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,13 @@ namespace PI.Data.Entity
 {
     public class ShipmentPackage : LongIdBaseEntity
     {
+        [MaxLength(100)]
         public string PackageDescription { get; set; }
         public decimal TotalWeight { get; set; }
         public short WeightMetricId { get; set; }
         public decimal TotalVolume { get; set; }
         public short VolumeMetricId { get; set; }
+        [MaxLength(50)]
         public string HSCode { get; set; }
         public DateTime CollectionDate { get; set; }
         public string CarrierInstruction { get; set; }
@@ -22,6 +25,7 @@ namespace PI.Data.Entity
         public short InsuranceCurrencyType { get; set; }
         public bool IsDG { get; set; }
         public bool Accessibility { get; set; }
+        [MaxLength(20)]
         public string DGType { get; set; }
 
         // Package payments

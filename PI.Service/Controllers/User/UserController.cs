@@ -20,6 +20,7 @@ namespace PI.Service.Controllers.User
             this.customerManagement = customerManagement;
         }
 
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         public int CreateUser([FromBody]CustomerDto customer)
