@@ -39,15 +39,15 @@ namespace PI.Service.Controllers
         readonly IAddressBookManagement addressManagement;
         readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
         
-        public ShipmentsController()
-        {
-            // TODO : H - Remove default constructor.
-            customerManagement = new CustomerManagement(null);
-            companyManagement = new CompanyManagement(null, customerManagement);
-            shipmentManagement = new ShipmentsManagement(null, companyManagement);
-            addressManagement = new AddressBookManagement(null);
-            profileManagement = new ProfileManagement();
-        }
+        //public ShipmentsController()
+        //{
+        //    // TODO : H - Remove default constructor.
+        //    customerManagement = new CustomerManagement(null);
+        //    companyManagement = new CompanyManagement(null, customerManagement);
+        //    shipmentManagement = new ShipmentsManagement(null, companyManagement);
+        //    addressManagement = new AddressBookManagement(null);
+        //    profileManagement = new ProfileManagement();
+        //}
 
         public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement, ICustomerManagement customerManagement)
         {
@@ -312,7 +312,8 @@ namespace PI.Service.Controllers
             return Ok(shipmentManagement.GetTrackAndTraceInfo(career, trackingNumber));
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route("UploadAddressBook")]
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> UploadAddressBook(String userId)
         {
@@ -328,7 +329,8 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK);
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route("Upload")]
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
         {
@@ -431,8 +433,9 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
-        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
+        [Route("UploadAddressBook")]
         public async Task<HttpResponseMessage> UploadAddressBook()
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -459,7 +462,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
         [HttpGet]
         [Route("GetshipmentByShipmentCodeForInvoice")]
         public IHttpActionResult GetshipmentByShipmentCodeForInvoice(string shipmentCode)
@@ -469,7 +471,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
         [HttpGet]
         [Route("GetshipmentByShipmentCodeForAirwayBill")]
         public IHttpActionResult GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
@@ -536,7 +537,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetShipmentDetails")]
         public HttpResponseMessage GetShipmentDetails(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,

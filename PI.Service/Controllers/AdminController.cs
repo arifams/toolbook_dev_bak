@@ -82,8 +82,9 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode == HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
+        [Route("Upload")]
         public async Task<HttpResponseMessage> Upload(MultipartFormDataStreamProvider results)
         {
             if (!Request.Content.IsMimeMultipartContent())
