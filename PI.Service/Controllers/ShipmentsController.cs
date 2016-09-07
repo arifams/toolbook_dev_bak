@@ -38,16 +38,6 @@ namespace PI.Service.Controllers
         readonly IShipmentManagement shipmentManagement;
         readonly IAddressBookManagement addressManagement;
         readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
-        
-        //public ShipmentsController()
-        //{
-        //    // TODO : H - Remove default constructor.
-        //    customerManagement = new CustomerManagement(null);
-        //    companyManagement = new CompanyManagement(null, customerManagement);
-        //    shipmentManagement = new ShipmentsManagement(null, companyManagement);
-        //    addressManagement = new AddressBookManagement(null);
-        //    profileManagement = new ProfileManagement();
-        //}
 
         public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement, ICustomerManagement customerManagement)
         {
