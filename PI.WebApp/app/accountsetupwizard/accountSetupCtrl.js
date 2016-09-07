@@ -3,9 +3,9 @@
 (function (app) {
 
     app.controller('accountSetupCtrl',
-       ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope',
-    function ($scope, updateProfilefactory, $window, loadProfilefactory, $rootScope) {
-
+       ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope','params',
+    function ($scope, updateProfilefactory, $window, loadProfilefactory, $rootScope,params) {
+        debugger;
         var vm = this;
         vm.model = {};
         vm.isSubmit1 = false;
@@ -28,81 +28,46 @@
             vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
         };
 
-        vm.loadProfile = function () {
+        
+            debugger;
+            //load profile data
+            var profileData = params.response;
 
-            debugger;        
-           
-            loadProfilefactory.loadProfileinfo()
-                .success(function (response) {
+            if (profileData != null) {
 
-                    var profileData = response;
+            debugger;
+            vm.model = profileData;
+            vm.loading = false;
 
-                    if (profileData != null) {
-
-                        debugger;
-                        vm.model = profileData;
-                        vm.loading = false;
-
-                        if (profileData.customerDetails != null) {
-                            //setting the account type                        
-                            vm.model.customerDetails = profileData.customerDetails;
-                            vm.model.companyDetails = profileData.companyDetails;
-
-                            if (vm.model.customerDetails.salutation == '' || vm.model.customerDetails.salutation == null) {
-                                vm.model.customerDetails.salutation = 'Mr';
-                            }
-
-                            //triggering  the second step only for genaral details completed users
-                            if ((vm.model.customerDetails.firstName == null || vm.model.customerDetails.firstName == '') ||
-                                (vm.model.customerDetails.lastName == null || vm.model.customerDetails.lastName == '') ||
-                                (vm.model.customerDetails.salutation == null || vm.model.customerDetails.salutation == '') ||
-                                (vm.model.customerDetails.phoneNumber == null || vm.model.customerDetails.phoneNumber == '') ||
-                                (vm.model.customerDetails.isCorporateAccount == null || vm.model.customerDetails.isCorporateAccount == '')) {
+            if (profileData.customerDetails != null) {
+                //setting the account type                        
+                vm.model.customerDetails = profileData.customerDetails;
+                vm.model.companyDetails = profileData.companyDetails;
 
 
-
-                            } else {
-                                debugger;
-                                vm.hideaddressDetails = true;
-                                generalDetailesCompleted = true;
-
-                            }
-
-                            //closing the pop if all profile details are completed
-                            if (generalDetailesCompleted == true && (vm.model.customerDetails.customerAddress.zipCode == null || vm.model.customerDetails.customerAddress.zipCode == '') ||
-                                (vm.model.customerDetails.customerAddress.streetAddress1 == null || vm.model.customerDetails.customerAddress.streetAddress1 == '') ||
-                                (vm.model.customerDetails.customerAddress.number == null || vm.model.customerDetails.customerAddress.number == '') ||
-                                (vm.model.customerDetails.customerAddress.city == null || vm.model.customerDetails.customerAddress.city == '') ||
-                                (vm.model.customerDetails.customerAddress.country == null || vm.model.customerDetails.customerAddress.country == '')) {
-
-
-
-                            } else {
-
-                                $scope.closePopup();
-                            }
-
-                            if (profileData.customerDetails.isCorporateAccount) {
-                                vm.model.customerDetails.isCorporateAccount = "true";
-                            }
-                            else {
-                                vm.model.customerDetails.isCorporateAccount = "false";
-                            }
-
-
-                        }
-                    }
+                if (profileData.customerDetails.salutation == null || profileData.customerDetails.salutation == '') {
+                    vm.model.customerDetails.salutation='Mr'
                 }
-                ).error(function () {
 
-                    vm.model.isServerError = "true";
-                    vm.loading = false;
-                })
+                if (profileData.customerDetails.isCorporateAccount == 'true') {
+                    vm.model.customerDetails.isCorporateAccount = "true";
+                }
+                else {
+                    vm.model.customerDetails.isCorporateAccount = "false";
+                }
+
+                //show hide the step wizard 
+                if (params.level==1) {
+                    vm.hideaddressDetails = false;
+                }
+                else if (params.level == 2) {
+                    vm.hideaddressDetails = true;
+                }
+
+            }
+            }
+        
           
-        }
-
-
-
 
         vm.saveGeneralDetails = function () {
             debugger;
@@ -125,6 +90,7 @@
 
         vm.saveAddressDetails = function () {
 
+            debugger;
             updateProfilefactory.updateProfileAddress(vm.model)
              .success(function (responce) {
                  if (responce != null){
@@ -134,12 +100,12 @@
                          updateProfilefactory.UpdateSetupWizardBillingAddress(vm.model)
                                                         .success(function (responce) {
                                                             if (responce != null) {
-                                                                $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
+                                                                $scope.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                                                                 
                                                                 if (vm.model.customerDetails.isCorporateAccount == 'true') {
-                                                                    $scope.closePopupAfterSetupWizard();
+                                                                    $scope.$parent.closePopupAfterSetupWizard();
                                                                 } else {
-                                                                    $scope.closePopup();
+                                                                    $scope.$parent.closePopup();
                                                                 }
                                                                 //  vm.hideaddressDetails = false;
                                                             }
@@ -149,11 +115,12 @@
                                                         });
 
                      } else {
-                         $scope.$parent.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
+                         debugger;
+                         $scope.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                          if (vm.model.customerDetails.isCorporateAccount == 'true') {
-                             $scope.closePopupAfterSetupWizard();
+                             $scope.$parent.closePopupAfterSetupWizard();
                          } else {
-                             $scope.closePopup();
+                             $scope.$parent.closePopup();
                          }
                          //vm.hideaddressDetails = false;
                      }

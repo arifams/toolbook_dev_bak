@@ -15,21 +15,19 @@
     });
 
     app.controller('dashboardCtrl',
-       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService','$window','loadProfilefactory',
-    function ($scope, customBuilderFactory, dashboardfactory, modalService, $window,loadProfilefactory) {
+       ['$scope', 'customBuilderFactory', 'dashboardfactory', 'modalService','$window','loadProfilefactory','$modal',
+    function ($scope, customBuilderFactory, dashboardfactory, modalService, $window,loadProfilefactory,$modal) {
                var vm = this;
                vm.model = {};
                $scope.profile = {};
-               debugger;
-               $scope.modalWizard = "accountsetupwizard/accountSetup.html";
-
+             
                $scope.closePopup = function () {
-                   modalService.close('editrole_popup');
+                   $scope.modalInstance.close();
                  
                };
 
                $scope.closePopupAfterSetupWizard = function () {
-                   modalService.close('editrole_popup');
+                   $scope.modalInstance.close();
                    $window.location.reload();
                };
 
@@ -37,19 +35,7 @@
                $scope.getProfile = function () {
                    return $scope.profile;
                };
-
-               $scope.templateModal = {
-                   id: "editrole_popup",
-                   header: "Edit Confirmation",
-                   closeCaption: "No",
-                   saveCaption: "Yes",
-                   close: function () {
-                       $scope.closePopup();
-                   },
-
-               };
-
-                         
+          
                angular.element(document).ready(function () {
 
 
@@ -58,8 +44,7 @@
                   .success(function (response) {
 
 
-                      $scope.profile = response;
-                      debugger;                    
+                      $scope.profile = response;                      
 
                       if (response.customerDetails != null) {
 
@@ -67,16 +52,56 @@
                           if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
                           (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
                           (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||
-                          (response.customerDetails.phoneNumber == null || response.customerDetails.phoneNumber == '') ||                         
-                          (response.customerDetails.customerAddress.zipCode == null || response.customerDetails.customerAddress.zipCode == '') ||
+                          (response.customerDetails.phoneNumber == null || response.customerDetails.phoneNumber == '')) {
+
+                              debugger;
+                              $scope.modalInstance = $modal.open({
+                                  templateUrl: 'accountsetupwizard/accountSetup.html',
+                                  animation: true,
+                                  controller: 'accountSetupCtrl',
+                                  controllerAs: 'vm',
+                                  //size: '',
+                                  backdrop: 'static',
+                                  scope: $scope,
+                                  resolve: {
+                                      params: function () {
+                                          return {
+                                              level: 1,
+                                              response: response
+                                          };
+                                      }
+                                  }
+                              });
+
+                         }
+                        else if ((response.customerDetails.customerAddress.zipCode == null || response.customerDetails.customerAddress.zipCode == '') ||
                           (response.customerDetails.customerAddress.streetAddress1 == null || response.customerDetails.customerAddress.streetAddress1 == '') ||
                           (response.customerDetails.customerAddress.number == null || response.customerDetails.customerAddress.number == '') ||
                           (response.customerDetails.customerAddress.city == null || response.customerDetails.customerAddress.city == '') ||
-                         (response.customerDetails.customerAddress.country == null || response.customerDetails.customerAddress.country == ''))                            
+                         (response.customerDetails.customerAddress.country == null || response.customerDetails.customerAddress.country == ''))
                           {
+
                               debugger;
-                              modalService.load('editrole_popup');
-                          }
+                              $scope.modalInstance = $modal.open({
+                                  templateUrl: 'accountsetupwizard/accountSetup.html',
+                                  animation: true,
+                                  controller: 'accountSetupCtrl',
+                                  controllerAs: 'vm',
+                                  //size: '',
+                                  backdrop: 'static',
+                                  scope: $scope,
+                                  resolve: {
+                                      params: function () {
+                                          return {
+                                              level: 2,
+                                              response: response
+                                          };
+                                      }
+                                  }
+                              });
+    
+                          }                         
+                    
                       }                     
 
                   })

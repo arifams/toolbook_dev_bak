@@ -246,10 +246,10 @@ namespace PI.Business
                 currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
                 currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
                 currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
-
+                currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber==null ? null : updatedProfile.CustomerDetails.PhoneNumber;
 
                 //this section added for updating profile details for the first time user Login
-                if (updatedProfile.CustomerDetails.Email!=null)
+            if (updatedProfile.CustomerDetails.Email!=null)
                 {
                     currentCustomer.Email = updatedProfile.CustomerDetails.Email;
                 }
