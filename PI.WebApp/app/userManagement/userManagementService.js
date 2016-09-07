@@ -49,7 +49,7 @@
         }
 
         function getUser(userId) {
-            debugger;
+            
             var userId = (userId == 0) ? "" : userId;
 
             return $http.get(serverBaseUrl + '/api/accounts/GetUserByUserId', {

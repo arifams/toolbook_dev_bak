@@ -273,7 +273,7 @@
 
                                     addressManagmentService.deleteAddress({ Id: row.id })
                                     .then(function (response) {
-                                        debugger;
+                                        
                                         if (response.status == 200) {
                                             var index = vm.rowCollection.indexOf(row);
                                             vm.rowCollection.splice(index, 1);
@@ -308,7 +308,7 @@
             };
 
             vm.closeWindow = function () {
-                debugger;
+                
                 ngDialog.close()
             }
 
@@ -317,7 +317,7 @@
                 var body = $("html, body");
                 body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                 });
-                debugger;
+                
                 $('#panel-notif').noty({
                     text: '<div class="alert alert-success media fade in"><p>' + ' ' + $rootScope.translate('Address records added successfully') + '.</p></div>',
                     buttons: [
@@ -368,8 +368,6 @@
             }
 
             vm.csvImportResults = function (responce) {
-
-                debugger;
 
                 var body = $("html, body");
                 if (responce.data != -1) {

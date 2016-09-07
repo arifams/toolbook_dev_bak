@@ -134,7 +134,7 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
 
         registerUserService.createUser(vm.user)
         .then(function (result) {
-            debugger;
+             
             if (result.status == 200) {
                 vm.alreadySubmitted = false;
                 vm.isSentMail = true;
@@ -167,7 +167,7 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
     };
 
     vm.authExternalProvider = function (provider) {
-        debugger;
+         
 
         //var redirectUri = 'http://localhost:49995/app/authComplete.html';
         var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
@@ -183,7 +183,7 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
     };
 
     vm.authCompletedCB = function (fragment) {
-        debugger;
+         
         $scope.$apply(function () {
 
             if (fragment.haslocalaccount == 'False') {
@@ -202,17 +202,17 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
                 vm.UserModel.viaExternalLogin = true;
                 vm.UserModel.firstName = fragment.external_first_name;
                 vm.UserModel.lastName = fragment.external_last_name;
-                debugger;
+                 
 
                 // register external user
                 registerUserService.createUser(vm.UserModel)
                 .then(function (result) {
-                    debugger;
+                     
                     var userDetails = {
                         username: fragment.external_user_name,
                         viaExternalLogin: true
                     };
-                    debugger;
+                     
                     vm.loginForExternalAuth(userDetails);
                 },
                 function (error) {
@@ -222,23 +222,23 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
 
                 // end of register external user
 
-                debugger;
+                 
             }
             else {
                 //Obtain access token and redirect to orders
                 var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
                 authService.obtainAccessToken(externalData).then(function (response) {
-                    debugger;
+                     
 
                     var userDetails = {
                         username: fragment.external_user_name,
                         viaExternalLogin: true
                     };
-                    debugger;
+                     
                     vm.loginForExternalAuth(userDetails);
                 },
              function (err) {
-                 debugger;
+                  
                  $scope.message = err.error_description;
              });
             }
@@ -247,12 +247,12 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
     }
 
     vm.loginForExternalAuth = function (user) {
-        debugger;
+         
         registerUserService.loginExternalUser(user, 'api/accounts/LoginUser')
          .then(function (returnedResult) {
 
              if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
-                 debugger;
+                  
                  // TODO: To be coverted to a token.
                  $window.localStorage.setItem('userGuid', returnedResult.data.id);
                  $window.localStorage.setItem('userRole', returnedResult.data.role);

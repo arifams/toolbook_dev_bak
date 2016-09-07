@@ -7,8 +7,6 @@
     app.controller('addressBookImportCtrl',
        ['$location', '$window', '$scope','addressManagmentService', '$routeParams', '$log', '$sce', 'importAddressBookFactory', 'Upload', '$timeout', '$rootScope', 'ngDialog', '$controller',
     function ($location, $window, $scope, addressManagmentService, $routeParams, $log, $sce, importAddressBookFactory, Upload, $timeout, $rootScope, ngDialog, $controller) {
-
-        debugger;
      
         $scope.csv = {};
         $scope.csv.accept = '.csv';
@@ -16,7 +14,7 @@
         $scope.loading = false;
 
         $scope.validateExcelFormat = function (name) {
-            debugger;
+            
             var files = name;
             var fileExtension = name.split('.').pop();
 
@@ -43,14 +41,14 @@
 
                 importAddressBookFactory.importAddressBook(importCollection)
                     .then(function successCallback(responce) {
-                        debugger;
+                        
                     $scope.loading = false;
                     $scope.addressCtrl.closeWindow();
-                    debugger;
+                    
                     $scope.addressCtrl.csvImportResults(responce);
                     
                     }, function errorCallback(response) {
-                        debugger;
+                        
                     $scope.loading = false;
                     
                 });;
@@ -66,7 +64,7 @@
         }
      
         $scope.uploadFile = function (file) {
-            debugger;
+            
             $scope.loading = true;
             file.upload = Upload.upload({
                 url: serverBaseUrl + '/api/Shipments/UploadAddressBook',
@@ -81,7 +79,7 @@
             });
 
             file.upload.then(function (response) {
-                debugger;
+                
                 if (response.statusText = 'OK') {
                     $scope.loading = false;
                     $scope.addressCtrl.closeWindow();
@@ -95,7 +93,6 @@
                 });
             }, function (response) {
                 if (response.status > 0)
-                    debugger;
                 $scope.loading = false;
                 $scope.addressCtrl.closeWindow();
                 $scope.addressCtrl.showError(response);

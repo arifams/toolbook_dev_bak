@@ -126,7 +126,7 @@
 
         // return if user not logged. -- Need to move this to global service.
         if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
-            debugger;
+            
             window.location = webBaseUrl + "/app/userLogin/userLogin.html";
             return;
         }
@@ -165,7 +165,7 @@
 
         //auto update the default language bofore the accept
         vm.getCurrentLnguage = function (language) {
-            debugger;
+            
             if (language.languageCode == "en") {
                 $window.localStorage.setItem('currentLnguage', "")
                 gettextCatalog.setCurrentLanguage("");
@@ -245,7 +245,6 @@
                      vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
                      vm.changeCountry();
 
-                     debugger;
                      if (response.data.companyDetails.costCenter != null) {
                          vm.multipleCostCenters = true;
                      }
@@ -418,7 +417,7 @@
 
                                 updateProfilefactory.updateProfileGeneral(vm.model)
                                         .then(function (responce) {
-                                            debugger
+                                            
                                             if (responce.status == 200) {
 
                                                 getSuccessMessage(body, responce);

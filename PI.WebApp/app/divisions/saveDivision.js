@@ -14,7 +14,7 @@
 
         return {
             loadDivisioninfo: function (divisionId) {
-                debugger;
+                
                 return $http.get(serverBaseUrl + '/api/Company/GetDivisionById', {
                     params: {
                         id: divisionId, //$routeParams.id
@@ -31,7 +31,7 @@
                var vm = this;
 
                vm.saveDivision = function () {
-                   debugger;
+                   
                    vm.model.userId = $window.localStorage.getItem('userGuid')
 
                    if ($scope.parentType = "Supervisor")
@@ -40,7 +40,7 @@
                    }                   
                    divisionManagmentFactory.saveDivision(vm.model)
                     .then(function (result) {
-                        debugger;
+                        
                         if (result.status == 200) {
                             $('#panel-notif').noty({
                                 text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Division saved successfully!') + '</p></div>',
@@ -81,7 +81,7 @@
                var loadDivision = function (divisionId) {
                    divisionService.loadDivisioninfo(divisionId)
                     .success(function (data) {
-                        debugger;
+                        
                         vm.model = data;
 
                         if (vm.model.id == 0) {

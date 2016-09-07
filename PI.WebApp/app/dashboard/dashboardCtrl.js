@@ -38,23 +38,18 @@
           
                angular.element(document).ready(function () {
 
-
-                   debugger;
                    loadProfilefactory.loadProfileinfo()
                   .success(function (response) {
-
 
                       $scope.profile = response;                      
 
                       if (response.customerDetails != null) {
 
-                          debugger;
                           if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
                           (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
                           (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||
                           (response.customerDetails.phoneNumber == null || response.customerDetails.phoneNumber == '')) {
 
-                              debugger;
                               $scope.modalInstance = $modal.open({
                                   templateUrl: 'accountsetupwizard/accountSetup.html',
                                   animation: true,
@@ -80,8 +75,6 @@
                           (response.customerDetails.customerAddress.city == null || response.customerDetails.customerAddress.city == '') ||
                          (response.customerDetails.customerAddress.country == null || response.customerDetails.customerAddress.country == ''))
                           {
-
-                              debugger;
                               $scope.modalInstance = $modal.open({
                                   templateUrl: 'accountsetupwizard/accountSetup.html',
                                   animation: true,

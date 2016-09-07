@@ -101,7 +101,7 @@
                    
                    shipmentFactory.loadShipmentInfo(vm.shipmentCode,0)
                    .success(function (data) {
-                       debugger;
+                       
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
                        vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
@@ -137,7 +137,6 @@
 
                var Calclengthfunction = function (products) {
                    var totalRows = 0;
-                   debugger;
                    
                    for (var i = 0; i < products.length; i++) {
 

@@ -5,7 +5,7 @@
     app.controller('accountSetupCtrl',
        ['$scope','updateProfilefactory','$window','loadProfilefactory','$rootScope','params',
     function ($scope, updateProfilefactory, $window, loadProfilefactory, $rootScope,params) {
-        debugger;
+        
         var vm = this;
         vm.model = {};
         vm.isSubmit1 = false;
@@ -29,13 +29,11 @@
         };
 
         
-            debugger;
             //load profile data
             var profileData = params.response;
 
             if (profileData != null) {
 
-            debugger;
             vm.model = profileData;
             vm.loading = false;
 
@@ -70,7 +68,7 @@
           
 
         vm.saveGeneralDetails = function () {
-            debugger;
+            
             if (vm.model.customerDetails.isCorporateAccount=='true') {
                 vm.toCorporate = true;
                 $window.localStorage.setItem('isCorporateAccount', true);
@@ -90,7 +88,6 @@
 
         vm.saveAddressDetails = function () {
 
-            debugger;
             updateProfilefactory.updateProfileAddress(vm.model)
              .success(function (responce) {
                  if (responce != null){
@@ -115,7 +112,7 @@
                                                         });
 
                      } else {
-                         debugger;
+
                          $scope.$parent.$parent.userName = vm.model.customerDetails.firstName + ' ' + vm.model.customerDetails.lastName;
                          if (vm.model.customerDetails.isCorporateAccount == 'true') {
                              $scope.$parent.closePopupAfterSetupWizard();

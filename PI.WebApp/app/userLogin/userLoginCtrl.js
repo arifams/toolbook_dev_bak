@@ -17,7 +17,6 @@
 
         return {
             createUser: function (newuser) {
-                debugger;
                 return $http.post(serverBaseUrl + '/api/accounts/create', newuser);
             }
         };
@@ -87,7 +86,7 @@ registerExternalUser,ngAuthSettings) {
         };
 
         vm.login = function (user) {
-            debugger;
+            
             if (!user.viaExternalLogin) {
                 if (vm.rememberme == true) {
                     $cookieStore.put('username', user.username);
@@ -124,9 +123,9 @@ registerExternalUser,ngAuthSettings) {
             }
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
-                 debugger;
+                 
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
-                     debugger;
+                     
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id); 
                      $window.localStorage.setItem('userRole', returnedResult.data.role);
@@ -170,7 +169,6 @@ registerExternalUser,ngAuthSettings) {
                  }
              },
             function (error) {
-                debugger;
                 console.log("failed");
             });
 
@@ -203,7 +201,6 @@ registerExternalUser,ngAuthSettings) {
 
 
         //$scope.authExternalProvider = function (provider) {
-        //    debugger;
         //    //var redirectUri = location.protocol + '//' + location.host + '/app/index.html';
         //    var redirectUri = 'http://localhost:49995/app/authComplete.html';
         //    var externalProviderUrl = 'https://localhost:44339/' + "api/accounts/ExternalLogin?provider=" + provider
@@ -215,7 +212,6 @@ registerExternalUser,ngAuthSettings) {
         //};
 
         $scope.authExternalProvider = function (provider) {
-            debugger;
 
             var redirectUri = location.protocol + '//' + location.host + '/app/authComplete.html';
 
@@ -245,7 +241,7 @@ registerExternalUser,ngAuthSettings) {
 
 
         $scope.authCompletedCB = function (fragment) {
-            debugger;
+            
             $scope.$apply(function () {
 
                 if (fragment.haslocalaccount == 'False') {
@@ -264,18 +260,16 @@ registerExternalUser,ngAuthSettings) {
                     vm.UserModel.viaExternalLogin = true;
                     vm.UserModel.firstName = fragment.external_first_name;
                     vm.UserModel.lastName = fragment.external_last_name;
-                    debugger;
                     
                     // register external user
                     registerExternalUser.createUser(vm.UserModel)
 
                     .then(function (result) {
-                        debugger;
                        var userDetails = {
                             username: fragment.external_user_name,
                             viaExternalLogin: true
                        };
-                       debugger;
+                       
                        vm.login(userDetails);
                     },
                     function (error) {
@@ -284,24 +278,21 @@ registerExternalUser,ngAuthSettings) {
                     );
 
                     // end of register external user
-                    
-                    debugger;
                 }
                 else {
                     //Obtain access token and redirect to orders
                     var externalData = { provider: fragment.provider, externalAccessToken: fragment.external_access_token };
                     authService.obtainAccessToken(externalData).then(function (response) {
-                        debugger;
                         
                         var userDetails = {
                             username: fragment.external_user_name,
                             viaExternalLogin: true
                         };
-                        debugger;
+                        
                         vm.login(userDetails);
                     },
                  function (err) {
-                     debugger;
+                     
                      $scope.message = err.error_description;
                  });
                 }

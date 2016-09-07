@@ -133,7 +133,7 @@
 
         userService.getProfileLanguage()
             .then(function successCallback(responce) {
-                debugger;
+                
                 if (responce != '' || responce != null) {
 
                     $scope.getCurrentLnguage(responce.data);

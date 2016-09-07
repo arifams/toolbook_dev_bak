@@ -31,7 +31,6 @@
                                     .success(
                                            function (responce) {
                                                vm.loadingSymbole = false;
-                                               debugger;
                                                vm.rowCollection = responce.content;
                                            }).error(function (error) {
                                                vm.loadingSymbole = false;

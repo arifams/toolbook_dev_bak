@@ -125,7 +125,6 @@
              },
             function (error) {
                 console.log("failed");
-                debugger;
                 vm.invalidToken = true;
                 vm.erroMessage = error.data.message;
 
