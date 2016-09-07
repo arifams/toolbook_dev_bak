@@ -134,7 +134,7 @@
                                     </a>
                                 </td>
                                 <td>
-                                    <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
+                                    <a ng-hide="row.generalInformation.shipmentCode == null" href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="edit btn btn-sm btn-default">
                                         <i class="fa fa-eye" style="color:blue"></i>
                                     </a>
