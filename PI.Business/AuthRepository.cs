@@ -19,7 +19,7 @@ namespace PI.Business
 
         public AuthRepository()
         {
-            _ctx = PIContext.Get();
+            _ctx = new PIContext();
             _userManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>(_ctx));
         }
 

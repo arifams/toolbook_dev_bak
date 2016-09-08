@@ -28,7 +28,7 @@ namespace PI.Business
 
         public CustomerManagement(ILogger logger, PIContext _context = null)
         {          
-            context = _context ?? PIContext.Get();
+            context = _context ?? new PIContext();
             this.logger = logger;
         }
 

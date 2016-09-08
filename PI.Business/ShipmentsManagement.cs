@@ -47,7 +47,7 @@ namespace PI.Business
             {
                 sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             }
-            context = _context ?? PIContext.Get();
+            context = _context ?? new PIContext();
             this.companyManagment = companyManagment;
             this.logger = logger;
         }
@@ -665,7 +665,7 @@ namespace PI.Business
             pagedRecord.Content = new List<ShipmentDto>();
 
             var content = (from shipment in Shipments
-                           where shipment.IsDelete == false &&
+                           where shipment.IsDelete == false && !shipment.IsParent && 
                            (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
                                && shipment.IsFavourite :
                                ((string.IsNullOrEmpty(status) ||

@@ -25,7 +25,7 @@ namespace PI.Business
 
         public ProfileManagement(ILogger logger = null, PIContext _context = null)
         {
-            context = _context ?? PIContext.Get();
+            context = _context ?? new PIContext();
             this.logger = logger;   // TODO : H - Before use this, initialize from customAuthorize;
         }
 
@@ -794,7 +794,8 @@ namespace PI.Business
         {
             //using (PIContext context = PIContext.Get())
             //{
-                return context.Addresses.SingleOrDefault(a => a.Id == addressId);
+            Address ad = context.Addresses.SingleOrDefault(a => a.Id == addressId);
+            return ad;
             //}
         }
 

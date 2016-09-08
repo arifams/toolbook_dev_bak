@@ -24,7 +24,7 @@ namespace PI.Business
 
         public InvoiceMangement(ILogger logger, PIContext _context = null)
         {
-            context = _context ?? PIContext.Get();
+            context = _context ?? new PIContext();
             this.logger = logger;
         }
 
