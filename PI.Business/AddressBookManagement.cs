@@ -420,12 +420,12 @@ namespace PI.Business
                 ExcelWorksheet ws = pck.Workbook.Worksheets.Add("Addrerss Book");
 
                 //Merging cells and create a center heading for out table
-                ws.Cells[2, 1].Value = "Address Book Details";
-                ws.Cells[2, 1, 2, 8].Merge = true;
-                ws.Cells[2, 1, 2, 8].Style.Font.Bold = true;
-                ws.Cells[2, 1, 2, 8].Style.Font.Size = 15;
-                ws.Cells[2, 1, 2, 8].Style.Font.Name = "Calibri";
-                ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                //ws.Cells[2, 1].Value = "Address Book Details";
+                //ws.Cells[2, 1, 2, 8].Merge = true;
+                //ws.Cells[2, 1, 2, 8].Style.Font.Bold = true;
+                //ws.Cells[2, 1, 2, 8].Style.Font.Size = 15;
+                //ws.Cells[2, 1, 2, 8].Style.Font.Name = "Calibri";
+                //ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                 // Set headings.
                 ws.Cells["A6"].Value = "Salutation";
@@ -436,15 +436,16 @@ namespace PI.Business
                 ws.Cells["F6"].Value = "Number";
                 ws.Cells["G6"].Value = "Street Address1";
                 ws.Cells["H6"].Value = "Street Address2";
-                ws.Cells["I6"].Value = "State";
-                ws.Cells["J6"].Value = "Email Adderess";
-                ws.Cells["K6"].Value = "Phone Number";
-                ws.Cells["L6"].Value = "Country";
-                ws.Cells["M6"].Value = "Account Number";
+                ws.Cells["I6"].Value = "City";
+                ws.Cells["J6"].Value = "State";
+                ws.Cells["K6"].Value = "Email Adderess";
+                ws.Cells["L6"].Value = "Phone Number";
+                ws.Cells["M6"].Value = "Country";
+                ws.Cells["N6"].Value = "Account Number";
 
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:M6"])
+                using (ExcelRange rng = ws.Cells["A6:N6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -483,18 +484,21 @@ namespace PI.Business
                     cell.Value = addressBook.StreetAddress2;
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = addressBook.State;
+                    cell.Value = addressBook.City;
 
                     cell = ws.Cells[rowIndex, 10];
-                    cell.Value = addressBook.EmailAddress;
+                    cell.Value = addressBook.State;
 
                     cell = ws.Cells[rowIndex, 11];
-                    cell.Value = addressBook.PhoneNumber;
+                    cell.Value = addressBook.EmailAddress;
 
                     cell = ws.Cells[rowIndex, 12];
-                    cell.Value = addressBook.Country;
+                    cell.Value = addressBook.PhoneNumber;
 
                     cell = ws.Cells[rowIndex, 13];
+                    cell.Value = addressBook.Country;
+
+                    cell = ws.Cells[rowIndex, 14];
                     cell.Value = addressBook.AccountNumber;
 
 
