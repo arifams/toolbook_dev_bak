@@ -62,7 +62,7 @@ namespace PI.Service
             builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<ProfileManagement>().InstancePerLifetimeScope();   // TODO H : Remove this register, after convert Prof to IProf
             builder.RegisterType<InvoiceMangement>().As<IInvoiceMangement>().InstancePerLifetimeScope();
-            
+
             var container = builder.Build();
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver
 

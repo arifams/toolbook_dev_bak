@@ -18,7 +18,7 @@ using System.Collections.Specialized;
 
 namespace PI.Business
 {
-    class MockSISIntegrationManager : ICarrierIntegrationManager
+    public class MockSISIntegrationManager : ICarrierIntegrationManager
     {
 
         private PIContext context;
