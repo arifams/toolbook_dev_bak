@@ -47,7 +47,7 @@ namespace PI.Business
             {
                 sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             }
-            context = _context ?? new PIContext();
+            context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
             this.logger = logger;
         }

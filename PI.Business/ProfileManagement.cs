@@ -25,7 +25,7 @@ namespace PI.Business
 
         public ProfileManagement(ILogger logger = null, PIContext _context = null)
         {
-            context = _context ?? new PIContext();
+            context = _context ?? PIContext.Get();
             this.logger = logger;   // TODO : H - Before use this, initialize from customAuthorize;
         }
 

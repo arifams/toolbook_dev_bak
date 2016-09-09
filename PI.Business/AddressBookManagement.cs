@@ -26,7 +26,7 @@ namespace PI.Business
 
         public AddressBookManagement(ILogger logger, PIContext _context = null)
         {
-            context = _context ?? new PIContext();
+            context = _context ?? PIContext.Get();
             this.logger = logger;
         }
 

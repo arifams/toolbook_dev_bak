@@ -25,7 +25,7 @@ namespace PI.Business
 
         public MockSISIntegrationManager(PIContext _context = null)
         {           
-            context = _context ?? new PIContext();           
+            context = _context ?? PIContext.Get();
         }
 
        
