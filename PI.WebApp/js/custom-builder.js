@@ -21,7 +21,6 @@
     }
 
     function setColor(mColor, mName) {
-        
         var main_color = mColor;
         var main_name = mName;
 
@@ -37,13 +36,14 @@
     customBuilderFactory = {
         init: function (mColor, mName) {
             "use strict";
-
             mainColor();
 
-            if (mColor != undefined && mName != undefined)
+            if (mColor != undefined && mName != undefined){
                 setColor(mColor, mName);
-           
+            }
+            else{
             applicationService.resetStyle();
+            }
 
             if ($('body').hasClass('sidebar-top')) {
                 destroySideScroll();
