@@ -99,6 +99,28 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-10"></div>
+                    <div dropdown="" class="col-sm-2 btn-group m-r-0 pull-right">
+                        <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
+                            <i class="fa fa-download" aria-hidden="true"></i>Export <span class="caret"></span>
+                        </button>
+                        <span class="dropdown-arrow"></span>
+                        <ul role="menu" class="dropdown-menu">
+                            <li>
+                                <a ng-csv="loadShipCtrl.exportcollection" filename="AddressBookDetails.csv">
+                                    CSV<translate>Export </translate>
+                                </a>
+
+                            </li>
+                            <li>
+                                <a ng-click="loadShipCtrl.ExportExcel()">Excel Export</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
                 <hr class="m-t-0">
 
                 <div class="custom-table">
