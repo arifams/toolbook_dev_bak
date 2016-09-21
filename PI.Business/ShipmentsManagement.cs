@@ -716,9 +716,9 @@ namespace PI.Business
                                                              : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
                                            //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                           (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                                           (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                                           (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                                           (string.IsNullOrEmpty(number) || (!string.IsNullOrEmpty(shipment.TrackingNumber)&& shipment.TrackingNumber.Contains(number)) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(number)))&&
+                                          (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                                          (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                                          )
                                        ) &&
                                        !shipment.IsParent
@@ -2837,7 +2837,7 @@ namespace PI.Business
                                                          : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
                                        //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                        (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                       (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                                         (string.IsNullOrEmpty(number) || (!string.IsNullOrEmpty(shipment.TrackingNumber) && shipment.TrackingNumber.Contains(number)) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(number))) &&
                                        (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
                                        (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                                      )
@@ -2958,14 +2958,14 @@ namespace PI.Business
 
                 ws.Cells["J6"].Value = "Destination City";
                 ws.Cells["K6"].Value = "Destination Country";
-                ws.Cells["L6"].Value = "Destination Name";
-                ws.Cells["M6"].Value = "Destination Number";
-                ws.Cells["N6"].Value = "Destination Email";
+                ws.Cells["L6"].Value = "Consignee Name";
+                ws.Cells["M6"].Value = "Consignee Number";
+                ws.Cells["N6"].Value = "Consignee Email";
 
                 ws.Cells["O6"].Value = "Status";
                 ws.Cells["P6"].Value = "Shipment Mode";
                 ws.Cells["Q6"].Value = "Pickup date";
-                ws.Cells["R6"].Value = "Servie Level";
+                ws.Cells["R6"].Value = "Service Level";
 
                 //Format the header for columns.
                 using (ExcelRange rng = ws.Cells["A6:U6"])

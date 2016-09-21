@@ -23,7 +23,7 @@
                             <span class="dropdown-arrow"></span>
                             <ul role="menu" class="dropdown-menu">
                                 <li>
-                                    <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status" href="javascript:;">All</a>
+                                    <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('All')" ng-model="status"  href="javascript:;">All</a>
                                 </li>
                                 <li>
                                     <a translate ng-click="loadShipCtrl.loadShipmentsByStatus('Delayed')" ng-model="status" href="javascript:;"> Delayed </a>
@@ -100,9 +100,9 @@
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-sm-10"></div>
-                    <div dropdown="" class="col-sm-2 btn-group m-r-0 pull-right">
+                <div class="row m-r-0" ng-hide="loadShipCtrl.viaDashboard">
+                    <div class="col-sm-4 p-r-0"></div>
+                    <div dropdown="" class="col-sm-2 btn-group p-r-0 pull-right">
                         <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
                             <i class="fa fa-download" aria-hidden="true"></i>Export <span class="caret"></span>
                         </button>
@@ -120,6 +120,7 @@
 
                         </ul>
                     </div>
+                    <div class="col-sm-3"></div>
                 </div>
                 <hr class="m-t-0">
 
