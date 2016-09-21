@@ -1,5 +1,4 @@
-﻿using PI.Common;
-using PI.Data.Entity.Identity;
+﻿using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
