@@ -13,7 +13,7 @@ namespace PI.Common
     {
         public ConfigAutoMapper()
         {
-            Mapper.Initialize(cfg => cfg.CreateMap<Shipment, ShipmentDto>());
+            //Mapper.Initialize(cfg => cfg.CreateMap<Shipment, ShipmentDto>());
         }
     }
 }
