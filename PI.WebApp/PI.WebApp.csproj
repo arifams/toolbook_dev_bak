@@ -80,6 +80,10 @@
     <Content Include="app\admin\BillingandInvoicing.js" />
     <Content Include="app\admin\CustomerDetailsView.html" />
     <Content Include="app\admin\CustomerDetailsView.js" />
+    <Content Include="app\admin\custOverview.html" />
+    <Content Include="app\admin\custOverview.js" />
+    <Content Include="app\admin\finance.html" />
+    <Content Include="app\admin\finance.js" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
     <Content Include="app\admin\SearchSpecificShipments.html" />
@@ -92,6 +96,8 @@
     <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.js" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.html" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
+    <Content Include="app\customerFinance\customerFinance.html" />
+    <Content Include="app\customerFinance\customerFinance.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboardCtrl.js" />
     <Content Include="app\directive\angular-local-storage.min.js" />
@@ -163,6 +169,9 @@
     <Content Include="global\css\compressed-styles.css" />
     <Content Include="global\css\icons\font-awesome\font-awesome.css" />
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="global\images\gallery\login-back.jpg" />
+    <Content Include="global\images\logo\PI-logo-login-sm.png" />
+    <Content Include="global\images\logo\PI-logo-login.png" />
     <Content Include="global\images\preloader\1.gif" />
     <Content Include="global\images\preloader\10.gif" />
     <Content Include="global\images\preloader\11.gif" />
