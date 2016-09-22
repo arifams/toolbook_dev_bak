@@ -65,9 +65,32 @@
                 </div>
 
                 <div class="col-md-1">
-                    <button ng-click="customerinvoiceCtrl.exportInvoiceReport()" class="btn btn-large btn-primary no-margin" type="button">
+                    <!--<button ng-click="customerinvoiceCtrl.exportInvoiceReport()" class="btn btn-large btn-primary no-margin" type="button">
                         <i class="glyphicon glyphicon-download-alt"></i><translate>Export</translate>
-                    </button>
+                    </button>-->
+                  
+                       
+                        <div dropdown=""  btn-group p-r-0 pull-right">
+                            <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
+                                <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i>Export <span class="caret"></span>
+                            </button>
+                            <span class="dropdown-arrow"></span>
+                            <ul role="menu" class="dropdown-menu">
+                                <li>
+                                    <a ng-csv="customerinvoiceCtrl.exportcollection" filename="Invoices.csv">
+                                        CSV<translate>Export </translate>
+                                    </a>
+
+                                </li>
+                                <li>
+                                    <a ng-click="customerinvoiceCtrl.exportInvoiceReport()">Excel Export</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                      
+                  
+
                 </div>
             </div>
             <div class="custom-table">
