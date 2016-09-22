@@ -80,8 +80,8 @@ $(function() {
         //        window.location.href = "dashboard.html";
         //    }, 2000);
         //});
-        $.backstretch(["../../global/images/gallery/login.jpg"], {
-            fade: 600,
+        $.backstretch(["../../global/images/gallery/login-back.jpg"], {
+            fade: 400,
             duration: 4000
         });
 
@@ -230,7 +230,7 @@ $(function() {
     if ($('body').data('page') == 'signup') {
 
         var form = $(".form-signup");
-        $.backstretch(["../../global/images/gallery/login.jpg"], {
+        $.backstretch(["../../global/images/gallery/login-back.jpg"], {
             fade: 600,
             duration: 4000
         });
