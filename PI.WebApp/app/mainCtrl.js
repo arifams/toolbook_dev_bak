@@ -82,10 +82,8 @@
 
             userService.getThemeColour()
                 .then(function successCallback(responce) {
+
                     mName = responce.data;
-
-                    debugger;
-
                     if (mName == 'default')
                         mColor = '#2B2E33';
                     else if (mName == 'primary')
@@ -103,8 +101,7 @@
                     else
                         mColor = null;
 
-                    if (mColor != null) {
-                        debugger;
+                    if (mColor != null){
                         customBuilderFactory.init(mColor, mName);
                     }
 
@@ -137,7 +134,7 @@
 
         userService.getProfileLanguage()
             .then(function successCallback(responce) {
-                debugger;
+                
                 if (responce != '' || responce != null) {
 
                     $scope.getCurrentLnguage(responce.data);

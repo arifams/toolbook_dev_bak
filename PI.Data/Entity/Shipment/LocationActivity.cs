@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,7 @@ namespace PI.Data.Entity
 {
     public class LocationActivity: LongIdBaseEntity
     {
+        [MaxLength(20)]
         public string Status { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }

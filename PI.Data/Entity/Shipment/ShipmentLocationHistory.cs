@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,11 +10,10 @@ namespace PI.Data.Entity
 {
    public class ShipmentLocationHistory: LongIdBaseEntity
     {
-
-        public long ShipmentId { get; set; }        
-
+        public long ShipmentId { get; set; }
+        [MaxLength(2)]
         public string Country { get; set; }
-
+        [MaxLength(100)]
         public string City { get; set; }
 
         public double Latitude { get; set; }

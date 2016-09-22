@@ -182,7 +182,7 @@
                                               $noty.close();
                                               adminFactory.manageInvoicePaymentSetting({ Id: row.id })
                                              .success(function (response) {
-                                                 debugger;
+                                                 
                                                  row.isInvoiceEnabled = response;
                                                  $('#panel-notif').noty({
                                                      text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Invoice payment status updated succesfully') + '</p></div>',

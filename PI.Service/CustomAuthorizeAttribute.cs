@@ -33,9 +33,20 @@ namespace PI.Service
             }
         }
 
+        private static bool SkipAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
+        {
+           // Contract.Assert(actionContext != null);
+
+            return actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any()
+                       || actionContext.ControllerContext.ControllerDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
+        }
+
         //overriding on authorization method
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
+            if (SkipAuthorization(actionContext))
+                return;
+
             if (AuthorizeRequest(actionContext))
             {
                 return;
@@ -54,8 +65,11 @@ namespace PI.Service
         private bool AuthorizeRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
             var roles=this.Roles;
+            var authHeader = actionContext.Request.Headers.Authorization;
+            string signedtoken = string.Empty;
+            if (authHeader != null)
+                signedtoken = actionContext.Request.Headers.Authorization.Parameter;
 
-            var signedtoken = actionContext.Request.Headers.Authorization.Parameter;
             var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
             var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
 

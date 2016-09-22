@@ -37,16 +37,19 @@ namespace PI.Business
         ICompanyManagement companyManagment;
         private ILogger logger;
 
-        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, PIContext _context = null)
+        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, PIContext _context = null)
         {
-            if (_context==null)
-            {
-                sisManager = new SISIntegrationManager(logger); // TODO : H - Need to pass from service using autofac
-            }
-            else
-            {
-                sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
-            }
+            //if (_context==null)
+            //{
+            //    sisManager = new SISIntegrationManager(logger); // TODO : H - Need to pass from service using autofac
+            //}
+            //else
+            //{
+            //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
+            //}
+
+            this.sisManager = sisManager;
+
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
             this.logger = logger;
@@ -665,7 +668,7 @@ namespace PI.Business
             pagedRecord.Content = new List<ShipmentDto>();
 
             var content = (from shipment in Shipments
-                           where shipment.IsDelete == false &&
+                           where shipment.IsDelete == false && !shipment.IsParent && 
                            (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
                                && shipment.IsFavourite :
                                ((string.IsNullOrEmpty(status) ||

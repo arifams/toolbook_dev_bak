@@ -231,9 +231,9 @@
                        shipmentFactory.loadDefaultCostCenterId(divisionId).success(
 
                       function (responce) {
-                          debugger;
+
                           if (responce != 0 || responce != null) {
-                              debugger;
+                              
                               vm.shipment.generalInformation.costCenterId = responce;
                            
                           }

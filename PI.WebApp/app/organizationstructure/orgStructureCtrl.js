@@ -84,7 +84,7 @@
 
 
             $scope.loadUserManagment = function (userId, userType,parentType,parentId) {
-                debugger;
+                
                 $scope.userId = userId;
                 $scope.userType = userType;
                 $scope.parentType = parentType;
@@ -105,7 +105,7 @@
             }
 
             $scope.loadDivisionManagment = function (id, parentType, parentId) {
-                debugger;
+                
                 $scope.divisionId = id;
                 $scope.parentType = parentType;
                 $scope.parentId = parentId;
@@ -120,7 +120,7 @@
             }
 
             $scope.loadCostcenterManagement = function (id, parentType, parentId) {
-                debugger;
+                
                 $scope.costCenterId = id;
                 $scope.parentType = parentType;
                 $scope.parentId = parentId;

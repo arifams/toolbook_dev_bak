@@ -45,11 +45,14 @@ namespace PI.Service
             HttpConfiguration httpConfig = new HttpConfiguration();
 
             ConfigureOAuth(app);
+            
 
             // autofac
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerLifetimeScope();
 
+            builder.RegisterType<PIContext>().As<PIContext>().InstancePerLifetimeScope();
+            builder.RegisterType<ConfigAutoMapper>();   // Initialize auto mapper.
             builder.RegisterType<Log4NetLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
             //builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope();
@@ -60,6 +63,8 @@ namespace PI.Service
             builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<ProfileManagement>().InstancePerLifetimeScope();   // TODO H : Remove this register, after convert Prof to IProf
+            builder.RegisterType<InvoiceMangement>().As<IInvoiceMangement>().InstancePerLifetimeScope();
+
             var container = builder.Build();
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver
 
@@ -83,6 +88,12 @@ namespace PI.Service
         private void ConfigureWebApi(HttpConfiguration config)
         {
             config.MapHttpAttributeRoutes();
+
+            config.Routes.MapHttpRoute(
+                name: "DefaultApi",
+                routeTemplate: "api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

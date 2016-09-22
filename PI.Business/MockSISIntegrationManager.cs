@@ -18,14 +18,14 @@ using System.Collections.Specialized;
 
 namespace PI.Business
 {
-    class MockSISIntegrationManager : ICarrierIntegrationManager
+    public class MockSISIntegrationManager : ICarrierIntegrationManager
     {
 
         private PIContext context;
 
         public MockSISIntegrationManager(PIContext _context = null)
         {           
-            context = _context ?? PIContext.Get();           
+            context = _context ?? PIContext.Get();
         }
 
        

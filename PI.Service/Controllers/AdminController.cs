@@ -26,7 +26,7 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-    //[CustomAuthorize]
+    [CustomAuthorize]
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
@@ -82,8 +82,9 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(opResult.Status == Status.Success && uploadResult.StatusCode == HttpStatusCode.OK ? HttpStatusCode.OK : HttpStatusCode.InternalServerError, opResult.Message);
         }
 
-
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
+        [Route("Upload")]
         public async Task<HttpResponseMessage> Upload(MultipartFormDataStreamProvider results)
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -336,7 +337,6 @@ namespace PI.Service.Controllers
            
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("ManageInvoicePaymentSetting")]
         public IHttpActionResult ManageInvoicePaymentSetting([FromBody] CompanyDto copmany)
@@ -348,7 +348,6 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
-        // [Authorize]        
         [Route("GetAllInvoices")]
         public IHttpActionResult GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
@@ -359,7 +358,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("ExportInvoiceReport")]
         public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)

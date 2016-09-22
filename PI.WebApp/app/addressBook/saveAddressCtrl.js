@@ -43,7 +43,7 @@
             var body = $("html, body");
             saveAddressBookFactory.saveAddressBook(vm.model)
            .then(function (result) {
-               debugger;
+               
                if (result.status == 200) {
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });

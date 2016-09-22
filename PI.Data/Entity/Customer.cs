@@ -1,5 +1,4 @@
-﻿using PI.Common;
-using PI.Data.Entity.Identity;
+﻿using PI.Data.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -13,24 +12,32 @@ namespace PI.Data.Entity
 {
     public class Customer : LongIdBaseEntity
     {
-        public string Salutation { get; set; } // TODO: Convert to Enum.
+        [MaxLength(5)]
+        public string Salutation { get; set; }
+        [MaxLength(100)]
         public string FirstName { get; set; }
+        [MaxLength(100)]
         public string MiddleName { get; set; }
+        [MaxLength(100)]
         public string LastName { get; set; }
+        [MaxLength(256)]
         public string Email { get; set; }
+        [MaxLength(256)]
         public string SecondaryEmail { get; set; }
+        [MaxLength(20)]
         public string PhoneNumber { get; set; }
+        [MaxLength(20)]
         public string MobileNumber { get; set; }
         public bool IsCorpAddressUseAsBusinessAddress { get; set; }
+        [MaxLength(100)]
         public string JobCapacity { get; set; }
-
         public long AddressId { get; set; }
-        //public long CompanyId{get; set;}
+        [MaxLength(50)]
         public string UserId { get; set; }
 
         public string UserName { get; set; } // TODO: To be removed
         public string Password { get; set; } // TODO: To be removed
-
+        [MaxLength(50)]
         public string SelectedColour { get; set; }
 
         #region Navigation property

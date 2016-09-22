@@ -209,6 +209,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExceptionLogging\UnhandledExceptionLogger.cs" />
     <Compile Include="App_Start\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
@@ -251,9 +252,6 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
-    <None Include="Web.Preprod.config" />
-    <None Include="Web.Production.config" />
-    <None Include="Web.QA.config" />
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

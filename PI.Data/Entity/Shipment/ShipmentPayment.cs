@@ -14,6 +14,7 @@ namespace PI.Data.Entity
         public long ShipmentId { get; set; }
 
         public long SaleId { get; set; }
+        [MaxLength(20)]
         public string Status { get; set; }
 
         #region Navigation

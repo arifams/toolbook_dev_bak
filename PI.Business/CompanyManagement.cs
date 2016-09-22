@@ -33,7 +33,7 @@ namespace PI.Business
 
         public CompanyManagement(ILogger logger, ICustomerManagement customerManagement, PIContext _context = null)
         {
-            context = _context ?? PIContext.Get();
+            context = _context ?? new PIContext();
             this.logger = logger;
             this.customerManagement = customerManagement;
 

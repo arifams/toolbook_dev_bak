@@ -20,7 +20,7 @@
              
 
                vm.LoadTrackAndTracecDate = function () {
-                   debugger;
+                   
                    vm.searching = true;
                    var shipmentMode = vm.shipmentMode;
                    var carrier = vm.carrier;

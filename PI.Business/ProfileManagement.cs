@@ -246,10 +246,10 @@ namespace PI.Business
                 currentCustomer.Salutation = updatedProfile.CustomerDetails.Salutation;
                 currentCustomer.FirstName = updatedProfile.CustomerDetails.FirstName;
                 currentCustomer.LastName = updatedProfile.CustomerDetails.LastName;
-
+                currentCustomer.PhoneNumber = updatedProfile.CustomerDetails.PhoneNumber==null ? null : updatedProfile.CustomerDetails.PhoneNumber;
 
                 //this section added for updating profile details for the first time user Login
-                if (updatedProfile.CustomerDetails.Email!=null)
+            if (updatedProfile.CustomerDetails.Email!=null)
                 {
                     currentCustomer.Email = updatedProfile.CustomerDetails.Email;
                 }
@@ -794,7 +794,8 @@ namespace PI.Business
         {
             //using (PIContext context = PIContext.Get())
             //{
-                return context.Addresses.SingleOrDefault(a => a.Id == addressId);
+            Address ad = context.Addresses.SingleOrDefault(a => a.Id == addressId);
+            return ad;
             //}
         }
 

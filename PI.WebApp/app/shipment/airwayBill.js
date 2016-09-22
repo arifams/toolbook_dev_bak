@@ -31,7 +31,6 @@
 
             angular.forEach(vm.valueCurrencyList, function (item, key) {
                 if (item.Id == id) {
-                    debugger;
                     vm.shipmnetCurrencyLabel = item.Name;
                 }
             });
@@ -45,7 +44,6 @@
             shipmentFactory.GetshipmentByShipmentCodeForAirwayBill(vm.shipmentCode)
             .success(function (data) {
 
-                debugger;
                 vm.shipment = data;          
                
                 vm.GetCurrencyLabel(vm.shipment.valueCurrency);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
@@ -9,12 +10,10 @@ namespace PI.Data.Entity
 {
    public class CreditNote : LongIdBaseEntity
     {
+        [MaxLength(100)]
         public string CreditNoteNumber { get; set; }
-
         public long InvoiceId { get; set; }
-
         public decimal CreditNoteValue { get; set; }
-
         public string URL { get; set; }
 
         [ForeignKey("InvoiceId")]

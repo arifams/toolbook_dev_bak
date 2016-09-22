@@ -3,7 +3,7 @@ window.common = (function () {
     var common = {};
 
     common.getFragment = function getFragment() {
-        debugger;
+        
         if (window.location.hash.indexOf("#") === 0) {
             return parseQueryString(window.location.hash.substr(1));
         } else {
@@ -46,7 +46,7 @@ window.common = (function () {
 })();
 
 var fragment = common.getFragment();
-debugger;
+
 window.location.hash = fragment.state || '';
 
 window.opener.$windowScope.authCompletedCB(fragment);

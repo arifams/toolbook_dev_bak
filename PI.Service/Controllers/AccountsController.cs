@@ -21,7 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
-using WebApplication3.Results;
+using PI.Service.Results;
 
 namespace PI.Service.Controllers
 {
@@ -640,6 +640,7 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]
@@ -676,8 +677,8 @@ namespace PI.Service.Controllers
 
 
         // User Management
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetAllRolesByUser")]
         public IHttpActionResult GetAllRolesByUser(string userId)
@@ -685,9 +686,8 @@ namespace PI.Service.Controllers
             return Ok(companyManagement.GetAllActiveChildRoles(userId));
         }
 
-
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetUsersByFilter")]
         public IHttpActionResult GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
@@ -697,7 +697,6 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpPost]
         [Route("SaveUser")]
         public IHttpActionResult SaveUser([FromBody] UserDto user)
@@ -733,9 +732,8 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
-
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetUserByUserId")]
         public IHttpActionResult GetUserByUserId(string userId, string loggedInUser)
@@ -743,8 +741,8 @@ namespace PI.Service.Controllers
             return Ok(companyManagement.GetUserById(userId, loggedInUser));
         }
 
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("LoadUserManagement")]
         public IHttpActionResult LoadUserManagement(string loggedInUser)
@@ -752,8 +750,8 @@ namespace PI.Service.Controllers
             return Ok(companyManagement.LoadUserManagement(loggedInUser));
         }
 
+        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
         [HttpGet]
         [Route("GetLoggedInUserName")]
         public IHttpActionResult GetLoggedInUserName(string loggedInUserId)

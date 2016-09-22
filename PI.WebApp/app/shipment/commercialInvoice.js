@@ -60,7 +60,6 @@
 
             angular.forEach(vm.valueCurrencyList, function (item, key) {
                 if (item.Id == id) {
-                    debugger;
                     vm.shipmnetCurrencyLabel = item.Name;
                 }
             });
@@ -94,8 +93,6 @@
         function getshipmentByShipmentCodeForInvoice() {
             shipmentFactory.getshipmentByShipmentCodeForInvoice(vm.shipmentCode)
             .success(function (data) {
-
-                debugger;
                 vm.shipment = data;
                 console.info("shipment info in commercial invoice");
                 console.info(vm.shipment);
@@ -116,7 +113,6 @@
             })
         }
 
-        debugger;
         vm.save = function () {
             shipmentFactory.saveCommercialInvoice(vm.shipment)
             .success(function (data) {
