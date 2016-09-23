@@ -115,7 +115,40 @@
                                 <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                             </div>
                         </div>
-                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit" ng-click="userLog.isSubmit=true" id="submit-password" class="btn btn-lg btn-danger btn-block ladda-button" data-style="expand-left" translate>Send Password Reset Link</button>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="skin skin-minimal">
+                                    <div class="form-body">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="icheck-inline">
+                                                    <label><input type="radio" name="radio1" icheck  value="false"><translate> Email</translate></label>
+                                                    <label><input type="radio" name="radio1" icheck value="true"><translate> Phone </translate></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row m-0">
+                            <div class="form-group">
+                                <input type="text" class="form-control security-code">
+                            </div>
+                        </div>
+                        <div class="row m-0">
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary" data-style="expand-left" translate>Submit code</button>
+                            </div>
+                        </div>
+
+                        <div class="row m-0">
+                            <div class="form-group text-center">
+                                <button ng-hide="userLog.isSentPasswordResetMail" type="submit" ng-click="userLog.isSubmit=true" id="submit-password" class="btn btn-primary" data-style="expand-left" translate>Send Password Reset Link</button>
+                            </div>
+                        </div>
                         <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">
                             <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html" translate>Back to login</a></p>
                             <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" translate>New here? Sign up</a></p>

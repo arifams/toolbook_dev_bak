@@ -1417,3 +1417,12 @@ width:10px;
 .pull-right > .dropdown-menu {
     left:23px;
 }
+
+.security-code {
+    background-color:#fff;
+    color:#747271
+}
+.sf-sky .sf-nav li {
+    padding:0 20px;
+    font-weight:bold;
+}

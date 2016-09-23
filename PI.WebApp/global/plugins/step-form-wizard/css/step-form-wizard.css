@@ -75,7 +75,7 @@ li.sf-li-nonumber{text-align:center}
 .sf-sky .sf-nav li:last-child:after{display:none}
 .sf-sky .sf-nav-right li{margin-right:0;margin-left:30px}
 .sf-sky .sf-nav-right li:after,.sf-sky .sf-nav-left li:after{background:url(../img/t2-nav-arr-down.png) no-repeat center center transparent;left:50%;top:auto;bottom:-55px;margin-left:-15px}
-.sf-sky .sf-nav li.sf-active,.sf-sky .sf-nav li.sf-nav-link:hover{background:#2B2E33;color:#FFF}
+.sf-sky .sf-nav li.sf-active,.sf-sky .sf-nav li.sf-nav-link:hover{background:#12D7B6;color:#FFF}
 .sf-sky .sf-nav li.sf-nav-prev-step{background:#2B2E33}
 .sf-sky .sf-nav li.sf-nav-prev-step .sf-nav-number{background:#36B28C}
 .sf-sky .sf-nav-top li.sf-active{margin-top:0}
@@ -83,9 +83,9 @@ li.sf-li-nonumber{text-align:center}
 .sf-sky .sf-nav-number{position:absolute;left:50%;bottom:-15px;margin-left:-15px;font-size:14px;line-height:24px;font-weight:700;background:#c7c7c7;border-radius:50px;border:3px solid #FFF;width:30px;height:30px;text-align:center;color:#FFF}
 .sf-sky .sf-nav li.sf-active .sf-nav-number{background:#319DB5}
 .sf-sky .sf-li-number .sf-nav-subtext{padding-left:0}
-.sf-sky .sf-wizard .sf-btn,.sf-sky form .nocsript-sf-btn{height:50px;line-height:50px;padding:0 30px;border-radius:3px;border:none;color:#FFF;text-decoration:none;background:#2B2E33;position:relative}
+.sf-sky .sf-wizard .sf-btn,.sf-sky form .nocsript-sf-btn{height:50px;line-height:50px;padding:0 30px;border-radius:8px;border:none;color:#fff;text-decoration:none;position:relative;background-color:#286090}
 .sf-sky .sf-wizard .sf-btn:after{content:"";position:absolute;right:-15px;top:10px;margin-left:-15px;font-size:14px;line-height:26px;font-weight:700;background:url(../img/t2-arr-right.png) no-repeat center center #319DB5;border-radius:50px;border:3px solid #FFF;width:30px;height:30px;text-align:center;color:#FFF}
-.sf-sky .sf-wizard .sf-btn.sf-btn-next{padding-right:35px;margin-right:12px}
+.sf-sky .sf-wizard .sf-btn.sf-btn-next{margin-right:12px}
 .sf-sky .sf-wizard .sf-btn.sf-btn-prev{padding-left:35px;margin-left:12px}
 .sf-sky .sf-wizard .sf-btn.sf-btn-prev:after{right:auto;left:0;background-image:url(../img/t2-arr-left.png)}
 .sf-sky .sf-wizard .sf-btn.sf-btn-next:hover{background-position:right -35px}
