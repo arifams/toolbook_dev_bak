@@ -22,6 +22,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using PI.Service.Results;
+using Twilio;
 
 namespace PI.Service.Controllers
 {
@@ -279,6 +280,8 @@ namespace PI.Service.Controllers
 
             var user = (!customer.viaExternalLogin) ? AppUserManager.Find(customer.UserName, customer.Password) :
                                                       AppUserManager.FindByName(customer.UserName);
+
+            //SendSMS(customer.Email);
 
             if (user == null)
                 return Ok(new
@@ -639,6 +642,7 @@ namespace PI.Service.Controllers
 
             return Ok();
         }
+        
 
         [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -732,6 +736,7 @@ namespace PI.Service.Controllers
             return Ok();
         }
 
+
         [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
@@ -759,7 +764,87 @@ namespace PI.Service.Controllers
             return Ok(companyManagement.GetLoggedInUserName(loggedInUserId));
         }
 
-        #region Helpers
+
+        #region TFA
+
+        public bool IsPhoneNumberVerified(string email)
+        {
+            var user = this.AppUserManager.FindByName(email);
+            return user.PhoneNumberConfirmed;                
+        }
+               
+        public void SendOPTCodeForPhoneValidation(string email)
+        {
+            Random generator = new Random();
+            string code = generator.Next(100000, 999999).ToString("D6"); // Security code
+
+            try
+            {
+                var user =  this.AppUserManager.FindByName(email);
+
+                // var accountSid = "ACe8df3ab4cb9ad89edca435a14f8bb922"; // Your Account SID from www.twilio.com/console
+                // var authToken = "1bd4508f4bdb95f110a4360c4805ee65";  // Your Auth Token from www.twilio.com/console
+
+                var accountSid = "ACbed90a44fddfdd6047d7e1aa24aafee2"; // Prod account
+                var authToken = "abbe2c853c29d366a9679886de7fa2d2";  // Prod token
+
+                var twilio = new TwilioRestClient(accountSid, authToken);
+
+                var message = twilio.SendMessage(
+                    "+3197004498550", // fromPhone
+                    "+94777427745", // To (Replace with your phone number)
+                    "Your security code is: "+ code
+                    );
+
+                //Store the security code and the time in DB.
+                user.MobileVerificationCode = code;
+                user.MobileVerificationExpiry = DateTime.Now;
+
+               // companyManagement.SaveUserPhoneCode(user);
+
+                if (message.RestException != null)
+                {
+                    var error = message.RestException.Message;
+                }
+            }
+            catch (Exception ex) { throw ex; }
+        }
+
+        public bool CheckResendOPTCode(string email)
+        {
+            var user = this.AppUserManager.FindByName(email);
+
+            bool resendAllowed = (!string.IsNullOrWhiteSpace(user.MobileVerificationCode) &&
+                                  user.MobileVerificationExpiry.GetValueOrDefault().CompareTo(DateTime.Now) < 30) ?
+                                  false : true;
+
+            return resendAllowed;
+        }
+        
+        public IHttpActionResult VerifyPhoneCode(string email,string code)
+        {
+            var user = this.AppUserManager.FindByName(email);
+            return Ok(user.MobileVerificationCode == code);
+        }
+
+        #endregion
+
+            //public async Task<bool> SendTwoFactorCode(string provider)
+            //{
+            //    var userId = await GetVerifiedUserIdAsync();
+            //    if (userId == null)
+            //    {
+            //        return false;
+            //    }
+
+            //    var token = await this.AppUserManager.GenerateTwoFactorTokenAsync(userId, provider);
+            //    // See IdentityConfig.cs to plug in Email/SMS services to actually send the code
+            //    await this.AppUserManager.NotifyTwoFactorTokenAsync(userId, provider, token);
+            //    return true;
+            //}
+
+
+            #region Helpers
         private IAuthenticationManager Authentication
         {
             get { return Request.GetOwinContext().Authentication; }
