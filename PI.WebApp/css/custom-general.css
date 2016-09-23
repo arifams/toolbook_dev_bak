@@ -1422,3 +1422,7 @@ width:10px;
     background-color:#fff;
     color:#747271
 }
+.sf-sky .sf-nav li {
+    padding:0 20px;
+    font-weight:bold;
+}
