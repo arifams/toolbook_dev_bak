@@ -64,9 +64,9 @@
 
 
     app.controller('mainCtrl',
-        ['$scope', 'applicationService', 'builderService', 'pluginsService', 'userService',
+        ['$scope', 'applicationService', 'customBuilderFactory', 'pluginsService', 'userService',
             '$location', '$window', '$route', 'gettextCatalog',
-    function ($scope, applicationService, builderService, pluginsService, userService,
+    function ($scope, applicationService, customBuilderFactory, pluginsService, userService,
         $location, $window, $route, gettextCatalog) {
 
         $(document).ready(function () {
@@ -82,6 +82,7 @@
 
             userService.getThemeColour()
                 .then(function successCallback(responce) {
+
                     mName = responce.data;
                     if (mName == 'default')
                         mColor = '#2B2E33';
@@ -101,7 +102,7 @@
                         mColor = null;
 
                     if (mColor != null){
-                        builderService.init(mColor, mName);
+                        customBuilderFactory.init(mColor, mName);
                     }
 
                 });

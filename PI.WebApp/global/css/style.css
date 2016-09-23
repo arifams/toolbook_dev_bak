@@ -6529,11 +6529,11 @@ body:not(.fixed-topbar) .main-content .page-content {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@account-color-dark', endColorstr='#040d11', GradientType=1);
 }
 .account a {
-  color: #D1D1D1;
+  color: #009BCB;
   font-size: 14px;
 }
 .account a:hover {
-  color: #ffffff;
+  color: #fff;
   text-decoration: none;
 }
 .account .backstretch:before {
@@ -6558,11 +6558,11 @@ body:not(.fixed-topbar) .main-content .page-content {
 .account .form-signin input[type="password"] {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
-  margin-bottom: 10px;
+  /*margin-bottom: 10px;*/
 }
 .account .account-wall {
-  margin-top: 160px;
-  padding: 20px 20px 10px;
+  margin-top: 30px;
+  padding: 20px 20px 20px 20px;
   position: relative;
 }
 .account .login-title {
@@ -6637,13 +6637,13 @@ body:not(.fixed-topbar) .main-content .page-content {
   z-index: 2;
 }
 .account .form-signup input[type="text"] {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  /*border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;*/
   margin-bottom: -1px;
 }
 .account .form-signup input[type="password"] {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  /*border-top-left-radius: 0;
+  border-top-right-radius: 0;*/
   margin-bottom: 10px;
 }
 .account .form-signup #submit-form {
@@ -6848,28 +6848,28 @@ body:not(.fixed-topbar) .main-content .page-content {
   margin-bottom: 8px;
 }
 .account.separate-inputs .form-signin input[type="password"] {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 .account.separate-inputs .form-signup input[type="text"] {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
+  /*border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;*/
   margin-bottom: 8px;
 }
 .account.separate-inputs .form-signup input[type="email"] {
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
+  /*border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;*/
   margin-bottom: 8px;
 }
 .account.separate-inputs .form-signup input[type="password"] {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
+  /*border-top-left-radius: 2px;
+  border-top-right-radius: 2px;*/
 }
 .account.no-social .social-btn {
   display: none;
 }
 .account.boxed .account-wall {
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
   opacity: 1;
 }
 .account.boxed a {

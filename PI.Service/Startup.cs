@@ -45,11 +45,14 @@ namespace PI.Service
             HttpConfiguration httpConfig = new HttpConfiguration();
 
             ConfigureOAuth(app);
+            
 
             // autofac
             var builder = new ContainerBuilder();
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly()).InstancePerLifetimeScope();
 
+            builder.RegisterType<PIContext>().As<PIContext>().InstancePerLifetimeScope();
+            builder.RegisterType<ConfigAutoMapper>();   // Initialize auto mapper.
             builder.RegisterType<Log4NetLogger>().As<ILogger>().InstancePerLifetimeScope();
             builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
             //builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope();

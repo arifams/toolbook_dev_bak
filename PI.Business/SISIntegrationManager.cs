@@ -27,7 +27,7 @@ namespace PI.Business
         private ILogger logger;
         public SISIntegrationManager(ILogger logger, PIContext _context = null)
         {
-            context = _context ?? new PIContext();
+            context = _context ?? PIContext.Get();
             this.logger = logger;
         }
 

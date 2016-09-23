@@ -348,6 +348,18 @@ var MakeApp = angular
               controller: 'adminDashboardCtrl',
              
           })
+           .when('/custOverview', {
+               templateUrl: 'admin/custOverview.html',
+
+           })
+          .when('/finance', {
+              templateUrl: 'admin/finance.html',
+
+          })
+          .when('/customerfinance', {
+              templateUrl: 'customerFinance/customerFinance.html',
+
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {

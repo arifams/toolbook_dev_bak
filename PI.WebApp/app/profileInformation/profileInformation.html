@@ -61,7 +61,7 @@
                                     </div>
                                 </div>
                             </div>-->
-                            <div class="col-md-2 p-r-0 p-l-0">
+                            <div class="col-md-2 p-r-0">
                                 <label class="control-label p-t-0" translate>Job Capacity</label>
                             </div>
                             <div class="col-md-4">
@@ -309,18 +309,26 @@
                                 <label class="control-label" translate>Phone Number </label>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
-                                    <div class="append-icon">
-                                        <input type="text" name="phonenumber" class="form-control"
-                                               ng-model="profileCtrl.model.customerDetails.phoneNumber" ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfileBillingAddress.phonenumber.$invalid && (formUpdateProfileBillingAddress.phonenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="phoneNumberFocus = true" ng-blur="phoneNumberFocus = false">
-                                        <div ng-messages="formUpdateProfileAddress.phonenumber.$error" ng-show="(formUpdateProfileAddress.phonenumber.$dirty && !phoneNumberFocus) || profileCtrl.isSubmit2">
-                                            <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
-                                            <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
-                                            <label ng-message="maxlength" class="error" for="phonenumber" translate>Enter less than 20 characters</label>
-                                        </div>
+                                <div class="form-group input-group m-0">
+                                    <input type="text" name="phonenumber" class="form-control"
+                                           ng-model="profileCtrl.model.customerDetails.phoneNumber" ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfileBillingAddress.phonenumber.$invalid && (formUpdateProfileBillingAddress.phonenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="phoneNumberFocus = true" ng-blur="phoneNumberFocus = false">
 
-                                    </div>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-large btn-primary no-margin resize-btn" ng-click="profileCtrl.getAddressInformationCustomer()">
+                                            verify
+                                        </button>
+                                    </span>
                                 </div>
+                                <div ng-messages="formUpdateProfileAddress.phonenumber.$error" ng-show="(formUpdateProfileAddress.phonenumber.$dirty && !phoneNumberFocus) || profileCtrl.isSubmit2">
+                                    <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
+                                    <label ng-message="notValidPhoneNo" class="error" for="phonenumber" translate>Enter valid phone number</label>
+                                    <label ng-message="maxlength" class="error" for="phonenumber" translate>Enter less than 20 characters</label>
+                                </div>
+                                <div class="form-group">
+                                        <input type="text" name="securitycode" class="form-control">
+                                        
+                                </div>
+                                <button class="btn btn-primary pull-right m-r-0">Submit</button>
                             </div>
                             <div class="col-md-2">
                                 <label class="control-label" translate>Mobile Number </label>

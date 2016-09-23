@@ -1116,7 +1116,7 @@ angular.module('newApp').factory('applicationService', ['pluginsService', functi
     //applicationService.removeSubmenuHover = removeSubmenuHover;
     //applicationService.createBoxedLayout = createBoxedLayout;
     //applicationService.removeBoxedLayout = removeBoxedLayout;
-    //applicationService.resetStyle = resetStyle;
+    applicationService.resetStyle = resetStyle;
     //applicationService.disableRTL = disableRTL;
     //applicationService.enableRTL = enableRTL;
     //applicationService.toggleSidebar = toggleSidebar;
