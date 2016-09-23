@@ -1417,3 +1417,8 @@ width:10px;
 .pull-right > .dropdown-menu {
     left:23px;
 }
+
+.security-code {
+    background-color:#fff;
+    color:#747271
+}
