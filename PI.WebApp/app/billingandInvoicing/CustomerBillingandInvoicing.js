@@ -48,12 +48,17 @@
 
     }]);
 
-    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope','$rootScope',
-                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope) {
+    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory',
+                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory) {
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
 
+                        //toggle function
+                        vm.loadFilterToggle = function () {
+                            customBuilderFactory.customFilterToggle();
+
+                        };
 
                         vm.closeWindow = function () {
                             ngDialog.close()
@@ -73,6 +78,33 @@
                                 .then(function successCallback(responce) {
 
                                     vm.rowCollection = responce.data.content;
+                                    vm.exportcollection = [];
+
+                                    //adding headers for export csv file
+                                    var headers = {};
+                                    headers.orderSubmitted = "Invoice Number";
+                                    headers.trackingNumber = "Invoice Date";
+                                    headers.shipmentId = "Shipment Reference";
+                                    headers.carrier = "Invoice Value";
+                                    headers.originCity = "Invoice Status";                                   
+                                    vm.exportcollection.push(headers);
+
+                                    $.each(responce.data.content, function (index, value) {                                      
+                                        var invoiceObj = {}
+                                        invoiceObj.orderSubmitted = value.invoiceDate;
+                                        invoiceObj.trackingNumber = value.shipmentReference;
+                                        invoiceObj.shipmentId = value.invoiceNumber;
+                                        invoiceObj.carrier = value.invoiceValue;
+                                        invoiceObj.originCity = value.invoiceStatus;                                   
+
+                                        vm.exportcollection.push(invoiceObj);
+                                    });
+
+
+
+
+
+
 
                                 }, function errorCallback(response) {
                                     //todo

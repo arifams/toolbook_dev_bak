@@ -99,6 +99,13 @@ namespace PI.Contract.Business
         /// <param name="codeShipment">codeShipment</param>
         /// <returns></returns>
         ShipmentDto GetShipmentByCodeShipment(string codeShipment);
+
+        /// <summary>
+        /// load All Shipments ForExcel generation
+        /// </summary>
+        /// <param name="codeShipmen
+        byte[] loadAllShipmentsForExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                         string number = null, string source = null, string destination = null, bool viaDashboard = false);
     }
 
 }

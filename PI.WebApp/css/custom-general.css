@@ -373,7 +373,7 @@
     width: 0;
 }
 .daterangepicker.dropdown-menu.show-calendar.opensright {
-    width:500px;
+    width:260px;
     }
 .cancelBtn.btn.btn-sm.btn-default {
     margin-bottom:0;
@@ -1421,4 +1421,11 @@ width:10px;
 .security-code {
     background-color:#fff;
     color:#747271
+}
+.sf-sky .sf-nav li {
+    padding:0 20px;
+    font-weight:bold;
+}
+.res-grid {
+    overflow-x:auto;
 }
