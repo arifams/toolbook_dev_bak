@@ -48,12 +48,17 @@
 
     }]);
 
-    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope','$rootScope',
-                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope) {
+    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory',
+                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory) {
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
 
+                        //toggle function
+                        vm.loadFilterToggle = function () {
+                            customBuilderFactory.customFilterToggle();
+
+                        };
 
                         vm.closeWindow = function () {
                             ngDialog.close()
