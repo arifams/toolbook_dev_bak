@@ -1740,9 +1740,9 @@ namespace PI.Business
 
         public void SaveUserPhoneCode(UserDto userDto)
         {
-            var currentuser = context.Users.SingleOrDefault(u => u.Id == userDto.Id);
+            var currentuser = context.Users.SingleOrDefault(u => u.Email == userDto.Email);
             currentuser.MobileVerificationCode = userDto.MobileVerificationCode;
-            currentuser.MobileVerificationExpiry = userDto.MobileVerificationExpiry;
+            currentuser.MobileVerificationExpiry = DateTime.Now;
 
             context.SaveChanges();
         }
