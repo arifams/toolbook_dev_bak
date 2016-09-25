@@ -176,7 +176,7 @@
 }
 
 .pull-right {
-    width:108px;
+    /*width:108px;*/
     height:30px;
     float:right;
 }
@@ -1428,4 +1428,10 @@ width:10px;
 }
 .res-grid {
     overflow-x:auto;
+}
+.pro-form-control {
+    background-color:#fff;
+}
+.prod_ops_rm {
+    background-color:#ebf7fa;
 }

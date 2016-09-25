@@ -73,7 +73,7 @@
         $(this.viewPort).append($("<div>").addClass('sf-fieldwrap clearfix'));
         this.fieldWrap = $('.sf-fieldwrap', this.element);
 
-        this.element.append($("<div>").addClass('sf-controls clearfix'));
+        //this.element.append($("<div>").addClass('sf-controls clearfix'));
         this.controls = $('.sf-controls', this.element);
 
         if(!this.config.showButtons) {
