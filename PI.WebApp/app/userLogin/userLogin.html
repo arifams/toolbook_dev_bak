@@ -106,53 +106,73 @@
                         </div>
                     </form>
 
-                    <form class="form-password" role="form" name="forgotPasswordForm" ng-submit="forgotPasswordForm.$valid && userLog.resetForgetPassword()" novalidate>
-                        <div class="prepend-icon m-b-20" ng-hide="userLog.isSentPasswordResetMail">
-                            <input type="email" name="passwordResetEmail" class="form-control form-ash username" placeholder="{{'Email'|translate}}" required ng-model="userLog.pwdReset.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
-                            <i class="icon-user"></i>
-                            <div ng-messages="forgotPasswordForm.passwordResetEmail.$error" ng-show="forgotPasswordForm.passwordResetEmail.$dirty || userLog.isSubmit">
-                                <label ng-show="" ng-message="required" class="error" for="email" translate>Enter your email address</label>
-                                <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
+                    <form class="form-password" role="form" name="forgotPasswordForm" >
+                        <div ng-hide="userLog.isSentPasswordResetMail">
+                            <div class="prepend-icon m-b-20">
+                                <input type="email" name="passwordResetEmail" class="form-control form-ash username" placeholder="{{'Email'|translate}}" required
+                                       ng-model="userLog.pwdReset.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
+                                <i class="icon-user"></i>
+                                <div ng-messages="forgotPasswordForm.passwordResetEmail.$error" ng-show="forgotPasswordForm.passwordResetEmail.$dirty || userLog.isSubmit">
+                                    <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                    <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="skin skin-minimal">
-                                    <div class="form-body">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="icheck-inline">
-                                                    <label><input type="radio" name="radio1" icheck  value="false"><translate> Email</translate></label>
-                                                    <label><input type="radio" name="radio1" icheck value="true"><translate> Phone </translate></label>
+                  
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="skin skin-minimal">
+                                        <div class="form-body">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <div class="icheck-inline">
+                                                        <label><input type="radio" name="radio1" ng-model="userLog.option" icheck value="false"><translate> Email</translate></label>
+                                                        <label><input type="radio" name="radio1" ng-model="userLog.option" icheck value="true"><translate> Phone </translate></label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="row m-0">
-                            <div class="form-group">
-                                <input type="text" class="form-control security-code">
+
+                            <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
+                                 ng-hide="userLog.option == 'true' && userLog.isSubmit">
+                                <div class="form-group text-center">
+                                    <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
+                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) && 
+                                            userLog.resetForgetPassword(userLog.option)"
+                                            id="submit-password" class="btn btn-primary"
+                                            data-style="expand-left" translate>
+                                        Send Password Reset Code
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row m-0">
-                            <div class="form-group text-center">
-                                <button type="submit" class="btn btn-primary" data-style="expand-left" translate>Submit code</button>
+                  
+                            <div ng-if="userLog.option == 'true' && userLog.isSubmit">
+                                <div class="row m-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
+                                                translate>
+                                            Submit code
+                                        </button>
+                                    </div>
+                                    <p class="pull-left m-t-20">
+                                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
+                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                                                userLog.resetForgetPassword(userLog.option)"
+                                                translate>
+                                            Resend Reset Code
+                                        </button>                                     
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row m-0">
-                            <div class="form-group text-center">
-                                <button ng-hide="userLog.isSentPasswordResetMail" type="submit" ng-click="userLog.isSubmit=true" id="submit-password" class="btn btn-primary" data-style="expand-left" translate>Send Password Reset Link</button>
-                            </div>
-                        </div>
-                        <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">
-                            <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html" translate>Back to login</a></p>
-                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" translate>New here? Sign up</a></p>
-                        </div>
                         <div class="alert alert-success" ng-show="userLog.isSentPasswordResetMail">
                             <translate>  Password reset message was sent to your email </translate> .
                             <translate> Please check the mail box, to reset password</translate>
@@ -160,6 +180,12 @@
                         <div class="alert alert-success" ng-show="userLog.passwordResetError">
                             {{userLog.passwordResetErrorMsg}}
                         </div>
+
+                        <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">
+                            <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html" translate>Back to login</a></p>
+                            <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" translate>New here? Sign up</a></p>
+                        </div>
+
                     </form>
                 </div>
             </div>
