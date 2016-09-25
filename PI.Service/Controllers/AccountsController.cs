@@ -767,14 +767,26 @@ namespace PI.Service.Controllers
 
 
         #region TFA
-        [CustomAuthorize]
+        [AllowAnonymous]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
-        [Route("GetLoggedInUserName")]
-        public bool IsPhoneNumberVerified(string email)
+        [Route("IsPhoneNumberVerified")]
+        public IHttpActionResult IsPhoneNumberVerified(string email)
         {
             var user = this.AppUserManager.FindByName(email);
-            return user.PhoneNumberConfirmed;                
+
+            if(user == null)
+            {
+                return Ok(new
+                {
+                    Message = "Username or Password is incorrect",
+                    Result = -1
+                });
+            }
+            return Ok(new
+            {
+                Result = user.PhoneNumberConfirmed? 1 : 0
+            });            
         }
 
 
@@ -782,14 +794,18 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("SendOPTCodeForPhoneValidation")]
-        public void SendOPTCodeForPhoneValidation(UserDto userDetails)
+        public IHttpActionResult SendOPTCodeForPhoneValidation(UserDto userDetails)
         {
             Random generator = new Random();
             string code = generator.Next(100000, 999999).ToString("D6"); // Security code
 
             try
             {
-                var user =  this.AppUserManager.FindByName(userDetails.Email);
+                if (!userDetails.isViaProfileSettings)
+                {
+                    var customer = profileManagement.GetCustomerByUserEmail(userDetails.Email);
+                    userDetails.MobileNumber = customer.MobileNumber;
+                }
 
                 // var accountSid = "ACe8df3ab4cb9ad89edca435a14f8bb922"; // Your Account SID from www.twilio.com/console
                 // var authToken = "1bd4508f4bdb95f110a4360c4805ee65";  // Your Auth Token from www.twilio.com/console
@@ -801,17 +817,21 @@ namespace PI.Service.Controllers
 
                 var message = twilio.SendMessage(
                     "+3197004498550", // fromPhone
-                     user.PhoneNumber, // To (Replace with your phone number)
+                     userDetails.MobileNumber, // To (Replace with your phone number)
                     "Your security code is: "+ code
                     );
 
                 //Store the security code and the time in DB.
-                companyManagement.SaveUserPhoneCode(new UserDto { Email = userDetails.Email, MobileVerificationCode = code});
+                companyManagement.SaveUserPhoneCode(new UserDto { Email = userDetails.Email,
+                                                                  MobileVerificationCode = code,
+                                                                  MobileNumber = userDetails.MobileNumber});
 
                 if (message.RestException != null)
                 {
-                    var error = message.RestException.Message;
+                    return BadRequest(message.RestException.Message);
                 }
+
+                return Ok();
             }
             catch (Exception ex) { throw ex; }
         }
@@ -835,11 +855,22 @@ namespace PI.Service.Controllers
         public IHttpActionResult VerifyPhoneCode(UserDto userDetails)
         {
             var user = this.AppUserManager.FindByName(userDetails.Email);
-            return Ok(user.MobileVerificationCode == userDetails.MobileVerificationCode);
+            if(user.MobileVerificationCode == userDetails.MobileVerificationCode)
+            {
+                if (userDetails.isViaProfileSettings)
+                {
+                    //Store the security code and the time in DB.
+                    companyManagement.SaveUserPhoneConfirmation(new UserDto { Email = userDetails.Email });
+                }
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }            
         }
 
 
-        [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]

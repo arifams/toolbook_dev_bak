@@ -30,7 +30,13 @@
             },
             updateThemeColour: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/updateThemeColour', updatedProfile);
-            }
+            },
+            SendOPTCodeForPhoneValidation: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/accounts/SendOPTCodeForPhoneValidation', updatedProfile);
+            },
+            VerifyPhoneCode: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/accounts/VerifyPhoneCode', updatedProfile);
+            },
         }
 
     });
@@ -126,7 +132,7 @@
 
         // return if user not logged. -- Need to move this to global service.
         if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
-            
+
             window.location = webBaseUrl + "/app/userLogin/userLogin.html";
             return;
         }
@@ -165,7 +171,7 @@
 
         //auto update the default language bofore the accept
         vm.getCurrentLnguage = function (language) {
-            
+
             if (language.languageCode == "en") {
                 $window.localStorage.setItem('currentLnguage', "")
                 gettextCatalog.setCurrentLanguage("");
@@ -417,7 +423,7 @@
 
                                 updateProfilefactory.updateProfileGeneral(vm.model)
                                         .then(function (responce) {
-                                            
+
                                             if (responce.status == 200) {
 
                                                 getSuccessMessage(body, responce);
@@ -686,7 +692,7 @@
                                                   if (responce.status == 200) {
                                                       getSuccessMessage(body, responce);
                                                   }
-                                                },
+                                              },
                                                 function (error) {
                                                     getErrorMessage(body, error);
                                                 });
@@ -708,7 +714,7 @@
                 timeout: 3000,
             });
         }
-               
+
         vm.uploadLogo = function (file) {
 
 
@@ -933,6 +939,62 @@
 
         }
 
+        vm.textPhoneCode = function () {
+            debugger;
+            var userDetails = {
+                email: vm.model.customerDetails.email,
+                mobileNumber: vm.model.customerDetails.mobileNumber,
+                isViaProfileSettings: true
+            };
+            updateProfilefactory.SendOPTCodeForPhoneValidation(userDetails)
+             .then(function (returnedResult) {
+                 debugger;
+                 if (returnedResult.status == 200) {
+                     vm.showError = false;
+                     vm.isSentSecurityCode = true;
+                 }
+             },
+            function (error) {
+                debugger;
+                vm.showError = true;
+                vm.errorMessage = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.errorMessage = $rootScope.translate('Error occured while processing your request.');
+                }
+            });
+        };
+
+
+        vm.submitSecurityCode = function () {
+            debugger;
+            var userDetails = {
+                email: vm.model.customerDetails.email,          
+                mobileVerificationCode: vm.model.customerDetails.mobileVerificationCode,
+                isViaProfileSettings: true
+            };
+            updateProfilefactory.VerifyPhoneCode(userDetails)
+             .then(function (returnedResult) {
+                 if (returnedResult.status == 200) {
+                     debugger;
+                     if (returnedResult.data) {
+                         vm.isVerified = true;
+                     }
+                     else {
+                         vm.showError = true;
+                         vm.errorMessage = $rootScope.translate('Invalid security code.');
+                     }
+                 }
+             },
+            function (error) {
+                vm.showError = true;
+                vm.errorMessage = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.errorMessage = $rootScope.translate('Error occured while processing your request.');
+                }
+            });
+        };
 
     }]);
 
