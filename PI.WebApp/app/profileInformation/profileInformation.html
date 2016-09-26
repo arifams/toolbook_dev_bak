@@ -189,7 +189,7 @@
                                 <div class="form-group">
                                     <div class="option-group">
                                         <country-select id="country" name="country"
-                                                        ng-model="profileCtrl.model.customerDetails.customerAddress.country"
+                                                        ng-model="profileCtrl.model.customerDetails.customerAddress.country" ng-change="profileCtrl.changeCountry()"
                                                         class="form-control"></country-select>
                                     </div>
                                 </div>
@@ -329,9 +329,13 @@
                                     <input type="text" name="mobilenumber" class="form-control"
                                            ng-model="profileCtrl.model.customerDetails.mobileNumber" ng-required="profileCtrl.model.customerDetails.phoneNumber==null" ng-maxlength="20" valid-phone-no ng-class="{ 'error': formUpdateProfileAddress.mobilenumber.$invalid && (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
                                     <span class="input-group-btn">
-                                        <button type="submit" class="btn btn-large btn-primary no-margin resize-btn"
+                                        <button type="submit" class="btn btn-large btn-primary no-margin resize-btn"  ng-hide="profileCtrl.isVerified"
                                                 ng-click="profileCtrl.textPhoneCode()">
                                             verify
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
+                                                ng-show="profileCtrl.isVerified">
+                                            <i class="fa fa-check"></i>
                                         </button>
                                     </span>
                                 </div>
@@ -350,8 +354,7 @@
                                     <button class="btn btn-primary pull-right m-r-0"
                                              ng-click="profileCtrl.submitSecurityCode()">Submit</button>
                                 </div>                                
-                                 <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" 
-                                         ng-show="profileCtrl.isVerified"><i class="fa fa-check"></i></button>
+                                
                             </div>
                         </div>
 
