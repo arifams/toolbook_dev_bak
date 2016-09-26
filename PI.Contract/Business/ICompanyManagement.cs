@@ -50,5 +50,6 @@ namespace PI.Contract.Business
         NodeDto GetOrganizationStructure(string userId);
         long GetTenantIdByUserId(string userid);
         void SaveUserPhoneCode(UserDto userDto);
+        void SaveUserPhoneConfirmation(UserDto userDto);
     }
 }

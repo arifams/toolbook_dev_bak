@@ -5,12 +5,18 @@
 (function (app) {
 
     app.controller('BillingandInvoicingCtrl',
-       ['$location', '$window', 'adminFactory', 'ngDialog', '$controller', '$scope', '$rootScope',
-           function ($location, $window, adminFactory, ngDialog, $controller, $scope, $rootScope) {
+       ['$location', '$window', 'adminFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory',
+           function ($location, $window, adminFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory) {
                var vm = this;
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
-           
+                
+               //toggle function
+               vm.loadFilterToggle = function () {
+                   customBuilderFactory.customFilterToggle();
+
+               };
+
                vm.closeWindow = function () {
                    ngDialog.close()
                }

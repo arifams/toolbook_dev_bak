@@ -1,11 +1,95 @@
 ﻿<div ng-init="">
 
+    <div class="builder" id="builder1">
+        <a class="builder-toggle f-20" ng-click="customerinvoiceCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
+        <div class="inner">
+            <div class="row m-0 side-builder-header">
+                <h4 class="text-center m-t-0">FILTER FINANCE</h4>
+            </div>
+            <div class="builder-container">
+
+                <div class="row m-0">
+                    <div class="form-group">
+                        <label class="form-label">Date</label>
+                        <div class="prepend-icon">
+                            <div class="form-group">
+                                <input type="text" placeholder="{{'Search By: Invoice Date'|translate}}" ng-model="customerinvoiceCtrl.datePicker.date" class="form-control form-white" date-range-picker="">
+                                <i class="icon-calendar"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="row m-0">
+                    <label class="form-label" translate>Status</label>
+                    <div class="form-group">
+
+                        <div class="option-group">
+                            <select id="addressStatus" name="addressStatus" class="form-control form-white"
+                                    ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
+                                <option href="javascript:;" value=""  ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('All')" translate>Status: All</option>
+                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</option>
+                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</option>
+                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</option>
+                            </select>
+                        </div>
+                      
+                    </div>
+                </div>
+
+                <a href="#" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-306px">APPLY </a>
+
+                <a href="#" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style" style="bottom:-309px">RESET FILTERS</a>
+
+
+            </div>
+        </div>
+    </div>
+        <div class="row m-l-0 m-r-0 m-b-10">
+            <h2 class="m-t-0 custom-page-header">Customer finance</h2>
+        </div>
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon p-0 m-b-10">
+            <input ng-model="customerinvoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control form-white custom-search"
+                   placeholder="{{'Shipment Ref Number'|translate}}" />
+            <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xs-12">
+
+            <div class="col-sm-6 col-md-6 col-xs-6 p-0">
+                <div dropdown="" class="btn-group">
+                    <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button" style="background-color:#f2f2f2;box-shadow:none">
+                        <i class="fa fa-download" aria-hidden="true" style="color:#319db5"></i>
+                        <span style="color:#319db5">Export</span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-csv="customerinvoiceCtrl.exportcollection" filename="Invoices.csv">
+                                CSV<translate>Export </translate>
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-click="customerinvoiceCtrl.exportInvoiceReport()">Excel Export</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 col-md-5 col-xs-12 p-0">
+            <div class="alert media fade in alert-finance-value m-b-0">
+                <p class="text-center"><strong>2413413413</strong></p>
+            </div>
+        </div>
+    </div>
     <div class="panel">
 
         <div class="panel-content panel-border">
 
-            <div class="row">
-                <div class="col-sm-2 form-group">
+            <!--<div class="row">-->
+                <!--<div class="col-sm-2 form-group">
                     <div dropdown="" class="btn-group">
                         <button type="button" class="btn btn-primary dropdown-toggle ng-binding p-0" data-toggle="dropdown" style="min-width:140px;">
                             <translate>Status</translate> : {{customerinvoiceCtrl.statusButton}}
@@ -26,21 +110,21 @@
                             </li>
                         </ul>
                     </div>
-                </div>
-                <div class="col-sm-2 p-0">
+                </div>-->
+                <!--<div class="col-sm-2 p-0">
                     <div class="btn-group form-group">
                         <input type="text" placeholder="{{'Search By: Invoice Date'|translate}}" ng-model="customerinvoiceCtrl.datePicker.date" class="form-control p-l-5 p-r-5 ng-pristine ng-untouched ng-valid ng-isolate-scope" date-range-picker="">
                     </div>
-                </div>               
-                <div class="col-sm-3 form-group p-r-5">
+                </div>-->
+                <!--<div class="col-sm-3 form-group p-r-5">
                     <div class="btn-group m-0">
                         <select ng-model="searchType" class="form-control ng-pristine ng-untouched ng-valid" ng-init="searchType = 'True'">
                             <option value="True" translate>Search By: Shipment Reference</option>
                             <option value="False" translate>Search By: Invoice Number</option>
                         </select>
                     </div>
-                </div>
-                <div class="col-sm-3 form-group p-0" ng-show="searchType == 'True'">
+                </div>-->
+                <!--<div class="col-sm-3 form-group p-0" ng-show="searchType == 'True'">
                     <div class="input-group">
                         <input ng-model="customerinvoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                placeholder="{{'Shipment Ref Number'|translate}}" />
@@ -50,8 +134,8 @@
                             </button>
                         </span>
                     </div>
-                </div>
-                <div ng-show="searchType == 'False'" class="col-sm-3 form-group ng-hide p-0">
+                </div>-->
+                <!--<div ng-show="searchType == 'False'" class="col-sm-3 form-group ng-hide p-0">
                     <div class="input-group">
                         <input ng-model="customerinvoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                placeholder="{{'Invoice Number'|translate}}" />
@@ -62,90 +146,141 @@
                             </button>
                         </span>
                     </div>
-                </div>
+                </div>-->
 
-                <div class="col-md-1">
+                <!--<div class="col-md-1">-->
                     <!--<button ng-click="customerinvoiceCtrl.exportInvoiceReport()" class="btn btn-large btn-primary no-margin" type="button">
-                        <i class="glyphicon glyphicon-download-alt"></i><translate>Export</translate>
-                    </button>-->
-                  
-                       
-                        <div dropdown=""  btn-group p-r-0 pull-right">
-                            <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
-                                <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i>Export <span class="caret"></span>
-                            </button>
-                            <span class="dropdown-arrow"></span>
-                            <ul role="menu" class="dropdown-menu">
-                                <li>
-                                    <a ng-csv="customerinvoiceCtrl.exportcollection" filename="Invoices.csv">
-                                        CSV<translate>Export </translate>
-                                    </a>
-                                      
+                    <i class="glyphicon glyphicon-download-alt"></i><translate>Export</translate>
+                </button>-->
+                    <!--<div dropdown=""  btn-group p-r-0 pull-right">
+                    <button data-toggle="dropdown" class="btn btn-primary active dropdown-toggle" type="button">
+                        <i class="glyphicon glyphicon-download-alt" aria-hidden="true"></i>Export <span class="caret"></span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-csv="customerinvoiceCtrl.exportcollection" filename="Invoices.csv">
+                                CSV<translate>Export </translate>
+                            </a>
+                        </li>
+                        <li>
+                            <a ng-click="customerinvoiceCtrl.exportInvoiceReport()">Excel Export</a>
+                        </li>
 
-                                </li>
-                                <li>
-                                    <a ng-click="customerinvoiceCtrl.exportInvoiceReport()">Excel Export</a>
-                                </li>
+                    </ul>
+                </div>-->
 
-                            </ul>
+
+
+                <!--</div>
+            </div>-->
+            <tabset class="tab-fade-in">
+                <tab>
+                    <tab-heading translate>
+                        INVOICES
+                    </tab-heading>
+                    <div class="custom-table">
+                        <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th st-sort="name" translate>Date</th>
+                                    <!--<th translate>Shipment Reference</th>-->
+                                    <th translate>Invoice #</th>
+                                    <th translate>Invoice Value</th>
+                                    <th translate>credit value</th>
+                                    <th translate>sum</th>
+                                    <th translate>Status</th>
+                                    <th translate>pay</th>
+                                    <th translate>view</th>
+                                    <th translate>Dispute Invoice</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in invoiceList">
+                                    <td>{{row.invoiceDate}}</td>
+                                    <!--<td>{{row.shipmentReference}}</td>-->
+                                    <td>{{row.invoiceNumber}}</td>
+                                    <td>{{row.invoiceValue}}</td>
+                                    <td>credit val</td>
+                                    <td>sum</td>
+                                    <td>
+                                        <span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>
+                                   </td>
+                                    <td>
+                                        <!--if invoiceStatus == 'Pending'-->
+                                        <button type="button" class="btn btn-primary" ng-show="row.invoiceStatus == 'Pending'"
+                                                ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
+                                            Pay
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
+                                            <i class="fa fa-eye></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
+                                                ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <pagination total-items=""
+                                    ng-model="currentPage"
+                                    max-size="maxSize"
+                                    class="pagination-sm"
+                                    boundary-links="true">
+                        </pagination>
+                    </div>
+                </tab>
+                <tab>
+                    <tab-heading translate>
+                        DISPUTES
+                    </tab-heading>
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-xs-12 custom-table m-l-0">
+                            <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th translate>Date</th>
+                                        <th translate>invoice #</th>
+                                        <th translate>invoice value</th>
+                                        <th translate>credit value</th>
+                                        <th translate>sum</th>
+                                        <th translate>status</th>
+                                        <th translate></th>
+                                        <th translate></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                   
+                                </tbody>
+
+                            </table>
+                            <pagination total-items=""
+                                        ng-model="currentPage"
+                                        max-size="maxSize"
+                                        class="pagination-sm"
+                                        boundary-links="true">
+                            </pagination>
                         </div>
-                      
-                  
 
-                </div>
-            </div>
-            <div class="custom-table">
-                <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th st-sort="name" translate>Invoice Date</th>
-                            <th translate>Shipment Reference</th>
-                            <th translate>Invoice Number</th>
-                            <th translate>Invoice Value</th>
-                            <th translate>Invoice Status</th>
-                            <th translate>Pay Invoice</th>
-                            <th translate>View Invoice</th>
-                            <th translate>Dispute Invoice</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr ng-repeat="row in invoiceList">
-                            <td>{{row.invoiceDate}}</td>
-                            <td>{{row.shipmentReference}}</td>
-                            <td>{{row.invoiceNumber}}</td>
-                            <td>{{row.invoiceValue}}</td>
-                            <td>{{row.invoiceStatus}}</td>
-                            <td>
-                                <!--if invoiceStatus == 'Pending'-->
-                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 'Pending'"
-                                        ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
-                                    Pay
-                                </button>
-                            </td>
-                            <td style="text-align:center">
-                                <a href='{{row.url}}' class="edit btn btn-sm btn-default">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary btn-block" ng-show="row.invoiceStatus == 'Pending'"
-                                        ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
-                                    Dispute
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colspan="5" class="text-center">
-                                <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-                
-            </div>
+                    </div>
+                </tab>
+            </tabset>
+                    
+
+        </div>
 
         </div>
       

@@ -648,7 +648,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
         [HttpPost]
-        [Route("resetForgetPasswordConfirm")]
+        [Route("ResetForgetPasswordConfirm")]
         public IHttpActionResult ResetForgetPasswordConfirm(CustomerDto customer)
         {
             if (string.IsNullOrWhiteSpace(customer.UserId) || string.IsNullOrWhiteSpace(customer.Code) || string.IsNullOrWhiteSpace(customer.Password))
@@ -669,6 +669,7 @@ namespace PI.Service.Controllers
                 return BadRequest("Invalid token. Please resend the password reset URL.");
             }
         }
+         
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
@@ -766,21 +767,45 @@ namespace PI.Service.Controllers
 
 
         #region TFA
-
-        public bool IsPhoneNumberVerified(string email)
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("IsPhoneNumberVerified")]
+        public IHttpActionResult IsPhoneNumberVerified(string email)
         {
             var user = this.AppUserManager.FindByName(email);
-            return user.PhoneNumberConfirmed;                
+
+            if(user == null)
+            {
+                return Ok(new
+                {
+                    Message = "Email is not confirmed!",
+                    Result = -1
+                });
+            }
+            return Ok(new
+            {
+                Result = user.PhoneNumberConfirmed? 1 : 0
+            });            
         }
-               
-        public void SendOPTCodeForPhoneValidation(string email)
+
+
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("SendOPTCodeForPhoneValidation")]
+        public IHttpActionResult SendOPTCodeForPhoneValidation(UserDto userDetails)
         {
             Random generator = new Random();
             string code = generator.Next(100000, 999999).ToString("D6"); // Security code
 
             try
             {
-                var user =  this.AppUserManager.FindByName(email);
+                if (!userDetails.isViaProfileSettings)
+                {
+                    var customer = profileManagement.GetCustomerByUserEmail(userDetails.Email);
+                    userDetails.MobileNumber = customer.MobileNumber;
+                }
 
                 // var accountSid = "ACe8df3ab4cb9ad89edca435a14f8bb922"; // Your Account SID from www.twilio.com/console
                 // var authToken = "1bd4508f4bdb95f110a4360c4805ee65";  // Your Auth Token from www.twilio.com/console
@@ -792,20 +817,21 @@ namespace PI.Service.Controllers
 
                 var message = twilio.SendMessage(
                     "+3197004498550", // fromPhone
-                    "+94777427745", // To (Replace with your phone number)
+                     userDetails.MobileNumber, // To (Replace with your phone number)
                     "Your security code is: "+ code
                     );
 
                 //Store the security code and the time in DB.
-                user.MobileVerificationCode = code;
-                user.MobileVerificationExpiry = DateTime.Now;
-
-               // companyManagement.SaveUserPhoneCode(user);
+                companyManagement.SaveUserPhoneCode(new UserDto { Email = userDetails.Email,
+                                                                  MobileVerificationCode = code,
+                                                                  MobileNumber = userDetails.MobileNumber});
 
                 if (message.RestException != null)
                 {
-                    var error = message.RestException.Message;
+                    return BadRequest(message.RestException.Message);
                 }
+
+                return Ok();
             }
             catch (Exception ex) { throw ex; }
         }
@@ -820,31 +846,67 @@ namespace PI.Service.Controllers
 
             return resendAllowed;
         }
-        
-        public IHttpActionResult VerifyPhoneCode(string email,string code)
+
+
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("VerifyPhoneCode")]
+        public IHttpActionResult VerifyPhoneCode(UserDto userDetails)
         {
-            var user = this.AppUserManager.FindByName(email);
-            return Ok(user.MobileVerificationCode == code);
+            var user = this.AppUserManager.FindByName(userDetails.Email);
+            if(user.MobileVerificationCode == userDetails.MobileVerificationCode)
+            {
+                if (userDetails.isViaProfileSettings)
+                {
+                    //Store the security code and the time in DB.
+                    companyManagement.SaveUserPhoneConfirmation(new UserDto { Email = userDetails.Email });
+                }
+                return Ok(true);
+            }
+            else
+            {
+                return Ok(false);
+            }            
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("ResetForgetPasswordViaPhone")]
+        public IHttpActionResult ResetForgetPasswordViaPhone(UserDto userDtails)
+        {
+            var user = this.AppUserManager.FindByName(userDtails.Email);
+
+            string code = AppUserManager.GeneratePasswordResetToken(user.Id);
+            IdentityResult result = this.AppUserManager.ResetPassword(user.Id, code, userDtails.Password);
+
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
         #endregion
 
-            //public async Task<bool> SendTwoFactorCode(string provider)
-            //{
-            //    var userId = await GetVerifiedUserIdAsync();
-            //    if (userId == null)
-            //    {
-            //        return false;
-            //    }
+        //public async Task<bool> SendTwoFactorCode(string provider)
+        //{
+        //    var userId = await GetVerifiedUserIdAsync();
+        //    if (userId == null)
+        //    {
+        //        return false;
+        //    }
 
-            //    var token = await this.AppUserManager.GenerateTwoFactorTokenAsync(userId, provider);
-            //    // See IdentityConfig.cs to plug in Email/SMS services to actually send the code
-            //    await this.AppUserManager.NotifyTwoFactorTokenAsync(userId, provider, token);
-            //    return true;
-            //}
+        //    var token = await this.AppUserManager.GenerateTwoFactorTokenAsync(userId, provider);
+        //    // See IdentityConfig.cs to plug in Email/SMS services to actually send the code
+        //    await this.AppUserManager.NotifyTwoFactorTokenAsync(userId, provider, token);
+        //    return true;
+        //}
 
 
-            #region Helpers
+        #region Helpers
         private IAuthenticationManager Authentication
         {
             get { return Request.GetOwinContext().Authentication; }
