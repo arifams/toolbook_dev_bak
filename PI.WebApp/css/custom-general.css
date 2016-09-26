@@ -645,9 +645,9 @@
 .table-striped > tbody > tr  {
    border-bottom:1px solid #ddd;
 }
-.btn-group > .btn + .btn, .btn-sm:first-child {
+/*.btn-group > .btn + .btn, .btn-sm:first-child {
     margin:0px 0px 0px 5px;
-}
+}*/
 .Widgetleft {
     padding:5px 10px;
     width:100%;
@@ -1434,4 +1434,44 @@ width:10px;
 }
 .prod_ops_rm {
     background-color:#ebf7fa;
+}
+.btn.btn-sm.btn-danger.btn-transparent {
+    color:#c14444;
+}
+
+.colored-radio input[type="radio"] + span {
+    cursor: pointer;
+    font-size: 13px;
+}
+.colored-radio input[type="radio"] + span i {
+    border: 1px solid #0e76a8;
+    border-radius: 8px;
+    bottom: 3px;
+    content: "";
+    display: inline-block;
+    height: 18px;
+    margin-right: 5px;
+    position: relative;
+    vertical-align: middle;
+    width: 18px;
+    background-color: #ffffff;
+    margin-left: -18px;
+}
+.colored-radio input[type="radio"]:checked + span i::after {
+    background-color: #0e76a8;
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 3px;
+    position: relative;
+    top: 3px;
+    width: 10px;
+}
+
+.colored-radio.custom-color-green input[type="radio"]:checked + span i::after {
+    background-color: #0e76a8;
+}
+.sf-viewport{
+    height:auto;
 }

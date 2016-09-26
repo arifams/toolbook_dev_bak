@@ -90,7 +90,7 @@ li.sf-li-nonumber{text-align:center}
 .sf-sky .sf-wizard .sf-btn.sf-btn-prev:after{right:auto;left:0;background-image:url(../img/t2-arr-left.png)}
 .sf-sky .sf-wizard .sf-btn.sf-btn-next:hover{background-position:right -35px}
 .sf-sky .sf-wizard .sf-btn.sf-btn-prev:hover{background-position:left -35px}
-.sf-sky .sf-wizard > form{background:#eee;padding:15px;border-radius:8px}
+.sf-sky .sf-wizard > form{background:#eee;padding:15px 0;border-radius:8px}
 .rtl .sf-sky .sf-wizard .sf-btn:after{left:-15px;right:auto;margin-right:-15px;margin-left: auto; background:url(../img/t2-arr-left.png) no-repeat center center #319DB5;}
 .rtl .sf-sky .sf-wizard .sf-btn.sf-btn-prev:after {left: auto;right: 0;background-image: url(../img/t2-arr-right.png);}
 .rtl .sf-sky .sf-nav li:after {left: -30px;right: auto;background: url(../img/t2-nav-arr-rtl.png) no-repeat center center transparent;}

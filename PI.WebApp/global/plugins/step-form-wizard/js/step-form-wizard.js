@@ -55,7 +55,8 @@
         return widget;
     }
 
-    stepFormWizard.prototype.init = function() {
+    stepFormWizard.prototype.init = function () {
+        console.log("gasdgf");
         this.element.append($("<div>").addClass('sf-viewport'));
         this.viewPort = $('.sf-viewport', this.element);
 
@@ -274,20 +275,24 @@
         var viewPortWidth = this.stepWidth * this.steps.length;
 
         var height = 0;
-        if(this.config.height == 'auto' && this.steps.length) {
+        if (this.config.height == 'auto' && this.steps.length) {
+            console.log("step 1");
             //$(this.steps[this.stepActive]).height('auto');
             this.viewPort.height('auto');
             var heightView = $(this.steps[this.stepActive]).outerHeight(true);
-            this.viewPort.height(heightView);
+            this.viewPort.height('auto');
         }
-        if(this.config.height == 'first' && this.steps.length) {
+        if (this.config.height == 'first' && this.steps.length) {
+            console.log("step 2");
             $(this.steps[0]).height('auto');
             height = $(this.steps[0]).height();
         }
-        if(!isNaN(parseInt(this.config.height)) && this.steps.length) {
+        if (!isNaN(parseInt(this.config.height)) && this.steps.length) {
+            console.log("step 3");
             height = this.config.height;
         }
-        if(this.config.height == 'tallest' && this.steps.length) {
+        if (this.config.height == 'tallest' && this.steps.length) {
+
             this.steps.each(function(index) {
                 $(this).height('auto');
                 if($(this).height() > height) {
@@ -388,7 +393,8 @@
         if(this.config.height == 'auto' && this.steps.length) {
             var height = $(this.steps[this.stepActive]).outerHeight(true);
             this.viewPort.animate({
-                'height': height + 'px'
+                'height': 'auto'
+                 //'height': height + 'px'
             }, this.config.duration, this.config.timingFunction)
         }
 

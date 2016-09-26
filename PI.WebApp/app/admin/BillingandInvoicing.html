@@ -248,7 +248,7 @@
 
                                             </div>
                                         </td>
-                                        <td style="text-align:center">
+                                        <td>
                                             <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
                                                 <i class="fa fa-eye"></i>
                                             </a>
@@ -256,13 +256,13 @@
                                         <td></td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
+                                <!--<tfoot>
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-pagination="" st-items-by-page="itemsByPage"></div>
                                         </td>
                                     </tr>
-                                </tfoot>
+                                </tfoot>-->
                             </table>
                         </div>
                     </form>
@@ -373,7 +373,7 @@
                                             </a>
                                         </td>-->
                                         <td style="text-align:center">
-                                            <a href='{{row.creditNoteURL}}' class="edit btn btn-sm btn-default" ng-show="row.creditNoteURL != null">
+                                            <a href='{{row.creditNoteURL}}' class="btn btn-sm btn-primary btn-transparent" ng-show="row.creditNoteURL != null">
                                                 <i class="glyphicon glyphicon-download-alt"></i>
                                             </a>
                                         </td>

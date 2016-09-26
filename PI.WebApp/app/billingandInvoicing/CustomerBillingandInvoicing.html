@@ -213,16 +213,16 @@
                                             Pay
                                         </button>
                                     </td>
-                                    <td style="text-align:center">
+                                    <td>
                                         <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
-                                            <i class="fa fa-eye"></i>
+                                            <i class="fa fa-eye></i>
                                         </a>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
+                                        <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
                                                 ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
-                                            <i class="icons-office-52"></i>
-                                        </button>
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>

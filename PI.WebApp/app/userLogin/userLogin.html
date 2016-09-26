@@ -7,11 +7,16 @@
     <meta content="" name="description" />
     <meta content="themes-lab" name="author" />
     <link rel="shortcut icon" href="/global/images/favicon.png">
+    
     <link href="../../global/css/style.css" rel="stylesheet">
     <link href="../../global/css/ui.css" rel="stylesheet">
+    <link href="../../global/plugins/icheck/skins/all.css" rel="stylesheet">
+    <!--<link href="../../global/plugins/icheck/skins/square/all.css" rel="stylesheet" />-->
     <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
-    <link href="../../css/custom.css" rel="stylesheet" />
 
+    <link href="../../global/plugins/icheck/skins/square/_all.css" rel="stylesheet" />
+    <!--<link href="../../css/custom.css" rel="stylesheet" />-->
+    <link href="../../css/custom-general.css" rel="stylesheet" />
 </head>
 <body class="account separate-inputs" data-page="login" ng-app="userLogin" ng-controller="userLoginCtrl as userLog" ng-cloak>
     <!-- BEGIN LOGIN BOX -->
@@ -20,7 +25,7 @@
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
                 <div class="account-wall" style="background-color:rgba(255, 255, 255,.7);border-radius:7px;box-shadow:inset 0px 0px 6px #000;">
-                    <!--<i class="user-img icons-faces-users-03"></i>-->
+                    
                     <div class="login-user" style="padding-top:20px;padding-right:20px;padding-left:20px;text-align:center;padding-bottom:25px;">
                         <img src="/global/images/logo/PI-logo-login-sm.png">
                     </div>
@@ -118,60 +123,65 @@
                                 </div>
                             </div>
                   
-                            <div class="row">
+                            <div class="row m-0">
                                 <div class="col-md-12">
-                                    <div class="skin skin-minimal">
-                                        <div class="form-body">
+                                    <label class="colored-radio lbl col-md-6">
+                                        <input type="radio" name="radio1" ng-model="userLog.option" value="false">
+                                        <span>
+                                            <i></i>
+                                            <translate> Email</translate>
+                                        </span>
+                                    </label>
+                                    <label class="colored-radio lbl col-md-6">
+                                        <input type="radio" name="radio1" ng-model="userLog.option" icheck value="true">
+                                        <span>
+                                            <i></i>
+                                            <translate> Phone </translate>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                           
+                                <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
+                                     ng-hide="userLog.option == 'true' && userLog.isSubmit">
+                                    <div class="form-group text-center">
+                                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
+                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                                            userLog.resetForgetPassword(userLog.option)"
+                                                id="submit-password" class="btn btn-danger"
+                                                data-style="expand-left" translate>
+                                            Send Password Reset Code
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div ng-if="userLog.option == 'true' && userLog.isSubmit">
+                                    <div class="row m-0">
+                                        <div class="col-md-12 p-0">
                                             <div class="form-group">
-                                                <div class="input-group">
-                                                    <div class="icheck-inline">
-                                                        <label><input type="radio" name="radio1" ng-model="userLog.option" icheck value="false"><translate> Email</translate></label>
-                                                        <label><input type="radio" name="radio1" ng-model="userLog.option" icheck value="true"><translate> Phone </translate></label>
-                                                    </div>
-                                                </div>
+                                                <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
-                                 ng-hide="userLog.option == 'true' && userLog.isSubmit">
-                                <div class="form-group text-center">
-                                    <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
-                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) && 
-                                            userLog.resetForgetPassword(userLog.option)"
-                                            id="submit-password" class="btn btn-primary"
-                                            data-style="expand-left" translate>
-                                        Send Password Reset Code
-                                    </button>
-                                </div>
-                            </div>
-                  
-                            <div ng-if="userLog.option == 'true' && userLog.isSubmit">
-                                <div class="row m-0">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
-                                    </div>
-                                </div>
-                                <div class="row m-0">
-                                    <div class="form-group text-center">
-                                        <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
-                                                translate>
-                                            Submit code
-                                        </button>
-                                    </div>
-                                    <p class="pull-left m-t-20">
-                                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
-                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                                    <div class="row m-0">
+                                        <div class="form-group text-center">
+                                            <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
+                                                    translate>
+                                                Submit code
+                                            </button>
+                                        </div>
+                                        <p class="text-center">
+                                            <a ng-hide="userLog.isSentPasswordResetMail" type="button" href=""
+                                                    ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                                 userLog.resetForgetPassword(userLog.option)"
-                                                translate>
-                                            Resend Reset Code
-                                        </button>                                     
-                                    </p>
+                                                    translate>
+                                                Resend Reset Code
+                                            </a>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+</div>
 
                         <div class="alert alert-success" ng-show="userLog.isSentPasswordResetMail">
                             <translate>  Password reset message was sent to your email </translate> .
@@ -205,6 +215,7 @@
     <script src="../../global/plugins/jquery-validation/additional-methods.min.js"></script>
     <script src="../../global/js/pages/login-v1.js"></script>
     <script src="../../global/plugins/noty/jquery.noty.packaged.min.js"></script>
+    <script src="../../global/plugins/icheck/icheck.min.js"></script>
 
     <script src="../../plugins/angular/angular.min.js"></script>
     <script src="../../plugins/angular-message/angular-messages.min.js"></script>
@@ -212,7 +223,7 @@
 
     <script src="../../plugins/angular-gettext/dist/angular-gettext.min.js"></script>
     <script src="../../js/translations.js"></script>
-
+    <script src="../../global/plugins/bootstrap-tags-input/bootstrap-tagsinput.min.js"></script>
     <script src="../../global/js/custom.js"></script>
 
     <script src="userLoginCtrl.js"></script>
