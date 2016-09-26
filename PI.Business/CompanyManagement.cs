@@ -1742,11 +1742,15 @@ namespace PI.Business
         {
             var currentuser = context.Users.SingleOrDefault(u => u.Email == userDto.Email);
             currentuser.MobileVerificationCode = userDto.MobileVerificationCode;
-            currentuser.PhoneNumberConfirmed = false;
             currentuser.MobileVerificationExpiry = DateTime.Now;
 
             var customer = context.Customers.SingleOrDefault(u => u.Email == userDto.Email);
-            customer.MobileNumber = userDto.MobileNumber;
+            
+            if (customer.MobileNumber != userDto.MobileNumber)
+            {                
+                customer.MobileNumber = userDto.MobileNumber;
+                currentuser.PhoneNumberConfirmed = false;
+            }
 
             context.SaveChanges();
         }
