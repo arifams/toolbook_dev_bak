@@ -113,17 +113,24 @@
 
                     <form class="form-password" role="form" name="forgotPasswordForm" >
                         <div ng-hide="userLog.isSentPasswordResetMail">
-                            <div class="prepend-icon m-b-20">
+                            <div ng-hide="userLog.showNext" class="prepend-icon m-b-20">
                                 <input type="email" name="passwordResetEmail" class="form-control form-ash username" placeholder="{{'Email'|translate}}" required
-                                       ng-model="userLog.pwdReset.email" ng-maxlength="100" ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
+                                       ng-model="userLog.pwdReset.email" ng-maxlength="100"  
+                                       ng-class="{ 'error': forgotPasswordForm.passwordResetEmail.$invalid && (forgotPasswordForm.passwordResetEmail.$dirty||userLog.isSubmit) }">
                                 <i class="icon-user"></i>
                                 <div ng-messages="forgotPasswordForm.passwordResetEmail.$error" ng-show="forgotPasswordForm.passwordResetEmail.$dirty || userLog.isSubmit">
                                     <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
                                     <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                 </div>
+                                <button  class="btn btn-primary" data-style="expand-left" 
+                                        ng-click="userLog.isEmailPhoneNumberVerified()"
+                                        translate>
+                                    Next
+                                </button>
                             </div>
                   
-                            <div class="row m-0">
+                            <div ng-if="userLog.showNext == true">
+                                <div class="row">
                                 <div class="col-md-12">
                                     <label class="colored-radio lbl col-md-6">
                                         <input type="radio" name="radio1" ng-model="userLog.option" value="false">
@@ -141,47 +148,48 @@
                                     </label>
                                 </div>
                             </div>
-                            
+
                            
-                                <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
-                                     ng-hide="userLog.option == 'true' && userLog.isSubmit">
-                                    <div class="form-group text-center">
-                                        <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
-                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                            <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
+                                 ng-hide="userLog.option == 'true' && userLog.isSubmit">
+                                <div class="form-group text-center">
+                                    <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
+                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) && 
                                             userLog.resetForgetPassword(userLog.option)"
                                                 id="submit-password" class="btn btn-danger"
-                                                data-style="expand-left" translate>
-                                            Send Password Reset Code
+                                            data-style="expand-left" translate>
+                                        Send Password Reset Code
+                                    </button>
+                                </div>
+                            </div>
+                  
+                            <div ng-if="userLog.option == 'true' && userLog.isSubmit">
+                                <div class="row m-0">
+                                        <div class="col-md-12 p-0">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
+                                    </div>
+                                </div>
+                                    </div>
+                                <div class="row m-0">
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
+                                                translate>
+                                            Submit code
                                         </button>
                                     </div>
-                                </div>
-
-                                <div ng-if="userLog.option == 'true' && userLog.isSubmit">
-                                    <div class="row m-0">
-                                        <div class="col-md-12 p-0">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row m-0">
-                                        <div class="form-group text-center">
-                                            <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
-                                                    translate>
-                                                Submit code
-                                            </button>
-                                        </div>
                                         <p class="text-center">
                                             <a ng-hide="userLog.isSentPasswordResetMail" type="button" href=""
-                                                    ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                                 userLog.resetForgetPassword(userLog.option)"
-                                                    translate>
-                                                Resend Reset Code
+                                                translate>
+                                            Resend Reset Code
                                             </a>
-                                        </p>
-                                    </div>
+                                    </p>
                                 </div>
-</div>
+                            </div>
+                        </div>
+                        </div>
 
                         <div class="alert alert-success" ng-show="userLog.isSentPasswordResetMail">
                             <translate>  Password reset message was sent to your email </translate> .

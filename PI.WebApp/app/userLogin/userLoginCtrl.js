@@ -8,6 +8,13 @@
             loginUser: function (newuser, url) {
 
                 return $http.post(serverBaseUrl + '/' + url, newuser);
+            },
+            isPhoneNumberVerified: function (email) {
+                return $http.get(serverBaseUrl + '/api/accounts/IsPhoneNumberVerified', {
+                    params: {
+                        email: email //$localStorage.userGuid
+                    }
+                });
             }
         };
 
@@ -260,6 +267,39 @@ registerExternalUser, ngAuthSettings) {
                 if (error.data == "" || error.data.message == "") {
                     vm.passwordResetErrorMsg = $rootScope.translate('Error occured while processing your request.');
                 }
+            });
+        };
+
+        vm.isEmailPhoneNumberVerified = function ($event) {
+            debugger;
+            userManager.isPhoneNumberVerified(vm.pwdReset.email)
+             .then(function (returnedResult) {
+                 if (returnedResult.status == 200) {
+                     debugger;
+                     if (returnedResult.data.result == 1) {
+                         vm.showNext = true;
+                         vm.isEnabled = true;
+                         vm.passwordResetError = false;
+                         vm.isEmailNotFound = false;
+                     }
+                     else if (returnedResult.data.result == 0) {
+                         // vm.showError = true;
+                         vm.showNext = true;
+                         vm.isEnabled = false;
+                         vm.passwordResetError = false;
+                         vm.isEmailNotFound = false;
+                         //vm.errorMessage = $rootScope.translate('Phone Number is not verified!');
+                     }
+                     else if (returnedResult.data.result == -1) {
+                         vm.showNext = false;
+                         vm.passwordResetError = true;
+                         vm.isEmailNotFound = true;
+                         vm.passwordResetErrorMsg = $rootScope.translate('No account found for this email!');
+                     }
+                 }
+             },
+            function (error) {
+                vm.isDisabled = false;
             });
         };
 
