@@ -5,6 +5,7 @@ using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
+using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
@@ -14,6 +15,15 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using System.Net;
+using System.IO;
+using System.Web;
+using PI.Contract.TemplateLoader;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
 
 namespace PI.Business
 {
@@ -270,6 +280,8 @@ namespace PI.Business
             bool invoiceSaved = false;
             //using (PIContext context = PIContext.Get())
             //{
+            ShipmentDto dto = new ShipmentDto()
+;            this.GenerateUSInvoice(dto);
 
                 Invoice invoice = new Invoice()
                 {
@@ -376,8 +388,8 @@ namespace PI.Business
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
-                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
-                    rng.Style.Font.Color.SetColor(Color.White);
+                    rng.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(System.Drawing.Color.White);
                 }
 
                 //ws.Cells["A6:H6"].AutoFitColumns();
@@ -424,6 +436,64 @@ namespace PI.Business
                 return excel.GetAsByteArray();
             }
         }
+
+
+        public string GenerateUSInvoice(ShipmentDto shipmentDetails)
+        {
+            var invoicePdf = new Document(PageSize.A4);
+
+            //getting the server path to create temp pdf file
+            string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+            PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+            HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
+
+            string htmlTemplate ="";            
+            TemplateLoader templateLoader = new TemplateLoader();
+
+            StringBuilder packageDetails = new StringBuilder();
+
+            packageDetails.Append("<tr>   <tr>");
+
+            //get the email template for invoice
+            HtmlDocument template= templateLoader.getHtmlTemplatebyName("invoiceUS");
+            htmlTemplate = template.DocumentNode.InnerHtml;
+                    
+
+            //replacing values from shipment
+            htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName+" "+ shipmentDetails.AddressInformation.Consigner.FirstName);
+            htmlTemplate.Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1);
+            htmlTemplate.Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2);
+            htmlTemplate.Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City);
+            htmlTemplate.Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State);
+            htmlTemplate.Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode);
+            htmlTemplate.Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country);
+            htmlTemplate.Replace("{invoicenumber}", "");
+            htmlTemplate.Replace("{invoicedate}", "");
+            htmlTemplate.Replace("{duedate}", "");
+            htmlTemplate.Replace("{terms}", "");
+            htmlTemplate.Replace("{totalvalue} $", shipmentDetails.CarrierInformation.Price.ToString());
+            htmlTemplate.Replace("{tableBody}", packageDetails.ToString());
+            htmlTemplate.Replace("{accountnumber}", "");
+            htmlTemplate.Replace("{domesticwires}", "");
+            htmlTemplate.Replace("{internationalwires}", "");
+           
+            TextReader txtReader = new StringReader(htmlTemplate);
+
+            invoicePdf.Open();
+            htmlWorker.StartDocument();            
+            htmlWorker.Parse(txtReader);
+           
+            
+            htmlWorker.EndDocument();
+            htmlWorker.Close();
+            //closing the doc
+            invoicePdf.Close();
+
+            return htmlTemplate;
+
+        }
+
+
 
 
     }
