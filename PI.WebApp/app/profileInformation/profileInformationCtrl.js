@@ -37,6 +37,13 @@
             VerifyPhoneCode: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/accounts/VerifyPhoneCode', updatedProfile);
             },
+            isPhoneNumberVerified: function (email) {
+                return $http.get(serverBaseUrl + '/api/accounts/IsPhoneNumberVerified', {
+                    params: {
+                        email: email
+                    }
+                })
+            }
         }
 
     });
@@ -243,7 +250,13 @@
             getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
              .then(function successCallback(response) {
                  vm.loading = false;
+                 debugger;
                  if (response.data.customerDetails != null) {
+
+                     vm.isPhoneNumberVerified();
+                     vm.originalPhone = vm.model.customerDetails.mobileNumber;
+                     vm.originalVerifiedStatus = vm.isVerified;
+
                      // vm.model.customerDetails = response.data.customerDetails;
                      vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                      // vm.model.companyDetails = response.data.companyDetails;
@@ -268,7 +281,7 @@
                      else {
                          vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
                          vm.changeBillingCountry();
-                     }
+                     }                    
                  }
 
              }, function errorCallback(response) {
@@ -995,6 +1008,33 @@
                 }
             });
         };
+
+        vm.isVerified = false;
+        vm.isPhoneNumberVerified = function () {
+            debugger;
+            updateProfilefactory.isPhoneNumberVerified(vm.model.customerDetails.email)
+             .then(function (returnedResult) {
+                 if (returnedResult.status == 200) {
+                     debugger;
+                     if (returnedResult.data.result == 1) {
+                         vm.isVerified = true;
+                     }
+                     else if (returnedResult.data.result == 0) {
+                         vm.isVerified = false;
+                     }                     
+                 }
+             },
+            function (error) {
+                vm.isDisabled = false;
+            });
+        };
+
+       
+        vm.changePhone = function () {
+            debugger;
+            vm.isVerified = (vm.originalPhone == vm.model.customerDetails.mobileNumber) && vm.originalVerifiedStatus;
+        };
+
 
     }]);
 

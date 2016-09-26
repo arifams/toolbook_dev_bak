@@ -327,14 +327,17 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group m-0">
                                     <input type="text" name="mobilenumber" class="form-control"
-                                           ng-model="profileCtrl.model.customerDetails.mobileNumber" ng-required="profileCtrl.model.customerDetails.phoneNumber==null" ng-maxlength="20" valid-phone-no ng-class="{ 'error': formUpdateProfileAddress.mobilenumber.$invalid && (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
-                                    <span class="input-group-btn">
+                                           ng-model="profileCtrl.model.customerDetails.mobileNumber"
+                                            ng-required="profileCtrl.model.customerDetails.phoneNumber==null"  ng-change="profileCtrl.changePhone()"
+                                           ng-maxlength="20" valid-phone-no ng-class="{ 'error': formUpdateProfileAddress.mobilenumber.$invalid && (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
+                           
+                                        <span class="input-group-btn">
                                         <button type="submit" class="btn btn-large btn-primary no-margin resize-btn"  ng-hide="profileCtrl.isVerified"
                                                 ng-click="profileCtrl.textPhoneCode()">
                                             verify
                                         </button>
                                         <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
-                                                ng-show="profileCtrl.isVerified">
+                                                ng-if="profileCtrl.isVerified">
                                             <i class="fa fa-check"></i>
                                         </button>
                                     </span>

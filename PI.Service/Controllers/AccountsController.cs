@@ -779,7 +779,7 @@ namespace PI.Service.Controllers
             {
                 return Ok(new
                 {
-                    Message = "Phone number is not verified!",
+                    Message = "Email is not confirmed!",
                     Result = -1
                 });
             }
