@@ -132,7 +132,7 @@
 
                             </div>
                               <div class="row m-l-0 m-r-0 m-t-10">
-                                <div class="col-md-12" style="padding-left:53px;padding-right:11px">
+                                <div class="col-md-12" style="padding-left:37px">
                                     <label class="colored-radio lbl col-md-6">
                                         <input type="radio" name="radio1" ng-model="userLog.option" value="false">
                                         <span>
@@ -140,14 +140,16 @@
                                             <translate> Email</translate>
                                         </span>
                                     </label>
-                                    <label ng-class="{'colored-radio-dis lbl col-md-6':!userLog.isEnabled,'colored-radio lbl col-md-6':userLog.isEnabled}">
-                                        <input type="radio" name="radio1" ng-model="userLog.option" value="true" ng-disabled="!userLog.isEnabled" >
-                                        <span>
-                                            <i></i>
-                                            <translate> Phone </translate>
-                                        </span>
-                                    </label>
-                                </div>
+                                    </div>
+                                  <div class="col-md-12" style="padding-left:37px">
+                                      <label ng-class="{'colored-radio-dis lbl col-md-6':!userLog.isEnabled,'colored-radio lbl col-md-6':userLog.isEnabled}">
+                                          <input type="radio" name="radio1" ng-model="userLog.option" value="true" ng-disabled="!userLog.isEnabled">
+                                          <span>
+                                              <i></i>
+                                              <translate> Phone </translate>
+                                          </span>
+                                      </label>
+                                  </div>
                             </div>
 
                                 <div class="row m-l-0 m-r-0 m-t-10" ng-if="userLog.option == 'true' || userLog.option == 'false'"
