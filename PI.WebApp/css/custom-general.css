@@ -158,9 +158,7 @@
     background: url('/proj_img/shipment_icons.png') -618px 0px;
     background-repeat: no-repeat;
 }
-.btn {
-    padding:5px 24px 8px; 
-}
+
 .resize-btn {
     width:100%;
 }
@@ -1472,6 +1470,42 @@ width:10px;
 .colored-radio.custom-color-green input[type="radio"]:checked + span i::after {
     background-color: #0e76a8;
 }
+
+.colored-radio-dis input[type="radio"] + span {
+    cursor: pointer;
+    font-size: 13px;
+}
+.colored-radio-dis input[type="radio"] + span i {
+    border: 1px solid #000;
+    border-radius: 8px;
+    bottom: 3px;
+    content: "";
+    display: inline-block;
+    height: 18px;
+    margin-right: 5px;
+    position: relative;
+    vertical-align: middle;
+    width: 18px;
+    background-color: #ffffff;
+    margin-left: -18px;
+}
+.colored-radio-dis input[type="radio"]:checked + span i::after {
+    background-color: #000;
+    border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 3px;
+    position: relative;
+    top: 3px;
+    width: 10px;
+}
+
+.colored-radio-dis.custom-color-green input[type="radio"]:checked + span i::after {
+    background-color: #000;
+}
+
+
 .sf-viewport{
     height:auto;
 }

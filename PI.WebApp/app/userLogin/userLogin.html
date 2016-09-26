@@ -122,16 +122,25 @@
                                     <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
                                     <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                 </div>
-                                <button  class="btn btn-primary" data-style="expand-left" 
-                                        ng-click="userLog.isEmailPhoneNumberVerified()"
-                                        translate>
-                                    Next
-                                </button>
+                                <div class="row m-t-10">
+                                    <div class="col-sm-12 col-md-12 col-xs-12" style="text-align:center">
+                                        <button class="btn btn-primary" ng-click="userLog.isEmailPhoneNumberVerified()" 
+                                                type="submit" style="box-shadow: -2px 2px 4px 2px #999999;" 
+                                                id="submit-form">Next</button>
+                                    </div>
+                                </div>
+                                <div class="row m-0">
+                                    <div class="col-md-12 text-center">
+                                        <span class="label label-default p-l-10">text here</span>
+                                    </div>
+                                   
+                                </div>
+
                             </div>
                   
                             <div ng-if="userLog.showNext == true">
                                 <div class="row">
-                                <div class="col-md-12">
+                                <div class="col-md-12" style="padding-left:53px;padding-right:11px">
                                     <label class="colored-radio lbl col-md-6">
                                         <input type="radio" name="radio1" ng-model="userLog.option" value="false">
                                         <span>
@@ -139,8 +148,8 @@
                                             <translate> Email</translate>
                                         </span>
                                     </label>
-                                    <label class="colored-radio lbl col-md-6">
-                                        <input type="radio" name="radio1" ng-model="userLog.option" icheck value="true">
+                                    <label ng-class="{'colored-radio-dis lbl col-md-6':!userLog.isEnabled,'colored-radio lbl col-md-6':userLog.isEnabled}">
+                                        <input type="radio" name="radio1" ng-model="userLog.option" value="true" ng-disabled="!userLog.isEnabled" >
                                         <span>
                                             <i></i>
                                             <translate> Phone </translate>
@@ -156,8 +165,8 @@
                                     <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
                                             ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) && 
                                             userLog.resetForgetPassword(userLog.option)"
-                                                id="submit-password" class="btn btn-danger"
-                                            data-style="expand-left" translate>
+                                                id="submit-password" class="btn btn-primary"
+                                            data-style="expand-left" translate style="box-shadow: -2px 2px 4px 2px #999999;">
                                         Send Password Reset Code
                                     </button>
                                 </div>
@@ -165,28 +174,30 @@
                   
                             <div ng-if="userLog.option == 'true' && userLog.isSubmit">
                                 <div class="row m-0">
-                                        <div class="col-md-12 p-0">
+                                  <div class="col-md-8">
                                     <div class="form-group">
                                         <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
                                     </div>
-                                </div>
-                                    </div>
-                                <div class="row m-0">
-                                    <div class="form-group text-center">
-                                        <button type="submit" class="btn btn-primary" data-style="expand-left" ng-click="userLog.submitSecurityCode()"
+                                  </div>
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary" data-style="expand-left" 
+                                                ng-click="userLog.submitSecurityCode()"
                                                 translate>
                                             Submit code
                                         </button>
                                     </div>
-                                        <p class="text-center">
-                                            <a ng-hide="userLog.isSentPasswordResetMail" type="button" href=""
-                                                ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
+                                 </div>
+                                <div class="row m-0">
+                                    <p class="text-center">
+                                        <a ng-hide="userLog.isSentPasswordResetMail" type="button" href=""
+                                           ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                                 userLog.resetForgetPassword(userLog.option)"
-                                                translate>
+                                           translate>
                                             Resend Reset Code
-                                            </a>
+                                        </a>
                                     </p>
                                 </div>
+                                
                             </div>
                         </div>
                         </div>
