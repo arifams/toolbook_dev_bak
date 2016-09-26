@@ -158,16 +158,15 @@
                                 </div>
                             </div>
 
-                           
                             <div class="row m-0" ng-if="userLog.option == 'true' || userLog.option == 'false'"
                                  ng-hide="userLog.option == 'true' && userLog.isSubmit">
                                 <div class="form-group text-center">
                                     <button ng-hide="userLog.isSentPasswordResetMail" type="submit"
-                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) && 
+                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                             userLog.resetForgetPassword(userLog.option)"
                                                 id="submit-password" class="btn btn-primary"
                                             data-style="expand-left" translate style="box-shadow: -2px 2px 4px 2px #999999;">
-                                        Send Password Reset Code
+                                       {{ userLog.option ==  "true"? "Send Password Reset Code" : "Send Password Reset Link"}} 
                                     </button>
                                 </div>
                             </div>

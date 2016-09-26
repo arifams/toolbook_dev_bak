@@ -313,7 +313,8 @@
                                     <div class="form-group">
                                         <input type="text" name="phonenumber" class="form-control"
                                                ng-model="profileCtrl.model.customerDetails.phoneNumber" 
-                                               ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" valid-phone-no ng-class="{ 'error': formUpdateProfileBillingAddress.phonenumber.$invalid && (formUpdateProfileBillingAddress.phonenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="phoneNumberFocus = true" ng-blur="phoneNumberFocus = false">
+                                               ng-maxlength="20" ng-required="profileCtrl.model.customerDetails.mobileNumber==null" 
+                                               valid-phone-no ng-class="{ 'error': formUpdateProfileBillingAddress.phonenumber.$invalid && (formUpdateProfileBillingAddress.phonenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="phoneNumberFocus = true" ng-blur="phoneNumberFocus = false">
                                     </div>
                                     <div ng-messages="formUpdateProfileAddress.phonenumber.$error" ng-show="(formUpdateProfileAddress.phonenumber.$dirty && !phoneNumberFocus) || profileCtrl.isSubmit2">
                                         <label ng-message="required" class="error" for="phonenumber" translate>Enter Phone Number</label>
@@ -328,7 +329,7 @@
                             <div class="col-md-4">
                                 <div class="form-group input-group m-0" style="width:100%">
                                     <input type="text" name="mobilenumber" style="width:100%" class="form-control"
-                                           ng-model="profileCtrl.model.customerDetails.mobileNumber" placeholder="Mobile number (With country code)"
+                                           ng-model="profileCtrl.model.customerDetails.mobileNumber" placeholder="e.g. +17021234567"
                                            ng-required="profileCtrl.model.customerDetails.phoneNumber==null" ng-change="profileCtrl.changePhone()"
                                            ng-maxlength="20" 
                                            valid-phone-no ng-class="{ 'error': formUpdateProfileAddress.mobilenumber.$invalid && (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
