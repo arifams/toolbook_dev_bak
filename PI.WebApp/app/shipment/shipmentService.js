@@ -55,8 +55,13 @@
             toggleFavourite: toggleFavourite,
             searchShipmentsById: searchShipmentsById,
             GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
-            loadDefaultCostCenterId: loadDefaultCostCenterId
+            loadDefaultCostCenterId: loadDefaultCostCenterId,
+            PaymentCharge: PaymentCharge
         };
+
+        function PaymentCharge(paymentDto) {
+            return $http.post(serverBaseUrl + '/api/shipments/PaymentCharge', paymentDto);
+        }
 
         function getProfileInfo() {
 

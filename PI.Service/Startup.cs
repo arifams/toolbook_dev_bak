@@ -54,6 +54,7 @@ namespace PI.Service
             builder.RegisterType<PIContext>().As<PIContext>().InstancePerLifetimeScope();
             builder.RegisterType<ConfigAutoMapper>();   // Initialize auto mapper.
             builder.RegisterType<Log4NetLogger>().As<ILogger>().InstancePerLifetimeScope();
+            builder.RegisterType<PaymentManager>().As<IPaymentManager>().InstancePerLifetimeScope();
             builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().InstancePerLifetimeScope();
             //builder.RegisterType<CompanyManagement>().As<ICompanyManagement>().WithParameter("log", new Log4NetLogger()).InstancePerLifetimeScope();
             builder.RegisterType<CustomerManagement>().As<ICustomerManagement>().InstancePerLifetimeScope();
@@ -64,6 +65,7 @@ namespace PI.Service
             builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<ProfileManagement>().InstancePerLifetimeScope();   // TODO H : Remove this register, after convert Prof to IProf
             builder.RegisterType<InvoiceMangement>().As<IInvoiceMangement>().InstancePerLifetimeScope();
+            
 
             var container = builder.Build();
             httpConfig.DependencyResolver = new AutofacWebApiDependencyResolver(container); // Set the dependency resolver

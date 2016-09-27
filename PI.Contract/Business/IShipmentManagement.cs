@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PI.Contract.DTOs;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Contract.Business
 {
@@ -99,6 +101,13 @@ namespace PI.Contract.Business
         /// <param name="codeShipment">codeShipment</param>
         /// <returns></returns>
         ShipmentDto GetShipmentByCodeShipment(string codeShipment);
+
+        /// <summary>
+        /// Charge from customer by using credit card
+        /// </summary>
+        /// <param name="payment">payment</param>
+        /// <returns></returns>
+        OperationResult PaymentCharge(PaymentDto payment);
     }
 
 }
