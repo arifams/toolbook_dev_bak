@@ -56,8 +56,13 @@
             searchShipmentsById: searchShipmentsById,
             GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
             loadDefaultCostCenterId: loadDefaultCostCenterId,
-            getFilteredShipmentsExcel: getFilteredShipmentsExcel
+            getFilteredShipmentsExcel: getFilteredShipmentsExcel,
+            PaymentCharge: PaymentCharge
         };
+
+        function PaymentCharge(paymentDto) {
+            return $http.post(serverBaseUrl + '/api/shipments/PaymentCharge', paymentDto);
+        }
 
         function getProfileInfo() {
 

@@ -1428,7 +1428,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.LocationActivities).Returns(mockSetLocationActivities.Object);
             mockContext.Setup(c => c.CommercialInvoices).Returns(mockSetInvoices.Object);
 
-            shipmentManagement = new ShipmentsManagement(new Log4NetLogger(),new CompanyManagement(new Log4NetLogger(),new CustomerManagement(new Log4NetLogger())),new MockSISIntegrationManager(mockContext.Object), mockContext.Object);
+            shipmentManagement = new ShipmentsManagement(new Log4NetLogger(),new CompanyManagement(new Log4NetLogger(),new CustomerManagement(new Log4NetLogger())),new MockSISIntegrationManager(mockContext.Object), new PaymentManager() ,mockContext.Object);
             #endregion
         }
 

@@ -5,11 +5,16 @@
 (function (app) {
 
     app.controller('printLabelCtrl',
-       ['$location', '$window', 'shipmentFactory', 'ngDialog', '$controller','$scope',
-           function ($location, $window, shipmentFactory,ngDialog, $controller,$scope) {
+       ['$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$scope', 'customBuilderFactory',
+           function ($location, $window, shipmentFactory, ngDialog, $controller, $scope, customBuilderFactory) {
                var vm = this;
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
+
+               vm.loadFilterToggle = function () {
+                   customBuilderFactory.customFilterToggle();
+
+               };
 
                vm.loadAllShipments = function (status) {
                    
