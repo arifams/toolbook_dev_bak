@@ -27,6 +27,8 @@ using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
 using PI.Contract;
+using PI.Contract.DTOs;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Business
 {
@@ -36,8 +38,9 @@ namespace PI.Business
         ICarrierIntegrationManager sisManager =null;
         ICompanyManagement companyManagment;
         private ILogger logger;
+        IPaymentManager paymentManager;
 
-        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, PIContext _context = null)
+        public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, IPaymentManager paymentManager, PIContext _context = null)
         {
             //if (_context==null)
             //{
@@ -53,6 +56,7 @@ namespace PI.Business
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
             this.logger = logger;
+            this.paymentManager = paymentManager;
         }
 
         public ShipmentcostList GetRateSheet(ShipmentDto currentShipment)
@@ -3575,6 +3579,15 @@ namespace PI.Business
          //   }
 
             return environment;
+        }
+
+        public OperationResult PaymentCharge(PaymentDto payment)
+        {
+            OperationResult result;
+
+            result = paymentManager.Charge(payment);
+
+            return result;
         }
     }
 
