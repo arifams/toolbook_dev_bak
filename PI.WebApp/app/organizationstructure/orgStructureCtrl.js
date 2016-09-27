@@ -18,6 +18,7 @@
     app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller','loadOrganizationStructureFactory',
         function ($scope, $compile, ngDialog, customBuilderFactory, $controller, loadOrganizationStructureFactory) {
 
+           //
             //var datascource = {
             //    'id': '1',
             //    'name': 'Business Owner',
