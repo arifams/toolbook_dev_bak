@@ -124,11 +124,9 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("GetHashForPayLane")]
-        public IHttpActionResult GetHashForPayLane(PayLaneDto payLaneDto)
+        public IHttpActionResult GetSquareApplicationId()
         {
-            return Ok(shipmentManagement.GetHashForPayLane(payLaneDto));
+            return Ok(shipmentManagement.GetSquareApplicationId());
         }
 
 

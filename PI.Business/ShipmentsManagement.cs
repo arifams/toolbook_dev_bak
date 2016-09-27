@@ -564,20 +564,9 @@ namespace PI.Business
             return result;
         }
 
-        public PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto)
+        public string GetSquareApplicationId()
         {
-            string merchantId = ConfigurationManager.AppSettings["PayLaneMerchantId"].ToString();
-            string hashSalt = ConfigurationManager.AppSettings["PayLaneHashSalt"].ToString();
-            string description = ConfigurationManager.AppSettings["PayLaneDescription"].ToString();
-
-            //(salt + "|" + description + "|" + amount + "|" + currency + "|" + transaction_type)
-            string buildStringForHash = string.Format("{0}|{1}|{2}|{3}|{4}", hashSalt, description, payLaneDto.Amount, payLaneDto.Currency, payLaneDto.TransactionType);
-            return new PayLaneDto()
-            {
-                MerchantId = merchantId,
-                Description = description,
-                Hash = Hash(buildStringForHash)
-            };
+            return ConfigurationManager.AppSettings["SquareApplicationId"].ToString();            
         }
 
         private static string Hash(string input)
