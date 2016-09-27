@@ -49,5 +49,7 @@ namespace PI.Contract.Business
         bool UpdateCompanyLogo(string URL, string userId);
         NodeDto GetOrganizationStructure(string userId);
         long GetTenantIdByUserId(string userid);
+        void SaveUserPhoneCode(UserDto userDto);
+        void SaveUserPhoneConfirmation(UserDto userDto);
     }
 }

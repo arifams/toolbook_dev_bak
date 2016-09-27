@@ -1,25 +1,130 @@
 ﻿<div ng-init="">
+    <div class="builder" id="builder1">
+        <a class="builder-toggle f-20" ng-click="invoiceCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
+        <div class="inner">
+            <div class="row m-0 side-builder-header">
+                <h4 class="text-center m-t-0">FILTER FINANCE</h4>
+            </div>
+            <div class="builder-container">
+
+                <div class="row m-0">
+                    <div class="form-group">
+                        <label class="form-label">Invoice date</label>
+                        <div class="prepend-icon">
+                            <input type="text" date-range-picker=""
+                                   class="date-picker form-control form-white" name="datepicker" ng-model="invoiceCtrl.datePicker.date" placeholder="{{'Search By: Invoice Date'|translate}}">
+                            <i class="icon-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="border-top"></h4>
+                <div class="row m-0">
+                    <label class="form-label" translate>Status</label>
+                    <div class="form-group">
+
+                        <div class="option-group">
+                            <select id="addressStatus" name="addressStatus" class="form-control form-white"
+                                    ng-model="invoiceCtrl.status" ng-change="invoiceCtrl.statusButton()">
+                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('All')" translate>Status: All</option>
+                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</option>
+                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</option>
+                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</option>
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+
+                <a href="#" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
+
+                <a href="#" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <h2 class="m-t-0 custom-page-header">Admin finance</h2>
+    </div>
+
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon p-0 m-b-10">
+            <input type="text" class="form-control form-white custom-search"
+                   placeholder="{{'Search' | translate}}">
+            <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xs-12">
+            <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
+                <div dropdown="" class="btn-group pull-right">
+                    <button data-toggle="dropdown" class="btn f-14" type="button" style="background-color:#f2f2f2;box-shadow:none">
+                        <i aria-hidden="true" class="fa fa-upload" style="color:#319db5"></i>
+                        <span style="color:#319db5">Import</span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <!--ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-click="addressCtrl.importAddressBook()">Import</a>
+                        </li>
+                        <li>
+                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBookDetails.csv">CSV Template</a>
+                        </li>
+                        <li>
+                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBook.xlsx">Excel Template</a>
+                        </li>
+                    </ul>-->
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
+                <div dropdown="" class="btn-group">
+                    <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button" 
+                            style="background-color:#f2f2f2;box-shadow:none" ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
+                        <i class="fa fa-download" aria-hidden="true" style="color:#319db5"></i>
+                        <span style="color:#319db5">Export</span>
+                    </button>
+                    <!--<span class="dropdown-arrow"></span>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">
+                                CSV<translate>Export </translate>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a ng-click="addressCtrl.ExportExcel()">Excel Export</a>
+                        </li>
+
+                    </ul>-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 col-md-5 col-xs-12 p-0">
+            <div class="alert media fade in alert-finance-value m-b-0">
+                <p class="text-center"><strong>2413413413</strong></p>
+            </div>
+        </div>
+    </div>
 
     <div class="panel">
-
         <div class="panel-content panel-border">
             <tabset class="tab-fade-in">
                 <tab select="invoiceCtrl.loadAllInvoices()">
                     <tab-heading translate>
-                        ALL INVOICES
+                        INVOICES
                     </tab-heading>
                     <form role="form" name="formAllInvoices">
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-10"></div>
                            
                                 <div class="col-sm-2">
-                                    <button class="btn btn-primary" style="float:right;" ng-click="invoiceCtrl.uploadInvoice('invoice')" translate>Add Invoice</button>
+                                    <button class="btn btn-primary" style="float:right;" ng-click="invoiceCtrl.uploadInvoice('invoice')" translate>
+                                        <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>Add Invoice</button>
                                 </div>
                            
-                        </div>
+                        </div>-->
 
-                        <div class="row">
-                            <div class="col-sm-2 form-group">
+                            <!--<div class="col-sm-2 form-group">
                                 <div dropdown="" class="btn-group">
                                     <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
                                         <translate>Status</translate> : {{invoiceCtrl.statusButton}}
@@ -41,13 +146,13 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                            <div class="col-sm-2 form-group p-0">
+                            </div>-->
+                            <!--<div class="col-sm-2 form-group p-0">
                                 <div class="btn-group m-0">
-                                    <input type="text" style="" date-range-picker="" class="form-control date-picker ng-pristine ng-valid ng-isolate-scope ng-touched p-l-5" ng-model="invoiceCtrl.datePicker.date" placeholder="{{'Search By: Invoice Date'|translate}}">
+                                    <input type="text" style="" date-range-picker="" class="form-control date-picker p-l-5" ng-model="invoiceCtrl.datePicker.date" placeholder="{{'Search By: Invoice Date'|translate}}">
                                 </div>
-                            </div>
-                            <div class="col-sm-3 form-group p-r-0">
+                            </div>-->
+                            <!--<div class="col-sm-3 form-group p-r-0">
                                 <div class="btn-group m-0">
                                     <select ng-model="searchTypeInvoice" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched p-r-0 p-l-0" ng-init="searchTypeInvoice = 'ShipmentReference'">
                                         <option value="ShipmentReference" translate>Search By: Shipment Reference</option>
@@ -55,8 +160,8 @@
                                         <option value="InvoiceNumber" translate>Search By: InvoiceNumber</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'ShipmentReference'">
+                            </div>-->
+                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'ShipmentReference'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
                                            placeholder="{{'Shipment Ref Number'|translate}}" />
@@ -67,9 +172,9 @@
                                     </span>
                                 </div>
 
-                            </div>
+                            </div>-->
 
-                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'BusinessOwner'">
+                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'BusinessOwner'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
                                            placeholder="Business Owner" />
@@ -79,9 +184,9 @@
                                         </button>
                                     </span>
                                 </div>
-                            </div>
+                            </div>-->
 
-                            <div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'InvoiceNumber'">
+                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'InvoiceNumber'">
                                 <div class="input-group">
                                     <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
                                            placeholder="Invoice Number" />
@@ -92,31 +197,31 @@
                                     </span>
                                 </div>
 
-                            </div>
-                            <div class="col-sm-2">
+                            </div>-->
+                            <!--<div class="col-sm-2">
                                 <button type="button" class="btn btn-large btn-primary no-margin"
                                         ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
                                     <i class="glyphicon glyphicon-download-alt"></i>
                                     <translate>Export</translate>
                                 </button>
-                            </div>
-                        </div>
-                        <div class="row">
+                            </div>-->
+                      
 
-                         
-                            
-                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-striped ship-mgt">
+                        <div class="row res-grid">
+                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name" width="12%" translate>Invoice Date</th>
-                                        <th width="14%" translate>Business Owner</th>
-                                        <th width="13%" translate>Corporate Name</th>
-                                        <th width="12%" translate>Shipment References</th>
-                                        <th width="12%" translate>Invoice Number</th>
-                                        <th width="12%" translate>Invoice Value</th>
-                                        <th width="13%" translate>Invoice Status</th>
-                                        <th width="12%" translate>View Invoice</th>
-
+                                        <th st-sort="name"translate>Date</th>
+                                        <th translate>Owner last name</th>
+                                        <th translate>Company</th>
+                                        <!--<th translate>Shipment References</th>-->
+                                        <th translate>Invoice #</th>
+                                        <th translate>Invoice Value</th>
+                                        <th translate>credit Value</th>
+                                        <th translate>sum</th>
+                                        <th translate>Status</th>
+                                        <th translate>View</th>
+                                        <th translate></th>
                                     </tr>
 
                                 </thead>
@@ -125,34 +230,39 @@
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
                                         <td>{{row.companyName}}</td>
-                                        <td>{{row.shipmentReference}}</td>
+                                        <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
                                         <td>{{row.invoiceValue}}</td>
-
+                                        <td></td>
+                                        <td></td>
                                         <td>
-                                            <div class="option-group p-0">
-                                                <select id="status" name="status" class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                            <div class="option-group form-group m-0">
+                                                <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                        ng-model=row.invoiceStatus ng-change="invoiceCtrl.updateInvoiceStatus(row)"
+                                                        data-container="body" rel="popover" name="status"
+                                                        class="form-control form-white" data-original-title="" >
                                                     <option value="Pending" translate>Pending</option>
                                                     <option value="Paid" translate>Paid</option>
                                                     <option value="Disputed" translate>Disputed</option>
-
                                                 </select>
+
                                             </div>
                                         </td>
-                                        <td style="text-align:center">
-                                            <a href='{{row.url}}' class="edit btn btn-sm btn-default">
-                                                <i class="glyphicon glyphicon-download-alt"></i>
+                                        <td>
+                                            <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
+                                                <i class="fa fa-eye"></i>
                                             </a>
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
+                                <!--<tfoot>
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-pagination="" st-items-by-page="itemsByPage"></div>
                                         </td>
                                     </tr>
-                                </tfoot>
+                                </tfoot>-->
                             </table>
                         </div>
                     </form>
@@ -160,10 +270,10 @@
 
                 <tab select="invoiceCtrl.loadDisputedInvoices()">
                     <tab-heading translate>
-                       DISPUTED INVOICES
+                       DISPUTES
                     </tab-heading>
                     <form role="form">
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-5 form-group p-0">
                                 <div class="btn-group">
                                     <input date-range-picker class="form-control date-picker" type="text"
@@ -217,20 +327,23 @@
 
                             </div>
 
-                        </div>                       
-                        <div class="row">                            
-                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-striped ship-mgt">
+                        </div>-->                       
+                        <div class="row res-grid">                            
+                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name" width="11%" translate>Invoice Date</th>
-                                        <th width="11%" translate>Business Owner</th>
-                                        <th width="11%" translate>Corporate Name</th>
-                                        <th width="11%" translate>Shipment References</th>
-                                        <th width="11%" translate>Invoice Number</th>
-                                        <th width="10%" translate>Invoice Value</th>
-                                        <th width="13%" translate>Invoice Status</th>
-                                        <th width="11%" translate>Upload Credit Note</th>   
-                                        <th width="11%" translate>View Credit Note</th>                                                                           
+                                        <th st-sort="name" translate>Date</th>
+                                        <th translate> Owner last name</th>
+                                        <th translate>Company</th>
+                                        <!--<th translate>Shipment References</th>-->
+                                        <th translate>Invoice #</th>
+                                        <th translate>Invoice Value</th>
+                                        <th translate>credit Value</th>
+                                        <th translate>sum</th>
+                                        <th translate>Status</th>
+                                        <!--<th translate>Upload Credit Note</th>-->   
+                                        <th translate>View</th>   
+                                        <th translate></th>                                                                           
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -238,12 +351,15 @@
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
                                         <td>{{row.companyName}}</td>
-                                        <td>{{row.shipmentReference}}</td>
+                                        <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
                                         <td>{{row.invoiceValue}}</td>
+                                        <td></td>
+                                        <td></td>
                                         <td>
-                                            <div class="option-group p-0">
-                                                <select class="status form-control" ng-model=row.invoiceStatus; ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                            <div class="option-group form-group m-0">
+                                                <select class="form-control form-white" ng-model=row.invoiceStatus
+                                                        ng-change="invoiceCtrl.updateInvoiceStatus(row)">
                                                     <option value="Pending" translate>Pending</option>
                                                     <option value="Paid" translate>Paid</option>
                                                     <option value="Disputed" translate>Disputed</option>
@@ -251,45 +367,28 @@
                                                 </select>
                                             </div>
                                         </td>                                       
-                                        <td style="text-align:center">
+                                        <!--<td style="text-align:center">
                                             <a class="edit btn btn-sm btn-default" ng-click="invoiceCtrl.uploadInvoice('creditNote', row.id)">
                                                 <i class="glyphicon glyphicon-circle-arrow-up"></i>
                                             </a>
-                                        </td>
+                                        </td>-->
                                         <td style="text-align:center">
-                                            <a href='{{row.creditNoteURL}}' class="edit btn btn-sm btn-default" ng-show="row.creditNoteURL != null">
+                                            <a href='{{row.creditNoteURL}}' class="btn btn-sm btn-primary btn-transparent" ng-show="row.creditNoteURL != null">
                                                 <i class="glyphicon glyphicon-download-alt"></i>
                                             </a>
                                         </td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
+                                
                             </table>
                         </div>
                     </form>
                 </tab>
 
             </tabset>
-            <div id="panel-notif"></div>
+            
         </div>
     </div>
-
-
-
-
-    <div class="footer">
-
-        <div class="copyright">
-            <p class="pull-left sm-pull-reset">
-                <span>Parcel International</span>
-            </p>
-
-        </div>
-    </div>
+    <div id="panel-notif"></div>
 </div>

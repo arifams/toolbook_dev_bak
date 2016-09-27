@@ -1333,33 +1333,33 @@ namespace PI.Business
                 // Save user context.
                 context.SaveChanges();
 
-                    // Add customer record for the newly added user.
-                    
-                    //string roleId = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+                // Add customer record for the newly added user.
 
-                    //var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
-                    //                                                     && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
+                //string roleId = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+                //var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
+                //                                                     && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
 
 
-                    customerManagement.SaveCustomer(new CustomerDto
-                    {
-                        Salutation = userDto.Salutation,
-                        FirstName = userDto.FirstName,
-                        MiddleName = userDto.MiddleName,
-                        LastName = userDto.LastName,
-                        Email = userDto.Email,
-                        UserName = userDto.Email,
-                        Password = userDto.Password,
-                        IsCorpAddressUseAsBusinessAddress = true,
-                        UserId = appUser.Id,
-                        AddressId = 1//businessOwnerRecord.Id
-                    });
-                }
-                else
+                customerManagement.SaveCustomer(new CustomerDto
                 {
-                    result.IsAddUser = false;
-                    //ApplicationUser existingUser = new ApplicationUser();
-                    appUser = context.Users.SingleOrDefault(u => u.Id == userDto.Id);
+                    Salutation = userDto.Salutation,
+                    FirstName = userDto.FirstName,
+                    MiddleName = userDto.MiddleName,
+                    LastName = userDto.LastName,
+                    Email = userDto.Email,
+                    UserName = userDto.Email,
+                    Password = userDto.Password,
+                    IsCorpAddressUseAsBusinessAddress = true,
+                    UserId = appUser.Id,
+                    AddressId = 1//businessOwnerRecord.Id
+                });
+            }
+            else
+            {
+                result.IsAddUser = false;
+                //ApplicationUser existingUser = new ApplicationUser();
+                appUser = context.Users.SingleOrDefault(u => u.Id == userDto.Id);
 
                 appUser.Salutation = userDto.Salutation;
                 appUser.FirstName = userDto.FirstName;
@@ -1738,6 +1738,30 @@ namespace PI.Business
         }
 
 
+        public void SaveUserPhoneCode(UserDto userDto)
+        {
+            var currentuser = context.Users.SingleOrDefault(u => u.Email == userDto.Email);
+            currentuser.MobileVerificationCode = userDto.MobileVerificationCode;
+            currentuser.MobileVerificationExpiry = DateTime.Now;
+
+            var customer = context.Customers.SingleOrDefault(u => u.Email == userDto.Email);
+            
+            if (customer.MobileNumber != userDto.MobileNumber)
+            {                
+                customer.MobileNumber = userDto.MobileNumber;
+                currentuser.PhoneNumberConfirmed = false;
+            }
+
+            context.SaveChanges();
+        }
+
+        public void SaveUserPhoneConfirmation(UserDto userDto)
+        {
+            var currentuser = context.Users.SingleOrDefault(u => u.Email == userDto.Email);
+
+            currentuser.PhoneNumberConfirmed = true;
+            context.SaveChanges();
+        }
         #endregion
 
 

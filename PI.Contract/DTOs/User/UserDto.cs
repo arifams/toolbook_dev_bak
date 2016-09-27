@@ -50,5 +50,14 @@ namespace PI.Contract.DTOs.User
         public string ReferenceType { get; set; }
 
         public long ReferenceId { get; set; }
+
+        public string MobileVerificationCode { get; set; }
+
+        public System.DateTime? MobileVerificationExpiry { get; set; }
+
+        public bool isViaProfileSettings { get; set; }
+
+        public string MobileNumber { get; set; }
+
     }
 }

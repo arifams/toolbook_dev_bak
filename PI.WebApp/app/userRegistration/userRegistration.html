@@ -17,128 +17,171 @@
     <!-- BEGIN LOGIN BOX -->
     <div class="container" id="login-block" ng-cloak>
         <div class="row text-center">
-            <div class="form-content" style="width:500px;">
-                <div class="account-wall">
-                    <i class="user-img icons-faces-users-03"></i>
+            <div class="form-content">
+                <div class="account-wall" style="background-color:rgba(255, 255, 255,.7);border-radius:7px;box-shadow:inset 0px 0px 6px #000;">
+                    <div class="login-user p-0" style="padding-top:20px;padding-right:20px;padding-left:20px;text-align:center;padding-bottom:25px;">
+                        <img src="/global/images/logo/PI-logo-login-sm.png">
+                        <p style="text-align:center;color:#fff;font-size:16px">Tailor-made logistics at your fingertips</p>
+                    </div>
+
                     <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-hide="regCtrl.isSentMail" ng-submit="formSignup.$valid && regCtrl.register();">
-                        <div class="reg" id="reg-stepOne" ng-show="showContent != true">
-                            <div class="regheader" translate> Customer Registration </div>
-                            <div class="reg-contentwrapper">
-                                <p class="m-t-0 text-center f-16">
-                                    Register with one of your accounts using
-                                </p>
-                                <div class="row text-center">
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-fb icon-margin" type="button" data-ng-click="regCtrl.authExternalProvider('Facebook')">
-                                    <i class="fa fa-facebook"></i></button>
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-danger" type="button" data-ng-click="regCtrl.authExternalProvider('Google')">
-                                    <i class="fa fa-google-plus"></i></button>
-                                    <button class="btn btn-sm btn-icon btn-rounded btn-blue" type="button" data-ng-click="regCtrl.authExternalProvider('Microsoft')">
-                                    <i class="fa fa-windows"></i></button>
-                                </div>
-                                <hr>
-                                <p class="m-t-0 text-center f-16">Or register with a traditional account</p>                                
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="form-group">
-                                            <div class="append-icon">
-                                                <input type="email" name="email" id="email" class="form-control" placeholder="{{'Email address*'|translate}}" required ng-model="regCtrl.user.email"
-                                                       ng-maxlength="100" ng-class="{ 'error': formSignup.email.$invalid &&
-                                                       (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" ng-focus="emailFocus = true" ng-blur="emailFocus = false"/>
 
-                                            </div>
-                                            <div ng-messages="formSignup.email.$error" ng-show="(formSignup.email.$dirty && !emailFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
-                                                <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-
-                                    <div class="col-sm-11">
-                                        <div class="form-group">
-                                            <input type="password" name="password" id="password" class="form-control form-psw" 
-                                                   placeholder= "{{'Enter your password *'|translate}}"
-                                                   required ng-model="regCtrl.user.password"
-                                                   ng-class="{ 'error': formSignup.password.$invalid &&
-                                                       (formSignup.password.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password ng-focus="passwordFocus = true" ng-blur="passwordFocus = false"/>
-                                        </div>
-                                        <div ng-messages="formSignup.password.$error" ng-show="(formSignup.password.$dirty && !passwordFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                            <label ng-message="required" class="error" for="password" translate>Enter your password</label>
-                                            <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <div class="form-group">
-                                            <div class="append-icon">
-                                                <i class="icon-question" rel="popover" data-container="body" data-toggle="popover"
-                                                   data-placement="top"
-                                                   data-html="true"
-                                                   data-content= "- At least 8 characters long.
-                                           <br> - Should at least contain;
-                                           
-                                           <br> &nbsp;&nbsp;&nbsp;&nbsp;One uppercase letter."
-                                          
-                                           data-original-title="Your Password should be:" ></i>
-                                            </div>  
-
-                                            <div class="spacer_1px"></div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-11">
-                                        <div class="form-group">
-                                            <div class="append-icon">
-                                                <input type="password" name="password_c" id="password_c" class="form-control form-psw"
-                                                       placeholder="{{'Confirm your password *'|translate}}" required ng-model="regCtrl.user.password_c"
-                                                       ng-class="{ 'error': formSignup.password_c.$invalid &&
-                                                       (formSignup.password_c.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password-c ng-focus="password_cFocus = true" ng-blur="password_cFocus = false"/>
-                                            </div>
-                                            <div ng-messages="formSignup.password_c.$error" ng-show="(formSignup.password_c.$dirty && !password_cFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                                <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
-                                                <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="terms option-group">
-                                            <label for="terms" class="m-t-10">
-                                                <input type="checkbox" name="terms" id="terms" required ng-model="regCtrl.user.terms"
-                                                       ng-class="{ 'error': formSignupNext.terms.$invalid && (formSignupNext.terms.$dirty||regCtrl.isSubmit) }" icheck />
-                                                <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()" style="color:#00A2D9;font-weight:normal;" translate>I agree with terms and conditions</a>
-                                            </label>
-                                            <div ng-messages="formSignupNext.terms.$error" ng-show="formSignupNext.terms.$dirty || regCtrl.isSubmit">
-                                                <label ng-message="required" class="error" for="terms" translate>You must agree with terms</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20"
-                                            data-style="expand-left" ng-click="regCtrl.isSubmit = true">
-                                        <translate>Register</translate>
-                                    </button>
-                                    <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted" translate>
-                                        Please wait ...
-                                    </div>
-
-                                    <div>
-                                        <br />
-                                        <a href="../userLogin/userLogin.html" style="color:#00A2D9;font-weight:normal;float:right;"
-                                           translate>Already a member? Try logging in</a>
-                                    </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-xs-6">
+                                <div class="form-group">
+                                    <input ng-cloak type="text" name="firstname" id="firstname" class="form-control form-ash" placeholder="{{'First name*'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}" autocomplete="off">
 
                                 </div>
                             </div>
+                            <div class="col-sm-6 col-md-6 col-xs-6">
+                                <div class="form-group">
+                                    <input type="text" name="lastname" id="lname" class="form-control form-ash" placeholder="{{'Last name*'|translate}}"
+                                           ng-maxlength="100" />
+                                </div>
+                            </div>
+                        </div>
 
-                        </div><!--end Reg-stepOne -->
+                        <!--<div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                        <input type="text" name="lastname" id="lname" class="form-control form-ash" placeholder="{{'Last name*'|translate}}" required ng-model=""
+                                               ng-maxlength="100" />
+                                </div>
+                            </div>
+                        </div>-->
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="email" name="email" id="email" class="form-control form-ash" placeholder="{{'Email address*'|translate}}" required ng-model="regCtrl.user.email"
+                                           ng-maxlength="100" ng-class="{ 'error': formSignup.email.$invalid &&
+                                                       (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" ng-focus="emailFocus = true" ng-blur="emailFocus = false" />
+
+                                    <div ng-messages="formSignup.email.$error" ng-show="(formSignup.email.$dirty && !emailFocus) || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                        <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="password" name="password" id="password" class="form-control form-ash"
+                                           placeholder="{{'Enter password *'|translate}}" required
+                                           ng-model="regCtrl.user.password"
+                                           ng-class="{ 'error': formSignup.password.$invalid &&
+                                                       (formSignup.password.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password ng-focus="passwordFocus = true" ng-blur="passwordFocus = false" />
+
+                                    <div ng-messages="formSignup.password.$error" ng-show="(formSignup.password.$dirty && !passwordFocus) || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="password" translate>Enter your password</label>
+                                        <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <input type="password" name="password_c" id="password_c" class="form-control form-ash"
+                                           placeholder="{{'Confirm password *'|translate}}" required ng-model="regCtrl.user.password_c"
+                                           ng-class="{ 'error': formSignup.password_c.$invalid &&
+                                                       (formSignup.password_c.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password-c ng-focus="password_cFocus = true" ng-blur="password_cFocus = false" />
+
+                                    <div ng-messages="formSignup.password_c.$error" ng-show="(formSignup.password_c.$dirty && !password_cFocus) || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
+                                        <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!--<div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="email" name="email" id="email" class="form-control" placeholder="{{'Email address*'|translate}}" required ng-model="regCtrl.user.email"
+                                               ng-maxlength="100" ng-class="{ 'error': formSignup.email.$invalid &&
+                                               (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" ng-focus="emailFocus = true" ng-blur="emailFocus = false"/>
+
+                                    </div>
+                                    <div ng-messages="formSignup.email.$error" ng-show="(formSignup.email.$dirty && !emailFocus) || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
+                                        <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                        <!--<div class="row">-->
+                        <!--<div class="col-sm-12 col-md-12 col-xs-12">
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control form-psw"
+                                       placeholder= "{{'Enter your password *'|translate}}"
+                                       required ng-model="regCtrl.user.password"
+                                       ng-class="{ 'error': formSignup.password.$invalid &&
+                                           (formSignup.password.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password ng-focus="passwordFocus = true" ng-blur="passwordFocus = false"/>
+                            </div>
+                            <div ng-messages="formSignup.password.$error" ng-show="(formSignup.password.$dirty && !passwordFocus) || regCtrl.isSubmit || isfirstFormInvalid">
+                                <label ng-message="required" class="error" for="password" translate>Enter your password</label>
+                                <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
+                            </div>
+                        </div>-->
+                        <!--<div class="col-sm-1">
+                            <div class="form-group">
+                                <div class="append-icon">
+                                    <i class="icon-question" rel="popover" data-container="body" data-toggle="popover"
+                                       data-placement="top"
+                                       data-html="true"
+                                       data-content= "- At least 8 characters long.
+                               <br> - Should at least contain;
+
+                               <br> &nbsp;&nbsp;&nbsp;&nbsp;One uppercase letter."
+
+                               data-original-title="Your Password should be:" ></i>
+                                </div>
+
+                                <div class="spacer_1px"></div>
+                            </div>
+                        </div>-->
+                        <!--</div>-->
+
+                        <hr class="m-b-5">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-12 col-xs-12" style="text-align:center">
+                                <a href="../userLogin/userLogin.html"
+                                   translate>Already a member? Try logging in</a>
+                            </div>
+                        </div>
+
+                        <!--<div class="row">
+                            <div class="col-sm-12">
+                                <div class="terms option-group">
+                                    <label for="terms" class="m-t-10">
+                                        <input type="checkbox" name="terms" id="terms" required ng-model="regCtrl.user.terms"
+                                               ng-class="{ 'error': formSignupNext.terms.$invalid && (formSignupNext.terms.$dirty||regCtrl.isSubmit) }" icheck />
+                                        <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()" style="color:#00A2D9;font-weight:normal;" translate>I agree with terms and conditions</a>
+                                    </label>
+                                    <div ng-messages="formSignupNext.terms.$error" ng-show="formSignupNext.terms.$dirty || regCtrl.isSubmit">
+                                        <label ng-message="required" class="error" for="terms" translate>You must agree with terms</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+
+                        <button type="submit" id="submit-form" class="btn btn-lg btn-primary m-t-20 m-b-10"
+                                data-style="expand-left" ng-click="regCtrl.isSubmit = true" style="box-shadow: -2px 2px 4px 2px #999999;">
+                            <translate>Create an Account</translate>
+                        </button>
+
+                        <p style="text-align:center;color:#8c8c8c">By clicking "Create an Account" you are agreeing to <br> Parcel International <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()">Terms &amp; Conditions</a></p>
+
+                        <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted" translate>
+                            Please wait ...
+                        </div>
+
                     </form>
 
                     <div class="alert alert-success confirmationMailSend" ng-show="regCtrl.isSentMail">
@@ -182,9 +225,9 @@
 
     <script src="../directive/angular-local-storage.min.js"></script>
     <script src="../directive/tokensManagerService.js"></script>
-    
+
     <script src="../directive/authService.js"></script>
     <script src="../directive/authInterceptorService.js"></script>
-    
+
 </body>
 </html>

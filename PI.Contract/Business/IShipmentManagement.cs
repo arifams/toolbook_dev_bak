@@ -103,6 +103,13 @@ namespace PI.Contract.Business
         ShipmentDto GetShipmentByCodeShipment(string codeShipment);
 
         /// <summary>
+        /// load All Shipments ForExcel generation
+        /// </summary>
+        /// <param name="codeShipmen
+        byte[] loadAllShipmentsForExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                         string number = null, string source = null, string destination = null, bool viaDashboard = false);
+
+        /// <summary>
         /// Charge from customer by using credit card
         /// </summary>
         /// <param name="payment">payment</param>

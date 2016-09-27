@@ -1,0 +1,434 @@
+﻿<div ng-controller="financeCtrl as vm">
+    <div class="builder" id="builder1">
+        <a class="builder-toggle f-20" ng-click="vm.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
+        <div class="inner">
+            <div class="row m-0 side-builder-header">
+                <h4 class="text-center m-t-0">FILTER FINANCE</h4>
+            </div>
+            <div class="builder-container">
+                
+                <br>
+                <div class="row m-0">
+                    <div class="form-group">
+                        <label class="form-label">Invoice date</label>
+                        <div class="prepend-icon">
+                            <input type="text" placeholder="Select a date..." class="date-picker form-control form-white" name="datepicker">
+                            <i class="icon-calendar"></i>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="border-top"></h4>
+                <div class="row m-0">
+                    <label style="color: rgb(91, 91, 91);">
+                       Status
+                    </label>
+                    <div class="option-group form-group">
+                        <select style=""
+                                class="form-control form-white"
+                                convert-to-number=""
+                                name="role"
+                                rel="popover"
+                                data-container="body" data-toggle="popover"
+                                data-placement="top" data-html="true" data-content="">
+                            <option value="" translate="">Active</option>
+                            <option value="" translate="">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+                <hr>
+                
+                    <a href="#" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
+              
+                    <a href="#" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
+                
+                
+            </div>
+        </div>
+    </div>
+   
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <h2 class="m-t-0 custom-page-header">Finance</h2>
+    </div>
+
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon p-0 m-b-10">
+            <input type="text" class="form-control form-white custom-search"
+                   placeholder="{{'Search' | translate}}" ng-model="financeCtrl.searchText">
+            <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+        </div>
+        <div class="col-sm-4 col-md-4 col-xs-12">
+            <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
+                <div dropdown="" class="btn-group pull-right">
+                    <button data-toggle="dropdown" class="btn f-14" type="button" style="background-color:#f2f2f2;box-shadow:none">
+                        <i aria-hidden="true" class="fa fa-upload" style="color:#319db5"></i>
+                        <span style="color:#319db5">Import</span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-click="addressCtrl.importAddressBook()">Import</a>
+                        </li>
+                        <li>
+                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBookDetails.csv">CSV Template</a>
+                        </li>
+                        <li>
+                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBook.xlsx">Excel Template</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
+                <div dropdown="" class="btn-group">
+                    <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button" style="background-color:#f2f2f2;box-shadow:none">
+                        <i class="fa fa-download" aria-hidden="true" style="color:#319db5"></i>
+                        <span style="color:#319db5">Export</span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <ul role="menu" class="dropdown-menu">
+                        <li>
+                            <a ng-csv="addressCtrl.exportcollection" filename="AddressBookDetails.csv">
+                                CSV<translate>Export </translate>
+                            </a>
+
+                        </li>
+                        <li>
+                            <a ng-click="addressCtrl.ExportExcel()">Excel Export</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 col-md-5 col-xs-12 p-0">
+            <div class="alert media fade in alert-finance-value m-b-0">
+                <p class="text-center"><strong>2413413413</strong></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <!-- form start -->
+        <!-- Main content -->
+        <div class="panel-content panel-border">
+            <form class="form-horizontal">
+                <!-- /.box-header -->
+
+                <div class="panel-header">
+                    <!-- left column -->
+
+                    <div class="box-body">
+                        <tabset class="tab-fade-in">
+                            <tab>
+                                <tab-heading translate>
+                                    INVOICES
+                                </tab-heading>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-xs-12 custom-table m-l-0">
+                                        <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th translate>Date</th>
+                                                    <th translate>Owner last name</th>
+                                                    <th translate>Company</th>
+                                                    <th translate>invoice #</th>
+                                                    <th translate>invoice value</th>
+                                                    <th translate>credit value</th>
+                                                    <th translate>sum</th>
+                                                    <th translate>status</th>
+                                                    <th translate></th>
+                                                    <th translate></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                 <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                     <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                     <td>
+                                                         <div class="option-group form-group m-0">
+                                                             <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                     data-container="body" rel="popover" name="role"
+                                                                     convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                 <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                 <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                             </select>
+                                                         </div>
+                                                     </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                
+                                            </tbody>
+
+                                        </table>
+                                        <pagination total-items=""
+                                                    ng-model="currentPage"
+                                                    max-size="maxSize"
+                                                    class="pagination-sm"
+                                                    boundary-links="true">
+                                        </pagination>
+                                    </div>
+
+                                </div>
+                            </tab>
+                            <tab>
+                                <tab-heading translate>
+                                    DISPUTE
+                                </tab-heading>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-12 col-xs-12 custom-table m-l-0">
+                                        <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th translate>Date</th>
+                                                    <th translate>owner last name</th>
+                                                    <th translate>company</th>
+                                                    <th translate>invoice #</th>
+                                                    <th translate>invoice value</th>
+                                                    <th translate>credit value</th>
+                                                    <th translate>sum</th>
+                                                    <th translate>status</th>
+                                                    <th translate></th>
+                                                    <th translate></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>qqqqqqqqq</td>
+                                                    <td>
+                                                        <div class="option-group form-group m-0">
+                                                            <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
+                                                                    data-container="body" rel="popover" name="role"
+                                                                    convert-to-number="" class="form-control form-white" style="" data-original-title="" title="">
+                                                                <option translate="" value=""><span class="ng-scope">Active</span></option>
+                                                                <option translate="" value=""><span class="ng-scope">Inactive</span></option>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="" class="btn btn-sm btn-primary btn-transparent">
+                                                            <i class="fa fa-eye"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <a class="delete btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                                            <i class="icons-office-52" style="color:#c14444"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                        <pagination total-items=""
+                                                    ng-model="currentPage"
+                                                    max-size="maxSize"
+                                                    class="pagination-sm"
+                                                    boundary-links="true">
+                                        </pagination>
+                                    </div>
+
+                                </div>
+                            </tab>
+                        </tabset>
+                                
+
+                    </div>
+                </div>
+                <div id="panel-notif"></div>
+            </form>
+        </div>
+    </div>
+</div>

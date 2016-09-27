@@ -56,6 +56,7 @@
             searchShipmentsById: searchShipmentsById,
             GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
             loadDefaultCostCenterId: loadDefaultCostCenterId,
+            getFilteredShipmentsExcel: getFilteredShipmentsExcel,
             PaymentCharge: PaymentCharge
         };
 
@@ -257,6 +258,23 @@
                     source: source,
                     destination: destination
                 }
+            });
+        }
+
+        function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
+            debugger;
+            return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
+                params: {
+                    userId: userId,                  
+                    status: status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,
+                    source: source,
+                    destination: destination,
+                    viaDashboard: viaDashboard
+                },
+                responseType: 'arraybuffer'
             });
         }
 

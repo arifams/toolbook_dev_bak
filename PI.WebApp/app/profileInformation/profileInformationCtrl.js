@@ -30,6 +30,19 @@
             },
             updateThemeColour: function (updatedProfile) {
                 return $http.post(serverBaseUrl + '/api/profile/updateThemeColour', updatedProfile);
+            },
+            SendOPTCodeForPhoneValidation: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/accounts/SendOPTCodeForPhoneValidation', updatedProfile);
+            },
+            VerifyPhoneCode: function (updatedProfile) {
+                return $http.post(serverBaseUrl + '/api/accounts/VerifyPhoneCode', updatedProfile);
+            },
+            isPhoneNumberVerified: function (email) {
+                return $http.get(serverBaseUrl + '/api/accounts/IsPhoneNumberVerified', {
+                    params: {
+                        email: email
+                    }
+                })
             }
         }
 
@@ -126,7 +139,7 @@
 
         // return if user not logged. -- Need to move this to global service.
         if ($window.localStorage.getItem('userGuid') == '' || $window.localStorage.getItem('userGuid') == undefined) {
-            
+
             window.location = webBaseUrl + "/app/userLogin/userLogin.html";
             return;
         }
@@ -165,7 +178,7 @@
 
         //auto update the default language bofore the accept
         vm.getCurrentLnguage = function (language) {
-            
+
             if (language.languageCode == "en") {
                 $window.localStorage.setItem('currentLnguage', "")
                 gettextCatalog.setCurrentLanguage("");
@@ -197,9 +210,9 @@
             }
         };
 
-        vm.changeCountry = function () {
-            vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
-        };
+        //vm.changeCountry = function () {
+        //    vm.isRequiredState = vm.model.customerDetails.customerAddress.country == 'US' || vm.model.customerDetails.customerAddress.country == 'CA' || vm.model.customerDetails.customerAddress.country == 'PR' || vm.model.customerDetails.customerAddress.country == 'AU';
+        //};
 
         vm.changeBillingCountry = function () {
             vm.isRequiredBillingState = vm.model.companyDetails.costCenter.billingAddress.country == 'US' || vm.model.companyDetails.costCenter.billingAddress.country == 'CA' || vm.model.companyDetails.costCenter.billingAddress.country == 'PR' || vm.model.companyDetails.costCenter.billingAddress.country == 'AU';
@@ -237,7 +250,13 @@
             getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
              .then(function successCallback(response) {
                  vm.loading = false;
+                 debugger;
                  if (response.data.customerDetails != null) {
+
+                     vm.isPhoneNumberVerified();
+                     vm.originalPhone = vm.model.customerDetails.mobileNumber;
+                     vm.originalVerifiedStatus = vm.isVerified;
+
                      // vm.model.customerDetails = response.data.customerDetails;
                      vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                      // vm.model.companyDetails = response.data.companyDetails;
@@ -262,7 +281,7 @@
                      else {
                          vm.model.companyDetails.costCenter = { billingAddress: { country: 'US' } };
                          vm.changeBillingCountry();
-                     }
+                     }                    
                  }
 
              }, function errorCallback(response) {
@@ -417,7 +436,7 @@
 
                                 updateProfilefactory.updateProfileGeneral(vm.model)
                                         .then(function (responce) {
-                                            
+
                                             if (responce.status == 200) {
 
                                                 getSuccessMessage(body, responce);
@@ -686,7 +705,7 @@
                                                   if (responce.status == 200) {
                                                       getSuccessMessage(body, responce);
                                                   }
-                                                },
+                                              },
                                                 function (error) {
                                                     getErrorMessage(body, error);
                                                 });
@@ -708,7 +727,7 @@
                 timeout: 3000,
             });
         }
-               
+
         vm.uploadLogo = function (file) {
 
 
@@ -813,7 +832,7 @@
                             $scope.$apply(function () {
                                 vm.model.customerDetails.customerAddress.city = addr.city;
                                 vm.model.customerDetails.customerAddress.state = addr.state;
-                                vm.model.customerDetails.customerAddress.country = addr.country;
+                                //vm.model.customerDetails.customerAddress.country = addr.country;
                                 vm.errorCodeCustomer = false;
                             });
 
@@ -932,6 +951,89 @@
 
 
         }
+
+        vm.textPhoneCode = function () {
+            debugger;
+            var userDetails = {
+                email: vm.model.customerDetails.email,
+                mobileNumber: vm.model.customerDetails.mobileNumber,
+                isViaProfileSettings: true
+            };
+            updateProfilefactory.SendOPTCodeForPhoneValidation(userDetails)
+             .then(function (returnedResult) {
+                 debugger;
+                 if (returnedResult.status == 200) {
+                     vm.showError = false;
+                     vm.isSentSecurityCode = true;
+                 }
+             },
+            function (error) {
+                debugger;
+                vm.showError = true;
+                vm.errorMessage = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.errorMessage = $rootScope.translate('Error occured while processing your request.');
+                }
+            });
+        };
+
+
+        vm.submitSecurityCode = function () {
+            debugger;
+            var userDetails = {
+                email: vm.model.customerDetails.email,          
+                mobileVerificationCode: vm.model.customerDetails.mobileVerificationCode,
+                isViaProfileSettings: true
+            };
+            updateProfilefactory.VerifyPhoneCode(userDetails)
+             .then(function (returnedResult) {
+                 if (returnedResult.status == 200) {
+                     debugger;
+                     if (returnedResult.data) {
+                         vm.isVerified = true;
+                     }
+                     else {
+                         vm.showError = true;
+                         vm.errorMessage = $rootScope.translate('Invalid security code.');
+                     }
+                 }
+             },
+            function (error) {
+                vm.showError = true;
+                vm.errorMessage = $rootScope.translate(error.data.message);
+
+                if (error.data == "" || error.data.message == "") {
+                    vm.errorMessage = $rootScope.translate('Error occured while processing your request.');
+                }
+            });
+        };
+
+        vm.isVerified = false;
+        vm.isPhoneNumberVerified = function () {
+            debugger;
+            updateProfilefactory.isPhoneNumberVerified(vm.model.customerDetails.email)
+             .then(function (returnedResult) {
+                 if (returnedResult.status == 200) {
+                     debugger;
+                     if (returnedResult.data.result == 1) {
+                         vm.isVerified = true;
+                     }
+                     else if (returnedResult.data.result == 0) {
+                         vm.isVerified = false;
+                     }                     
+                 }
+             },
+            function (error) {
+                vm.isDisabled = false;
+            });
+        };
+
+       
+        vm.changePhone = function () {
+            debugger;
+            vm.isVerified = (vm.originalPhone == vm.model.customerDetails.mobileNumber) && vm.originalVerifiedStatus;
+        };
 
 
     }]);
