@@ -80,7 +80,7 @@
 
 
                         <div class="row text-center">
-                            <button class="btn btn-sm btn-icon btn-rounded btn-social" type="button" data-ng-click="authExternalProvider('Facebook')">
+                            <button class="btn btn-sm btn-icon btn-rounded btn-social m-b-10 m-r-10" type="button" data-ng-click="authExternalProvider('Facebook')">
                                 <i class="fa fa-facebook"></i>
                             </button>
                             <button class="btn btn-sm btn-icon btn-rounded btn-social" type="button" data-ng-click="authExternalProvider('Google')">
@@ -116,9 +116,9 @@
                                     <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
                                 </div>
                                 <div class="row m-t-10">
-                                    <div class="col-sm-12 col-md-12 col-xs-12" style="text-align:center">
+                                    <div class="col-sm-12 col-md-12 col-xs-12 text-center">
                                         <button class="btn btn-primary" ng-click="userLog.isEmailPhoneNumberVerified()" 
-                                                type="submit" style="box-shadow: -2px 2px 4px 2px #999999;" 
+                                                type="submit" 
                                                 id="submit-form">Next</button>
                                     </div>
                                 </div>
@@ -159,7 +159,7 @@
                                                 ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                             userLog.resetForgetPassword(userLog.option)"
                                                 id="submit-password" class="btn btn-primary"
-                                                data-style="expand-left" translate style="box-shadow: -2px 2px 4px 2px #999999;">
+                                                data-style="expand-left" translate>
                                             {{ userLog.option ==  "true"? "Send Password Reset Code" : "Send Password Reset Link"}}
                                         </button>
                                     </div>
