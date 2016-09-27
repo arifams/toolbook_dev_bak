@@ -127,7 +127,7 @@
                             <div ng-if="userLog.showNext == true">
                                 <div class="row m-l-0 m-r-0 m-b-10">
                                     <div class="col-md-12 form-group text-center">
-                                        <label>Select Password Reset Method</label>
+                                        <label style="color:#009BCB;">Select Password Reset Method</label>
                                 </div>
 
                             </div>
@@ -167,9 +167,9 @@
                   
                             
                                 <div class="row m-0" ng-if="userLog.option == 'true' && userLog.isSubmit">
-                                  <div class="col-md-7 col-xs-12 p-0">
+                                  <div class="col-md-5 col-xs-12 p-0" style="margin-left:51px;">
                                     <div class="form-group">
-                                        <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode">
+                                        <input type="text" class="form-control security-code" ng-model="userLog.pwdReset.mobileVerificationCode" >
                                     </div>
                                   </div>
                                   
@@ -177,13 +177,13 @@
                                         <button type="submit" class="btn btn-primary" data-style="expand-left" 
                                                 ng-click="userLog.submitSecurityCode()"
                                                 translate>
-                                            Submit code
+                                            Submit
                                         </button>
                                     </div>
                                  </div>
                                 <div class="row m-0">
                                     <p class="text-center">
-                                        <a ng-hide="userLog.isSentPasswordResetMail" type="button" href=""
+                                        <a ng-show="userLog.isSubmit" type="submit" href=""
                                            ng-click="forgotPasswordForm.$valid && (userLog.isSubmit = true) &&
                                                 userLog.resetForgetPassword(userLog.option)"
                                            translate>
