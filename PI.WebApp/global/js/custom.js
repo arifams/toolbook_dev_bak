@@ -1,10 +1,12 @@
 //****************** YOUR CUSTOMIZED JAVASCRIPT **********************//
 
 // Service base url
-//var serverBaseUrl = 'http://localhost:5555';
+//var serverBaseUrl = 'https://localhost:44339';
 //var serverBaseUrl = 'http://pibooking.azurewebsites.net';
 //var serverBaseUrl = 'http://piserviceprod.azurewebsites.net';
+//var serverBaseUrl = 'http://piserviceqa.azurewebsites.net'; // This is not using anymore
 var serverBaseUrl = 'https://service.transportal.it';
+//var serverBaseUrl = 'http://piserviceuat.azurewebsites.net';
 
 
 // Web base url
@@ -12,11 +14,14 @@ var serverBaseUrl = 'https://service.transportal.it';
 //var webBaseUrl = 'http://pibookingservice.azurewebsites.net';
 //var webBaseUrl = 'http://www.parcelinternational.net';
 var webBaseUrl = 'http://piwebqa.azurewebsites.net';
+//var webBaseUrl = 'http://piwebuat.azurewebsites.net';
 
 
-var SISUrl = 'http://book.12send.com/taleus/';
+var SISUrlUS = 'http://www2.shipitsmarter.com/taleus/';
+var SISUrlNL = 'http://www2.shipitsmarter.com/tale/';
 
-var SISUrl2 = 'http://book.parcelinternational.nl/taleus/';
+//var SISUrlUS = 'http://book.parcelinternational.nl/taleus/';
+//var SISUrlNL = 'http://book.parcelinternational.nl/tale/';
 
 var SISUser = 'info@parcelinternational.com';
 
