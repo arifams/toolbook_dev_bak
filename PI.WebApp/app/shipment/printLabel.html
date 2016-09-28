@@ -3,7 +3,7 @@
         <a class="builder-toggle f-20" ng-click="printCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
         <div class="inner">
             <div class="row m-0 side-builder-header">
-                <h4 class="text-center m-t-0">FILTER ADDRESS</h4>
+                <h4 class="text-center m-t-0">FILTER</h4>
             </div>
             <div class="builder-container">
                
@@ -29,14 +29,19 @@
         </div>
     </div>
     
-    <!--<div class="row m-l-0 m-r-0 m-b-20">
-        <h2 class="m-t-0 custom-page-header">Print label</h2>
-    </div>-->
     <div class="row m-l-0 m-r-0 m-b-10">
-        <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon p-0">
-            <input ng-model="printCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control form-white custom-search"
+        <h2 class="m-t-0 custom-page-header">Print label</h2>
+    </div>
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <div class="col-sm-3 col-md-4 col-xs-12 prepend-icon p-0 input-group">
+            <input ng-model="printCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control form-white custom-search2"
                    placeholder="{{'Tracking Number/ Shipment Id'|translate}}" />
-            <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+            <span class="input-group-btn p-0">
+                <button type="button" class="btn btn-large btn-primary no-margin" ng-click="printCtrl.loadAllShipments()"
+                        style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
+                    <i class="fa fa-search" style="color:#fff"></i>
+                </button>
+            </span>
         </div>
     </div>
     <div class="panel">
@@ -95,8 +100,7 @@
                                 <td>{{row.generalInformation.shipmentCode}}</td>
                                 <td>{{row.carrierInformation.carrierName}}</td>
                                 <td>{{row.addressInformation.consigner.city}}</td>
-                                <td>{{row.addressInformation.consignee.city}}</td>                               
-                              
+                                <td>{{row.addressInformation.consignee.city}}</td> 
                                 <td>
                                     <a href='{{row.generalInformation.shipmentLabelBLOBURL}}' class="btn btn-sm btn-primary btn-transparent">
                                         <i class="fa fa-eye"></i>

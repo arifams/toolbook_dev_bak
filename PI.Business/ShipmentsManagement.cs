@@ -27,6 +27,13 @@ using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
 using PI.Contract;
+using AzureMediaManager;
+using System.IO;
+using HtmlAgilityPack;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 
@@ -36,7 +43,7 @@ namespace PI.Business
     {
         private PIContext context;
         ICarrierIntegrationManager sisManager =null;
-        ICompanyManagement companyManagment;
+        ICompanyManagement companyManagment;       
         private ILogger logger;
         IPaymentManager paymentManager;
 
@@ -51,8 +58,7 @@ namespace PI.Business
             //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             //}
 
-            this.sisManager = sisManager;
-
+            this.sisManager = sisManager;          
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
             this.logger = logger;
@@ -1064,7 +1070,7 @@ namespace PI.Business
 
             //using (var context = PIContext.Get())
             //{
-                Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
+            Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
 
                 // This will not valid error any more.
                 // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
@@ -1105,127 +1111,237 @@ namespace PI.Business
                     }
                 }
 
-                var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
+            var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
 
-                shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
-                {
-                    Description = p.Description,
-                    Height = p.Height,
-                    Length = p.Length,
-                    Weight = p.Weight,
-                    Width = p.Width,
-                    Quantity = p.Quantity,
-                    ProductType = Utility.GetEnumDescription((ProductType)p.ProductTypeId)
-                }));
+            shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
+            {
+                Description = p.Description,
+                Height = p.Height,
+                Length = p.Length,
+                Weight = p.Weight,
+                Width = p.Width,
+                Quantity = p.Quantity,
+                ProductType = Utility.GetEnumDescription((ProductType)p.ProductTypeId)
+            }));
 
-                shipmentDto = new ShipmentDto()
+            shipmentDto = new ShipmentDto()
+            {
+                GeneralInformation = new GeneralInformationDto()
                 {
-                    GeneralInformation = new GeneralInformationDto()
+                    ShipmentId = shipment.Id.ToString(),
+                    ShipmentName = shipment.ShipmentName,
+                    ShipmentReferenceName = shipment.ShipmentReferenceName,
+                    ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService),
+                    shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode)
+                },
+                CarrierInformation = new CarrierInformationDto()
+                {
+                    CarrierName = shipment.Carrier.Name,
+                    serviceLevel = shipment.ServiceLevel,
+                    Price = shipment.ShipmentPackage.CarrierCost,
+                    Insurance = shipment.ShipmentPackage.InsuranceCost,
+                    tarriffType = shipment.TarriffType,
+                    tariffText = shipment.TariffText
+                },
+                AddressInformation = new ConsignerAndConsigneeInformationDto()
+                {
+                    Consignee = new ConsigneeDto()
                     {
-                        ShipmentId = shipment.Id.ToString(),
-                        ShipmentName = shipment.ShipmentName,
-                        ShipmentReferenceName = shipment.ShipmentReferenceName,
-                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService),
-                        shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode)
+                        FirstName = shipment.ConsigneeAddress.FirstName,
+                        LastName = shipment.ConsigneeAddress.LastName,
+                        Country = shipment.ConsigneeAddress.Country,
+                        Postalcode = shipment.ConsigneeAddress.ZipCode,
+                        Number = shipment.ConsigneeAddress.Number,
+                        Address1 = shipment.ConsigneeAddress.StreetAddress1,
+                        Address2 = shipment.ConsigneeAddress.StreetAddress2,
+                        City = shipment.ConsigneeAddress.City,
+                        State = shipment.ConsigneeAddress.State,
+                        Email = shipment.ConsigneeAddress.EmailAddress,
+                        ContactNumber = shipment.ConsigneeAddress.PhoneNumber,
+                        ContactName = shipment.ConsigneeAddress.ContactName
                     },
-                    CarrierInformation = new CarrierInformationDto()
+                    Consigner = new ConsignerDto()
                     {
-                        CarrierName = shipment.Carrier.Name,
-                        serviceLevel = shipment.ServiceLevel,
-                        Price = shipment.ShipmentPackage.CarrierCost,
-                        Insurance = shipment.ShipmentPackage.InsuranceCost,
-                        tarriffType = shipment.TarriffType,
-                        tariffText = shipment.TariffText
-                    },
-                    AddressInformation = new ConsignerAndConsigneeInformationDto()
-                    {
-                        Consignee = new ConsigneeDto()
-                        {
-                            FirstName = shipment.ConsigneeAddress.FirstName,
-                            LastName = shipment.ConsigneeAddress.LastName,
-                            Country = shipment.ConsigneeAddress.Country,
-                            Postalcode = shipment.ConsigneeAddress.ZipCode,
-                            Number = shipment.ConsigneeAddress.Number,
-                            Address1 = shipment.ConsigneeAddress.StreetAddress1,
-                            Address2 = shipment.ConsigneeAddress.StreetAddress2,
-                            City = shipment.ConsigneeAddress.City,
-                            State = shipment.ConsigneeAddress.State,
-                            Email = shipment.ConsigneeAddress.EmailAddress,
-                            ContactNumber = shipment.ConsigneeAddress.PhoneNumber,
-                            ContactName = shipment.ConsigneeAddress.ContactName
-                        },
-                        Consigner = new ConsignerDto()
-                        {
-                            FirstName = shipment.ConsignorAddress.FirstName,
-                            LastName = shipment.ConsignorAddress.LastName,
-                            Country = shipment.ConsignorAddress.Country,
-                            Postalcode = shipment.ConsignorAddress.ZipCode,
-                            Number = shipment.ConsignorAddress.Number,
-                            Address1 = shipment.ConsignorAddress.StreetAddress1,
-                            Address2 = shipment.ConsignorAddress.StreetAddress2,
-                            City = shipment.ConsignorAddress.City,
-                            State = shipment.ConsignorAddress.State,
-                            Email = shipment.ConsignorAddress.EmailAddress,
-                            ContactNumber = shipment.ConsignorAddress.PhoneNumber,
-                            ContactName = shipment.ConsignorAddress.ContactName
-                        }
-                    },
-                    PackageDetails = new PackageDetailsDto()
-                    {
-                        IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
-                        ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
-                        ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
-                        PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
-                        CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
-                        VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
-                        ProductIngredients = shipmentProductIngredientsList,
-                        ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
-                        DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
+                        FirstName = shipment.ConsignorAddress.FirstName,
+                        LastName = shipment.ConsignorAddress.LastName,
+                        Country = shipment.ConsignorAddress.Country,
+                        Postalcode = shipment.ConsignorAddress.ZipCode,
+                        Number = shipment.ConsignorAddress.Number,
+                        Address1 = shipment.ConsignorAddress.StreetAddress1,
+                        Address2 = shipment.ConsignorAddress.StreetAddress2,
+                        City = shipment.ConsignorAddress.City,
+                        State = shipment.ConsignorAddress.State,
+                        Email = shipment.ConsignorAddress.EmailAddress,
+                        ContactNumber = shipment.ConsignorAddress.PhoneNumber,
+                        ContactName = shipment.ConsignorAddress.ContactName
                     }
-                };
-
-                // Add Shipment to SIS.
-                response = sisManager.SendShipmentDetails(shipmentDto);
-
-                shipment.ShipmentCode = response.CodeShipment;
-                shipment.TrackingNumber = response.Awb;
-                result.AddShipmentXML = response.AddShipmentXML;
-
-                shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
-                shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
-                shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
-
-                if (string.IsNullOrWhiteSpace(response.Awb))
+                },
+                PackageDetails = new PackageDetailsDto()
                 {
-                    result.Status = Status.SISError;
-                    result.Message = "Error occured when adding shipment";
-                    result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
-                    result.ShipmentCode = response.CodeShipment;
+                    IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
+                    ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
+                    ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
+                    PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
+                    CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
+                    VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
+                    ProductIngredients = shipmentProductIngredientsList,
+                    ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
+                    DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
+                }
+            };
+
+            // Add Shipment to SIS.
+            response = sisManager.SendShipmentDetails(shipmentDto);
+
+            shipment.ShipmentCode = response.CodeShipment;
+            shipment.TrackingNumber = response.Awb;
+            result.AddShipmentXML = response.AddShipmentXML;
+
+            shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
+            shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
+            shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
+
+            if (string.IsNullOrWhiteSpace(response.Awb))
+            {
+                result.Status = Status.SISError;
+                result.Message = "Error occured when adding shipment";
+                result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
+                result.ShipmentCode = response.CodeShipment;
+            }
+            else
+            {
+                result.Status = Status.Success;
+                result.Message = "Shipment added successfully";
+                result.ShipmentDto = shipmentDto;
+
+                // If response.PDF is empty, get from following url.
+                if (string.IsNullOrWhiteSpace(response.PDF))
+                {
+                    // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+                    result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
                 }
                 else
                 {
-                    result.Status = Status.Success;
-                    result.Message = "Shipment added successfully";
-                    result.ShipmentDto = shipmentDto;
-
-                    // If response.PDF is empty, get from following url.
-                    if (string.IsNullOrWhiteSpace(response.PDF))
-                    {
-                       // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
-                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
-                    }
-                    else
-                    {
-                        result.LabelURL = response.PDF;
-                    }
-                    result.ShipmentId = shipment.Id;
-                    shipment.Status = (short)ShipmentStatus.BookingConfirmation;
+                    result.LabelURL = response.PDF;
                 }
+                result.ShipmentId = shipment.Id;
+                shipment.Status = (short)ShipmentStatus.BookingConfirmation;
 
-                context.SaveChanges();
-                return result;
-           // }
+                //adding the shipment label to azure
+                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
+
+                //create the invoice and upload to the blob
+                result.InvoiceURL =  this.GenerateUSInvoice(shipmentDto);
+
+            }
+
+            context.SaveChanges();
+            return result;
+            // }
         }
+        
+        //method to generate US invoices
+        public string GenerateUSInvoice(ShipmentDto shipmentDetails)
+        {
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
+
+            Random generator = new Random();
+            string code = generator.Next(1000000, 9999999).ToString("D7");
+            string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+
+            //initializing azure storage
+            AzureFileManager media = new AzureFileManager();
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
+            media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+
+            var invoicePdf = new Document(PageSize.A4);
+            //getting the server path to create temp pdf file
+            string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+
+            PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+            HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
+
+            string htmlTemplate = "";
+            TemplateLoader templateLoader = new TemplateLoader();
+
+            StringBuilder packageDetails = new StringBuilder();
+
+            packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
+            packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
+            packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.PackageDetails.productTypes + "</p><br/>");
+            packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
+            packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
+            packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
+            packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
+            packageDetails.Append("</td>");
+            packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+            packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td>");
+            packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td> </tr>");
+            packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
+            packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+            packageDetails.Append("<td>" + "" + "</td> </tr>");
+            packageDetails.Append("<td>" + "" + "</td> </tr>");
+
+
+            //get the email template for invoice
+            HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
+            htmlTemplate = template.DocumentNode.InnerHtml;
+
+
+            //replacing values from shipment
+            var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.FirstName)
+            .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
+            .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
+            .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
+            .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
+            .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
+            .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
+            .Replace("{invoicenumber}", "2016-260")
+            .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
+            .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
+            .Replace("{terms}", "Net 10")
+            .Replace("{totalvalue}", shipmentDetails.CarrierInformation.Price.ToString() + "$")
+            .Replace("{tableBody}", packageDetails.ToString());
+
+
+            TextReader txtReader = new StringReader(replacedString);
+            invoicePdf.Open();
+            htmlWorker.StartDocument();
+            htmlWorker.Parse(txtReader);
+
+            htmlWorker.EndDocument();
+            htmlWorker.Close();
+            //closing the doc
+            invoicePdf.Close();
+
+
+            var invoicename = "";
+            using (Stream savedPdf = new FileStream(wanted_path, FileMode.Open))
+            {
+                invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
+                var opResult = media.Upload(savedPdf, invoicename);
+            }
+
+            //get the saved pdf url
+            var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
+                                     + "/" + invoicename;
+
+            return returnData;
+
+        }
+
+
+        private bool AddShipmentLabeltoAzure(ShipmentOperationResult operationResult, SendShipmentDetailsDto sendShipmentDetails)
+        {
+            AzureFileManager media = new AzureFileManager();
+            long tenantId = companyManagment.GetTenantIdByUserId(sendShipmentDetails.UserId);
+            media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.ShipmentLabel));
+            var result = media.UploadFromFileURL(operationResult.LabelURL, operationResult.ShipmentId.ToString() + ".pdf");
+            return true;            
+
+        }
+
+
 
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
         {
@@ -1422,6 +1538,41 @@ namespace PI.Business
                 return currentShipment;
             //}
 
+
+        }
+
+        //get shipment details by tracking number
+        public ShipmentDto GetShipmentDetailsByTrackingNo(string trackingNo)
+        {
+            
+            ShipmentDto shipmentdetails = new ShipmentDto();
+            Shipment currentShipment= new Shipment();
+
+            try
+            {
+                 currentShipment = (from shipment in context.Shipments
+                                       where shipment.TrackingNumber == trackingNo
+                                       select shipment).SingleOrDefault();
+            }
+            catch (Exception e)
+            {
+
+                var m = e.Message;
+            }
+            
+
+
+            shipmentdetails.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
+            shipmentdetails.GeneralInformation.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
+            shipmentdetails.Id = currentShipment.Id;
+            shipmentdetails.CarrierInformation.CarrierName = currentShipment.Carrier.Name;
+            shipmentdetails.CarrierInformation.Price = currentShipment.ShipmentPackage.CarrierCost;
+            shipmentdetails.UserId = currentShipment.CreatedBy;
+
+                      
+            
+            return shipmentdetails;
+           
 
         }
 
@@ -2974,8 +3125,8 @@ namespace PI.Business
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
-                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
-                    rng.Style.Font.Color.SetColor(Color.White);
+                    rng.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(System.Drawing.Color.White);
                 }
 
                 //ws.Cells["A6:H6"].AutoFitColumns();
@@ -3096,8 +3247,8 @@ namespace PI.Business
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
-                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
-                    rng.Style.Font.Color.SetColor(Color.White);
+                    rng.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(System.Drawing.Color.White);
                 }
 
                 //ws.Cells["A6:H6"].AutoFitColumns();

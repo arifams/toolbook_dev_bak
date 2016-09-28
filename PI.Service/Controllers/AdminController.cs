@@ -193,6 +193,106 @@ namespace PI.Service.Controllers
         }
 
 
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[System.Web.Http.AcceptVerbs("GET", "POST")]
+        //[System.Web.Http.HttpPost]
+        //[Route("UploadInvoice")]
+        //public async Task<HttpResponseMessage> UploadInvoice()
+        //{
+        //    if (!Request.Content.IsMimeMultipartContent())
+        //    {
+        //        this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
+        //    }
+
+        //    var provider = GetMultipartProvider();
+        //    var result = await Request.Content.ReadAsMultipartAsync(provider);
+
+        //    foreach (var invoice in result.FileData)
+        //    {
+        //        // On upload, files are given a generic name like "BodyPart_26d6abe1-3ae1-416a-9429-b35f15e6e5d5"
+        //        // so this is how you can get the original file name
+        //        var originalFileName = GetDeserializedFileName(invoice);
+
+        //        string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
+
+        //        // uploadedFileInfo object will give you some additional stuff like file length,
+        //        // creation time, directory name, a few filesystem methods etc..
+        //        var uploadedFileInfo = new FileInfo(invoice.LocalFileName);
+
+        //        // Remove this line as well as GetFormData method if you're not
+        //        // sending any form data with your upload request
+        //        var fileDetails = GetFormData<FileUploadDto>(result);
+
+        //        // Convert to stream            
+        //        Stream stream = File.OpenRead(uploadedFileInfo.FullName);
+
+        //        AzureFileManager media = new AzureFileManager();
+        //        string imageFileNameInFull = null;
+        //        // Make absolute link
+        //        string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
+
+        //        var codeshipment = invoiceDetails[0];
+        //        var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
+
+        //        if (currentShipment != null)
+        //        {
+        //            var tenantId = currentShipment.Division.Company.TenantId;
+
+        //            fileDetails.TenantId = tenantId;
+
+        //            imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
+        //            fileDetails.ClientFileName = originalFileName;
+        //            fileDetails.UploadedFileName = imageFileNameInFull;
+
+        //            media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+        //            await media.Upload(stream, imageFileNameInFull);
+
+        //            //Delete the temporary saved file.
+        //            if (File.Exists(uploadedFileInfo.FullName))
+        //            {
+        //                System.IO.File.Delete(uploadedFileInfo.FullName);
+        //            }
+        //            // Through the request response you can return an object to the Angular controller
+        //            // You will be able to access this in the .success callback through its data attribute
+        //            // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
+        //            var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+        //                             + "/" + imageFileNameInFull;
+
+
+        //            InvoiceDto invoiceDetail = new InvoiceDto()
+        //            {
+        //                ShipmentId = currentShipment.Id,
+        //                InvoiceNumber = invoiceDetails[1],
+        //                InvoiceValue = decimal.Parse(invoiceDetails[2]),
+        //                InvoiceStatus = InvoiceStatus.Pending.ToString(),
+        //                CreatedBy = fileDetails.UserId,
+        //                URL = returnData
+        //            };
+
+        //            if (fileDetails.DocumentType == DocumentType.Invoice)
+        //            {
+        //                if (!invoiceMangement.SaveInvoiceDetails(invoiceDetail))
+        //                {
+        //                    return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+        //                }
+        //            }
+        //            else if (fileDetails.DocumentType == DocumentType.CreditNote)
+        //            {
+        //                invoiceDetail.Id = long.Parse(fileDetails.CodeReference);
+
+        //                if (!invoiceMangement.SaveCreditNoteDetails(invoiceDetail))
+        //                {
+        //                    return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+        //                }
+        //            }
+
+        //        }
+
+        //    }
+
+        //    return this.Request.CreateResponse(HttpStatusCode.OK);
+        //}
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpPost]
@@ -213,7 +313,7 @@ namespace PI.Service.Controllers
                 // so this is how you can get the original file name
                 var originalFileName = GetDeserializedFileName(invoice);
 
-                string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
+              //  string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
 
                 // uploadedFileInfo object will give you some additional stuff like file length,
                 // creation time, directory name, a few filesystem methods etc..
@@ -231,20 +331,20 @@ namespace PI.Service.Controllers
                 // Make absolute link
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-                var codeshipment = invoiceDetails[0];
-                var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
+              //  var codeshipment = invoiceDetails[0];
+              //  var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
 
-                if (currentShipment != null)
-                {
-                    var tenantId = currentShipment.Division.Company.TenantId;
+                //if (currentShipment != null)
+                //{
+                  //  var tenantId = currentShipment.Division.Company.TenantId;
 
-                    fileDetails.TenantId = tenantId;
+                    //fileDetails.TenantId = tenantId;
 
                     imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
-                    fileDetails.ClientFileName = originalFileName;
-                    fileDetails.UploadedFileName = imageFileNameInFull;
+                  //  fileDetails.ClientFileName = originalFileName;
+                   // fileDetails.UploadedFileName = imageFileNameInFull;
 
-                    media.InitializeStorage(fileDetails.TenantId.ToString(), Utility.GetEnumDescription(fileDetails.DocumentType));
+                    media.InitializeStorage("0", "Invoice_Temp");
                     await media.Upload(stream, imageFileNameInFull);
 
                     //Delete the temporary saved file.
@@ -255,38 +355,12 @@ namespace PI.Service.Controllers
                     // Through the request response you can return an object to the Angular controller
                     // You will be able to access this in the .success callback through its data attribute
                     // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-                    var returnData = baseUrl + "TENANT_" + fileDetails.TenantId + "/" + Utility.GetEnumDescription(fileDetails.DocumentType)
+                    var returnData = baseUrl + "TENANT_" + 0 + "/" + "Invoice_Temp"
                                      + "/" + imageFileNameInFull;
 
+                   await invoiceMangement.FetchInvoiceDetailsfromPdf(returnData);
 
-                    InvoiceDto invoiceDetail = new InvoiceDto()
-                    {
-                        ShipmentId = currentShipment.Id,
-                        InvoiceNumber = invoiceDetails[1],
-                        InvoiceValue = decimal.Parse(invoiceDetails[2]),
-                        InvoiceStatus = InvoiceStatus.Pending.ToString(),
-                        CreatedBy = fileDetails.UserId,
-                        URL = returnData
-                    };
-
-                    if (fileDetails.DocumentType == DocumentType.Invoice)
-                    {
-                        if (!invoiceMangement.SaveInvoiceDetails(invoiceDetail))
-                        {
-                            return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-                        }
-                    }
-                    else if (fileDetails.DocumentType == DocumentType.CreditNote)
-                    {
-                        invoiceDetail.Id = long.Parse(fileDetails.CodeReference);
-
-                        if (!invoiceMangement.SaveCreditNoteDetails(invoiceDetail))
-                        {
-                            return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
-                        }
-                    }
-
-                }
+                //}
 
             }
 

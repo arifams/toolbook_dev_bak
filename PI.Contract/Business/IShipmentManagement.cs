@@ -109,6 +109,15 @@ namespace PI.Contract.Business
         byte[] loadAllShipmentsForExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null, bool viaDashboard = false);
 
+
+        /// <summary>
+        ///Get Shipment Details By TrackingNo
+        /// </summary>
+        /// <param name="trackingNo">trackingNo</param>
+        /// <returns></returns>
+        ShipmentDto GetShipmentDetailsByTrackingNo(string trackingNo);
+
+
         /// <summary>
         /// Charge from customer by using credit card
         /// </summary>

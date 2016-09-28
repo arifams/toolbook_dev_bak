@@ -148,6 +148,10 @@
     <Compile Include="Migrations\201609020751067_Set Max Length for properties.Designer.cs">
       <DependentUpon>201609020751067_Set Max Length for properties.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609271928245_AddDueDates_TermsforInvoice.cs" />
+    <Compile Include="Migrations\201609271928245_AddDueDates_TermsforInvoice.Designer.cs">
+      <DependentUpon>201609271928245_AddDueDates_TermsforInvoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201609270540239_Phone Verification.cs" />
     <Compile Include="Migrations\201609270540239_Phone Verification.Designer.cs">
       <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
@@ -187,6 +191,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609020751067_Set Max Length for properties.resx">
       <DependentUpon>201609020751067_Set Max Length for properties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609271928245_AddDueDates_TermsforInvoice.resx">
+      <DependentUpon>201609271928245_AddDueDates_TermsforInvoice.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609270540239_Phone Verification.resx">
       <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
