@@ -109,6 +109,8 @@
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\organizationstructure\orgStructureCtrl.js" />
     <Content Include="app\organizationstructure\organizationStructure.html" />
+    <Content Include="app\payInvoiceModal\payInvoice.html" />
+    <Content Include="app\payInvoiceModal\payInvoice.js" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipmentControlCenter\adminDashboard.html" />
     <Content Include="app\shipmentControlCenter\adminDashboard.js" />
