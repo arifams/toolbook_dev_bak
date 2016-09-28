@@ -1,0 +1,74 @@
+﻿
+<body>
+    <div style="display:block;clear:both;padding-left:40px;padding-right:40px;margin-bottom:20px">
+        <div style="display:inline;float:left"><img src="" style="width:100%;padding:10px" /></div>
+        <div style="display:inline;float:left">
+            <p style="font-weight:bold;margin:0;font-size:20px"> Parcel Intenational</p>
+            <p style="margin:0;font-size:20px"> 1900 Addison Street</p>
+            <p style="margin:0;font-size:20px"> STE. 200</p>
+            <p style="margin:0;font-size:20px"> CA US</p>
+            <p style="margin:0;font-size:20px"> (510) 281-7554</p>
+            <p style="margin:0;font-size:20px"> support@parcelinternational.com</p>
+            <p style="margin:0;font-size:20px"> www.parcelinternational.com</p>
+
+        </div>
+    </div>
+
+    <div style="display:block;clear:both;padding-left:40px;padding-right:40px;padding-bottom:40px;padding-top:20px">
+        <h1 style="color:#4F90BB"> INVOICE</h1>
+        <div style="float:left;margin-bottom:40px">
+            <p style="font-weight:bold">BILL TO</p>
+            <p style="margin:0;font-size:20px">{BillingName}</p>
+            <p style="margin:0;font-size:20px">{BillingAddress1}</p>
+            <p style="margin:0;font-size:20px">{BillingAddress2}</p>
+            <p style="margin:0;font-size:20px">{BillingCity}, {BillingState} {BillingZip}</p>
+            <p style="margin:0;font-size:20px">{BillingCountry}</p>
+        </div>
+        <div style="float:right">
+            <p style="margin:0;font-size:20px"><strong>INVOICE #</strong> {invoicenumber}</p>
+            <p style="margin:0;font-size:20px"><strong>DATE</strong> {invoicedate}</p>
+            <p style="margin:0;font-size:20px"><strong>DUE DATE</strong> {duedate}</p>
+            <p style="margin:0;font-size:20px"><strong>TERMS </strong>{terms}</p>
+        </div>
+    </div>
+
+    <div style="display:block;clear:both;padding-left:40px;padding-right:40px;padding-top:20px;border-top:1px solid #4F90BB">
+
+        <table style="width:100%">
+            <thead style="background-color:#c8dbe9">
+                <tr>
+                    <th style="color:#4F90BB;padding:5px;text-align:left">ACTIVITY</th>
+                    <th style="color:#4F90BB;padding:5px;text-align:left">QTY</th>
+                    <th style="color:#4F90BB;padding:5px;text-align:left">RATE</th>
+                    <th style="color:#4F90BB;padding:5px;text-align:left">AMOUNT</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>{tableBody}</td>
+                </tr>
+                <tr>
+                    <td style="padding-top:30px;border-top:1px solid #ddd">
+                        <p style="margin-top:0;margin-bottom:5px">Bank Account number:1660838259</p>
+                        <p style="margin-top:0;margin-bottom:5px">Wire Transfers:</p>
+                        <p style="margin-top:0;margin-bottom:5px">- Domestic wires:121000248</p>
+                        <p style="margin-top:0;margin-bottom:5px">- International wires:WFBIUS6S</p>
+                        <p style="margin-top:0;margin-bottom:5px">
+                            To pay this invoice online: click the link in this email or send us a<br>
+                            request to use Paypal.<br />
+                            Checks can be mailed to our office address.
+                        </p>
+                    </td>
+                    <td style="border-top:1px solid #ddd;vertical-align:top;padding-top:30px"><strong>BALANCE DUE</strong></td>
+                    <td style="border-top:1px solid #ddd;padding-top:30px"></td>
+                    <td style="border-top:1px solid #ddd;vertical-align:top;padding-top:30px"><strong>{totalvalue}</strong></td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+
+</body>
+

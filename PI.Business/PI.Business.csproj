@@ -54,6 +54,14 @@
     <Reference Include="FluentValidationNA">
       <HintPath>..\packages\FluentValidationNA.1.2.16\lib\net40\FluentValidationNA.dll</HintPath>
     </Reference>
+    <Reference Include="HtmlAgilityPack, Version=1.4.9.5, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="iTextSharp, Version=4.1.6.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca">
+      <HintPath>..\packages\iTextSharp-LGPL.4.1.6\lib\iTextSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -106,6 +114,9 @@
       <HintPath>..\packages\Square.Connect.0.1.0\lib\net45\Square.Connect.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SautinSoft.PdfFocus">
+      <HintPath>..\..\Itext\New folder\PDF Focus .Net Trial (6.0.9.14)\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -119,6 +130,7 @@
     <Reference Include="System.Linq.Dynamic">
       <HintPath>..\packages\System.Linq.Dynamic.Library.1.1.14\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -153,6 +165,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureMediaManager\PI.AzureFileStorageManager.csproj">
+      <Project>{272B5E98-13CC-4EB1-8C55-64519E5931FF}</Project>
+      <Name>PI.AzureFileStorageManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PI.Common\PI.Common.csproj">
       <Project>{3b127ec2-7a08-48ba-a78a-3fb148806a6d}</Project>
       <Name>PI.Common</Name>

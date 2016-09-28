@@ -21,7 +21,7 @@ namespace PI.Contract.Business
         ShipmentcostList GetRateSheet(ShipmentDto currentShipment);
         string GetInboundoutBoundStatus(string userId, string fromCode, string toCode);
         ShipmentOperationResult SaveShipment(ShipmentDto addShipment);
-        PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
+        string GetSquareApplicationId();
         ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails);
         void InsertShipmentDocument(FileUploadDto fileDetails);
         CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode);
@@ -108,6 +108,15 @@ namespace PI.Contract.Business
         /// <param name="codeShipmen
         byte[] loadAllShipmentsForExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null, bool viaDashboard = false);
+
+
+        /// <summary>
+        ///Get Shipment Details By TrackingNo
+        /// </summary>
+        /// <param name="trackingNo">trackingNo</param>
+        /// <returns></returns>
+        ShipmentDto GetShipmentDetailsByTrackingNo(string trackingNo);
+
 
         /// <summary>
         /// Charge from customer by using credit card
