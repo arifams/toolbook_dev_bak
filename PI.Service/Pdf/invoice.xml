@@ -1,0 +1,137 @@
+<document>
+  <page>
+    <table rows="24" cols="7">
+      <row>
+        <cell colspan="2" />
+        <cell colspan="2">Parcel International</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="2">1900 Addison St.</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell>STE. 200</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell>Berkeley, CA</cell>
+        <cell>94704</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="2">(510)281-7554</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="2">support@parcelinternational.com</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="2">www.parcelinternational.com</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">INVOICE</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="3">BILL TO</cell>
+        <cell />
+        <cell>INVOICE #</cell>
+        <cell colspan="2">2016-260</cell>
+      </row>
+      <row>
+        <cell colspan="3">Rob Hilding</cell>
+        <cell />
+        <cell>DATE</cell>
+        <cell colspan="2">09/13/2016</cell>
+      </row>
+      <row>
+        <cell colspan="3">Bozco Resources</cell>
+        <cell />
+        <cell>DUE DATE</cell>
+        <cell colspan="2">09/23/2016</cell>
+      </row>
+      <row>
+        <cell colspan="3">3 5273 N. Commerce Ave</cell>
+        <cell />
+        <cell>TERMS</cell>
+        <cell>Net 10</cell>
+        <cell />
+      </row>
+      <row>
+        <cell>Moorpark, CA</cell>
+        <cell colspan="2">93021</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="3">United States</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="3">ACTIVITY</cell>
+        <cell>QTY</cell>
+        <cell colspan="2">RATE</cell>
+        <cell>AMOUNT</cell>
+      </row>
+      <row>
+        <cell colspan="3">DHL AWB#: 9611467670 Reference: parts Origin: Cybutec Nederland, NL Destination: Bozco Resources, US Weight: 4.5 kg Date: 09/02/2016</cell>
+        <cell>1</cell>
+        <cell colspan="2">100.08</cell>
+        <cell>100.08</cell>
+      </row>
+      <row>
+        <cell colspan="3">Services Paypal fee (4.5%)</cell>
+        <cell>1</cell>
+        <cell colspan="2">4.50</cell>
+        <cell>4.50</cell>
+      </row>
+      <row>
+        <cell colspan="3">Bank Account number: 1660838259</cell>
+        <cell rowspan="2">BALANCE DUE</cell>
+        <cell colspan="2" />
+        <cell rowspan="2">$104.58</cell>
+      </row>
+      <row>
+        <cell colspan="3">Wire Transfers:</cell>
+        <cell />
+        <cell colspan="2" />
+        <cell />
+      </row>
+      <row>
+        <cell colspan="3">- Domestic wires: 121000248</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="3">- International wires: WFBIUS6S</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="4">To pay this invoice online: click the link in this email or send us a</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">request to use Paypal.</cell>
+        <cell colspan="4" />
+      </row>
+      <row>
+        <cell colspan="3">Checks can be mailed to our office address.</cell>
+        <cell colspan="4" />
+      </row>
+    </table>
+  </page>
+  <page>
+    <cell>The trial version converts only 3 pages. Evaluation only.</cell>
+    <cell>Converted by PDF Focus .Net 6.0.9.14.</cell>
+    <cell>(Licensed version doesn't display this notice and converts the whole PDF document!)</cell>
+    <cell>Click to get the license for PDF Focus .Net.</cell>
+    <cell>http://www.sautinsoft.com/products/pdf-focus/order.php</cell>
+  </page>
+</document>

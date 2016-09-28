@@ -17,6 +17,8 @@ namespace PI.Data.Entity
         public decimal InvoiceValue { get; set; }
         public InvoiceStatus InvoiceStatus { get; set; }
         public string URL { get; set; }
+        public DateTime DueDate { get; set; }
+        public string Terms { get; set; }
 
         [ForeignKey("ShipmentId")]
         public virtual Shipment Shipment { get; set; }

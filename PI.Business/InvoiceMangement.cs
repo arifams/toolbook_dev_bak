@@ -5,6 +5,7 @@ using PI.Contract.Business;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
+using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
 using PI.Data;
 using PI.Data.Entity;
@@ -14,6 +15,20 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HtmlAgilityPack;
+using System.Net;
+using System.IO;
+using System.Web;
+using PI.Contract.TemplateLoader;
+using iTextSharp;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using AzureMediaManager;
+using PI.Common;
+using System.Configuration;
+using SautinSoft;
+using System.Xml;
 
 namespace PI.Business
 {
@@ -21,11 +36,15 @@ namespace PI.Business
     {
         private PIContext context;
         private ILogger logger;
+        IShipmentManagement shipmentManagement;
+       
 
-        public InvoiceMangement(ILogger logger, PIContext _context = null)
+        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement,  PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
+            this.shipmentManagement = shipmentManagement;
             this.logger = logger;
+          
         }
 
         /// <summary>
@@ -270,6 +289,8 @@ namespace PI.Business
             bool invoiceSaved = false;
             //using (PIContext context = PIContext.Get())
             //{
+            ShipmentDto dto = new ShipmentDto();
+         
 
                 Invoice invoice = new Invoice()
                 {
@@ -376,8 +397,8 @@ namespace PI.Business
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
-                    rng.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(79, 129, 189));  //Set color to dark blue
-                    rng.Style.Font.Color.SetColor(Color.White);
+                    rng.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.FromArgb(79, 129, 189));  //Set color to dark blue
+                    rng.Style.Font.Color.SetColor(System.Drawing.Color.White);
                 }
 
                 //ws.Cells["A6:H6"].AutoFitColumns();
@@ -424,7 +445,110 @@ namespace PI.Business
                 return excel.GetAsByteArray();
             }
         }
+        
 
+        public async Task<bool> FetchInvoiceDetailsfromPdf(string pdfUrl)
+        {
+            InvoiceDto invoiceDetails = new InvoiceDto();
+            ShipmentDto shipmentDetails = new ShipmentDto();
+            AzureFileManager media = new AzureFileManager();
+            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
+
+            //generating a random number for invoice name
+            Random generator = new Random();
+            string code = generator.Next(1000000, 9999999).ToString("D7");
+            string invoicename = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+            
+            var url = pdfUrl;
+            string filename = "";
+            string trackingNo = "";
+            string invoiceNumber = "";
+            string createdDate = "";
+            string duedate = "";
+            string terms = "";
+            
+            string pathToPdf = url;
+            string xml_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.xml");
+            string pathToXml = xml_path;
+
+            // Convert PDF file to XML file. 
+            SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
+                     
+            f.XmlOptions.ConvertNonTabularDataToSpreadsheet = true;
+            f.OpenPdf(pathToPdf);
+
+            if (f.PageCount > 0)
+            {
+                int result = f.ToXml(pathToXml);
+                XmlDocument doc = new XmlDocument();
+                doc.Load(pathToXml);                  
+                //fetching details from xml
+                trackingNo = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText, "AWB#:", "Reference").Replace(" ", "");
+                invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
+                createdDate= doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
+                duedate=doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
+                terms=doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;                
+            }
+
+            f.ClosePdf();
+            if (!string.IsNullOrEmpty(trackingNo))
+            {
+                shipmentDetails= shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
+            }
+            //get tenantId 
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
+
+                //saving invoice details fetched from the Pdf
+                WebClient myclient = new WebClient();                 
+                using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
+                {
+                    filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
+                    media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+                    await media.Upload(savedPdf, filename);
+                }            
+                
+            //uploaded Url
+            var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)+ "/" + filename;
+
+            //saving fetched details from Pdf
+             invoiceDetails.InvoiceNumber = invoiceNumber;
+             invoiceDetails.ShipmentId = shipmentDetails.Id;
+             invoiceDetails.InvoiceDate =createdDate;
+             invoiceDetails.DueDate = duedate;
+             invoiceDetails.Terms = terms;
+             invoiceDetails.InvoiceValue = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost);
+             invoiceDetails.URL = returnData;
+             invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+            
+            this.SaveInvoiceDetails(invoiceDetails);
+           
+            //deleting pdf file saved in tenant0 space
+            await media.Delete(pdfUrl);
+
+            return true;
+         
+        }
+
+
+        private string GetBetween(string value, string a, string b)
+        {
+            int posA = value.IndexOf(a);
+            int posB = value.LastIndexOf(b);
+            if (posA == -1)
+            {
+                return "";
+            }
+            if (posB == -1)
+            {
+                return "";
+            }
+            int adjustedPosA = posA + a.Length;
+            if (adjustedPosA >= posB)
+            {
+                return "";
+            }
+            return value.Substring(adjustedPosA, posB - adjustedPosA);
+        }
 
     }
 }
