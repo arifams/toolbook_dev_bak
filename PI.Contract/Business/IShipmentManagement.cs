@@ -114,7 +114,7 @@ namespace PI.Contract.Business
         /// </summary>
         /// <param name="payment">payment</param>
         /// <returns></returns>
-        OperationResult PaymentCharge(PaymentDto payment);
+        ShipmentOperationResult PaymentCharge(PaymentDto payment);
     }
 
 }

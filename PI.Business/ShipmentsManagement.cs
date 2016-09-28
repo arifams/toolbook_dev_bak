@@ -1066,32 +1066,41 @@ namespace PI.Business
             //{
                 Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
 
+                // This will not valid error any more.
                 // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
-                if (!string.IsNullOrWhiteSpace(shipment.ShipmentCode))
-                {
-                    result.Status = Status.Error;
-                    result.Message = "Shipment is already added";
-                    return result;
-                }
+                //if (!string.IsNullOrWhiteSpace(shipment.ShipmentCode))
+                //{
+                //    result.Status = Status.Error;
+                //    result.Message = "Shipment is already added";
+                //    return result;
+                //}
 
                 if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
                 {
-                    // Added payment data
-                    shipment.ShipmentPayment = new ShipmentPayment()
-                    {
-                        CreatedBy = sendShipmentDetails.UserId,
-                        CreatedDate = DateTime.Now,
-                        IsActive = true,
-                        SaleId = sendShipmentDetails.PayLane.SaleId,
-                        Status = sendShipmentDetails.PayLane.Status // TODO : H- Use enum.
-                    };
+                // Added payment data
+                var shipmentPayment = new ShipmentPayment();
+                shipmentPayment.CreatedBy = sendShipmentDetails.UserId;
+                shipmentPayment.CreatedDate = DateTime.Now;
+                shipmentPayment.IsActive = true;
+                shipmentPayment.PaymentId = sendShipmentDetails.PaymentResult.FieldList["PaymentKey"];
+                shipmentPayment.Status = sendShipmentDetails.PaymentResult.Status;
 
+                if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
+                {
+                    // If failed, due to payment gateway error, then record payment error code.
+                    shipmentPayment.StatusCode = sendShipmentDetails.PaymentResult.FieldList["errorCode"];
+                }
+
+                shipment.ShipmentPaymentList.Add(shipmentPayment);
+
+                    
+                
                     context.SaveChanges();
 
-                    if (sendShipmentDetails.PayLane.Status != "PERFORMED")
+                    if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
                     {
                         result.Status = Status.PaymentError;
-                        result.Message = "Error occured when adding payment. Please contact Parcel International";
+                        result.Message = "Error occured when adding payment." + sendShipmentDetails.PaymentResult.Message + " .Please contact Parcel International.";
                         return result;
                     }
                 }
@@ -3570,13 +3579,18 @@ namespace PI.Business
             return environment;
         }
 
-        public OperationResult PaymentCharge(PaymentDto payment)
+        public ShipmentOperationResult PaymentCharge(PaymentDto payment)
         {
             OperationResult result;
 
             result = paymentManager.Charge(payment);
 
-            return result;
+            return SendShipmentDetails(new SendShipmentDetailsDto()
+            {
+                ShipmentId = payment.ShipmentId,
+                PaymentResult = result,
+                UserId = payment.UserId
+            });
         }
     }
 

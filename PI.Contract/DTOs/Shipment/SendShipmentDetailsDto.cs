@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PI.Contract.DTOs.Payment;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace PI.Contract.DTOs.Shipment
     {
         public long ShipmentId { get; set; }
 
-        public PayLaneDto PayLane { get; set; }
+        public OperationResult PaymentResult { get; set; }
 
         public string UserId { get; set; }
 
