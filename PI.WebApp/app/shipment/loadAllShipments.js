@@ -1,13 +1,19 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route','$routeParams',
-                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route', '$routeParams', 'customBuilderFactory',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams, customBuilderFactory) {
 
                            var vm = this;
                            var statusValue = null;
                            vm.viaDashboard = false;
                            vm.viaDashboard = $scope.dashCtrl == undefined ? false : $scope.dashCtrl.isViaDashboard;
+
+                           //toggle function
+                           vm.loadFilterToggle = function () {
+                               customBuilderFactory.customFilterToggle();
+
+                           };
 
                            vm.statusButton = 'All';
                            vm.datePicker = {};
