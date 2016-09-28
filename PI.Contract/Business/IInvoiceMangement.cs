@@ -1,5 +1,6 @@
 ﻿using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
+using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
 using System;
 using System.Collections.Generic;
@@ -85,6 +86,14 @@ namespace PI.Contract.Business
         /// <param name="invoiceId"></param>
         /// <returns></returns>
         InvoiceStatus UpdateInvoiceStatus(InvoiceDto invoiceDto);
+
+
+        /// <summary>
+        /// Fetch InvoiceDetails fromPdf
+        /// </summary>
+        /// <param name="pdfUrl"></param>
+        /// <returns></returns>
+        Task<bool> FetchInvoiceDetailsfromPdf(string pdfUrl);
 
     }
 }

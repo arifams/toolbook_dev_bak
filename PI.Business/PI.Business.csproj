@@ -110,6 +110,9 @@
       <HintPath>..\packages\EasyPost-Official.2.2.1\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SautinSoft.PdfFocus">
+      <HintPath>..\..\Itext\New folder\PDF Focus .Net Trial (6.0.9.14)\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
@@ -155,6 +158,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AzureMediaManager\PI.AzureFileStorageManager.csproj">
+      <Project>{272B5E98-13CC-4EB1-8C55-64519E5931FF}</Project>
+      <Name>PI.AzureFileStorageManager</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PI.Common\PI.Common.csproj">
       <Project>{3b127ec2-7a08-48ba-a78a-3fb148806a6d}</Project>
       <Name>PI.Common</Name>
