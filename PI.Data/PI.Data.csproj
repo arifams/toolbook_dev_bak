@@ -152,6 +152,10 @@
     <Compile Include="Migrations\201609271928245_AddDueDates_TermsforInvoice.Designer.cs">
       <DependentUpon>201609271928245_AddDueDates_TermsforInvoice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609270540239_Phone Verification.cs" />
+    <Compile Include="Migrations\201609270540239_Phone Verification.Designer.cs">
+      <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,6 +182,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609271928245_AddDueDates_TermsforInvoice.resx">
       <DependentUpon>201609271928245_AddDueDates_TermsforInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609270540239_Phone Verification.resx">
+      <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -124,8 +124,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.3.0.1\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="RestSharp, Version=105.2.2.0, Culture=neutral, processorArchitecture=MSIL">
@@ -256,6 +256,14 @@
     <Content Include="packages.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="ConfigSettings\ConnectionStrings\local.config" />
+    <Content Include="ConfigSettings\AppSettings\local.config" />
+    <Content Include="ConfigSettings\AppSettings\qa.config" />
+    <Content Include="ConfigSettings\AppSettings\uat.config" />
+    <Content Include="ConfigSettings\AppSettings\prod.config" />
+    <Content Include="ConfigSettings\ConnectionStrings\qa.config" />
+    <Content Include="ConfigSettings\ConnectionStrings\prod.config" />
+    <Content Include="ConfigSettings\ConnectionStrings\uat.config" />
     <None Include="Properties\PublishProfiles\PIServiceQA - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceQA - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceUAT - FTP.pubxml" />

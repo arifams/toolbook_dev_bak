@@ -4972,6 +4972,7 @@
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy.pubxml" />
+    <Content Include="Properties\PublishProfiles\PIWebQANew.PublishSettings" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

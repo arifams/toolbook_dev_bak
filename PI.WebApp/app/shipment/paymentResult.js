@@ -10,7 +10,7 @@
                vm.paymentMsgStatus = false;
                vm.showLabel = false;
                vm.paymentMsg = "";
-               console.log(window.location.hash);
+               debugger;
                if (window.location.hash != "") {
 
                    var splittedValues = window.location.hash.replace("#/PaymentResult?", "").split('&');

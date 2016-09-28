@@ -55,6 +55,7 @@
     <Compile Include="Business\ICompanyManagement.cs" />
     <Compile Include="Business\ICustomerManagement.cs" />
     <Compile Include="Business\IInvoiceMangement.cs" />
+    <Compile Include="Business\IPaymentManager.cs" />
     <Compile Include="Business\IProfileManagement.cs" />
     <Compile Include="Business\IShipmentManagement.cs" />
     <Compile Include="DTOs\AccountSettings\AccountSettingsDto.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="DTOs\JWT.cs" />
     <Compile Include="DTOs\Node\NodeDto.cs" />
     <Compile Include="DTOs\OperationResult.cs" />
+    <Compile Include="DTOs\Payment\PaymentDto.cs" />
     <Compile Include="DTOs\Profile\ProfileDto.cs" />
     <Compile Include="DTOs\Division\DivisionDto.cs" />
     <Compile Include="DTOs\Common\PagedList.cs" />

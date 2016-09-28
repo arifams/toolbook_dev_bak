@@ -643,9 +643,9 @@
 .table-striped > tbody > tr  {
    border-bottom:1px solid #ddd;
 }
-/*.btn-group > .btn + .btn, .btn-sm:first-child {
+.btn-group > .btn + .btn, .btn-sm:first-child {
     margin:0px 0px 0px 5px;
-}*/
+}
 .Widgetleft {
     padding:5px 10px;
     width:100%;
@@ -1232,7 +1232,7 @@ width:10px;
     box-shadow:0 2px 2px 0px #c2c2c2;
 }
 .btn {
-     box-shadow:0 2px 2px 0px #999999;
+     box-shadow:-2px 2px 4px 2px #999999;;
      padding:3px 24px 8px;
      border-radius:8px;
 }

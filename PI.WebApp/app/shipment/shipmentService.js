@@ -28,7 +28,7 @@
             loadAssignedCostCenters: loadAssignedCostCenters,
             saveShipment: saveShipment,
             loadAllCurrencies: loadAllCurrencies,
-            getHashCodesForPaylane: getHashCodesForPaylane,
+            getSquareApplicationId: getSquareApplicationId,
             loadAllShipments: loadAllShipments,
             loadShipmentInfo: loadShipmentInfo,
             loadShipmentStatusList: loadShipmentStatusList,
@@ -56,8 +56,13 @@
             searchShipmentsById: searchShipmentsById,
             GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
             loadDefaultCostCenterId: loadDefaultCostCenterId,
-            getFilteredShipmentsExcel: getFilteredShipmentsExcel
+            getFilteredShipmentsExcel: getFilteredShipmentsExcel,
+            PaymentCharge: PaymentCharge
         };
+
+        function PaymentCharge(paymentDto) {
+            return $http.post(serverBaseUrl + '/api/shipments/PaymentCharge', paymentDto);
+        }
 
         function getProfileInfo() {
 
@@ -94,8 +99,8 @@
 
         }
         //get paylane relted Details
-        function getHashCodesForPaylane(paylane) {
-            return $http.post(serverBaseUrl + '/api/shipments/GetHashForPayLane', paylane)
+        function getSquareApplicationId(paylane) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetSquareApplicationId')
         }
 
         function loadAddressBookDetails(searchText) {

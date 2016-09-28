@@ -26,6 +26,7 @@ using PI.Contract.Business;
 using System.Net.Http.Headers;
 using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Dashboard;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Service.Controllers
 {
@@ -123,11 +124,9 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("GetHashForPayLane")]
-        public IHttpActionResult GetHashForPayLane(PayLaneDto payLaneDto)
+        public IHttpActionResult GetSquareApplicationId()
         {
-            return Ok(shipmentManagement.GetHashForPayLane(payLaneDto));
+            return Ok(shipmentManagement.GetSquareApplicationId());
         }
 
 
@@ -593,6 +592,13 @@ namespace PI.Service.Controllers
             return Ok(shipmentManagement.SearchShipmentsById(number));
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("PaymentCharge")]
+        public IHttpActionResult PaymentCharge(PaymentDto payment)
+        {
+            return Ok(shipmentManagement.PaymentCharge(payment));
+        }
 
         #region Private methods
 

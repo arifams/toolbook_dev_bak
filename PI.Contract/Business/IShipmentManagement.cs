@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PI.Contract.DTOs;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Contract.Business
 {
@@ -19,7 +21,7 @@ namespace PI.Contract.Business
         ShipmentcostList GetRateSheet(ShipmentDto currentShipment);
         string GetInboundoutBoundStatus(string userId, string fromCode, string toCode);
         ShipmentOperationResult SaveShipment(ShipmentDto addShipment);
-        PayLaneDto GetHashForPayLane(PayLaneDto payLaneDto);
+        string GetSquareApplicationId();
         ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails);
         void InsertShipmentDocument(FileUploadDto fileDetails);
         CommercialInvoiceDto GetshipmentByShipmentCodeForInvoice(string shipmentCode);
@@ -115,6 +117,13 @@ namespace PI.Contract.Business
         /// <returns></returns>
         ShipmentDto GetShipmentDetailsByTrackingNo(string trackingNo);
 
+
+        /// <summary>
+        /// Charge from customer by using credit card
+        /// </summary>
+        /// <param name="payment">payment</param>
+        /// <returns></returns>
+        OperationResult PaymentCharge(PaymentDto payment);
     }
 
 }
