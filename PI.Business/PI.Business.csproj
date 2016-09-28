@@ -115,7 +115,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="SautinSoft.PdfFocus">
-      <HintPath>..\..\Itext\New folder\PDF Focus .Net Trial (6.0.9.14)\SautinSoft.PdfFocus.dll</HintPath>
+      <HintPath>..\packages\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
