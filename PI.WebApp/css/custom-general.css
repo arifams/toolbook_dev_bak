@@ -1523,3 +1523,7 @@ width:10px;
 .btn.btn-sm.btn-icon.btn-rounded.btn-fb.icon-margin {
     margin:0 10px 10px 10px;
 }
+.main-panel-padding{
+    padding:20px 20px;
+    border-radius:10px;
+}
