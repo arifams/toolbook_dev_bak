@@ -156,6 +156,18 @@
     <Compile Include="Migrations\201609270540239_Phone Verification.Designer.cs">
       <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609280433205_Update ShipmentPayment entity fields.cs" />
+    <Compile Include="Migrations\201609280433205_Update ShipmentPayment entity fields.Designer.cs">
+      <DependentUpon>201609280433205_Update ShipmentPayment entity fields.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280830248_Added StatusCode for ShipmentPayment.cs" />
+    <Compile Include="Migrations\201609280830248_Added StatusCode for ShipmentPayment.Designer.cs">
+      <DependentUpon>201609280830248_Added StatusCode for ShipmentPayment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609280853431_Update ShipmentPayment as a collection.cs" />
+    <Compile Include="Migrations\201609280853431_Update ShipmentPayment as a collection.Designer.cs">
+      <DependentUpon>201609280853431_Update ShipmentPayment as a collection.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -185,6 +197,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609270540239_Phone Verification.resx">
       <DependentUpon>201609270540239_Phone Verification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280433205_Update ShipmentPayment entity fields.resx">
+      <DependentUpon>201609280433205_Update ShipmentPayment entity fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280830248_Added StatusCode for ShipmentPayment.resx">
+      <DependentUpon>201609280830248_Added StatusCode for ShipmentPayment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609280853431_Update ShipmentPayment as a collection.resx">
+      <DependentUpon>201609280853431_Update ShipmentPayment as a collection.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
