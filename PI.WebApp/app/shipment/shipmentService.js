@@ -279,22 +279,13 @@
         }
 
 
-        function loadAllShipments(status, startDate, endDate, number, source, destination, viaDashboard) {
-            setLoginUserID();
-            return $http.get(serverBaseUrl + '/api/shipments/GetAllShipments', {
-                params: {
-                    // userId: $window.localStorage.getItem('userGuid'),
-                    userId: userId,
-                    status: status,
-                    startDate: startDate,
-                    endDate: endDate,
-                    number: number,
-                    source: source,
-                    destination: destination,
-                    viaDashboard: viaDashboard
-                }
-            });
+        function loadAllShipments(pagedList) {
+            debugger;
+            setLoginUserID();  
+            pagedList.userId = userId;
+            return $http.post(serverBaseUrl + '/api/shipments/GetAllShipments', pagedList);
         }
+
 
         function loadAllPendingShipments(startDate, endDate, number) {
             setLoginUserID();
