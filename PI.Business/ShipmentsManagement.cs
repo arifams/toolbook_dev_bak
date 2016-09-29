@@ -1795,13 +1795,13 @@ namespace PI.Business
                 ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();             
 
                 locationHistory.ShipmentId = ShipmntId;
-               // locationHistory.Message = item.message;
+                locationHistory.Message = item.message;
                 locationHistory.CreatedDate = item.datetime?? DateTime.Now;
                 locationHistory.City = item.tracking_location.city;
                 locationHistory.Country = item.tracking_location.country;
-             //   locationHistory.State = item.tracking_location.state;
-               // locationHistory.Zip = item.tracking_location.zip;
-               // locationHistory.Status = item.status;
+                locationHistory.State = item.tracking_location.state;
+                locationHistory.Zip = item.tracking_location.zip;
+                locationHistory.Status = item.status;
                 context.ShipmentLocationHistories.Add(locationHistory);
                 context.SaveChanges();
             }                
@@ -1821,13 +1821,13 @@ namespace PI.Business
             {
                 tracker.TrackingDetails.Add(new TrackingDetails() {
 
-                //    Status=item.Status,
-                 //   DateTime=item.DateTime.ToString(),
+                    Status=item.Status,
+                    DateTime=item.DateTime.ToString(),
                     City=item.City,
                     Country=item.Country,
-                  //  Message=item.Message,
-                  //  State=item.State,
-                  //  Zip=item.Zip
+                    Message=item.Message,
+                    State=item.State,
+                    Zip=item.Zip
                 });                
             }
          //   tracker.Status = historyList.Last().Status;

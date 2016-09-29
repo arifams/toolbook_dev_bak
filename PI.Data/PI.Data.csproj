@@ -168,6 +168,10 @@
     <Compile Include="Migrations\201609291120199_AddDueDates_TermsforInvoice.Designer.cs">
       <DependentUpon>201609291120199_AddDueDates_TermsforInvoice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.cs" />
+    <Compile Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.Designer.cs">
+      <DependentUpon>201609291821330_added_newfields_to_shpmentStatus_history.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -206,6 +210,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609291120199_AddDueDates_TermsforInvoice.resx">
       <DependentUpon>201609291120199_AddDueDates_TermsforInvoice.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.resx">
+      <DependentUpon>201609291821330_added_newfields_to_shpmentStatus_history.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
