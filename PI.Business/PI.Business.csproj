@@ -110,12 +110,12 @@
       <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SautinSoft.PdfFocus">
+      <HintPath>..\PI.Service\ExternalLibries\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
     <Reference Include="Square.Connect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Square.Connect.0.1.0\lib\net45\Square.Connect.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="SautinSoft.PdfFocus">
-      <HintPath>..\packages\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
