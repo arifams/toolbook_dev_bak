@@ -211,6 +211,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ExternalLibries\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll" />
     <Content Include="Global.asax" />
     <Content Include="Templates\USInvoiceTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -258,7 +259,9 @@
     </Content>
     <Content Include="ConfigSettings\ConnectionStrings\local.config" />
     <Content Include="ConfigSettings\AppSettings\local.config" />
-    <Content Include="ConfigSettings\AppSettings\qa.config" />
+    <Content Include="ConfigSettings\AppSettings\qa.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="ConfigSettings\AppSettings\uat.config" />
     <Content Include="ConfigSettings\AppSettings\prod.config" />
     <Content Include="ConfigSettings\ConnectionStrings\qa.config" />
