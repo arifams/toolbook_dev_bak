@@ -106,7 +106,7 @@ namespace PI.Business.Tests
             mockContext.Setup(c => c.InvoiceDisputeHistories).Returns(mockSetinvoiceDisputeHistories.Object);
             mockContext.Setup(c => c.CreditNotes).Returns(mockSetinvoiceCreditNotes.Object);
 
-            invoiceManagement = new InvoiceMangement(new Log4NetLogger(), new ShipmentsManagement(new Log4NetLogger(),new CompanyManagement(new Log4NetLogger(), new CustomerManagement(new Log4NetLogger())), new SISIntegrationManager(new Log4NetLogger())), mockContext.Object);
+            invoiceManagement = new InvoiceMangement(new Log4NetLogger(), new ShipmentsManagement(new Log4NetLogger(),new CompanyManagement(new Log4NetLogger(), new CustomerManagement(new Log4NetLogger())), new SISIntegrationManager(new Log4NetLogger())), new PaymentManager(), mockContext.Object);
 
         }
 
