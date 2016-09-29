@@ -73,6 +73,26 @@ namespace PI.Contract.Enums
         
     }
 
+
+    public enum ShipmentStatusEP : short
+    {
+        [Description("Pre Transit")]
+        pre_transit=1,
+        [Description("In Transit")]
+        in_transit,
+        [Description("Out for Delivry")]
+        out_for_delivery,
+        [Description("Delivered")]
+        delivered,
+        [Description("Return to Sender")]
+        return_to_sender,
+        [Description("Failure")]
+        failure,
+        [Description("Unknown")]
+        unknown
+
+    }
+
     public enum ShipmentPaymentType : short
     {
         [Description("Invoice")]

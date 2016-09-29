@@ -41,14 +41,18 @@ namespace PI.Business
             throw new NotImplementedException();
         }
 
-        public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
+        public Tracker GetTrackingDetailsForShipment(string carrier, string trackingNumber)
         {
-            throw new NotImplementedException();
+            StatusHistoryResponce statusesHistory = new StatusHistoryResponce();
+            EasyPost.ClientManager.SetCurrent(EasyPostKey);
+            Tracker tracker = Tracker.Create(carrier, trackingNumber);
+            return tracker;
         }
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
             EasyPost.ClientManager.SetCurrent(EasyPostKey);
+            AddShipmentResponse response = new AddShipmentResponse();
 
             Dictionary<string, object> fromAddress = new Dictionary<string, object>() {
             {"name", addShipment.AddressInformation.Consigner.FirstName+" "+addShipment.AddressInformation.Consigner.LastName},
@@ -75,14 +79,7 @@ namespace PI.Business
             {"zip", addShipment.AddressInformation.Consignee.Postalcode},
             {"mode", "test" }
             };
-
-
-            //looping through the product ingrediants
-            //foreach (var item in addShipment.PackageDetails.ProductIngredients)
-            //{
-
-            //}
-
+                 
             var parcelItem = addShipment.PackageDetails.ProductIngredients.FirstOrDefault();
 
             Dictionary<string, object> parcel = new Dictionary<string, object>() {
@@ -116,22 +113,46 @@ namespace PI.Business
             {"to_address", toAddress},
             {"from_address", fromAddress},
             {"customs_info",customs },
-            {"reference", "PI002"}
+            {"reference", addShipment.GeneralInformation.ShipmentReferenceName}
            });
+
+            //get the best rates
+            Rate selectedRate = this.CompareRatesAndGetRates(shipment.rates, addShipment.CarrierInformation);
+            Shipment shipmentCreated = this.BuyShipmentWithRates(shipment, selectedRate);
             
-            Rate selectedRate = shipment.LowestRate();
-
-            AddShipmentResponse response = new AddShipmentResponse();
-                     
-            shipment.Buy(selectedRate);
-            Shipment shipmentCreated = Shipment.Retrieve("PI002");
-
-            //if (shipmentCreated!=null)
-            //{
-               
-            //}
 
             return response;
+        }
+
+
+        //get the best camparing with SIS rates 
+        private Rate CompareRatesAndGetRates(List<Rate> rates,CarrierInformationDto sisRate )
+        {
+            Rate selectedRate = new Rate() {
+                id = "1",
+            };
+
+            foreach (var item in rates)
+            {
+                if (item.service==sisRate.serviceLevel &&  Convert.ToDecimal(item.rate)<=sisRate.Price && (selectedRate.id!="1" && Convert.ToDecimal(item.rate) < Convert.ToDecimal(selectedRate.rate)))
+                {
+                    selectedRate = item;
+                }
+
+            }
+
+            return selectedRate;
+
+        } 
+           
+        //buying shipments
+        public Shipment BuyShipmentWithRates(Shipment shipment, Rate selectedRate)
+        {
+            EasyPost.ClientManager.SetCurrent(EasyPostKey);
+            shipment.Buy(selectedRate);
+            Shipment shipmentPurchased = Shipment.Retrieve(shipment.id);            
+
+            return shipmentPurchased;
         }
 
         public string TrackAndTraceShipment(string URL)

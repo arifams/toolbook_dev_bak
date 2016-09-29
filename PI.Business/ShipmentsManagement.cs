@@ -46,6 +46,7 @@ namespace PI.Business
         ICompanyManagement companyManagment;       
         private ILogger logger;
         IPaymentManager paymentManager;
+        EasyPostIntegrationManager easyPostmanager; 
 
         public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, IPaymentManager paymentManager, PIContext _context = null)
         {
@@ -57,7 +58,7 @@ namespace PI.Business
             //{
             //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             //}
-
+            this.easyPostmanager = new EasyPostIntegrationManager();
             this.sisManager = sisManager;          
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
@@ -909,6 +910,18 @@ namespace PI.Business
            // }
         }
 
+        public void UpdateShipmentStatusByTrackingNo(string trackingNo, short status)
+        {            
+            var shipment = (from shipmentinfo in context.Shipments
+                            where shipmentinfo.TrackingNumber == trackingNo
+                            select shipmentinfo).FirstOrDefault();
+            if (shipment != null)
+            {
+                shipment.Status = status;
+            }
+            context.SaveChanges();            
+        }
+
         public Shipment GetShipmentByShipmentCode(string codeShipment)
         {
             Shipment currentShipment = new Shipment();
@@ -1182,7 +1195,15 @@ namespace PI.Business
             };
 
             // Add Shipment to SIS.
-            response = sisManager.SendShipmentDetails(shipmentDto);
+            if (shipment.Carrier.Name=="USPS")
+            {
+                response = easyPostmanager.SendShipmentDetails(shipmentDto);
+            }
+            else
+            {
+                response = sisManager.SendShipmentDetails(shipmentDto);
+            }
+            
 
             shipment.ShipmentCode = response.CodeShipment;
             shipment.TrackingNumber = response.Awb;
@@ -1491,6 +1512,33 @@ namespace PI.Business
             return info;
         }
 
+
+
+        private void UpdateShipmentLocationLatestDetails(string carrier, string trackingNumber)
+        {
+            var currentShipmentTrackDetails = easyPostmanager.GetTrackingDetailsForShipment(carrier, trackingNumber);
+
+            if (currentShipmentTrackDetails!=null)
+            {
+                short status = (short)Utility.GetValueFromDescription<ShipmentStatusEP>(currentShipmentTrackDetails.status);
+                this.UpdateShipmentStatus(trackingNumber, status);
+            }
+            Shipment currentShipment = GetShipmentByTrackingNo(trackingNumber);           
+
+            List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+            foreach (var item in historyList)
+            {
+                this.DeleteLocationActivityByLocationHistoryId(item.Id);
+            }
+            this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
+
+            //if (currentSisLocationHistory.history != null)
+            //{
+            //    this.UpdateStatusHistories(currentSisLocationHistory, currentShipmetId);
+            //}
+;        }
+
         //get track and trace information
         public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
@@ -1509,8 +1557,9 @@ namespace PI.Business
             Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
            // SISIntegrationManager sisManager = new SISIntegrationManager();
             if (currentShipment != null)
-            {
-                trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
+            {               
+                    trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);              
+               
             }
             //  trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, "8925859014", "38649998", environment);
             return trackingInfo;
@@ -1519,16 +1568,12 @@ namespace PI.Business
 
         //get shipment details by tracking number
         public Shipment GetShipmentByTrackingNo(string trackingNo)
-        {
-            //using (PIContext context = PIContext.Get())
-            //{
+        {           
                 var currentShipment = (from shipment in context.Shipments
                                        where shipment.TrackingNumber == trackingNo
                                        select shipment).SingleOrDefault();
 
-                return currentShipment;
-            //}
-
+                return currentShipment;         
 
         }
 
