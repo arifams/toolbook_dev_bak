@@ -96,7 +96,6 @@
     <Compile Include="DTOs\Shipment\InvoiceItemDto.cs" />
     <Compile Include="DTOs\Shipment\InvoiceItemLineDto.cs" />
     <Compile Include="DTOs\Shipment\PackageDetailsDto.cs" />
-    <Compile Include="DTOs\Shipment\PayLaneDto.cs" />
     <Compile Include="DTOs\Shipment\ProductIngredientsDto.cs" />
     <Compile Include="DTOs\Shipment\SendShipmentDetailsDto.cs" />
     <Compile Include="DTOs\Shipment\ShipmentDto.cs" />

@@ -110,12 +110,12 @@
       <HintPath>..\packages\RestSharp.105.1.0\lib\net45\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SautinSoft.PdfFocus">
+      <HintPath>..\PI.Service\ExternalLibries\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll</HintPath>
+    </Reference>
     <Reference Include="Square.Connect, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Square.Connect.0.1.0\lib\net45\Square.Connect.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="SautinSoft.PdfFocus">
-      <HintPath>..\..\Itext\New folder\PDF Focus .Net Trial (6.0.9.14)\SautinSoft.PdfFocus.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -131,6 +131,7 @@
       <HintPath>..\packages\System.Linq.Dynamic.Library.1.1.14\lib\net40\System.Linq.Dynamic.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />

@@ -597,7 +597,16 @@ namespace PI.Service.Controllers
         [Route("PaymentCharge")]
         public IHttpActionResult PaymentCharge(PaymentDto payment)
         {
-            return Ok(shipmentManagement.PaymentCharge(payment));
+            ShipmentOperationResult result = shipmentManagement.PaymentCharge(payment);
+
+            if(result.Status == Status.Success)
+            {
+                // Save label
+
+                // Send mail
+            }
+
+            return Ok(result);
         }
 
         #region Private methods

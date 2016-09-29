@@ -10,6 +10,8 @@ using PI.Contract.DTOs.Payment;
 using Square.Connect.Api;
 using Square.Connect.Model;
 using System.Configuration;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace PI.Business
 {
@@ -62,16 +64,40 @@ namespace PI.Business
 
             ChargeRequest body = new ChargeRequest(AmountMoney: amount, IdempotencyKey: uuid, CardNonce: paymentDto.CardNonce);
 
-            var response = _transactionApi.Charge(GetAccessToken, GetLocation()[0].Id, body);
+            ChargeResponse response = null;
+            string paymentError = null;
 
-            if (response.Errors == null)
+            try
+            {
+                response = _transactionApi.Charge(GetAccessToken, GetLocation()[0].Id, body);
+            }
+            catch(Exception ex)
+            {
+                response = new ChargeResponse();
+
+                int indexOfStartJson = ex.Message.IndexOf('{');
+                string jsonFormatMessage = ex.Message.Substring(indexOfStartJson);
+
+                dynamic errorMessageList = JObject.Parse(jsonFormatMessage);
+
+                var error = errorMessageList.errors;
+
+                paymentError = error[0].detail;
+                string errorCode = error[0].code;
+                result.FieldList.Add("errorCode", errorCode);
+                //response.Errors.Add(new Error() { Detail = error[0].detail,Category = error[0].category,Code = error[0].code });
+            }
+
+            result.FieldList.Add("PaymentKey", uuid);
+
+            if (response.Errors == null && string.IsNullOrEmpty(paymentError))
             {
                 result.Message = "Transaction complete\n" + response.ToJson();
                 result.Status = Contract.Enums.Status.Success;
             }
             else
             {
-                result.Message = response.Errors.ToString();
+                result.Message = string.IsNullOrEmpty(paymentError) ? response.Errors.ToString() : paymentError;
                 result.Status = Contract.Enums.Status.PaymentError;
             }
 
@@ -80,12 +106,6 @@ namespace PI.Business
         
         private IList<Location> GetLocation()
         {
-            //  HttpResponse<MyClass> jsonResponse = Unirest.post("http://httpbin.org/post")
-            //.header("accept", "application/json")
-            //.field("parameter", "value")
-            //.field("foo", "bar")
-            //.asJson<MyClass>();
-
             return locationApi.ListLocations(GetAccessToken).Locations.ToList();
         }
 
