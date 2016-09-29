@@ -13,12 +13,12 @@ namespace PI.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201609271928245_AddDueDates_TermsforInvoice"; }
+            get { return "201609291120199_AddDueDates_TermsforInvoice"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target

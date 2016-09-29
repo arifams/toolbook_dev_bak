@@ -1117,6 +1117,12 @@
         </form>
     </div>
 
+    <div class="page-spinner-loader shipmentLoad" ng-show="shipmentCtrl.loadingSymbole" style="position:fixed !important;">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+
     <div class="paymentForm panel" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse" style="background-color:white;padding:10px;margin-top:10px;">
 
         <div class="row">
@@ -1128,7 +1134,7 @@
                     <div class="row">
 
                         <div class="col-sm-5" ng-show="shipmentCtrl.isShowPaymentForm">
-                            <span>Credit Card Information</span>
+                            
                             <label>Card Number</label>
                             <div id="sq-card-number"></div>
                             <label>CVV</label>
@@ -1140,7 +1146,7 @@
 
                             <button class="btn btn-primary" ng-click="shipmentCtrl.chargeFromCard()" translate=""><span class="ng-scope">Charge from card</span></button>
 
-                            <span> {{shipmentCtrl.shipmentStatusMsg}} </span>
+                            <div class="alert alert-warning"> {{shipmentCtrl.shipmentStatusMsg}} </div>
 
                         </div>
 
