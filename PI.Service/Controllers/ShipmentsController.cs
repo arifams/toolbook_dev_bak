@@ -27,6 +27,7 @@ using System.Net.Http.Headers;
 using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Dashboard;
 using PI.Contract.DTOs.Payment;
+using Newtonsoft.Json.Linq;
 
 namespace PI.Service.Controllers
 {
@@ -132,15 +133,27 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllShipments")]
-        public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null, bool viaDashboard = false)
+        public IHttpActionResult GetAllShipments([FromBody] PagedList shipmentSerach)
         {
-            return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
-                                                               number, source, destination, viaDashboard));
+
+            shipmentSerach.DynamicContent = shipmentSerach.filterContent;
+            return Ok(shipmentManagement.GetAllShipmentsbyUser(shipmentSerach));
 
         }
+
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        ////[Authorize]
+        //[HttpGet]
+        //[Route("GetAllShipments")]
+        //public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+        //                                 string number = null, string source = null, string destination = null, bool viaDashboard = false)
+        //{
+        //    return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
+        //                                                       number, source, destination, viaDashboard));
+
+        //}
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -295,11 +308,8 @@ namespace PI.Service.Controllers
 
             #endregion
 
-
             return Ok(operationResult);
         }
-
-
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
@@ -597,16 +607,64 @@ namespace PI.Service.Controllers
         [Route("PaymentCharge")]
         public IHttpActionResult PaymentCharge(PaymentDto payment)
         {
-            ShipmentOperationResult result = shipmentManagement.PaymentCharge(payment);
+            ShipmentOperationResult operationResult = shipmentManagement.PaymentCharge(payment);
 
-            if(result.Status == Status.Success)
+            if(operationResult.Status == Status.Success)
             {
-                // Save label
-
                 // Send mail
+
+                #region Send Booking Confirmaion Email to customer.
+
+                if (operationResult.Status == Status.Success)
+                {
+                    StringBuilder emailbody = new StringBuilder(payment.TemplateLink);
+
+                    emailbody
+                        .Replace("<OrderReference>", operationResult.ShipmentDto.GeneralInformation.ShipmentName)
+                        .Replace("<PickupDate>", operationResult.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(operationResult.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
+                        .Replace("<ShipmentMode>", operationResult.ShipmentDto.GeneralInformation.shipmentModeName)
+                        .Replace("<ShipmentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentServices)
+                        .Replace("<Carrier>", operationResult.ShipmentDto.CarrierInformation.CarrierName)
+                        .Replace("<ShipmentPrice>", operationResult.ShipmentDto.PackageDetails.ValueCurrencyString + " " + operationResult.ShipmentDto.CarrierInformation.Price.ToString())
+                        .Replace("<PaymentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
+
+                    StringBuilder productList = new StringBuilder();
+                    decimal totalVol = 0;
+
+                    foreach (var product in operationResult.ShipmentDto.PackageDetails.ProductIngredients)
+                    {
+                        productList.Append("<tr>");
+
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
+                        productList.Append(product.ProductType);
+                        productList.Append("</td>");
+
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(product.Quantity);
+                        productList.Append("</td>");
+
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(product.Weight.ToString("n2"));
+                        productList.Append("</td>");
+
+                        totalVol = product.Length * product.Width * product.Height * product.Quantity;
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(totalVol.ToString("n2"));
+                        productList.Append("</td>");
+
+                        productList.Append("</tr>");
+                    }
+
+                    emailbody
+                        .Replace("<tableRecords>", productList.ToString());
+
+                    AppUserManager.SendEmail(payment.UserId, "Order Confirmation", emailbody.ToString());
+                }
+
+                #endregion
             }
 
-            return Ok(result);
+            return Ok(operationResult);
         }
 
         #region Private methods

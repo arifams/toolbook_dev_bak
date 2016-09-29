@@ -148,53 +148,6 @@ namespace PI.Service
         }
 
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
-        public void ConfigureAuth(IAppBuilder app)
-        {
-            // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(PIContext.Create);
-            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-
-            // Enable the application to use a cookie to store information for the signed in user
-            // and to use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseCookieAuthentication(new CookieAuthenticationOptions());
-            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
-
-            // Configure the application for OAuth based flow
-            PublicClientId = "self";
-            OAuthOptions = new OAuthAuthorizationServerOptions
-            {
-                TokenEndpointPath = new PathString("/Token"),
-                Provider = new CustomOAuthProvider(PublicClientId),
-                AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
-                AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-                // In production mode set AllowInsecureHttp = false
-                AllowInsecureHttp = true
-            };
-
-            // Enable the application to use bearer tokens to authenticate users
-            app.UseOAuthBearerTokens(OAuthOptions);
-
-            // Uncomment the following lines to enable logging in with third party login providers
-            app.UseMicrosoftAccountAuthentication(
-                clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", //70a1a68c-0c5e-445f-8724-5e433fe463e1
-                clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); //dmtmssM17b8BNxnSHkOKU3E
-
-            //app.UseTwitterAuthentication(
-            //    consumerKey: "",
-            //    consumerSecret: "");
-
-            app.UseFacebookAuthentication(
-                appId: "1753464874877402",
-                appSecret: "4cbc794bf7555a0dfda6585ef2b6418d");
-
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = "657439870432-g98gvt35aceavp0ou6vsr3b6372m3cmr.apps.googleusercontent.com",
-                ClientSecret = "WsjF353NEonbaFZMgTyMJl4h"
-            });
-        }
-
-
         public void ConfigureOAuth(IAppBuilder app)
         {
             //use a cookie to temporarily store information about a user logging in with a third party login provider
@@ -218,8 +171,8 @@ namespace PI.Service
             //Configure Google External Login
             googleAuthOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "657439870432-g98gvt35aceavp0ou6vsr3b6372m3cmr.apps.googleusercontent.com",
-                ClientSecret = "WsjF353NEonbaFZMgTyMJl4h",
+                ClientId = ConfigurationManager.AppSettings["googleAppId"].ToString(),      //"657439870432-g98gvt35aceavp0ou6vsr3b6372m3cmr.apps.googleusercontent.com",
+                ClientSecret = ConfigurationManager.AppSettings["googleAppSecret"].ToString(),  //"WsjF353NEonbaFZMgTyMJl4h",
                 Provider = new GoogleAuthProvider()
             };
             app.UseGoogleAuthentication(googleAuthOptions);
@@ -227,22 +180,19 @@ namespace PI.Service
             //Configure Facebook External Login
             facebookAuthOptions = new FacebookAuthenticationOptions()
             {
-                AppId = "1753464874877402",
-                AppSecret = "4cbc794bf7555a0dfda6585ef2b6418d",
+                AppId = ConfigurationManager.AppSettings["FBAppId"].ToString(), //"1753464874877402",
+                AppSecret = ConfigurationManager.AppSettings["FBAppSecret"].ToString(), //"4cbc794bf7555a0dfda6585ef2b6418d",
                 Provider = new FacebookAuthProvider()
             };
             facebookAuthOptions.Scope.Add("email");
             app.UseFacebookAuthentication(facebookAuthOptions);
 
-            //app.UseMicrosoftAccountAuthentication(
-            //    clientId: "70a1a68c-0c5e-445f-8724-5e433fe463e1", //70a1a68c-0c5e-445f-8724-5e433fe463e1
-            //    clientSecret: "dmtmssM17b8BNxnSHkOKU3E"); //dmtmssM17b8BNxnSHkOKU3E
 
             var mo = new MicrosoftAccountAuthenticationOptions
             {
                 Caption = "Live",
-                ClientId = "70a1a68c-0c5e-445f-8724-5e433fe463e1",
-                ClientSecret = "dmtmssM17b8BNxnSHkOKU3E"
+                ClientId = ConfigurationManager.AppSettings["MicrosoftAppId"].ToString(),       //"70a1a68c-0c5e-445f-8724-5e433fe463e1",
+                ClientSecret = ConfigurationManager.AppSettings["MicrosoftAppSecret"].ToString(),   //"dmtmssM17b8BNxnSHkOKU3E"
             };
 
             mo.Scope.Add("wl.basic");

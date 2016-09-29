@@ -202,7 +202,7 @@
                 </div>-->
                 
                 <div class="custom-table">
-                    <table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-hover">
+                    <table st-pipe="loadShipCtrl.callServer" st-table="loadShipCtrl.rowCollection" class="table table-hover">
                         <thead>
                             <tr>
                                 <th st-sort="name" translate >Order date</th>
@@ -220,7 +220,7 @@
 
                         </thead>
                         <tbody>
-                            <tr ng-repeat="row in shipmentList">
+                            <tr ng-repeat="row in loadShipCtrl.rowCollection">
                                 <td>{{row.generalInformation.createdDate}}</td>
                                 <td>
                                     <a href="">{{row.generalInformation.trackingNumber}}</a>
@@ -257,9 +257,15 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="5" class="text-center">
-                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                </td>
+                                <!--<td colspan="5" class="text-center">
+                                    <div st-pagination="" st-items-by-page="loadShipCtrl.itemsByPage"></div>
+                                </td>-->
+                                <pagination total-items=""
+                                            ng-model="loadShipCtrl.itemsByPage"
+                                            max-size="maxSize"
+                                          
+                                            boundary-links="true">
+                                </pagination>
                             </tr>
                         </tfoot>
                     </table>
