@@ -1,20 +1,26 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route', '$routeParams',
-    function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams) {
+    app.controller('loadShipmentsCtrl', ['$scope', '$location', '$window', 'shipmentFactory', '$rootScope', '$route', '$routeParams', 'customBuilderFactory',
+                       function ($scope, $location, $window, shipmentFactory, $rootScope, $route, $routeParams, customBuilderFactory) {
 
         var vm = this;
         var statusValue = null;
         vm.viaDashboard = false;
         vm.viaDashboard = $scope.dashCtrl == undefined ? false : $scope.dashCtrl.isViaDashboard;
 
-        vm.statusButton = 'All';
-        vm.datePicker = {};
-        vm.datePicker.date = { startDate: null, endDate: null };
-        vm.itemsByPage = 25; // Set page size    // 25
-        vm.rowCollection = [];
-        vm.loadingSymbole = true;
+                           //toggle function
+                           vm.loadFilterToggle = function () {
+                               customBuilderFactory.customFilterToggle();
+
+                           };
+
+                           vm.statusButton = 'All';
+                           vm.datePicker = {};
+                           vm.datePicker.date = { startDate: null, endDate: null };
+                           vm.itemsByPage = 25; // Set page size    // 25
+                           vm.rowCollection = [];
+                           vm.loadingSymbole = true;
 
 
 

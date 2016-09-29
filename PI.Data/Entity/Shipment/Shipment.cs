@@ -77,7 +77,7 @@ namespace PI.Data.Entity
         [ForeignKey("ParentShipmentId")]
         public virtual Shipment ParentShipment { get; set; }
 
-        public virtual ShipmentPayment ShipmentPayment { get; set; }
+        public virtual IList<ShipmentPayment> ShipmentPaymentList { get; set; }
 
         public virtual CommercialInvoice CommercialInvoice { get; set; }
 

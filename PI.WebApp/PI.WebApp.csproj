@@ -109,6 +109,8 @@
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\organizationstructure\orgStructureCtrl.js" />
     <Content Include="app\organizationstructure\organizationStructure.html" />
+    <Content Include="app\payInvoiceModal\payInvoice.html" />
+    <Content Include="app\payInvoiceModal\payInvoice.js" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipmentControlCenter\adminDashboard.html" />
     <Content Include="app\shipmentControlCenter\adminDashboard.js" />
@@ -2834,7 +2836,9 @@
     <Content Include="node_modules\grunt\node_modules\underscore.string\test\test_underscore\vendor\qunit.js" />
     <Content Include="node_modules\grunt\node_modules\underscore.string\test\underscore.js" />
     <Content Include="node_modules\grunt\node_modules\which\which.js" />
-    <Content Include="packages.config" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="admin\.htaccess" />
     <Content Include="admin\layout1\css\less\layout.less" />
     <Content Include="app\shipment\loadAllShipments.html" />
@@ -3963,6 +3967,7 @@
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_closeThisDialog.js" />
     <Content Include="plugins\ngDialog-master\tests\unit\ngDialog_insideDirective.js" />
     <Content Include="proj_img\PI_logo.png" />
+    <Content Include="proj_img\PI_logo1.png" />
     <Content Include="proj_img\shipment_icons.png" />
     <Content Include="proj_img\transport.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
