@@ -159,5 +159,10 @@ namespace PI.Business
         {
             throw new NotImplementedException();
         }
+
+        public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

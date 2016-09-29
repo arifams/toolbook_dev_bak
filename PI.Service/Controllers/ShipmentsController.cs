@@ -72,11 +72,11 @@ namespace PI.Service.Controllers
         {
             string carrier = currentShipment.CarrierInformation.CarrierName;
             string trackingNumber = currentShipment.GeneralInformation.TrackingNumber;
-            string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
-            string environment = "taleus";
+            //string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
+            //string environment = "taleus";
 
-            return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, 
-                                                                           codeShipment, environment));
+            return Ok(shipmentManagement.GetLocationHistoryInfoForShipmentFromEasyPost(carrier, trackingNumber));
+
         }
 
 
