@@ -1,17 +1,34 @@
 ﻿<div ng-controller="shipmentDocumentCtrl">
     <div class="row">
-        <div class="col-sm-12">
-            <div class="panel-header bg-blue-light">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h3 translate>Uploaded  Documents</h3>
-                    </div>
-                </div>
-
-            </div>
-            <br /><br />
+       
             <div>
                 <form name="formDocumentUpload" class="form-horizontal">
+                    <div class="row m-0">
+                        <div class="col-sm-5 col-md-5 col-xs-12 p-0">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput">
+                                    <i class="glyphicon glyphicon-file fileinput-exists"></i><span class="fileinput-filename"></span>
+                                </div>
+                                <span class="input-group-addon btn btn-default btn-file" style="box-shadow:none">
+                                    <span class="fileinput-new">Choose</span><span class="fileinput-exists">Change</span>
+                                    <input type="file" ngf-select ng-model="document" name="file"
+                                           ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                                </span>
+
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-xs-12">
+                            <button ng-click="uploadFile(document)" class="btn btn-primary">
+                                <i class="fa fa-upload f-16" aria-hidden="true"></i><translate> Upload </translate>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row m-0">
+                        {{errorMsg}}
+                    </div>
+
+
+                    <!--<br>
                     <div class="form-group">
                         <div class="col-sm-4">
                             <input type="file" ngf-select ng-model="document" name="file"
@@ -23,20 +40,20 @@
                             </button>
                             {{errorMsg}}
                         </div>
+                    </div>-->
+
+                    <div class="row m-l-0 m-r-0 m-b-20 m-t-20">
+                        <label class="control-label" translate>Uploaded files</label>
                     </div>
-
-                    <div class="box-body">
-
+                    <div class="row m-l-0 m-r-0">
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Uploaded Files</label>
-                            <div class="col-sm-12">
-
-                                <div class="table-responsive no-padding">
-                                    <table class="table table-striped">
+                            <div class="col-sm-6 col-md-6 col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
                                         <tbody>
                                             <tr ng-repeat="file in fileList">
-                                                <td> <a ng-href="{{file.fileAbsoluteURL}}">{{file.clientFileName}}</a> </td>
-                                                <td style="text-align:center">
+                                                <td><a ng-href="{{file.fileAbsoluteURL}}">{{file.clientFileName}}</a></td>
+                                                <td>
                                                     <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="deleteFile(file)">
                                                         <i class="fa fa-remove" style="color:red">
                                                         </i>
