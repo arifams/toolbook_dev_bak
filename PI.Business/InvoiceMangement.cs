@@ -29,6 +29,7 @@ using PI.Common;
 using System.Configuration;
 using SautinSoft;
 using System.Xml;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Business
 {
@@ -37,14 +38,14 @@ namespace PI.Business
         private PIContext context;
         private ILogger logger;
         IShipmentManagement shipmentManagement;
-       
+        IPaymentManager paymentManager;
 
-        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement,  PIContext _context = null)
+        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement, IPaymentManager paymentManager,  PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
             this.shipmentManagement = shipmentManagement;
             this.logger = logger;
-          
+            this.paymentManager = paymentManager;
         }
 
         /// <summary>
@@ -137,19 +138,28 @@ namespace PI.Business
         /// <summary>
         /// Pay an invoice
         /// </summary>
-        /// <param name="invoiceId"></param>
+        /// <param name="invoiceDto"></param>
         /// <returns></returns>
-        public InvoiceStatus PayInvoice(long invoiceId)
-        {            
-            //using (var context = PIContext.Get())
-            //{
-              var invoice = context.Invoices.Where(i => i.Id == invoiceId).SingleOrDefault();
-              invoice.InvoiceStatus = InvoiceStatus.Paid;
+        public OperationResult PayInvoice(InvoiceDto invoiceDto)
+        {
+            var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
 
-              context.SaveChanges();
+            PaymentDto payment = new PaymentDto()
+            {
+                CardNonce = invoiceDto.CardNonce,
+                ChargeAmount = invoice.InvoiceValue,
+                CurrencyType = "USD",   // TODO: change this.
+            };
 
-              return invoice.InvoiceStatus;
-           // }
+            OperationResult result = paymentManager.Charge(payment);
+
+            if(result.Status == Status.Success)
+            {
+                invoice.InvoiceStatus = InvoiceStatus.Paid;
+                context.SaveChanges();
+            }
+            
+            return result;
         }
 
 

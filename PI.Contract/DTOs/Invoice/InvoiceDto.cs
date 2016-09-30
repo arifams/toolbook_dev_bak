@@ -37,6 +37,10 @@ namespace PI.Contract.DTOs.Invoice
         public string Terms { get; set; }
 
         public string CreditNoteURL { get; set; }
+
+        public string CardNonce { get; set; }
+
+        public string UserId { get; set; }
     }
 
 }

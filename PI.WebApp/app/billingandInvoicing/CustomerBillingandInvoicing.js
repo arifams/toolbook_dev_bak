@@ -48,8 +48,8 @@
 
     }]);
 
-    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory',
-                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory) {
+    app.controller('customerinvoiceCtrl', ['$location', '$window', 'customerInvoiceFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory','shipmentFactory',
+                    function ($location, $window, customerInvoiceFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory, shipmentFactory) {
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
@@ -218,22 +218,149 @@
                                       });
                         }
 
+                        var paymentForm;
+                        initializePaymentForm();
 
+                        function initializePaymentForm() {
+                            
+                            shipmentFactory.getSquareApplicationId().success(
+                               function (responce) {
 
+                                   paymentForm = new SqPaymentForm({
+                                       applicationId: responce,
+                                       inputClass: 'sq-input',
+                                       inputStyles: [
+                                         {
+                                             fontSize: '15px'
+                                         }
+                                       ],
+                                       cardNumber: {
+                                           elementId: 'sq-card-number',
+                                           placeholder: '•••• •••• •••• ••••'
+                                       },
+                                       cvv: {
+                                           elementId: 'sq-cvv',
+                                           placeholder: 'CVV'
+                                       },
+                                       expirationDate: {
+                                           elementId: 'sq-expiration-date',
+                                           placeholder: 'MM/YY'
+                                       },
+                                       postalCode: {
+                                           elementId: 'sq-postal-code'
+                                       },
+                                       callbacks: {
+
+                                           // Called when the SqPaymentForm completes a request to generate a card
+                                           // nonce, even if the request failed because of an error.
+                                           cardNonceResponseReceived: function (errors, nonce, cardData) {
+                                               debugger;
+                                               if (errors) {
+                                                   console.log("Encountered errors:");
+
+                                                   // This logs all errors encountered during nonce generation to the
+                                                   // Javascript console.
+                                                   errors.forEach(function (error) {
+                                                       console.log('  ' + error.message);
+                                                   });
+
+                                                   // No errors occurred. Extract the card nonce.
+                                               } else {
+
+                                                   debugger;
+                                                   var body = $("html, body");
+
+                                                   customerInvoiceFactory.payInvoice({ Id: vm.invoiceId, CardNonce: nonce, UserId: $window.localStorage.getItem('userGuid') })
+                                                    .success(function (response) {
+                                                        debugger;
+                                                        if (response.result == 2) {
+                                                            // Payment is success
+                                                            currentRow.invoiceStatus = "Paid";
+                                                        }
+                                                        else {
+                                                            // Payment error
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-danger media fade in"><p>' + response.message + '!</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 6000,
+                                                            });
+                                                        
+                                                        }
+                                                        
+                                                    })
+                                                    .error(function () {
+                                                    })
+                                               }
+                                           },
+
+                                           unsupportedBrowserDetected: function () {
+                                               // Fill in this callback to alert buyers when their browser is not supported.
+                                           },
+
+                                           // Fill in these cases to respond to various events that can occur while a
+                                           // buyer is using the payment form.
+                                           inputEventReceived: function (inputEvent) {
+                                               switch (inputEvent.eventType) {
+                                                   case 'focusClassAdded':
+                                                       // Handle as desired
+                                                       break;
+                                                   case 'focusClassRemoved':
+                                                       // Handle as desired
+                                                       break;
+                                                   case 'errorClassAdded':
+                                                       // Handle as desired
+                                                       break;
+                                                   case 'errorClassRemoved':
+                                                       // Handle as desired
+                                                       break;
+                                                   case 'cardBrandChanged':
+                                                       // Handle as desired
+                                                       break;
+                                                   case 'postalCodeChanged':
+                                                       // Handle as desired
+                                                       break;
+                                               }
+                                           },
+
+                                           paymentFormLoaded: function () {
+                                               // Fill in this callback to perform actions after the payment form is
+                                               // done loading (such as setting the postal code field programmatically).
+                                               
+                                           }
+                                       }
+                                   });
+
+                               }).error(function (error) {
+
+                               });
+
+                        }
+
+                        vm.isShowPaymentForm = false;
+                        vm.invoiceId;
+                        var currentRow;
                         vm.payInvoice = function (row) {
-                            var statusChange = confirm("Are you sure you need to pay this invoice ?");
-
-                            if (statusChange == true) {
-                                customerInvoiceFactory.payInvoice({ Id: row.id })
-                                    .success(function (response) {
-
-                                        row.invoiceStatus = response;
-                                    })
-                                    .error(function () {
-                                    })
-                            }
+                            //var statusChange = confirm("Are you sure you need to pay this invoice ?");
+                            paymentForm.build();
+                            vm.isShowPaymentForm = true;
+                            vm.invoiceId = row.id;
+                            currentRow = row;
+                            //if (statusChange == true) {
+                                
+                            //}
                         };
 
+                        vm.chargeFromCard = function () {
+
+                            //vm.loadingSymbole = true;
+                            paymentForm.requestCardNonce();
+
+                        }
 
                         vm.disputeInvoice = function (row) {
 
