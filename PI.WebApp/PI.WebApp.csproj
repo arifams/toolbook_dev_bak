@@ -3969,6 +3969,7 @@
     <Content Include="proj_img\PI_logo.png" />
     <Content Include="proj_img\PI_logo1.png" />
     <Content Include="proj_img\shipment_icons.png" />
+    <Content Include="proj_img\success.png" />
     <Content Include="proj_img\transport.png" />
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <Content Include="global\plugins\angular-smart-table\smart-table.min.js.map" />
