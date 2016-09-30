@@ -360,6 +360,10 @@ var MakeApp = angular
               templateUrl: 'customerFinance/customerFinance.html',
 
           })
+          .when('/adminManageUser', {
+              templateUrl: 'admin/manageUsers.html',
+              controller: 'adminManageUsersCtrl',
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {

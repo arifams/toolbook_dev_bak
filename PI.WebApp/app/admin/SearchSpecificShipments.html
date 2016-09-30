@@ -1,4 +1,43 @@
-﻿<div ng-controller="shipmentSearchCtrl as shipSearchCtrl">
+﻿<div class="modal fade" id="modal-searchShipments" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content p-10">
+            <div class="modal-body">
+                <form role="form" name="formShipmentSearch">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-12 col-xs-12">
+                            <div class="form-group input-group">
+
+                                <input type="text" placeholder="{{'Tracking Number/ Shipment Id'|translate}}"
+                                       class="form-control ng-pristine ng-untouched ng-valid"
+                                       name="shipmentNumber" ng-model="shipSearchCtrl.shipmentNumber">
+
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin"
+                                            ng-click="shipSearchCtrl.loadShipmentsBySearch()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="row m-0">
+                            <div class="col-sm-12 col-md-12 col-xs-12">
+                                <label class="label-danger" ng-show="shipSearchCtrl.noShipments" style="color:white" translate>  No shipments available for the selected company/ customer</label>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!--<div ng-controller="shipmentSearchCtrl as shipSearchCtrl">
 
     <form role="form" name="formShipmentSearch">
         <div class="row">
@@ -95,4 +134,4 @@
         </div>
     </form>
    
-</div>
+</div>-->
