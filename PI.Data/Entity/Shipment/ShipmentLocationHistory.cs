@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-   public class ShipmentLocationHistory: LongIdBaseEntity
+    public class ShipmentLocationHistory : LongIdBaseEntity
     {
         public long ShipmentId { get; set; }
         [MaxLength(2)]
@@ -16,11 +16,25 @@ namespace PI.Data.Entity
         [MaxLength(100)]
         public string City { get; set; }
 
+        [MaxLength(100)]
+        public string State { get; set; }
+
+        [MaxLength(100)]
+        public string Zip { get; set; }
+
+        [MaxLength(100)]
+        public string Message { get; set; }
+
         public double Latitude { get; set; }
 
         public double Longitude { get; set; }
 
-        public IList<LocationActivity> LocaionActivities { get; set; }
+        public DateTime DateTime { get; set; }
+
+        [MaxLength(100)]
+        public string Status { get; set; }
+
+        // public IList<LocationActivity> LocaionActivities { get; set; }
 
         #region Navigation
 

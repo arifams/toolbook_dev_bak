@@ -7,18 +7,18 @@ namespace PI.Data.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddDueDates_TermsforInvoice : IMigrationMetadata
+    public sealed partial class added_newfields_to_shpmentStatus_history : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddDueDates_TermsforInvoice));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(added_newfields_to_shpmentStatus_history));
         
         string IMigrationMetadata.Id
         {
-            get { return "201609271928245_AddDueDates_TermsforInvoice"; }
+            get { return "201609291821330_added_newfields_to_shpmentStatus_history"; }
         }
         
         string IMigrationMetadata.Source
         {
-            get { return Resources.GetString("Source"); }
+            get { return null; }
         }
         
         string IMigrationMetadata.Target
