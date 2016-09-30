@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory',
-                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory) {
+    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory', 'modalService',
+                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory, modalService) {
 
                            var vm = this;
                            vm.searchText = '';
@@ -202,6 +202,14 @@
                                           console.log("error occurd while retrieving Addresses");
                                   });
 
+                           }
+
+                           //open modal
+                           vm.searchShipments = function () {
+                               //console.log('work');
+                               $scope.templateUrl = "admin/SearchSpecificShipments.html";
+                               modalService.load('modal-searchShipments');
+                               
                            }
 
 

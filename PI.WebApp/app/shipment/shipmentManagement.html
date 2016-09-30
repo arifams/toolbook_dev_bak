@@ -1,4 +1,6 @@
 ﻿<div>
+    <ng-include src="templateUrl"></ng-include>
+    
     <div class="builder" id="builder1">
         <a class="builder-toggle f-20" ng-click="manageShipCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
         <div class="inner">
@@ -62,22 +64,22 @@
             </div>
         </div>
         <div class="col-sm-2 col-md-2 col-xs-12">
-            <a class="btn btn-primary f-right" href="">
+            <button class="btn btn-primary f-right" ng-click="manageShipCtrl.searchShipments()">
                 <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>
                 Create
-            </a>
+            </button>
         </div>
     </div>
 
     <div class="panel">
         <div class="panel-content panel-border">
-            <div class="row">
+            <div class="row m-l-0">
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 
                     <div class="list-group list-group-horizontal">
                         <a href="#" class="list-group-item list-right-margin">
                             New
-                            <span class="badge badge-primary f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-black f-14 custom-badge m-l-10">0</span>
                         </a>
                         <a href="#" class="list-group-item list-right-margin">
                             In-Transit
@@ -105,13 +107,13 @@
                         </a>
                         <a href="#" class="list-group-item list-right-margin">
                             All
-                            <span class="badge badge-primary f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-black f-14 custom-badge m-l-10">0</span>
                         </a>
                     </div>
 
                 </div>
             </div>
-
+            <hr class="m-0">
             <div class="row">
                 <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">
                     <thead>

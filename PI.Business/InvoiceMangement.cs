@@ -29,6 +29,7 @@ using PI.Common;
 using System.Configuration;
 using SautinSoft;
 using System.Xml;
+using PI.Contract.DTOs.Payment;
 
 namespace PI.Business
 {
@@ -37,14 +38,14 @@ namespace PI.Business
         private PIContext context;
         private ILogger logger;
         IShipmentManagement shipmentManagement;
-       
+        IPaymentManager paymentManager;
 
-        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement,  PIContext _context = null)
+        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement, IPaymentManager paymentManager,  PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
             this.shipmentManagement = shipmentManagement;
             this.logger = logger;
-          
+            this.paymentManager = paymentManager;
         }
 
         /// <summary>
@@ -137,19 +138,43 @@ namespace PI.Business
         /// <summary>
         /// Pay an invoice
         /// </summary>
-        /// <param name="invoiceId"></param>
+        /// <param name="invoiceDto"></param>
         /// <returns></returns>
-        public InvoiceStatus PayInvoice(long invoiceId)
-        {            
-            //using (var context = PIContext.Get())
-            //{
-              var invoice = context.Invoices.Where(i => i.Id == invoiceId).SingleOrDefault();
-              invoice.InvoiceStatus = InvoiceStatus.Paid;
+        public OperationResult PayInvoice(InvoiceDto invoiceDto)
+        {
+            var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
 
-              context.SaveChanges();
+            PaymentDto paymentDto = new PaymentDto()
+            {
+                CardNonce = invoiceDto.CardNonce,
+                ChargeAmount = invoice.InvoiceValue,
+                CurrencyType = "USD",   // TODO: change this.
+            };
 
-              return invoice.InvoiceStatus;
-           // }
+            OperationResult result = paymentManager.Charge(paymentDto);
+
+            var payment = new Payment();
+            payment.CreatedBy = invoiceDto.UserId;
+            payment.CreatedDate = DateTime.Now;
+            payment.IsActive = true;
+            payment.PaymentId = result.FieldList["PaymentKey"];
+            payment.Status = result.Status;
+            payment.PaymentType = Contract.Enums.PaymentType.Invoice;
+            payment.ReferenceId = invoiceDto.Id;
+
+            if (result.Status == Status.PaymentError)
+            {
+                // If failed, due to payment gateway error, then record payment error code.
+                payment.StatusCode = result.FieldList["errorCode"];
+            }
+            else if (result.Status == Status.Success)
+            {
+                invoice.InvoiceStatus = InvoiceStatus.Paid;
+            }
+
+            context.Payments.Add(payment);
+            context.SaveChanges();
+            return result;
         }
 
 
@@ -499,13 +524,13 @@ namespace PI.Business
             var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
 
                 //saving invoice details fetched from the Pdf
-                WebClient myclient = new WebClient();                 
-                using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
-                {
-                    filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
-                    media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
-                    await media.Upload(savedPdf, filename);
-                }            
+                WebClient myclient = new WebClient();
+            using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
+            {
+                filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
+                media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+                await media.Upload(savedPdf, filename);
+            }            
                 
             //uploaded Url
             var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)+ "/" + filename;
