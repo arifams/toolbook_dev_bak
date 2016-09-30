@@ -27,6 +27,7 @@ using System.Net.Http.Headers;
 using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Dashboard;
 using PI.Contract.DTOs.Payment;
+using Newtonsoft.Json.Linq;
 
 namespace PI.Service.Controllers
 {
@@ -72,11 +73,11 @@ namespace PI.Service.Controllers
         {
             string carrier = currentShipment.CarrierInformation.CarrierName;
             string trackingNumber = currentShipment.GeneralInformation.TrackingNumber;
-            string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
-            string environment = "taleus";
+            //string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
+            //string environment = "taleus";
 
-            return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, 
-                                                                           codeShipment, environment));
+            return Ok(shipmentManagement.GetLocationHistoryInfoForShipmentFromEasyPost(carrier, trackingNumber));
+
         }
 
 
@@ -132,15 +133,27 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllShipments")]
-        public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null, bool viaDashboard = false)
+        public IHttpActionResult GetAllShipments([FromBody] PagedList shipmentSerach)
         {
-            return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
-                                                               number, source, destination, viaDashboard));
+
+            shipmentSerach.DynamicContent = shipmentSerach.filterContent;
+            return Ok(shipmentManagement.GetAllShipmentsbyUser(shipmentSerach));
 
         }
+
+        //[EnableCors(origins: "*", headers: "*", methods: "*")]
+        ////[Authorize]
+        //[HttpGet]
+        //[Route("GetAllShipments")]
+        //public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+        //                                 string number = null, string source = null, string destination = null, bool viaDashboard = false)
+        //{
+        //    return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
+        //                                                       number, source, destination, viaDashboard));
+
+        //}
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -295,11 +308,8 @@ namespace PI.Service.Controllers
 
             #endregion
 
-
             return Ok(operationResult);
         }
-
-
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]

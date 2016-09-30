@@ -95,7 +95,6 @@
     <Compile Include="MoqHelper.cs" />
     <Compile Include="ProfileManagementTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ShipmentsManagementTests.cs" />
     <Compile Include="SISIntegrationManagerTests.cs" />
   </ItemGroup>
   <ItemGroup>

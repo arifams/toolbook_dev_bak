@@ -1,8 +1,8 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory','ngDialog','$controller','$rootScope',
-                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope) {
+    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory',
+                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory) {
 
                            var vm = this;
                            vm.searchText = '';
@@ -12,6 +12,12 @@
                            vm.statusButton = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
+
+                           //toggle function
+                           vm.loadFilterToggle = function () {
+                               customBuilderFactory.customFilterToggle();
+
+                           };
                           
                            vm.updateShipmentStatus = function (row) {
 
