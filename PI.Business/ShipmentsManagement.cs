@@ -1104,21 +1104,20 @@ namespace PI.Business
                 if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
                 {
                 // Added payment data
-                var shipmentPayment = new ShipmentPayment();
-                shipmentPayment.CreatedBy = sendShipmentDetails.UserId;
-                shipmentPayment.CreatedDate = DateTime.Now;
-                shipmentPayment.IsActive = true;
-                shipmentPayment.PaymentId = sendShipmentDetails.PaymentResult.FieldList["PaymentKey"];
-                shipmentPayment.Status = sendShipmentDetails.PaymentResult.Status;
+                var payment = new Payment();
+                payment.CreatedBy = sendShipmentDetails.UserId;
+                payment.CreatedDate = DateTime.Now;
+                payment.IsActive = true;
+                payment.PaymentId = sendShipmentDetails.PaymentResult.FieldList["PaymentKey"];
+                payment.Status = sendShipmentDetails.PaymentResult.Status;
+                payment.PaymentType = Contract.Enums.PaymentType.Shipment;
+                payment.ReferenceId = sendShipmentDetails.ShipmentId;
 
                 if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
                 {
                     // If failed, due to payment gateway error, then record payment error code.
-                    shipmentPayment.StatusCode = sendShipmentDetails.PaymentResult.FieldList["errorCode"];
+                    payment.StatusCode = sendShipmentDetails.PaymentResult.FieldList["errorCode"];
                 }
-
-                shipment.ShipmentPaymentList.Add(shipmentPayment);
-
                     
                 
                     context.SaveChanges();

@@ -10,7 +10,7 @@
                         <div>
                             <span class="c-primary pull-left">{{dashCtrl.model.inTransitStatusCount}}</span>
                         </div>
-                        <div class="txt">In-Transit</div>
+                        <div class="txt"><a href="#/loadShipments/Transit">In-Transit</a></div>
                     </div>
                 </div>
                 <div class="infobox">
@@ -22,7 +22,7 @@
                             <div>
                                 <span class="c-dark pull-left">{{dashCtrl.model.delayedStatusCount}}</span>
                             </div>
-                            <div class="txt">Delayed</div>
+                            <div class="txt"><a href="#/loadShipments/Delayed">Delayed</a></div>
                         </div>
                     </div>
                 </div>
@@ -35,7 +35,7 @@
                             <div>
                                 <span class="c-red pull-left">{{dashCtrl.model.pendingStatusCount}}</span>
                             </div>
-                            <div class="txt">Error</div>
+                            <div class="txt"><a href="#/loadShipments/Error">Error</a></div>
                         </div>
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                             <div>
                                 <span class="c-purple pull-left">{{dashCtrl.model.bookingConfStatusCount}}</span>
                             </div>
-                            <div class="txt">Not picked-up</div>
+                            <div class="txt"><a href="#/loadShipments/BookingConfirmation">Not picked-up</a></div>
                         </div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                             <div>
                                 <span class="c-orange pull-left">{{dashCtrl.model.exceptionStatusCount}}</span>
                             </div>
-                            <div class="txt">Exceptions </div>
+                            <div class="txt"><a href="#/loadShipments/Exception">Exceptions</a> </div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                             <div>
                                 <span class="c-green pull-left">{{dashCtrl.model.deliveredStatusCount}}</span>
                             </div>
-                            <div class="txt">Delivered</div>
+                            <div class="txt"><a href="#/loadShipments/Delivered">Delivered</a></div>
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
                     </div>
                 </div>-->
                 <div class="row m-0">
-                    <div class="col-md-12 m-t-10 heading m-l-0">
+                    <div class="col-md-12 m-t-10 heading m-0 p-0">
                        <strong> FAVOURITES</strong>
                         <div ng-include="'shipment/loadAllShipments.html'">
                         </div>
