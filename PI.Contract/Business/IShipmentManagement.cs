@@ -131,6 +131,15 @@ namespace PI.Contract.Business
         /// <param name="payment">payment</param>
         /// <returns></returns>
         TrackerDto GetLocationHistoryInfoForShipmentFromEasyPost(string carrier, string trackingNumber);
+
+        /// <summary>
+        /// Get Tenant Id By UserId
+        /// </summary>
+        /// <param name="userid">payment</param>
+        /// <returns></returns>
+        long GetTenantIdByUserId(string userid);
+
+
     }
 
 }

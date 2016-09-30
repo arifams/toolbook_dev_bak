@@ -37,6 +37,7 @@ using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using EasyPost;
+using PI.Data.Entity.Identity;
 
 namespace PI.Business
 {
@@ -939,6 +940,8 @@ namespace PI.Business
             return currentShipment;
         }
 
+      
+
         //get shipments by ID
         public ShipmentDto GetshipmentById(string shipmentCode,long shipmentId = 0)
         {
@@ -1018,6 +1021,7 @@ namespace PI.Business
                     ShipmentMode = Enum.GetName(typeof(Contract.Enums.CarrierType), currentShipment.ShipmentMode),
                     ShipmentName = currentShipment.ShipmentName,
                     ShipmentServices = Utility.GetEnumDescription((ShipmentService)currentShipment.ShipmentService),
+                    CreatedUser = currentShipment.CreatedBy,
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
@@ -1255,7 +1259,7 @@ namespace PI.Business
                  this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
                 //create the invoice and upload to the blob
-                result.InvoiceURL =  this.GenerateUSInvoice(shipmentDto);
+            //    result.InvoiceURL =  this.GenerateUSInvoice(shipment);
 
             }
 
@@ -1263,9 +1267,23 @@ namespace PI.Business
             return result;
             // }
         }
-        
+
+        public long GetTenantIdByUserId(string userid)
+        {
+            ApplicationUser currentuser = null;
+
+            currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
+
+            if (currentuser == null)
+            {
+                return 0;
+            }
+            return currentuser.TenantId;
+        }
+
+
         //method to generate US invoices
-        public string GenerateUSInvoice(ShipmentDto shipmentDetails)
+        public string GenerateUSInvoice(Data.Entity.Shipment shipmentDetails)
         {
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
@@ -1275,10 +1293,10 @@ namespace PI.Business
 
             //initializing azure storage
             AzureFileManager media = new AzureFileManager();
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
-            media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
 
-            var invoicePdf = new Document(PageSize.A4);
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.CreatedBy);            
+
+            var invoicePdf = new Document(PageSize.B5);
             //getting the server path to create temp pdf file
             string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
 
@@ -1290,19 +1308,19 @@ namespace PI.Business
 
             StringBuilder packageDetails = new StringBuilder();
 
-            packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
-            packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
-            packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.PackageDetails.productTypes + "</p><br/>");
-            packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
-            packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
-            packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
-            packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
+            packageDetails.Append("<tr> <td> <label>" + shipmentDetails.Carrier.Name + "</label><br/>");
+            packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.TrackingNumber + "</p><br/>");
+            packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.ShipmentPackage.PackageDescription + "</p><br/>");
+            packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.ConsignorAddress.City + " " + shipmentDetails.ConsignorAddress.Country + "</p><br/>");
+            packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.ConsigneeAddress.City + " " + shipmentDetails.ConsigneeAddress.Country + "</p><br/>");
+            packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.ShipmentPackage.TotalWeight + "</p><br/>");
+            packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.CreatedDate + "</p><br/>");
             packageDetails.Append("</td>");
-            packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-            packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td>");
-            packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td> </tr>");
+            packageDetails.Append("<td>" + shipmentDetails.ShipmentPackage.PackageProducts.Count() + "</td>");
+            packageDetails.Append("<td>$" + shipmentDetails.ShipmentPackage.CarrierCost + "</td>");
+            packageDetails.Append("<td>$" + shipmentDetails.ShipmentPackage.CarrierCost + "</td> </tr>");
             packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
-            packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+            packageDetails.Append("<td>" + shipmentDetails.ShipmentPackage.PackageProducts.Count() + "</td>");
             packageDetails.Append("<td>" + "" + "</td> </tr>");
             packageDetails.Append("<td>" + "" + "</td> </tr>");
 
@@ -1313,18 +1331,18 @@ namespace PI.Business
 
 
             //replacing values from shipment
-            var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.FirstName)
-            .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
-            .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
-            .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
-            .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
-            .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
-            .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
+            var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.ConsignorAddress.FirstName + " " + shipmentDetails.ConsignorAddress.LastName)
+            .Replace("{BillingAddress1}", shipmentDetails.ConsignorAddress.StreetAddress1)
+            .Replace("{BillingAddress2}", shipmentDetails.ConsignorAddress.StreetAddress1)
+            .Replace("{BillingCity}", shipmentDetails.ConsignorAddress.City)
+            .Replace("{BillingState}", shipmentDetails.ConsignorAddress.State)
+            .Replace("{BillingZip}", shipmentDetails.ConsignorAddress.ZipCode)
+            .Replace("{BillingCountry}", shipmentDetails.ConsignorAddress.Country)
             .Replace("{invoicenumber}", "2016-260")
             .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
             .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
             .Replace("{terms}", "Net 10")
-            .Replace("{totalvalue}", shipmentDetails.CarrierInformation.Price.ToString() + "$")
+            .Replace("{totalvalue}", shipmentDetails.ShipmentPackage.CarrierCost.ToString() + "$")
             .Replace("{tableBody}", packageDetails.ToString());
 
 
@@ -1340,10 +1358,14 @@ namespace PI.Business
 
 
             var invoicename = "";
-            using (Stream savedPdf = new FileStream(wanted_path, FileMode.Open))
+            using (Stream savedPdf = File.OpenRead(wanted_path))
             {
                 invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
-                var opResult = media.Upload(savedPdf, invoicename);
+
+                media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+
+                // var opResult = media.Upload(savedPdf, invoicename);
+                Task.Run(async () => await media.Upload(savedPdf, invoicename));
             }
 
             //get the saved pdf url

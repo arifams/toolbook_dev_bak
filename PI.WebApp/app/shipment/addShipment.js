@@ -53,7 +53,7 @@
         vm.addingRequestForQuote = false;
         vm.errorCodeConsignee = false;
         vm.errorCodeConsignor = false;
-
+        vm.isShowInvoice = false;
         vm.loadingSymbole = false;
 
         vm.closeWindow = function () {
@@ -610,10 +610,14 @@
             if (response.status == 2) {
                 // Success both payment and shipment.
                 
-                vm.isShowPaymentForm = false;
-                
+                vm.isShowPaymentForm = false;                
                 vm.labelUrl = response.labelURL;
+             
                 vm.isShowLabel = true;
+                if (response.invoiceURL != '') {
+                    vm.isShowInvoice = true;
+                    vm.invoiceUrl = response.invoiceURL;
+                }
             }
             else if (response.status == 4) {
                 // PaymentError.
@@ -1167,9 +1171,7 @@
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode);
-
             }
-
 
         }
 
@@ -1180,10 +1182,7 @@
                 vm.errorCode = true;
             } else {
                 vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode);
-
             }
-
-
         }
 
     }]);

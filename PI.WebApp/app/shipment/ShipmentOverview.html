@@ -144,15 +144,11 @@
                  </div>
                 <div class="row">
                     <div class="col-sm-12">
-                        <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
+                        <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.trackingDetails">
                             <div class="col-sm-12 p-l-0 p-r-0">
-                                <label class="lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
-                            </div>
-                            <div class="row" ng-repeat="location in items.activity.items">
-                                <div class="col-sm-12">
-                                    <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
-                                </div>
-                            </div>
+                                <label class="lbl-border">{{items.message}}  :   {{items:status}}</label>
+                                <label class="lbl-border">{{items.country}}: {{items.city}}: {{items.state}}: {{items.zip}} : {{items.dateTime}}</label>                               
+                            </div>                          
                         </div>                                                   
                     </div>
                 </div> 

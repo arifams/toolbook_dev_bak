@@ -36,6 +36,8 @@ namespace PI.Contract.DTOs.Shipment
 
         public long CreatedBy { get; set; }
 
+        public string CreatedUser { get; set; }
+
         public string CreatedDate { get; set; }
 
         public short ShipmentPaymentTypeId { get; set; }
