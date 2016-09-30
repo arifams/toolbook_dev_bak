@@ -41,7 +41,7 @@ namespace PI.Service.Controllers
         [Route("PayInvoice")]
         public IHttpActionResult PayInvoice([FromBody] InvoiceDto invoice)
         {
-            return Ok(invoiceMangement.PayInvoice(invoice.Id));
+            return Ok(invoiceMangement.PayInvoice(invoice));
         }
 
 

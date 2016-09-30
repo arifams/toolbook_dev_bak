@@ -9,21 +9,16 @@ using System.Threading.Tasks;
 
 namespace PI.Data.Entity
 {
-    public class ShipmentPayment : LongIdBaseEntity
+    public class Payment : LongIdBaseEntity
     {
-        [ForeignKey("Shipment")]
-        public long ShipmentId { get; set; }
+        public long ReferenceId { get; set; }
+
+        public PI.Contract.Enums.PaymentType PaymentType { get; set; }
 
         public string PaymentId { get; set; }
         
         public Status Status { get; set; }
 
         public string StatusCode { get; set; }
-
-        #region Navigation
-
-        public virtual Shipment Shipment { get; set; }
-
-        #endregion
     }
 }

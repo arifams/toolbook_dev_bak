@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.Common;
+﻿using PI.Contract.DTOs;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Invoice;
 using PI.Contract.DTOs.Shipment;
 using PI.Contract.Enums;
@@ -44,9 +45,9 @@ namespace PI.Contract.Business
         /// <summary>
         /// Pay an invoice
         /// </summary>
-        /// <param name="invoiceId"></param>
+        /// <param name="invoiceDto"></param>
         /// <returns></returns>
-        InvoiceStatus PayInvoice(long invoiceId);
+        OperationResult PayInvoice(InvoiceDto invoiceDto);
 
 
         /// <summary>

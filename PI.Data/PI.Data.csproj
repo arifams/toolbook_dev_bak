@@ -124,14 +124,13 @@
     <Compile Include="Entity\Shipment\Invoice\InvoiceItemLine.cs" />
     <Compile Include="Entity\Shipment\LocationActivity.cs" />
     <Compile Include="Entity\Shipment\PackageProduct.cs" />
-    <Compile Include="Entity\Shipment\PaymentType.cs" />
     <Compile Include="Entity\RoleHierarchy.cs" />
     <Compile Include="Entity\Shipment\Shipment.cs" />
     <Compile Include="Entity\Shipment\ShipmentAddress.cs" />
     <Compile Include="Entity\Shipment\ShipmentLocationHistory.cs" />
     <Compile Include="Entity\Shipment\ShipmentDocument.cs" />
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
-    <Compile Include="Entity\Shipment\ShipmentPayment.cs" />
+    <Compile Include="Entity\Payment.cs" />
     <Compile Include="Entity\Shipment\ShipmentStatusHistory.cs" />
     <Compile Include="Entity\ShortIdBaseEntity.cs" />
     <Compile Include="Entity\Shipment\TarrifTextCode.cs" />
@@ -171,6 +170,10 @@
     <Compile Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.cs" />
     <Compile Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.Designer.cs">
       <DependentUpon>201609291821330_added_newfields_to_shpmentStatus_history.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609301005226_Change ShipmentPayment to Payment and update fields.cs" />
+    <Compile Include="Migrations\201609301005226_Change ShipmentPayment to Payment and update fields.Designer.cs">
+      <DependentUpon>201609301005226_Change ShipmentPayment to Payment and update fields.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
@@ -213,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609291821330_added_newfields_to_shpmentStatus_history.resx">
       <DependentUpon>201609291821330_added_newfields_to_shpmentStatus_history.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609301005226_Change ShipmentPayment to Payment and update fields.resx">
+      <DependentUpon>201609301005226_Change ShipmentPayment to Payment and update fields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

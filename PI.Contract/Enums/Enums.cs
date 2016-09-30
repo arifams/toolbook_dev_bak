@@ -98,7 +98,7 @@ namespace PI.Contract.Enums
         [Description("Invoice")]
         Invoice = 1,
         [Description("Online")]
-        PayLane
+        Online
     }
 
     public enum Status : short
@@ -188,6 +188,12 @@ namespace PI.Contract.Enums
         Paid,
         Disputed
 
+    }
+
+    public enum PaymentType : short
+    {
+        Shipment = 1,
+        Invoice = 2
     }
 
 }

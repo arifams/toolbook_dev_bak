@@ -43,7 +43,6 @@ namespace PI.Data
         public virtual DbSet<ShipmentAddress> ShipmentAddresses { get; set; }
         public virtual DbSet<ShipmentPackage> ShipmentPackages { get; set; }
         public virtual DbSet<PackageProduct> PackageProducts { get; set; }
-        public virtual DbSet<PaymentType> PaymentTypes { get; set; }
         public virtual DbSet<ShipmentLocationHistory> ShipmentLocationHistories { get; set; }
         public virtual DbSet<LocationActivity> LocationActivities { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
@@ -51,7 +50,7 @@ namespace PI.Data
 
         public virtual DbSet<VolumeMetric> VolumeMetrics { get; set; }
         public virtual DbSet<WeightMetric> WeightMetrics { get; set; }
-        public virtual DbSet<ShipmentPayment> ShipmentPayments { get; set; }
+        public virtual DbSet<Payment> Payments { get; set; }
         public virtual DbSet<ShipmentDocument> ShipmentDocument { get; set; }
               
         public virtual DbSet<CommercialInvoice> CommercialInvoices { get; set; }
