@@ -144,21 +144,36 @@ namespace PI.Business
         {
             var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
 
-            PaymentDto payment = new PaymentDto()
+            PaymentDto paymentDto = new PaymentDto()
             {
                 CardNonce = invoiceDto.CardNonce,
                 ChargeAmount = invoice.InvoiceValue,
                 CurrencyType = "USD",   // TODO: change this.
             };
 
-            OperationResult result = paymentManager.Charge(payment);
+            OperationResult result = paymentManager.Charge(paymentDto);
 
-            if(result.Status == Status.Success)
+            var payment = new Payment();
+            payment.CreatedBy = invoiceDto.UserId;
+            payment.CreatedDate = DateTime.Now;
+            payment.IsActive = true;
+            payment.PaymentId = result.FieldList["PaymentKey"];
+            payment.Status = result.Status;
+            payment.PaymentType = Contract.Enums.PaymentType.Invoice;
+            payment.ReferenceId = invoiceDto.Id;
+
+            if (result.Status == Status.PaymentError)
+            {
+                // If failed, due to payment gateway error, then record payment error code.
+                payment.StatusCode = result.FieldList["errorCode"];
+            }
+            else if (result.Status == Status.Success)
             {
                 invoice.InvoiceStatus = InvoiceStatus.Paid;
-                context.SaveChanges();
             }
-            
+
+            context.Payments.Add(payment);
+            context.SaveChanges();
             return result;
         }
 
@@ -509,13 +524,13 @@ namespace PI.Business
             var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
 
                 //saving invoice details fetched from the Pdf
-                WebClient myclient = new WebClient();                 
-                using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
-                {
-                    filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
-                    media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
-                    await media.Upload(savedPdf, filename);
-                }            
+                WebClient myclient = new WebClient();
+            using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
+            {
+                filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
+                media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+                await media.Upload(savedPdf, filename);
+            }            
                 
             //uploaded Url
             var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)+ "/" + filename;

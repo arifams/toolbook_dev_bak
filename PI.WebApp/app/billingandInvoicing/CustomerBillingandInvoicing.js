@@ -272,10 +272,23 @@
 
                                                    customerInvoiceFactory.payInvoice({ Id: vm.invoiceId, CardNonce: nonce, UserId: $window.localStorage.getItem('userGuid') })
                                                     .success(function (response) {
-                                                        debugger;
-                                                        if (response.result == 2) {
+                                                        
+                                                        
+
+                                                        if (response.status == 2) {
+                                                            vm.isShowPaymentForm = false;
                                                             // Payment is success
                                                             currentRow.invoiceStatus = "Paid";
+                                                            $('#panel-notif').noty({
+                                                                text: '<div class="alert alert-success media fade in"><p>' + 'Transaction is completed' + '!</p></div>',
+                                                                layout: 'bottom-right',
+                                                                theme: 'made',
+                                                                animation: {
+                                                                    open: 'animated bounceInLeft',
+                                                                    close: 'animated bounceOutLeft'
+                                                                },
+                                                                timeout: 6000,
+                                                            });
                                                         }
                                                         else {
                                                             // Payment error
