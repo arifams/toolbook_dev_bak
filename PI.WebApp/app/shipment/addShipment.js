@@ -54,6 +54,8 @@
         vm.errorCodeConsignee = false;
         vm.errorCodeConsignor = false;
 
+        vm.loadingSymbole = false;
+
         vm.closeWindow = function () {
             ngDialog.close()
         }
@@ -601,6 +603,7 @@
         //section to set the shipment mode
         function addShipmentResponse(response) {
             debugger;
+            vm.loadingSymbole = false;
             vm.shipmentStatusMsg = response.message;
             vm.isShowResponse = true;
 
@@ -706,6 +709,8 @@
 
         function saveShipment() {
 
+            vm.loadingSymbole = true;
+
             vm.addingShipment = true;
             var body = $("html, body");
 
@@ -756,6 +761,7 @@
                                                  });
                                     }
                                     else {
+                                        vm.loadingSymbole = false;
                                         vm.isShowPaymentForm = true;
                                         paymentForm.build();
                                     }
@@ -775,6 +781,7 @@
                                     });
                                 }
                             }).error(function (error) {
+                                vm.loadingSymbole = false;
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                     layout: 'bottom-right',
@@ -804,6 +811,7 @@
 
         vm.chargeFromCard = function () {
 
+            vm.loadingSymbole = true;
             paymentForm.requestCardNonce();
 
         }
