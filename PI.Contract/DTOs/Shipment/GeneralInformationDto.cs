@@ -56,5 +56,9 @@ namespace PI.Contract.DTOs.Shipment
 
         public bool IsFavourite { get; set; }
 
+        public string CompanyName { get; set; }
+
+        public string Owner { get; set; }
+
     }
 }

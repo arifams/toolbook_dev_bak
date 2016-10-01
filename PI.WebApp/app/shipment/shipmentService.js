@@ -47,7 +47,7 @@
             deleteShipment: deleteShipment,
             loadAllcompanies: loadAllcompanies,
             loadAllshipmentsForCompany: loadAllshipmentsForCompany,
-            loadAllShipmentsFromCompanyAndSearch: loadAllShipmentsFromCompanyAndSearch,
+            loadAllShipmentsForAdmin: loadAllShipmentsForAdmin,
             deleteShipmentbyAdmin: deleteShipmentbyAdmin,
             UpdateshipmentStatusManually: UpdateshipmentStatusManually,
             GetBusinessOwneridbyCompanyId: GetBusinessOwneridbyCompanyId,
@@ -247,17 +247,14 @@
         }
 
 
-        function loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, endDate, number, source, destination) {
+        function loadAllShipmentsForAdmin(status, startDate, endDate, searchValue) {
 
-            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsFromCompanyAndSearch', {
+            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdmin', {
                 params: {
-                    companyId: companyId,
                     status: status,
                     startDate: startDate,
                     endDate: endDate,
-                    number: number,
-                    source: source,
-                    destination: destination
+                    searchValue: searchValue
                 }
             });
         }

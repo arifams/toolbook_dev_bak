@@ -185,11 +185,10 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
-        [Route("loadAllShipmentsFromCompanyAndSearch")]
-        public IHttpActionResult loadAllShipmentsFromCompanyAndSearch(string status = null, DateTime? startDate = null, DateTime? endDate = null,
-                                                                      string number = null, string source = null, string destination = null)
+        [Route("loadAllShipmentsForAdmin")]
+        public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null)
         {
-            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate,endDate, number, source, destination));
+            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate,endDate, searchValue));
 
         }
 
