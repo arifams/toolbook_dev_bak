@@ -25,10 +25,8 @@
                                         {
                                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                 $scope.customerinvoiceCtrl.closeWindow();
-                                               // $route.reload();
                                                 $noty.close();
-
-
+                                                $route.reload();
                                             }
                                         }
 

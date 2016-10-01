@@ -11,7 +11,7 @@
             exportInvoiceReport: exportInvoiceReport
         };
 
-        function getAllInvoicesByCustomer(status, startDate, endDate, shipmentNumber, invoiceNumber) {
+        function getAllInvoicesByCustomer(status, startDate, endDate, searchValue) {
 
             return $http.get(serverBaseUrl + '/api/Customer/GetAllInvoicesByCustomer', {
                 params: {
@@ -19,8 +19,7 @@
                     userId: $window.localStorage.getItem('userGuid'),
                     startDate: startDate,
                     endDate: endDate,
-                    shipmentNumber: shipmentNumber,
-                    invoiceNumber: invoiceNumber
+                    searchValue: searchValue
                 }
             });
         }
@@ -53,6 +52,7 @@
                         var vm = this;
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
+                        vm.status = 'All';
 
                         //toggle function
                         vm.loadFilterToggle = function () {
@@ -70,12 +70,11 @@
                             var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                             var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                             var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
-                            var shipmentNumber = (vm.shipmentNumber == undefined || vm.shipmentNumber == "") ? null : vm.shipmentNumber;
-                            var invoiceNumber = (vm.invoiceNumber == undefined || vm.invoiceNumber == "") ? null : vm.invoiceNumber;
+                            var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
 
-                            customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, shipmentNumber, invoiceNumber)
+                            customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, searchValue)
                                 .then(function successCallback(responce) {
-
+                                    debugger;
                                     vm.rowCollection = responce.data.content;
                                     vm.exportcollection = [];
 
@@ -366,7 +365,7 @@
                             // var statusChange = confirm("Are you sure you need to dispute this invoice ?");
 
                             $('#panel-notif').noty({
-                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to Dispute the Invoice ') + row.invoiceNumber + '?</p></div>',
+                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to dispute invoice: ') + row.invoiceNumber + '?</p></div>',
                                 buttons: [
                                         {
                                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -382,20 +381,13 @@
                                                     })
 
                                                 });
-
-
                                                 $noty.close();
-
-
                                             }
                                         },
                                         {
                                             addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
-
-                                                // updateProfile = false;
                                                 $noty.close();
                                                 return;
-                                                // noty({text: 'You clicked "Cancel" button', type: 'error'});
                                             }
                                         }
                                 ],

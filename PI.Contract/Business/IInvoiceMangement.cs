@@ -23,8 +23,7 @@ namespace PI.Contract.Business
         /// <param name="endDate"></param>
         /// <param name="refNumber"></param>
         /// <returns></returns>
-        PagedList GetAllInvoicesByCustomer(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                           string shipmentNumber, string invoiceNumber);
+        PagedList GetAllInvoicesByCustomer(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue);
 
 
         /// <summary>
@@ -38,8 +37,7 @@ namespace PI.Contract.Business
         /// <param name="businessowner"></param>
         /// <param name="invoicenumber"></param>
         /// <returns></returns>
-        PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                       string shipmentnumber, string businessowner, string invoicenumber);
+        PagedList GetAllInvoicesForAdmin(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue);
 
 
         /// <summary>

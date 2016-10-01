@@ -30,9 +30,9 @@ namespace PI.Service.Controllers
         [HttpGet]
         [Route("GetAllInvoicesByCustomer")]
         public IHttpActionResult GetAllInvoicesByCustomer(string userId, string status = null, DateTime? startDate = null,
-                                                  DateTime? endDate = null, string shipmentNumber = null, string invoiceNumber = null)
+                                                          DateTime? endDate = null, string searchValue = null)
         {
-            return Ok(invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, shipmentNumber, invoiceNumber));
+            return Ok(invoiceMangement.GetAllInvoicesByCustomer(status, userId, startDate, endDate, searchValue));
         }
 
 
