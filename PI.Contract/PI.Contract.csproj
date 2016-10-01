@@ -106,6 +106,8 @@
     <Compile Include="DTOs\Shipment\ShipmentOperationResult.cs" />
     <Compile Include="DTOs\Shipment\ShipmentStatusHistoryDto.cs" />
     <Compile Include="DTOs\Shipment\StatusHistoryResponce.cs" />
+    <Compile Include="DTOs\Shipment\TrackerDto.cs" />
+    <Compile Include="DTOs\Shipment\TrackingDetails.cs" />
     <Compile Include="DTOs\User\UserDto.cs" />
     <Compile Include="DTOs\User\UserResultDto.cs" />
     <Compile Include="Enums\Enums.cs" />

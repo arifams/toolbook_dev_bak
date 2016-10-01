@@ -28,6 +28,12 @@ using PI.Contract.DTOs.Carrier;
 using PI.Contract.DTOs.Dashboard;
 using PI.Contract.DTOs.Payment;
 using Newtonsoft.Json.Linq;
+using PI.Data.Entity;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using iTextSharp.text.html.simpleparser;
+using PI.Contract.TemplateLoader;
+using HtmlAgilityPack;
 
 namespace PI.Service.Controllers
 {
@@ -73,11 +79,11 @@ namespace PI.Service.Controllers
         {
             string carrier = currentShipment.CarrierInformation.CarrierName;
             string trackingNumber = currentShipment.GeneralInformation.TrackingNumber;
-            string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
-            string environment = "taleus";
+            //string codeShipment = currentShipment.GeneralInformation.ShipmentCode;
+            //string environment = "taleus";
 
-            return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, 
-                                                                           codeShipment, environment));
+            return Ok(shipmentManagement.GetLocationHistoryInfoForShipmentFromEasyPost(carrier, trackingNumber));
+
         }
 
 
@@ -605,12 +611,101 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("PaymentCharge")]
-        public IHttpActionResult PaymentCharge(PaymentDto payment)
+        public async Task<IHttpActionResult> PaymentCharge(PaymentDto payment)
         {
             ShipmentOperationResult operationResult = shipmentManagement.PaymentCharge(payment);
 
             if(operationResult.Status == Status.Success)
             {
+                // call invoice generate               
+                ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("",operationResult.ShipmentId);
+                string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
+
+                Random generator = new Random();
+                string code = generator.Next(1000000, 9999999).ToString("D7");
+                string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+
+                //initializing azure storage
+                AzureFileManager media = new AzureFileManager();
+                var tenantId = shipmentManagement.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedUser);
+
+                var invoicePdf = new Document(PageSize.B5);
+                //getting the server path to create temp pdf file
+                string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+
+                PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+                HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
+
+                string htmlTemplate = "";
+                TemplateLoader templateLoader = new TemplateLoader();
+
+                StringBuilder packageDetails = new StringBuilder();
+
+                packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
+                packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
+                packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.GeneralInformation.ShipmentReferenceName + "</p><br/>");
+                packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
+                packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
+                packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
+                packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
+                packageDetails.Append("</td>");
+                packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td>");
+                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td> </tr>");
+                packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
+                packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+                packageDetails.Append("<td>" + "" + "</td> </tr>");
+                packageDetails.Append("<td>" + "" + "</td> </tr>");
+
+
+                //get the email template for invoice
+                HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
+                htmlTemplate = template.DocumentNode.InnerHtml;
+
+                //replacing values from shipment
+                var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName)
+                .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
+                .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
+                .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
+                .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
+                .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
+                .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
+                .Replace("{invoicenumber}", "2016-260")
+                .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
+                .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
+                .Replace("{terms}", "Net 10")
+                .Replace("{totalvalue}", shipmentDetails.CarrierInformation.Price + "$")
+                .Replace("{tableBody}", packageDetails.ToString());
+
+
+                TextReader txtReader = new StringReader(replacedString);
+                invoicePdf.Open();
+                htmlWorker.StartDocument();
+                htmlWorker.Parse(txtReader);
+
+                htmlWorker.EndDocument();
+                htmlWorker.Close();
+                //closing the doc
+                invoicePdf.Close();
+
+
+                var invoicename = "";
+                using (Stream savedPdf = File.OpenRead(wanted_path))
+                {
+                    invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
+
+                    media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));                    
+                    // var opResult = media.Upload(savedPdf, invoicename);
+                     await media.Upload(savedPdf, invoicename);
+                }
+
+                //get the saved pdf url
+                var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
+                                         + "/" + invoicename;
+
+                operationResult.InvoiceURL = returnData;
+
+
                 // Send mail
 
                 #region Send Booking Confirmaion Email to customer.

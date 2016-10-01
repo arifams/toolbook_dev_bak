@@ -77,7 +77,7 @@
                             </div>
                         </div>
                                             </div>
-           <div class="panel-content panel-border p-t-0">
+           <!--<div class="panel-content panel-border p-t-0">
             
                         <div class="row">
                             <div class="col-sm-12">
@@ -94,35 +94,35 @@
                            <div class="text-center bs-wizard-stepnum txtalign" translate>BOOKING CONFIRMATION</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 3 ? 'complete' : 'disabled'" >
-                           <!-- complete -->
+                           
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==4 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 3 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign" translate>PICKEDUP</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 4 ? 'complete' : 'disabled'">
-                           <!-- complete -->
+                         
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==5 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 4 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign" translate>IN-TRANSIT</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 6 ? 'complete' : 'disabled'">
-                           <!-- active -->
+                           
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==7 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.step > 6 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign" translate>DELIVERED</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 7 ? 'complete' : 'disabled'">
-                           <!-- active -->
+                           
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress"><div class="progress-bar" ng-class="overviewShipCtrl.step==8 ? 'width-half' : ''"></div></div>
                            <a href="#" ng-class="overviewShipCtrl.overviewShipCtrl.step > 7 ? 'bs-wizard-dot'  : 'bs-wizard-dot-small'"></a>
                            <div class="text-center bs-wizard-stepnum txtalign">&nbsp;</div>
                        </div>
                        <div class="col-xs-2 bs-wizard-step" ng-class="overviewShipCtrl.step > 8 ? 'complete' : 'disabled'">
-                           <!-- active -->
+                          
                            <div class="text-center bs-wizard-stepnum">&nbsp;</div>
                            <div class="progress" style="border-bottom-right-radius:5px;border-top-right-radius:5px;">
                            <div class="progress-bar" ng-class="overviewShipCtrl.step==9 ? 'width-half' : ''"></div></div>
@@ -135,27 +135,58 @@
 
                                 
                                     
-                                </div>
+                                </div>-->
             <div class="panel-content panel-border p-t-0">          
                    <div class="row">
                           <div class="col-sm-12">
                              <h3 class="heading"><strong translate>Tracking History</strong></h3>
                           </div>
                  </div>
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-sm-12">
-                        <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.history.items">
+                        <div class="row" ng-repeat="items in overviewShipCtrl.locationHistory.trackingDetails">
                             <div class="col-sm-12 p-l-0 p-r-0">
-                                <label class="lbl-border">{{items.location.country}}: {{items.location.city}}: {{items.location.geo.lat}}: {{items.location.geo.lng}}</label>
-                            </div>
-                            <div class="row" ng-repeat="location in items.activity.items">
-                                <div class="col-sm-12">
-                                    <label class="lbl-border">{{location.status}}  : {{location.timestamp.date}} : {{location.timestamp.time}}</label>
-                                </div>
-                            </div>
+                                <label class="lbl-border">{{items.message}}  :   {{items:status}}</label>
+                                <label class="lbl-border">{{items.country}}: {{items.city}}: {{items.state}}: {{items.zip}} : {{items.dateTime}}</label>                               
+                            </div>                          
                         </div>                                                   
                     </div>
-                </div> 
+                </div>--> 
+                <!--Time line start...............................................-->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12 time-line-t-d">
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center time-line-header" style="border-right:solid 4px #fff">
+                            <label class="time-line-header-lbl">In Transit</label>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6 text-center time-line-header" >
+                            <label class="time-line-header-lbl">Scheduled: 6 Sep</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <!-- BEGIN TIMELINE CONTENT -->
+                            
+
+                        <section id="timeline">
+                            <div class="timeline-block">
+                                <div class="time-line-l-d p-r-20">
+                                    <lable style="clear: both;float: right;">Sep 21, 2016</lable>
+                                    <label class="time-line-b-lbl pull-right">09:31 pm</label>
+                                </div>
+                                <div class="timeline-icon bg-primary">
+                                    <img style="width:60px;" src="../../proj_img/success.png" />
+                                </div>
+                                <div class="time-line-r-d">
+                                    <lable style="clear: both;float: left;">Voided Information Received<span class="checkpoint__courier-name">UPS</span></lable>
+                                    <label class="time-line-b-lbl pull-left">09:31 pm</label>
+                                </div>
+                            </div>
+                            
+                            
+                        </section>
+                        <!-- END TIMELINE CONTENT -->
+                     </div>
+                </div>
+                <!--End of time line...............................................-->
                 </div>
         </tab>
         <!--<tab>

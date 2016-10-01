@@ -36,7 +36,7 @@ namespace PI.Contract.Business
                                                string number);
         ShipmentDto GetshipmentById(string shipmentCode, long shipmentId = 0);
         int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin, long shipmentId);
-        StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);
+        TrackerDto GetTrackAndTraceInfo(string carrier, string trackingNumber);
         PagedList GetAllShipmentByCompanyId(string companyId);
         PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                           string number = null, string source = null, string destination = null);
@@ -123,6 +123,23 @@ namespace PI.Contract.Business
         /// <param name="payment">payment</param>
         /// <returns></returns>
         ShipmentOperationResult PaymentCharge(PaymentDto payment);
+
+
+        /// <summary>
+        /// Get LocationHistory Info ForShipment From EasyPost
+        /// </summary>
+        /// <param name="payment">payment</param>
+        /// <returns></returns>
+        TrackerDto GetLocationHistoryInfoForShipmentFromEasyPost(string carrier, string trackingNumber);
+
+        /// <summary>
+        /// Get Tenant Id By UserId
+        /// </summary>
+        /// <param name="userid">payment</param>
+        /// <returns></returns>
+        long GetTenantIdByUserId(string userid);
+
+
     }
 
 }

@@ -85,7 +85,6 @@ namespace PI.Business
                 paymentError = error[0].detail;
                 string errorCode = error[0].code;
                 result.FieldList.Add("errorCode", errorCode);
-                //response.Errors.Add(new Error() { Detail = error[0].detail,Category = error[0].category,Code = error[0].code });
             }
 
             result.FieldList.Add("PaymentKey", uuid);
