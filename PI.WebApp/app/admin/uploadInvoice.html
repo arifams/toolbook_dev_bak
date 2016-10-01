@@ -1,43 +1,34 @@
-﻿<div>
-    <h3 class="box-title" ng-show="from=='invoice'" translate>
-        Upload Invoice
+﻿<div class="m-10">
+    <h3 class="m-t-0 m-b-20" ng-show="from=='invoice'" translate>
+        <strong>Upload Invoice</strong>
     </h3>
-    <h3 class="box-title" ng-show="from=='creditNote'" translate>
-        Upload Credit Note
+    <h3 class="m-t-0 m-b-20" ng-show="from=='creditNote'" translate>
+        <strong>Upload Credit Note</strong>
     </h3>
 
-    <div class="panel">
-        <!-- form start -->
-        <!-- Main content -->
         <form class="form-horizontal">
-            <!-- /.box-header -->
-
-            <div class="panel-header">
-                <!-- left column -->
-
-                <div class="box-body">
-                    <div class="row">   
-                        <div class="col-md-12">
+          
+                    <div class="row m-0">   
+                        <div class="col-md-12 m-0 p-0">
                             
-                            <div class="col-md-6">
+                            <div class="col-md-7 p-0">
                                 <input type="file" ngf-select ng-model="document" name="file" ngf-multiple multiple
-                                       ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+                                       ngf-max-size="2MB" required ngf-model-invalid="errorFile" style="width:100%">
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="col-md-4">
-                                <button ng-click="document = null" ng-show="document" class="btn btn-primary" translate>Remove</button>
+                            
+                            <div class="col-md-5">
+                                <button ng-click="document = null" ng-show="document" class="btn btn-default" translate>Remove</button>
                                 <button ng-click="uploadInvoice(document)" class="btn btn-primary" ng-disabled="!document">
-                                    <i class="fa fa-arrow-circle-o-up"></i> <translate>Import</translate> <translate>{{from}}</translate>
+                                    <i class="fa fa-upload f-16"></i> <translate>Import</translate> <translate>{{from}}</translate>
                                 </button>
                                 {{errorMsg}}
                             </div>
                         </div>
                     </div>
                     <br />                  
-                    <div id="panel-notif"></div>
-                </div>
-            </div>
+                    
+               
         </form>
-    </div>
-
 </div>
+
+<div id="panel-notif"></div>

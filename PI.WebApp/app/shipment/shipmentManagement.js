@@ -257,14 +257,19 @@
 
                            }
 
-                           //open modal
+                           //search specific customers
                            vm.searchShipments = function () {
-                               //console.log('work');
-                               $scope.templateUrl = "admin/SearchSpecificShipments.html";
-                               modalService.load('modal-searchShipments');
-
+                               ngDialog.open({
+                                   scope: $scope,
+                                   template: '/app/admin/SearchSpecificShipments.html',
+                                   className: 'ngdialog-theme-plain custom-width-max',
+                                   controller: $controller('shipmentSearchCtrl', {
+                                       $scope: $scope,
+                                       
+                                   })
+                               });
+                              
                            }
-
 
                            vm.callServerSearch = function (tableState) {
                                debugger;
