@@ -36,6 +36,8 @@ namespace PI.Contract.DTOs.Shipment
 
         public long CreatedBy { get; set; }
 
+        public string CreatedUser { get; set; }
+
         public string CreatedDate { get; set; }
 
         public short ShipmentPaymentTypeId { get; set; }
@@ -53,6 +55,10 @@ namespace PI.Contract.DTOs.Shipment
         public string ManualStatusUpdatedDate { get; set; }
 
         public bool IsFavourite { get; set; }
+
+        public string CompanyName { get; set; }
+
+        public string Owner { get; set; }
 
     }
 }

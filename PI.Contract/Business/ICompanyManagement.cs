@@ -51,5 +51,6 @@ namespace PI.Contract.Business
         long GetTenantIdByUserId(string userid);
         void SaveUserPhoneCode(UserDto userDto);
         void SaveUserPhoneConfirmation(UserDto userDto);
+        void DeleteCompanyDetails(long tenantId,string userId);
     }
 }

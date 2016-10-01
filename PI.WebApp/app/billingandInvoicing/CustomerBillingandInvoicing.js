@@ -63,8 +63,7 @@
                         vm.closeWindow = function () {
                             ngDialog.close()
                         }
-
-
+                        
 
                         vm.loadInvoicesBySearch = function (status) {
                             
@@ -98,26 +97,13 @@
                                         invoiceObj.originCity = value.invoiceStatus;                                   
 
                                         vm.exportcollection.push(invoiceObj);
-                                    });
-
-
-
-
-
-
+                                    });                                    
 
                                 }, function errorCallback(response) {
                                     //todo
                                 });
                         };
-
-                        vm.loadInvoicesByStatus = function (status) {
-                            vm.loadInvoicesBySearch(status);
-                        };
-
-
-                        vm.loadInvoicesBySearch();
-
+                        
                         vm.exportInvoiceReport = function () {
                             
                             customerInvoiceFactory.exportInvoiceReport(vm.rowCollection)
@@ -434,6 +420,31 @@
                             //        })
                             //}
                         };
+
+
+                        vm.callServerSearch = function (tableState) {
+                            debugger;
+                            var pagination = 0;//tableState.pagination;
+
+                            var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                            var number = pagination.number || 10;  // Number of entries showed per page.
+
+                            vm.loadInvoicesBySearch(vm.status);
+                        };
+
+                        vm.resetSearch = function (tableState) {
+                            debugger;
+                            var pagination = 0;//tableState.pagination;
+
+                            var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                            var number = pagination.number || 10;  // Number of entries showed per page.
+
+                            vm.status = 'All';
+                            vm.datePicker.date = { "startDate": null, "endDate": null };
+                            //vm.datePicker.date.endDate = null;
+
+                            vm.loadInvoicesBySearch();
+                        }
 
                     }]);
 

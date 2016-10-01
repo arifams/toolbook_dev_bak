@@ -6,180 +6,163 @@
             <div class="col-md-10 portlets">
                 <div class="panel ">
                     <div class="panel-content">
+                        <div style="text-align:center;height:75px;">
+                            <div style="float:left;width:35%">
+                                <img src={{logoUrl}} style="width:138px;height:50px;">
+                            </div>
+                            <div style="float:left;text-align:center">
+                                <h2 style="margin-top:5px;margin-bottom:5px;font-weight:500">Shipment air waybill</h2>
+                            </div>
+                            <div style="float:right;text-align:left;padding:5px;">
+                                <div style="text-align:left;clear:both" ng-hide="false">{{awbCtrl.shipment.invoiceNo}}</div>
+                                <div style="text-align:left;clear:both;float:left" ng-show="false"><input type="text" ng-model="awbCtrl.shipment.invoiceNo"></div>
+                                <div style="text-align:left" ng-show="false"><i style="font-size:29px;margin-top: -2px;margin-left: 2px;color:#009BCB" class="fa fa-floppy-o" aria-hidden="true"></i></div>
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.shipmentReferenceName}}</div>
+                            </div>
+                            
+                        </div>
                         <table class="table table-bordered">
 
                             <tbody>
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Number</label><br />
-                                    </td>
-                                    <td class="col-sm-5">
-                                        <label>{{awbCtrl.shipment.invoiceNo}}</label>
-                                    </td>
-                                    <td class="col-sm-5">
-                                        <label translate>Reference</label><br />
-                                        <label>{{awbCtrl.shipment.shipmentReferenceName}}</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td rowspan="2"  class="col-sm-2">
-                                        <label translate>From</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2"  class="col-sm-10">
-                                        <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br/>
-                                        {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.country}}<br />    
-                                    </td>
-
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td rowspan="2" class="col-sm-2">
-                                        <label translate>To</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10">
-                                        <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
+                                <tr> 
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="clear:both">
+                                            <div style="background-color:#009BCB;width:4%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                                <label style="color:#fff" translate>1</label><br />
+                                            </div>
+                                            <div style="background-color:#009BCB;width:96%;padding-left:10px;padding-top:3px;float:right">
+                                                <label style="color:#fff" translate>From (Shipper)</label><br />
+                                            </div>
+                                        </div>
+                                       <div style="padding:10px;clear:both">
+                                           <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
+                                           {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
+                                           {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
+                                           {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
+                                       </div>
+                                        
                                     </td>
                                 </tr>
-                                <tr></tr>
                                 <tr>
-                                    <td>
-                                        <label translate>Colli:</label><br />
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:4%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>2</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:96%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>To (Recipient)</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
+                                        </div> 
                                     </td>
-                                    <td class="col-sm-6">
-                                     
-                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients">
-                                            <label> {{product.quantity}} * {{product.productType}}  </label>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:4%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>3</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:96%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Shipment details</label><br />
                                         </div>
                                     </td>
-                                    <td class="col-sm-3">
-                                        <label translate>Weight:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalWeight}}</label>
-                                        <label>                                          
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                        </label><br />
-                                    
-                                        <label translate>Volume:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalVolume}}</label>
-                                        <label>                                           
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm <sup>3</sup></span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch<sup>3</sup></span>)
-                                        </label><br />
-
-                                    </td>
-                                   
-
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Value</label><br />
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Total no. of packages:</label><br />
+                                       <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients"> {{product.quantity}} * {{product.productType}}</div>
                                     </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.declaredValue}}</label>
+                                    <td style="padding:0;width:33.33%" >
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Weight:</label><br />
+                                        <div>
+                                            {{awbCtrl.shipment.packageDetails.totalWeight}}
+                                        </div>
                                     </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Insurance</label><br />
-                                    </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</label>
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Incoterm</label><br />
-                                    </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label>{{awbCtrl.shipment.shipmentServices}}</label>                                       
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Description & Special Instructions</label><br />
-                                    </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.instructions}}</label><br/>
-                                        <label>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" >
-                                        <label translate>Requested Pickup Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</label><br />                                        
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Planned Delivery Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                        <td class="col-sm-2">
-                                            <label translate>Carrier</label><br />
-                                        </td>
-                                    <td class="col-sm-10"  colspan="2">
-                                        <label> {{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</label><br />
-                                    </td>
-                                </tr>
-                           
-                                <tr>
-                                    <td colspan="3" style="border:1px solid #ddd;text-align:center">
-                                            
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">#</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Package</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Description</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center" colspan="3">Dimension (L*W*H) <label>
-                                                     ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch</span>)
-                                                     </label><br /></th>                                                   
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Volume Weight</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Weight   <label>
-                                                    ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                                    </label><br /></th>
-                                                    
-                                                   
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
-                                                    <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}})</td>
-                                                    <td width="25%" style="border:1px solid #ddd;text-align:center"><span name="description" class="form-control">{{product.productType}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="qty" class="form-control" min="0">{{product.description}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.length}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.width}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.height}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{awbCtrl.shipment.packageDetails.volumeCMM ? (product.length * product.width * product.height)/5000 :(product.length * product.width * product.height)/139}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.weight}}</span></td>
-
-                                                </tr>                                                
-                                            </tbody>
+                                    <td style="padding-top:0;padding-left:15px;width:33.33%;vertical-align:top" rowspan="4">
+                                        <table>
+                                            <tr>
+                                                <th style="font-size:12px;padding:5px">Package</th>
+                                                <th style="font-size:12px;padding:5px">Length</th>
+                                                <th style="font-size:12px;padding:5px">Width</th>
+                                                <th style="font-size:12px;padding:5px">Height</th>
+                                            </tr>
+                                            <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
+                                                <td style="font-size:12px">{{product.productType}}</td>
+                                                <td style="font-size:12px">{{product.length}}</td>
+                                                <td style="font-size:12px">{{product.width}}</td>
+                                                <td style="font-size:12px">{{product.height}}</td>
+                                            </tr>
                                         </table>
-
                                     </td>
                                 </tr>
-
-
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Volume:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.totalVolume}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Incoterm:</label><br />
+                                        <div>{{awbCtrl.shipment.shipmentServices}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Value:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.declaredValue}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Insured:</label><br />
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</div>
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" style="padding:0;vertical-align: top;" colspan="3">
+                                        <div style="background-color:#009BCB;width:4%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>4</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:96%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Full description</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">
+                                            <div>{{awbCtrl.shipment.packageDetails.instructions}}</div><br />
+                                            <div>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;" >
+                                        <div style="background-color:#009BCB;width:12%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>5</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Requested pickup date</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:12%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>6</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Planed delivery date</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:12%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
+                                            <label style="color:#fff" translate>7</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Carrier</label><br /> 
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -191,190 +174,173 @@
 
     </ng-form>
 
+
+
+<!--********************************************************************************************-->
+
+
+
     <div id="AirwayBillCustomerPrint" style="display:none">
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-md-10 portlets">
                 <div class="panel ">
-                    <div class="panel-content">
-                        <table class="table table-bordered">
+                    <div class="panel-content" style="font-family:sans-serif">
+                        <div style="text-align:center;height:75px;">
+                            <div style="float:left;width:35%">
+                                <img src={{logoUrl}} style="width:138px;height:50px;">
+                            </div>
+                            <div style="float:left;text-align:center">
+                                <h2 style="margin-top:5px;margin-bottom:5px;font-weight:500">Shipment air waybill</h2>
+                            </div>
+                            <div style="float:right;text-align:left;padding:5px;">
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.invoiceNo}}</div>
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.shipmentReferenceName}}</div>
+                            </div>
+
+                        </div>
+                        <table class="table table-bordered" style="border-spacing: 0;border-collapse: collapse;color: #5b5b5b;">
 
                             <tbody>
                                 <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Number</label><br />
-                                    </td>
-                                    <td class="col-sm-5" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.invoiceNo}}</label>
-                                    </td>
-                                    <td class="col-sm-5" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Reference</label><br />
-                                        <label>{{awbCtrl.shipment.shipmentReferenceName}}</label>
+                                    <td class="col-sm-12" style="padding:0;border:1px solid #ddd;" colspan="3">
+                                        <div style="clear:both">
+                                            <div style="background-color:#009BCB;width:2.2%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                                <label style="color:#fff" translate>1</label><br />
+                                            </div>
+                                            <div style="background-color:#009BCB;width:95.4%;padding-left:10px;padding-top:3px;float:right">
+                                                <label style="color:#fff" translate>From (Shipper)</label><br />
+                                            </div>
+                                        </div>
+                                        <div style="padding:10px;clear:both">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
+                                        </div>
+
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td rowspan="2" class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">From</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10" style="text-align:center;border:1px solid #ddd">
-                                        <label style="font-weight:bold;">Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
-                                    </td>
-
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td rowspan="2" class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">To</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10" style="text-align:center;border:1px solid #ddd">
-                                        <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
-                                    </td>
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Colli:</label><br />
-                                    </td>
-                                    <td class="col-sm-6" style="text-align:center;border:1px solid #ddd">
-
-                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients">
-                                            <label> {{product.quantity}} * {{product.productType}}  </label>
+                                    <td class="col-sm-12" style="padding:0;border:1px solid #ddd;" colspan="3">
+                                        <div style="background-color:#009BCB;width:2.2%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>2</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:95.4%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>To (Recipient)</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
                                         </div>
                                     </td>
-                                    <td class="col-sm-3" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Weight:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalWeight}}</label>
-                                        <label style="font-weight:bold;">
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                        </label><br />
-
-                                        <label translate style="font-weight:bold;">Volume:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalVolume}}</label>
-                                        <label style="font-weight:bold;">
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm <sup>3</sup></span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch<sup>3</sup></span>)
-                                        </label><br />
-
-                                    </td>
-
-
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Value</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.packageDetails.declaredValue}}</label>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Insurance</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</label>
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</label>
+                                    <td class="col-sm-12" style="padding:0;border:1px solid #ddd;" colspan="3">
+                                        <div style="background-color:#009BCB;width:2.2%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>3</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:95.4%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Shipment details</label><br />
+                                        </div>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Incoterm</label><br />
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Total no. of packages:</label><br />
+                                        <div style="padding:5px" ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients"> {{product.quantity}} * {{product.productType}}</div>
                                     </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.shipmentServices}}</label>
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%">
+                                        <label style="color:#000;float:left;padding:5px" translate>Weight:</label><br />
+                                        <div style="width:100%;text-align:center">
+                                            {{awbCtrl.shipment.packageDetails.totalWeight}}
+                                        </div>
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Description & Special Instructions</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.packageDetails.instructions}}</label><br />
-                                        <label>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Requested Pickup Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Planned Delivery Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label>{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="text-align:center;border:1px solid #ddd">
-                                        <label translate style="font-weight:bold;">Carrier</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="text-align:center;border:1px solid #ddd">
-                                        <label> {{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3" style="border:1px solid #ddd;text-align:center">
-
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">#</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Package</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Description</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center" colspan="3">
-                                                        Dimension (L*W*H) <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch</span>)
-                                                        </label><br />
-                                                    </th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Volume Weight</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">
-                                                        Weight   <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                                        </label><br />
-                                                    </th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
-                                                    <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}} )</td>
-                                                    <td width="25%" style="border:1px solid #ddd;text-align:center"><span name="description" class="form-control">{{product.productType}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="qty" class="form-control" min="0">{{product.description}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.length}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.width}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.height}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{awbCtrl.shipment.packageDetails.volumeCMM ? (product.length * product.width * product.height)/5000 :(product.length * product.width * product.height)/139}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.weight}}</span></td>
-
-                                                </tr>
-                                            </tbody>
+                                    <td style="padding-top:0;padding-left:15px;border:1px solid #ddd;width:33.33%;vertical-align:top" rowspan="4">
+                                        <table>
+                                            <tr>
+                                                <th style="font-size:12px;padding:5px">Package</th>
+                                                <th style="font-size:12px;padding:5px">Length</th>
+                                                <th style="font-size:12px;padding:5px">Width</th>
+                                                <th style="font-size:12px;padding:5px">Height</th>
+                                            </tr>
+                                            <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
+                                                <td style="font-size:12px;padding:5px;text-align:center">{{product.productType}}</td>
+                                                <td style="font-size:12px;padding:5px;text-align:center">{{product.length}}</td>
+                                                <td style="font-size:12px;padding:5px;text-align:center">{{product.width}}</td>
+                                                <td style="font-size:12px;padding:5px;text-align:center">{{product.height}}</td>
+                                            </tr>
                                         </table>
-
                                     </td>
                                 </tr>
-
-
+                                <tr>
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%">
+                                        <label style="color:#000;float:left;padding:5px" translate>Volume:</label><br />
+                                        <div style="width:100%;text-align:center">{{awbCtrl.shipment.packageDetails.totalVolume}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Incoterm:</label><br />
+                                        <div style="padding:5px">{{awbCtrl.shipment.shipmentServices}}</div>
+                                    </td>
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%">
+                                        <label style="color:#000;float:left;padding:5px" translate>Value:</label><br />
+                                        <div style="width:100%;text-align:center">{{awbCtrl.shipment.packageDetails.declaredValue}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;border:1px solid #ddd;width:33.33%">
+                                        <label style="color:#000;float:left;padding:5px" translate>Insured:</label><br />
+                                        <div style="width:100%;text-align:center" ng-if="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</div>
+                                        <div style="width:100%;text-align:center" ng-if="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" style="padding:0;border:1px solid #ddd;vertical-align: top;" colspan="3">
+                                        <div style="background-color:#009BCB;width:2.2%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>4</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:95.4%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Full description</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">
+                                            <div>{{awbCtrl.shipment.packageDetails.instructions}}</div><br />
+                                            <div>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%;border:1px solid #ddd;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:6.6%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>5</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:86.2%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Requested pickup date</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;border:1px solid #ddd;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:6.6%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>6</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:86.2%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Planed delivery date</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;border:1px solid #ddd;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:6.6%;padding-left:5px;padding-top:3px;float:left;border-right: 1px solid #fff;">
+                                            <label style="color:#fff" translate>7</label><br />
+                                        </div>
+                                        <div style="background-color:#009BCB;width:86.2%;padding-left:10px;padding-top:3px;float:right">
+                                            <label style="color:#fff" translate>Carrier</label><br />
+                                        </div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -386,216 +352,151 @@
 
     </div>
 
-    <ng-form class="form-horizontal" role="form" id="formAirwayBillAdmin" name="formAirwayBillAdmin" ng-show="awbCtrl.currentRole=='Admin'">
+
+
+    <!--#######################################################################################################-->
+
+
+
+
+    <!--<ng-form class="form-horizontal" role="form" id="formAirwayBillAdmin" name="formAirwayBillAdmin" ng-show="awbCtrl.currentRole=='Admin'">
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-md-10 portlets">
                 <div class="panel ">
                     <div class="panel-content">
+                        <div style="text-align:center;height:75px;">
+                            <div style="float:left;width:35%">
+                                <img style="float:left" src="../../proj_img/PI_logo1.png" />
+                            </div>
+                            <div style="float:left;text-align:center">
+                                <h2 style="margin-top:5px;margin-bottom:5px;font-weight:500">Shipment air way bill</h2>
+                            </div>
+                            <div style="float:right;text-align:left;padding:5px;">
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.invoiceNo}}</div>
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.shipmentReferenceName}}</div>
+                            </div>
+
+                        </div>
                         <table class="table table-bordered">
 
                             <tbody>
                                 <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Number</label><br />
-                                    </td>
-                                    <td class="col-sm-5">
-                                        <label>{{awbCtrl.shipment.invoiceNo}}</label>
-                                    </td>
-                                    <td class="col-sm-5">
-                                        <label translate>Reference</label><br />
-                                        <label>{{awbCtrl.shipment.shipmentReferenceName}}</label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>From (Shipper)</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
+                                        </div>
+
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td rowspan="2" class="col-sm-2">
-                                        <label translate>From</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10">
-                                        <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
-                                    </td>
-
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td rowspan="2" class="col-sm-2">
-                                        <label translate>To</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10">
-                                        <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
-                                    </td>
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td>
-                                        <label translate>Colli:</label><br />
-                                    </td>
-                                    <td class="col-sm-6">
-
-                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients">
-                                            <label> {{product.quantity}} * {{product.productType}}  </label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>To (Recipient)</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
                                         </div>
                                     </td>
-                                    <td class="col-sm-3">
-                                        <label translate>Weight:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalWeight}}</label>
-                                        <label>
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                        </label><br />
-
-                                        <label translate>Volume:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalVolume}}</label>
-                                        <label>
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm <sup>3</sup></span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch<sup>3</sup></span>)
-                                        </label><br />
-
-                                    </td>
-
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" rowspan="2">
-                                        <label translate>Cost Center</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" rowspan="2">
-                                        <label>{{awbCtrl.shipment.costCenter.id}} ,  {{awbCtrl.shipment.costCenter.name}}</label><br />
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.number}} ,  {{awbCtrl.shipment.costCenter.billingAddress.streetAddress1}}</label><br/>
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.streetAddress2}} ,  {{awbCtrl.shipment.costCenter.billingAddress.zipCode}}</label><br />
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.city}} ,  {{awbCtrl.shipment.costCenter.billingAddress.state}}</label><br />
-                                        <label> {{awbCtrl.shipment.costCenter.billingAddress.country}}</label>
-                                    </td>
-
                                 </tr>
                                 <tr>
-
-                                </tr>
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Account</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label></label>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Value</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.declaredValue}}</label>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Insurance</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</label>
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Shipment details</label><br />
+                                        </div>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Incoterm</label><br />
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Total no. of packages:</label><br />
+                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients"> {{product.quantity}} * {{product.productType}}</div>
                                     </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label>{{awbCtrl.shipment.shipmentServices}}</label>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Weight:</label><br />
+                                        <div>
+                                            {{awbCtrl.shipment.packageDetails.totalWeight}}
+                                        </div>
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Description & Special Instructions</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.instructions}}</label><br />
-                                        <label>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Requested Pickup Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Planned Delivery Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label>{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2">
-                                        <label translate>Carrier</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2">
-                                        <label> {{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3" style="border:1px solid #ddd;text-align:center">
-
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">#</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Package</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Description</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center" colspan="3">
-                                                        Dimension (L*W*H) <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch</span>)
-                                                        </label><br />
-                                                    </th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Volume Weight</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">
-                                                        Weight   <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                                        </label><br />
-                                                    </th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
-                                                    <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}})</td>
-                                                    <td width="25%" style="border:1px solid #ddd;text-align:center"><span name="description" class="form-control">{{product.productType}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="qty" class="form-control" min="0">{{product.description}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.length}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.width}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.height}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{awbCtrl.shipment.packageDetails.volumeCMM ? (product.length * product.width * product.height)/5000 :(product.length * product.width * product.height)/139}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.weight}}</span></td>
-
-                                                </tr>
-                                            </tbody>
+                                    <td style="padding-top:0;padding-left:15px;width:33.33%;vertical-align:top" rowspan="4">
+                                        <table>
+                                            <tr>
+                                                <th style="font-size:12px;padding:5px">Package</th>
+                                                <th style="font-size:12px;padding:5px">Length</th>
+                                                <th style="font-size:12px;padding:5px">Width</th>
+                                                <th style="font-size:12px;padding:5px">Height</th>
+                                            </tr>
+                                            <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
+                                                <td style="font-size:12px">{{product.productType}}</td>
+                                                <td style="font-size:12px">{{product.length}}</td>
+                                                <td style="font-size:12px">{{product.width}}</td>
+                                                <td style="font-size:12px">{{product.height}}</td>
+                                            </tr>
                                         </table>
-
                                     </td>
                                 </tr>
-
-
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Volume:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.totalVolume}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Incoterm:</label><br />
+                                        <div>{{awbCtrl.shipment.shipmentServices}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Value:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.declaredValue}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Insured:</label><br />
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</div>
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" style="padding:0;vertical-align: top;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Full description</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <div>{{awbCtrl.shipment.packageDetails.instructions}}</div><br />
+                                            <div>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Requested pickup date</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Planed delivery date</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Carrier</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -605,216 +506,151 @@
 
         </div>
 
-    </ng-form>
+    </ng-form>-->
 
-    <div id="AirwayBillAdminPrint"  style="display:none;">
+
+    <!--###############################################################################################-->
+
+
+
+    <!--<div id="AirwayBillAdminPrint"  style="display:none;">
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-md-10 portlets">
                 <div class="panel ">
                     <div class="panel-content">
+                        <div style="text-align:center;height:75px;">
+                            <div style="float:left;width:35%">
+                                <img style="float:left" src="../../proj_img/PI_logo1.png" />
+                            </div>
+                            <div style="float:left;text-align:center">
+                                <h2 style="margin-top:5px;margin-bottom:5px;font-weight:500">Shipment air way bill</h2>
+                            </div>
+                            <div style="float:right;text-align:left;padding:5px;">
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.invoiceNo}}</div>
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.shipmentReferenceName}}</div>
+                            </div>
+
+                        </div>
                         <table class="table table-bordered">
 
                             <tbody>
                                 <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Number</label><br />
-                                    </td>
-                                    <td class="col-sm-5" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.invoiceNo}}</label>
-                                    </td>
-                                    <td class="col-sm-5" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Reference</label><br />
-                                        <label>{{awbCtrl.shipment.shipmentReferenceName}}</label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>From (Shipper)</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
+                                        </div>
+
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td rowspan="2" class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">From</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10" style="border:1px solid #ddd;text-align:center">
-                                        <label style="font-weight:bold;">Name: {{awbCtrl.shipment.addressInformation.consigner.firstName}} {{awbCtrl.shipment.addressInformation.consigner.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consigner.email}} Tel:{{awbCtrl.shipment.addressInformation.consigner.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.address1}} {{awbCtrl.shipment.addressInformation.consigner.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.postalcode}} {{awbCtrl.shipment.addressInformation.consigner.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consigner.country}}<br />
-                                    </td>
-
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td rowspan="2" class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">To</label><br />
-                                    </td>
-                                    <td rowspan="2" colspan="2" class="col-sm-10" style="border:1px solid #ddd;text-align:center">
-                                        <label style="font-weight:bold;">Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
-                                        {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
-                                    </td>
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Colli:</label><br />
-                                    </td>
-                                    <td class="col-sm-6" style="border:1px solid #ddd;text-align:center">
-
-                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients">
-                                            <label> {{product.quantity}} * {{product.productType}}  </label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>To (Recipient)</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <label>Name: {{awbCtrl.shipment.addressInformation.consignee.firstName}} {{awbCtrl.shipment.addressInformation.consignee.lastName}} E-mail: {{awbCtrl.shipment.addressInformation.consignee.email}} Tel:{{awbCtrl.shipment.addressInformation.consignee.contactNumber}}</label><br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.address1}} {{awbCtrl.shipment.addressInformation.consignee.number}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.postalcode}} {{awbCtrl.shipment.addressInformation.consignee.city}}<br />
+                                            {{awbCtrl.shipment.addressInformation.consignee.country}}<br />
                                         </div>
                                     </td>
-                                    <td class="col-sm-3" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Weight:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalWeight}}</label>
-                                        <label>
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                        </label><br />
-
-                                        <label translate style="font-weight:bold;">Volume:</label>
-                                        <label>{{awbCtrl.shipment.packageDetails.totalVolume}}</label>
-                                        <label>
-                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm <sup>3</sup></span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch<sup>3</sup></span>)
-                                        </label><br />
-
-                                    </td>
-
-
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2" rowspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Cost Center</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" rowspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.costCenter.id}} ,  {{awbCtrl.shipment.costCenter.name}}</label><br />
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.number}} ,  {{awbCtrl.shipment.costCenter.billingAddress.streetAddress1}}</label><br />
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.streetAddress2}} ,  {{awbCtrl.shipment.costCenter.billingAddress.zipCode}}</label><br />
-                                        <label>{{awbCtrl.shipment.costCenter.billingAddress.city}} ,  {{awbCtrl.shipment.costCenter.billingAddress.state}}</label><br />
-                                        <label> {{awbCtrl.shipment.costCenter.billingAddress.country}}</label>
-                                    </td>
-
-                                </tr>
-                                <tr></tr>
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Account</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label></label>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Value</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.packageDetails.declaredValue}}</label>
-                                    </td>
-
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Insurance</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</label>
-                                        <label ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</label>
+                                    <td class="col-sm-12" style="padding:0;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Shipment details</label><br />
+                                        </div>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Incoterm</label><br />
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Total no. of packages:</label><br />
+                                        <div ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients"> {{product.quantity}} * {{product.productType}}</div>
                                     </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.shipmentServices}}</label>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Weight:</label><br />
+                                        <div>
+                                            {{awbCtrl.shipment.packageDetails.totalWeight}}
+                                        </div>
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Description & Special Instructions</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.packageDetails.instructions}}</label><br />
-                                        <label>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</label>
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Requested Pickup Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Planned Delivery Date</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label>{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td class="col-sm-2" style="border:1px solid #ddd;text-align:center">
-                                        <label translate style="font-weight:bold;">Carrier</label><br />
-                                    </td>
-                                    <td class="col-sm-10" colspan="2" style="border:1px solid #ddd;text-align:center">
-                                        <label> {{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</label><br />
-                                    </td>
-                                </tr>
-
-                                <tr>
-                                    <td colspan="3" style="border:1px solid #ddd;text-align:center">
-
-                                        <table class="table table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">#</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Package</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Description</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center" colspan="3">
-                                                        Dimension (L*W*H) <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.volumeCMM">cm</span><span ng-hide="awbCtrl.shipment.packageDetails.volumeCMM">inch</span>)
-                                                        </label><br />
-                                                    </th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">Volume Weight</th>
-                                                    <th translate style="border:1px solid #ddd;text-align:center">
-                                                        Weight   <label>
-                                                            ( <span ng-show="awbCtrl.shipment.packageDetails.cmlbs">kg</span><span ng-hide="awbCtrl.shipment.packageDetails.cmlbs">lbs</span> )
-                                                        </label><br />
-                                                    </th>
-
-
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
-                                                    <td width="5%" style="border:1px solid #ddd;text-align:center">{{$index + 1}} )</td>
-                                                    <td width="25%" style="border:1px solid #ddd;text-align:center"><span name="description" class="form-control">{{product.productType}}</span></td>
-                                                    <td width="15%" style="border:1px solid #ddd;text-align:center"><span name="qty" class="form-control" min="0">{{product.description}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.length}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.width}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.height}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{awbCtrl.shipment.packageDetails.volumeCMM ? (product.length * product.width * product.height)/5000 :(product.length * product.width * product.height)/139}}</span></td>
-                                                    <td width="20%" style="border:1px solid #ddd;text-align:center"><span name="priceperPiece" class="form-control">{{product.weight}}</span></td>
-
-                                                </tr>
-                                            </tbody>
+                                    <td style="padding-top:0;padding-left:15px;width:33.33%;vertical-align:top" rowspan="4">
+                                        <table>
+                                            <tr>
+                                                <th style="font-size:12px;padding:5px">Package</th>
+                                                <th style="font-size:12px;padding:5px">Length</th>
+                                                <th style="font-size:12px;padding:5px">Width</th>
+                                                <th style="font-size:12px;padding:5px">Height</th>
+                                            </tr>
+                                            <tr ng-repeat="product in awbCtrl.shipment.packageDetails.productIngredients track by $index">
+                                                <td style="font-size:12px">{{product.productType}}</td>
+                                                <td style="font-size:12px">{{product.length}}</td>
+                                                <td style="font-size:12px">{{product.width}}</td>
+                                                <td style="font-size:12px">{{product.height}}</td>
+                                            </tr>
                                         </table>
-
                                     </td>
                                 </tr>
-
-
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Volume:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.totalVolume}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%" rowspan="2">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Incoterm:</label><br />
+                                        <div>{{awbCtrl.shipment.shipmentServices}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Value:</label><br />
+                                        <div>{{awbCtrl.shipment.packageDetails.declaredValue}}</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%">
+                                        <label style="color:#000;float:left;padding-left:5px" translate>Insured:</label><br />
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='True'">Yes</div>
+                                        <div ng-show="awbCtrl.shipment.packageDetails.isInsuared=='False'">No</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-12" style="padding:0;vertical-align: top;" colspan="3">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Full description</label><br />
+                                        </div>
+                                        <div style="padding:10px">
+                                            <div>{{awbCtrl.shipment.packageDetails.instructions}}</div><br />
+                                            <div>{{awbCtrl.shipment.packageDetails.shipmentDescription}}</div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Requested pickup date</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Planed delivery date</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</div>
+                                    </td>
+                                    <td style="padding:0;width:33.33%;vertical-align: top;">
+                                        <div style="background-color:#009BCB;width:100%;padding-left:10px;padding-top:3px;">
+                                            <label style="color:#fff" translate>Carrier</label><br />
+                                        </div>
+                                        <div style="padding:10px">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -824,5 +660,5 @@
 
         </div>
 
-    </div>
+    </div>-->
 </div>
