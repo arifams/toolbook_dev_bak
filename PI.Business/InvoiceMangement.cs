@@ -316,9 +316,6 @@ namespace PI.Business
             //{
             ShipmentDto dto = new ShipmentDto();
 
-
-            try
-            {
                 Invoice invoice = new Invoice()
                 {
                     InvoiceNumber = invoiceDetails.InvoiceNumber,
@@ -336,7 +333,9 @@ namespace PI.Business
             context.SaveChanges();
             invoiceSaved = true;
 
-            //}
+                      
+
+
             return invoiceSaved;
 
         }
