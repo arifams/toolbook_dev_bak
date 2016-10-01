@@ -2971,20 +2971,22 @@ namespace PI.Business
             int page = 1;
             int pageSize = 10;
             var pagedRecord = new PagedList();
+            short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
 
             pagedRecord.Content = new List<ShipmentDto>();
 
             //using (var context = PIContext.Get())
             //{
                 var content = (from shipment in context.Shipments
-                               where shipment.IsDelete == false &&                          
-                               //(status == null ||
-                                //   (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                //            : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                //            : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                //            : (status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)))
-                                //) &&
-                                /*shipment.Division.CompanyId.ToString() == companyId &&*/
+                               where shipment.IsDelete == false &&
+                               (string.IsNullOrEmpty(status) ||
+                                  (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                                    : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
+                                                    : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                                    : (status == "Delayed" || shipment.Status == enumStatus)
+                                  )
+                                ) &&
+                               /*shipment.Division.CompanyId.ToString() == companyId &&*/
                                //(string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                (number == null || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
