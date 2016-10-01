@@ -9,7 +9,7 @@
                            vm.CompanyId = '';
                            vm.rowCollection = [];
                            vm.noShipments = false;
-                           vm.statusButton = 'All';
+                           vm.status = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
                           
@@ -198,6 +198,22 @@
 
                            }
 
+
+                           vm.resetSearch = function (tableState) {
+                               debugger;
+                               var pagination = 0;//tableState.pagination;
+
+                               var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                               var number = pagination.number || 10;  // Number of entries showed per page.
+
+                               vm.status = 'All';
+                               vm.datePicker.date = { "startDate": null, "endDate": null };
+                               //vm.datePicker.date.endDate = null;
+                               console.log(vm.status);
+
+                               vm.loadAllShipments(vm.status, start, number, tableState);
+
+                           }
 
        
                        }])

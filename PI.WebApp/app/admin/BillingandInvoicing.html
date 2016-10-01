@@ -23,22 +23,20 @@
                     <div class="form-group">
 
                         <div class="option-group">
-                            <select id="addressStatus" name="addressStatus" class="form-control form-white"
-                                    ng-model="invoiceCtrl.status" ng-change="invoiceCtrl.statusButton()">
-                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('All')" translate>Status: All</option>
-                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</option>
-                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</option>
-                                <option href="javascript:;" value="" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</option>
+                            <select ng-model="invoiceCtrl.invoiceStatus" class="form-control form-white">
+                                <option value='All' translate>Status: All</option>
+                                <option value='Pending' translate>Pending</option>
+                                <option value='Paid' translate>Paid</option>
+                                <option value='Disputed' translate>Disputed</option>
                             </select>
                         </div>
-
+                
                     </div>
                 </div>
                 <hr>
+                <a href="javascript:void(0)" ng-click="invoiceCtrl.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
 
-                <a href="#" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
-
-                <a href="#" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
+                <a href="javascript:void(0)" ng-click="invoiceCtrl.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
 
 
             </div>
@@ -63,22 +61,11 @@
                         <span style="color:#319db5">Import</span>
                     </button>
                     <span class="dropdown-arrow"></span>
-                    <!--ul role="menu" class="dropdown-menu">
-                        <li>
-                            <a ng-click="addressCtrl.importAddressBook()">Import</a>
-                        </li>
-                        <li>
-                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBookDetails.csv">CSV Template</a>
-                        </li>
-                        <li>
-                            <a href="https://pidocuments.blob.core.windows.net:443/piblobstorage/COMMON/ADDRESSBOOK_TEMPLATES/AddressBook.xlsx">Excel Template</a>
-                        </li>
-                    </ul>-->
                 </div>
             </div>
             <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
                 <div dropdown="" class="btn-group">
-                    <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button" 
+                    <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button"
                             style="background-color:#f2f2f2;box-shadow:none" ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
                         <i class="fa fa-download" aria-hidden="true" style="color:#319db5"></i>
                         <span style="color:#319db5">Export</span>
@@ -109,109 +96,107 @@
     <div class="panel">
         <div class="panel-content panel-border">
             <tabset class="tab-fade-in">
-                <tab select="invoiceCtrl.loadAllInvoices()">
+                <tab> <!--select="invoiceCtrl.loadAllInvoices()">-->
                     <tab-heading translate>
                         INVOICES
                     </tab-heading>
                     <form role="form" name="formAllInvoices">
                         <!--<div class="row">
                             <div class="col-sm-10"></div>
-                           
+
                                 <div class="col-sm-2">
                                     <button class="btn btn-primary" style="float:right;" ng-click="invoiceCtrl.uploadInvoice('invoice')" translate>
                                         <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>Add Invoice</button>
                                 </div>
-                           
+
+                        </div>-->
+                        <!--<div class="col-sm-2 form-group">
+                            <div dropdown="" class="btn-group">
+                                <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                                    <translate>Status</translate> : {{invoiceCtrl.statusButton}}
+                                    <span class="caret"></span>
+                                </button>
+                                <span class="dropdown-arrow"></span>
+                                <ul role="menu" class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('All')" translate>All</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>-->
+                        <!--<div class="col-sm-2 form-group p-0">
+                            <div class="btn-group m-0">
+                                <input type="text" style="" date-range-picker="" class="form-control date-picker p-l-5" ng-model="invoiceCtrl.datePicker.date" placeholder="{{'Search By: Invoice Date'|translate}}">
+                            </div>
+                        </div>-->
+                        <!--<div class="col-sm-3 form-group p-r-0">
+                            <div class="btn-group m-0">
+                                <select ng-model="searchTypeInvoice" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched p-r-0 p-l-0" ng-init="searchTypeInvoice = 'ShipmentReference'">
+                                    <option value="ShipmentReference" translate>Search By: Shipment Reference</option>
+                                    <option value="BusinessOwner" translate>Search By: Business Owner</option>
+                                    <option value="InvoiceNumber" translate>Search By: InvoiceNumber</option>
+                                </select>
+                            </div>
+                        </div>-->
+                        <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'ShipmentReference'">
+                            <div class="input-group">
+                                <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
+                                       placeholder="{{'Shipment Ref Number'|translate}}" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>-->
+                        <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'BusinessOwner'">
+                            <div class="input-group">
+                                <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
+                                       placeholder="Business Owner" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>-->
+                        <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'InvoiceNumber'">
+                            <div class="input-group">
+                                <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
+                                       placeholder="Invoice Number" />
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
+
+                        </div>-->
+                        <!--<div class="col-sm-2">
+                            <button type="button" class="btn btn-large btn-primary no-margin"
+                                    ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
+                                <i class="glyphicon glyphicon-download-alt"></i>
+                                <translate>Export</translate>
+                            </button>
                         </div>-->
 
-                            <!--<div class="col-sm-2 form-group">
-                                <div dropdown="" class="btn-group">
-                                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
-                                        <translate>Status</translate> : {{invoiceCtrl.statusButton}}
-                                        <span class="caret"></span>
-                                    </button>
-                                    <span class="dropdown-arrow"></span>
-                                    <ul role="menu" class="dropdown-menu">
-                                        <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('All')" translate>All</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-model="invoiceCtrl.status" ng-click="invoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>-->
-                            <!--<div class="col-sm-2 form-group p-0">
-                                <div class="btn-group m-0">
-                                    <input type="text" style="" date-range-picker="" class="form-control date-picker p-l-5" ng-model="invoiceCtrl.datePicker.date" placeholder="{{'Search By: Invoice Date'|translate}}">
-                                </div>
-                            </div>-->
-                            <!--<div class="col-sm-3 form-group p-r-0">
-                                <div class="btn-group m-0">
-                                    <select ng-model="searchTypeInvoice" class="form-control ng-valid ng-dirty ng-valid-parse ng-touched p-r-0 p-l-0" ng-init="searchTypeInvoice = 'ShipmentReference'">
-                                        <option value="ShipmentReference" translate>Search By: Shipment Reference</option>
-                                        <option value="BusinessOwner" translate>Search By: Business Owner</option>
-                                        <option value="InvoiceNumber" translate>Search By: InvoiceNumber</option>
-                                    </select>
-                                </div>
-                            </div>-->
-                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'ShipmentReference'">
-                                <div class="input-group">
-                                    <input ng-model="invoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control"
-                                           placeholder="{{'Shipment Ref Number'|translate}}" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-
-                            </div>-->
-
-                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'BusinessOwner'">
-                                <div class="input-group">
-                                    <input ng-model="invoiceCtrl.businessOwner" name="businessOwner" type="text" class="form-control"
-                                           placeholder="Business Owner" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>-->
-
-                            <!--<div class="col-sm-3 form-group p-0" ng-show="searchTypeInvoice == 'InvoiceNumber'">
-                                <div class="input-group">
-                                    <input ng-model="invoiceCtrl.invoiceNumber" name="invoiceNumber" type="text" class="form-control"
-                                           placeholder="Invoice Number" />
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-large btn-primary no-margin" ng-click="invoiceCtrl.loadAllInvoices()">
-                                            <i class="fa fa-search"></i>
-                                        </button>
-                                    </span>
-                                </div>
-
-                            </div>-->
-                            <!--<div class="col-sm-2">
-                                <button type="button" class="btn btn-large btn-primary no-margin"
-                                        ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
-                                    <i class="glyphicon glyphicon-download-alt"></i>
-                                    <translate>Export</translate>
-                                </button>
-                            </div>-->
-                      
 
                         <div class="row res-grid">
-                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">
+                            <!--<table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">-->
+                            <table st-pipe="invoiceCtrl.callServerSearch" st-table="invoiceCtrl.rowCollection" class="table table-hover">
                                 <thead>
                                     <tr>
-                                        <th st-sort="name"translate>Date</th>
+                                        <th st-sort="name" translate>Date</th>
                                         <th translate>Owner last name</th>
                                         <th translate>Company</th>
                                         <!--<th translate>Shipment References</th>-->
@@ -240,7 +225,7 @@
                                                 <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
                                                         ng-model=row.invoiceStatus ng-change="invoiceCtrl.updateInvoiceStatus(row)"
                                                         data-container="body" rel="popover" name="status"
-                                                        class="form-control form-white" data-original-title="" >
+                                                        class="form-control form-white" data-original-title="">
                                                     <option value="Pending" translate>Pending</option>
                                                     <option value="Paid" translate>Paid</option>
                                                     <option value="Disputed" translate>Disputed</option>
@@ -268,9 +253,9 @@
                     </form>
                 </tab>
 
-                <tab select="invoiceCtrl.loadDisputedInvoices()">
+                <tab> <!--select="invoiceCtrl.loadDisputedInvoices()"-->
                     <tab-heading translate>
-                       DISPUTES
+                        DISPUTES
                     </tab-heading>
                     <form role="form">
                         <!--<div class="row">
@@ -327,9 +312,10 @@
 
                             </div>
 
-                        </div>-->                       
-                        <div class="row res-grid">                            
-                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover">
+                        </div>-->
+                        <div class="row res-grid"> 
+                            <table st-pipe="invoiceCtrl.callServerSearchDisputed"  st-table="invoiceCtrl.rowCollectionDisputed" class="table table-hover">
+                                <!--<table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover"> -->
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Date</th>
@@ -341,9 +327,9 @@
                                         <th translate>credit Value</th>
                                         <th translate>sum</th>
                                         <th translate>Status</th>
-                                        <!--<th translate>Upload Credit Note</th>-->   
-                                        <th translate>View</th>   
-                                        <th translate></th>                                                                           
+                                        <!--<th translate>Upload Credit Note</th>-->
+                                        <th translate>View</th>
+                                        <th translate></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -366,7 +352,7 @@
 
                                                 </select>
                                             </div>
-                                        </td>                                       
+                                        </td>
                                         <!--<td style="text-align:center">
                                             <a class="edit btn btn-sm btn-default" ng-click="invoiceCtrl.uploadInvoice('creditNote', row.id)">
                                                 <i class="glyphicon glyphicon-circle-arrow-up"></i>
@@ -380,14 +366,14 @@
                                         <td></td>
                                     </tr>
                                 </tbody>
-                                
+
                             </table>
                         </div>
                     </form>
                 </tab>
 
             </tabset>
-            
+
         </div>
     </div>
     <div id="panel-notif"></div>

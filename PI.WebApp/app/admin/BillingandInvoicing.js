@@ -8,9 +8,10 @@
        ['$location', '$window', 'adminFactory', 'ngDialog', '$controller', '$scope', '$rootScope', 'customBuilderFactory',
            function ($location, $window, adminFactory, ngDialog, $controller, $scope, $rootScope, customBuilderFactory) {
                var vm = this;
+               vm.invoiceStatus = 'All';
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
-                
+
                //toggle function
                vm.loadFilterToggle = function () {
                    customBuilderFactory.customFilterToggle();
@@ -22,7 +23,7 @@
                }
 
                vm.uploadInvoice = function (fromMethod, invoiceId) {
-                   
+
                    ngDialog.open({
                        scope: $scope,
                        template: '/app/admin/uploadInvoice.html',
@@ -31,12 +32,13 @@
                            $scope: $scope,
                            fromMethod: fromMethod,
                            invoiceId: invoiceId
-                       })                     
+                       })
                    });
                }
 
 
                vm.loadAllInvoices = function (status, from) {
+                   debugger;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -47,9 +49,8 @@
                    adminFactory.loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber)
                         .then(
                                function (responce) {
-                                   if (from == 'fromDisputed')
-                                   {
-                                       vm.rowCollectionDisputed  = responce.content;
+                                   if (from == 'fromDisputed') {
+                                       vm.rowCollectionDisputed = responce.content;
                                    }
                                    else {
                                        vm.rowCollection = responce.content;
@@ -61,15 +62,6 @@
 
                }
 
-               vm.loadDisputedInvoices = function () {
-                   vm.loadAllInvoices('Disputed', 'fromDisputed');
-               }
-
-               vm.loadInvoicesByStatus = function (status) {
-
-                   vm.statusButton = status;
-                   vm.loadAllInvoices(status);
-               }
 
                vm.exportInvoiceDetailsReport = function () {
 
@@ -172,7 +164,7 @@
                }
 
                vm.updateInvoiceStatus = function (row) {
-                  
+
                    var body = $("html, body");
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });
@@ -184,7 +176,7 @@
                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                        $noty.close();
-                                       
+
                                        adminFactory.updateInvoiceStatus(row)
                                                   .then(
                                                          function (responce) {
@@ -193,7 +185,7 @@
                                                                  text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Invoice updated successfully') + '.</p></div>',
                                                                  buttons: [
                                                                          {
-                                                                             addClass: 'btn btn-primary', text: $rootScope.translate('Yes'), onClick: function ($noty) {                                                      
+                                                                             addClass: 'btn btn-primary', text: $rootScope.translate('Yes'), onClick: function ($noty) {
                                                                                  $noty.close();
                                                                              }
                                                                          }
@@ -211,12 +203,12 @@
                                                          function (error) {
                                                              console.log("error occurd while retrieving shiments");
                                                          });
-            
+
                                    }
                                },
                                {
                                    addClass: 'btn btn-danger', text: $rootScope.translate('No'), onClick: function ($noty) {
-                                       
+
                                        $noty.close();
                                        return;
                                    }
@@ -233,8 +225,39 @@
 
                }
 
-              
-               vm.loadAllInvoices();
+               vm.callServerSearchDisputed = function (tableState) {
+                   debugger;
+                   var pagination = 0;//tableState.pagination;
+
+                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                   var number = pagination.number || 10;  // Number of entries showed per page.
+                   vm.loadAllInvoices('Disputed', 'fromDisputed');
+               };
+
+               vm.callServerSearch = function (tableState) {
+                   debugger;
+                   var pagination = 0;//tableState.pagination;
+
+                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                   var number = pagination.number || 10;  // Number of entries showed per page.
+         
+                   vm.loadAllInvoices(vm.invoiceStatus);
+               };
+
+               vm.resetSearch = function (tableState) {
+                   debugger;
+                   var pagination = 0;//tableState.pagination;
+
+                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                   var number = pagination.number || 10;  // Number of entries showed per page.
+
+                   vm.invoiceStatus = 'All';
+                   vm.datePicker.date = { "startDate": null, "endDate": null };
+                   //vm.datePicker.date.endDate = null;
+
+                   vm.loadAllInvoices();
+
+               }
 
 
            }]);

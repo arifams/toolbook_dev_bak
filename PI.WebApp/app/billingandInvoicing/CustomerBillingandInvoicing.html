@@ -24,23 +24,21 @@
                 <div class="row m-0">
                     <label class="form-label" translate>Status</label>
                     <div class="form-group">
-
                         <div class="option-group">
-                            <select id="addressStatus" name="addressStatus" class="form-control form-white"
-                                    ng-model="addressCtrl.state" ng-change="addressCtrl.searchAddresses()">
-                                <option href="javascript:;" value=""  ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('All')" translate>Status: All</option>
-                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Pending')" translate>Pending</option>
-                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Paid')" translate>Paid</option>
-                                <option href="javascript:;" value="" ng-model="customerinvoiceCtrl.status" ng-click="customerinvoiceCtrl.loadInvoicesByStatus('Disputed')" translate>Disputed</option>
+                            <select ng-model="customerinvoiceCtrl.status" class="form-control form-white">
+                                <option value='All' translate>Status: All</option>
+                                <option value='Pending' translate>Pending</option>
+                                <option value='Paid' translate>Paid</option>
+                                <option value='Disputed' translate>Disputed</option>
                             </select>
                         </div>
                       
                     </div>
                 </div>
 
-                <a href="#" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-306px">APPLY </a>
+                <a href="javascript:void(0)" ng-click="customerinvoiceCtrl.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
 
-                <a href="#" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style" style="bottom:-309px">RESET FILTERS</a>
+                <a href="javascript:void(0)" ng-click="customerinvoiceCtrl.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
 
 
             </div>
@@ -180,67 +178,68 @@
                         INVOICES
                     </tab-heading>
                     <div class="custom-table">
-                        <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th st-sort="name" translate>Date</th>
-                                    <!--<th translate>Shipment Reference</th>-->
-                                    <th translate>Invoice #</th>
-                                    <th translate>Invoice Value</th>
-                                    <th translate>credit value</th>
-                                    <th translate>sum</th>
-                                    <th translate>Status</th>
-                                    <th translate>pay</th>
-                                    <th translate>view</th>
-                                    <th translate>Dispute Invoice</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr ng-repeat="row in invoiceList">
-                                    <td>{{row.invoiceDate}}</td>
-                                    <!--<td>{{row.shipmentReference}}</td>-->
-                                    <td>{{row.invoiceNumber}}</td>
-                                    <td>{{row.invoiceValue}}</td>
-                                    <td>credit val</td>
-                                    <td>sum</td>
-                                    <td>
-                                        <span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>
-                                   </td>
-                                    <td>
-                                        <!--if invoiceStatus == 'Pending'-->
-                                        <button type="button" class="btn btn-primary" ng-show="row.invoiceStatus == 'Pending'"
-                                                ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
-                                            Pay
-                                        </button>
-                                    </td>
-                                    <td>
-                                        <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
-                                            <i class="fa fa-eye"></i>
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
-                                                ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
-                                            <i class="glyphicon glyphicon-trash"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="5" class="text-center">
-                                        <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                    </td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                        <pagination total-items=""
-                                    ng-model="currentPage"
-                                    max-size="maxSize"
-                                    class="pagination-sm"
-                                    boundary-links="true">
-                        </pagination>
-                    </div>
+                        <table st-pipe="customerinvoiceCtrl.callServerSearch" st-table="customerinvoiceCtrl.rowCollection" class="table table-hover">
+                         <!--<table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">-->
+                                <thead>
+                                    <tr>
+                                        <th st-sort="name" translate>Date</th>
+                                        <!--<th translate>Shipment Reference</th>-->
+                                        <th translate>Invoice #</th>
+                                        <th translate>Invoice Value</th>
+                                        <th translate>credit value</th>
+                                        <th translate>sum</th>
+                                        <th translate>Status</th>
+                                        <th translate>pay</th>
+                                        <th translate>view</th>
+                                        <th translate>Dispute Invoice</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in invoiceList">
+                                        <td>{{row.invoiceDate}}</td>
+                                        <!--<td>{{row.shipmentReference}}</td>-->
+                                        <td>{{row.invoiceNumber}}</td>
+                                        <td>{{row.invoiceValue}}</td>
+                                        <td>credit val</td>
+                                        <td>sum</td>
+                                        <td>
+                                            <span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>
+                                        </td>
+                                        <td>
+                                            <!--if invoiceStatus == 'Pending'-->
+                                            <button type="button" class="btn btn-primary" ng-show="row.invoiceStatus == 'Pending'"
+                                                    ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
+                                                Pay
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
+                                               ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <pagination total-items=""
+                                        ng-model="currentPage"
+                                        max-size="maxSize"
+                                        class="pagination-sm"
+                                        boundary-links="true">
+                            </pagination>
+</div>
                 </tab>
                 <tab>
                     <tab-heading translate>
