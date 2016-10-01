@@ -2965,8 +2965,7 @@ namespace PI.Business
         }
 
 
-        public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null)
+        public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null)
         {
             int page = 1;
             int pageSize = 10;
@@ -2979,6 +2978,7 @@ namespace PI.Business
             //{
                 var content = (from shipment in context.Shipments
                                where shipment.IsDelete == false &&
+                               //shipment.
                                (string.IsNullOrEmpty(status) ||
                                   (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
                                                     : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
@@ -2986,17 +2986,18 @@ namespace PI.Business
                                                     : (status == "Delayed" || shipment.Status == enumStatus)
                                   )
                                 ) &&
-                               /*shipment.Division.CompanyId.ToString() == companyId &&*/
-                               //(string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                               (number == null || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                               (source == null || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                               (destination == null || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                               (searchValue == null || 
+                               (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
+                               (shipment.ConsignorAddress.Country.Contains(searchValue) || shipment.ConsignorAddress.City.Contains(searchValue)) ||
+                               (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
                                select shipment).ToList();
 
 
                 foreach (var item in content)
                 {
+                 var owner = context.Users.Where(u => u.Id == item.CreatedBy).SingleOrDefault();
+                 
                     pagedRecord.Content.Add(new ShipmentDto
                     {
                         AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -3039,6 +3040,8 @@ namespace PI.Business
                             ShipmentCode = item.ShipmentCode,
                             ShipmentMode = item.ShipmentMode.ToString(),
                             ShipmentName = item.ShipmentName,
+                            CompanyName = item.Division.Company.Name,
+                            Owner = owner.FirstName + " " + owner.LastName,
                             //ShipmentTermCode = item.ShipmentTermCode,
                             //ShipmentTypeCode = item.ShipmentTypeCode,
                             ShipmentId = item.Id.ToString(),
