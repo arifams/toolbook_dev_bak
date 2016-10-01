@@ -1,129 +1,136 @@
 <document>
   <page>
-    <table rows="24" cols="7">
+    <table rows="3" cols="4">
       <row>
-        <cell colspan="2" />
-        <cell colspan="2">Parcel International</cell>
-        <cell colspan="3" />
+        <cell colspan="4">Parcel Intenational STE. 200 support@parcelinternational.com INVOICE</cell>
       </row>
       <row>
-        <cell colspan="2" />
-        <cell colspan="2">1900 Addison St.</cell>
-        <cell colspan="3" />
+        <cell colspan="4">Comp1 Comp11 Mariners Island Boulevard INVOICE # 2016-260 DUE DATEt 10/10/2016</cell>
       </row>
       <row>
-        <cell colspan="2" />
-        <cell>STE. 200</cell>
-        <cell colspan="4" />
-      </row>
-      <row>
-        <cell colspan="2" />
-        <cell>Berkeley, CA</cell>
-        <cell>94704</cell>
-        <cell colspan="3" />
-      </row>
-      <row>
-        <cell colspan="2" />
-        <cell colspan="2">(510)281-7554</cell>
-        <cell colspan="3" />
-      </row>
-      <row>
-        <cell colspan="2" />
-        <cell colspan="2">support@parcelinternational.com</cell>
-        <cell colspan="3" />
-      </row>
-      <row>
-        <cell colspan="2" />
-        <cell colspan="2">www.parcelinternational.com</cell>
-        <cell colspan="3" />
-      </row>
-      <row>
-        <cell colspan="3">INVOICE</cell>
-        <cell colspan="4" />
-      </row>
-      <row>
-        <cell colspan="3">BILL TO</cell>
-        <cell />
-        <cell>INVOICE #</cell>
-        <cell colspan="2">2016-260</cell>
-      </row>
-      <row>
-        <cell colspan="3">Rob Hilding</cell>
-        <cell />
-        <cell>DATE</cell>
-        <cell colspan="2">09/13/2016</cell>
-      </row>
-      <row>
-        <cell colspan="3">Bozco Resources</cell>
-        <cell />
-        <cell>DUE DATE</cell>
-        <cell colspan="2">09/23/2016</cell>
-      </row>
-      <row>
-        <cell colspan="3">3 5273 N. Commerce Ave</cell>
-        <cell />
-        <cell>TERMS</cell>
-        <cell>Net 10</cell>
-        <cell />
-      </row>
-      <row>
-        <cell>Moorpark, CA</cell>
-        <cell colspan="2">93021</cell>
-        <cell colspan="4" />
-      </row>
-      <row>
-        <cell colspan="3">United States</cell>
-        <cell colspan="4" />
-      </row>
-      <row>
-        <cell colspan="3">ACTIVITY</cell>
+        <cell>ACTIVITY</cell>
         <cell>QTY</cell>
-        <cell colspan="2">RATE</cell>
+        <cell>RATE</cell>
         <cell>AMOUNT</cell>
       </row>
+    </table>
+  </page>
+  <page>
+    <table rows="19" cols="3">
       <row>
-        <cell colspan="3">DHL AWB#: 9611467670 Reference: parts Origin: Cybutec Nederland, NL Destination: Bozco Resources, US Weight: 4.5 kg Date: 09/02/2016</cell>
-        <cell>1</cell>
-        <cell colspan="2">100.08</cell>
-        <cell>100.08</cell>
+        <cell colspan="3">UPS</cell>
       </row>
       <row>
-        <cell colspan="3">Services Paypal fee (4.5%)</cell>
-        <cell>1</cell>
-        <cell colspan="2">4.50</cell>
-        <cell>4.50</cell>
+        <cell colspan="3">AWB#:</cell>
       </row>
       <row>
-        <cell colspan="3">Bank Account number: 1660838259</cell>
-        <cell rowspan="2">BALANCE DUE</cell>
-        <cell colspan="2" />
-        <cell rowspan="2">$104.58</cell>
+        <cell colspan="3">1Z049A0X129467</cell>
       </row>
       <row>
-        <cell colspan="3">Wire Transfers:</cell>
-        <cell />
-        <cell colspan="2" />
-        <cell />
+        <cell colspan="3">6154</cell>
       </row>
       <row>
-        <cell colspan="3">- Domestic wires: 121000248</cell>
-        <cell colspan="4" />
+        <cell colspan="3">Reference:</cell>
       </row>
       <row>
-        <cell colspan="3">- International wires: WFBIUS6S</cell>
-        <cell colspan="4" />
+        <cell colspan="3">testDesc</cell>
       </row>
       <row>
-        <cell colspan="4">To pay this invoice online: click the link in this email or send us a</cell>
-        <cell colspan="3" />
+        <cell colspan="3">Origin:</cell>
       </row>
       <row>
-        <cell colspan="3">request to use Paypal.</cell>
-        <cell colspan="4" />
+        <cell colspan="3">San Mateo US</cell>
       </row>
       <row>
-        <cell colspan="3">Checks can be mailed to our office address.</cell>
-        <cell colspan="4" />
+        <cell colspan="2">1</cell>
+        <cell>$11.13</cell>
+      </row>
+      <row>
+        <cell colspan="3">Destination:</cell>
+      </row>
+      <row>
+        <cell colspan="3">San Mateo US</cell>
+      </row>
+      <row>
+        <cell colspan="3">Weight:</cell>
+      </row>
+      <row>
+        <cell colspan="3">1.00</cell>
+      </row>
+      <row>
+        <cell colspan="3">Date:</cell>
+      </row>
+      <row>
+        <cell colspan="3">9/30/2016 2:46:34</cell>
+      </row>
+      <row>
+        <cell colspan="3">PM</cell>
+      </row>
+      <row>
+        <cell colspan="3">Services</cell>
+      </row>
+      <row>
+        <cell>$11.13</cell>
+        <cell colspan="2">1</cell>
+      </row>
+      <row>
+        <cell colspan="3">Paypal fee(4.5%)</cell>
+      </row>
+    </table>
+  </page>
+  <page>
+    <table rows="17" cols="2">
+      <row>
+        <cell colspan="2">Bank Account</cell>
+      </row>
+      <row>
+        <cell colspan="2">number:16608382</cell>
+      </row>
+      <row>
+        <cell colspan="2">59</cell>
+      </row>
+      <row>
+        <cell colspan="2">Wire Transfers:</cell>
+      </row>
+      <row>
+        <cell colspan="2">- Domestic</cell>
+      </row>
+      <row>
+        <cell colspan="2">wires:121000248</cell>
+      </row>
+      <row>
+        <cell colspan="2">- International</cell>
+      </row>
+      <row>
+        <cell colspan="2">wires:WFBIUS6S</cell>
+      </row>
+      <row>
+        <cell>To pay this invoice</cell>
+        <cell>BALANCE DUE</cell>
+      </row>
+      <row>
+        <cell colspan="2">online: click the</cell>
+      </row>
+      <row>
+        <cell colspan="2">link in this email or</cell>
+      </row>
+      <row>
+        <cell colspan="2">send us a</cell>
+      </row>
+      <row>
+        <cell colspan="2">request to use</cell>
+      </row>
+      <row>
+        <cell colspan="2">Paypal.</cell>
+      </row>
+      <row>
+        <cell colspan="2">Checks can be</cell>
+      </row>
+      <row>
+        <cell colspan="2">mailed to our office</cell>
+      </row>
+      <row>
+        <cell colspan="2">address.</cell>
       </row>
     </table>
   </page>

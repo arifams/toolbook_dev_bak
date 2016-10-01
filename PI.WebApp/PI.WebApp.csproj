@@ -86,6 +86,8 @@
     <Content Include="app\admin\finance.js" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
+    <Content Include="app\admin\manageUsers.html" />
+    <Content Include="app\admin\manageUsers.js" />
     <Content Include="app\admin\SearchSpecificShipments.html" />
     <Content Include="app\admin\SearchSpecificShipments.js" />
     <Content Include="app\admin\uploadInvoice.html" />
@@ -139,6 +141,7 @@
     <Content Include="app\shipment\printLabel.js" />
     <Content Include="app\shipment\printManifest.html" />
     <Content Include="app\shipment\printManifest.js" />
+    <Content Include="app\shipment\searchShipmentsModal.html" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\shipmentManagement.html" />
