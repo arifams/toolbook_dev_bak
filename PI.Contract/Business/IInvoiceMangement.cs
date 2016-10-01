@@ -94,5 +94,15 @@ namespace PI.Contract.Business
         /// <returns></returns>
         Task<bool> FetchInvoiceDetailsfromPdf(string pdfUrl);
 
+        /// <summary>
+        /// Get All Invoices For Admin Export
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        byte[] GetAllInvoicesForAdminExport(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue);
+
+
+        byte[] GetAllInvoicesByAdminForExport(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue);
+
     }
 }

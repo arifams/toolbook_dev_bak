@@ -36,13 +36,20 @@
             return $http.post(serverBaseUrl + '/api/Customer/DisputeInvoice', invoiceDetail);
         }
 
-        function exportInvoiceReport(invoiceList) {
-            return $http({
-                url: serverBaseUrl + '/api/Customer/ExportInvoiceReport',
-                data: invoiceList,
-                method: "POST",             
+        function exportInvoiceReport(status, startDate, endDate, searchValue) {
+
+            return $http.get(serverBaseUrl + '/api/Customer/ExportInvoiceReport', {
+                params: {
+                    status: status,
+                    userId: $window.localStorage.getItem('userGuid'),
+                    startDate: startDate,
+                    endDate: endDate,
+                    searchValue: searchValue
+                },
                 responseType: 'arraybuffer'
             });
+            
+           
         }
 
     }]);
@@ -71,6 +78,7 @@
                             var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                             var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                             var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
+                            vm.statusSelected = status;
 
                             customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, searchValue)
                                 .then(function successCallback(responce) {
@@ -105,7 +113,13 @@
                         
                         vm.exportInvoiceReport = function () {
                             
-                            customerInvoiceFactory.exportInvoiceReport(vm.rowCollection)
+                            var status = (vm.statusSelected == undefined || vm.statusSelected == 'All' || vm.statusSelected == null || vm.statusSelected == "") ? null : vm.statusSelected;
+                            var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
+                            var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
+                            var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
+
+
+                            customerInvoiceFactory.exportInvoiceReport(status, startDate, endDate, searchValue)
                                       .success(function (data, status, headers) {
                                           var octetStreamMime = 'application/octet-stream';
                                           var success = false;

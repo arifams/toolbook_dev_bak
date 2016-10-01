@@ -58,7 +58,7 @@
             loadDefaultCostCenterId: loadDefaultCostCenterId,
             getFilteredShipmentsExcel: getFilteredShipmentsExcel,
             PaymentCharge: PaymentCharge,
-            loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport
+            loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
             PaymentCharge: PaymentCharge,
             GetAllShipmentCounts: GetAllShipmentCounts
         };
@@ -273,7 +273,8 @@
                     number: number,
                     source: source,
                     destination: destination
-                }
+                },
+                responseType: 'arraybuffer'
             });
         }
 

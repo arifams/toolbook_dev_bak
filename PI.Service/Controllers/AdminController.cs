@@ -431,13 +431,13 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
+        [HttpGet]
         [Route("ExportInvoiceReport")]
-        public HttpResponseMessage ExportInvoiceReport([FromBody]List<InvoiceDto> invoiceList)
+        public HttpResponseMessage ExportInvoiceReport(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                string searchValue = null)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(invoiceMangement.ExportInvoiceReport(invoiceList, true));
-
+            result.Content = new ByteArrayContent(invoiceMangement.GetAllInvoicesForAdminExport(status, userId, startDate, endDate, searchValue));
             result.Content.Headers.Add("x-filename", "InvoiceReport.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;

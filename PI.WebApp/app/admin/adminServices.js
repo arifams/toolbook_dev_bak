@@ -29,11 +29,17 @@
             });
         }
 
-        function exportInvoiceDetailsReport(invoiceList) {
-            return $http({
-                url: serverBaseUrl + '/api/admin/ExportInvoiceReport',
-                data: invoiceList,
-                method: "POST",
+        function exportInvoiceDetailsReport(status, startDate, endDate, searchValue) {
+            
+
+            return $http.get(serverBaseUrl + '/api/admin/ExportInvoiceReport', {
+                params: {
+                    status: status,
+                    userId: $window.localStorage.getItem('userGuid'),
+                    startDate: startDate,
+                    endDate: endDate,
+                    searchValue: searchValue
+                },
                 responseType: 'arraybuffer'
             });
         }

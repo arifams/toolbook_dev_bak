@@ -198,11 +198,14 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("loadAllShipmentsForAdminExcelExport")]
-        public IHttpActionResult loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+        public HttpResponseMessage loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                                                       string number = null, string source = null, string destination = null)
         {
-            return Ok(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
-
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+             result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
+            result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
         }
 
 
