@@ -2965,7 +2965,7 @@ namespace PI.Business
         }
 
 
-        public PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
+        public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                          string number = null, string source = null, string destination = null)
         {
             int page = 1;
@@ -2977,12 +2977,19 @@ namespace PI.Business
             //using (var context = PIContext.Get())
             //{
                 var content = (from shipment in context.Shipments
-                               where shipment.Division.CompanyId.ToString() == companyId &&
-                               (string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
+                               where shipment.IsDelete == false &&                          
+                               //(status == null ||
+                                //   (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                //            : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
+                                //            : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                //            : (status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)))
+                                //) &&
+                                /*shipment.Division.CompanyId.ToString() == companyId &&*/
+                               //(string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
                                (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                               (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                               (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                               (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
+                               (number == null || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
+                               (source == null || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
+                               (destination == null || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
                                select shipment).ToList();
 
 

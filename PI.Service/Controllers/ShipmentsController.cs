@@ -186,11 +186,10 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("loadAllShipmentsFromCompanyAndSearch")]
-        public IHttpActionResult loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null)
+        public IHttpActionResult loadAllShipmentsFromCompanyAndSearch(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                                      string number = null, string source = null, string destination = null)
         {
-            return Ok(shipmentManagement.loadAllShipmentsFromCompanyAndSearch(companyId, status, startDate, 
-                                                                              endDate, number, source, destination));
+            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate,endDate, number, source, destination));
 
         }
 

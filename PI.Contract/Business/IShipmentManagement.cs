@@ -38,7 +38,7 @@ namespace PI.Contract.Business
         int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin, long shipmentId);
         TrackerDto GetTrackAndTraceInfo(string carrier, string trackingNumber);
         PagedList GetAllShipmentByCompanyId(string companyId);
-        PagedList loadAllShipmentsFromCompanyAndSearch(string companyId, string status = null, DateTime? startDate = null, DateTime? endDate = null,
+        PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                           string number = null, string source = null, string destination = null);
 
         int UpdateshipmentStatusManually(string codeShipment, string status);
