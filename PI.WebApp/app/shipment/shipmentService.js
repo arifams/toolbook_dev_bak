@@ -57,7 +57,8 @@
             GetshipmentByShipmentCodeForAirwayBill: GetshipmentByShipmentCodeForAirwayBill,
             loadDefaultCostCenterId: loadDefaultCostCenterId,
             getFilteredShipmentsExcel: getFilteredShipmentsExcel,
-            PaymentCharge: PaymentCharge
+            PaymentCharge: PaymentCharge,
+            loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport
         };
 
         function PaymentCharge(paymentDto) {
@@ -260,6 +261,23 @@
                 }
             });
         }
+
+        
+        function loadAllShipmentsForAdminExcelExport(companyId, status, startDate, endDate, number, source, destination) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdminExcelExport', {
+                params: {
+                    companyId: companyId,
+                    status: status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,
+                    source: source,
+                    destination: destination
+                }
+            });
+        }
+
 
         function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
             debugger;

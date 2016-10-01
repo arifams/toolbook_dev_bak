@@ -140,6 +140,14 @@ namespace PI.Contract.Business
         long GetTenantIdByUserId(string userid);
 
 
+
+        /// <summary>
+        /// load All Shipments For Admin Excel Export
+        /// </summary>
+        /// <param name="">payment</param>
+        /// <returns></returns>
+        byte[] loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                        string number = null, string source = null, string destination = null);
     }
 
 }

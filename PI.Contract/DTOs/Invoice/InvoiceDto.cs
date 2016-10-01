@@ -40,6 +40,8 @@ namespace PI.Contract.DTOs.Invoice
 
         public string CardNonce { get; set; }
 
+        public string CreatedOn { get; set; }
+
         public string UserId { get; set; }
     }
 

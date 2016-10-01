@@ -127,9 +127,8 @@
                            }
 
                            vm.ExportExcel = function () {
-
-                               debugger;
-                               var status = statusValue;
+                                                             
+                               var status = (statusValue == undefined || statusValue == 'All' || statusValue == null || statusValue == "") ? null : statusValue;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                                var number = (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber;

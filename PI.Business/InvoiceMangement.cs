@@ -315,8 +315,10 @@ namespace PI.Business
             //using (PIContext context = PIContext.Get())
             //{
             ShipmentDto dto = new ShipmentDto();
-         
 
+
+            try
+            {
                 Invoice invoice = new Invoice()
                 {
                     InvoiceNumber = invoiceDetails.InvoiceNumber,
@@ -325,12 +327,26 @@ namespace PI.Business
                     CreatedBy = invoiceDetails.CreatedBy.ToString(),
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
-                    URL = invoiceDetails.URL
+                    URL = invoiceDetails.URL,
+                    DueDate= Convert.ToDateTime(invoiceDetails.DueDate)                    
+
                 };
+
 
                 context.Invoices.Add(invoice);
                 context.SaveChanges();
                 invoiceSaved = true;
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
+
+                
+
+               
 
             //}
             return invoiceSaved;
@@ -500,7 +516,20 @@ namespace PI.Business
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
                      
             f.XmlOptions.ConvertNonTabularDataToSpreadsheet = true;
-            f.OpenPdf(pathToPdf);
+
+           
+            try
+            {
+                Uri uri = new Uri(pathToPdf);
+                f.OpenPdf(uri);
+
+            }
+            catch (Exception e)
+            {
+                   
+                throw;
+            }
+            
 
             if (f.PageCount > 0)
             {
@@ -521,7 +550,7 @@ namespace PI.Business
                 shipmentDetails= shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
             }
             //get tenantId 
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedBy);
 
                 //saving invoice details fetched from the Pdf
                 WebClient myclient = new WebClient();
@@ -537,18 +566,33 @@ namespace PI.Business
 
             //saving fetched details from Pdf
              invoiceDetails.InvoiceNumber = invoiceNumber;
-             invoiceDetails.ShipmentId = shipmentDetails.Id;
+             invoiceDetails.ShipmentId =Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId);
              invoiceDetails.InvoiceDate =createdDate;
              invoiceDetails.DueDate = duedate;
+             invoiceDetails.CreatedOn = createdDate;
              invoiceDetails.Terms = terms;
              invoiceDetails.InvoiceValue = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost);
              invoiceDetails.URL = returnData;
              invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
-            
+            invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+
+
             this.SaveInvoiceDetails(invoiceDetails);
-           
+
             //deleting pdf file saved in tenant0 space
-            await media.Delete(pdfUrl);
+            
+            media.InitializeStorage("0", "Invoice_Temp");
+
+            //try
+            //{
+            //    await media.Delete(pdfUrl);
+            //}
+            //catch (Exception e)
+            //{
+
+            //    var m = e.Message;
+            //}
+           
 
             return true;
          

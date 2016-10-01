@@ -193,6 +193,18 @@ namespace PI.Service.Controllers
 
         }
 
+        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("loadAllShipmentsForAdminExcelExport")]
+        public IHttpActionResult loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                                      string number = null, string source = null, string destination = null)
+        {
+            return Ok(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
+
+        }
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
