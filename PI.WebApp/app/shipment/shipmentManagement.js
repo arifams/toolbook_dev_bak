@@ -39,6 +39,8 @@
                                         vm.noShipments = false;
                                         vm.loadingSymbole = false;
 
+                                        vm.setCSVData(responce);
+
                                     } else {
 
                                         vm.noShipments = true;
@@ -50,6 +52,60 @@
                                });                              
 
                            }
+
+                           vm.setCSVData = function (responce) {
+
+                               vm.exportcollection = [];
+
+                               //adding headers for export csv file
+                               var headers = {};
+                               headers.orderSubmitted = "Order Submitted";
+                               headers.trackingNumber = "Tracking Number";
+                               headers.shipmentId = "ShipmentId";
+                               headers.carrier = "Carrier";
+                               headers.originCity = "Origin City";
+                               headers.originCountry = "Origin Country";
+                               headers.consignorName = "Consignor Name";
+                               headers.consignorNumber = "Consignor Number";
+                               headers.consignorEmail = "Consignor Email";
+                               headers.destinationCity = "Destination City";
+                               headers.destinationCountry = "Destination Country";
+                               headers.consigneeName = "Consignee Name";
+                               headers.consigneeNumber = "Consignee Number";
+                               headers.consigneeEmail = "Consignee Email";
+                               headers.status = "Status";
+                               headers.shipmentMode = "Shipment Mode";
+                               headers.pickupDate = "Pickup Date";
+                               headers.serviceLevel = "Service Level";
+
+
+                               vm.exportcollection.push(headers);
+
+                               $.each(responce.data.content, function (index, value) {
+                                   debugger;
+                                   var shipmentObj = {}
+                                   shipmentObj.orderSubmitted = value.generalInformation.createdDate;
+                                   shipmentObj.trackingNumber = value.generalInformation.trackingNumber;
+                                   shipmentObj.shipmentId = value.generalInformation.shipmentCode;
+                                   shipmentObj.carrier = value.carrierInformation.carrierName;
+                                   shipmentObj.originCity = value.addressInformation.consigner.city;
+                                   shipmentObj.originCountry = value.addressInformation.consigner.country;
+                                   shipmentObj.consignorName = value.addressInformation.consigner.contactName;
+                                   shipmentObj.consignorNumber = value.addressInformation.consigner.contactNumber;
+                                   shipmentObj.consignorEmail = value.addressInformation.consigner.email;
+                                   shipmentObj.destinationCity = value.addressInformation.consignee.city;
+                                   shipmentObj.destinationCountry = value.addressInformation.consignee.country;
+                                   shipmentObj.consigneeName = value.addressInformation.consignee.contactName;
+                                   shipmentObj.consigneeNumber = value.addressInformation.consignee.contactNumber;
+                                   shipmentObj.consigneeEmail = value.addressInformation.consignee.email;
+                                   shipmentObj.status = value.generalInformation.status;
+                                   shipmentObj.shipmentMode = value.generalInformation.shipmentMode;
+                                   shipmentObj.pickupDate = value.carrierInformation.pickupDate;
+                                   shipmentObj.serviceLevel = value.carrierInformation.serviceLevel;
+                                   vm.exportcollection.push(shipmentObj);
+                               });
+                           }
+
 
                            vm.updateShipmentStatus = function (row) {
 
@@ -212,7 +268,6 @@
                            }
 
 
-
                            vm.callServerSearch = function (tableState) {
                                debugger;
                                var pagination = 0;//tableState.pagination;
@@ -224,6 +279,7 @@
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
 
                            };
+
 
                            vm.resetSearch = function (tableState) {
                                debugger;
