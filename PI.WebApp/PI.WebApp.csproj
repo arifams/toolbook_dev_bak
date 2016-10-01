@@ -141,7 +141,6 @@
     <Content Include="app\shipment\printLabel.js" />
     <Content Include="app\shipment\printManifest.html" />
     <Content Include="app\shipment\printManifest.js" />
-    <Content Include="app\shipment\searchShipmentsModal.html" />
     <Content Include="app\shipment\shipmentDocuments.html" />
     <Content Include="app\shipment\shipmentDocuments.js" />
     <Content Include="app\shipment\shipmentManagement.html" />
