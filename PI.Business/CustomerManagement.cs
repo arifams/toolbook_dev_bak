@@ -59,6 +59,20 @@ namespace PI.Business
         }
 
 
+        public void DeleteCustomer(string userId)
+        {
+            Customer customer = context.Customers.Where(cu => cu.UserId == userId).FirstOrDefault();
+            Address customerAddress = customer != null ? customer.CustomerAddress : null;
+
+            if (customerAddress != null)
+                context.Addresses.Remove(customerAddress);
+
+            if (customer != null)
+                context.Customers.Remove(customer);
+
+            context.SaveChanges();
+        }
+
         /// <summary>
         /// Save customer details
         /// </summary>

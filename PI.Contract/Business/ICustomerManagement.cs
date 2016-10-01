@@ -26,7 +26,7 @@ namespace PI.Contract.Business
 
         byte[] GetBytes(string input);
 
-        
+        void DeleteCustomer(string userId);
 
     }
 }
