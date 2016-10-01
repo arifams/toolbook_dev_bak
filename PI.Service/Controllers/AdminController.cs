@@ -424,10 +424,9 @@ namespace PI.Service.Controllers
         [System.Web.Http.HttpGet]
         [Route("GetAllInvoices")]
         public IHttpActionResult GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string shipmentnumber = null, string businessowner = null, string invoicenumber = null)
+                                                string searchValue = null)
         {
-            return Ok(invoiceMangement.GetAllInvoices(status, userId, startDate, endDate, shipmentnumber, 
-                      businessowner, invoicenumber));
+            return Ok(invoiceMangement.GetAllInvoicesForAdmin(status, userId, startDate, endDate, searchValue));
         }
 
 

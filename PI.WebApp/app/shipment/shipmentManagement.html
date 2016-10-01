@@ -1,6 +1,5 @@
 ﻿<div>
-    <ng-include src="templateUrl"></ng-include>
-    
+   
     <div class="builder" id="builder1">
         <a class="builder-toggle f-20" ng-click="manageShipCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
         <div class="inner">
@@ -104,37 +103,37 @@
 
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Not picked-up
-                            <span class="badge bg-purple f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             In-Transit
-                            <span class="badge bg-blue f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.inTransitStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delayed') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Delayed
-                            <span class="badge bg-dark f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.delayedStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Error
-                            <span class="badge bg-red f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pendingStatusCount}}</span>
                         </a>               
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Exceptions
-                            <span class="badge bg-orange f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-orange f-14 custom-badge m-l-5">{{manageShipCtrl.counts.exceptionStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Delivered
-                            <span class="badge bg-green f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             All
-                            <span class="badge bg-black f-14 custom-badge m-l-10">0</span>
+                            <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.allStatusCount}}</span>
                         </a>
                     </div>
 
                 </div>
             </div>
-            <hr class="m-0">
+            
  
             <div class="row">
                 <!--<table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">-->
@@ -163,7 +162,7 @@
 
                                 <td>
                                     <div class="option-group">
-                                        <select id="salutation" name="salutation" class="salutation form-control" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
+                                        <select id="salutation" name="salutation" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
                                             <option value="Error" translate>Error</option>
                                             <option value="Pending" translate>Pending</option>
                                             <option value="BookingConfirmation" translate>Booking Confirmation</option>
@@ -179,21 +178,21 @@
                                 </td>
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                       class="edit btn btn-sm btn-default">
-                                        <i class="fa fa-hand-o-right" style="color:blue"></i>
+                                       class="btn btn-sm btn-primary btn-transparent">
+                                        <i class="fa fa-eye"></i>
                                     </a>
                                 </td>
                                 <td>
                                     <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentId}}"
-                                       class="edit btn btn-sm btn-default">
-                                        <i class="icon-note" style="color:blue"></i>
+                                       class="btn btn-sm btn-primary btn-transparent">
+                                        <i class="icon-note"></i>
                                     </a>
                                 </td>
 
                                 <td>
                                     <a ng-show="row.generalInformation.isEnableDelete" ng-click="manageShipCtrl.deleteById(row)"
-                                       class="delete btn btn-sm btn-danger" href="javascript:;">
-                                        <i class="icons-office-52"></i>
+                                       class="btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -404,7 +403,7 @@
             </tabset>-->
 
         </div>
-        <div id="panel-notif"></div>
+        
     </div>
-
+    <div id="panel-notif"></div>
 </div>

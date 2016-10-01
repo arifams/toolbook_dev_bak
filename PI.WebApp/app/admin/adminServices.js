@@ -16,7 +16,7 @@
         };
         
 
-        function loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber) {
+        function loadAllInvoices(status, startDate, endDate, searchValue) {
            
             return $http.get(serverBaseUrl + '/api/admin/GetAllInvoices', {
                 params: {
@@ -24,9 +24,7 @@
                     userId: $window.localStorage.getItem('userGuid'),
                     startDate: startDate,
                     endDate: endDate,
-                    shipmentnumber: shipmentnumber,
-                    businessowner: businessowner,
-                    invoicenumber: invoicenumber
+                    searchValue: searchValue
                 }
             });
         }

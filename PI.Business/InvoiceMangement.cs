@@ -40,7 +40,7 @@ namespace PI.Business
         IShipmentManagement shipmentManagement;
         IPaymentManager paymentManager;
 
-        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement, IPaymentManager paymentManager,  PIContext _context = null)
+        public InvoiceMangement(ILogger logger, IShipmentManagement shipmentManagement, IPaymentManager paymentManager, PIContext _context = null)
         {
             context = _context ?? PIContext.Get();
             this.shipmentManagement = shipmentManagement;
@@ -57,8 +57,7 @@ namespace PI.Business
         /// <param name="endDate"></param>
         /// <param name="refNumber"></param>
         /// <returns></returns>
-        public PagedList GetAllInvoicesByCustomer(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                                  string shipmentNumber, string invoiceNumber)
+        public PagedList GetAllInvoicesByCustomer(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue)
         {
             var pagedRecord = new PagedList();
             IList<Invoice> invoiceList = new List<Invoice>();
@@ -69,50 +68,50 @@ namespace PI.Business
             {
                 invoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), status, true);
             }
+
             string role = context.GetUserRoleById(userId);
             Company company = context.GetCompanyByUserId(userId);
 
-            
+
             //using (var context = PIContext.Get())
             //{
-                if (role == "BusinessOwner" || role == "Manager")
-                {
-                    // Business Owners
-                    invoiceList = context.Invoices.Where(x => x.Shipment.Division.CompanyId == company.Id).ToList();
-                }
-                else if (role == "Supervisor")
-                {
-                    // Supervises
-                    invoiceList = context.Invoices.Where(x => x.Shipment.Division.UserInDivisions.Any(u => u.UserId == userId)).ToList();
-                }
-                else
-                {
-                    // Operators
-                    invoiceList = context.Invoices.Where(x => x.Shipment.CreatedBy == userId).ToList();
-                }
+            if (role == "BusinessOwner" || role == "Manager")
+            {
+                // Business Owners
+                invoiceList = context.Invoices.Where(x => x.Shipment.Division.CompanyId == company.Id).ToList();
+            }
+            //else if (role == "Supervisor")
+            //{
+            //    // Supervises
+            //    invoiceList = context.Invoices.Where(x => x.Shipment.Division.UserInDivisions.Any(u => u.UserId == userId)).ToList();
+            //}
+            //else
+            //{
+            //    // Operators
+            //    invoiceList = context.Invoices.Where(x => x.Shipment.CreatedBy == userId).ToList();
+            //}
 
-                var content =  invoiceList.Where(i=> i.IsDelete == false &&
-                                               (string.IsNullOrEmpty(shipmentNumber) || i.Shipment.ShipmentCode.Contains(shipmentNumber)) &&
-                                               (string.IsNullOrEmpty(invoiceNumber) || i.InvoiceNumber.Contains(invoiceNumber)) &&
-                                               (string.IsNullOrEmpty(status) || i.InvoiceStatus == invoiceStatus) &&
-                                               (startDate == null || i.CreatedDate >= startDate && i.CreatedDate <= endDate)).ToList();
-               
-                foreach (var item in content)
-                {
-                    pagedRecord.Content.Add(new InvoiceDto
-                    {
-                        Id = item.Id,
-                        ShipmentReference = item.Shipment.ShipmentCode,
-                        InvoiceDate = item.CreatedDate.ToString("dd/MM/yyyy"),
-                        InvoiceNumber = item.InvoiceNumber,
-                        InvoiceValue = item.InvoiceValue,
-                        InvoiceStatus =item.InvoiceStatus.ToString(),
-                        URL = item.URL
-                    });
-                }
+            var content = invoiceList.Where(i => i.IsDelete == false &&
+                                          (string.IsNullOrEmpty(searchValue) || i.InvoiceNumber.Contains(searchValue)) &&
+                                          (string.IsNullOrEmpty(status) || i.InvoiceStatus == invoiceStatus) &&
+                                          (startDate == null || i.CreatedDate >= startDate && i.CreatedDate <= endDate)).ToList();
 
-                return pagedRecord;
-           // }
+            foreach (var item in content)
+            {
+                pagedRecord.Content.Add(new InvoiceDto
+                {
+                    Id = item.Id,
+                    ShipmentReference = item.Shipment.ShipmentCode,
+                    InvoiceDate = item.CreatedDate.ToString("dd/MM/yyyy"),
+                    InvoiceNumber = item.InvoiceNumber,
+                    InvoiceValue = item.InvoiceValue,
+                    InvoiceStatus = item.InvoiceStatus.ToString(),
+                    URL = item.URL
+                });
+            }
+
+            return pagedRecord;
+            // }
         }
 
 
@@ -125,13 +124,13 @@ namespace PI.Business
         {
             //using (var context = PIContext.Get())
             //{
-                var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
-                invoice.InvoiceStatus = (InvoiceStatus)Enum.Parse( typeof(InvoiceStatus), invoiceDto.InvoiceStatus,true);
+            var invoice = context.Invoices.Where(i => i.Id == invoiceDto.Id).SingleOrDefault();
+            invoice.InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDto.InvoiceStatus, true);
 
-                context.SaveChanges();
+            context.SaveChanges();
 
-                return invoice.InvoiceStatus;
-           // }
+            return invoice.InvoiceStatus;
+            // }
         }
 
 
@@ -187,22 +186,22 @@ namespace PI.Business
         {
             //using (var context = PIContext.Get())
             //{
-                var currentinvoice = context.Invoices.Where(i => i.Id == invoice.Id).SingleOrDefault();
-                currentinvoice.InvoiceStatus = InvoiceStatus.Disputed;
+            var currentinvoice = context.Invoices.Where(i => i.Id == invoice.Id).SingleOrDefault();
+            currentinvoice.InvoiceStatus = InvoiceStatus.Disputed;
 
-                InvoiceDisputeHistory history = new InvoiceDisputeHistory()
-                {
-                    InvoiceId = invoice.Id,
-                    DisputeComment = invoice.DisputeComment,
-                    CreatedDate = DateTime.Now,
-                    CreatedBy= invoice.CreatedBy
+            InvoiceDisputeHistory history = new InvoiceDisputeHistory()
+            {
+                InvoiceId = invoice.Id,
+                DisputeComment = invoice.DisputeComment,
+                CreatedDate = DateTime.Now,
+                CreatedBy = invoice.CreatedBy
 
-                };
+            };
 
-                context.InvoiceDisputeHistories.Add(history);
-                context.SaveChanges();
+            context.InvoiceDisputeHistories.Add(history);
+            context.SaveChanges();
 
-                return currentinvoice.InvoiceStatus;
+            return currentinvoice.InvoiceStatus;
             //}
         }
 
@@ -221,7 +220,7 @@ namespace PI.Business
             strTemplate.AppendFormat(keyValueHtmlTemplate, "Invoiced Date: ", invoice.InvoiceDate);
             strTemplate.Append("<br>");
             strTemplate.Append("<h3>Customer responce/reason for dispute: </h3>");
-            strTemplate.Append("<span class='value'>" + invoice.DisputeComment.ToString() +"</span> </span>");
+            strTemplate.Append("<span class='value'>" + invoice.DisputeComment.ToString() + "</span> </span>");
             strTemplate.Append("<br>");
 
             strTemplate.Append("</body></html>");
@@ -242,8 +241,7 @@ namespace PI.Business
         /// <param name="businessowner"></param>
         /// <param name="invoicenumber"></param>
         /// <returns></returns>
-        public PagedList GetAllInvoices(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                       string shipmentnumber, string businessowner, string invoicenumber)
+        public PagedList GetAllInvoicesForAdmin(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue)
         {
             var pagedRecord = new PagedList();
             int page = 1;
@@ -252,55 +250,57 @@ namespace PI.Business
 
             //using (PIContext context = PIContext.Get())
             //{            
-                string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+            string BusinessOwnerRoleId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
-                var content = (from customer in context.Customers
-                                 join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
-                                 join invoice in context.Invoices on comapny.Id equals invoice.Shipment.Division.CompanyId
-                                 where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
-                                 customer.IsDelete == false &&
-                                 (string.IsNullOrEmpty(businessowner) || customer.FirstName.Contains(businessowner) || customer.LastName.Contains(businessowner)) &&
-                                 (string.IsNullOrEmpty(status) || status == invoice.InvoiceStatus.ToString()) &&
-                                 (string.IsNullOrEmpty(invoicenumber) || invoice.InvoiceNumber.Contains(invoicenumber)) &&
-                                 (string.IsNullOrEmpty(shipmentnumber) || invoice.Shipment.ShipmentCode.Contains(shipmentnumber)) &&
-                                 (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
-                                 select new
-                                 {
-                                     Customer = customer,
-                                     Company = comapny,
-                                     Invoice = invoice
-                                 }).ToList();
+            var content = (from invoice in context.Invoices
+                           join company in context.Companies on invoice.Shipment.Division.CompanyId equals company.Id
+                           join user in context.Users on company.TenantId equals user.TenantId
+                           where user.Roles.Any(r => r.RoleId == BusinessOwnerRoleId) &&
+                           company.IsDelete == false &&
+                           (status == null || invoice.InvoiceStatus.ToString() == status) &&
+                           (string.IsNullOrEmpty(searchValue) ||
+                             company.Name.Contains(searchValue) ||
+                             user.FirstName.Contains(searchValue) || user.LastName.Contains(searchValue) ||                             
+                             invoice.InvoiceNumber.Contains(searchValue) 
+                           ) &&
+                            (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
+                           select new
+                           {
+                               User = user,
+                               Company = company,
+                               Invoice = invoice
+                           }).ToList();
 
-                //removing unmatched company invoices according to the business owners
-                foreach (var item in content)
-                {                    
-                        pagedRecord.Content.Add(new InvoiceDto
-                        {
-                            Id = item.Invoice.Id,
-                            InvoiceNumber = item.Invoice.InvoiceNumber,
-                            InvoiceStatus = item.Invoice.InvoiceStatus.ToString(),
-                            InvoiceValue = item.Invoice.InvoiceValue,
-                            ShipmentId = item.Invoice.ShipmentId,
-                            ShipmentReference=item.Invoice.Shipment.ShipmentCode,                            
-                            URL = item.Invoice.URL,
-                            BusinessOwner = item.Customer.FirstName+ " " + item.Customer.LastName,
-                            CompanyName = item.Company.Name,
-                            InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
-                            CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
-                                            item.Invoice.creditNoteList.OrderByDescending(x=> x.CreatedDate).FirstOrDefault().URL
-                        });                    
+            //removing unmatched company invoices according to the business owners
+            foreach (var item in content)
+            {
+
+                if (item.User.Roles.Any(r => r.RoleId == BusinessOwnerRoleId))
+                {
+                    pagedRecord.Content.Add(new InvoiceDto
+                    {
+                        Id = item.Invoice.Id,
+                        InvoiceNumber = item.Invoice.InvoiceNumber,
+                        InvoiceStatus = item.Invoice.InvoiceStatus.ToString(),
+                        InvoiceValue = item.Invoice.InvoiceValue,
+                        ShipmentId = item.Invoice.ShipmentId,
+                        ShipmentReference = item.Invoice.Shipment.ShipmentCode,
+                        URL = item.Invoice.URL,
+                        BusinessOwner = item.User.FirstName + " " + item.User.LastName,
+                        CompanyName = item.Company.Name,
+                        InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
+                        CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
+                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL
+                    });
                 }
-
-          //  }
-
+            }
+            
             pagedRecord.TotalRecords = pagedRecord.Content.Count;
             pagedRecord.CurrentPage = page;
             pagedRecord.PageSize = pageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
             return pagedRecord;
-
-
         }
 
 
@@ -332,21 +332,9 @@ namespace PI.Business
 
                 };
 
-
-                context.Invoices.Add(invoice);
-                context.SaveChanges();
-                invoiceSaved = true;
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
-
-                
-
-               
+            context.Invoices.Add(invoice);
+            context.SaveChanges();
+            invoiceSaved = true;
 
             //}
             return invoiceSaved;
@@ -363,39 +351,39 @@ namespace PI.Business
         {
             //using (PIContext context = PIContext.Get())
             //{
-                try
+            try
+            {
+                CreditNote creditNote = new CreditNote()
                 {
-                    CreditNote creditNote = new CreditNote()
-                    {
-                        CreditNoteNumber = creditNoteDetails.InvoiceNumber,
-                        InvoiceId = creditNoteDetails.Id,
-                        CreditNoteValue = creditNoteDetails.InvoiceValue,
-                        CreatedBy = creditNoteDetails.CreatedBy,
-                        CreatedDate = DateTime.Now,
-                        URL = creditNoteDetails.URL
-                    };
+                    CreditNoteNumber = creditNoteDetails.InvoiceNumber,
+                    InvoiceId = creditNoteDetails.Id,
+                    CreditNoteValue = creditNoteDetails.InvoiceValue,
+                    CreatedBy = creditNoteDetails.CreatedBy,
+                    CreatedDate = DateTime.Now,
+                    URL = creditNoteDetails.URL
+                };
 
-                    context.CreditNotes.Add(creditNote);
-                    context.SaveChanges();
+                context.CreditNotes.Add(creditNote);
+                context.SaveChanges();
 
-                    // Update Invoice status and value.
-                    var invoice = context.Invoices.Where(x => x.Id == creditNoteDetails.Id).SingleOrDefault();
+                // Update Invoice status and value.
+                var invoice = context.Invoices.Where(x => x.Id == creditNoteDetails.Id).SingleOrDefault();
 
-                    invoice.InvoiceStatus = (invoice.InvoiceValue == creditNote.CreditNoteValue) ?
-                                           InvoiceStatus.Paid : InvoiceStatus.Pending;
+                invoice.InvoiceStatus = (invoice.InvoiceValue == creditNote.CreditNoteValue) ?
+                                       InvoiceStatus.Paid : InvoiceStatus.Pending;
 
-                    invoice.InvoiceValue = (invoice.InvoiceValue - creditNote.CreditNoteValue);
-                  
-                    context.SaveChanges();
+                invoice.InvoiceValue = (invoice.InvoiceValue - creditNote.CreditNoteValue);
 
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    return false;
-                }
+                context.SaveChanges();
 
-           // }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            // }
         }
 
 
@@ -427,7 +415,7 @@ namespace PI.Business
                 ws.Cells["B6"].Value = "INVOICE DATE";
                 ws.Cells["C6"].Value = "SHIPMENT REFERENCE";
                 ws.Cells["D6"].Value = "INVOICE VALUE";
-                ws.Cells["E6"].Value = "INVOICE STATUS";              
+                ws.Cells["E6"].Value = "INVOICE STATUS";
                 ws.Cells["F6"].Value = isAdmin ? "BUSINESS OWNER" : null;
                 ws.Cells["G6"].Value = isAdmin ? "CORPORATE NAME" : null;
 
@@ -472,7 +460,7 @@ namespace PI.Business
                         cell.Value = invoice.BusinessOwner;
 
                         cell = ws.Cells[rowIndex, 7];
-                        cell.Value = invoice.CompanyName;            
+                        cell.Value = invoice.CompanyName;
 
                         ws.Row(rowIndex).Height = 25;
                     }
@@ -486,7 +474,7 @@ namespace PI.Business
                 return excel.GetAsByteArray();
             }
         }
-        
+
 
         public async Task<bool> FetchInvoiceDetailsfromPdf(string pdfUrl)
         {
@@ -499,7 +487,7 @@ namespace PI.Business
             Random generator = new Random();
             string code = generator.Next(1000000, 9999999).ToString("D7");
             string invoicename = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
-            
+
             var url = pdfUrl;
             string filename = "";
             string trackingNo = "";
@@ -507,14 +495,14 @@ namespace PI.Business
             string createdDate = "";
             string duedate = "";
             string terms = "";
-            
+
             string pathToPdf = url;
             string xml_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.xml");
             string pathToXml = xml_path;
 
             // Convert PDF file to XML file. 
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
-                     
+
             f.XmlOptions.ConvertNonTabularDataToSpreadsheet = true;
 
            
@@ -535,34 +523,34 @@ namespace PI.Business
             {
                 int result = f.ToXml(pathToXml);
                 XmlDocument doc = new XmlDocument();
-                doc.Load(pathToXml);                  
+                doc.Load(pathToXml);
                 //fetching details from xml
                 trackingNo = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText, "AWB#:", "Reference").Replace(" ", "");
                 invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
-                createdDate= doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
-                duedate=doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
-                terms=doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;                
+                createdDate = doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
+                duedate = doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
+                terms = doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;
             }
 
             f.ClosePdf();
             if (!string.IsNullOrEmpty(trackingNo))
             {
-                shipmentDetails= shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
+                shipmentDetails = shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
             }
             //get tenantId 
             var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedBy);
 
-                //saving invoice details fetched from the Pdf
-                WebClient myclient = new WebClient();
+            //saving invoice details fetched from the Pdf
+            WebClient myclient = new WebClient();
             using (Stream savedPdf = new MemoryStream(myclient.DownloadData(pdfUrl)))
             {
                 filename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoicename + ".pdf");
                 media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
                 await media.Upload(savedPdf, filename);
-            }            
-                
+            }
+
             //uploaded Url
-            var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)+ "/" + filename;
+            var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice) + "/" + filename;
 
             //saving fetched details from Pdf
              invoiceDetails.InvoiceNumber = invoiceNumber;
@@ -595,7 +583,7 @@ namespace PI.Business
            
 
             return true;
-         
+
         }
 
 

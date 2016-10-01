@@ -42,18 +42,17 @@
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
-                   var shipmentnumber = (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber;
-                   var businessowner = (vm.businessOwner == undefined) ? null : vm.businessOwner;
-                   var invoicenumber = (vm.invoiceNumber == undefined) ? null : vm.invoiceNumber;
-
-                   adminFactory.loadAllInvoices(status, startDate, endDate, shipmentnumber, businessowner, invoicenumber)
+                   var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
+                   
+                   adminFactory.loadAllInvoices(status, startDate, endDate, searchValue)
                         .then(
                                function (responce) {
+                                   debugger;
                                    if (from == 'fromDisputed') {
-                                       vm.rowCollectionDisputed = responce.content;
+                                       vm.rowCollectionDisputed = responce.data.content;
                                    }
                                    else {
-                                       vm.rowCollection = responce.content;
+                                       vm.rowCollection = responce.data.content;
                                    }
                                },
                                function (error) {
@@ -173,19 +172,20 @@
                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to update the invoice status') + '?</p></div>',
                        buttons: [
                                {
-                                   addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                   addClass: 'btn btn-primary', text: $rootScope.translate('Yes'), onClick: function ($noty) {
 
                                        $noty.close();
 
                                        adminFactory.updateInvoiceStatus(row)
                                                   .then(
                                                          function (responce) {
-                                                             row.invoiceStatus = responce;
+                                                             debugger;
+                                                             row.invoiceStatus = responce.data;
                                                              $('#panel-notif').noty({
                                                                  text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Invoice updated successfully') + '.</p></div>',
                                                                  buttons: [
                                                                          {
-                                                                             addClass: 'btn btn-primary', text: $rootScope.translate('Yes'), onClick: function ($noty) {
+                                                                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
                                                                                  $noty.close();
                                                                              }
                                                                          }

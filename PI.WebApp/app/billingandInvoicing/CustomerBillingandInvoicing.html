@@ -68,10 +68,16 @@
             <h2 class="m-t-0 custom-page-header">Customer finance</h2>
         </div>
     <div class="row m-l-0 m-r-0 m-b-10">
-        <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon p-0 m-b-10">
-            <input ng-model="customerinvoiceCtrl.shipmentNumber" name="shipmentNumber" type="text" class="form-control form-white custom-search"
-                   placeholder="{{'Shipment Ref Number'|translate}}" />
-            <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+        <div class="col-sm-4 col-md-4 col-xs-12 input-group pull-left">
+            <input ng-model="customerinvoiceCtrl.searchValue" type="text" class="form-control form-white custom-search2"
+                   placeholder="{{'Search'|translate}}" />
+
+            <span class="input-group-btn p-0">
+                <button type="button" class="btn btn-primary" ng-click="customerinvoiceCtrl.callServerSearch()"
+                        style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
         </div>
         <div class="col-sm-4 col-md-4 col-xs-12">
 
@@ -96,11 +102,11 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-5 col-md-5 col-xs-12 p-0">
+        <!--<div class="col-sm-5 col-md-5 col-xs-12 p-0">
             <div class="alert media fade in alert-finance-value m-b-0">
                 <p class="text-center"><strong>2413413413</strong></p>
             </div>
-        </div>
+        </div>-->
     </div>
     <div class="panel">
 
@@ -192,11 +198,8 @@
 
                 <!--</div>
             </div>-->
-            <tabset class="tab-fade-in">
-                <tab>
-                    <tab-heading translate>
-                        INVOICES
-                    </tab-heading>
+      
+         
                     <div class="custom-table">
                         <table st-pipe="customerinvoiceCtrl.callServerSearch" st-table="customerinvoiceCtrl.rowCollection" class="table table-hover">
                          <!--<table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">-->
@@ -215,7 +218,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="row in invoiceList">
+                                    <tr ng-repeat="row in customerinvoiceCtrl.rowCollection">
                                         <td>{{row.invoiceDate}}</td>
                                         <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
@@ -260,45 +263,7 @@
                                         boundary-links="true">
                             </pagination>
 </div>
-                </tab>
-                <tab>
-                    <tab-heading translate>
-                        DISPUTES
-                    </tab-heading>
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12 custom-table m-l-0">
-                            <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th translate>Date</th>
-                                        <th translate>invoice #</th>
-                                        <th translate>invoice value</th>
-                                        <th translate>credit value</th>
-                                        <th translate>sum</th>
-                                        <th translate>status</th>
-                                        <th translate></th>
-                                        <th translate></th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                   
-                                </tbody>
-
-                            </table>
-                            <pagination total-items=""
-                                        ng-model="currentPage"
-                                        max-size="maxSize"
-                                        class="pagination-sm"
-                                        boundary-links="true">
-                            </pagination>
-                        </div>
-
-                    </div>
-                </tab>
-            </tabset>
-                    
-
+ 
         </div>
 
         </div>

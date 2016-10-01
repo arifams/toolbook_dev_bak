@@ -352,7 +352,6 @@
 
                            vm.shipmentSyncWithSIS = function () {
 
-
                                shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
                                   function (responce) {
                                       if (responce.content.length > 0) {
@@ -367,14 +366,33 @@
 
                            }
 
-                           //open modal
+                           //search specific customers
                            vm.searchShipments = function () {
-                               //console.log('work');
-                               $scope.templateUrl = "admin/SearchSpecificShipments.html";
-                               modalService.load('modal-searchShipments');
-
+                               ngDialog.open({
+                                   scope: $scope,
+                                   template: '/app/admin/SearchSpecificShipments.html',
+                                   className: 'ngdialog-theme-plain custom-width-max',
+                                   controller: $controller('shipmentSearchCtrl', {
+                                       $scope: $scope,
+                                       
+                                   })
+                               });
+                              
                            }
 
+                           vm.getShipmentStatusCounts = function () {
+                               debugger;
+                               shipmentFactory.GetAllShipmentCounts()
+                               .then(function (response) {
+                                   debugger;
+                                   if (response.data != null) {
+                                       vm.counts = response.data;
+                                   }
+                               },
+                               function (error) {
+                                  vm.model.isServerError = "true";
+                               })
+                           }
 
                            vm.callServerSearch = function (tableState) {
                                debugger;
@@ -403,6 +421,8 @@
 
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            }
+
+                           vm.getShipmentStatusCounts();
 
                        }])
 })(angular.module('newApp'));

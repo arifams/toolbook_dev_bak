@@ -59,6 +59,8 @@
             getFilteredShipmentsExcel: getFilteredShipmentsExcel,
             PaymentCharge: PaymentCharge,
             loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport
+            PaymentCharge: PaymentCharge,
+            GetAllShipmentCounts: GetAllShipmentCounts
         };
 
         function PaymentCharge(paymentDto) {
@@ -280,7 +282,7 @@
             debugger;
             return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
                 params: {
-                    userId: userId,                  
+                    userId: userId,
                     status: status,
                     startDate: startDate,
                     endDate: endDate,
@@ -296,7 +298,7 @@
 
         function loadAllShipments(pagedList) {
             debugger;
-            setLoginUserID();  
+            setLoginUserID();
             pagedList.userId = userId;
             return $http.post(serverBaseUrl + '/api/shipments/GetAllShipments', pagedList);
         }
@@ -402,6 +404,14 @@
                     number: number
                 }
             });
+        }
+
+        function GetAllShipmentCounts() {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusCounts', {
+                params: {
+                    userId: null
+                }
+            })
         }
 
     }]);
