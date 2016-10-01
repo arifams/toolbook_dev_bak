@@ -88,8 +88,20 @@ namespace PI.Service.Controllers
         {
             if (!ModelState.IsValid)
             {
-                //return SendError();
                 return BadRequest(ModelState);
+            }
+
+            ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
+
+            bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.Now;
+
+            if (isUserExistAndOldAccount)
+            {
+                // Account is older than 24 hour.
+                // Delete account and all associated records.
+                customerManagement.DeleteCustomer(existingUser.Id);
+                AppUserManager.Delete(existingUser);
+                companyManagement.DeleteCompanyDetails(existingUser.TenantId, existingUser.Id);
             }
 
             var user = new ApplicationUser()
@@ -100,14 +112,12 @@ namespace PI.Service.Controllers
                 FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
                 LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
                 Level = 3,
-                JoinDate = DateTime.Now.Date,
+                JoinDate = DateTime.Now,
                 IsActive = true
             };
 
-            ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
-            if (existingUser == null)
+            if (existingUser == null || isUserExistAndOldAccount)
             {
-
                 //Create Tenant, Default Company, Division & CostCenter 
                 createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
                 long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
@@ -127,8 +137,6 @@ namespace PI.Service.Controllers
             else
             {
                 return BadRequest("Email address is already in use!");
-
-                //return GetErrorResult(IdentityResult.Failed("Email address is already in use!"));
             }
 
             // Add Business Owner Role to user
@@ -343,12 +351,29 @@ namespace PI.Service.Controllers
                     }
                 }
                 else
-                    return Ok(new
+                {
+                    if( user.JoinDate.AddHours(24) < DateTime.Now)
                     {
-                        Id = "",
-                        Message = "This email address is not yet confirmed by you. Please check your inbox and confirm the email address before logging in!",
-                        Result = -1
-                    });
+                        // user account is expired
+                        return Ok(new
+                        {
+                            Id = "",
+                            Message = "Invalid user account",
+                            Result = -1
+                        });
+                    }
+                    else
+                    {
+                        return Ok(new
+                        {
+                            Id = "",
+                            Message = "This email address is not yet confirmed by you. Please check your inbox and confirm the email address before logging in!",
+                            Result = -1
+                        });
+                    }
+                   
+                }
+                    
             }
             else
             {
