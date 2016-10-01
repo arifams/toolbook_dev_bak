@@ -20,5 +20,7 @@ namespace PI.Contract.DTOs.Dashboard
 
         public int BookingConfStatusCount;
 
+        public int allStatusCount;
+
     }
 }

@@ -103,31 +103,31 @@
 
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Not picked-up
-                            <span class="badge bg-purple f-14 custom-badge m-l-5">10</span>
+                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             In-Transit
-                            <span class="badge bg-blue f-14 custom-badge m-l-5">10</span>
+                            <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.inTransitStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delayed') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Delayed
-                            <span class="badge bg-dark f-14 custom-badge m-l-5">10</span>
+                            <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.delayedStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Error
-                            <span class="badge bg-red f-14 custom-badge m-l-5">10</span>
+                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pendingStatusCount}}</span>
                         </a>               
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Exceptions
-                            <span class="badge bg-orange f-14 custom-badge m-l-5">5</span>
+                            <span class="badge bg-orange f-14 custom-badge m-l-5">{{manageShipCtrl.counts.exceptionStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             Delivered
-                            <span class="badge bg-green f-14 custom-badge m-l-5">10</span>
+                            <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
                             All
-                            <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">10</span>
+                            <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.allStatusCount}}</span>
                         </a>
                     </div>
 

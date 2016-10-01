@@ -242,7 +242,6 @@
 
                            vm.shipmentSyncWithSIS = function () {
 
-
                                shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
                                   function (responce) {
                                       if (responce.content.length > 0) {
@@ -269,6 +268,20 @@
                                    })
                                });
                               
+                           }
+
+                           vm.getShipmentStatusCounts = function () {
+                               debugger;
+                               shipmentFactory.GetAllShipmentCounts()
+                               .then(function (response) {
+                                   debugger;
+                                   if (response.data != null) {
+                                       vm.counts = response.data;
+                                   }
+                               },
+                               function (error) {
+                                  vm.model.isServerError = "true";
+                               })
                            }
 
                            vm.callServerSearch = function (tableState) {
@@ -298,6 +311,8 @@
 
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            }
+
+                           vm.getShipmentStatusCounts();
 
                        }])
 })(angular.module('newApp'));

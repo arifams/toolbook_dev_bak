@@ -592,7 +592,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetShipmentStatusCounts")]
-        public IHttpActionResult GetShipmentStatusCounts(string userId)
+        public IHttpActionResult GetShipmentStatusCounts(string userId = null)
         {
             return Ok(shipmentManagement.GetShipmentStatusCounts(userId));
         }
