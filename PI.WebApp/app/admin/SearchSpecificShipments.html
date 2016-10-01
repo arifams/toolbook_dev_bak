@@ -1,42 +1,17 @@
-﻿<div class="modal fade" id="modal-searchShipments" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content p-10">
-            <div class="modal-body">
+﻿
+            <div class="row m-l-0 m-r-0">
                 <form role="form" name="formShipmentSearch">
-                    <div class="row">
-                        <div class="col-sm-12 col-md-12 col-xs-12">
-                            <div class="form-group input-group">
-
-                                <input type="text" placeholder="{{'Tracking Number/ Shipment Id'|translate}}"
-                                       class="form-control ng-pristine ng-untouched ng-valid"
-                                       name="shipmentNumber" ng-model="shipSearchCtrl.shipmentNumber">
-
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-large btn-primary no-margin"
-                                            ng-click="shipSearchCtrl.loadShipmentsBySearch()">
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="row m-0">
-                            <div class="col-sm-12 col-md-12 col-xs-12">
-                                <label class="label-danger" ng-show="shipSearchCtrl.noShipments" style="color:white" translate>  
-                                No shipments available for the selected company/ customer</label>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="row">
+                    
+                    <div class="row" style="overflow-x:auto">
                         <table st-table="shipmentList" st-safe-src="shipSearchCtrl.rowCollection" class="table table-hover">
                             <thead>
                                 <tr>
                                     <th st-sort="name" translate>Order Submitted</th>
-                                    <th translate>Tracking Number</th>
+                                    <th translate>Tracking #</th>
                                     <th translate>Shipment ID</th>
                                     <th translate>Carrier</th>
-                                    <th translate>Origin City</th>
-                                    <th translate>Destination City</th>
+                                    <th translate>Origin</th>
+                                    <th translate>Destination</th>
                                     <th translate>Status</th>
                                     <th translate>View</th>
                                     <th translate>Edit</th>
@@ -71,21 +46,21 @@
                                     </td>
                                     <td>
                                         <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
-                                           class="edit btn btn-sm btn-default">
-                                            <i class="fa fa-hand-o-right" style="color:blue"></i>
+                                           class="btn btn-sm btn-primary btn-transparent">
+                                            <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
                                     <td>
                                         <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentId}}"
-                                           class="edit btn btn-sm btn-default">
+                                           class="btn btn-sm btn-primary btn-transparent">
                                             <i class="icon-note" style="color:blue"></i>
                                         </a>
                                     </td>
 
                                     <td>
                                         <a ng-show="row.generalInformation.isEnableDelete" ng-click="shipSearchCtrl.deleteById(row)"
-                                           class="delete btn btn-sm btn-danger" href="javascript:;">
-                                            <i class="icons-office-52"></i>
+                                           class="btn btn-sm btn-danger btn-transparent" href="javascript:;">
+                                            <i class="fa fa-times" aria-hidden="true"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -102,9 +77,6 @@
                 </form>
             </div>
 
-        </div>
-    </div>
-</div>
 
 
 

@@ -51,7 +51,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('File(s) added successfully') + '.</p></div>',
+                            text: '<div class="alert alert-success media fade in"style="background-color:#deedf2;color:#356a75"><p> ' + $rootScope.translate('File(s) added successfully') + '.</p></div>',
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {                                     
@@ -90,7 +90,7 @@
                         });
 
                         $('#panel-notif').noty({
-                            text: '<div class="alert alert-error media fade in"><p> ' + $rootScope.translate('Error occured') + '.</p></div>',
+                            text: '<div class="alert alert-error media fade in" style="background-color:#deedf2;color:#356a75"><p> ' + $rootScope.translate('Error occured') + '.</p></div>',
                             buttons: [
                                     {
                                         addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
