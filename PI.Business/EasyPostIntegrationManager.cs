@@ -8,6 +8,7 @@ using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using EasyPost;
 using System.Configuration;
+using PI.Contract.Enums;
 
 namespace PI.Business
 {
@@ -45,8 +46,36 @@ namespace PI.Business
         {
             StatusHistoryResponce statusesHistory = new StatusHistoryResponce();
             EasyPost.ClientManager.SetCurrent(EasyPostKey);
-            Tracker tracker = Tracker.Create(carrier, trackingNumber);
-            return tracker;
+
+            try
+            {
+                Tracker tracker = Tracker.Create(carrier, trackingNumber);
+                return tracker;
+            }
+            catch (Exception e)
+            {
+
+                var Error = e;
+                Tracker trackerTest = new Tracker() {
+                      tracking_details=new List<TrackingDetail>()
+                      {
+                         new TrackingDetail() {datetime= DateTime.Now, message="Not Picked up yet", status="Pre Transit", tracking_location=new TrackingLocation() {
+                             city="FOUNTAIN VALLEY",
+                             country="US",
+                             state="CA",
+                             zip="92708"
+                         } } 
+                      },
+
+                      status= "Pre Transit",
+                      created_at=DateTime.Now,                   
+                     
+
+                };
+                return trackerTest;
+            }
+           
+          
         }
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)

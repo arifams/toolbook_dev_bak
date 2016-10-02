@@ -434,6 +434,9 @@ namespace PI.Business
             //{
             ShipmentDto dto = new ShipmentDto();
 
+
+            try
+            {
                 Invoice invoice = new Invoice()
                 {
                     InvoiceNumber = invoiceDetails.InvoiceNumber,
@@ -443,13 +446,22 @@ namespace PI.Business
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL,
-                    DueDate= Convert.ToDateTime(invoiceDetails.DueDate)                    
+                    DueDate = Convert.ToDateTime(invoiceDetails.DueDate)
 
                 };
+                context.Invoices.Add(invoice);
+                context.SaveChanges();
+                invoiceSaved = true;
 
-            context.Invoices.Add(invoice);
-            context.SaveChanges();
-            invoiceSaved = true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+              
+
+           
 
                       
 

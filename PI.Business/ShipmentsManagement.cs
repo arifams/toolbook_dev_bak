@@ -1556,7 +1556,7 @@ namespace PI.Business
             {
                 this.UpdateStatusHistoriesWithLatestTrackingDetails(currentShipmentTrackDetails, currentShipment.Id);
             }
-;
+
         }
 
         //get track and trace information
@@ -1786,6 +1786,7 @@ namespace PI.Business
                 locationHistory.State = item.tracking_location.state;
                 locationHistory.Zip = item.tracking_location.zip;
                 locationHistory.Status = item.status;
+                locationHistory.DateTime = item.datetime ?? DateTime.Now;
                 context.ShipmentLocationHistories.Add(locationHistory);
                 context.SaveChanges();
             }
@@ -1798,6 +1799,7 @@ namespace PI.Business
         {
             StatusHistoryResponce statusHistory = new StatusHistoryResponce();
             TrackerDto tracker = new TrackerDto();
+            tracker.TrackingDetails = new List<TrackingDetails>();
 
             List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(Convert.ToInt16(shipmentId));
 
@@ -1815,6 +1817,7 @@ namespace PI.Business
                     Zip = item.Zip
                 });
             }
+            tracker.Status = tracker.TrackingDetails.Last().Status;
             //   tracker.Status = historyList.Last().Status;
             return tracker;
 
