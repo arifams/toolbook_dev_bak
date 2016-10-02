@@ -1633,3 +1633,6 @@ a.list-group-item:focus, a.list-group-item:hover {
 .btn-group > .btn:last-child *:not(:first-child), .btn-group > .btn:not(:first-child):not(:last-child):not(.dropdown-toggle) {
     border-left:none;
 }
+.btn.btn-sm.btn-transparent {
+    color:rgb(31,116,173)
+}

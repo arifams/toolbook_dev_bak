@@ -1087,49 +1087,9 @@ namespace PI.Business
             ShipmentDto shipmentDto;
             AddShipmentResponse response;
             ShipmentOperationResult result = new ShipmentOperationResult();
-
-            //using (var context = PIContext.Get())
-            //{
+            
             Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
-
-            // This will not valid error any more.
-            // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
-            //if (!string.IsNullOrWhiteSpace(shipment.ShipmentCode))
-            //{
-            //    result.Status = Status.Error;
-            //    result.Message = "Shipment is already added";
-            //    return result;
-            //}
-
-            if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
-            {
-                // Added payment data
-                var payment = new Payment();
-                payment.CreatedBy = sendShipmentDetails.UserId;
-                payment.CreatedDate = DateTime.Now;
-                payment.IsActive = true;
-                payment.PaymentId = sendShipmentDetails.PaymentResult.FieldList["PaymentKey"];
-                payment.Status = sendShipmentDetails.PaymentResult.Status;
-                payment.PaymentType = Contract.Enums.PaymentType.Shipment;
-                payment.ReferenceId = sendShipmentDetails.ShipmentId;
-
-                if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
-                {
-                    // If failed, due to payment gateway error, then record payment error code.
-                    payment.StatusCode = sendShipmentDetails.PaymentResult.FieldList["errorCode"];
-                }
-
-
-                context.SaveChanges();
-
-                if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
-                {
-                    result.Status = Status.PaymentError;
-                    result.Message = "Error occured when adding payment." + sendShipmentDetails.PaymentResult.Message + " .Please contact Parcel International.";
-                    return result;
-                }
-            }
-
+            
             var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
 
             shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
@@ -1596,7 +1556,7 @@ namespace PI.Business
             {
                 this.UpdateStatusHistoriesWithLatestTrackingDetails(currentShipmentTrackDetails, currentShipment.Id);
             }
-;
+
         }
 
         //get track and trace information
@@ -1826,6 +1786,7 @@ namespace PI.Business
                 locationHistory.State = item.tracking_location.state;
                 locationHistory.Zip = item.tracking_location.zip;
                 locationHistory.Status = item.status;
+                locationHistory.DateTime = item.datetime ?? DateTime.Now;
                 context.ShipmentLocationHistories.Add(locationHistory);
                 context.SaveChanges();
             }
@@ -1838,6 +1799,7 @@ namespace PI.Business
         {
             StatusHistoryResponce statusHistory = new StatusHistoryResponce();
             TrackerDto tracker = new TrackerDto();
+            tracker.TrackingDetails = new List<TrackingDetails>();
 
             List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(Convert.ToInt16(shipmentId));
 
@@ -1855,6 +1817,7 @@ namespace PI.Business
                     Zip = item.Zip
                 });
             }
+            tracker.Status = tracker.TrackingDetails.Last().Status;
             //   tracker.Status = historyList.Last().Status;
             return tracker;
 
@@ -2457,6 +2420,27 @@ namespace PI.Business
             return invocieDto;
         }
 
+        public OperationResult UpdateTrackingNo(AirwayBillDto awbDto)
+        {
+            OperationResult result = new OperationResult();
+
+            var shipment = context.Shipments.Where(s => s.Id == awbDto.ShipmentId).First();
+            shipment.TrackingNumber = awbDto.TrackingNumber;
+            int saveResult = context.SaveChanges();
+
+            if(saveResult == 1)
+            {
+                result.Status = Status.Success;
+                result.Message = "Successfully updated the Tracking Number";
+            }
+            else
+            {
+                result.Status = Status.Error;
+                result.Message = "There was an error when updating the Tracking Number";
+            }
+
+            return result;
+        }
 
         //get the shipment from shipment code for Airway Bill generation
         public AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
@@ -2547,6 +2531,9 @@ namespace PI.Business
                 CountryOfOrigin = currentShipment.ConsignorAddress.Country,
                 CountryOfDestination = currentShipment.ConsigneeAddress.Country,
                 ModeOfTransport = currentShipment.Carrier.Name + " " + currentShipment.ServiceLevel + " " + currentShipment.TrackingNumber,
+                ServiceLevel = currentShipment.ServiceLevel,
+                TrackingNumber = currentShipment.TrackingNumber,
+
                 ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                 PackageDetails = new PackageDetailsDto
                 {
@@ -2569,7 +2556,7 @@ namespace PI.Business
 
                 },
 
-                VatNo = currentShipment.Division.Company.VATNumber,
+                VatNo = currentShipment.Division.Company.VATNumber
                 // HSCode = currentShipment.ShipmentPackage.HSCode
             };
 
@@ -4042,18 +4029,73 @@ namespace PI.Business
             return environment;
         }
 
+        //get payment details by reference
+        public PaymentDto GetPaymentbyReference(long reference)
+        {
+            PaymentDto paymentDetails = new PaymentDto();
+
+            var payment = context.Payments.Where(t => t.ReferenceId == reference).FirstOrDefault();
+
+            if (payment!=null)
+            {
+                paymentDetails.Amount = payment.Amount.ToString();
+            }
+
+            return paymentDetails;
+        }
+      
+
+
+
         public ShipmentOperationResult PaymentCharge(PaymentDto payment)
         {
             OperationResult result;
 
             result = paymentManager.Charge(payment);
 
-            return SendShipmentDetails(new SendShipmentDetailsDto()
+            // Added payment data
+            var paymentEntity = new Payment();
+            paymentEntity.CreatedBy = payment.UserId;
+            paymentEntity.CreatedDate = DateTime.Now;
+            paymentEntity.IsActive = true;
+            paymentEntity.PaymentId = result.FieldList["PaymentKey"];
+            paymentEntity.Status = result.Status;
+            paymentEntity.PaymentType = PaymentType.Shipment;
+            paymentEntity.ReferenceId = payment.ShipmentId;
+            paymentEntity.Amount = payment.ChargeAmount;
+
+            if (payment.CurrencyType == "USD")
             {
-                ShipmentId = payment.ShipmentId,
-                PaymentResult = result,
-                UserId = payment.UserId
-            });
+                paymentEntity.CurrencyType = CurrencyType.USD;
+            }
+
+            if (result.Status == Status.PaymentError)
+            {
+                // If failed, due to payment gateway error, then record payment error code.
+                paymentEntity.StatusCode = result.FieldList["errorCode"];
+            }
+            
+            context.Payments.Add(paymentEntity);
+            context.SaveChanges();
+
+            if (result.Status == Status.PaymentError)
+            {
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.PaymentError,
+                    Message = "Error occured when adding payment." + result.Message
+                };
+            }
+            else
+            {
+                return SendShipmentDetails(new SendShipmentDetailsDto()
+                {
+                    ShipmentId = payment.ShipmentId,
+                    PaymentResult = result,
+                    UserId = payment.UserId
+                });
+            }
+            
         }
     }
 

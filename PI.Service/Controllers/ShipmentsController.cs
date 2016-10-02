@@ -34,6 +34,7 @@ using iTextSharp.text.pdf;
 using iTextSharp.text.html.simpleparser;
 using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
+using PI.Contract.DTOs.Invoice;
 
 namespace PI.Service.Controllers
 {
@@ -45,15 +46,17 @@ namespace PI.Service.Controllers
         readonly ICustomerManagement customerManagement;
         readonly IShipmentManagement shipmentManagement;
         readonly IAddressBookManagement addressManagement;
+        readonly IInvoiceMangement invoiceManagement;
         readonly ProfileManagement profileManagement;   // TODO : H - Change to IProfileManagement
 
-        public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement, ICustomerManagement customerManagement)
+        public ShipmentsController(ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, IAddressBookManagement addressManagement, ProfileManagement profileManagement, ICustomerManagement customerManagement, IInvoiceMangement invoiceManagement)
         {
             this.companyManagement = companyManagement;
             this.shipmentManagement = shipmentManagement;
             this.addressManagement = addressManagement;
             this.profileManagement = profileManagement;
             this.customerManagement = customerManagement;
+            this.invoiceManagement = invoiceManagement;
         }
 
         public string RequestForQuoteEmail
@@ -634,6 +637,8 @@ namespace PI.Service.Controllers
                 ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("",operationResult.ShipmentId);
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
+                PaymentDto paymentDetails = shipmentManagement.GetPaymentbyReference(Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId));
+
                 Random generator = new Random();
                 string code = generator.Next(1000000, 9999999).ToString("D7");
                 string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
@@ -644,7 +649,9 @@ namespace PI.Service.Controllers
 
                 var invoicePdf = new Document(PageSize.B5);
                 //getting the server path to create temp pdf file
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+                var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
+                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+               // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
 
                 PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
                 HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
@@ -663,8 +670,8 @@ namespace PI.Service.Controllers
                 packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
                 packageDetails.Append("</td>");
                 packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td>");
-                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td> </tr>");
+                packageDetails.Append("<td>$" + paymentDetails.Amount + "</td>");
+                packageDetails.Append("<td>$" +  paymentDetails.Amount  + "</td> </tr>");
                 packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
                 packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
                 packageDetails.Append("<td>" + "" + "</td> </tr>");
@@ -683,11 +690,11 @@ namespace PI.Service.Controllers
                 .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
                 .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
                 .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
-                .Replace("{invoicenumber}", "2016-260")
+                .Replace("{invoicenumber}", invoiceNumber)
                 .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
                 .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
                 .Replace("{terms}", "Net 10")
-                .Replace("{totalvalue}", shipmentDetails.CarrierInformation.Price + "$")
+                .Replace("{totalvalue}", paymentDetails != null ? paymentDetails.Amount : null + "$")
                 .Replace("{tableBody}", packageDetails.ToString());
 
 
@@ -712,11 +719,29 @@ namespace PI.Service.Controllers
                      await media.Upload(savedPdf, invoicename);
                 }
 
-                //get the saved pdf url
-                var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
+              
+                 //get the saved pdf url
+                 var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
                                          + "/" + invoicename;
 
                 operationResult.InvoiceURL = returnData;
+
+
+                //saving Invoice details
+                InvoiceDto invoice = new InvoiceDto() {
+
+                    URL= returnData,
+                     InvoiceNumber= invoiceNumber,
+                     ShipmentId=Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId),
+                     CreatedBy= shipmentDetails.GeneralInformation.CreatedUser,
+                     UserId= shipmentDetails.GeneralInformation.CreatedBy,
+                     DueDate= DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
+                     InvoiceValue= shipmentDetails.CarrierInformation.Price,
+                     InvoiceStatus= InvoiceStatus.Paid.ToString(),
+                     InvoiceDate=DateTime.Now.ToString()
+                };
+
+                var saveResult = invoiceManagement.SaveInvoiceDetails(invoice);
 
 
                 // Send mail
@@ -773,6 +798,13 @@ namespace PI.Service.Controllers
             }
 
             return Ok(operationResult);
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        public IHttpActionResult UpdateTrackingNo(AirwayBillDto awbDto)
+        {
+            return Ok(shipmentManagement.UpdateTrackingNo(awbDto));
         }
 
         #region Private methods

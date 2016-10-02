@@ -147,6 +147,16 @@ namespace PI.Contract.Business
         /// <returns></returns>
         byte[] loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                         string number = null, string source = null, string destination = null);
+
+        OperationResult UpdateTrackingNo(AirwayBillDto awbDto);
+
+
+        /// <summary>
+        /// Get Payment by Reference
+        /// </summary>
+        /// <param name="">reference</param>
+        /// <returns></returns>
+        PaymentDto GetPaymentbyReference(long reference);
     }
 
 }

@@ -31,5 +31,7 @@ namespace PI.Contract.DTOs.Shipment
         public string Note { get; set; }
         public short ValueCurrency { get; set; }
         public InvoiceItemDto Item { get; set; }
+        public string TrackingNumber { get; set; }
+        public string ServiceLevel { get; set; }
     }
 }

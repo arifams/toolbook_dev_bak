@@ -13,7 +13,7 @@ var serverBaseUrl = 'https://service.transportal.it';
 //var webBaseUrl = 'http://localhost:49995';
 //var webBaseUrl = 'http://pibookingservice.azurewebsites.net';
 //var webBaseUrl = 'http://www.parcelinternational.net';
-var webBaseUrl = 'http://piwebqa.azurewebsites.net';
+var webBaseUrl = 'https://web.transportal.it';
 //var webBaseUrl = 'http://piwebuat.azurewebsites.net';
 
 

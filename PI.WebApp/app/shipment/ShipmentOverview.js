@@ -35,6 +35,9 @@
                    
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
+
+                       debugger;
+
                        vm.locationHistory = data;
                        
                        if (vm.locationHistory!=null) {
@@ -59,32 +62,36 @@
 
                        //}
 
-                       //if ($("#simple-map").length) {
-                       //    simple_map = new GMaps({
-                       //        el: '#simple-map',
-                       //        lat: lat,
-                       //        lng: lng,
-                       //        zoomControl: true,
-                       //        zoomControlOpt: {
-                       //            style: 'SMALL',
-                       //            position: 'TOP_LEFT'
-                       //        },
-                       //        panControl: false,
-                       //        streetViewControl: false,
-                       //        mapTypeControl: false,
-                       //        overviewMapControl: false
-                       //    });
-                       //    simple_map.addMarker({
-                       //        lat: lat,
-                       //        lng: lng,
-                       //        title: 'Marker with InfoWindow',
-                       //        infoWindow: {
-                       //            content: '<p>Here we are!</p>'
-                       //        }
-                       //    });
-                       //}
+                       if ($("#simple-map").length) {
+                           simple_map = new GMaps({
+                               el: '#simple-map',
+                               lat: 0,
+                               lng: 0,
+                               zoomControl: true,
+                               zoomControlOpt: {
+                                   style: 'SMALL',
+                                   position: 'TOP_LEFT'
+                               },
+                               panControl: false,
+                               streetViewControl: false,
+                               mapTypeControl: false,
+                               overviewMapControl: false
+                           });
+                           simple_map.addMarker({
+                               lat: 0,
+                               lng: 0,
+                               title: 'Marker with InfoWindow',
+                               infoWindow: {
+                                   content: '<p>Here we are!</p>'
+                               }
+                           });
+                       }
+
+                       
                    })
                    .error(function () {
+
+                     
                    })
                }
 
