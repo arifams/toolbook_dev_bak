@@ -720,9 +720,9 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetUsersByFilter")]
-        public IHttpActionResult GetUsersByFilter(long division, string role, string userId, string status, string searchtext = "")
+        public IHttpActionResult GetUsersByFilter(string role, string loggedInuserId, string status, string searchtext = "")
         {
-            return Ok(companyManagement.GetAllUsers(division, role, userId, status, searchtext));
+            return Ok(companyManagement.GetAllUsers(role, loggedInuserId, status, searchtext));
         }
 
 

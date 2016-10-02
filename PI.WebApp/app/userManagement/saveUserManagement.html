@@ -1,6 +1,5 @@
 ﻿<div ng-controller="saveUserManagementCtrl as saveUserCtrl">
-    <h2 class="box-title" ng-hide="saveUserCtrl.user.id > 0"> <translate> Add User </translate><!--<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage User</a>--></h2>
-    <!--<h2 class="box-title" ng-show="saveUserCtrl.user.id > 0"> <translate> Edit User </translate> &nbsp;&nbsp;&nbsp;&nbsp;<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage User</a></h2>-->
+    <h2 class="box-title" ng-hide="saveUserCtrl.user.id != 0"> <translate> Add User </translate><!--<a href="#loadUserManagement" class="btn btn-primary active pull-right" style="width:auto;" role="button" translate>Manage User</a>--></h2>
 
     <div class="panel">
         <!-- form start -->
@@ -181,7 +180,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row m-0">
+                            <!--<div class="row m-0">
                                 <div class="form-group m-l-0 m-r-0" ng-show="saveUserCtrl.user.divisions.length > 0">
                                     <label class="col-sm-4 control-label" translate>Assigned Division(s) </label>
 
@@ -193,7 +192,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
                         </div>
                     </div>
                 </div>
@@ -205,6 +204,10 @@
                         <button type="submit" ng-click="(formSaveUser.$valid ? saveUserCtrl.saveUser() : saveUserCtrl.isSubmit = true)"
                                 class="btn btn-primary btn-app pull-right">
                             <i class="fa fa-save"></i> <translate>Save</translate>
+                        </button>
+                        <button ng-click="saveUserCtrl.close()"
+                                class="btn btn-primary btn-app pull-right">
+                            <i class="fa fa-times"></i> <translate>Cancel</translate>
                         </button>
                     </div>
                 </div>

@@ -202,6 +202,7 @@
 
                         
                            vm.closeWindow = function () {
+                               debugger;
                                ngDialog.close()
                            }
 

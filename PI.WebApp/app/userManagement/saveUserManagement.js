@@ -37,16 +37,17 @@
         }
     });
 
-    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$scope',
-        function ($location, $window, userManagementFactory, $rootScope, $scope) {
+    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$routeParams',
+        function ($location, $window, userManagementFactory, $rootScope, $routeParams) {
         var vm = this;
         vm.user = {};
 
         var loadUser = function () {
-            
-            userManagementFactory.getUser($scope.userId)
+            debugger;
+            console.log($routeParams.id);
+            userManagementFactory.getUser($routeParams.id)
             .success(function (data) {
-                 
+                debugger;
                 vm.user = data;
 
                 vm.user.assignedDivisionIdList = [];
@@ -115,6 +116,7 @@
                         },
                         timeout: 3000,
                     });
+                    vm.close();
                 }
             },
             function (error) {
@@ -137,7 +139,7 @@
         }
 
         vm.close = function () {
-            $location.path('/loadUserManagement');
+            $location.path('/adminManageUser');
         }
 
         vm.toggleDivisionSelection = function (division) {

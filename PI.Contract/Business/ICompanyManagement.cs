@@ -20,7 +20,7 @@ namespace PI.Contract.Business
         bool GetAccountType(string userId);
         void UpdateLastLoginTimeAndAduitTrail(string userId);
         List<RolesDto> GetAllActiveChildRoles(string userId);
-        PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext);
+        PagedList GetAllUsers(string role, string userId, string status, string searchtext);
         UserResultDto SaveUser(UserDto userDto);
         UserDto GetUserById(string userId, string loggedInUser);
         UserDto LoadUserManagement(string loggedInUser);

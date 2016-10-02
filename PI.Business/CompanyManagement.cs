@@ -1472,7 +1472,7 @@ namespace PI.Business
         /// <param name="status"></param>
         /// <param name="searchtext"></param>
         /// <returns></returns>
-        public PagedList GetAllUsers(long division, string role, string userId, string status, string searchtext)
+        public PagedList GetAllUsers(string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
             long tenantId = context.GetTenantIdByUserId(userId);
@@ -1483,25 +1483,12 @@ namespace PI.Business
                                                 x.IsDeleted == false &&
                                                 (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                 (status == "0" || x.IsActive.ToString() == status) &&
-                                                (role == "0" || x.Roles.Any(r => r.RoleId == role)) &&
-                                                (division == 0 || x.UserInDivisions.Any(r => r.DivisionId == division))
+                                                (role == "0" || x.Roles.Any(r => r.RoleId == role)) 
                                                 ).ToList();
 
-            string assignedDivForGrid = string.Empty;
-            int lastIndexOfBrTag;
 
             foreach (var item in content)
             {
-                StringBuilder divisionsString = new StringBuilder();
-                item.UserInDivisions.Where(x => x.IsDelete == false).ToList().ForEach(e => divisionsString.Append(e.Divisions.Name + "<br/>"));
-
-
-                // Remove last <br/> tag.
-                assignedDivForGrid = divisionsString.ToString();
-                lastIndexOfBrTag = assignedDivForGrid.LastIndexOf("<br/>");
-
-                if (lastIndexOfBrTag != -1) { assignedDivForGrid = assignedDivForGrid.Remove(lastIndexOfBrTag); }
-
 
                 pagedRecord.Content.Add(new UserDto
                 {
@@ -1510,7 +1497,6 @@ namespace PI.Business
                     LastName = item.LastName,
                     RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
                     Status = (item.IsActive) ? "Active" : "Inactive",
-                    AssignedDivisionsForGrid = assignedDivForGrid,
                     LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                 });
             }
