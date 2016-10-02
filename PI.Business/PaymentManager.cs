@@ -26,8 +26,8 @@ namespace PI.Business
         {
             get
             {
-                //return ConfigurationManager.AppSettings["SquareAccessToken"].ToString();
-                return "sandbox-sq0atb-m24_A-IqrhzXk1Y8LM2PoA"; // Remove this and enable above one to get from web.config
+                return ConfigurationManager.AppSettings["SquareAccessToken"].ToString();
+                //return "sandbox-sq0atb-m24_A-IqrhzXk1Y8LM2PoA";
             }
         }
 
