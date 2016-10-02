@@ -329,7 +329,7 @@
                                           ngDialog.open({
                                               scope: $scope,
                                               template: '/app/shipment/CompanyViewTemplate.html',
-                                              className: 'ngdialog-theme-default',
+                                              className: 'ngdialog-theme-plain custom-width',
                                               controller: $controller('companyListCtrl', {
                                                   $scope: $scope,
                                                   searchList: responce.content,
