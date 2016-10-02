@@ -28,6 +28,9 @@
             shipmentFactory.saveAwbNo(awbDto)
                 .then(function (response) {
 
+                    console.log('response of awb');
+                    console.log(response);
+
                     if (response.data.status == 2) {
                         $('#panel-notif').noty({
                             text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Tracking number updated successfully') + '</p></div>',
