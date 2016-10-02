@@ -95,7 +95,7 @@ namespace PI.Service.Controllers
 
             bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.Now;
 
-            if (isUserExistAndOldAccount)
+            if (!createUserModel.viaExternalLogin && isUserExistAndOldAccount)
             {
                 // Account is older than 24 hour.
                 // Delete account and all associated records.
