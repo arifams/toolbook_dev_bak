@@ -149,6 +149,14 @@ namespace PI.Contract.Business
                                         string number = null, string source = null, string destination = null);
 
         OperationResult UpdateTrackingNo(AirwayBillDto awbDto);
+
+
+        /// <summary>
+        /// Get Payment by Reference
+        /// </summary>
+        /// <param name="">reference</param>
+        /// <returns></returns>
+        PaymentDto GetPaymentbyReference(long reference);
     }
 
 }
