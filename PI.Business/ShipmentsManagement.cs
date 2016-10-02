@@ -2417,6 +2417,27 @@ namespace PI.Business
             return invocieDto;
         }
 
+        public OperationResult UpdateTrackingNo(AirwayBillDto awbDto)
+        {
+            OperationResult result = new OperationResult();
+
+            var shipment = context.Shipments.Where(s => s.Id == awbDto.ShipmentId).First();
+            shipment.TrackingNumber = awbDto.TrackingNumber;
+            int saveResult = context.SaveChanges();
+
+            if(saveResult == 1)
+            {
+                result.Status = Status.Success;
+                result.Message = "Successfully updated the Tracking Number";
+            }
+            else
+            {
+                result.Status = Status.Error;
+                result.Message = "There was an error when updating the Tracking Number";
+            }
+
+            return result;
+        }
 
         //get the shipment from shipment code for Airway Bill generation
         public AirwayBillDto GetshipmentByShipmentCodeForAirwayBill(string shipmentCode)
@@ -2507,6 +2528,9 @@ namespace PI.Business
                 CountryOfOrigin = currentShipment.ConsignorAddress.Country,
                 CountryOfDestination = currentShipment.ConsigneeAddress.Country,
                 ModeOfTransport = currentShipment.Carrier.Name + " " + currentShipment.ServiceLevel + " " + currentShipment.TrackingNumber,
+                ServiceLevel = currentShipment.ServiceLevel,
+                TrackingNumber = currentShipment.TrackingNumber,
+
                 ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                 PackageDetails = new PackageDetailsDto
                 {
@@ -2529,7 +2553,7 @@ namespace PI.Business
 
                 },
 
-                VatNo = currentShipment.Division.Company.VATNumber,
+                VatNo = currentShipment.Division.Company.VATNumber
                 // HSCode = currentShipment.ShipmentPackage.HSCode
             };
 
