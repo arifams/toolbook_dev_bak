@@ -34,7 +34,7 @@ namespace PI.Contract.DTOs.Shipment
 
         public string Status { get; set; }
 
-        public long CreatedBy { get; set; }
+        public string CreatedBy { get; set; }
 
         public string CreatedUser { get; set; }
 

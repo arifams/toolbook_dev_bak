@@ -192,6 +192,21 @@ namespace PI.Service.Controllers
 
         }
 
+        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("loadAllShipmentsForAdminExcelExport")]
+        public HttpResponseMessage loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                                      string number = null, string source = null, string destination = null)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+             result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
+            result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+        }
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

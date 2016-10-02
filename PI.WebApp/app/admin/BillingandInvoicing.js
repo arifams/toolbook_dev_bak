@@ -11,6 +11,7 @@
                vm.invoiceStatus = 'All';
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
+               vm.statusSelect = '';
 
                //toggle function
                vm.loadFilterToggle = function () {
@@ -37,6 +38,30 @@
                }
 
 
+               vm.CreateCSV = function (responce) {
+
+                   vm.exportcollection = [];
+
+                   var headers = {};
+                   headers.orderSubmitted = "Invoice Number";
+                   headers.trackingNumber = "Invoice Date";
+                   headers.shipmentId = "Shipment Reference";
+                   headers.carrier = "Invoice Value";
+                   headers.originCity = "Invoice Status";
+                   vm.exportcollection.push(headers);
+
+                   $.each(responce.data.content, function (index, value) {
+                       var invoiceObj = {}
+                       invoiceObj.orderSubmitted = value.invoiceDate;
+                       invoiceObj.trackingNumber = value.shipmentReference;
+                       invoiceObj.shipmentId = value.invoiceNumber;
+                       invoiceObj.carrier = value.invoiceValue;
+                       invoiceObj.originCity = value.invoiceStatus;
+
+                       vm.exportcollection.push(invoiceObj);
+                   });
+               }
+
                vm.loadAllInvoices = function (status, from) {
                    debugger;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
@@ -44,12 +69,15 @@
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                    var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
                    
+                   vm.statusSelect = status;
+
                    adminFactory.loadAllInvoices(status, startDate, endDate, searchValue)
                         .then(
                                function (responce) {
                                    debugger;
+                                   vm.CreateCSV(responce);
                                    if (from == 'fromDisputed') {
-                                       vm.rowCollectionDisputed = responce.data.content;
+                                       vm.rowCollectionDisputed = responce.data.content;                                       
                                    }
                                    else {
                                        vm.rowCollection = responce.data.content;
@@ -62,9 +90,18 @@
                }
 
 
+              
+
+
                vm.exportInvoiceDetailsReport = function () {
 
-                   adminFactory.exportInvoiceDetailsReport(vm.rowCollection)
+
+                   var status = (vm.statusSelect == undefined || vm.statusSelect == 'All' || vm.statusSelect == null || vm.statusSelect == "") ? null : vm.statusSelect;
+                   var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
+                   var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
+                   var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
+
+                   adminFactory.exportInvoiceDetailsReport(status, startDate, endDate, searchValue)
                                   .success(function (data, status, headers) {
                                       var octetStreamMime = 'application/octet-stream';
                                       var success = false;

@@ -115,6 +115,65 @@ namespace PI.Business
         }
 
 
+
+
+        public byte[] GetAllInvoicesByAdminForExport(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue)
+        {
+            
+            IList<Invoice> invoiceList = new List<Invoice>();
+            List<InvoiceDto> Content = new List<InvoiceDto>();
+            InvoiceStatus invoiceStatus = InvoiceStatus.None;
+
+            if (status != null)
+            {
+                invoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), status, true);
+            }
+
+            string role = context.GetUserRoleById(userId);
+            Company company = context.GetCompanyByUserId(userId);
+
+
+            //using (var context = PIContext.Get())
+            //{
+            if (role == "BusinessOwner" || role == "Manager")
+            {
+                // Business Owners
+                invoiceList = context.Invoices.Where(x => x.Shipment.Division.CompanyId == company.Id).ToList();
+            }
+            //else if (role == "Supervisor")
+            //{
+            //    // Supervises
+            //    invoiceList = context.Invoices.Where(x => x.Shipment.Division.UserInDivisions.Any(u => u.UserId == userId)).ToList();
+            //}
+            //else
+            //{
+            //    // Operators
+            //    invoiceList = context.Invoices.Where(x => x.Shipment.CreatedBy == userId).ToList();
+            //}
+
+            var content = invoiceList.Where(i => i.IsDelete == false &&
+                                          (string.IsNullOrEmpty(searchValue) || i.InvoiceNumber.Contains(searchValue)) &&
+                                          (string.IsNullOrEmpty(status) || i.InvoiceStatus == invoiceStatus) &&
+                                          (startDate == null || i.CreatedDate >= startDate && i.CreatedDate <= endDate)).ToList();
+
+            foreach (var item in content)
+            {
+                Content.Add(new InvoiceDto
+                {
+                    Id = item.Id,
+                    ShipmentReference = item.Shipment.ShipmentCode,
+                    InvoiceDate = item.CreatedDate.ToString("dd/MM/yyyy"),
+                    InvoiceNumber = item.InvoiceNumber,
+                    InvoiceValue = item.InvoiceValue,
+                    InvoiceStatus = item.InvoiceStatus.ToString(),
+                    URL = item.URL
+                });
+            }
+
+            return this.generateExcelSheetForInvoiceReport(Content, false);
+            // }
+        }
+
         /// <summary>
         /// Update invoice status
         /// </summary>
@@ -304,6 +363,65 @@ namespace PI.Business
         }
 
 
+
+        public byte[] GetAllInvoicesForAdminExport(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue)
+        {
+          
+            int page = 1;
+            int pageSize = 10;
+            List<InvoiceDto> Content = new List<InvoiceDto>();
+
+            //using (PIContext context = PIContext.Get())
+            //{            
+            string BusinessOwnerRoleId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
+
+            var content = (from invoice in context.Invoices
+                           join company in context.Companies on invoice.Shipment.Division.CompanyId equals company.Id
+                           join user in context.Users on company.TenantId equals user.TenantId
+                           where user.Roles.Any(r => r.RoleId == BusinessOwnerRoleId) &&
+                           company.IsDelete == false &&
+                           (status == null || invoice.InvoiceStatus.ToString() == status) &&
+                           (string.IsNullOrEmpty(searchValue) ||
+                             company.Name.Contains(searchValue) ||
+                             user.FirstName.Contains(searchValue) || user.LastName.Contains(searchValue) ||
+                             invoice.InvoiceNumber.Contains(searchValue)
+                           ) &&
+                            (startDate == null || (invoice.CreatedDate >= startDate && invoice.CreatedDate <= endDate))
+                           select new
+                           {
+                               User = user,
+                               Company = company,
+                               Invoice = invoice
+                           }).ToList();
+
+            //removing unmatched company invoices according to the business owners
+            foreach (var item in content)
+            {
+
+                if (item.User.Roles.Any(r => r.RoleId == BusinessOwnerRoleId))
+                {
+                    Content.Add(new InvoiceDto
+                    {
+                        Id = item.Invoice.Id,
+                        InvoiceNumber = item.Invoice.InvoiceNumber,
+                        InvoiceStatus = item.Invoice.InvoiceStatus.ToString(),
+                        InvoiceValue = item.Invoice.InvoiceValue,
+                        ShipmentId = item.Invoice.ShipmentId,
+                        ShipmentReference = item.Invoice.Shipment.ShipmentCode,
+                        URL = item.Invoice.URL,
+                        BusinessOwner = item.User.FirstName + " " + item.User.LastName,
+                        CompanyName = item.Company.Name,
+                        InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
+                        CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
+                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL
+                    });
+                }
+            }
+            return this.ExportInvoiceReport(Content, true);
+
+
+          
+        }
         /// <summary>
         /// Save uploaded invoice details
         /// </summary>
@@ -316,23 +434,26 @@ namespace PI.Business
             //{
             ShipmentDto dto = new ShipmentDto();
 
+                Invoice invoice = new Invoice()
+                {
+                    InvoiceNumber = invoiceDetails.InvoiceNumber,
+                    ShipmentId = invoiceDetails.ShipmentId,
+                    InvoiceValue = invoiceDetails.InvoiceValue,
+                    CreatedBy = invoiceDetails.CreatedBy.ToString(),
+                    InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
+                    CreatedDate = DateTime.Now,
+                    URL = invoiceDetails.URL,
+                    DueDate= Convert.ToDateTime(invoiceDetails.DueDate)                    
 
-            Invoice invoice = new Invoice()
-            {
-                InvoiceNumber = invoiceDetails.InvoiceNumber,
-                ShipmentId = invoiceDetails.ShipmentId,
-                InvoiceValue = invoiceDetails.InvoiceValue,
-                CreatedBy = invoiceDetails.CreatedBy.ToString(),
-                InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
-                CreatedDate = DateTime.Now,
-                URL = invoiceDetails.URL
-            };
+                };
 
             context.Invoices.Add(invoice);
             context.SaveChanges();
             invoiceSaved = true;
 
-            //}
+                      
+
+
             return invoiceSaved;
 
         }
@@ -500,7 +621,20 @@ namespace PI.Business
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();
 
             f.XmlOptions.ConvertNonTabularDataToSpreadsheet = true;
-            f.OpenPdf(pathToPdf);
+
+           
+            try
+            {
+                Uri uri = new Uri(pathToPdf);
+                f.OpenPdf(uri);
+
+            }
+            catch (Exception e)
+            {
+                   
+                throw;
+            }
+            
 
             if (f.PageCount > 0)
             {
@@ -521,7 +655,7 @@ namespace PI.Business
                 shipmentDetails = shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
             }
             //get tenantId 
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.UserId);
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedBy);
 
             //saving invoice details fetched from the Pdf
             WebClient myclient = new WebClient();
@@ -536,19 +670,34 @@ namespace PI.Business
             var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice) + "/" + filename;
 
             //saving fetched details from Pdf
-            invoiceDetails.InvoiceNumber = invoiceNumber;
-            invoiceDetails.ShipmentId = shipmentDetails.Id;
-            invoiceDetails.InvoiceDate = createdDate;
-            invoiceDetails.DueDate = duedate;
-            invoiceDetails.Terms = terms;
-            invoiceDetails.InvoiceValue = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost);
-            invoiceDetails.URL = returnData;
-            invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+             invoiceDetails.InvoiceNumber = invoiceNumber;
+             invoiceDetails.ShipmentId =Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId);
+             invoiceDetails.InvoiceDate =createdDate;
+             invoiceDetails.DueDate = duedate;
+             invoiceDetails.CreatedOn = createdDate;
+             invoiceDetails.Terms = terms;
+             invoiceDetails.InvoiceValue = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost);
+             invoiceDetails.URL = returnData;
+             invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+            invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+
 
             this.SaveInvoiceDetails(invoiceDetails);
 
             //deleting pdf file saved in tenant0 space
-            await media.Delete(pdfUrl);
+            
+            media.InitializeStorage("0", "Invoice_Temp");
+
+            //try
+            //{
+            //    await media.Delete(pdfUrl);
+            //}
+            //catch (Exception e)
+            //{
+
+            //    var m = e.Message;
+            //}
+           
 
             return true;
 

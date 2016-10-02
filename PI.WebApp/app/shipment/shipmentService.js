@@ -58,6 +58,8 @@
             loadDefaultCostCenterId: loadDefaultCostCenterId,
             getFilteredShipmentsExcel: getFilteredShipmentsExcel,
             PaymentCharge: PaymentCharge,
+            loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
+            PaymentCharge: PaymentCharge,
             GetAllShipmentCounts: GetAllShipmentCounts
         };
 
@@ -259,7 +261,25 @@
             });
         }
 
-        function getFilteredShipmentsExcel(status, startDate, endDate, number, source, destination, viaDashboard) {
+        
+        function loadAllShipmentsForAdminExcelExport(companyId, status, startDate, endDate, number, source, destination) {
+
+            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdminExcelExport', {
+                params: {
+                    companyId: companyId,
+                    status: status,
+                    startDate: startDate,
+                    endDate: endDate,
+                    number: number,
+                    source: source,
+                    destination: destination
+                },
+                responseType: 'arraybuffer'
+            });
+        }
+
+
+        function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
             debugger;
             return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
                 params: {
