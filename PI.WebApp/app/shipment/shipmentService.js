@@ -60,8 +60,13 @@
             PaymentCharge: PaymentCharge,
             loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
             PaymentCharge: PaymentCharge,
-            GetAllShipmentCounts: GetAllShipmentCounts
+            GetAllShipmentCounts: GetAllShipmentCounts,
+            saveAwbNo: saveAwbNo
         };
+
+        function saveAwbNo(awbDto) {
+            return $http.post(serverBaseUrl + '/api/shipments/UpdateTrackingNo', awbDto);
+        }
 
         function PaymentCharge(paymentDto) {
             return $http.post(serverBaseUrl + '/api/shipments/PaymentCharge', paymentDto);

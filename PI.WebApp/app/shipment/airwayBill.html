@@ -1,6 +1,6 @@
 ﻿<div ng-controller="airwayBillCtrl as awbCtrl">
     <div id="panel-notif"></div>
-    <ng-form class="form-horizontal" role="form" id="formAirwayBillCustomer" name="formAirwayBillCustomer" ng-show="awbCtrl.currentRole!='Admin'">
+    <ng-form class="form-horizontal" role="form" id="formAirwayBillCustomer" name="formAirwayBillCustomer">
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-md-10 portlets">
@@ -14,9 +14,7 @@
                                 <h2 style="margin-top:5px;margin-bottom:5px;font-weight:500">Shipment air waybill</h2>
                             </div>
                             <div style="float:right;text-align:left;padding:5px;">
-                                <div style="text-align:left;clear:both" ng-hide="false">{{awbCtrl.shipment.invoiceNo}}</div>
-                                <div style="text-align:left;clear:both;float:left" ng-show="false"><input type="text" ng-model="awbCtrl.shipment.invoiceNo"></div>
-                                <div style="text-align:left" ng-show="false"><i style="font-size:29px;margin-top: -2px;margin-left: 2px;color:#009BCB" class="fa fa-floppy-o" aria-hidden="true"></i></div>
+                                <div style="text-align:left;clear:both">{{awbCtrl.shipment.invoiceNo}}</div>
                                 <div style="text-align:left;clear:both">{{awbCtrl.shipment.shipmentReferenceName}}</div>
                             </div>
                             
@@ -160,7 +158,19 @@
                                         <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
                                             <label style="color:#fff" translate>Carrier</label><br /> 
                                         </div>
-                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                        
+                                        <div style="padding:10px;clear:both">
+                                            <p>{{awbCtrl.shipment.careerDetails.name}}</p>
+                                            <p>{{awbCtrl.shipment.careerDetails.name}} {{awbCtrl.shipment.serviceLevel}} 
+                                                <span ng-hide="awbCtrl.isEditableAwb">{{awbCtrl.shipment.trackingNumber}}</span>
+                                                <span ng-show="awbCtrl.isEditableAwb">
+                                                    <input type="text" ng-model="awbCtrl.shipment.trackingNumber">
+                                                    <a href="javascript:void(0)" ng-click="awbCtrl.saveAwbNo()"><i style="font-size:29px;margin-top: -2px;margin-left: 2px;color:#009BCB" class="fa fa-floppy-o" aria-hidden="true"></i></a> 
+                                                </span>
+                                            </p>
+                                            <p>{{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</p>
+                                        </div>
+
                                     </td>
                                 </tr>
                             </tbody>

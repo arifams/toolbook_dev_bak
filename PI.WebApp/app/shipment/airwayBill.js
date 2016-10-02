@@ -16,6 +16,49 @@
         ];
 
         vm.currentRole = $window.localStorage.getItem('userRole');
+        vm.isEditableAwb = vm.currentRole == 'Admin';
+
+        vm.saveAwbNo = function () {
+
+            var awbDto = {
+                shipmentId: vm.shipment.shipmentId,
+                trackingNumber: vm.shipment.trackingNumber
+            };
+
+            shipmentFactory.saveAwbNo(awbDto)
+                .then(function (response) {
+
+                    console.log('response of awb');
+                    console.log(response);
+
+                    if (response.data.status == 2) {
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Tracking number updated successfully') + '</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
+                },
+                function (error) {
+                    if (response.data.status == 1) {
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-error media fade in"><p>' + $rootScope.translate('There is an error when updating tracking number') + '</p></div>',
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
+                });
+        }
 
         vm.print = function (divId) {
 
@@ -47,8 +90,6 @@
                 vm.shipment = data;          
                
                 vm.GetCurrencyLabel(vm.shipment.valueCurrency);
-               
-               
             })
             .error(function () {
             })

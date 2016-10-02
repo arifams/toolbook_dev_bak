@@ -796,6 +796,13 @@ namespace PI.Service.Controllers
             return Ok(operationResult);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        public IHttpActionResult UpdateTrackingNo(AirwayBillDto awbDto)
+        {
+            return Ok(shipmentManagement.UpdateTrackingNo(awbDto));
+        }
+
         #region Private methods
 
         private MultipartFormDataStreamProvider GetMultipartProvider()
