@@ -38,5 +38,12 @@ namespace PI.Contract.DTOs.Payment
         /// Template link -  
         /// </summary>
         public string TemplateLink { get; set; } // TODO : Need to remove this
+
+        /// <summary>
+        /// Amount -  
+        /// </summary>
+        public string Amount { get; set; }
+
+       
     }
 }

@@ -4029,6 +4029,24 @@ namespace PI.Business
             return environment;
         }
 
+        //get payment details by reference
+        public PaymentDto GetPaymentbyReference(long reference)
+        {
+            PaymentDto paymentDetails = new PaymentDto();
+
+            var payment = context.Payments.Where(t => t.ReferenceId == reference).FirstOrDefault();
+
+            if (payment!=null)
+            {
+                paymentDetails.Amount = payment.Amount.ToString();
+            }
+
+            return paymentDetails;
+        }
+      
+
+
+
         public ShipmentOperationResult PaymentCharge(PaymentDto payment)
         {
             OperationResult result;

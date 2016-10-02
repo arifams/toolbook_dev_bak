@@ -637,6 +637,8 @@ namespace PI.Service.Controllers
                 ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("",operationResult.ShipmentId);
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
+                PaymentDto paymentDetails = shipmentManagement.GetPaymentbyReference(Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId));
+
                 Random generator = new Random();
                 string code = generator.Next(1000000, 9999999).ToString("D7");
                 string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
@@ -666,8 +668,8 @@ namespace PI.Service.Controllers
                 packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
                 packageDetails.Append("</td>");
                 packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td>");
-                packageDetails.Append("<td>$" + shipmentDetails.CarrierInformation.Price + "</td> </tr>");
+                packageDetails.Append("<td>$" + paymentDetails.Amount + "</td>");
+                packageDetails.Append("<td>$" +  paymentDetails.Amount  + "</td> </tr>");
                 packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
                 packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
                 packageDetails.Append("<td>" + "" + "</td> </tr>");
@@ -690,7 +692,7 @@ namespace PI.Service.Controllers
                 .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
                 .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
                 .Replace("{terms}", "Net 10")
-                .Replace("{totalvalue}", shipmentDetails.CarrierInformation.Price + "$")
+                .Replace("{totalvalue}", paymentDetails != null ? paymentDetails.Amount : null + "$")
                 .Replace("{tableBody}", packageDetails.ToString());
 
 
