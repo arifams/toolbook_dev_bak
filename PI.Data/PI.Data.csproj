@@ -175,6 +175,10 @@
     <Compile Include="Migrations\201609301005226_Change ShipmentPayment to Payment and update fields.Designer.cs">
       <DependentUpon>201609301005226_Change ShipmentPayment to Payment and update fields.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610020528451_Update payment with amount and currency.cs" />
+    <Compile Include="Migrations\201610020528451_Update payment with amount and currency.Designer.cs">
+      <DependentUpon>201610020528451_Update payment with amount and currency.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -219,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201609301005226_Change ShipmentPayment to Payment and update fields.resx">
       <DependentUpon>201609301005226_Change ShipmentPayment to Payment and update fields.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610020528451_Update payment with amount and currency.resx">
+      <DependentUpon>201610020528451_Update payment with amount and currency.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

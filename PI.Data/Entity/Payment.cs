@@ -20,5 +20,9 @@ namespace PI.Data.Entity
         public Status Status { get; set; }
 
         public string StatusCode { get; set; }
+
+        public decimal Amount { get; set; }
+
+        public CurrencyType CurrencyType { get; set; }
     }
 }

@@ -9,7 +9,7 @@
 
 
         function setLoginUserID() {
-
+            debugger;
             if ($window.localStorage.getItem('userRole') == 'Admin') {
 
                 createdBy = $window.localStorage.getItem('userGuid');

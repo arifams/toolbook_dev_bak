@@ -23,45 +23,48 @@
 
 
             if (from == 'manageShipCtrl') {
-                $scope.manageShipCtrl.CompanyId = company.id;
-                shipmentFactory.loadAllshipmentsForCompany(company.id).success(
+                debugger;
+                //$scope.manageShipCtrl.CompanyId = company.id;
+                $scope.manageShipCtrl.closeWindow();
+                $location.path('/addShipment/0');
+                //shipmentFactory.loadAllshipmentsForCompany(company.id).success(
 
-                                      function (responce) {
-                                          if (responce.content.length > 0) {
-                                              $scope.manageShipCtrl.rowCollection = responce.content;
-                                              $scope.manageShipCtrl.closeWindow();
-                                              $scope.manageShipCtrl.noShipments = false;
-                                              $scope.manageShipCtrl.CompanyId = company.id;
+                //                      function (responce) {
+                //                          if (responce.content.length > 0) {
+                //                              $scope.manageShipCtrl.rowCollection = responce.content;
+                //                              $scope.manageShipCtrl.closeWindow();
+                //                              $scope.manageShipCtrl.noShipments = false;
+                //                              $scope.manageShipCtrl.CompanyId = company.id;
                                               
-                                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
-                                               function (responce) {
-                                                   $window.localStorage.setItem('businessOwnerId', responce);
+                //                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
+                //                               function (responce) {
+                //                                   $window.localStorage.setItem('businessOwnerId', responce);
                                               
-                                               }).error(
-                                               function (error) {
+                //                               }).error(
+                //                               function (error) {
                                               
-                                                   console.log("error occurd while retrieving business owner Id");
-                                               });
+                //                                   console.log("error occurd while retrieving business owner Id");
+                //                               });
 
-                                          } else {
-                                              $scope.manageShipCtrl.noShipments = true;
-                                              $scope.manageShipCtrl.closeWindow();
-                                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
-                                              function (responce) {
-                                                  $window.localStorage.setItem('businessOwnerId', responce);
+                //                          } else {
+                //                              $scope.manageShipCtrl.noShipments = true;
+                //                              $scope.manageShipCtrl.closeWindow();
+                //                              shipmentFactory.GetBusinessOwneridbyCompanyId(company.id).success(
+                //                              function (responce) {
+                //                                  $window.localStorage.setItem('businessOwnerId', responce);
 
-                                              }).error(
-                                              function (error) {
+                //                              }).error(
+                //                              function (error) {
 
-                                                  console.log("error occurd while retrieving business owner Id");
-                                              });
-                                          }
+                //                                  console.log("error occurd while retrieving business owner Id");
+                //                              });
+                //                          }
 
 
-                                      }).error(function (error) {
+                //                      }).error(function (error) {
 
-                                          console.log("error occurd while retrieving Addresses");
-                                      });
+                //                          console.log("error occurd while retrieving Addresses");
+                //                      });
             }
         }
     }]);

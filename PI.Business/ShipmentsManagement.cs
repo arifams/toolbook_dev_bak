@@ -1087,49 +1087,9 @@ namespace PI.Business
             ShipmentDto shipmentDto;
             AddShipmentResponse response;
             ShipmentOperationResult result = new ShipmentOperationResult();
-
-            //using (var context = PIContext.Get())
-            //{
+            
             Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
-
-            // This will not valid error any more.
-            // Validate the already communicated with SIS (If browser refresh, this method invokes. Using this validate shipment code is already there)
-            //if (!string.IsNullOrWhiteSpace(shipment.ShipmentCode))
-            //{
-            //    result.Status = Status.Error;
-            //    result.Message = "Shipment is already added";
-            //    return result;
-            //}
-
-            if (shipment.ShipmentPaymentTypeId == 2) // Online payment.
-            {
-                // Added payment data
-                var payment = new Payment();
-                payment.CreatedBy = sendShipmentDetails.UserId;
-                payment.CreatedDate = DateTime.Now;
-                payment.IsActive = true;
-                payment.PaymentId = sendShipmentDetails.PaymentResult.FieldList["PaymentKey"];
-                payment.Status = sendShipmentDetails.PaymentResult.Status;
-                payment.PaymentType = Contract.Enums.PaymentType.Shipment;
-                payment.ReferenceId = sendShipmentDetails.ShipmentId;
-
-                if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
-                {
-                    // If failed, due to payment gateway error, then record payment error code.
-                    payment.StatusCode = sendShipmentDetails.PaymentResult.FieldList["errorCode"];
-                }
-
-
-                context.SaveChanges();
-
-                if (sendShipmentDetails.PaymentResult.Status == Status.PaymentError)
-                {
-                    result.Status = Status.PaymentError;
-                    result.Message = "Error occured when adding payment." + sendShipmentDetails.PaymentResult.Message + " .Please contact Parcel International.";
-                    return result;
-                }
-            }
-
+            
             var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
 
             shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
@@ -4051,12 +4011,49 @@ namespace PI.Business
 
             result = paymentManager.Charge(payment);
 
-            return SendShipmentDetails(new SendShipmentDetailsDto()
+            // Added payment data
+            var paymentEntity = new Payment();
+            paymentEntity.CreatedBy = payment.UserId;
+            paymentEntity.CreatedDate = DateTime.Now;
+            paymentEntity.IsActive = true;
+            paymentEntity.PaymentId = result.FieldList["PaymentKey"];
+            paymentEntity.Status = result.Status;
+            paymentEntity.PaymentType = PaymentType.Shipment;
+            paymentEntity.ReferenceId = payment.ShipmentId;
+            paymentEntity.Amount = payment.ChargeAmount;
+
+            if (payment.CurrencyType == "USD")
             {
-                ShipmentId = payment.ShipmentId,
-                PaymentResult = result,
-                UserId = payment.UserId
-            });
+                paymentEntity.CurrencyType = CurrencyType.USD;
+            }
+
+            if (result.Status == Status.PaymentError)
+            {
+                // If failed, due to payment gateway error, then record payment error code.
+                paymentEntity.StatusCode = result.FieldList["errorCode"];
+            }
+            
+            context.Payments.Add(paymentEntity);
+            context.SaveChanges();
+
+            if (result.Status == Status.PaymentError)
+            {
+                return new ShipmentOperationResult()
+                {
+                    Status = Status.PaymentError,
+                    Message = "Error occured when adding payment." + result.Message
+                };
+            }
+            else
+            {
+                return SendShipmentDetails(new SendShipmentDetailsDto()
+                {
+                    ShipmentId = payment.ShipmentId,
+                    PaymentResult = result,
+                    UserId = payment.UserId
+                });
+            }
+            
         }
     }
 

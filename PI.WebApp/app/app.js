@@ -363,6 +363,7 @@ var MakeApp = angular
           .when('/adminManageUser', {
               templateUrl: 'admin/manageUsers.html',
               controller: 'adminManageUsersCtrl',
+              controllerAs: 'userStrl'
           })
         .otherwise({
             // redirectTo: '/loadShipments'
