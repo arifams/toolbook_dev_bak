@@ -649,7 +649,9 @@ namespace PI.Service.Controllers
 
                 var invoicePdf = new Document(PageSize.B5);
                 //getting the server path to create temp pdf file
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+                var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
+                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+               // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
 
                 PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
                 HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
