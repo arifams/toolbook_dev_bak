@@ -691,15 +691,15 @@ namespace PI.Business
                            select shipment).ToList();
 
             // Update retrieve shipment list status from SIS.
-            string environment = "";
-            foreach (var shipment in content)
-            {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-                {
-                    environment = GetEnvironmentByTarrif(shipment.TariffText);
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-                }
-            }
+            //string environment = "";
+            //foreach (var shipment in content)
+            //{
+            //    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
+            //    {
+            //        environment = GetEnvironmentByTarrif(shipment.TariffText);
+            //        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
+            //    }
+            //}
 
             //using (PIContext context = PIContext.Get())
             //{
