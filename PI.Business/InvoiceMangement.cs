@@ -351,7 +351,8 @@ namespace PI.Business
                         InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
                         CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
                                         item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL,
-                        Sum=item.Invoice.Sum.ToString()
+                        Sum=item.Invoice.Sum.ToString(),
+                        CreditedValue= item.Invoice.CreditAmount.ToString(),
                     });
                 }
             }
@@ -505,7 +506,7 @@ namespace PI.Business
                                        InvoiceStatus.Paid : InvoiceStatus.Pending;
 
                 invoice.Sum = (invoice.InvoiceValue - creditNote.CreditNoteValue);
-
+                invoice.CreditAmount = creditNote.CreditNoteValue;
                 context.SaveChanges();
 
                 return true;

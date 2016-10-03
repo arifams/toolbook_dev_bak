@@ -16,6 +16,7 @@ namespace PI.Data.Entity
         public long? ShipmentId { get; set; }
         public decimal InvoiceValue { get; set; }
         public decimal Sum { get; set; }
+        public decimal CreditAmount { get; set; }
         public InvoiceStatus InvoiceStatus { get; set; }
         public string URL { get; set; }
         public DateTime DueDate { get; set; }
