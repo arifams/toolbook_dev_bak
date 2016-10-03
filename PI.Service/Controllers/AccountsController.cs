@@ -34,7 +34,7 @@ namespace PI.Service.Controllers
         private AuthRepository authRepo = null;
         private ProfileManagement profileManagement;    // TODO : H - Change this to interface
 
-        public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement,ILogger logger, ProfileManagement profileManagement)
+        public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement, ILogger logger, ProfileManagement profileManagement)
         {
             this.companyManagement = companymanagement;
             this.customerManagement = customermanagement;
@@ -104,60 +104,63 @@ namespace PI.Service.Controllers
                 companyManagement.DeleteCompanyDetails(existingUser.TenantId, existingUser.Id);
             }
 
-            var user = new ApplicationUser()
+            if (existingUser == null)
             {
-                UserName = createUserModel.Email,
-                Email = createUserModel.Email,
-                Salutation = "-",
-                FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
-                LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
-                Level = 3,
-                JoinDate = DateTime.Now,
-                IsActive = true
-            };
+                var user = new ApplicationUser()
+                {
+                    UserName = createUserModel.Email,
+                    Email = createUserModel.Email,
+                    Salutation = "-",
+                    FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
+                    LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
+                    Level = 3,
+                    JoinDate = DateTime.Now,
+                    IsActive = true
+                };
 
-            if (existingUser == null || isUserExistAndOldAccount)
-            {
-                //Create Tenant, Default Company, Division & CostCenter 
-                createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
-                long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
+                if (existingUser == null || isUserExistAndOldAccount)
+                {
+                    //Create Tenant, Default Company, Division & CostCenter 
+                    createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
+                    long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
 
-                // Add tenant Id to user
-                user.TenantId = tenantId;
-                user.EmailConfirmed = createUserModel.viaExternalLogin ? true : false;
+                    // Add tenant Id to user
+                    user.TenantId = tenantId;
+                    user.EmailConfirmed = createUserModel.viaExternalLogin ? true : false;
 
-                IdentityResult addUserResult = createUserModel.viaExternalLogin ? AppUserManager.Create(user) :
-                                                                                  AppUserManager.Create(user, createUserModel.Password);
+                    IdentityResult addUserResult = createUserModel.viaExternalLogin ? AppUserManager.Create(user) :
+                                                                                      AppUserManager.Create(user, createUserModel.Password);
 
-                createUserModel.UserId = user.Id;
+                    createUserModel.UserId = user.Id;
 
-                // Save in customer table.
-                customerManagement.SaveCustomer(createUserModel);
-            }
-            else
-            {
-                return BadRequest("Email address is already in use!");
-            }
-
-            // Add Business Owner Role to user
-            AppUserManager.AddToRole(user.Id, "BusinessOwner");
-
-            AppUserManager.Update(user);
+                    // Save in customer table.
+                    customerManagement.SaveCustomer(createUserModel);
+                }
+                else
+                {
+                    return BadRequest("Email address is already in use!");
+                }
 
 
-            if (!createUserModel.viaExternalLogin)
-            {
-                #region For Email Confirmaion
+                // Add Business Owner Role to user
+                AppUserManager.AddToRole(user.Id, "BusinessOwner");
 
-                string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
-                var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
+                AppUserManager.Update(user);
 
-                StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-                emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+                if (!createUserModel.viaExternalLogin)
+                {
+                    #region For Email Confirmaion
 
-                AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
+                    string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
+                    var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
-                #endregion
+                    StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+                    emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+
+                    AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
+
+                    #endregion
+                }
             }
 
             //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
@@ -352,7 +355,7 @@ namespace PI.Service.Controllers
                 }
                 else
                 {
-                    if( user.JoinDate.AddHours(24) < DateTime.Now)
+                    if (user.JoinDate.AddHours(24) < DateTime.Now)
                     {
                         // user account is expired
                         return Ok(new
@@ -371,9 +374,9 @@ namespace PI.Service.Controllers
                             Result = -1
                         });
                     }
-                   
+
                 }
-                    
+
             }
             else
             {
@@ -667,7 +670,7 @@ namespace PI.Service.Controllers
 
             return Ok();
         }
-        
+
 
         [CustomAuthorize]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -694,7 +697,7 @@ namespace PI.Service.Controllers
                 return BadRequest("Invalid token. Please resend the password reset URL.");
             }
         }
-         
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [AllowAnonymous]
@@ -800,7 +803,7 @@ namespace PI.Service.Controllers
         {
             var user = this.AppUserManager.FindByName(email);
 
-            if(user == null)
+            if (user == null)
             {
                 return Ok(new
                 {
@@ -810,8 +813,8 @@ namespace PI.Service.Controllers
             }
             return Ok(new
             {
-                Result = user.PhoneNumberConfirmed? 1 : 0
-            });            
+                Result = user.PhoneNumberConfirmed ? 1 : 0
+            });
         }
 
 
@@ -843,13 +846,16 @@ namespace PI.Service.Controllers
                 var message = twilio.SendMessage(
                     "+3197004498550", // fromPhone
                      userDetails.MobileNumber, // To (Replace with your phone number)
-                    "Your security code is: "+ code
+                    "Your security code is: " + code
                     );
 
                 //Store the security code and the time in DB.
-                companyManagement.SaveUserPhoneCode(new UserDto { Email = userDetails.Email,
-                                                                  MobileVerificationCode = code,
-                                                                  MobileNumber = userDetails.MobileNumber});
+                companyManagement.SaveUserPhoneCode(new UserDto
+                {
+                    Email = userDetails.Email,
+                    MobileVerificationCode = code,
+                    MobileNumber = userDetails.MobileNumber
+                });
 
                 if (message.RestException != null)
                 {
@@ -880,7 +886,7 @@ namespace PI.Service.Controllers
         public IHttpActionResult VerifyPhoneCode(UserDto userDetails)
         {
             var user = this.AppUserManager.FindByName(userDetails.Email);
-            if(user.MobileVerificationCode == userDetails.MobileVerificationCode)
+            if (user.MobileVerificationCode == userDetails.MobileVerificationCode)
             {
                 if (userDetails.isViaProfileSettings)
                 {
@@ -892,7 +898,7 @@ namespace PI.Service.Controllers
             else
             {
                 return Ok(false);
-            }            
+            }
         }
 
 

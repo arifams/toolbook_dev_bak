@@ -632,8 +632,11 @@ namespace PI.Business
             XmlNode creditnode = null;
 
             string pathToPdf = url;
-            string xml_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.xml");
-            string pathToXml = xml_path;
+
+            var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.xml";
+            string pathToXml = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+                      
+          
 
             // Convert PDF file to XML file. 
             SautinSoft.PdfFocus f = new SautinSoft.PdfFocus();

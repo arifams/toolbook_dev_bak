@@ -1475,11 +1475,11 @@ namespace PI.Business
         public PagedList GetAllUsers(string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-            long tenantId = context.GetTenantIdByUserId(userId);
+          //  long tenantId = context.GetTenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 
-            var content = context.Users.Where(x => x.TenantId == tenantId &&
+            var content = context.Users.Where(x => 
                                                 x.IsDeleted == false &&
                                                 (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                 (status == "0" || x.IsActive.ToString() == status) &&
@@ -1489,16 +1489,20 @@ namespace PI.Business
 
             foreach (var item in content)
             {
-
-                pagedRecord.Content.Add(new UserDto
+                if (item.Roles.Count()!=0 && item.Roles.FirstOrDefault().RoleId!= "b1320df1-55f8-46a0-9754-13a0544658d4" && item.Roles.FirstOrDefault().RoleId != "e97b4e4c-45de-4fb2-a322-5b876b7661d0" && item.Roles.FirstOrDefault().RoleId != "336eeffa-57c6-430d-9fa9-575e2a7e9787")
                 {
-                    Id = item.Id,
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
-                    Status = (item.IsActive) ? "Active" : "Inactive",
-                    LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
-                });
+                    pagedRecord.Content.Add(new UserDto
+                    {
+                        Id = item.Id,
+                        FirstName = item.FirstName,
+                        LastName = item.LastName,
+                        RoleName = item.Roles.Count() != 0 ? GetRoleName(item.Roles.FirstOrDefault().RoleId) : "",
+                        Status = (item.IsActive) ? "Active" : "Inactive",
+                        LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
+                    });
+
+                }
+               
             }
 
             return pagedRecord;
