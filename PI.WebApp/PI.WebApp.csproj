@@ -4975,7 +4975,9 @@
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy.pubxml" />
     <Content Include="Properties\PublishProfiles\PIWebQANew.PublishSettings" />
     <None Include="Web.Debug.config">
