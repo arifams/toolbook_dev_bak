@@ -197,8 +197,8 @@
                         </div>-->
 
                         <div class="row res-grid">
-                            <!--<table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">-->
-                            <table st-pipe="invoiceCtrl.callServerSearch" st-table="invoiceCtrl.rowCollection" class="table table-hover">
+                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">
+                            <!--<table st-pipe="invoiceCtrl.callServerSearch" st-table="invoiceCtrl.rowCollection" class="table table-hover">-->
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Date</th>
@@ -216,7 +216,8 @@
 
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="row in invoiceCtrl.rowCollection">
+                                    <!--<tr ng-repeat="row in invoiceCtrl.rowCollection">-->
+                                    <tr ng-repeat="row in shipmentList">
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
                                         <td>{{row.companyName}}</td>
@@ -246,6 +247,13 @@
                                         <td></td>
                                     </tr>
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="5" st-displayed-pages="20"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                                 <!--<tfoot>
                                     <tr>
                                         <td colspan="5" class="text-center">
@@ -319,8 +327,8 @@
 
                         </div>-->
                         <div class="row res-grid"> 
-                            <table  st-table="invoiceCtrl.rowCollectionDisputed" class="table table-hover">
-                                <!--<table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover"> -->
+                            <!--<table st-table="invoiceCtrl.rowCollectionDisputed" class="table table-hover">-->
+                                <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover"> 
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Date</th>
@@ -336,7 +344,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="row in invoiceCtrl.rowCollectionDisputed">
+                                    <tr ng-repeat="row in shipmentList">
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
                                         <td>{{row.companyName}}</td>
@@ -370,7 +378,13 @@
                                         <td></td>
                                     </tr>
                                 </tbody>
-
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </form>

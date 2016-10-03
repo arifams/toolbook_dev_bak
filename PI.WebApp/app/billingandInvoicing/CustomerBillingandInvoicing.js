@@ -438,6 +438,8 @@
                             vm.loadInvoicesBySearch(vm.status);
                         };
 
+                        vm.callServerSearch();
+
                         vm.resetSearch = function (tableState) {
                             debugger;
                             var pagination = 0;//tableState.pagination;

@@ -282,6 +282,8 @@
                    vm.loadAllInvoices(vm.invoiceStatus);
                };
 
+               vm.callServerSearch();
+
                vm.resetSearch = function (tableState) {
                    debugger;
                    var pagination = 0;//tableState.pagination;

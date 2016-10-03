@@ -449,7 +449,7 @@ namespace PI.Business
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL,
-                    DueDate = DateTime.ParseExact(invoiceDetails.DueDate,"dd/MM/yyyy",CultureInfo.InvariantCulture),
+                    DueDate = DateTime.ParseExact(invoiceDetails.DueDate,"MM/dd/yyyy",CultureInfo.InvariantCulture),
                     
 
                 };
