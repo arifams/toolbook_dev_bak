@@ -23,7 +23,6 @@
                            vm.loadingSymbole = true;
 
 
-
                            vm.loadAllShipments = function (status, pageStart, pageNumber, tableState) {
                                debugger;
                                vm.loadingSymbole = true;
@@ -56,7 +55,7 @@
                                                vm.loadingSymbole = false;
                                                vm.rowCollection = responce.content;
 
-                                               tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
+                                               //tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
 
                                                vm.setCSVData(responce);
 
@@ -374,6 +373,8 @@
                                //        vm.isLoading = false;
                                //    })
                            };
+
+                           vm.callServerSearch();
 
                            vm.resetSearch = function (tableState) {
                                debugger;

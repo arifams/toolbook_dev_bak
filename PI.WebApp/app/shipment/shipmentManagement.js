@@ -260,8 +260,6 @@
 
                            }
 
-                           vm.itemsByPage = 10;
-
                            vm.deleteById = function (row) {
 
                                $('#panel-notif').noty({

@@ -201,8 +201,8 @@
       
          
                     <div class="custom-table">
-                        <table st-pipe="customerinvoiceCtrl.callServerSearch" st-table="customerinvoiceCtrl.rowCollection" class="table table-hover">
-                         <!--<table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">-->
+                        <!--<table st-pipe="customerinvoiceCtrl.callServerSearch" st-table="customerinvoiceCtrl.rowCollection" class="table table-hover">-->
+                         <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Date</th>
@@ -218,7 +218,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="row in customerinvoiceCtrl.rowCollection">
+                                    <tr ng-repeat="row in invoiceList">
+                                    <!--<tr ng-repeat="row in customerinvoiceCtrl.rowCollection">-->
                                         <td>{{row.invoiceDate}}</td>
                                         <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
@@ -248,20 +249,27 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                                <tfoot>
+                                <!--<tfoot>
                                     <tr>
                                         <td colspan="5" class="text-center">
                                             <div st-pagination="" st-items-by-page="itemsByPage"></div>
                                         </td>
                                     </tr>
-                                </tfoot>
+                                </tfoot>-->
+                                 <tfoot>
+                                     <tr>
+                                         <td colspan="5" class="text-center">
+                                             <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
+                                         </td>
+                                     </tr>
+                                 </tfoot>
                             </table>
-                            <pagination total-items=""
+                            <!--<pagination total-items=""
                                         ng-model="currentPage"
                                         max-size="maxSize"
                                         class="pagination-sm"
                                         boundary-links="true">
-                            </pagination>
+                            </pagination>-->
 </div>
  
         </div>
