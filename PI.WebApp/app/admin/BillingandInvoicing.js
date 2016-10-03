@@ -75,6 +75,7 @@
                         .then(
                                function (responce) {
                                    debugger;
+
                                    vm.CreateCSV(responce);
                                    if (from == 'fromDisputed') {
                                        vm.rowCollectionDisputed = responce.data.content;                                       
