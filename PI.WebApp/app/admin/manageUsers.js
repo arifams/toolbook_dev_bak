@@ -5,11 +5,14 @@
 
         var vm = this;
         vm.status = 'All';
+        vm.loadingSymbole = true;
+
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
-
+                
                 vm.divisionList = response.data.divisions;
                 vm.roleList = response.data.roles;
+                vm.loadingSymbole = false;
 
             }, function errorCallback(response) {
                 //todo
@@ -29,9 +32,11 @@
             var searchText = vm.searchText;
             var status = (vm.status == undefined || vm.status == "" || vm.status == "All") ? 0 : vm.status;
             
+            vm.loadingSymbole = true;
+
             userManagementFactory.getUsersByFilter(loggedInuserId, searchText, role, status)
                 .then(function successCallback(responce) {
-                    debugger;
+                    vm.loadingSymbole = false;
                     vm.rowCollection = responce.data.content;
 
                 }, function errorCallback(response) {
@@ -67,7 +72,7 @@
 
             var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
             var number = pagination.number || 10;  // Number of entries showed per page.
-
+            vm.loadingSymbole = true;
             vm.searchUsers();
         };
 
