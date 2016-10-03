@@ -30,6 +30,7 @@ using System.Configuration;
 using SautinSoft;
 using System.Xml;
 using PI.Contract.DTOs.Payment;
+using System.Globalization;
 
 namespace PI.Business
 {
@@ -349,7 +350,9 @@ namespace PI.Business
                         CompanyName = item.Company.Name,
                         InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
                         CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
-                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL
+                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL,
+                        Sum=item.Invoice.Sum.ToString(),
+                        CreditedValue= item.Invoice.CreditAmount.ToString(),
                     });
                 }
             }
@@ -446,7 +449,8 @@ namespace PI.Business
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
                     CreatedDate = DateTime.Now,
                     URL = invoiceDetails.URL,
-                    DueDate = Convert.ToDateTime(invoiceDetails.DueDate)
+                    DueDate = DateTime.ParseExact(invoiceDetails.DueDate,"dd/MM/yyyy",CultureInfo.InvariantCulture),
+                    
 
                 };
                 context.Invoices.Add(invoice);
@@ -454,7 +458,7 @@ namespace PI.Business
                 invoiceSaved = true;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;
@@ -501,8 +505,8 @@ namespace PI.Business
                 invoice.InvoiceStatus = (invoice.InvoiceValue == creditNote.CreditNoteValue) ?
                                        InvoiceStatus.Paid : InvoiceStatus.Pending;
 
-                invoice.InvoiceValue = (invoice.InvoiceValue - creditNote.CreditNoteValue);
-
+                invoice.Sum = (invoice.InvoiceValue - creditNote.CreditNoteValue);
+                invoice.CreditAmount = creditNote.CreditNoteValue;
                 context.SaveChanges();
 
                 return true;
@@ -624,6 +628,8 @@ namespace PI.Business
             string createdDate = "";
             string duedate = "";
             string terms = "";
+            string invoiceAmount = "";
+            XmlNode creditnode = null;
 
             string pathToPdf = url;
             string xml_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.xml");
@@ -659,6 +665,10 @@ namespace PI.Business
                 createdDate = doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
                 duedate = doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
                 terms = doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;
+                invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[text()='BALANCE DUE']").NextSibling.NextSibling.InnerText.Replace("$","");
+                creditnode  = doc.SelectSingleNode("document/page/table/row/cell[text()='Creditnumber']");
+
+
             }
 
             f.ClosePdf();
@@ -681,24 +691,45 @@ namespace PI.Business
             //uploaded Url
             var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice) + "/" + filename;
 
-            //saving fetched details from Pdf
-             invoiceDetails.InvoiceNumber = invoiceNumber;
-             invoiceDetails.ShipmentId =Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId);
-             invoiceDetails.InvoiceDate =createdDate;
-             invoiceDetails.DueDate = duedate;
-             invoiceDetails.CreatedOn = createdDate;
-             invoiceDetails.Terms = terms;
-             invoiceDetails.InvoiceValue = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost);
-             invoiceDetails.URL = returnData;
-             invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
-            invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+            var savedInvoice = this.GetInvoiceByNumber(invoiceNumber);
 
+            if (savedInvoice!=null && creditnode!=null)
+            {  
+                //saving fetched details from Pdf
+                invoiceDetails.InvoiceNumber = invoiceNumber;
+                invoiceDetails.Id = savedInvoice.Id;
+                invoiceDetails.InvoiceDate = createdDate;
+                invoiceDetails.DueDate = duedate;
+                invoiceDetails.CreatedOn = createdDate;
+                invoiceDetails.Terms = terms;
+                invoiceDetails.InvoiceValue = Convert.ToDecimal(invoiceAmount);
+                invoiceDetails.URL = returnData;
+                invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+                invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+                this.SaveCreditNoteDetails(invoiceDetails);              
+            }
+            else
+            {
+                //saving fetched details from Pdf
+                invoiceDetails.InvoiceNumber = invoiceNumber;
+                invoiceDetails.ShipmentId = Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId);
+                invoiceDetails.InvoiceDate = createdDate;
+                invoiceDetails.DueDate = duedate;
+                invoiceDetails.CreatedOn = createdDate;
+                invoiceDetails.Terms = terms;
+                invoiceDetails.InvoiceValue = Convert.ToDecimal(invoiceAmount);
+                invoiceDetails.URL = returnData;
+                invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+                invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+                this.SaveInvoiceDetails(invoiceDetails);
 
-            this.SaveInvoiceDetails(invoiceDetails);
+            }
+
+           
 
             //deleting pdf file saved in tenant0 space
             
-            media.InitializeStorage("0", "Invoice_Temp");
+           // media.InitializeStorage("0", "Invoice_Temp");
 
             //try
             //{
@@ -713,6 +744,14 @@ namespace PI.Business
 
             return true;
 
+        }
+
+        //get invoice by number 
+        private Invoice GetInvoiceByNumber(string number)
+        {
+
+            Invoice invoice = context.Invoices.Where(t => t.InvoiceNumber == number).FirstOrDefault();
+            return invoice;           
         }
 
 

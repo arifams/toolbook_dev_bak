@@ -111,8 +111,6 @@
     <Content Include="app\manualTraslationExtract.html" />
     <Content Include="app\organizationstructure\orgStructureCtrl.js" />
     <Content Include="app\organizationstructure\organizationStructure.html" />
-    <Content Include="app\payInvoiceModal\payInvoice.html" />
-    <Content Include="app\payInvoiceModal\payInvoice.js" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipmentControlCenter\adminDashboard.html" />
     <Content Include="app\shipmentControlCenter\adminDashboard.js" />
@@ -173,6 +171,9 @@
     <Content Include="global\css\compressed-styles.css" />
     <Content Include="global\css\icons\font-awesome\font-awesome.css" />
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="global\css\icons\fonts\flaticon\flaticon.css" />
+    <Content Include="global\css\icons\fonts\flaticon\flaticon.html" />
+    <Content Include="global\css\icons\fonts\flaticon\Flaticon.svg" />
     <Content Include="global\images\gallery\login-back.jpg" />
     <Content Include="global\images\logo\PI-logo-login-sm.png" />
     <Content Include="global\images\logo\PI-logo-login.png" />
@@ -4972,10 +4973,16 @@
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff" />
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.woff2" />
     <Content Include="global\css\icons\font-awesome\FontAwesome.otf" />
+    <Content Include="global\css\icons\fonts\flaticon\Flaticon.eot" />
+    <Content Include="global\css\icons\fonts\flaticon\Flaticon.ttf" />
+    <Content Include="global\css\icons\fonts\flaticon\Flaticon.woff" />
+    <Content Include="global\css\icons\fonts\flaticon\_flaticon.scss" />
     <None Include="Properties\PublishProfiles\PIBookingService.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebProd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\PIWebQA - Web Deploy.pubxml" />
     <Content Include="Properties\PublishProfiles\PIWebQANew.PublishSettings" />
     <None Include="Web.Debug.config">

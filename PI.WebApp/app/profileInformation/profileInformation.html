@@ -330,13 +330,16 @@
                                 <div class="form-group input-group m-0" style="width:100%">
                                     <input type="text" name="mobilenumber" style="width:100%" class="form-control"
                                            ng-model="profileCtrl.model.customerDetails.mobileNumber" placeholder="e.g. +17021234567"
-                                           ng-required="profileCtrl.model.customerDetails.phoneNumber==null" ng-change="profileCtrl.changePhone()"
+                                           ng-required="(profileCtrl.model.customerDetails.phoneNumber==null || profileCtrl.isverifyClicked)" ng-change="profileCtrl.changePhone()"
                                            ng-maxlength="20" 
                                            valid-phone-no ng-class="{ 'error': formUpdateProfileAddress.mobilenumber.$invalid && 
-                                                            (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2) }" ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
+                                                            (formUpdateProfileAddress.mobilenumber.$dirty||profileCtrl.isSubmit2 || profileCtrl.isverifyClicked) }"
+                                            ng-focus="mobileNumberFocus = true" ng-blur="mobileNumberFocus = false">
                                     <span class="input-group-btn">
                                         <button class="btn btn-large btn-primary resize-btn" 
-                                                ng-show="!profileCtrl.isVerified" ng-click="formUpdateProfileAddress.mobilenumber.$valid && profileCtrl.textPhoneCode()" 
+                                                ng-show="!profileCtrl.isVerified"
+                                                 ng-click="(profileCtrl.model.customerDetails.mobileNumber != '' &&
+                                                            profileCtrl.model.customerDetails.mobileNumber != null ? profileCtrl.textPhoneCode() : profileCtrl.isverifyClicked = true)"
                                                 style="border-radius:0px 4px 4px 0px">
                                             verify
                                         </button>
@@ -360,8 +363,10 @@
                                         <label ng-show="profileCtrl.showError" class="error" for="securitycode" translate>Invalid security code!</label>
                                     </div>
                                     <button class="btn btn-primary pull-right m-r-0"
-                                             ng-click="profileCtrl.submitSecurityCode()">Submit</button>
-                                </div>                                
+                                            ng-click="(profileCtrl.model.customerDetails.mobileVerificationCode != '' &&
+                                                       profileCtrl.model.customerDetails.mobileVerificationCode != null ? 
+                                                       profileCtrl.submitSecurityCode() : profileCtrl.showError = true)" > Submit</button>
+                               </div>                                
                                 
                             </div>
                         </div>

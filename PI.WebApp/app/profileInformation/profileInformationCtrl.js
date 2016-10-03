@@ -156,7 +156,7 @@
         vm.emailCopy = '';
         vm.errorCodeCustomer = false;
         vm.errorCodeBilling = false;
-
+        vm.isverifyClicked = false;
 
         vm.isImage = function (ext) {
 
@@ -954,6 +954,7 @@
 
         vm.textPhoneCode = function () {
             debugger;
+
             var userDetails = {
                 email: vm.model.customerDetails.email,
                 mobileNumber: vm.model.customerDetails.mobileNumber,

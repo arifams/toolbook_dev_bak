@@ -649,7 +649,9 @@ namespace PI.Service.Controllers
 
                 var invoicePdf = new Document(PageSize.B5);
                 //getting the server path to create temp pdf file
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+                var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
+                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+               // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
 
                 PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
                 HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
@@ -725,6 +727,8 @@ namespace PI.Service.Controllers
                 operationResult.InvoiceURL = returnData;
 
 
+
+                
                 //saving Invoice details
                 InvoiceDto invoice = new InvoiceDto() {
 
@@ -734,7 +738,7 @@ namespace PI.Service.Controllers
                      CreatedBy= shipmentDetails.GeneralInformation.CreatedUser,
                      UserId= shipmentDetails.GeneralInformation.CreatedBy,
                      DueDate= DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                     InvoiceValue= shipmentDetails.CarrierInformation.Price,
+                     InvoiceValue= Convert.ToDecimal(paymentDetails.Amount),
                      InvoiceStatus= InvoiceStatus.Paid.ToString(),
                      InvoiceDate=DateTime.Now.ToString()
                 };
