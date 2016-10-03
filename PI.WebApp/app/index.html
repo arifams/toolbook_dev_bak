@@ -115,9 +115,9 @@
 
                 <ul class="nav nav-sidebar">
 
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
+                    <!--<li class="nav-parent-single" ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#AdminMangement"><span translate>RATE MANAGEMENT</span></a>
-                    </li>
+                    </li>-->
 
                     <li class="nav-parent" ng-show="currentRole == 'Admin'">
                         <a href="#"><span translate>REPORTS</span> <span class="fa arrow"></span></a>
@@ -143,19 +143,6 @@
                         </ul>
                     </li>
 
-                    <li class="nav-parent" ng-hide="currentRole == 'Admin'">
-                        <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
-                        <ul class="children collapse">
-                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION STRUCTURE</a></li>
-                            <li ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION</a></li>
-                            <!--<li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
-                            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
-                            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
-                            <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
-                            <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
-                        </ul>
-                    </li>
-
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
                         <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span></a>
                     </li>
@@ -164,13 +151,27 @@
                     </li>
 
                     <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}" ng-show="currentRole == 'Admin'">
-                        <a href="#InvoiceandBillingAdmin"><i class="icon-note"></i><span translate>BILLING AND INVOICING</span></a>
+                        <a href="#InvoiceandBillingAdmin"><i class="icon-note"></i><span translate>FINANACE</span></a>
                     </li>
 
                     <li ng-class="{ active  : isActive('/InvoiceandBilling')}" ng-show="currentRole != 'Admin'">
-                        <a href="#InvoiceandBilling"><i class="icon-note"></i><span>BILLING AND INVOICING</span> <!--<span class="fa arrow"></span>--></a>
+                        <a href="#InvoiceandBilling"><i class="icon-note"></i><span>FINANACE</span> <!--<span class="fa arrow"></span>--></a>
 
                     </li>
+
+                    <li class="nav-parent" ng-hide="currentRole == 'Admin'">
+                        <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION STRUCTURE</a></li>
+                            <li ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION</a></li>
+                            <!--<li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
+            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
+            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
+                            <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
+                            <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
+                        </ul>
+                    </li>
+
                 </ul>
             </div>
         </div>
