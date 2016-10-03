@@ -727,6 +727,8 @@ namespace PI.Service.Controllers
                 operationResult.InvoiceURL = returnData;
 
 
+
+                
                 //saving Invoice details
                 InvoiceDto invoice = new InvoiceDto() {
 
@@ -736,7 +738,7 @@ namespace PI.Service.Controllers
                      CreatedBy= shipmentDetails.GeneralInformation.CreatedUser,
                      UserId= shipmentDetails.GeneralInformation.CreatedBy,
                      DueDate= DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
-                     InvoiceValue= shipmentDetails.CarrierInformation.Price,
+                     InvoiceValue= Convert.ToDecimal(paymentDetails.Amount),
                      InvoiceStatus= InvoiceStatus.Paid.ToString(),
                      InvoiceDate=DateTime.Now.ToString()
                 };

@@ -179,6 +179,14 @@
     <Compile Include="Migrations\201610020528451_Update payment with amount and currency.Designer.cs">
       <DependentUpon>201610020528451_Update payment with amount and currency.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610021949590_add_Sum_in_Invoive.cs" />
+    <Compile Include="Migrations\201610021949590_add_Sum_in_Invoive.Designer.cs">
+      <DependentUpon>201610021949590_add_Sum_in_Invoive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610030244516_added_credit_note_to_invoice.cs" />
+    <Compile Include="Migrations\201610030244516_added_credit_note_to_invoice.Designer.cs">
+      <DependentUpon>201610030244516_added_credit_note_to_invoice.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -226,6 +234,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610020528451_Update payment with amount and currency.resx">
       <DependentUpon>201610020528451_Update payment with amount and currency.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610021949590_add_Sum_in_Invoive.resx">
+      <DependentUpon>201610021949590_add_Sum_in_Invoive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610030244516_added_credit_note_to_invoice.resx">
+      <DependentUpon>201610030244516_added_credit_note_to_invoice.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
