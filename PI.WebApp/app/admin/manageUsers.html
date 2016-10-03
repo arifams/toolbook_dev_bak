@@ -18,7 +18,8 @@
         <div class="custom-table">
             <div class="row">
                 <div class="col-sm-8">
-                    <table st-pipe="userStrl.callServerSearch" st-table="userStrl.rowCollection" class="table table-hover">
+                    <!--<table st-pipe="userStrl.callServerSearch" st-table="userStrl.rowCollection" class="table table-hover">-->
+                    <table st-table="manageUser" st-safe-src="userStrl.rowCollection" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>First Name</th>
@@ -29,14 +30,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr ng-repeat="row in userStrl.rowCollection">
+                            <tr ng-repeat="row in manageUser">
                                 <td>{{row.firstName}}</td>
                                 <td>{{row.lastName}}</td>
                                 <td>{{row.roleName}}</td>
                                 <td>{{row.status}}</td>
                                 <td>
                                     <span ng-class="row.status == 'Active' ? 'label label-active active-status' : 'label label-inactive inactive-status'">
-                                    {{row.status}}</span>
+                                        {{row.status}}
+                                    </span>
                                 </td>
                                 <td>
                                     <a href="#/saveUserManagement/{{row.id}}"
@@ -46,8 +48,14 @@
                                 </td>
                             </tr>
                         </tbody>
-
-                   </table>
+                        <tfoot>
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
                 <pagination total-items=""
