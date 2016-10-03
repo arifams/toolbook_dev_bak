@@ -1475,11 +1475,11 @@ namespace PI.Business
         public PagedList GetAllUsers(string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-            long tenantId = context.GetTenantIdByUserId(userId);
+          //  long tenantId = context.GetTenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 
-            var content = context.Users.Where(x => x.TenantId == tenantId &&
+            var content = context.Users.Where(x => 
                                                 x.IsDeleted == false &&
                                                 (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                 (status == "0" || x.IsActive.ToString() == status) &&
@@ -1495,7 +1495,7 @@ namespace PI.Business
                     Id = item.Id,
                     FirstName = item.FirstName,
                     LastName = item.LastName,
-                    RoleName = GetRoleName(item.Roles.FirstOrDefault().RoleId),
+                    RoleName = item.Roles.Count()!=0?GetRoleName(item.Roles.FirstOrDefault().RoleId): "",
                     Status = (item.IsActive) ? "Active" : "Inactive",
                     LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                 });
