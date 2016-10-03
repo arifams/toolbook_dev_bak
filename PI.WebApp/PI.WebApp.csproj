@@ -170,6 +170,7 @@
     <Content Include="css\ol.min.css" />
     <Content Include="global\css\compressed-styles.css" />
     <Content Include="global\css\icons\font-awesome\font-awesome.css" />
+    <Content Include="global\css\icons\font-awesome\font-awesome.min.css" />
     <Content Include="global\css\icons\font-awesome\fontawesome-webfont.svg" />
     <Content Include="global\css\icons\fonts\flaticon\flaticon.css" />
     <Content Include="global\css\icons\fonts\flaticon\flaticon.html" />
