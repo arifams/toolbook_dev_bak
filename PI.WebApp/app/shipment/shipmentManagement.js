@@ -260,6 +260,7 @@
 
                            }
 
+                           vm.itemsByPage = 10;
 
                            vm.deleteById = function (row) {
 
@@ -407,6 +408,7 @@
 
                            };
 
+                           vm.callServerSearch();
 
                            vm.resetSearch = function (tableState) {
                                debugger;

@@ -136,8 +136,8 @@
             
  
             <div class="row">
-                <!--<table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">-->
-                    <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
+                <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">
+                    <!--<table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">-->
                         <thead>
                             <tr>
                                 <th st-sort="name" translate>Order date</th>
@@ -153,7 +153,7 @@
 
                         </thead>
                         <tbody>
-                            <tr ng-repeat="row in manageShipCtrl.rowCollection">
+                            <tr ng-repeat="row in shipmentList">
                                 <td>{{row.generalInformation.createdDate}}</td>
                                 <td>{{row.generalInformation.trackingNumber}}</td>
                                 <td>{{row.generalInformation.owner}}</td>
@@ -200,7 +200,7 @@
                         <tfoot>
                             <tr>
                                 <td colspan="5" class="text-center">
-                                    <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                    <div st-pagination="" st-items-by-page="manageShipCtrl.itemsByPage" st-displayed-pages="20"></div>
                                 </td>
                             </tr>
                         </tfoot>
