@@ -38,6 +38,7 @@ using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using EasyPost;
 using PI.Data.Entity.Identity;
+using Postmen_sdk_NET;
 
 namespace PI.Business
 {
@@ -745,7 +746,7 @@ namespace PI.Business
                             FirstName = item.ConsigneeAddress.FirstName,
                             LastName = item.ConsigneeAddress.LastName,
                             ContactName = item.ConsigneeAddress.ContactName,
-                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
                             Email = item.ConsigneeAddress.EmailAddress,
                             Number = item.ConsigneeAddress.Number
                         },
@@ -760,7 +761,7 @@ namespace PI.Business
                             FirstName = item.ConsignorAddress.FirstName,
                             LastName = item.ConsignorAddress.LastName,
                             ContactName = item.ConsignorAddress.ContactName,
-                            ContactNumber = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.PhoneNumber,
                             Email = item.ConsignorAddress.EmailAddress,
                             Number = item.ConsignorAddress.Number
                         }
@@ -3309,7 +3310,7 @@ namespace PI.Business
                             FirstName = item.ConsigneeAddress.FirstName,
                             LastName = item.ConsigneeAddress.LastName,
                             ContactName = item.ConsigneeAddress.ContactName,
-                            ContactNumber = item.ConsigneeAddress.ContactName,
+                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
                             Email = item.ConsigneeAddress.EmailAddress,
                             Number = item.ConsigneeAddress.Number
                         },
@@ -3324,7 +3325,7 @@ namespace PI.Business
                             FirstName = item.ConsignorAddress.FirstName,
                             LastName = item.ConsignorAddress.LastName,
                             ContactName = item.ConsignorAddress.ContactName,
-                            ContactNumber = item.ConsignorAddress.ContactName,
+                            ContactNumber = item.ConsignorAddress.PhoneNumber,
                             Email = item.ConsignorAddress.EmailAddress,
                             Number = item.ConsignorAddress.Number
                         }
