@@ -119,14 +119,7 @@
                         <a href="#AdminMangement"><span translate>RATE MANAGEMENT</span></a>
                     </li>-->
 
-                    <li class="nav-parent" ng-show="currentRole == 'Admin'">
-                        <a href="#"><i class="icon-docs"></i><span translate>REPORTS</span> <span class="fa arrow"></span></a>
-                        <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/ShipmentReports')}">
-                                <a href="#ShipmentReports" translate> SHIPMENT REPORT</a>
-                            </li>
-                        </ul>
-                    </li>
+            
 
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
@@ -169,6 +162,14 @@
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
                             <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
                             <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-parent" ng-show="currentRole == 'Admin'">
+                        <a href="#"><span translate>REPORTS</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/ShipmentReports')}">
+                                <a href="#ShipmentReports" translate> SHIPMENT REPORT</a>
+                            </li>
                         </ul>
                     </li>
 

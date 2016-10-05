@@ -49,7 +49,17 @@
             .success(function (data) {
                 debugger;
                 vm.user = data;
-
+                vm.user.roles = [{
+                    id: 'b1320df1-55f8-46a0-9754-13a0544658d4',
+                    isSelected: true,
+                    roleName: 'BackOffice'
+                },
+                {
+                    id: 'e97b4e4c-45de-4fb2-a322-5b876b7661d0',
+                    isSelected: true,
+                    roleName: 'FrontOffice'
+                }];
+                
                 vm.user.assignedDivisionIdList = [];
                 if (vm.user.id == 0 || vm.user.id == null) {
                     // New user.
