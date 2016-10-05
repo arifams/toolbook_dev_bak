@@ -199,7 +199,6 @@
                 <!--</div>
             </div>-->
       
-         
                     <div class="custom-table">
                         <!--<table st-pipe="customerinvoiceCtrl.callServerSearch" st-table="customerinvoiceCtrl.rowCollection" class="table table-hover">-->
                          <table st-table="invoiceList" st-safe-src="customerinvoiceCtrl.rowCollection" class="table table-hover">
@@ -227,11 +226,14 @@
                                         <td>credit val</td>
                                         <td>sum</td>
                                         <td>
-                                            <span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>
+                                            <span ng-class="{'label label-warning warning-status' : row.invoiceStatus === 'Pending',
+                                                   'label label-success success-status' : row.invoiceStatus === 'Paid',
+                                                   'label label-danger danger-status' : row.invoiceStatus === 'Disputed'}">{{row.invoiceStatus}}</span>
+                                            <!--<span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>-->
                                         </td>
                                         <td>
                                             <!--if invoiceStatus == 'Pending'-->
-                                            <button type="button" class="btn btn-primary" ng-show="row.invoiceStatus == 'Pending'"
+                                            <button type="button" class="btn btn-sm btn-primary" ng-show="row.invoiceStatus == 'Pending'"
                                                     ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
                                                 Pay
                                             </button>
@@ -244,18 +246,12 @@
                                         <td>
                                             <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
                                                ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
-                                                <i class="glyphicon glyphicon-trash"></i>
+                                                Dispute
                                             </a>
                                         </td>
                                     </tr>
                                 </tbody>
-                                <!--<tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>-->
+                               
                                  <tfoot>
                                      <tr>
                                          <td colspan="5" class="text-center">
@@ -264,17 +260,16 @@
                                      </tr>
                                  </tfoot>
                             </table>
-                            <!--<pagination total-items=""
-                                        ng-model="currentPage"
-                                        max-size="maxSize"
-                                        class="pagination-sm"
-                                        boundary-links="true">
-                            </pagination>-->
-</div>
- 
+                    </div>
+                    <div class="page-spinner-loader customLoad" ng-show="customerinvoiceCtrl.loadingSymbole">
+                        <div class="bounce1"></div>
+                        <div class="bounce2"></div>
+                        <div class="bounce3"></div>
+                    </div>
         </div>
 
-        </div>
+
+</div>
       
        
         <div id="panel-notif"></div>

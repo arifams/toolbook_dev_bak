@@ -5,6 +5,7 @@
 
         var vm = this;
         vm.status = 'All';
+        vm.loadingSymbole = true;
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
 
@@ -23,6 +24,7 @@
 
         vm.searchUsers = function () {
             debugger;
+            
             // Get values from view.
             var loggedInuserId = $window.localStorage.getItem('userGuid');
             var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
@@ -32,10 +34,12 @@
             userManagementFactory.getUsersByFilter(loggedInuserId, searchText, role, status)
                 .then(function successCallback(responce) {
                     debugger;
+                    vm.loadingSymbole = false;
                     vm.rowCollection = responce.data.content;
 
                 }, function errorCallback(response) {
                     //todo
+                    vm.loadingSymbole = false;
                 });
         };
 

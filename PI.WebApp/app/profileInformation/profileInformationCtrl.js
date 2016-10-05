@@ -418,7 +418,7 @@
             });
 
             $('#panel-notif').noty({
-                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update your profile') + '?</p></div>',
                 buttons: [
                         {
                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {

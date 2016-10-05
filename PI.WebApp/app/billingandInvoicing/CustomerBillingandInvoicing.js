@@ -60,6 +60,7 @@
                         vm.datePicker = {};
                         vm.datePicker.date = { startDate: null, endDate: null };
                         vm.status = 'All';
+                        vm.loadingSymbole = true;
 
                         //toggle function
                         vm.loadFilterToggle = function () {
@@ -73,7 +74,7 @@
                         
 
                         vm.loadInvoicesBySearch = function (status) {
-                            
+                            vm.loadingSymbole = true;
                             var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                             var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                             var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -83,6 +84,7 @@
                             customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, searchValue)
                                 .then(function successCallback(responce) {
                                     debugger;
+                                    vm.loadingSymbole = false;
                                     vm.rowCollection = responce.data.content;
                                     vm.exportcollection = [];
 
@@ -107,6 +109,7 @@
                                     });                                    
 
                                 }, function errorCallback(response) {
+                                    vm.loadingSymbole = false;
                                     //todo
                                 });
                         };

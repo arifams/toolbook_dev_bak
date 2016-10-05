@@ -12,6 +12,7 @@
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
                vm.statusSelect = '';
+               vm.loadingSymbole = true;
 
                //toggle function
                vm.loadFilterToggle = function () {
@@ -64,6 +65,7 @@
 
                vm.loadAllInvoices = function (status, from) {
                    debugger;
+                   vm.loadingSymbole = true;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -75,7 +77,7 @@
                         .then(
                                function (responce) {
                                    debugger;
-
+                                   vm.loadingSymbole = false;
                                    vm.CreateCSV(responce);
                                    if (from == 'fromDisputed') {
                                        vm.rowCollectionDisputed = responce.data.content;                                       
@@ -85,6 +87,7 @@
                                    }
                                },
                                function (error) {
+                                   vm.loadingSymbole = false;
                                    console.log("error occurd while retrieving shiments");
                                });
 
