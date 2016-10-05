@@ -737,7 +737,7 @@ namespace PI.Service.Controllers
                      ShipmentId=Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId),
                      CreatedBy= shipmentDetails.GeneralInformation.CreatedUser,
                      UserId= shipmentDetails.GeneralInformation.CreatedBy,
-                     DueDate= DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"),
+                     DueDate= DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
                      InvoiceValue= Convert.ToDecimal(paymentDetails.Amount),
                      InvoiceStatus= InvoiceStatus.Paid.ToString(),
                      InvoiceDate=DateTime.Now.ToString()
