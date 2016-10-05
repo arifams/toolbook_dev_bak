@@ -9,7 +9,7 @@
 
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
-                
+
                 vm.divisionList = response.data.divisions;
                 vm.roleList = response.data.roles;
                 vm.loadingSymbole = false;
@@ -26,6 +26,7 @@
 
         vm.searchUsers = function () {
             debugger;
+            
             // Get values from view.
             var loggedInuserId = $window.localStorage.getItem('userGuid');
             var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
@@ -41,6 +42,7 @@
 
                 }, function errorCallback(response) {
                     //todo
+                    vm.loadingSymbole = false;
                 });
         };
 

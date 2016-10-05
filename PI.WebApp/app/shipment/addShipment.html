@@ -88,7 +88,7 @@
                 </div>
 
 
-                <div class="row">
+                <div class="row"ng-hide="true" >
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="col-sm-2 label-font" ng-hide="shipmentCtrl.hidedivisions" translate>Division *</label>
@@ -202,14 +202,14 @@
                 <div class="row">
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label" translate>Search Address book</label>
+                            <label class="form-label" translate>Search address book</label>
 
                         </div>
 
                         <div class="form-group input-group m-r-0">
 
                             <input ng-model="shipmentCtrl.consignorSearchText" name="consignorSearchText" type="text" class="form-control"
-                                   placeholder="{{'Search on company name, first name or last name'|translate}}" ng-change="shipmentCtrl.consignorSearchChange()" />
+                                   placeholder="{{'Search by company name, first name or last name'|translate}}" ng-change="shipmentCtrl.consignorSearchChange()" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="shipmentCtrl.searchAddressesConsignor()">
                                     <i class="fa fa-search"></i>
@@ -409,12 +409,12 @@
 
                     <div class="col-sm-6">
                         <div class="form-group">
-                            <label class="form-label" translate>Search Address book</label>
+                            <label class="form-label" translate>Search address book</label>
                         </div>
                         <div class="form-group input-group">
 
                             <input ng-model="shipmentCtrl.consigneeSearchText" name="consigneeSearchText" type="text" class="form-control"
-                                   placeholder="{{'Search on company name, first name or last name'|translate}}" ng-change="shipmentCtrl.consigneeSearchChange()" />
+                                   placeholder="{{'Search by company name, first name or last name'|translate}}" ng-change="shipmentCtrl.consigneeSearchChange()" />
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-large btn-primary no-margin" ng-click="shipmentCtrl.searchAddressesConsignee()">
                                     <i class="fa fa-search"></i>
@@ -1093,15 +1093,15 @@
                             <div class="row">
 
                                 <div class="col-sm-2" style="float:right;" ng-show="shipmentCtrl.isInvoicePaymentEnabled && !shipmentCtrl.ratesNotAvailable">
-                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via Invoice</button>
+                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
                                 </div>
 
                                 <div class="col-sm-2" style="float:right;" ng-hide="shipmentCtrl.ratesNotAvailable">
-                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via Online</button>
+                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay online</button>
                                 </div>
                                 <div class="col-sm-4" style="float:right;" ng-show="shipmentCtrl.ratesNotAvailable">
 
-                                    <button class="btn btn-primary" type="button" ng-click="shipmentCtrl.requestForQuote()" ng-disabled="!shipmentCtrl.isClickCalculateRate">Request for Quote</button>
+                                    <button class="btn btn-primary" type="button" ng-click="shipmentCtrl.requestForQuote()" ng-disabled="!shipmentCtrl.isClickCalculateRate">Request for quote</button>
                                 </div>
 
                                 <div class="col-sm-2 p-r-0">

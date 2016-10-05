@@ -633,170 +633,179 @@ namespace PI.Service.Controllers
 
             if(operationResult.Status == Status.Success)
             {
-                // call invoice generate               
-                ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("",operationResult.ShipmentId);
-                string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-
-                PaymentDto paymentDetails = shipmentManagement.GetPaymentbyReference(Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId));
-
-                Random generator = new Random();
-                string code = generator.Next(1000000, 9999999).ToString("D7");
-                string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
-
-                //initializing azure storage
-                AzureFileManager media = new AzureFileManager();
-                var tenantId = shipmentManagement.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedUser);
-
-                var invoicePdf = new Document(PageSize.B5);
-                //getting the server path to create temp pdf file
-                var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
-               // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
-
-                PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
-                HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
-
-                string htmlTemplate = "";
-                TemplateLoader templateLoader = new TemplateLoader();
-
-                StringBuilder packageDetails = new StringBuilder();
-
-                packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
-                packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
-                packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.GeneralInformation.ShipmentReferenceName + "</p><br/>");
-                packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
-                packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
-                packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
-                packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
-                packageDetails.Append("</td>");
-                packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                packageDetails.Append("<td>$" + paymentDetails.Amount + "</td>");
-                packageDetails.Append("<td>$" +  paymentDetails.Amount  + "</td> </tr>");
-                packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
-                packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                packageDetails.Append("<td>" + "" + "</td> </tr>");
-                packageDetails.Append("<td>" + "" + "</td> </tr>");
-
-
-                //get the email template for invoice
-                HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
-                htmlTemplate = template.DocumentNode.InnerHtml;
-
-                //replacing values from shipment
-                var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName)
-                .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
-                .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
-                .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
-                .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
-                .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
-                .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
-                .Replace("{invoicenumber}", invoiceNumber)
-                .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
-                .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
-                .Replace("{terms}", "Net 10")
-                .Replace("{totalvalue}", paymentDetails != null ? paymentDetails.Amount : null + "$")
-                .Replace("{tableBody}", packageDetails.ToString());
-
-
-                TextReader txtReader = new StringReader(replacedString);
-                invoicePdf.Open();
-                htmlWorker.StartDocument();
-                htmlWorker.Parse(txtReader);
-
-                htmlWorker.EndDocument();
-                htmlWorker.Close();
-                //closing the doc
-                invoicePdf.Close();
-
-
-                var invoicename = "";
-                using (Stream savedPdf = File.OpenRead(wanted_path))
+                try
                 {
-                    invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
+                    // call invoice generate               
+                    ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("", operationResult.ShipmentId);
+                    string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-                    media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));                    
-                    // var opResult = media.Upload(savedPdf, invoicename);
-                     await media.Upload(savedPdf, invoicename);
-                }
+                    PaymentDto paymentDetails = shipmentManagement.GetPaymentbyReference(Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId));
 
-              
-                 //get the saved pdf url
-                 var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
-                                         + "/" + invoicename;
+                    Random generator = new Random();
+                    string code = generator.Next(1000000, 9999999).ToString("D7");
+                    string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
 
-                operationResult.InvoiceURL = returnData;
+                    //initializing azure storage
+                    AzureFileManager media = new AzureFileManager();
+                    var tenantId = shipmentManagement.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedUser);
+
+                    var invoicePdf = new Document(PageSize.B5);
+                    //getting the server path to create temp pdf file
+                    var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
+                    string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+                    // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
+
+                    PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+                    HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
+
+                    string htmlTemplate = "";
+                    TemplateLoader templateLoader = new TemplateLoader();
+
+                    StringBuilder packageDetails = new StringBuilder();
+
+                    packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
+                    packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
+                    packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.GeneralInformation.ShipmentReferenceName + "</p><br/>");
+                    packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
+                    packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
+                    packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
+                    packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
+                    packageDetails.Append("</td>");
+                    packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+                    packageDetails.Append("<td>$" + paymentDetails.Amount + "</td>");
+                    packageDetails.Append("<td>$" + paymentDetails.Amount + "</td> </tr>");
+                    packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
+                    packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+                    packageDetails.Append("<td>" + "" + "</td> </tr>");
+                    packageDetails.Append("<td>" + "" + "</td> </tr>");
 
 
+                    //get the email template for invoice
+                    HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
+                    htmlTemplate = template.DocumentNode.InnerHtml;
 
-                
-                //saving Invoice details
-                InvoiceDto invoice = new InvoiceDto() {
-
-                    URL= returnData,
-                     InvoiceNumber= invoiceNumber,
-                     ShipmentId=Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId),
-                     CreatedBy= shipmentDetails.GeneralInformation.CreatedUser,
-                     UserId= shipmentDetails.GeneralInformation.CreatedBy,
-                     DueDate= DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
-                     InvoiceValue= Convert.ToDecimal(paymentDetails.Amount),
-                     InvoiceStatus= InvoiceStatus.Paid.ToString(),
-                     InvoiceDate=DateTime.Now.ToString()
-                };
-
-                var saveResult = invoiceManagement.SaveInvoiceDetails(invoice);
+                    //replacing values from shipment
+                    var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName)
+                    .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
+                    .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
+                    .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
+                    .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
+                    .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
+                    .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
+                    .Replace("{invoicenumber}", invoiceNumber)
+                    .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
+                    .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
+                    .Replace("{terms}", "Net 10")
+                    .Replace("{totalvalue}", paymentDetails != null ? paymentDetails.Amount : null + "$")
+                    .Replace("{tableBody}", packageDetails.ToString());
 
 
-                // Send mail
+                    TextReader txtReader = new StringReader(replacedString);
+                    invoicePdf.Open();
+                    htmlWorker.StartDocument();
+                    htmlWorker.Parse(txtReader);
 
-                #region Send Booking Confirmaion Email to customer.
+                    htmlWorker.EndDocument();
+                    htmlWorker.Close();
+                    //closing the doc
+                    invoicePdf.Close();
 
-                if (operationResult.Status == Status.Success)
-                {
-                    StringBuilder emailbody = new StringBuilder(payment.TemplateLink);
 
-                    emailbody
-                        .Replace("<OrderReference>", operationResult.ShipmentDto.GeneralInformation.ShipmentName)
-                        .Replace("<PickupDate>", operationResult.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(operationResult.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
-                        .Replace("<ShipmentMode>", operationResult.ShipmentDto.GeneralInformation.shipmentModeName)
-                        .Replace("<ShipmentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentServices)
-                        .Replace("<Carrier>", operationResult.ShipmentDto.CarrierInformation.CarrierName)
-                        .Replace("<ShipmentPrice>", operationResult.ShipmentDto.PackageDetails.ValueCurrencyString + " " + operationResult.ShipmentDto.CarrierInformation.Price.ToString())
-                        .Replace("<PaymentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
-
-                    StringBuilder productList = new StringBuilder();
-                    decimal totalVol = 0;
-
-                    foreach (var product in operationResult.ShipmentDto.PackageDetails.ProductIngredients)
+                    var invoicename = "";
+                    using (Stream savedPdf = File.OpenRead(wanted_path))
                     {
-                        productList.Append("<tr>");
+                        invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
 
-                        productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
-                        productList.Append(product.ProductType);
-                        productList.Append("</td>");
-
-                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                        productList.Append(product.Quantity);
-                        productList.Append("</td>");
-
-                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                        productList.Append(product.Weight.ToString("n2"));
-                        productList.Append("</td>");
-
-                        totalVol = product.Length * product.Width * product.Height * product.Quantity;
-                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                        productList.Append(totalVol.ToString("n2"));
-                        productList.Append("</td>");
-
-                        productList.Append("</tr>");
+                        media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
+                        // var opResult = media.Upload(savedPdf, invoicename);
+                        await media.Upload(savedPdf, invoicename);
                     }
 
-                    emailbody
-                        .Replace("<tableRecords>", productList.ToString());
 
-                    AppUserManager.SendEmail(payment.UserId, "Order Confirmation", emailbody.ToString());
+                    //get the saved pdf url
+                    var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
+                                            + "/" + invoicename;
+
+                    operationResult.InvoiceURL = returnData;
+
+
+
+
+                    //saving Invoice details
+                    InvoiceDto invoice = new InvoiceDto()
+                    {
+
+                        URL = returnData,
+                        InvoiceNumber = invoiceNumber,
+                        ShipmentId = Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId),
+                        CreatedBy = shipmentDetails.GeneralInformation.CreatedUser,
+                        UserId = shipmentDetails.GeneralInformation.CreatedBy,
+                        DueDate = DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
+                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount),
+                        InvoiceStatus = InvoiceStatus.Paid.ToString(),
+                        InvoiceDate = DateTime.Now.ToString()
+                    };
+
+                    var saveResult = invoiceManagement.SaveInvoiceDetails(invoice);
+
+
+                    // Send mail
+
+                    #region Send Booking Confirmaion Email to customer.
+
+                    if (operationResult.Status == Status.Success)
+                    {
+                        StringBuilder emailbody = new StringBuilder(payment.TemplateLink);
+
+                        emailbody
+                            .Replace("<OrderReference>", operationResult.ShipmentDto.GeneralInformation.ShipmentName)
+                            .Replace("<PickupDate>", operationResult.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(operationResult.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
+                            .Replace("<ShipmentMode>", operationResult.ShipmentDto.GeneralInformation.shipmentModeName)
+                            .Replace("<ShipmentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentServices)
+                            .Replace("<Carrier>", operationResult.ShipmentDto.CarrierInformation.CarrierName)
+                            .Replace("<ShipmentPrice>", operationResult.ShipmentDto.PackageDetails.ValueCurrencyString + " " + operationResult.ShipmentDto.CarrierInformation.Price.ToString())
+                            .Replace("<PaymentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
+
+                        StringBuilder productList = new StringBuilder();
+                        decimal totalVol = 0;
+
+                        foreach (var product in operationResult.ShipmentDto.PackageDetails.ProductIngredients)
+                        {
+                            productList.Append("<tr>");
+
+                            productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
+                            productList.Append(product.ProductType);
+                            productList.Append("</td>");
+
+                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                            productList.Append(product.Quantity);
+                            productList.Append("</td>");
+
+                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                            productList.Append(product.Weight.ToString("n2"));
+                            productList.Append("</td>");
+
+                            totalVol = product.Length * product.Width * product.Height * product.Quantity;
+                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                            productList.Append(totalVol.ToString("n2"));
+                            productList.Append("</td>");
+
+                            productList.Append("</tr>");
+                        }
+
+                        emailbody
+                            .Replace("<tableRecords>", productList.ToString());
+
+                        AppUserManager.SendEmail(payment.UserId, "Order Confirmation", emailbody.ToString());
+                    }
+
+                    #endregion
                 }
-
-                #endregion
+                catch (Exception ex)
+                {
+                    operationResult.Status = Status.Error;
+                    operationResult.Message = ex.ToString();
+                }
             }
 
             return Ok(operationResult);

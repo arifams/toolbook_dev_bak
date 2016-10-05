@@ -20,7 +20,8 @@
                var vm = this;
                vm.model = {};
                $scope.profile = {};
-             
+               vm.loadingSymbole = true;
+
                $scope.closePopup = function () {
                    $scope.modalInstance.close();
                  
@@ -44,7 +45,7 @@
                       $scope.profile = response;                      
 
                       if (response.customerDetails != null) {
-
+                          vm.loadingSymbole = false;
                           if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
                           (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
                           (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||
@@ -99,7 +100,7 @@
 
                   })
                   .error(function () {
-
+                      vm.loadingSymbole = false;
                       vm.model.isServerError = "true";
                       vm.loading = false;
                   })
@@ -109,17 +110,18 @@
                });
                
 
-               //$scope.$on('$viewContentLoaded', function () {
-               //   /* builderFactory.loadLineChart();
-               //    builderFactory.loadDougnutChart1();
-               //    builderFactory.loadDougnutChart2();
-               //    builderFactory.loadDougnutChart3();
-               //    builderFactory.loadDougnutChart4();
-               //    builderFactory.loadMap();*/
+              // $scope.$on('$viewContentLoaded', function () {
+              //     builderFactory.loadLineChart();
+              //     builderFactory.loadDougnutChart1();
+              //     builderFactory.loadDougnutChart2();
+              //     builderFactory.loadDougnutChart3();
+              //     builderFactory.loadDougnutChart4();
+              //     builderFactory.loadMap();
               
-               //});
+              //});
        
                vm.getShipmentStatusCounts = function () {
+                   
 
                    dashboardfactory.getShipmentStatusCounts()
                    .success(function (response) {
