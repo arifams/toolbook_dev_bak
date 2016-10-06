@@ -83,6 +83,7 @@
 
                             customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, searchValue)
                                 .then(function successCallback(responce) {
+
                                     debugger;
                                     vm.loadingSymbole = false;
                                     vm.rowCollection = responce.data.content;
@@ -90,20 +91,28 @@
 
                                     //adding headers for export csv file
                                     var headers = {};
-                                    headers.orderSubmitted = "Invoice Number";
-                                    headers.trackingNumber = "Invoice Date";
-                                    headers.shipmentId = "Shipment Reference";
-                                    headers.carrier = "Invoice Value";
-                                    headers.originCity = "Invoice Status";                                   
+                                    headers.orderSubmitted = "Invoice Date";
+                                    headers.invoiceNumber = "Invoice Number";
+                                    headers.shipmentId = "Shipment ID";
+                                    headers.value = "Invoice Value";
+                                    headers.sum = "Sum";
+                                    headers.invoiceStatus = "Invoice Status";
+                                    headers.creditedValue = "credited value";
+                                    headers.url = "URL";
+                                   
                                     vm.exportcollection.push(headers);
 
                                     $.each(responce.data.content, function (index, value) {                                      
                                         var invoiceObj = {}
                                         invoiceObj.orderSubmitted = value.invoiceDate;
-                                        invoiceObj.trackingNumber = value.shipmentReference;
-                                        invoiceObj.shipmentId = value.invoiceNumber;
-                                        invoiceObj.carrier = value.invoiceValue;
-                                        invoiceObj.originCity = value.invoiceStatus;                                   
+                                        invoiceObj.invoiceNumber = value.invoiceNumber;
+                                        invoiceObj.shipmentId = value.shipmentReference;
+                                        invoiceObj.value = value.invoiceValue;
+                                        invoiceObj.sum = value.sum;                                        
+                                        invoiceObj.invoiceStatus = value.invoiceStatus;
+                                        invoiceObj.creditedValue = value.creditedValue;
+                                        invoiceObj.url = value.url;
+                                       
 
                                         vm.exportcollection.push(invoiceObj);
                                     });                                    

@@ -38,7 +38,6 @@ using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using EasyPost;
 using PI.Data.Entity.Identity;
-using Postmen_sdk_NET;
 
 namespace PI.Business
 {

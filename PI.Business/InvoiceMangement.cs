@@ -107,6 +107,8 @@ namespace PI.Business
                     InvoiceNumber = item.InvoiceNumber,
                     InvoiceValue = item.InvoiceValue,
                     InvoiceStatus = item.InvoiceStatus.ToString(),
+                    Sum = item.Sum.ToString(),
+                    CreditedValue = item.CreditAmount.ToString(),
                     URL = item.URL
                 });
             }
@@ -167,6 +169,8 @@ namespace PI.Business
                     InvoiceNumber = item.InvoiceNumber,
                     InvoiceValue = item.InvoiceValue,
                     InvoiceStatus = item.InvoiceStatus.ToString(),
+                    CreditedValue=item.CreditAmount.ToString(),
+                    Sum=item.Sum.ToString(),
                     URL = item.URL
                 });
             }
@@ -416,7 +420,10 @@ namespace PI.Business
                         CompanyName = item.Company.Name,
                         InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
                         CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
-                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL
+                                        item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL,
+                        Sum=item.Invoice.Sum.ToString(),
+                        CreditedValue=item.Invoice.CreditAmount.ToString()
+                        
                     });
                 }
             }
@@ -546,13 +553,18 @@ namespace PI.Business
                 // Set headings.
                 ws.Cells["A6"].Value = "INVOICE NUMBER";
                 ws.Cells["B6"].Value = "INVOICE DATE";
-                ws.Cells["C6"].Value = "SHIPMENT REFERENCE";
+                ws.Cells["C6"].Value = "SHIPMENT ID";
                 ws.Cells["D6"].Value = "INVOICE VALUE";
                 ws.Cells["E6"].Value = "INVOICE STATUS";
-                ws.Cells["F6"].Value = isAdmin ? "BUSINESS OWNER" : null;
-                ws.Cells["G6"].Value = isAdmin ? "CORPORATE NAME" : null;
 
-                string endingCell = isAdmin ? "G6" : "E6";
+                ws.Cells["F6"].Value = "SUM";
+                ws.Cells["G6"].Value = "CREDITED AMOUNT";
+                ws.Cells["H6"].Value = "URL";
+
+                ws.Cells["I6"].Value = isAdmin ? "BUSINESS OWNER" : null;
+                ws.Cells["J6"].Value = isAdmin ? "CORPORATE NAME" : null;
+
+                string endingCell = isAdmin ? "J6" : "H6";
 
                 //Format the header for columns.
                 using (ExcelRange rng = ws.Cells["A6:" + endingCell])
@@ -589,10 +601,21 @@ namespace PI.Business
                         cell = ws.Cells[rowIndex, 5];
                         cell.Value = invoice.InvoiceStatus;
 
+
                         cell = ws.Cells[rowIndex, 6];
-                        cell.Value = invoice.BusinessOwner;
+                        cell.Value = invoice.Sum;
 
                         cell = ws.Cells[rowIndex, 7];
+                        cell.Value = invoice.CreditedValue;
+
+                        cell = ws.Cells[rowIndex, 8];
+                        cell.Value = invoice.URL;
+                        
+
+                        cell = ws.Cells[rowIndex, 9];
+                        cell.Value = invoice.BusinessOwner;
+
+                        cell = ws.Cells[rowIndex, 10];
                         cell.Value = invoice.CompanyName;
 
                         ws.Row(rowIndex).Height = 25;

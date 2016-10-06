@@ -672,8 +672,8 @@ namespace PI.Service.Controllers
                     packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
                     packageDetails.Append("</td>");
                     packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                    packageDetails.Append("<td>$" + paymentDetails.Amount + "</td>");
-                    packageDetails.Append("<td>$" + paymentDetails.Amount + "</td> </tr>");
+                    packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount)/100 + "</td>");
+                    packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount) / 100 + "</td> </tr>");
                     packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
                     packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
                     packageDetails.Append("<td>" + "" + "</td> </tr>");
@@ -696,7 +696,7 @@ namespace PI.Service.Controllers
                     .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
                     .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
                     .Replace("{terms}", "Net 10")
-                    .Replace("{totalvalue}", paymentDetails != null ? paymentDetails.Amount : null + "$")
+                    .Replace("{totalvalue}", paymentDetails != null ? (Convert.ToDecimal(paymentDetails.Amount)/100).ToString() : null + "$")
                     .Replace("{tableBody}", packageDetails.ToString());
 
 
