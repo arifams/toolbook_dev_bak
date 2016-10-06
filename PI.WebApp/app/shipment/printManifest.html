@@ -1,15 +1,14 @@
 ﻿
 <div>
     <div class="row m-l-0 m-r-0 m-b-10">
-        <h2 class="m-t-0 custom-page-header" translate>Select Manifest</h2>
+        <h2 class="m-t-0 custom-page-header" translate>Select manifest</h2>
     </div>
 
     <div class="panel">
             <div class="panel-content panel-border">
-                <div class="row">
-                    <div class="col-sm-12">
+                
                         <form name="printmanifestform" class="form-horizontal" ng-show="manifestCtrl.showEdit">
-                            <div class="row">
+                            <div class="row m-0">
                                 <tabset class="tab-fade-in">
                                     <tab select="manifestCtrl.clickGeneral()">
                                         <tab-heading translate>
@@ -23,10 +22,10 @@
                                 </div>-->
                                         <div id="general" ng-show="!manifestCtrl.specific">
                                             <div class="row">
-                                                    <label class="col-sm-3 control-label" translate>
+                                                    <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate>
                                                         Date *
                                                     </label>
-                                                    <div class="col-sm-3 prepend-icon">
+                                                    <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon">
                                                         <input datetime-picker name="datetimepicker" class="form-control" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
                                                                         (printmanifestform.datetimepicker.$dirty|| manifestCtrl.isSubmit) }" /><i class="icon-calendar"></i>
                                                         <div ng-messages="printmanifestform.datetimepicker.$error"
@@ -37,8 +36,8 @@
 
                                             </div>
                                             <div class="row">                                      
-                                                    <label class="col-sm-3 control-label" translate> List package details *</label>
-                                                    <div class="col-sm-5">
+                                                    <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate> List package details *</label>
+                                                    <div class="col-sm-5 col-md-5 col-xs-12">
                                                         <div class="input-group">
                                                             <div class="icheck-inline">
                                                                 <label>
@@ -54,8 +53,8 @@
                                                     </div>
                                             </div>
                                             <div class="row">
-                                                    <label class="col-sm-3 control-label" translate> Carrier *</label>
-                                                    <div class="col-sm-5">
+                                                    <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate> Carrier *</label>
+                                                    <div class="col-sm-3 col-md-3 col-xs-12">
                                                         <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
                                                                 ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
                                                             <option value="" translate>Select carrier</option>
@@ -107,7 +106,7 @@
                             <br />
                             <div class="form-group">
                                 <div>
-                                    <div class="col-sm-8 pull-right">
+                                    <div class="col-sm-8 col-md-8 col-xs-12 pull-right">
                                         <button type="submit" class="btn btn-primary btn-app pull-right"
                                                  ng-click="(printmanifestform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSubmit=true)" translate>
                                         Generate</button>
@@ -245,9 +244,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                </div>
+                    
 
                 <div class="row">
                     <div class="col-sm-4" ng-show="manifestCtrl.showError">

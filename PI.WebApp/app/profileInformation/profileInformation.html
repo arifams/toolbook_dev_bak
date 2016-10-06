@@ -225,10 +225,10 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="streetaddress1" class="form-control" required ng-maxlength="100" ng-minlength="3" placeholder="{{'Street Address1' | translate}}"
+                                        <input type="text" name="streetaddress1" class="form-control" required ng-maxlength="100" ng-minlength="3" placeholder="{{'Street Address 1' | translate}}"
                                                ng-model="profileCtrl.model.customerDetails.customerAddress.streetAddress1" ng-class="{ 'error' : formUpdateProfileAddress.streetaddress1.$invalid && (formUpdateProfileAddress.streetaddress1.$dirty||profileCtrl.isSubmit2)}" ng-focus="streetaddress1Focus = true" ng-blur="streetaddress1Focus = false">
                                         <div ng-messages="formUpdateProfileAddress.streetaddress1.$error" ng-show="(formUpdateProfileAddress.streetaddress1.$dirty && !streetaddress1Focus) ||profileCtrl.isSubmit2">
-                                            <label ng-message="required" class="error" for="streetaddress1" translate>Enter Street Address1</label>
+                                            <label ng-message="required" class="error" for="streetaddress1" translate>Enter Street Address 1</label>
                                             <label ng-message="maxlength" class="error" for="streetaddress1" translate>Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                         </div>
@@ -257,7 +257,7 @@
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="streetaddress2" class="form-control " placeholder="{{'Street Address2' | translate}}"
+                                        <input type="text" name="streetaddress2" class="form-control " placeholder="{{'Street Address 2' | translate}}"
                                                ng-model="profileCtrl.model.customerDetails.customerAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error' : formUpdateProfileAddress.streetaddress2.$invalid &&(formUpdateProfileAddress.streetaddress2.$dirty || profileCtrl.isSubmit2)}" ng-focus="streetaddress2Focus = true" ng-blur="streetaddress2Focus = false">
                                         <div ng-messages="formUpdateProfileAddress.streetaddress2.$error" ng-show="(formUpdateProfileAddress.streetaddress2.$dirty && !streetaddress2Focus) ||profileCtrl.isSubmit2">
                                             <label ng-message="maxlength" class="error" for="streetaddress2" translate>Enter less than 100 characters</label>
@@ -502,7 +502,7 @@
                                         <input type="text" name="billing_streetaddress1" class="form-control" ng-required="true"
                                                ng-model="profileCtrl.model.companyDetails.costCenter.billingAddress.streetAddress1" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.billing_streetaddress1.$invalid && (formUpdateProfileBillingAddress.billing_streetaddress1.$dirty||profileCtrl.isSubmit3) }" ng-disabled="profileCtrl.model.customerDetails.isCorpAddressUseAsBusinessAddress" ng-focus="billing_streetaddress1Focus = true" ng-blur="billing_streetaddress1Focus = false">
                                         <div ng-messages="formUpdateProfileBillingAddress.billing_streetaddress1.$error" ng-show="(formUpdateProfileBillingAddress.billing_streetaddress1.$dirty && !billing_streetaddress1Focus) ||profileCtrl.isSubmit3">
-                                            <label ng-message="required" class="error" for="billing_streetaddress1" translate>Enter Street Address1</label>
+                                            <label ng-message="required" class="error" for="billing_streetaddress1" translate>Enter Street Address 1</label>
                                             <label ng-message="maxlength" class="error" for="billing_streetaddress1" translate>Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="billing_streetaddress1" translate>Enter at least 3 characters or more</label>
                                         </div>
@@ -828,7 +828,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <p>
-                                    <strong translate>Notify me on status changes:</strong>
+                                    <strong translate>Notify me of status changes:</strong>
                                 </p>
                                 <div class="input-group">
                                     <div class="icheck-list">
@@ -863,7 +863,7 @@
                                         <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notenewsolution" icheck
                                                    ng-model="profileCtrl.model.notifyNewSolution">
-                                            <translate>would like to receive notified on new solutions</translate>
+                                            <translate>I would like to be receive notified of new solutions</translate>
                                         </label>
                                         <label>
                                             <input type="checkbox" data-checkbox="icheckbox_square-blue" name="notediscount" icheck

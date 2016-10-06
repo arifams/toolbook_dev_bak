@@ -133,6 +133,7 @@
 
                            vm.loadShipmentsBySearch = function (status, pageStart, pageNumber, tableState) {
                                debugger;
+                               vm.loadingSymbole = true;
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
