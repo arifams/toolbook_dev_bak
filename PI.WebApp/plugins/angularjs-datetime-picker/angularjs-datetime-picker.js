@@ -317,8 +317,10 @@
           var date = new Date(value);
           ctrl.$setValidity('date', !date? false : true);
           var now = new Date();
-          if( attrs.hasOwnProperty('futureOnly') ){
-            ctrl.$setValidity('future-only', date < now? false : true);
+          now.setHours(0, 0, 0, 0);
+          if (attrs.hasOwnProperty('futureOnly')) {
+              debugger;
+              ctrl.$setValidity('future-only', (date < now || date == now) ? false : true);
           }
         });
 
