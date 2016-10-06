@@ -990,6 +990,7 @@ namespace PI.Business
             //using (PIContext context = PIContext.Get())
             //{
                 var currencies = from c in context.Currencies
+                                 where c.IsActive
                                  select new CurrencyDto()
                                  {
                                      Id = c.Id,
