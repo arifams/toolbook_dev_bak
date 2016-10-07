@@ -812,10 +812,15 @@
                                 <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
                                 class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->
 
-                                <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="date-picker form-control hasDatepicker" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal" date-format="dd-MMM-yyyy" ng-required="true" date-only />
+                                <input datetime-picker name="datetimepicker" id="preferredCollectionDate" class="date-picker form-control hasDatepicker" ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal" date-format="dd-MMM-yyyy" ng-required="true" date-only future-only/>
                                 <i class="icon-calendar"></i>
+                            </div>                           
+                            <div class="col-sm-6">
+                                <div ng-show="formPackage.datetimepicker.$error['future-only']==true">
+                                    <label class="error" for="shipmentName" translate>Prefered date should be a future date</label>
+                                </div>
+
                             </div>
-                            <div class="col-sm-6"></div>
                         </div>
                     </div>
                 </div>
