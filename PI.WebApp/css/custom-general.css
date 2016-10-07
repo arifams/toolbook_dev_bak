@@ -1647,3 +1647,23 @@ a.list-group-item:focus, a.list-group-item:hover {
 .table > thead > tr > th {
     border-bottom:2px solid #319db5;
 }
+.sidebar .sidebar-inner .nav-sidebar .children > li > a {
+    letter-spacing:0.4px;
+}
+.topbar .header-right .header-menu #user-header a span::after {
+    border-bottom: 6px solid #2b2e33;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 17px;
+    top: -6px; 
+}
+.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover:not(.nav-active) > a span:not(.badge) {
+    background:#319db5 none repeat scroll 0 0;
+}
+.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover > a {
+    background: #319db5 none repeat scroll 0 0 padding-box;
+    color:#fff;
+}
