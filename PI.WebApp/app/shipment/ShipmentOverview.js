@@ -35,38 +35,31 @@
                    
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
-
-                       debugger;
-
                        vm.locationHistory = data;
-                       
-                       if (vm.locationHistory!=null) {
-                           vm.step = vm.locationHistory.status;
-                       } 
 
-                       //if (vm.locationHistory.info!=null) {
-                       //    vm.step = vm.locationHistory.info.status;
-                       //}                       
-                       //if (vm.locationHistory.history!=null && vm.locationHistory.history.items.length > 0) {
-                       //    for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
-                       //        lat = vm.locationHistory.history.items[i].location.geo.lat;
-                       //        lng = vm.locationHistory.history.items[i].location.geo.lng;
+                       if (vm.locationHistory.info != null) {
+                           vm.step = vm.locationHistory.info.status;
+                       }
+                       if (vm.locationHistory.history != null && vm.locationHistory.history.items.length > 0) {
+                           for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
+                               lat = vm.locationHistory.history.items[i].location.geo.lat;
+                               lng = vm.locationHistory.history.items[i].location.geo.lng;
 
-                       //    }
-                       //}
-                       //else {
-                       //    if (vm.locationHistory.info.system.consignor.geo != null) {
-                       //        lat = vm.locationHistory.info.system.consignor.geo.lat;
-                       //        lng = vm.locationHistory.info.system.consignor.geo.lng;
-                       //    }
+                           }
+                       }
+                       else {
+                           if (vm.locationHistory.info.system.consignor.geo != null) {
+                               lat = vm.locationHistory.info.system.consignor.geo.lat;
+                               lng = vm.locationHistory.info.system.consignor.geo.lng;
+                           }
 
-                       //}
+                       }
 
                        if ($("#simple-map").length) {
                            simple_map = new GMaps({
                                el: '#simple-map',
-                               lat: 0,
-                               lng: 0,
+                               lat: lat,
+                               lng: lng,
                                zoomControl: true,
                                zoomControlOpt: {
                                    style: 'SMALL',
@@ -78,20 +71,16 @@
                                overviewMapControl: false
                            });
                            simple_map.addMarker({
-                               lat: 0,
-                               lng: 0,
+                               lat: lat,
+                               lng: lng,
                                title: 'Marker with InfoWindow',
                                infoWindow: {
                                    content: '<p>Here we are!</p>'
                                }
                            });
                        }
-
-                       
                    })
                    .error(function () {
-
-                     
                    })
                }
 

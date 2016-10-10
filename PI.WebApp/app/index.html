@@ -142,14 +142,21 @@
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/adminManageUser')}" ng-show="currentRole == 'Admin'">
                         <a href="#adminManageUser"><i class="icon-user"></i><span translate>MANAGE USERS</span></a>
                     </li>
-
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}" ng-show="currentRole == 'Admin'">
-                        <a href="#InvoiceandBillingAdmin"><i class="icon-note"></i><span translate>FINANACE</span></a>
+                 
+                    <li class="nav-parent" ng-show="currentRole == 'Admin'">
+                        <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>FINANCE</a></li>
+                            
+                        </ul>
                     </li>
 
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/InvoiceandBilling')}" ng-show="currentRole != 'Admin'">
-                        <a href="#InvoiceandBilling"><i class="icon-note"></i><span>FINANACE</span> <!--<span class="fa arrow"></span>--></a>
+                    <li class="nav-parent" ng-show="currentRole != 'Admin'">
+                        <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/InvoiceandBilling')}"><a href="#InvoiceandBilling" translate>FINANCE</a></li>
 
+                        </ul>
                     </li>
 
                     <li class="nav-parent" ng-hide="currentRole == 'Admin'">
@@ -195,7 +202,7 @@
 
                 <div class="header-right">
                     <ul class="header-menu nav navbar-nav">
-                        <li class="dropdown" id="language-header">
+                        <!--<li class="dropdown" id="language-header">
                             <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
                                 <i class="icon-globe"></i>
                                 <span data-translate="Language">EN</span>
@@ -211,7 +218,7 @@
                                     <a data-target="#" data-lang="de" ng-click="getCurrentLnguage('de')"><img src="../global/images/languages/flag-de.png" alt="flag-english"> <span>German</span></a>
                                 </li>
                             </ul>
-                        </li>
+                        </li>-->
 
                         <li class="dropdown" id="user-header">
                             <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
@@ -838,6 +845,7 @@
 
     <!-- BEGIN ANGULARJS SCRIPTS -->
     <script src="../js/sec_1.js"></script>
+
     <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -1086,6 +1094,7 @@
     <script src="admin/finance.js"></script>
     <script src="customerFinance/customerFinance.js"></script>
     <script src="admin/manageUsers.js"></script>
+    <script src="../plugins/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 
