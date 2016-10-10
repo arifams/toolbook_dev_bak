@@ -150,6 +150,7 @@
     <Compile Include="InvoiceMangement.cs" />
     <Compile Include="MockSISIntegrationManager.cs" />
     <Compile Include="PaymentManager.cs" />
+    <Compile Include="PostmenIntegrationManager.cs" />
     <Compile Include="SISIntegrationManager.cs" />
     <Compile Include="CompanyManagement.cs" />
     <Compile Include="CustomerManagement.cs" />

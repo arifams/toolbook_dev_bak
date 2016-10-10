@@ -36,7 +36,6 @@ using iTextSharp.text.html.simpleparser;
 using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
-using EasyPost;
 using PI.Data.Entity.Identity;
 
 namespace PI.Business
@@ -48,7 +47,8 @@ namespace PI.Business
         ICompanyManagement companyManagment;
         private ILogger logger;
         IPaymentManager paymentManager;
-        EasyPostIntegrationManager easyPostmanager;
+        PostmenIntegrationManager postMenmanager;
+
 
         public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, IPaymentManager paymentManager, PIContext _context = null)
         {
@@ -60,7 +60,7 @@ namespace PI.Business
             //{
             //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             //}
-            this.easyPostmanager = new EasyPostIntegrationManager();
+            this.postMenmanager = new PostmenIntegrationManager();
             this.sisManager = sisManager;
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
@@ -1170,14 +1170,14 @@ namespace PI.Business
             };
 
             // Add Shipment to SIS.
-            if (shipment.Carrier.Name == "USPS")
-            {
-                response = easyPostmanager.SendShipmentDetails(shipmentDto);
-            }
-            else
-            {
+            //if (shipment.Carrier.Name == "USPS")
+            //{
+             //   response = postMenmanager.SendShipmentDetails(shipmentDto);     
+           // }
+            //else
+            //{
                 response = sisManager.SendShipmentDetails(shipmentDto);
-            }
+            //}
 
 
             shipment.ShipmentCode = response.CodeShipment;
@@ -1469,30 +1469,6 @@ namespace PI.Business
         }
 
 
-        //get the location history list from easy post integration
-        public TrackerDto GetLocationHistoryInfoForShipmentFromEasyPost(string carrier, string trackingNumber)
-        {
-
-            TrackerDto tracker = new TrackerDto();
-            ShipmentDto currentShipmet = this.GetShipmentDetailsByTrackingNo(trackingNumber);
-            info info = new info();
-
-            //get the tracking details from db for deliverd shipments
-            if (currentShipmet.GeneralInformation.Status == ((short)ShipmentStatusEP.delivered).ToString())
-            {
-                tracker = this.getUpdatedShipmentHistoryFromDB(currentShipmet.GeneralInformation.ShipmentId);
-            }
-            else
-            {
-                //get the tracking details from db for shipments which is not delivered
-                UpdateShipmentLocationLatestDetails(carrier, trackingNumber);
-                tracker = this.getUpdatedShipmentHistoryFromDB(currentShipmet.GeneralInformation.ShipmentId);
-            }
-
-            return tracker;
-
-        }
-
         private info UpdateLocationHistory(string carrier, string trackingNumber, string codeShipment, string environment, long currentShipmetId)
         {
             // SISIntegrationManager sisManager = new SISIntegrationManager();
@@ -1531,82 +1507,32 @@ namespace PI.Business
         }
 
 
-
-        private void UpdateShipmentLocationLatestDetails(string carrier, string trackingNumber)
-        {
-            var currentShipmentTrackDetails = easyPostmanager.GetTrackingDetailsForShipment(carrier, trackingNumber);
-
-            if (currentShipmentTrackDetails != null)
-            {
-                short status = (short)Utility.GetValueFromDescription<ShipmentStatusEP>(currentShipmentTrackDetails.status);
-                this.UpdateShipmentStatus(trackingNumber, status);
-            }
-            Data.Entity.Shipment currentShipment = GetShipmentByTrackingNo(trackingNumber);
-
-            List<ShipmentLocationHistory> historyList = this.GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
-
-            foreach (var item in historyList)
-            {
-                this.DeleteLocationActivityByLocationHistoryId(item.Id);
-            }
-            this.DeleteShipmentLocationHistoryByShipmentId(currentShipment.Id);
-
-
-            if (currentShipmentTrackDetails != null)
-            {
-                this.UpdateStatusHistoriesWithLatestTrackingDetails(currentShipmentTrackDetails, currentShipment.Id);
-            }
-
-        }
-
         //get track and trace information
-        public TrackerDto GetTrackAndTraceInfo(string carrier, string trackingNumber)
+        //get track and trace information
+        public StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber)
         {
-            //string environment = "";
+            string environment = "";
             //using (PIContext context = PIContext.Get())
             //{
             var shipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).FirstOrDefault();
 
-            //if (shipment != null)
-            //    environment = GetEnvironmentByTarrif(shipment.TariffText);
-            //else
-            //    environment = "taleus";
+            if (shipment != null)
+                environment = GetEnvironmentByTarrif(shipment.TariffText);
+            else
+                environment = "taleus";
             //  }
 
-            Tracker trackingInfo = new Tracker();
+            StatusHistoryResponce trackingInfo = new StatusHistoryResponce();
             Data.Entity.Shipment currentShipment = this.GetShipmentByTrackingNo(trackingNumber);
             // SISIntegrationManager sisManager = new SISIntegrationManager();
             if (currentShipment != null)
             {
-                trackingInfo = easyPostmanager.GetTrackingDetailsForShipment(carrier, trackingNumber);
-
+                trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, trackingNumber, currentShipment.ShipmentCode, environment);
             }
-            TrackerDto tracker = new TrackerDto();
-
-            tracker.Status = trackingInfo.status;
-
-            foreach (var item in trackingInfo.tracking_details)
-            {
-                tracker.TrackingDetails.Add(new TrackingDetails()
-                {
-
-                    City = item.tracking_location.city,
-                    Country = item.tracking_location.country,
-                    Message = item.message,
-                    State = item.tracking_location.state,
-                    Zip = item.tracking_location.zip,
-                    Status = item.status,
-                    DateTime = item.datetime.ToString()
-
-                });
-
-
-            }
-
-
             //  trackingInfo = sisManager.GetUpdatedShipmentStatusehistory(carrier, "8925859014", "38649998", environment);
-            return tracker;
+            return trackingInfo;
         }
+
 
 
         //get shipment details by tracking number
@@ -1770,29 +1696,7 @@ namespace PI.Business
             //  }
 
         }
-
-        //update status hisory with latest statuses and locations
-        public void UpdateStatusHistoriesWithLatestTrackingDetails(Tracker statusHistory, long ShipmntId)
-        {
-            foreach (var item in statusHistory.tracking_details)
-            {
-                ShipmentLocationHistory locationHistory = new ShipmentLocationHistory();
-
-                locationHistory.ShipmentId = ShipmntId;
-                locationHistory.Message = item.message;
-                locationHistory.CreatedDate = item.datetime ?? DateTime.Now;
-                locationHistory.City = item.tracking_location.city;
-                locationHistory.Country = item.tracking_location.country;
-                locationHistory.State = item.tracking_location.state;
-                locationHistory.Zip = item.tracking_location.zip;
-                locationHistory.Status = item.status;
-                locationHistory.DateTime = item.datetime ?? DateTime.Now;
-                context.ShipmentLocationHistories.Add(locationHistory);
-                context.SaveChanges();
-            }
-
-        }
-
+        
 
         //get updated tracking history history from DB
         public TrackerDto getUpdatedShipmentHistoryFromDB(string shipmentId)
