@@ -1157,7 +1157,7 @@ font-size:28px;
 }
 
 .input__field--hoshi {
-   margin-top:3em; 
+   margin-top:2em; 
    color: #5b5b5b;
    font-size:16px;
    padding:0.95em 0.15em;
@@ -1666,4 +1666,22 @@ a.list-group-item:focus, a.list-group-item:hover {
 .sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover > a {
     background: #319db5 none repeat scroll 0 0 padding-box;
     color:#fff;
+}
+.manageuser-table-fullwidth {
+    width:100%;
+}
+.manageuser-table-halfwidth {
+    width:70%;
+}
+.manageuser-rightpane{
+    width:30%;
+    border-left:1px solid #ddd;
+   
+}
+.input.error {
+    background-color:none;
+    border:none;
+}
+.error-label-marginleft {
+    margin-left:18px;
 }

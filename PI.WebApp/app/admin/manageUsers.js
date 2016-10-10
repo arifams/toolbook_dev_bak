@@ -6,6 +6,8 @@
         var vm = this;
         vm.status = 'All';
         vm.loadingSymbole = true;
+        vm.editUserBtnClick = false; // used for edit btn click function
+        vm.rightPaneLoad = false; // used for change table width
 
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
@@ -93,7 +95,14 @@
 
             vm.searchUsers();
 
+        };
+
+        vm.manageUsers = function () {
+            debugger;
+            vm.rightPaneLoad = true;
+            vm.editUserBtnClick = true;
         }
+       
 
     });
 
