@@ -1172,11 +1172,11 @@ namespace PI.Business
             // Add Shipment to SIS.
             //if (shipment.Carrier.Name == "USPS")
             //{
-             //   response = postMenmanager.SendShipmentDetails(shipmentDto);     
+           //   response = postMenmanager.SendShipmentDetails(shipmentDto);     
            // }
             //else
             //{
-                response = sisManager.SendShipmentDetails(shipmentDto);
+               response = sisManager.SendShipmentDetails(shipmentDto);
             //}
 
 

@@ -49,7 +49,7 @@ namespace PI.Business
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
-            httpWebRequest.Headers["postmen-api-key"] = "8fc7966b-679b-4a57-911d-c5a663229c9e";
+            httpWebRequest.Headers["postmen-api-key"] = "8d418aba-abc6-41b3-99db-159cfefe6137";
 
             using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
@@ -73,8 +73,20 @@ namespace PI.Business
             string Json = "";
             ShipmentRequestDto request = new ShipmentRequestDto();
 
+            
             request.async = false;
-
+            request.is_document = false;
+            //request.service_type = addShipment.CarrierInformation.serviceLevel;
+            request.service_type = "fedex_international_priority";
+            request.paper_size = "4x6";
+            request.shipper_account = new List<PMShipperAccount>()
+            {
+                 new PMShipperAccount()
+                 {
+                       id = "23f73d65-11e9-4c7a-9b2d-9fe8117fe6bb"
+                 }
+            };
+           
             request.billing = new PMbilling() {
                 paid_by = "shipper"
             };           
@@ -84,7 +96,7 @@ namespace PI.Business
                 paid_by = "recipient",
             },
             terms_of_trade = addShipment.GeneralInformation.ShipmentServices,
-            purpose = ""           
+            purpose = "merchandise"
             };
 
             request.shipment = new PMShipment()
@@ -132,6 +144,7 @@ namespace PI.Business
                 {
                     box_type= "custom",
                     description= products.Description,
+                    
                     dimension= new PMDimension()
                     {
                        depth=products.Length,
@@ -153,12 +166,14 @@ namespace PI.Business
                                currency=addShipment.CarrierInformation.currency
 
                            },
-                           sku="",
+                           sku="parcel2016",
                            weight= new PMWeight()
                            {
                                unit=addShipment.PackageDetails.CmLBS==true?"kg":"lbs",
                                value=products.Weight
-                           }
+                           },
+                          
+
 
                         }
                     },

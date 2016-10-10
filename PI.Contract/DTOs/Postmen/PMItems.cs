@@ -15,5 +15,6 @@ namespace PI.Contract.DTOs.Postmen
         public PMWeight weight { get; set; }
         public string sku { get; set; }
         public string hs_code { get; set; }
+     
     }
 }
