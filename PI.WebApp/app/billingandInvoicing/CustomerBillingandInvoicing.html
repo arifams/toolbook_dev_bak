@@ -222,9 +222,9 @@
                                         <td>{{row.invoiceDate}}</td>
                                         <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
-                                        <td>{{row.invoiceValue}}</td>
-                                        <td>{{row.creditedValue}}</td>
-                                        <td>{{row.sum}}</td>
+                                        <td>{{row.invoiceValue | currency:"USD$ "}}</td>
+                                        <td>{{row.creditedValue | currency:"USD$ "}}</td>
+                                        <td>{{row.sum | currency:"USD$ "}}</td>
                                         <td>
                                             <span ng-class="{'label label-warning warning-status' : row.invoiceStatus === 'Pending',
                                                    'label label-success success-status' : row.invoiceStatus === 'Paid',
