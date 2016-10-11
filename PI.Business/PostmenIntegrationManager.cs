@@ -6,15 +6,27 @@ using System.Text;
 using System.Threading.Tasks;
 using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
+using PI.Contract;
 using System.Net;
 using System.IO;
 using PI.Contract.DTOs.Postmen;
 using System.Web.Script.Serialization;
+using PI.Data;
+using Microsoft.Owin.Logging;
 
 namespace PI.Business
 {
     public class PostmenIntegrationManager : ICarrierIntegrationManager
     {
+
+        private PIContext context;
+        private Contract.ILogger logger;
+        public PostmenIntegrationManager(Contract.ILogger logger, PIContext _context = null)
+        {
+            context = _context ?? PIContext.Get();
+            this.logger = logger;
+        }
+
         public void DeleteShipment(string shipmentCode)
         {
             throw new NotImplementedException();
@@ -49,7 +61,7 @@ namespace PI.Business
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
-            httpWebRequest.Headers["postmen-api-key"] = "8fc7966b-679b-4a57-911d-c5a663229c9e";
+            httpWebRequest.Headers["postmen-api-key"] = "8d418aba-abc6-41b3-99db-159cfefe6137";
 
             using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
@@ -62,8 +74,23 @@ namespace PI.Business
             using (StreamReader streamReader = new StreamReader(httpResponse.GetResponseStream()))
             {
                 string result = streamReader.ReadToEnd();
-                Console.WriteLine(result);
+                JavaScriptSerializer serializer = new JavaScriptSerializer();
+                try
+                {
+                    ShipmentResponceDto shipmentResult = serializer.Deserialize<ShipmentResponceDto>(result);
+                    response.Awb = shipmentResult.data.tracking_numbers[0];
+                    response.DatePickup = shipmentResult.data.ship_date;
+                    response.CodeShipment = shipmentResult.data.id;
+                    response.PDF = shipmentResult.data.files.label.url;
+
+                }
+                catch (Exception e)
+                {
+                  
+                }             
+              
             }
+
 
             return response;
         }
@@ -73,8 +100,19 @@ namespace PI.Business
             string Json = "";
             ShipmentRequestDto request = new ShipmentRequestDto();
 
+            var toCountry = context.Countries.SingleOrDefault(c => c.Code == addShipment.AddressInformation.Consignee.Country).ThreeLetterCode;
+            var fromCountry = context.Countries.SingleOrDefault(c => c.Code == addShipment.AddressInformation.Consigner.Country).ThreeLetterCode;
+            
             request.async = false;
-
+            request.is_document = false;
+            //request.service_type = addShipment.CarrierInformation.serviceLevel;
+            request.service_type = "fedex_ground";
+            request.paper_size = "4x6";
+            request.shipper_account = new PMShipperAccount()
+            {               
+                 id = "23f73d65-11e9-4c7a-9b2d-9fe8117fe6bb"                 
+            };
+           
             request.billing = new PMbilling() {
                 paid_by = "shipper"
             };           
@@ -83,8 +121,9 @@ namespace PI.Business
                 billing = new PMbilling() {
                 paid_by = "recipient",
             },
-            terms_of_trade = addShipment.GeneralInformation.ShipmentServices,
-            purpose = ""           
+                // terms_of_trade = addShipment.GeneralInformation.ShipmentServices,
+                terms_of_trade = "ddu",
+                purpose = "merchandise"
             };
 
             request.shipment = new PMShipment()
@@ -97,7 +136,7 @@ namespace PI.Business
                     street2 = addShipment.AddressInformation.Consigner.Address2,
                     postal_code = addShipment.AddressInformation.Consigner.Postalcode,
                     state = addShipment.AddressInformation.Consigner.State,
-                    country = addShipment.AddressInformation.Consigner.Country,
+                    country = fromCountry,
                     phone = addShipment.AddressInformation.Consigner.ContactNumber,
                     email = addShipment.AddressInformation.Consigner.Email,
                     city = addShipment.AddressInformation.Consigner.City,
@@ -113,7 +152,7 @@ namespace PI.Business
                 street2 = addShipment.AddressInformation.Consignee.Address2,
                 postal_code = addShipment.AddressInformation.Consignee.Postalcode,
                 state = addShipment.AddressInformation.Consignee.State,
-                country = addShipment.AddressInformation.Consignee.Country,
+                country = toCountry,
                 phone = addShipment.AddressInformation.Consignee.ContactNumber,
                 email = addShipment.AddressInformation.Consignee.Email,
                 city = addShipment.AddressInformation.Consignee.City,
@@ -132,6 +171,7 @@ namespace PI.Business
                 {
                     box_type= "custom",
                     description= products.Description,
+                    
                     dimension= new PMDimension()
                     {
                        depth=products.Length,
@@ -145,20 +185,22 @@ namespace PI.Business
                         new PMItems() {
                            description= products.Description,
                            hs_code=addShipment.PackageDetails.HsCode,
-                           origin_country=addShipment.AddressInformation.Consigner.Country,
+                           origin_country=fromCountry,
                            quantity=products.Quantity,
                            price= new PMPrice
                            {
                                amount=0,
-                               currency=addShipment.CarrierInformation.currency
+                               currency="USD"
 
                            },
-                           sku="",
+                           sku="parcel2016",
                            weight= new PMWeight()
                            {
                                unit=addShipment.PackageDetails.CmLBS==true?"kg":"lbs",
                                value=products.Weight
-                           }
+                           },
+                          
+
 
                         }
                     },
