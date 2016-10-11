@@ -737,12 +737,12 @@
                                         <select class="form-control" ng-model="package.productType"
                                                 convert-to-number ng-options="pro.Id as translate(pro.Name) for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                     </td>
-                                    <td width="13%"><input type="number" class="form-control" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                    <td width="13%"><input type="text" valid-number class="form-control" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
                                     <td width="17%"><input type="text" class="form-control" ng-model="package.description" contenteditable="true" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                    <td width="12%"><input type="number" class="form-control" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                    <td width="12%"><input type="text" valid-decimal class="form-control" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                    <td width="12%"><input type="text" valid-decimal class="form-control" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                    <td width="12%"><input type="text" valid-decimal class="form-control" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                    <td width="12%"><input type="text" valid-decimal class="form-control" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
                                     <td style="text-align:center" width="2%" class="prod_ops_rm">
                                         <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                             <i class="fa fa-remove" style="color:red">
