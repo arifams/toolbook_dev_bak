@@ -10,7 +10,7 @@ namespace PI.Data
 {
     public class Country: ShortIdBaseEntity
     {
-        [MaxLength(10)]
+        [MaxLength(50)]
         public string Name { get; set; }
         [MaxLength(10)]
         public string Code { get; set; }

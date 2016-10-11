@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace PI.Contract.DTOs.Postmen
 {
-    public class PMShipperAccount
+    public class PMLabel
     {
-
-        public string id { get; set; }
-        public string slug { get; set; }
-        public string description { get; set; }
+        public string paper_size { get; set; }
+        public string url { get; set; }
+        public string file_type { get; set; }
     }
 }

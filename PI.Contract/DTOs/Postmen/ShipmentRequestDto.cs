@@ -17,7 +17,7 @@ namespace PI.Contract.DTOs.Postmen
         public PMcustoms customs { get; set; }
         public List<PMReference> references { get; set; }
         public PMShipment shipment { get; set; }
-        public List<PMShipperAccount> shipper_account { get; set; }
+        public PMShipperAccount shipper_account { get; set; }
 
     }
 }

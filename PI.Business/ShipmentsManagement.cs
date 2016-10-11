@@ -60,7 +60,7 @@ namespace PI.Business
             //{
             //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             //}
-            this.postMenmanager = new PostmenIntegrationManager();
+            this.postMenmanager = new PostmenIntegrationManager(logger);
             this.sisManager = sisManager;
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
@@ -1170,14 +1170,14 @@ namespace PI.Business
             };
 
             // Add Shipment to SIS.
-            //if (shipment.Carrier.Name == "USPS")
-            //{
-           //   response = postMenmanager.SendShipmentDetails(shipmentDto);     
-           // }
-            //else
-            //{
-               response = sisManager.SendShipmentDetails(shipmentDto);
-            //}
+            if (shipment.Carrier.Name == "USPS")
+            {
+                response = postMenmanager.SendShipmentDetails(shipmentDto);
+            }
+            else
+            {
+                response = sisManager.SendShipmentDetails(shipmentDto);
+            }
 
 
             shipment.ShipmentCode = response.CodeShipment;
