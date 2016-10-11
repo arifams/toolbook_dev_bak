@@ -144,6 +144,7 @@
     <Content Include="app\shipment\ShipmentOverview.html" />
     <Content Include="app\shipment\ShipmentOverview.js" />
     <Content Include="app\shipment\shipmentService.js" />
+    <Content Include="app\shipment\shipmetError.html" />
     <Content Include="app\shipment\TrackAndTrace.html" />
     <Content Include="app\shipment\TrackAndTrace.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />
