@@ -168,7 +168,7 @@
                                                     <a href="javascript:void(0)" ng-click="awbCtrl.saveAwbNo()"><i style="font-size:29px;margin-top: -2px;margin-left: 2px;color:#009BCB" class="fa fa-floppy-o" aria-hidden="true"></i></a> 
                                                 </span>
                                             </p>
-                                            <p>{{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</p>
+                                            <p>{{awbCtrl.shipment.packageDetails.carrierCost | currency:"USD$ "}}</p>
                                         </div>
 
                                     </td>
@@ -348,7 +348,7 @@
                                         <div style="background-color:#009BCB;width:86.2%;padding-left:10px;padding-top:3px;float:right">
                                             <label style="color:#fff" translate>Carrier</label><br />
                                         </div>
-                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost}} {{awbCtrl.shipmnetCurrencyLabel}}</div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.careerDetails.name}} , {{awbCtrl.shipment.modeOfTransport}} , {{awbCtrl.shipment.packageDetails.carrierCost | currency:"USD$ "}}</div>
                                     </td>
                                 </tr>
                             </tbody>

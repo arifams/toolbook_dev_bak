@@ -40,10 +40,10 @@
         ];
 
         vm.valueCurrencyList = [
-            { "Id": 1, "Name": "USD" },
-            { "Id": 2, "Name": "EUR" },
-            { "Id": 3, "Name": "YEN" },
-            { "Id": 4, "Name": "GBP" }
+            { "Id": 1, "Name": "USD" }//,
+            //{ "Id": 2, "Name": "EUR" },
+            //{ "Id": 3, "Name": "YEN" },
+            //{ "Id": 4, "Name": "GBP" }
         ];
 
 
