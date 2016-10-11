@@ -753,6 +753,16 @@
     border-bottom:1px solid #DDD;
     /*text-align:center;*/
 }
+.noshipmentContent {
+    height: 300px;
+    background-color: #eaf7fa; 
+    text-align: center; 
+    border:1px solid #98d8e7;
+    border-radius: 10px; 
+    font-size: 20px; 
+    color: black; 
+    padding-top: 70px;
+}
  
 /*add shipment*/
 .border {
@@ -1663,10 +1673,10 @@ a.list-group-item:focus, a.list-group-item:hover {
 .sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover:not(.nav-active) > a span:not(.badge) {
     background:#319db5 none repeat scroll 0 0;
 }
-.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover > a {
+/*.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover > a {
     background: #319db5 none repeat scroll 0 0 padding-box;
     color:#fff;
-}
+}*/
 .manageuser-table-fullwidth {
     width:100%;
 }
