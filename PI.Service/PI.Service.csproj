@@ -280,7 +280,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
     <None Include="Web.Production.config" />
-    <None Include="Web.QA.config" />
+    <Content Include="Web.QA.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
