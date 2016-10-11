@@ -11,11 +11,18 @@
     <h2 class="m-t-0 custom-page-header">Organisation</h2>
 </div>
 <div class="row m-0">
-    <div class="col-sm-4 prepend-icon p-0">
-        <input type="text" class="form-control form-white custom-search" style="border-radius:20px" placeholder="{{'Search users' | translate}}">
-        <i class="glyphicon glyphicon-search" style="font-size: 16px;"></i>
+    <div class="col-sm-4 col-md-4 col-xs-12 input-group pull-left">
+        <input type="text" class="form-control form-white custom-search2"
+               placeholder="{{'Search'|translate}}" />
+
+        <span class="input-group-btn p-0">
+            <button type="button" class="btn btn-primary"
+                    style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
+                <i class="fa fa-search"></i>
+            </button>
+        </span>
     </div>
-    <div class="col-sm-8 p-0 btn-wrapper">
+    <div class="col-sm-8 col-md-8 col-xs-12 p-0 btn-wrapper">
         <button type="button" style="width:auto;" class="btn btn-primary m-r-0" href="#saveAddress/0" translate>
             <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New User
         </button>
@@ -64,9 +71,9 @@
 
                                 </span>
                                 <div ng-messages="formUpdateProfileGeneral.firstname.$error" ng-show="(formUpdateProfileGeneral.firstname.$dirty && !firstnameFocus) || profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
-                                    <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
+                                    <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
+                                    <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -78,9 +85,9 @@
                                     </label>
                                 </span>
                                 <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="(formUpdateProfileGeneral.lastname.$dirty && !lastNameFocus) ||profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
-                                    <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
+                                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
+                                    <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -92,9 +99,9 @@
                                     </label>
                                 </span>
                                 <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="(formUpdateProfileGeneral.lastname.$dirty && !lastNameFocus) ||profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
-                                    <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
+                                    <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
+                                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
+                                    <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
                                 </div>
                             </div>
                             <div class="row m-0">
