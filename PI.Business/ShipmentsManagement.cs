@@ -773,6 +773,7 @@ namespace PI.Business
                         ShipmentId = item.Id.ToString(),
                         ShipmentMode = Enum.GetName(typeof(Contract.Enums.CarrierType), item.ShipmentMode),
                         ShipmentName = item.ShipmentName,
+                        ShipmentReferenceName = item.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
