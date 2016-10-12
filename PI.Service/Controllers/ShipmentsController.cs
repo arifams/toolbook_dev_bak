@@ -805,9 +805,9 @@ namespace PI.Service.Controllers
                     //packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount)/100 + "</td>");
 
                     Paragraph countPara = new Paragraph(shipmentDetails.PackageDetails.Count.ToString(), invoiceFont);
-                    Paragraph ratePara = new Paragraph((Convert.ToDecimal(paymentDetails.Amount)/100).ToString(), invoiceFont);
-                    Paragraph amountPara = new Paragraph((Convert.ToDecimal(paymentDetails.Amount)/100).ToString(), invoiceFont);
-                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(paymentDetails.Amount) / 100) - (Convert.ToDecimal(paymentDetails.Amount) / 100)).ToString(), invoiceFont);
+                    Paragraph ratePara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
+                    Paragraph amountPara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
+                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount) / 100)).ToString(), invoiceFont);
 
                     Paragraph paymentLabelPara = new Paragraph("PAYMENT");
                     Paragraph balanceLabelPara = new Paragraph("BALANCE DUE");
@@ -907,7 +907,7 @@ namespace PI.Service.Controllers
                         CreatedBy = shipmentDetails.GeneralInformation.CreatedUser,
                         UserId = shipmentDetails.GeneralInformation.CreatedBy,
                         DueDate = DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
-                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount),
+                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount)/100,
                         InvoiceStatus = InvoiceStatus.Paid.ToString(),
                         InvoiceDate = DateTime.Now.ToString()
                     };

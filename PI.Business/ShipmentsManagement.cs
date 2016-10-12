@@ -1044,7 +1044,8 @@ namespace PI.Business
                     ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                    CarrierCost=currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                 },
                 CarrierInformation = new CarrierInformationDto
