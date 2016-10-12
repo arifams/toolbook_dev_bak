@@ -691,12 +691,15 @@ namespace PI.Service.Controllers
                     addressCell.AddElement(line4);
                     addressCell.AddElement(line5);
                     addressCell.AddElement(line6);
-                    addressCell.AddElement(line7);                
+                    addressCell.AddElement(line7);
+
+                    PdfPCell emptyCell = new PdfPCell();
+                    emptyCell.Border = 0;
 
                     addressTable.AddCell(logoCell);
-                    addressTable.AddCell(new PdfPCell()).Border=0;
-                    addressTable.AddCell(new PdfPCell(addressCell)).Border=0;                    
-                    addressTable.AddCell(new PdfPCell()).Border=0;
+                    addressTable.AddCell(emptyCell);
+                    addressTable.AddCell(new PdfPCell(addressCell));                    
+                    addressTable.AddCell(emptyCell);
                     
                     invoicePdf.Add(addressTable);
 
@@ -723,6 +726,7 @@ namespace PI.Service.Controllers
 
 
                     PdfPCell billingaddressCell = new PdfPCell();
+                    billingaddressCell.Border = 0;
                     billingaddressCell.AddElement(billingline1);
                     billingaddressCell.AddElement(billingline2);
                     billingaddressCell.AddElement(billingline3);
@@ -731,15 +735,16 @@ namespace PI.Service.Controllers
                     billingaddressCell.AddElement(billingline6);
 
                     PdfPCell billingDetailsCell = new PdfPCell();
+                    billingDetailsCell.Border = 0;
                     billingDetailsCell.AddElement(billingDetailsline1);
                     billingDetailsCell.AddElement(billingDetailsline2);
                     billingDetailsCell.AddElement(billingDetailsline3);
                     billingDetailsCell.AddElement(billingDetailsline4);
 
-                    billingTable.AddCell(billingaddressCell).Border=0;
-                    billingTable.AddCell(new PdfPCell()).Border=0;
-                    billingTable.AddCell(new PdfPCell()).Border=0;
-                    billingTable.AddCell(billingDetailsCell).Border=0;
+                    billingTable.AddCell(billingaddressCell);
+                    billingTable.AddCell(emptyCell);
+                    billingTable.AddCell(emptyCell);
+                    billingTable.AddCell(billingDetailsCell);
 
 
 
@@ -826,15 +831,26 @@ namespace PI.Service.Controllers
                     shipmentTable.AddCell(ratesCell);
                     shipmentTable.AddCell(amountsCell);
 
-                    shipmentTable.AddCell(new PdfPCell()).Border=0;
-                    shipmentTable.AddCell(new PdfPCell()).Border=0;
-                    shipmentTable.AddCell(new PdfPCell(paymentLabelPara)).Border=0;
-                    shipmentTable.AddCell(new PdfPCell(amountPara)).Border=0;
+                    PdfPCell paymentLabelCell = new PdfPCell(paymentLabelPara);
+                    paymentLabelCell.Border = 0;
+                    PdfPCell amountLabelCell = new PdfPCell(amountPara);
+                    amountLabelCell.Border = 0;
 
-                    shipmentTable.AddCell(new PdfPCell()).Border=0;
-                    shipmentTable.AddCell(new PdfPCell()).Border=0;
-                    shipmentTable.AddCell(new PdfPCell(balanceLabelPara)).Border=0;
-                    shipmentTable.AddCell(new PdfPCell(balancePara)).Border=0;
+                    PdfPCell balanceLabelCell = new PdfPCell(balanceLabelPara);
+                    balanceLabelCell.Border = 0;
+                    PdfPCell balanceCell = new PdfPCell(balancePara);
+                    balanceCell.Border = 0;
+                   
+
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(paymentLabelCell);
+                    shipmentTable.AddCell(amountLabelCell);
+
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(balanceLabelCell);
+                    shipmentTable.AddCell(balanceCell);
 
 
                     invoicePdf.Add(shipmentTable);
