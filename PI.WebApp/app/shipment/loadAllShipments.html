@@ -208,7 +208,7 @@
                                 <tr>
                                     <th st-sort="name" translate>Order date</th>
                                     <th translate>Tracking #</th>
-                                    <th translate>Shipment ID</th>
+                                    <th translate>Shipment Reference</th>
                                     <th translate>Carrier</th>
                                     <th translate>Origin</th>
                                     <th translate>Destination</th>
@@ -227,7 +227,7 @@
                                     <td>
                                         <a href="">{{row.generalInformation.trackingNumber}}</a>
                                     </td>
-                                    <td>{{row.generalInformation.shipmentCode}}</td>
+                                    <td>{{row.generalInformation.shipmentReferenceName}}</td>
                                     <td>{{row.carrierInformation.carrierName}}</td>
                                     <td>{{row.addressInformation.consigner.city}}</td>
                                     <td>{{row.addressInformation.consignee.city}}</td>
