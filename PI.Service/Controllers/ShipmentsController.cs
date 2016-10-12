@@ -31,7 +31,6 @@ using Newtonsoft.Json.Linq;
 using PI.Data.Entity;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.html.simpleparser;
 using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
@@ -749,7 +748,7 @@ namespace PI.Service.Controllers
 
 
                     BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
-                    iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 14, iTextSharp.text.Font.BOLD, iTextSharp.text.BaseColor.BLUE);
+                    iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 14, iTextSharp.text.Font.BOLD, BaseColor.BLUE);
 
                     Paragraph title = new Paragraph("INVOICE", times);
                     title.Alignment = Element.ALIGN_LEFT;
@@ -777,10 +776,10 @@ namespace PI.Service.Controllers
                     PdfPCell amountCell = new PdfPCell(amount);
 
                     //add table column headings
-                    shipmentTable.AddCell(activityCell).BackgroundColor= iTextSharp.text.BaseColor.LIGHT_GRAY;
-                    shipmentTable.AddCell(qtyCell).BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY; ;
-                    shipmentTable.AddCell(rateCell).BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY; ;
-                    shipmentTable.AddCell(amountCell).BackgroundColor = iTextSharp.text.BaseColor.LIGHT_GRAY; ;
+                    shipmentTable.AddCell(activityCell).BackgroundColor= BaseColor.LIGHT_GRAY;
+                    shipmentTable.AddCell(qtyCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
+                    shipmentTable.AddCell(rateCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
+                    shipmentTable.AddCell(amountCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
                     
 
 
