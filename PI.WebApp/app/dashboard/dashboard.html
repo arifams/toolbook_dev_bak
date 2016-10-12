@@ -2,7 +2,7 @@
    <div ng-include="modalWizard"></div>
     <div class="row m-0">
             <div class="widget-infobox">
-                <div class="infobox">
+                <a class="infobox" href="#/loadShipments/Transit">
                     <div class="left">
                         <i class="flaticon-transport bg-blue"></i>
                     </div>
@@ -10,10 +10,10 @@
                         <div>
                             <span class="c-primary pull-left">{{dashCtrl.model.inTransitStatusCount}}</span>
                         </div>
-                        <div class="txt"><a href="#/loadShipments/Transit">In-Transit</a></div>
+                        <span class="txt">In transit</span>
                     </div>
-                </div>
-                <div class="infobox">
+                </a>
+                <a class="infobox" href="#/loadShipments/Delayed">
                     <div class="left">
                         <i class="flaticon-clock bg-dark"></i>
                     </div>
@@ -22,11 +22,11 @@
                             <div>
                                 <span class="c-dark pull-left">{{dashCtrl.model.delayedStatusCount}}</span>
                             </div>
-                            <div class="txt"><a href="#/loadShipments/Delayed">Delayed</a></div>
+                            <span class="txt">Delayed</span>
                         </div>
                     </div>
-                </div>
-                <div class="infobox">
+                </a>
+                <a class="infobox" href="#/loadShipments/Error">
                     <div class="left">
                         <i class="fa fa-times bg-red"></i>
                     </div>
@@ -35,11 +35,11 @@
                             <div>
                                 <span class="c-red pull-left">{{dashCtrl.model.pendingStatusCount}}</span>
                             </div>
-                            <div class="txt"><a href="#/loadShipments/Error">Error</a></div>
+                            <span class="txt">Error</span>
                         </div>
                     </div>
-                </div>
-                <div class="infobox">
+                </a>
+                <a class="infobox" href="#/loadShipments/BookingConfirmation">
                     <div class="left">
                         <i class="flaticon-symbol bg-purple"></i>
                     </div>
@@ -48,11 +48,11 @@
                             <div>
                                 <span class="c-purple pull-left">{{dashCtrl.model.bookingConfStatusCount}}</span>
                             </div>
-                            <div class="txt"><a href="#/loadShipments/BookingConfirmation">Not picked-up</a></div>
+                            <span class="txt">Not picked up</span>
                         </div>
                     </div>
-                </div>
-                <div class="infobox">
+                </a>
+                <a class="infobox" href="#/loadShipments/Exception">
                     <div class="left">
                         <i class="fa fa-exclamation bg-orange"></i>
                     </div>
@@ -61,11 +61,11 @@
                             <div>
                                 <span class="c-orange pull-left">{{dashCtrl.model.exceptionStatusCount}}</span>
                             </div>
-                            <div class="txt"><a href="#/loadShipments/Exception">Exceptions</a> </div>
+                            <span class="txt">Exceptions </span>
                         </div>
                     </div>
-                </div>
-                <div class="infobox m-r-0">
+                </a>
+                <a class="infobox m-r-0" href="#/loadShipments/Delivered">
                     <div class="left">
                         <i class="fa fa-check bg-green"></i>
                     </div>
@@ -74,158 +74,48 @@
                             <div>
                                 <span class="c-green pull-left">{{dashCtrl.model.deliveredStatusCount}}</span>
                             </div>
-                            <div class="txt"><a href="#/loadShipments/Delivered">Delivered</a></div>
+                            <span class="txt">Delivered</span>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
        
         <!-- Main content -->
         <form class="form-horizontal" name="">
             <!-- /.box-header -->
-
-            <div class="panel-content panel-border p-l-0 p-r-0 p-t-0">
-                <!--<div class="row">
-            <div class="col-sm-9">
-                <div class="form-group append-icon m-l-0 m-r-0">
-                    <input type="text" placeholder="Search by Shipment name, Reference name" class="form-control ng-pristine ng-valid ng-touched form-white" name="consignorSearchText" ng-model="shipmentCtrl.consignorSearchText">
-                    <i class="glyphicon glyphicon-search"></i>
-                </div>
-            </div>
-            <div class="col-sm-3">
-                <button class="btn btn-primary btn-block">Add Shipment</button>
-            </div>
-        </div><hr class="m-t-0">-->
-                <!--<div class="row">
-            <div class="col-sm-12 col-xs-12 col-md-12 form-group m-l-0 m-r-0 p-r-0">
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-orange">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.inTransitStatusCount}} </h2>
-                        <div class="txt">In-Transit</div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-orange"
-                       href="#/loadShipments/Transit">More info&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-red">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.delayedStatusCount}}</h2>
-                        <div class="txt">Delayed</div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-red"
-                       href="#/loadShipments/Delayed">More info&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-blue">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.pendingStatusCount}}</h2>
-                        <div class="txt">Error</div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-blue"
-                       href="#/loadShipments/Error">More info&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-darkBlue">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.bookingConfStatusCount}}</h2>
-                        <div class="txt">Not picked-up</div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-darkBlue"
-                       href="#/loadShipments/BookingConfirmation">More info&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-purple">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.exceptionStatusCount}}</h2>
-                        <div class="txt">Exceptions </div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-purple"
-                       href="#/loadShipments/Exception">More info&nbsp;<i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-                <div class="col-sm-2 col-xs-12 col-md-12 widget-body p-0 m-l-0" id="widget-green">
-                    <div class="Widgetleft">
-                        <h2>{{dashCtrl.model.deliveredStatusCount}}</h2>
-                        <div class="txt">Delivered</div>
-                    </div>
-                    <a class="widget-footer" id="widget-footer-green"
-                       href="#/loadShipments/Delivered">More info&nbsp; <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-
-            </div>
-
-        </div>-->
-                <!--<div class="row m-0">
-            <div class="col-sm-6 p-0">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Shipment Created</div>
-                    <div class="panel-body">
-                        <div class="row m-0">
-                            <div class="col-sm-6 option-group">
-                                <div class="select2-container" id=""><a tabindex="-1" class="select2-choice" href="javascript:void(0)">   <span class="select2-chosen" id="select2-chosen-77">Month on Month</span><abbr class="select2-search-choice-close"></abbr>   <span role="presentation" class="select2-arrow"><b role="presentation"></b></span></a><label class="select2-offscreen" for="s2id_autogen77"></label><input type="text" role="button" aria-haspopup="true" class="select2-focusser select2-offscreen" aria-labelledby="select2-chosen-77" id="s2id_autogen77"></div><select required="" class="language" name="language" id="language" aria-required="true" tabindex="-1" title="" style="display: none;">
-
-                                </select>
-                            </div>
-                            <div class="col-sm-6 option-group">
-                                <div class="select2-container" id="" style="min-width:160px;float:right;"><a tabindex="-1" class="select2-choice" href="javascript:void(0)">   <span class="select2-chosen" id="select2-chosen-77">All</span><abbr class="select2-search-choice-close"></abbr>   <span role="presentation" class="select2-arrow"><b role="presentation"></b></span></a><label class="select2-offscreen" for="s2id_autogen77"></label><input type="text" role="button" aria-haspopup="true" class="select2-focusser select2-offscreen" aria-labelledby="select2-chosen-77" id="s2id_autogen77"></div><select required="" class="language" name="language" id="language" aria-required="true" tabindex="-1" title="" style="display: none;">
-
-                                </select>
+                <div class="panel-content panel-border p-l-0 p-r-0 p-t-0">
+                    <div class="row m-0">
+                        <div class="col-md-12 m-t-10 heading m-0 p-0">
+                           <strong> FAVORITES</strong>
+                            <div ng-include="'shipment/loadAllShipments.html'">
                             </div>
                         </div>
-
+                        <div id="panel-notif"></div>
                     </div>
-                    <div class="panel-stat-chart" style="height: auto;">
-                        <canvas id="line-chart" class="full" height="140"></canvas>
-                        <div class="row">
-                            <div class="charts-inline" style="float:left;">
-                                <div id="my-chart1" style="width:110px;height:100px;margin-left:10px;"></div>
-                            </div>
-                            <div class="charts-inline">
-                                <div id="my-chart2" style="width:110px;height:100px;"></div>
-                            </div>
-                            <div class="charts-inline">
-                                <div id="my-chart3" style="width:110px;height:100px;"></div>
-                            </div>
-                            <div class="charts-inline">
-                                <div id="my-chart4" style="width:110px;height:100px;"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
                 </div>
+       </form>
+    <!--if no shipments yet-->
+    <div class="panel-content p-0" style="display:none">
+        <div class="row m-0">
+            <div class="noshipmentContent text-center">
+               
+                    <div class="text-center">No active shipments!</div>
+                    <a class="btn btn-primary m-t-20 m-l-10" href="#/addShipment/0">
+                        <i class="fa fa-plus-circle m-r-5 m-t-5 f-16 ng-scope"></i>
+                        Create a new shipment
+                    </a>
+                   
             </div>
-            <div class="col-md-6 p-r-0">
-                <div class="panel bg-primary widget-map">
-                    <div class="panel-content widget-full">
-                                <div id="flight-map"></div>
-
-                    </div>
-                </div>
-            </div>
-        </div>-->
-                <!--<div class="col-md-12 p-0">
-                    <div class="panel bg-primary widget-map">
-                        <div class="panel-content widget-full">
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12 m-0">
-                                    <div id="flight-map"></div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>-->
-                <div class="row m-0">
-                    <div class="col-md-12 m-t-10 heading m-0 p-0">
-                       <strong> FAVOURITES</strong>
-                        <div ng-include="'shipment/loadAllShipments.html'">
-                        </div>
-                    </div>
-                    <div id="panel-notif"></div>
-                </div>
-                </div>
-            </form>
+        </div>
     </div>
- </div>
+
+    
+
+    <div class="page-spinner-loader" ng-show="dashCtrl.loadingSymbole">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    </div>
+

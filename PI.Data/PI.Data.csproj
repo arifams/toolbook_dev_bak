@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entity\Country.cs" />
     <Compile Include="Entity\AccountSettings.cs" />
     <Compile Include="Entity\Address.cs" />
     <Compile Include="Entity\AddressBook.cs" />
@@ -187,6 +188,14 @@
     <Compile Include="Migrations\201610030244516_added_credit_note_to_invoice.Designer.cs">
       <DependentUpon>201610030244516_added_credit_note_to_invoice.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610101240142_AddcountryTable.cs" />
+    <Compile Include="Migrations\201610101240142_AddcountryTable.Designer.cs">
+      <DependentUpon>201610101240142_AddcountryTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610101244399_changedmaxlengthcountryName.cs" />
+    <Compile Include="Migrations\201610101244399_changedmaxlengthcountryName.Designer.cs">
+      <DependentUpon>201610101244399_changedmaxlengthcountryName.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -241,6 +250,15 @@
     <EmbeddedResource Include="Migrations\201610030244516_added_credit_note_to_invoice.resx">
       <DependentUpon>201610030244516_added_credit_note_to_invoice.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610101240142_AddcountryTable.resx">
+      <DependentUpon>201610101240142_AddcountryTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610101244399_changedmaxlengthcountryName.resx">
+      <DependentUpon>201610101244399_changedmaxlengthcountryName.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Migrations\NOV Version1\Seed records.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\OctoPack.3.0.53\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.53\tools\OctoPack.targets')" />

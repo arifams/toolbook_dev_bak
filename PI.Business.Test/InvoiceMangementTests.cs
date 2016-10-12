@@ -195,23 +195,23 @@ namespace PI.Business.Tests
             //Assert.AreNotEqual(response.TotalRecords, 0);
         }
 
-        [Test]
-        public void SaveInvoiceDetailsTest()
-        {
-            InvoiceDto invoiceDto = new InvoiceDto()
-            {
-                InvoiceNumber = "1",
-                ShipmentId = 1,
-                InvoiceValue = 100,
-                CreatedBy = "1",
-                InvoiceStatus = InvoiceStatus.Pending.ToString(),               
-                URL = "invoice_url"
-            };
+        //[Test]
+        //public void SaveInvoiceDetailsTest()
+        //{
+        //    InvoiceDto invoiceDto = new InvoiceDto()
+        //    {
+        //        InvoiceNumber = "1",
+        //        ShipmentId = 1,
+        //        InvoiceValue = 100,
+        //        CreatedBy = "1",
+        //        InvoiceStatus = InvoiceStatus.Pending.ToString(),               
+        //        URL = "invoice_url"
+        //    };
 
-            bool response = invoiceManagement.SaveInvoiceDetails(invoiceDto);
-            Assert.AreEqual(response, true);
+        //    bool response = invoiceManagement.SaveInvoiceDetails(invoiceDto);
+        //    Assert.AreEqual(response, true);
 
-        }
+        //}
 
         [Test]
         public void SaveCreditNoteDetailsTest()

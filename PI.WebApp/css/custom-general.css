@@ -753,6 +753,16 @@
     border-bottom:1px solid #DDD;
     /*text-align:center;*/
 }
+.noshipmentContent {
+    height: 300px;
+    background-color: #eaf7fa; 
+    text-align: center; 
+    border:1px solid #98d8e7;
+    border-radius: 10px; 
+    font-size: 20px; 
+    color: black; 
+    padding-top: 70px;
+}
  
 /*add shipment*/
 .border {
@@ -778,7 +788,7 @@
     color:#fff;
     background-color:#80d4ff;
 }
-.page-spinner-loader.shipmentLoad {
+.page-spinner-loader.customLoad {
     padding-top:60px;
 }
 .page-spinner-loader {
@@ -1100,9 +1110,9 @@ div.inside_content {
 .label-primary:hover, .label-primary:focus {
      background-color: #319db5;
 }
-.label-warning:hover, .label-warning:focus {
+/*.label-warning:hover, .label-warning:focus {
      background-color: #ff9122;
-}
+}*/
 .widget-infobox .infobox {
     margin-right:17px;
     margin-bottom:17px;
@@ -1157,7 +1167,7 @@ font-size:28px;
 }
 
 .input__field--hoshi {
-   margin-top:3em; 
+   margin-top:2em; 
    color: #5b5b5b;
    font-size:16px;
    padding:0.95em 0.15em;
@@ -1210,6 +1220,11 @@ width:10px;
     border:2px solid #777;
     color:#777;
 }
+/*.label.label-success.success-status {
+    background-color:#fff;
+    border:2px solid #18a689;
+    color:#18a689;
+}
 .label.label-warning.warning-status {
     background-color:#fff;
     border:2px solid #ff9122;
@@ -1219,9 +1234,9 @@ width:10px;
     background-color:#fff;
     border:2px solid #c75757;
     color:#c75757;
-}
+}*/
 .label {
-    font-size:88%;
+    font-size:90%;
 }
 @media screen and (max-width: 1024px) {
 .sidebar-show.fixed-topbar .topbar {
@@ -1634,5 +1649,49 @@ a.list-group-item:focus, a.list-group-item:hover {
     border-left:none;
 }
 .btn.btn-sm.btn-transparent {
-    color:rgb(31,116,173)
+    color:#066b9b;
+}
+.table-hover td, .table-hover thead th {
+    border-bottom:none;
+}
+.table > thead > tr > th {
+    border-bottom:2px solid #319db5;
+}
+.sidebar .sidebar-inner .nav-sidebar .children > li > a {
+    letter-spacing:0.4px;
+}
+.topbar .header-right .header-menu #user-header a span::after {
+    border-bottom: 6px solid #2b2e33;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    position: absolute;
+    right: 17px;
+    top: -6px; 
+}
+.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover:not(.nav-active) > a span:not(.badge) {
+    background:#319db5 none repeat scroll 0 0;
+}
+/*.sidebar-collapsed .sidebar .sidebar-inner .nav-sidebar > li.nav-hover > a {
+    background: #319db5 none repeat scroll 0 0 padding-box;
+    color:#fff;
+}*/
+.manageuser-table-fullwidth {
+    width:100%;
+}
+.manageuser-table-halfwidth {
+    width:70%;
+}
+.manageuser-rightpane{
+    width:30%;
+    border-left:1px solid #ddd;
+   
+}
+.input.error {
+    background-color:none;
+    border:none;
+}
+.error-label-marginleft {
+    margin-left:18px;
 }

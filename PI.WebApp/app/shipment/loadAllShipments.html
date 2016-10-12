@@ -6,7 +6,6 @@
                 <h4 class="text-center m-t-0">FILTER SHIPMENTS</h4>
             </div>
             <div class="builder-container">
-
                 <div class="row m-0">
                     <div class="form-group">
                         <label class="form-label">Pickup date</label>
@@ -19,7 +18,6 @@
                         </div>
                     </div>
                 </div>
-
                 <hr>
                 <div class="row m-0">
                     <label class="form-label" translate>Status</label>
@@ -32,19 +30,17 @@
                                 <option value='Delivered' translate>Delivered</option>
                                 <option value='Error' translate>Error</option>
                                 <option value='Exception' translate>Exceptions</option>
-                                <option value='Transit' translate>In-Transit</option>
-                                <option value='BookingConfirmation' translate>Not picked-up</option>
+                                <option value='Transit' translate>In transit</option>
+                                <option value='BookingConfirmation' translate>Not picked up</option>
                             </select>
                         </div>
 
                     </div>
                 </div>
-
                 <a href="javascript:void(0)" ng-click="loadShipCtrl.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;">APPLY </a>
 
                 <a href="javascript:void(0)" ng-click="loadShipCtrl.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
-
-            </div>
+             </div>
         </div>
     </div>
 
@@ -86,23 +82,19 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-2 col-md-2 col-xs-12">
-            <a class="btn btn-primary f-right" href="#addShipment/0">
+        <div class="col-sm-2 col-md-2 col-xs-12 p-r-0">
+            <a class="btn btn-primary f-right m-r-0" href="#addShipment/0">
                 <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>
                 <translate>
                     Create
                 </translate>
             </a>
         </div>
-
     </div>
 
     <div class="panel">
-
         <form class="form-horizontal" name="loadShipmentsForm">
-
             <div class="panel-content panel-border">
-
                 <div class="row m-0" ng-hide="loadShipCtrl.viaDashboard">
                     <!--<div class="col-sm-2 form-group m-0">
                         <div class="btn-group" dropdown="">
@@ -213,7 +205,7 @@
                                     <th translate>Origin</th>
                                     <th translate>Destination</th>
                                     <th translate>Status</th>
-                                    <th translate>Favourites</th>
+                                    <th translate>Favorites</th>
                                     <th translate>View</th>
                                     <th translate>Edit</th>
                                     <th translate>Delete</th>
@@ -231,7 +223,15 @@
                                     <td>{{row.carrierInformation.carrierName}}</td>
                                     <td>{{row.addressInformation.consigner.city}}</td>
                                     <td>{{row.addressInformation.consignee.city}}</td>
-                                    <td>{{row.generalInformation.status}}</td>
+                                    <td>
+                                        <span ng-class="{'label label-warning' : row.generalInformation.status === 'Pending', 
+                                                   'label label-success' : row.generalInformation.status === 'Delivered', 
+                                                   'label label-danger' : row.generalInformation.status === 'Error', 
+                                                   'label bg-purple' : row.generalInformation.status === 'Transit', 
+                                                   'label bg-blue' : row.generalInformation.status === 'Booking confirmation', 
+                                                   'label bg-dark' : row.generalInformation.status === 'Exception'}">{{row.generalInformation.status}}
+                                        </span>
+                                    </td>
                                     <td>
                                         <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
                                            ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
@@ -277,17 +277,14 @@
                                 </tr>
                             </tfoot>-->
                         </table>
-</div>
-                <div id="panel-notif"></div>
+                    </div>
             </div>
         </form>
-        <div class="page-spinner-loader shipmentLoad" ng-show="loadShipCtrl.loadingSymbole">
+        <div class="page-spinner-loader customLoad" ng-show="loadShipCtrl.loadingSymbole">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>
         </div>
     </div>
-
-   
-
 </div>
+<div id="panel-notif"></div>

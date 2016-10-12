@@ -98,8 +98,6 @@
     <Content Include="app\billingandInvoicing\CustomerBillingandInvoicing.js" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.html" />
     <Content Include="app\billingandInvoicing\DisputeInvoice.js" />
-    <Content Include="app\customerFinance\customerFinance.html" />
-    <Content Include="app\customerFinance\customerFinance.js" />
     <Content Include="app\dashboard\dashboard.html" />
     <Content Include="app\dashboard\dashboardCtrl.js" />
     <Content Include="app\directive\angular-local-storage.min.js" />
@@ -146,6 +144,7 @@
     <Content Include="app\shipment\ShipmentOverview.html" />
     <Content Include="app\shipment\ShipmentOverview.js" />
     <Content Include="app\shipment\shipmentService.js" />
+    <Content Include="app\shipment\shipmetError.html" />
     <Content Include="app\shipment\TrackAndTrace.html" />
     <Content Include="app\shipment\TrackAndTrace.js" />
     <Content Include="app\userManagement\loadUserManagement.html" />

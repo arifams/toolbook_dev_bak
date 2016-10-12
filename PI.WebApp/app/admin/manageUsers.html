@@ -14,12 +14,10 @@
 </div>
 <div class="panel">
     <div class="panel-content">
-        <!--<div class="row m-0 heading"><strong>USERS</strong></div>-->
-        <div class="custom-table">
-            <div class="row">
-                <div class="col-sm-8">
+            <div class="row m-0">
+                <div class="col-sm-12" ng-class="userCtrl.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
                     <!--<table st-pipe="userStrl.callServerSearch" st-table="userStrl.rowCollection" class="table table-hover">-->
-                    <table st-table="manageUser" st-safe-src="userStrl.rowCollection" class="table table-hover">
+                    <table st-table="manageUser" st-safe-src="userCtrl.rowCollection" class="table table-hover">
                         <thead>
                             <tr>
                                 <th>First Name</th>
@@ -34,19 +32,23 @@
                                 <td>{{row.firstName}}</td>
                                 <td>{{row.lastName}}</td>
                                 <td>{{row.roleName}}</td>
-                                <td>{{row.status}}</td>
                                 <td>
                                     <span ng-class="row.status == 'Active' ? 'label label-active active-status' : 'label label-inactive inactive-status'">
                                         {{row.status}}
                                     </span>
                                 </td>
                                 <td>
-                                    <a href="#/saveUserManagement/{{row.id}}"
+                                    <!--<a href="#/saveUserManagement/{{row.id}}"
                                        class="edit btn btn-sm btn-default" ng-hide="{{ userStrl.userId == row.id }}">
                                         <i class="icon-note"></i>
-                                    </a>
+                                    </a>-->
+                                    <button ng-click="userCtrl.manageUsers()"
+                                       class="btn btn-sm btn-primary btn-transparent" ng-hide="{{ userCtrl.userId == row.id }}">
+                                        <i class="icon-note"></i>
+                                    </button>
                                 </td>
                             </tr>
+                           
                         </tbody>
                         <tfoot>
                             <tr>
@@ -55,99 +57,12 @@
                                 </td>
                             </tr>
                         </tfoot>
-                    </table>
+                   </table>
                 </div>
-
-                <!--<pagination total-items=""
-                            ng-model="currentPage"
-                            max-size="maxSize"
-                            class="pagination-sm"
-                            boundary-links="true">
-                </pagination>-->
-
-          
-             <!--   <div class="col-sm-4 right-pane">
-                    <div class="row m-0">
-                        <span class="input input--hoshi m-0">
-                            <input type="text" id="input-4" class="input__field input__field--hoshi" name="firstname"
-                                   required autofocus ng-model="" ng-minlength="3" ng-maxlength="100" />
-                            <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                <span class="input__label-content input__label-content--hoshi">First name</span>
-                            </label>
-
-                        </span>
-                        <div>
-                            <!--validation msg here
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <span class="input input--hoshi m-0">
-                            <input type="text" id="input-4" class="input__field input__field--hoshi" name="lastname"
-                                   minlength="4" required ng-minlength="3" ng-maxlength="100">
-                            <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                <span class="input__label-content input__label-content--hoshi">Last Name</span>
-                            </label>
-                        </span>
-                        <div>
-                            <!--validation msg here
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <span class="input input--hoshi m-0">
-                            <input type="text" id="input-4" class="input__field input__field--hoshi" name="email"
-                                   minlength="4" required>
-                            <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                <span class="input__label-content input__label-content--hoshi">Email</span>
-                            </label>
-                        </span>
-                        <div>
-                            <!--validation msg here
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <label style="color: rgba(102, 102, 102,.7);" class="col-sm-4 f-14 p-0">
-                            Role
-                        </label>
-                        <div class="option-group col-sm-11 p-0 form-group">
-                            <select style=""
-                                    class="form-control form-white"
-                                    convert-to-number="" ng-options=""
-                                    name="role"
-                                    ng-change="" rel="popover"
-                                    data-container="body" data-toggle="popover"
-                                    data-placement="top" data-html="true" data-content="">
-                                <option value="" translate="">Admin</option>
-                                <option value="" translate="">Front office</option>
-                                <option value="" translate="">Back office</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row m-0">
-                        <label style="color: rgba(102, 102, 102,.7);" class="col-sm-4 f-14 p-0">
-                            Status
-                        </label>
-                        <div class="option-group col-sm-11 p-0 form-group">
-                            <select style=""
-                                    class="form-control form-white"
-                                    convert-to-number="" ng-options=""
-                                    name="role"
-                                    ng-change="" rel="popover"
-                                    data-container="body" data-toggle="popover"
-                                    data-placement="top" data-html="true" data-content="">
-                                <option value="" translate="">Active</option>
-                                <option value="" translate="">Inactive</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-12 btn-wrapper-down p-0">
-                        <button class="btn btn-primary pull-left">Save</button>
-                    </div>
-                </div> -->
-
+                <div class="col-sm-4 manageuser-rightpane" ng-show="userCtrl.rightPaneLoad == true" ng-include="'userManagement/saveUserManagement.html'"></div>
+           
             </div>
-        </div>
-
-        <div class="page-spinner-loader shipmentLoad" ng-show="userStrl.loadingSymbole">
+        <div class="page-spinner-loader customLoad" ng-show="userCtrl.loadingSymbole">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
             <div class="bounce3"></div>

@@ -77,6 +77,8 @@ namespace PI.Data
               
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public virtual DbSet<Country> Countries { get; set; }
+
 
         public PIContext()
             : base("name=PIBookingConnectionString")

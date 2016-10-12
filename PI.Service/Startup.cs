@@ -61,7 +61,7 @@ namespace PI.Service
             builder.RegisterType<ShipmentsManagement>().As<IShipmentManagement>().InstancePerLifetimeScope();
             builder.RegisterType<AddressBookManagement>().As<IAddressBookManagement>().InstancePerLifetimeScope();
             builder.RegisterType<AdministrationManagment>().As<IAdministrationManagment>().InstancePerLifetimeScope();
-            builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();
+            builder.RegisterType<SISIntegrationManager>().As<ICarrierIntegrationManager>().InstancePerLifetimeScope();            
             builder.RegisterType<ProfileManagement>().As<IProfileManagement>().InstancePerLifetimeScope();
             builder.RegisterType<ProfileManagement>().As<ProfileManagement>().InstancePerLifetimeScope();   // TODO H : Remove this register, after convert Prof to IProf
             builder.RegisterType<InvoiceMangement>().As<IInvoiceMangement>().InstancePerLifetimeScope();

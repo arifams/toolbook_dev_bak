@@ -86,8 +86,8 @@
                 </ul>
             </div>
         </div>
-        <div class="col-sm-2 col-md-2 col-xs-12">
-            <button class="btn btn-primary f-right" ng-click="manageShipCtrl.loadAllCompanies()">
+        <div class="col-sm-2 col-md-2 col-xs-12 p-r-0">
+            <button class="btn btn-primary f-right m-r-0" ng-click="manageShipCtrl.loadAllCompanies()">
                 <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>
                 Create
             </button>
@@ -135,7 +135,7 @@
             </div>
             
  
-            <div class="row">
+            <div class="row m-0">
                 <table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">
                     <!--<table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">-->
                         <thead>
@@ -401,6 +401,12 @@
                     </div>
                 </tab>
             </tabset>-->
+
+            <div class="page-spinner-loader customLoad" ng-show="manageShipCtrl.loadingSymbole">
+                <div class="bounce1"></div>
+                <div class="bounce2"></div>
+                <div class="bounce3"></div>
+            </div>
 
         </div>
         

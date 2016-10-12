@@ -279,9 +279,14 @@
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.Production.config" />
+    <Content Include="Web.QA.config">
+      <SubType>Designer</SubType>
+    </Content>
     <None Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
+    <None Include="Web.UAT.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

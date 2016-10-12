@@ -12,6 +12,7 @@
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
                vm.statusSelect = '';
+               vm.loadingSymbole = true;
 
                //toggle function
                vm.loadFilterToggle = function () {
@@ -42,21 +43,38 @@
 
                    vm.exportcollection = [];
 
+                   debugger;
+
                    var headers = {};
-                   headers.orderSubmitted = "Invoice Number";
-                   headers.trackingNumber = "Invoice Date";
-                   headers.shipmentId = "Shipment Reference";
-                   headers.carrier = "Invoice Value";
-                   headers.originCity = "Invoice Status";
+                   headers.orderSubmitted = "Invoice Date";
+                   headers.businessOwner = "Business Owner";
+                   headers.companyName = "Company Name";
+
+
+                   headers.invoiceNumber = "Invoice Number";
+                   headers.shipmentId = "Shipment ID";
+                   headers.value = "Invoice Value";
+                   headers.sum = "Sum";
+                   headers.invoiceStatus = "Invoice Status";
+                   headers.creditedValue = "credited value";
+                   headers.url = "URL";
+
                    vm.exportcollection.push(headers);
 
                    $.each(responce.data.content, function (index, value) {
                        var invoiceObj = {}
                        invoiceObj.orderSubmitted = value.invoiceDate;
-                       invoiceObj.trackingNumber = value.shipmentReference;
-                       invoiceObj.shipmentId = value.invoiceNumber;
-                       invoiceObj.carrier = value.invoiceValue;
-                       invoiceObj.originCity = value.invoiceStatus;
+                       invoiceObj.businessOwner = value.businessOwner;
+                       invoiceObj.companyName = value.companyName;
+
+                       invoiceObj.invoiceNumber = value.invoiceNumber;
+                       invoiceObj.shipmentId = value.shipmentReference;
+                       invoiceObj.value = value.invoiceValue;
+                       invoiceObj.sum = value.sum;
+                       invoiceObj.invoiceStatus = value.invoiceStatus;
+                       invoiceObj.creditedValue = value.creditedValue;
+                       invoiceObj.url = value.url;
+
 
                        vm.exportcollection.push(invoiceObj);
                    });
@@ -64,6 +82,7 @@
 
                vm.loadAllInvoices = function (status, from) {
                    debugger;
+                   vm.loadingSymbole = true;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -75,7 +94,7 @@
                         .then(
                                function (responce) {
                                    debugger;
-
+                                   vm.loadingSymbole = false;
                                    vm.CreateCSV(responce);
                                    if (from == 'fromDisputed') {
                                        vm.rowCollectionDisputed = responce.data.content;                                       
@@ -85,6 +104,7 @@
                                    }
                                },
                                function (error) {
+                                   vm.loadingSymbole = false;
                                    console.log("error occurd while retrieving shiments");
                                });
 

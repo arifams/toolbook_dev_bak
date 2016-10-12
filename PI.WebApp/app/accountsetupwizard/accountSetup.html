@@ -11,7 +11,7 @@
                 <div class="modal-body p-t-0 p-b-0">
                     <div class="row m-b-15">
                         <h2 class="text-center"><strong>Welcome to Parcel International </strong></h2>
-                        <h5 class="text-center"><strong>Please fill in the following information to get started with Account Settings!</strong></h5>
+                        <h5 class="text-center"><strong>Please fill in the following information to finalize your account setup</strong></h5>
                     </div>
 
                     <div class="row">
@@ -20,9 +20,9 @@
                                 <div class="option-group">
                                     <select required class="form-control ng-pristine ng-touched ng-valid ng-valid-required" name="salutation"
                                             ng-model="vm.model.customerDetails.salutation">
-                                        <option translate value="Mr" >Mr</option>
-                                        <option translate value="Mrs">Mrs</option>
-                                        <option translate value="Ms">Ms</option>
+                                        <option translate value="Mr" >Mr.</option>
+                                        <option translate value="Mrs">Mrs.</option>
+                                        <option translate value="Ms">Ms.</option>
                                     </select>
                                 </div>
                             </div>
@@ -152,7 +152,7 @@
                                                        (addressDetails.postalCode.$dirty||vm.isSubmit2) }" ng-focus="postalCodeFocus = true" ng-blur="postalCodeFocus = false"/>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-large btn-primary no-margin" ng-click="vm.getAddressInformation()">
-                                        LookUp
+                                        Look up
                                     </button>
                                 </span>
                             </div>

@@ -6,10 +6,12 @@
         var vm = this;
         vm.status = 'All';
         vm.loadingSymbole = true;
+        vm.editUserBtnClick = false; // used for edit btn click function
+        vm.rightPaneLoad = false; // used for change table width
 
         userManagementFactory.loadUserManagement()
             .then(function successCallback(response) {
-                
+
                 vm.divisionList = response.data.divisions;
                 vm.roleList = response.data.roles;
                 vm.loadingSymbole = false;
@@ -26,6 +28,7 @@
 
         vm.searchUsers = function () {
             debugger;
+            
             // Get values from view.
             var loggedInuserId = $window.localStorage.getItem('userGuid');
             var role = (vm.role == undefined || vm.role == "") ? 0 : vm.role;
@@ -41,6 +44,7 @@
 
                 }, function errorCallback(response) {
                     //todo
+                    vm.loadingSymbole = false;
                 });
         };
 
@@ -91,7 +95,14 @@
 
             vm.searchUsers();
 
+        };
+
+        vm.manageUsers = function () {
+            debugger;
+            vm.rightPaneLoad = true;
+            vm.editUserBtnClick = true;
         }
+       
 
     });
 
