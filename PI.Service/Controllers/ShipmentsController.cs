@@ -35,7 +35,6 @@ using iTextSharp.text.html.simpleparser;
 using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
-using iTextSharp.tool.xml;
 using System.Drawing;
 
 namespace PI.Service.Controllers
