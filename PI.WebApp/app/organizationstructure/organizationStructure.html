@@ -6,7 +6,7 @@
     </div>
     
 </div>-->
-
+<div ng-controller="orgStructureCtrl">
 <div class="row m-l-0 m-r-0 m-b-20">
     <h2 class="m-t-0 custom-page-header">Organisation</h2>
 </div>
@@ -37,8 +37,8 @@
                     USERS
                 </tab-heading>
                 <form role="form" name="">
-                    <div class="row">
-                        <div class="col-sm-8 p-0">
+                    <div class="row m-0">
+                        <div class="col-sm-12 p-0" ng-class="rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -46,6 +46,7 @@
                                         <th>Name</th>
                                         <th>Role</th>
                                         <th>Status</th>
+                                        <th>edit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,94 +55,27 @@
                                         <td>Mark</td>
                                         <td>Manager</td>
                                         <td><span class="label label-active active-status">Active</span></td>
+                                        <td>
+                                            <button ng-click="manageUsers()"
+                                                    class="btn btn-sm btn-primary btn-transparent">
+                                                <i class="icon-note"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                    
                                 </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="5" class="text-center">
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
 
-                        <div class="col-sm-4 right-pane">
-                            <div class="row m-0">
-                                <span class="input input--hoshi m-0">
-                                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="firstname"
-                                           required autofocus ng-model="profileCtrl.model.customerDetails.firstName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileGeneral.firstname.$invalid && (formUpdateProfileGeneral.firstname.$dirty|| profileCtrl.isSubmit) }" ng-focus="firstnameFocus = true" ng-blur="firstnameFocus = false" />
-                                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                        <span class="input__label-content input__label-content--hoshi">First Name</span>
-                                    </label>
-
-                                </span>
-                                <div ng-messages="formUpdateProfileGeneral.firstname.$error" ng-show="(formUpdateProfileGeneral.firstname.$dirty && !firstnameFocus) || profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
-                                    <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <span class="input input--hoshi m-0">
-                                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="lastname"
-                                           minlength="4" required ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.lastname.$invalid && (formUpdateProfileBillingAddress.lastname.$dirty|| profileCtrl.isSubmit) }" ng-focus="lastNameFocus = true" ng-blur="lastNameFocus = false">
-                                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                        <span class="input__label-content input__label-content--hoshi">Last Name</span>
-                                    </label>
-                                </span>
-                                <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="(formUpdateProfileGeneral.lastname.$dirty && !lastNameFocus) ||profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
-                                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <span class="input input--hoshi m-0">
-                                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="lastname"
-                                           minlength="4" required ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.lastname.$invalid && (formUpdateProfileBillingAddress.lastname.$dirty|| profileCtrl.isSubmit) }" ng-focus="lastNameFocus = true" ng-blur="lastNameFocus = false">
-                                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                                        <span class="input__label-content input__label-content--hoshi">Email</span>
-                                    </label>
-                                </span>
-                                <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="(formUpdateProfileGeneral.lastname.$dirty && !lastNameFocus) ||profileCtrl.isSubmit">
-                                    <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
-                                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
-                                    <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <label style="color: rgba(102, 102, 102,.7);margin-top:20px;">
-                                    Role
-                                </label>
-                                <div class="option-group col-sm-11 p-0 form-group">
-                                    <select style=""
-                                            class="form-control form-white"
-                                            convert-to-number="" ng-options=""
-                                            name="role"
-                                            ng-change="" rel="popover"
-                                            data-container="body" data-toggle="popover"
-                                            data-placement="top" data-html="true" data-content="">
-                                        <option value="" translate="">Supervisor</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <label style="color: rgba(102, 102, 102,.7);margin-top:20px;">
-                                    Divisions
-                                </label>
-                                <div class="option-group col-sm-11 p-0 form-group">
-                                    <select style=""
-                                            class="form-control form-white"
-                                            convert-to-number="" ng-options=""
-                                            name="role"
-                                            ng-change="" rel="popover"
-                                            data-container="body" data-toggle="popover"
-                                            data-placement="top" data-html="true" data-content="">
-                                        <option value="" translate="">Multiple</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row m-0">
-                                <div class="col-sm-12 p-0">
-                                    <button class="btn btn-primary">Save</button>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-sm-4 manageuser-rightpane" ng-show="rightPaneLoad == true" ng-include="'userManagement/saveUserManagement.html'"></div>
+                        
                     </div>
                    
                 </form>
@@ -156,7 +90,7 @@
                 <tab-heading translate>
                     CHART
                 </tab-heading>
-                <div id="chart-container" class="orgChart" ng-controller="orgStructureCtrl"></div>
+                <div id="chart-container" class="orgChart"></div>
             </tab>
 
 
@@ -165,5 +99,5 @@
 
 </div>
 
-
+</div>
 
