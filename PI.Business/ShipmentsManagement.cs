@@ -1044,7 +1044,8 @@ namespace PI.Business
                     ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
-                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription
+                    ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                    CarrierCost=currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                 },
                 CarrierInformation = new CarrierInformationDto
@@ -3384,8 +3385,8 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 16];
                     cell.Value = shipment.GeneralInformation.ShipmentMode;
 
-                    cell = ws.Cells[rowIndex, 17];
-                    cell.Value = shipment.CarrierInformation.PickupDate;
+                    cell = ws.Cells[rowIndex, 17];                   
+                    cell.Value = shipment.CarrierInformation.PickupDate!=null? shipment.CarrierInformation.PickupDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture):"";
 
                     cell = ws.Cells[rowIndex, 18];
                     cell.Value = shipment.CarrierInformation.serviceLevel;
