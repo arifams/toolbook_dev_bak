@@ -352,6 +352,10 @@ var MakeApp = angular
                templateUrl: 'admin/custOverview.html',
 
            })
+           .when('/adminManageCustomers', {
+               templateUrl: 'admin/manageCustomers.html',
+               controller: 'adminManageCustomersCtrl',
+           })
           .when('/finance', {
               templateUrl: 'admin/finance.html',
 
