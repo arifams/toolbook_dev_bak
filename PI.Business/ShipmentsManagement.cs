@@ -601,35 +601,30 @@ namespace PI.Business
         {
             IList<ShipmentDto> shipmentList = new List<ShipmentDto>();
 
-            //using (PIContext context = new PIContext())
-            //{
             var content = (from shipment in context.Shipments
                            where shipment.Status != (short)ShipmentStatus.Delivered
                            select shipment).ToList();
 
             foreach (var item in content)
             {
-                shipmentList.Add(
-                    new ShipmentDto()
+                shipmentList.Add(new ShipmentDto()
+                {
+                    GeneralInformation = new GeneralInformationDto
                     {
-                        GeneralInformation = new GeneralInformationDto
-                        {
-                            TrackingNumber = item.TrackingNumber,
-                            ShipmentCode = item.ShipmentCode
-                        },
-                        CarrierInformation = new CarrierInformationDto
-                        {
-                            CarrierName = item.Carrier.Name
-                        },
+                        TrackingNumber = item.TrackingNumber,
+                        ShipmentCode = item.ShipmentCode
+                    },
+                    CarrierInformation = new CarrierInformationDto
+                    {
+                        CarrierName = item.Carrier.Name
+                    },
 
-                    }
-                    );
-
+                });
             }
-            // }
 
             return shipmentList;
         }
+
 
         //get shipments by User
         public PagedList GetAllShipmentsbyUser(PagedList shipmentSerach)
@@ -1045,7 +1040,7 @@ namespace PI.Business
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
-                    CarrierCost=currentShipment.ShipmentPackage.CarrierCost.ToString()
+                    CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                 },
                 CarrierInformation = new CarrierInformationDto
@@ -1089,9 +1084,9 @@ namespace PI.Business
             ShipmentDto shipmentDto;
             AddShipmentResponse response;
             ShipmentOperationResult result = new ShipmentOperationResult();
-            
+
             Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
-            
+
             var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
 
             shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
@@ -1612,7 +1607,7 @@ namespace PI.Business
                     CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
                     Status = currentShipment.Status.ToString(),
                     ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId),
-                    CreatedBy= currentShipment.CreatedBy
+                    CreatedBy = currentShipment.CreatedBy
                 },
                 PackageDetails = new PackageDetailsDto
                 {
@@ -1698,7 +1693,7 @@ namespace PI.Business
             //  }
 
         }
-        
+
 
         //get updated tracking history history from DB
         public TrackerDto getUpdatedShipmentHistoryFromDB(string shipmentId)
@@ -2334,7 +2329,7 @@ namespace PI.Business
             shipment.TrackingNumber = awbDto.TrackingNumber;
             int saveResult = context.SaveChanges();
 
-            if(saveResult == 1)
+            if (saveResult == 1)
             {
                 result.Status = Status.Success;
                 result.Message = "Successfully updated the Tracking Number";
@@ -2992,7 +2987,7 @@ namespace PI.Business
                                         string number = null, string source = null, string destination = null)
         {
             int page = 1;
-            int pageSize = 10;           
+            int pageSize = 10;
             short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
 
             var Content = new List<ShipmentDto>();
@@ -3097,9 +3092,9 @@ namespace PI.Business
 
                 });
             }
-            
+
             return this.GenerateExcelSheetForShipmentExportFunction(Content);
-             
+
             // }
         }
 
@@ -3385,8 +3380,8 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 16];
                     cell.Value = shipment.GeneralInformation.ShipmentMode;
 
-                    cell = ws.Cells[rowIndex, 17];                   
-                    cell.Value = shipment.CarrierInformation.PickupDate!=null? shipment.CarrierInformation.PickupDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture):"";
+                    cell = ws.Cells[rowIndex, 17];
+                    cell.Value = shipment.CarrierInformation.PickupDate != null ? shipment.CarrierInformation.PickupDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) : "";
 
                     cell = ws.Cells[rowIndex, 18];
                     cell.Value = shipment.CarrierInformation.serviceLevel;
@@ -3942,14 +3937,14 @@ namespace PI.Business
 
             var payment = context.Payments.Where(t => t.ReferenceId == reference).FirstOrDefault();
 
-            if (payment!=null)
+            if (payment != null)
             {
                 paymentDetails.Amount = payment.Amount.ToString();
             }
 
             return paymentDetails;
         }
-      
+
 
 
 
@@ -3980,7 +3975,7 @@ namespace PI.Business
                 // If failed, due to payment gateway error, then record payment error code.
                 paymentEntity.StatusCode = result.FieldList["errorCode"];
             }
-            
+
             context.Payments.Add(paymentEntity);
             context.SaveChanges();
 
@@ -4001,7 +3996,7 @@ namespace PI.Business
                     UserId = payment.UserId
                 });
             }
-            
+
         }
     }
 
