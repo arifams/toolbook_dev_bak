@@ -1,0 +1,9 @@
+﻿{
+  "$schema": "http://schemastore.org/schemas/json/webjob-publish-settings.json",
+  "webJobName": "StatusUpdater",
+  "startTime": "2016-10-13T07:00:00+05:30",
+  "endTime": null,
+  "jobRecurrenceFrequency": "Day",
+  "interval": 1,
+  "runMode": "Scheduled"
+}
