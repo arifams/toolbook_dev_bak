@@ -120,7 +120,13 @@
                     </li>-->
 
             
+                    <!--<li class="nav-parent" ng-show="currentRole !== 'Admin'">
+                        <a href="#"><i class="icon-users" aria-hidden="true"></i><span translate>CUSTOMER MANAGEMENT</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/adminManageCustomers')}"><a href="#adminManageCustomers" translate>CUSTOMER MANAGEMENT</a></li>
 
+                        </ul>
+                    </li>-->
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                     </li>
@@ -146,7 +152,7 @@
                     <li class="nav-parent" ng-show="currentRole == 'Admin'">
                         <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>FINANCE</a></li>
+                            <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>INVOICE & BILLING</a></li>
                             
                         </ul>
                     </li>
@@ -154,7 +160,7 @@
                     <li class="nav-parent" ng-show="currentRole != 'Admin'">
                         <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/InvoiceandBilling')}"><a href="#InvoiceandBilling" translate>FINANCE</a></li>
+                            <li ng-class="{ active  : isActive('/InvoiceandBilling')}"><a href="#InvoiceandBilling" translate>INVOICE & BILLING</a></li>
 
                         </ul>
                     </li>
@@ -1091,10 +1097,9 @@
     <script src="shipment/cmr.js"></script>
     <script src="shipmentControlCenter/adminDashboard.js"></script>
     <script src="admin/custOverview.js"></script>
-    <script src="admin/finance.js"></script>
-    <script src="customerFinance/customerFinance.js"></script>
     <script src="admin/manageUsers.js"></script>
     <script src="../plugins/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
+    <script src="admin/manageCustomers.js"></script>
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

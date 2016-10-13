@@ -86,6 +86,8 @@
     <Content Include="app\admin\finance.js" />
     <Content Include="app\admin\ImportRateSheet.html" />
     <Content Include="app\admin\ImportRateSheet.js" />
+    <Content Include="app\admin\manageCustomers.html" />
+    <Content Include="app\admin\manageCustomers.js" />
     <Content Include="app\admin\manageUsers.html" />
     <Content Include="app\admin\manageUsers.js" />
     <Content Include="app\admin\SearchSpecificShipments.html" />
