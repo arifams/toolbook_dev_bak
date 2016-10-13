@@ -87,6 +87,25 @@ namespace PI.Service.Controllers
 
             return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment));
 
+        }        
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateAllshipmentsByWebJob")]
+        public IHttpActionResult UpdateAllshipmentsByWebJob()
+        {
+            var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
+            foreach (var shipment in allShipmentList)
+            {
+                string carrier = shipment.CarrierInformation.CarrierName;
+                string trackingNumber = shipment.GeneralInformation.TrackingNumber;
+                string codeShipment = shipment.GeneralInformation.ShipmentCode;
+                string environment = "taleus";
+
+                // update all shipment details
+                shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+            }
+            return Ok();
         }
 
 

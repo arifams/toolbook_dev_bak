@@ -69,10 +69,10 @@
 
                        invoiceObj.invoiceNumber = value.invoiceNumber;
                        invoiceObj.shipmentId = value.shipmentReference;
-                       invoiceObj.value = value.invoiceValue;
-                       invoiceObj.sum = value.sum;
+                       invoiceObj.value = parseFloat(value.invoiceValue).toFixed(2);
+                       invoiceObj.sum =  parseFloat( value.sum).toFixed(2);
                        invoiceObj.invoiceStatus = value.invoiceStatus;
-                       invoiceObj.creditedValue = value.creditedValue;
+                       invoiceObj.creditedValue = parseFloat(value.creditedValue).toFixed(2);
                        invoiceObj.url = value.url;
 
 
