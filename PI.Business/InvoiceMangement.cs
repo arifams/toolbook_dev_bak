@@ -218,7 +218,7 @@ namespace PI.Business
 
             var payment = new Payment();
             payment.CreatedBy = invoiceDto.UserId;
-            payment.CreatedDate = DateTime.Now;
+            payment.CreatedDate = DateTime.UtcNow;
             payment.IsActive = true;
             payment.PaymentId = result.FieldList["PaymentKey"];
             payment.Status = result.Status;
@@ -257,7 +257,7 @@ namespace PI.Business
             {
                 InvoiceId = invoice.Id,
                 DisputeComment = invoice.DisputeComment,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CreatedBy = invoice.CreatedBy
 
             };
@@ -454,7 +454,7 @@ namespace PI.Business
                     InvoiceValue = invoiceDetails.InvoiceValue,
                     CreatedBy = invoiceDetails.CreatedBy.ToString(),
                     InvoiceStatus = (InvoiceStatus)Enum.Parse(typeof(InvoiceStatus), invoiceDetails.InvoiceStatus, true),
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     URL = invoiceDetails.URL,
                     DueDate = DateTime.ParseExact(invoiceDetails.DueDate,"MM/dd/yyyy",CultureInfo.InvariantCulture),
                     
@@ -499,7 +499,7 @@ namespace PI.Business
                     InvoiceId = creditNoteDetails.Id,
                     CreditNoteValue = creditNoteDetails.InvoiceValue,
                     CreatedBy = creditNoteDetails.CreatedBy,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     URL = creditNoteDetails.URL
                 };
 
@@ -642,7 +642,7 @@ namespace PI.Business
             //generating a random number for invoice name
             Random generator = new Random();
             string code = generator.Next(1000000, 9999999).ToString("D7");
-            string invoicename = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+            string invoicename = "PI_" + DateTime.UtcNow.Year.ToString() + "_" + code;
 
             var url = pdfUrl;
             string filename = "";

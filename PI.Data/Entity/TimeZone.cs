@@ -8,7 +8,7 @@ namespace PI.Data.Entity
 {
     public class TimeZone: ShortIdBaseEntity
     {
-        public string TimeZoneCode { get; set; }
-        public string CountryName { get; set; }
+        public string TimeZoneId { get; set; }
+        public string DisplayName { get; set; }
     }
 }

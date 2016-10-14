@@ -436,7 +436,7 @@ namespace PI.Business
 
         private string BuildAddShipmentXMLString(ShipmentDto addShipment)
         {
-            //string referenceNo = DateTime.Now.ToString("yyyyMMddHHmmssfff"); addShipment.GeneralInformation.ShipmentName + "-" + referenceNo
+            //string referenceNo = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"); addShipment.GeneralInformation.ShipmentName + "-" + referenceNo
 
             string codeCurrenyString = "";
             using (var context = new PIContext())

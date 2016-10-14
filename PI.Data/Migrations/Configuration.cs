@@ -8,6 +8,7 @@ namespace PI.Data.Migrations
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Diagnostics;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<PI.Data.PIContext>
@@ -76,38 +77,38 @@ namespace PI.Data.Migrations
 
             context.Languages.AddOrUpdate(
                 x => x.Id,
-                new Entity.Language() { Id = 1, LanguageCode = "EN", LanguageName = "ENGLISH", CreatedBy = "1", CreatedDate = DateTime.Now }
-                //new Entity.Language() { Id = 2, LanguageCode = "NL", LanguageName = "DUTCH", CreatedBy = "1", CreatedDate = DateTime.Now },
-                //new Entity.Language() { Id = 3, LanguageCode = "ZH", LanguageName = "CHINESE", CreatedBy = "1", CreatedDate = DateTime.Now },
-                //new Entity.Language() { Id = 4, LanguageCode = "DE", LanguageName = "GERMAN", CreatedBy = "1", CreatedDate = DateTime.Now }
+                new Entity.Language() { Id = 1, LanguageCode = "EN", LanguageName = "ENGLISH", CreatedBy = "1", CreatedDate = DateTime.UtcNow }
+                //new Entity.Language() { Id = 2, LanguageCode = "NL", LanguageName = "DUTCH", CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                //new Entity.Language() { Id = 3, LanguageCode = "ZH", LanguageName = "CHINESE", CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                //new Entity.Language() { Id = 4, LanguageCode = "DE", LanguageName = "GERMAN", CreatedBy = "1", CreatedDate = DateTime.UtcNow }
                 );
 
             context.Currencies.AddOrUpdate(
                 x => x.Id,
-                new Entity.Currency() { Id = 1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = "1", CreatedDate = DateTime.Now,IsActive = true,IsDelete = false },
-                new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false },
-                new Entity.Currency() { Id = 3, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false },
-                new Entity.Currency() { Id = 4, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false }
+                new Entity.Currency() { Id = 1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = true },
+                new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false },
+                new Entity.Currency() { Id = 3, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false },
+                new Entity.Currency() { Id = 4, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false }
                 );
 
-            context.TimeZones.AddOrUpdate(
-                x => x.Id,
-                new Entity.TimeZone() { Id = 1, TimeZoneCode = "UTC-10", CountryName = "Netharlands", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 2, TimeZoneCode = "UTC-20", CountryName = "German", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 3, TimeZoneCode = "UTC-30", CountryName = "England", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 4, TimeZoneCode = "UTC-40", CountryName = "Poland", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 5, TimeZoneCode = "UTC-50", CountryName = "Ireland", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 6, TimeZoneCode = "UTC-60", CountryName = "Switserland", CreatedBy = "1", CreatedDate = DateTime.Now }
-                );
-
-
-
+            // Insert timezone
+            foreach (var info in TimeZoneInfo.GetSystemTimeZones())
+            {
+                context.TimeZones.AddOrUpdate(x => x.TimeZoneId, new Entity.TimeZone()
+                {
+                    TimeZoneId = info.Id,
+                    DisplayName = info.DisplayName,
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.UtcNow,
+                    IsActive = true
+                });
+            }
 
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new PIContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new PIContext()));
 
             context.Tenants.AddOrUpdate(x => x.Id,
-                 new Entity.Tenant() { Id = 1, TenancyName = "MC", IsCorporateAccount = true, IsActive = true, IsDelete = true, CreatedBy = "1", CreatedDate = DateTime.Now });
+                 new Entity.Tenant() { Id = 1, TenancyName = "MC", IsCorporateAccount = true, IsActive = true, IsDelete = true, CreatedBy = "1", CreatedDate = DateTime.UtcNow });
 
 
             var user = new ApplicationUser()
@@ -120,7 +121,7 @@ namespace PI.Data.Migrations
                 FirstName = "Admin",
                 LastName = "User",
                 Level = 1,
-                JoinDate = DateTime.Now.AddYears(-3),
+                JoinDate = DateTime.UtcNow.AddYears(-3),
                 IsActive = true,
                 IsDeleted = false
             };
@@ -174,32 +175,24 @@ namespace PI.Data.Migrations
             
             context.VolumeMetrics.AddOrUpdate(
                 x => x.Id,
-                new Entity.VolumeMetric() { Id = 1, Name = "kg",IsActive = true,IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.VolumeMetric() { Id = 2, Name = "lbs", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.Now }
+                new Entity.VolumeMetric() { Id = 1, Name = "kg",IsActive = true,IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.VolumeMetric() { Id = 2, Name = "lbs", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
                 );
 
             context.WeightMetrics.AddOrUpdate(
                 x => x.Id,
-                new Entity.WeightMetric() { Id = 1, Name = "cm", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.WeightMetric() { Id = 2, Name = "m", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.Now }
+                new Entity.WeightMetric() { Id = 1, Name = "cm", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.WeightMetric() { Id = 2, Name = "m", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
                 );
-
-            //context.Carrier.AddOrUpdate(
-            //    new Entity.Carrier() {Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-            //    new Entity.Carrier() { Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-            //    new Entity.Carrier() { Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-            //    new Entity.Carrier() { Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
-            //);
 
             context.Carrier.AddOrUpdate(
                 x => x.Id,
-                new Entity.Carrier() { Id = 1, Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Id = 2, Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Id = 3, Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
+                new Entity.Carrier() { Id = 1, Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.Carrier() { Id = 2, Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.Carrier() { Id = 3, Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow }
             );
-
 
             if (context.Clients.Count() > 0)
             {

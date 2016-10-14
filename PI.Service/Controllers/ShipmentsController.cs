@@ -664,7 +664,7 @@ namespace PI.Service.Controllers
 
                     Random generator = new Random();
                     string code = generator.Next(1000000, 9999999).ToString("D7");
-                    string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+                    string invoiceNumber = "PI_" + DateTime.UtcNow.Year.ToString() + "_" + code;
 
                     //initializing azure storage
                     AzureFileManager media = new AzureFileManager();
@@ -941,10 +941,10 @@ namespace PI.Service.Controllers
                         ShipmentId = Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId),
                         CreatedBy = shipmentDetails.GeneralInformation.CreatedUser,
                         UserId = shipmentDetails.GeneralInformation.CreatedBy,
-                        DueDate = DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
+                        DueDate = DateTime.UtcNow.AddDays(10).ToString("MM/dd/yyyy"),
                         InvoiceValue = Convert.ToDecimal(paymentDetails.Amount)/100,
                         InvoiceStatus = InvoiceStatus.Paid.ToString(),
-                        InvoiceDate = DateTime.Now.ToString()
+                        InvoiceDate = DateTime.UtcNow.ToString()
                     };
 
                     var saveResult = invoiceManagement.SaveInvoiceDetails(invoice);
