@@ -196,6 +196,10 @@
     <Compile Include="Migrations\201610101244399_changedmaxlengthcountryName.Designer.cs">
       <DependentUpon>201610101244399_changedmaxlengthcountryName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610140142453_Updated_Timezone_Entity.cs" />
+    <Compile Include="Migrations\201610140142453_Updated_Timezone_Entity.Designer.cs">
+      <DependentUpon>201610140142453_Updated_Timezone_Entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -255,6 +259,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610101244399_changedmaxlengthcountryName.resx">
       <DependentUpon>201610101244399_changedmaxlengthcountryName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610140142453_Updated_Timezone_Entity.resx">
+      <DependentUpon>201610140142453_Updated_Timezone_Entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

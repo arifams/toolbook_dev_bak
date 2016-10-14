@@ -1,7 +1,11 @@
-﻿context.Currencies.AddOrUpdate(
+﻿1. context.Currencies.AddOrUpdate(
                 x => x.Id,
                 new Entity.Currency() { Id = 1, CurrencyCode = "USD $", CurrencyName = "USD", CreatedBy = "1", CreatedDate = DateTime.Now,IsActive = true,IsDelete = false },
                 new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false, IsDelete = false },
                 new Entity.Currency() { Id = 3, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false, IsDelete = false },
                 new Entity.Currency() { Id = 4, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false, IsDelete = false }
                 );
+
+2. Reset the account setting table identity column
+3. Update first record of TimeZone for valid one and then delete all records.
+4. Run the seed method.

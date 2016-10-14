@@ -286,8 +286,8 @@ namespace PI.Business.Tests
                  new Data.Entity.TimeZone
                  {
                       Id=1,
-                      TimeZoneCode="123",
-                      CountryName="US"
+                      TimeZoneId="123",
+                      DisplayName="US"
                  }
             };
 

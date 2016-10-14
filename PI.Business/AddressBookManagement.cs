@@ -163,7 +163,7 @@ namespace PI.Business
                     currentAddress.UserId = userId;
                     currentAddress.CreatedBy = userId;
                     currentAddress.IsActive = true;
-                    currentAddress.CreatedDate = DateTime.Now;
+                    currentAddress.CreatedDate = DateTime.UtcNow;
 
                     context.AddressBooks.Add(currentAddress);
                     context.SaveChanges();
@@ -239,7 +239,7 @@ namespace PI.Business
                 currentAddress.City = addressDetail.City;
                 currentAddress.State = addressDetail.State;
                 currentAddress.IsActive = addressDetail.IsActive;
-                currentAddress.CreatedDate = DateTime.Now;
+                currentAddress.CreatedDate = DateTime.UtcNow;
 
                 // Add new record
                 context.AddressBooks.Add(currentAddress);
@@ -557,7 +557,7 @@ namespace PI.Business
                             Country = detailsarray[12].ToString(),
                             AccountNumber = detailsarray.Length > 13 ? detailsarray[12].ToString() : string.Empty,
                             CreatedBy = userId,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTime.UtcNow,
                             UserId = userId,
                             IsActive = true
                         });
