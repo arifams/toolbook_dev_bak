@@ -96,7 +96,7 @@ namespace PI.Business
                         Email = customer.Email,
                         PhoneNumber = customer.PhoneNumber,
                         MobileNumber = customer.MobileNumber,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTime.UtcNow,
                         CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         UserId = customer.UserId,
                         //CompanyId = customer.CompanyId,
@@ -110,7 +110,7 @@ namespace PI.Business
                             StreetAddress2 = customer.CustomerAddress.StreetAddress2,
                             City = customer.CustomerAddress.City,
                             State = customer.CustomerAddress.State,
-                            CreatedDate = DateTime.Now,
+                            CreatedDate = DateTime.UtcNow,
                             CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                         }
                     };
@@ -129,7 +129,7 @@ namespace PI.Business
                     existingCustomer.Email = customer.Email;
                     existingCustomer.PhoneNumber = customer.PhoneNumber;
                     existingCustomer.MobileNumber = customer.MobileNumber;
-                    existingCustomer.CreatedDate = DateTime.Now;
+                    existingCustomer.CreatedDate = DateTime.UtcNow;
                     existingCustomer.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
                     existingCustomer.UserId = customer.UserId;
 
@@ -152,7 +152,7 @@ namespace PI.Business
                         AppFunctionality = AppFunctionality.UserRegistration,
                         Result = "SUCCESS",
                         CreatedBy = "1",
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.UtcNow
                     });
                 }
 

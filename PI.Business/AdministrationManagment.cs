@@ -93,13 +93,13 @@ namespace PI.Business
                                     CarrierNameLong = cellArray[4].ToString(),
                                     Name = cellArray[3].ToString(),
                                     CreatedBy = "1",
-                                    CreatedDate = DateTime.Now,
+                                    CreatedDate = DateTime.UtcNow,
                                     IsActive = true
                                 },
                                 CarrierCountryCode = cellArray[5].ToString(),
                                 CarrierAccountNumber = cellArray[6].ToString(),
                                 CreatedBy = "1",//userId,
-                                CreatedDate = DateTime.Now
+                                CreatedDate = DateTime.UtcNow
                             });
                         }
                     }
@@ -152,19 +152,19 @@ namespace PI.Business
 
                             decimal zonePriceUS1 = decimal.Parse(cellArray[14].ToString());
                             Zone zone1 = context.Zone.Where(z => z.ZoneName == "US1").FirstOrDefault();
-                            rateZoneList.Add(new RateZone() { Zone = zone1, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS1 });
+                            rateZoneList.Add(new RateZone() { Zone = zone1, CreatedDate = DateTime.UtcNow, CreatedBy = "1", Price = zonePriceUS1 });
 
                             decimal zonePriceUS2 = decimal.Parse(cellArray[15].ToString());
                             Zone zone2 = context.Zone.Where(z => z.ZoneName == "US2").FirstOrDefault();
-                            rateZoneList.Add(new RateZone() { Zone = zone2, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS2 });
+                            rateZoneList.Add(new RateZone() { Zone = zone2, CreatedDate = DateTime.UtcNow, CreatedBy = "1", Price = zonePriceUS2 });
 
                             decimal zonePriceUS3 = decimal.Parse(cellArray[16].ToString());
                             Zone zone3 = context.Zone.Where(z => z.ZoneName == "US3").FirstOrDefault();
-                            rateZoneList.Add(new RateZone() { Zone = zone3, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS3 });
+                            rateZoneList.Add(new RateZone() { Zone = zone3, CreatedDate = DateTime.UtcNow, CreatedBy = "1", Price = zonePriceUS3 });
 
                             decimal zonePriceUS4 = decimal.Parse(cellArray[17].ToString());
                             Zone zone4 = context.Zone.Where(z => z.ZoneName == "US4").FirstOrDefault();
-                            rateZoneList.Add(new RateZone() { Zone = zone4, CreatedDate = DateTime.Now, CreatedBy = "1", Price = zonePriceUS4 });
+                            rateZoneList.Add(new RateZone() { Zone = zone4, CreatedDate = DateTime.UtcNow, CreatedBy = "1", Price = zonePriceUS4 });
 
                             rateList.Add(new Rate
                             {
@@ -183,7 +183,7 @@ namespace PI.Business
                                 TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
                                 MaxDimension = Convert.ToDecimal(cellArray[19].ToString()),
                                 CreatedBy = "1",//userId,
-                                CreatedDate = DateTime.Now,
+                                CreatedDate = DateTime.UtcNow,
                                 RateZoneList = rateZoneList
                             });
                         }
@@ -246,7 +246,7 @@ namespace PI.Business
                                 TariffType = context.TariffType.Where(t => t.TarrifName == tarrifName).FirstOrDefault(),
                                 IsInbound = string.Equals(cellArray[9].ToString(), "Yes", StringComparison.InvariantCultureIgnoreCase),
                                 CreatedBy = "1",//userId,
-                                CreatedDate = DateTime.Now
+                                CreatedDate = DateTime.UtcNow
                             });
                         }
                     }
@@ -302,10 +302,10 @@ namespace PI.Business
                             transitTimeProdList = new List<TransitTimeProduct>();
 
                             if (cellArray[6] != null && !string.IsNullOrWhiteSpace(cellArray[6].ToString()))
-                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(cellArray[6].ToString()), CreatedDate = DateTime.Now });
+                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Document, Days = Convert.ToInt16(cellArray[6].ToString()), CreatedDate = DateTime.UtcNow });
 
                             if (cellArray[7].ToString() != null && !string.IsNullOrWhiteSpace(cellArray[7].ToString()))
-                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Box, Days = Convert.ToInt16(cellArray[7].ToString()), CreatedDate = DateTime.Now });
+                                transitTimeProdList.Add(new TransitTimeProduct() { ProductType = ProductType.Box, Days = Convert.ToInt16(cellArray[7].ToString()), CreatedDate = DateTime.UtcNow });
 
                             transmitTimeList.Add(new TransmitTime()
                             {
@@ -315,7 +315,7 @@ namespace PI.Business
                                 Zone = context.Zone.Where(z => z.ZoneName == zoneName).FirstOrDefault(),
                                 TransitTimeProductList = transitTimeProdList,
                                 CreatedBy = "1",//userId,
-                                CreatedDate = DateTime.Now
+                                CreatedDate = DateTime.UtcNow
                             });
                         }
                     }

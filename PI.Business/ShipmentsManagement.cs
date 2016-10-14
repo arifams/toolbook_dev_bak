@@ -358,7 +358,7 @@ namespace PI.Business
             addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
             {
                 CreatedBy = addShipment.CreatedBy,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 IsDelete = false,
                 Description = p.Description,
@@ -1664,7 +1664,7 @@ namespace PI.Business
                     }
                 }
                 locationHistory.ShipmentId = ShipmntId;
-                locationHistory.CreatedDate = DateTime.Now;
+                locationHistory.CreatedDate = DateTime.UtcNow;
                 context.ShipmentLocationHistories.Add(locationHistory);
                 context.SaveChanges();
             }
@@ -1682,7 +1682,7 @@ namespace PI.Business
                             activity.Status = activityItems.status;
                             activity.Time = Convert.ToDateTime(activityItems.timestamp.time);
                             activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
-                            activity.CreatedDate = DateTime.Now;
+                            activity.CreatedDate = DateTime.UtcNow;
                             context.LocationActivities.Add(activity);
                             context.SaveChanges();
                         }
@@ -1822,7 +1822,7 @@ namespace PI.Business
                 DocumentType = (int)fileDetails.DocumentType,
                 UploadedFileName = fileDetails.UploadedFileName,
                 IsActive = true,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CreatedBy = "1"
             });
 
@@ -2121,7 +2121,7 @@ namespace PI.Business
         //                ShipmentId = shipment.Id,
         //               // NewStatus = ,
         //                CreatedBy = userId,
-        //                CreatedDate = DateTime.Now
+        //                CreatedDate = DateTime.UtcNow
         //            });
         //            context.SaveChanges();
 
@@ -2499,7 +2499,7 @@ namespace PI.Business
                 PricePerPiece = p.PricePerPiece,
                 Quantity = p.Quantity,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 HSCode = p.HSCode,
             }));
@@ -2527,7 +2527,7 @@ namespace PI.Business
                 InvoiceItem = new InvoiceItem()
                 {
                     CreatedBy = "1",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     IsActive = true,
                     InvoiceItemLines = invoiceItemLineList
                 }
@@ -3957,7 +3957,7 @@ namespace PI.Business
             // Added payment data
             var paymentEntity = new Payment();
             paymentEntity.CreatedBy = payment.UserId;
-            paymentEntity.CreatedDate = DateTime.Now;
+            paymentEntity.CreatedDate = DateTime.UtcNow;
             paymentEntity.IsActive = true;
             paymentEntity.PaymentId = result.FieldList["PaymentKey"];
             paymentEntity.Status = result.Status;

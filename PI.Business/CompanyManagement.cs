@@ -75,7 +75,7 @@ namespace PI.Business
             {
                 // TenancyName = customerCompany.CompanyCode,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 IsDelete = false,
                 IsCorporateAccount = customerCompany.IsCorporateAccount
@@ -91,7 +91,7 @@ namespace PI.Business
                 IsActive = true,
                 IsDelete = false,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CompanyCode = customerCompany.CompanyCode
             };
             context.Companies.Add(company);
@@ -106,7 +106,7 @@ namespace PI.Business
                 IsActive = true,
                 IsDelete = false,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 BillingAddress = new Address
                 {
                     Country = customerCompany.CustomerAddress.Country,
@@ -116,7 +116,7 @@ namespace PI.Business
                     StreetAddress2 = customerCompany.CustomerAddress.StreetAddress2,
                     City = customerCompany.CustomerAddress.City,
                     State = customerCompany.CustomerAddress.State,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     CreatedBy = "1",// TODO : Get created user.
                 },
             };
@@ -133,7 +133,7 @@ namespace PI.Business
                 IsActive = true,
                 IsDelete = false,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
             };
             context.Divisions.Add(division);
             context.SaveChanges();
@@ -392,7 +392,7 @@ namespace PI.Business
                     DivisionId = division,
                     IsActive = true,
                     CreatedBy = "1",
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 });
             }
 
@@ -408,7 +408,7 @@ namespace PI.Business
                     Status = costCenter.Status,
                     CompanyId = comp == null ? 0 : comp.Id, //costCenter.CompanyId, TODO H - why?
                     Type = "USER",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     CreatedBy = "1",// TODO : Get created user.       
                     BillingAddress = (costCenter.BillingAddress == null) ? null : new Address
                     {
@@ -419,7 +419,7 @@ namespace PI.Business
                         StreetAddress2 = costCenter.BillingAddress.StreetAddress2,
                         City = costCenter.BillingAddress.City,
                         State = costCenter.BillingAddress.State,
-                        CreatedDate = DateTime.Now,
+                        CreatedDate = DateTime.UtcNow,
                         CreatedBy = "1",//sessionHelper.Get<User>().LoginName; // TODO : Get created user.
                     },
                     IsActive = costCenter.Status == 1 ? true : false,
@@ -454,7 +454,7 @@ namespace PI.Business
                 //        DivisionId = defaultDivision.Id,
                 //        IsActive = true,
                 //        CreatedBy = 1,
-                //        CreatedDate = DateTime.Now
+                //        CreatedDate = DateTime.UtcNow
                 //    });
                 //}
 
@@ -471,7 +471,7 @@ namespace PI.Business
                 existingCostCenter.BillingAddress.City = costCenter.BillingAddress.City;
                 existingCostCenter.BillingAddress.ZipCode = costCenter.BillingAddress.ZipCode;
                 existingCostCenter.BillingAddress.State = costCenter.BillingAddress.State;
-                existingCostCenter.CreatedDate = DateTime.Now;
+                existingCostCenter.CreatedDate = DateTime.UtcNow;
                 existingCostCenter.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
                                                     //existingCostCenter.DivisionCostCenters.ToList().AddRange(divcostList);
                                                     // TODO: Add Assigned Devisions
@@ -1068,7 +1068,7 @@ namespace PI.Business
                     CompanyId = comapnyId,
                     Type = "USER",
                     IsActive = division.Status == 1 ? true : false,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     CreatedBy = "1",// TODO : Get created user.                       
                 };
                 context.Divisions.Add(newDivision);
@@ -1082,7 +1082,7 @@ namespace PI.Business
                         DivisionId = newDivision.Id,
                         IsActive = true,
                         CreatedBy = "1",
-                        CreatedDate = DateTime.Now
+                        CreatedDate = DateTime.UtcNow
                     });
                 }
 
@@ -1107,7 +1107,7 @@ namespace PI.Business
                 existingDivision.CompanyId = comapnyId;
                 existingDivision.Type = "USER";
                 existingDivision.IsActive = division.Status == 1 ? true : false;
-                existingDivision.CreatedDate = DateTime.Now;
+                existingDivision.CreatedDate = DateTime.UtcNow;
                 existingDivision.CreatedBy = "1"; //sessionHelper.Get<User>().LoginName; 
 
             }
@@ -1184,7 +1184,7 @@ namespace PI.Business
 
             if (user != null)
             {
-                user.LastLoginTime = DateTime.Now;
+                user.LastLoginTime = DateTime.UtcNow;
                 context.SaveChanges();
             }
 
@@ -1195,7 +1195,7 @@ namespace PI.Business
                 AppFunctionality = AppFunctionality.UserLogin,
                 Result = "SUCCESS",
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             });
 
         }
@@ -1350,7 +1350,7 @@ namespace PI.Business
                 appUser.LastName = userDto.LastName;
                 appUser.Email = userDto.Email;
                 appUser.IsActive = userDto.IsActive;
-                appUser.JoinDate = DateTime.Now;
+                appUser.JoinDate = DateTime.UtcNow;
                 appUser.Level = 1;
                 appUser.IsDeleted = false;
                 appUser.LastLoginTime = (DateTime?)null;
@@ -1393,7 +1393,7 @@ namespace PI.Business
                 appUser.LastName = userDto.LastName;
                 appUser.Email = userDto.Email;
                 appUser.IsActive = userDto.IsActive;
-                //existingUser.JoinDate = DateTime.Now;
+                //existingUser.JoinDate = DateTime.UtcNow;
                 //existingUser.CreatedBy = 1; //TODO: sessionHelper.Get<User>().LoginName; 
 
                 // Save user context.
@@ -1422,7 +1422,7 @@ namespace PI.Business
                     DivisionId = divisionId,
                     IsActive = true,
                     CreatedBy = "1",
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 });
             }
 
@@ -1437,7 +1437,7 @@ namespace PI.Business
                 AppFunctionality = string.IsNullOrEmpty(userDto.Id) ? AppFunctionality.AddUser : AppFunctionality.EditUser,
                 Result = "SUCCESS",
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             });
             context.SaveChanges();
 
@@ -1693,7 +1693,7 @@ namespace PI.Business
                 AppFunctionality = AppFunctionality.UserManagement,
                 Result = "SUCCESS",
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             });
             context.SaveChanges();
 
@@ -1758,7 +1758,7 @@ namespace PI.Business
         {
             var currentuser = context.Users.SingleOrDefault(u => u.Email == userDto.Email);
             currentuser.MobileVerificationCode = userDto.MobileVerificationCode;
-            currentuser.MobileVerificationExpiry = DateTime.Now;
+            currentuser.MobileVerificationExpiry = DateTime.UtcNow;
 
             var customer = context.Customers.SingleOrDefault(u => u.Email == userDto.Email);
             
