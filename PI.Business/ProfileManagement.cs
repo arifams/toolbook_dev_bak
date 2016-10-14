@@ -1004,17 +1004,14 @@ namespace PI.Business
         //retrieve all TimeZones
         public List<TimeZoneDto> GetAllTimeZones()
         {
-            //using (PIContext context = PIContext.Get())
-            //{
-                var timeZones = from t in context.TimeZones
-                                select new TimeZoneDto()
-                                {
-                                    Id = t.Id,
-                                    TimeZoneCode = t.TimeZoneCode,
-                                    CountryName = t.CountryName
-                                };
-                return timeZones.ToList();
-          //  }
+            var timeZones = from t in context.TimeZones
+                            select new TimeZoneDto()
+                            {
+                                Id = t.Id,
+                                TimeZoneCode = t.DisplayName,
+                                CountryName = t.DisplayName
+                            };
+            return timeZones.ToList();
         }
 
       

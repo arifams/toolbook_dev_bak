@@ -8,6 +8,7 @@ namespace PI.Data.Migrations
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
+    using System.Diagnostics;
     using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<PI.Data.PIContext>
@@ -84,24 +85,24 @@ namespace PI.Data.Migrations
 
             context.Currencies.AddOrUpdate(
                 x => x.Id,
-                new Entity.Currency() { Id = 1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = "1", CreatedDate = DateTime.Now,IsActive = true,IsDelete = false },
-                new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false },
-                new Entity.Currency() { Id = 3, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false },
-                new Entity.Currency() { Id = 4, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = true, IsDelete = false }
+                new Entity.Currency() { Id = 1, CurrencyCode = "USD", CurrencyName = "USD", CreatedBy = "1", CreatedDate = DateTime.Now,IsActive = true },
+                new Entity.Currency() { Id = 2, CurrencyCode = "EUR", CurrencyName = "EURO", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false },
+                new Entity.Currency() { Id = 3, CurrencyCode = "YN", CurrencyName = "YEN", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false },
+                new Entity.Currency() { Id = 4, CurrencyCode = "GBP", CurrencyName = "Pound", CreatedBy = "1", CreatedDate = DateTime.Now, IsActive = false }
                 );
 
-            context.TimeZones.AddOrUpdate(
-                x => x.Id,
-                new Entity.TimeZone() { Id = 1, TimeZoneCode = "UTC-10", CountryName = "Netharlands", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 2, TimeZoneCode = "UTC-20", CountryName = "German", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 3, TimeZoneCode = "UTC-30", CountryName = "England", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 4, TimeZoneCode = "UTC-40", CountryName = "Poland", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 5, TimeZoneCode = "UTC-50", CountryName = "Ireland", CreatedBy = "1", CreatedDate = DateTime.Now },
-                new Entity.TimeZone() { Id = 6, TimeZoneCode = "UTC-60", CountryName = "Switserland", CreatedBy = "1", CreatedDate = DateTime.Now }
-                );
-
-
-
+            // Insert timezone
+            foreach (var info in TimeZoneInfo.GetSystemTimeZones())
+            {
+                context.TimeZones.AddOrUpdate(x => x.TimeZoneId, new Entity.TimeZone()
+                {
+                    TimeZoneId = info.Id,
+                    DisplayName = info.DisplayName,
+                    CreatedBy = "1",
+                    CreatedDate = DateTime.Now,
+                    IsActive = true
+                });
+            }
 
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new PIContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new PIContext()));
@@ -199,7 +200,6 @@ namespace PI.Data.Migrations
                 new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now },
                 new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.Now }
             );
-
 
             if (context.Clients.Count() > 0)
             {
