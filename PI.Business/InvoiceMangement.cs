@@ -654,6 +654,15 @@ namespace PI.Business
             string invoiceAmount = "";
             XmlNode creditnode = null;
 
+
+            //for credit note values
+            string creditnoteNumber = "";
+            string customerNumber = "";
+            string totalAmountship = "";
+            string totalVat = "";
+            string creditAmount = "";
+            bool invoice = true;
+
             string pathToPdf = url;
 
             var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.xml";
@@ -686,24 +695,52 @@ namespace PI.Business
                 XmlDocument doc = new XmlDocument();
                 doc.Load(pathToXml);
                 //fetching details from xml
-                trackingNo = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText, "AWB#:", "Reference").Replace(" ", "");
-                invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
-                createdDate = doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
-                duedate = doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
-                terms = doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;
-                invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[text()='BALANCE DUE']").NextSibling.NextSibling.InnerText.Replace("$","");
-                creditnode  = doc.SelectSingleNode("document/page/table/row/cell[text()='Creditnumber']");
+                XmlNode trackingNode = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]");
+              
+                if (trackingNode == null)
+                {
+                    //set the flag for credit notes
+                    invoice = false;
 
+                    creditnoteNumber =doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Credit number')]").InnerText.Split(new char[0]).Last();
+                    customerNumber = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Customer')]").InnerText, "Customer", "Invoice ").Replace(" ", "");
+                    invoiceNumber = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Invoice number')]").InnerText, "number:", "Credit").Replace(" ", "");
+                    totalAmountship = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Total amount shipment')]").InnerText, "$", "Total").Replace(" ", ""); 
+
+
+                    totalVat = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Total VAT')]").InnerText.Split(new char[0]).Last();
+                    creditAmount = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'Credit amount')]").InnerText.Split(new char[0]).Last().Replace("$","");
+
+                }
+                else
+                {
+                    trackingNo = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText, "AWB#:", "Reference").Replace(" ", "");
+                    invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
+                    createdDate = doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
+                    duedate = doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
+                    terms = doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;
+                    invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[text()='BALANCE DUE']").NextSibling.NextSibling.InnerText.Replace("$", "");
+
+                }
+                
 
             }
 
             f.ClosePdf();
-            if (!string.IsNullOrEmpty(trackingNo))
+            var savedInvoice = this.GetInvoiceByNumber(invoiceNumber);
+            
+            if (savedInvoice==null)
             {
-                shipmentDetails = shipmentManagement.GetShipmentDetailsByTrackingNo(trackingNo);
+                return false;
             }
+
+            shipmentDetails = shipmentManagement.GetshipmentById("", (long)savedInvoice.ShipmentId);
             //get tenantId 
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedBy);
+            if (shipmentDetails==null || shipmentDetails.GeneralInformation==null)
+            {
+                return false;
+            }
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedUser);
 
             //saving invoice details fetched from the Pdf
             WebClient myclient = new WebClient();
@@ -716,10 +753,9 @@ namespace PI.Business
 
             //uploaded Url
             var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice) + "/" + filename;
+            
 
-            var savedInvoice = this.GetInvoiceByNumber(invoiceNumber);
-
-            if (savedInvoice!=null && creditnode!=null)
+            if (invoice)
             {  
                 //saving fetched details from Pdf
                 invoiceDetails.InvoiceNumber = invoiceNumber;
@@ -736,18 +772,16 @@ namespace PI.Business
             }
             else
             {
-                //saving fetched details from Pdf
-                invoiceDetails.InvoiceNumber = invoiceNumber;
-                invoiceDetails.ShipmentId = Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId);
-                invoiceDetails.InvoiceDate = createdDate;
-                invoiceDetails.DueDate = duedate;
-                invoiceDetails.CreatedOn = createdDate;
-                invoiceDetails.Terms = terms;
-                invoiceDetails.InvoiceValue = Convert.ToDecimal(invoiceAmount);
-                invoiceDetails.URL = returnData;
-                invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
-                invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
-                this.SaveInvoiceDetails(invoiceDetails);
+               
+                 invoiceDetails.Id = savedInvoice.Id;
+                 invoiceDetails.InvoiceNumber = invoiceNumber;
+                 invoiceDetails.InvoiceValue = Convert.ToDecimal(creditAmount);
+                 invoiceDetails.CreatedBy = savedInvoice.CreatedBy;
+                 invoiceDetails.URL = returnData;
+                
+                //saving credit notes
+                this.SaveCreditNoteDetails(invoiceDetails);
+               
 
             }
 

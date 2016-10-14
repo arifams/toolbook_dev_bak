@@ -18,9 +18,11 @@
     app.controller('orgStructureCtrl', ['$scope', '$compile', 'ngDialog', 'customBuilderFactory', '$controller','loadOrganizationStructureFactory',
         function ($scope, $compile, ngDialog, customBuilderFactory, $controller, loadOrganizationStructureFactory) {
 
-       
+            $scope.editUserBtnClick = false; // used for edit btn click function
+            $scope.rightPaneLoad = false; // used for change table width
 
             var datascource = {};
+
 
             $scope.loadOrganizationStructure = function () {
                 loadOrganizationStructureFactory.loadOrganizationStructure()
@@ -118,41 +120,14 @@
 
             });
 
-            //var datascource = {
-            //    'name': 'Business Manager',
-            //    'title': 'Lao Lao1',
-            //    'relationship': { 'children_num': 8 },
-            //    'children': [
-            //      {
-            //          'name': 'Manager', 'title': 'Bo Miao',
-            //          'children': [
-            //            {
-            //                'name': 'Supervisor', 'title': 'Tie Hua',
-            //                'children': [
-            //                  { 'name': 'Division', 'title': 'Division A' },
-            //                  { 'name': 'Division', 'title': 'Division B' }
-            //                ]
-            //            }
-            //          ]
-            //      },
-            //      {
-            //          'name': 'Manager', 'title': 'Su Miao',
-            //          'children': [
-            //            {
-            //                'name': 'Supervisor', 'title': 'Tie Hua B',
-            //                'children': [
-            //                  { 'name': 'Division', 'title': 'Division B' },
-            //                  { 'name': 'Division', 'title': 'Division C' }
-            //                ]    
-            //            },
-            //            { 'name': 'Supervisor', 'title': 'Tie Hua A' }
-            //          ]
-            //      }
-            //    ]
-            //};
-
 
             $scope.loadOrganizationStructure();
+
+            $scope.manageUsers = function () {
+                debugger;
+                $scope.rightPaneLoad = true;
+                $scope.editUserBtnClick = true;
+            }
 
         }]);
 

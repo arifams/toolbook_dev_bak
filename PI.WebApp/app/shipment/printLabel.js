@@ -10,6 +10,7 @@
                var vm = this;
                vm.datePicker = {};
                vm.datePicker.date = { startDate: null, endDate: null };
+               vm.loadingSymbole = true;
 
                vm.loadFilterToggle = function () {
                    customBuilderFactory.customFilterToggle();
@@ -18,7 +19,7 @@
 
                vm.loadAllShipments = function (status) {
                    
-                  
+                   vm.loadingSymbole = true;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                    var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                    var number = (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber;
@@ -26,7 +27,7 @@
                    shipmentFactory.loadAllPendingShipments(startDate, endDate, number)
                         .success(
                                function (responce) {
-                                   
+                                   vm.loadingSymbole = false;
                                    vm.shipmentList = responce.content;
                                }).error(function (error) {
                                    console.log("error occurd while retrieving shiments");

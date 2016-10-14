@@ -31,10 +31,10 @@ using Newtonsoft.Json.Linq;
 using PI.Data.Entity;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
-using iTextSharp.text.html.simpleparser;
 using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
+using System.Drawing;
 
 namespace PI.Service.Controllers
 {
@@ -87,6 +87,27 @@ namespace PI.Service.Controllers
 
             return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment));
 
+        }        
+
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("UpdateAllShipmentsFromWebJob")]
+        public IHttpActionResult UpdateAllShipmentsFromWebJob()
+        {
+            var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
+
+            foreach (var shipment in allShipmentList)
+            {
+                string carrier = shipment.CarrierInformation.CarrierName;
+                string trackingNumber = shipment.GeneralInformation.TrackingNumber;
+                string codeShipment = shipment.GeneralInformation.ShipmentCode;
+                string environment = "taleus";
+
+                // update all shipment details
+                shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+            }
+            return Ok();
         }
 
 
@@ -654,59 +675,239 @@ namespace PI.Service.Controllers
                     var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
                     string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
                     // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
-
-                    PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
-                    HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
-
-                    string htmlTemplate = "";
-                    TemplateLoader templateLoader = new TemplateLoader();
-
-                    StringBuilder packageDetails = new StringBuilder();
-
-                    packageDetails.Append("<tr> <td> <label>" + shipmentDetails.CarrierInformation.CarrierName + "</label><br/>");
-                    packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.GeneralInformation.TrackingNumber + "</p><br/>");
-                    packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.GeneralInformation.ShipmentReferenceName + "</p><br/>");
-                    packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country + "</p><br/>");
-                    packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country + "</p><br/>");
-                    packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.PackageDetails.TotalWeight + "</p><br/>");
-                    packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.GeneralInformation.CreatedDate + "</p><br/>");
-                    packageDetails.Append("</td>");
-                    packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                    packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount)/100 + "</td>");
-                    packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount) / 100 + "</td> </tr>");
-                    packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
-                    packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
-                    packageDetails.Append("<td>" + "" + "</td> </tr>");
-                    packageDetails.Append("<td>" + "" + "</td> </tr>");
-
-
-                    //get the email template for invoice
-                    HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
-                    htmlTemplate = template.DocumentNode.InnerHtml;
-
-                    //replacing values from shipment
-                    var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName)
-                    .Replace("{BillingAddress1}", shipmentDetails.AddressInformation.Consigner.Address1)
-                    .Replace("{BillingAddress2}", shipmentDetails.AddressInformation.Consigner.Address2)
-                    .Replace("{BillingCity}", shipmentDetails.AddressInformation.Consigner.City)
-                    .Replace("{BillingState}", shipmentDetails.AddressInformation.Consigner.State)
-                    .Replace("{BillingZip}", shipmentDetails.AddressInformation.Consigner.Postalcode)
-                    .Replace("{BillingCountry}", shipmentDetails.AddressInformation.Consigner.Country)
-                    .Replace("{invoicenumber}", invoiceNumber)
-                    .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
-                    .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
-                    .Replace("{terms}", "Net 10")
-                    .Replace("{totalvalue}", paymentDetails != null ? (Convert.ToDecimal(paymentDetails.Amount)/100).ToString() : null + "$")
-                    .Replace("{tableBody}", packageDetails.ToString());
-
-
-                    TextReader txtReader = new StringReader(replacedString);
+                    
+                    PdfWriter writer= PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+                
+                   
+                    Uri imageUrl = new Uri("http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg");
+                    iTextSharp.text.Image LOGO = iTextSharp.text.Image.GetInstance(imageUrl);
+                    LOGO.ScalePercent(25f);
                     invoicePdf.Open();
-                    htmlWorker.StartDocument();
-                    htmlWorker.Parse(txtReader);
 
-                    htmlWorker.EndDocument();
-                    htmlWorker.Close();
+                    
+                    float[] Addresscolumns = { 25, 15, 45, 15 };
+                    PdfPTable addressTable = new PdfPTable(4);
+                    addressTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    addressTable.SetWidthPercentage(Addresscolumns, new iTextSharp.text.Rectangle(100, 200));
+
+                    PdfPCell logoCell = new PdfPCell(LOGO);
+                    logoCell.Border = 0;
+
+
+                    PdfPCell addressCell = new PdfPCell();
+                    addressCell.Border = 0;
+
+                    Paragraph line1 = new Paragraph("Parcel Intenational");
+                    Paragraph line2 = new Paragraph("1900 Addison Street");
+                    Paragraph line3 = new Paragraph("STE. 200");
+                    Paragraph line4 = new Paragraph("CA US");
+                    Paragraph line5 = new Paragraph("(510) 281-7554");
+                    Paragraph line6 = new Paragraph("support@parcelinternational.com");
+                    Paragraph line7 = new Paragraph("www.parcelinternational.com");
+
+                    addressCell.AddElement(line1);
+                    addressCell.AddElement(line2);
+                    addressCell.AddElement(line3);
+                    addressCell.AddElement(line4);
+                    addressCell.AddElement(line5);
+                    addressCell.AddElement(line6);
+                    addressCell.AddElement(line7);
+
+                    PdfPCell emptyCell = new PdfPCell();
+                    emptyCell.Border = 0;
+
+                    addressTable.AddCell(logoCell);
+                    addressTable.AddCell(emptyCell);
+                    addressTable.AddCell(new PdfPCell(addressCell));                    
+                    addressTable.AddCell(emptyCell);
+                    
+                    invoicePdf.Add(addressTable);
+
+                    float[] Billingcolumns = { 40,10,10,40 };
+                    PdfPTable billingTable = new PdfPTable(4);
+                    billingTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    billingTable.SetWidthPercentage(Billingcolumns, new iTextSharp.text.Rectangle(100, 200));
+
+                    iTextSharp.text.Font invoiceFont = new iTextSharp.text.Font();
+                    invoiceFont.Size = 10;
+
+                    //add billing address and invoice details
+                    Paragraph billingline1 = new Paragraph("BILL TO" , invoiceFont);
+                    Paragraph billingline5 = new Paragraph(shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName, invoiceFont);
+                    Paragraph billingline2 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Address1, invoiceFont);
+                    Paragraph billingline3 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Address2, invoiceFont);
+                    Paragraph billingline4 = new Paragraph(shipmentDetails.AddressInformation.Consigner.City+","+ shipmentDetails.AddressInformation.Consigner.State+","+ shipmentDetails.AddressInformation.Consigner.Postalcode, invoiceFont);                  
+                    Paragraph billingline6 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
+
+                    Paragraph billingDetailsline1 = new Paragraph("INVOICE # "+  invoiceNumber, invoiceFont);
+                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + DateTime.Now.ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline4 = new Paragraph("TERMS  " +"Net 10", invoiceFont);
+
+
+                    PdfPCell billingaddressCell = new PdfPCell();
+                    billingaddressCell.Border = 0;
+                    billingaddressCell.AddElement(billingline1);
+                    billingaddressCell.AddElement(billingline2);
+                    billingaddressCell.AddElement(billingline3);
+                    billingaddressCell.AddElement(billingline4);
+                    billingaddressCell.AddElement(billingline5);
+                    billingaddressCell.AddElement(billingline6);
+
+                    PdfPCell billingDetailsCell = new PdfPCell();
+                    billingDetailsCell.Border = 0;
+                    billingDetailsCell.AddElement(billingDetailsline1);
+                    billingDetailsCell.AddElement(billingDetailsline2);
+                    billingDetailsCell.AddElement(billingDetailsline3);
+                    billingDetailsCell.AddElement(billingDetailsline4);
+
+                    billingTable.AddCell(billingaddressCell);
+                    billingTable.AddCell(emptyCell);
+                    billingTable.AddCell(emptyCell);
+                    billingTable.AddCell(billingDetailsCell);
+
+
+
+                    BaseFont bfTimes = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);
+                    iTextSharp.text.Font times = new iTextSharp.text.Font(bfTimes, 14, iTextSharp.text.Font.BOLD, BaseColor.BLUE);
+
+                    Paragraph title = new Paragraph("INVOICE", times);
+                    title.Alignment = Element.ALIGN_LEFT;
+                    invoicePdf.Add(title);
+                    invoicePdf.Add(billingTable);
+
+                    invoicePdf.Add(new Phrase());
+                    invoicePdf.Add(new Paragraph("  "));
+                    invoicePdf.Add(new Paragraph("  "));
+
+
+                    float[] Shipmentcolumns = { 50, 10, 20, 20 };
+                    PdfPTable shipmentTable = new PdfPTable(4);
+                    shipmentTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
+                    shipmentTable.SetWidthPercentage(Shipmentcolumns, new iTextSharp.text.Rectangle(100, 200));
+                    
+                    Paragraph activity = new Paragraph("ACTIVITY");
+                    Paragraph qty = new Paragraph("QTY");
+                    Paragraph rate = new Paragraph("RATE");
+                    Paragraph amount = new Paragraph("AMOUNT");
+
+                    PdfPCell activityCell = new PdfPCell(activity);
+                    PdfPCell qtyCell = new PdfPCell(qty);
+                    PdfPCell rateCell = new PdfPCell(rate);
+                    PdfPCell amountCell = new PdfPCell(amount);
+
+                    //add table column headings
+                    shipmentTable.AddCell(activityCell).BackgroundColor= BaseColor.LIGHT_GRAY;
+                    shipmentTable.AddCell(qtyCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
+                    shipmentTable.AddCell(rateCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
+                    shipmentTable.AddCell(amountCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
+                    
+
+
+                    PdfPCell shipmentDetailsCell = new PdfPCell();
+                    shipmentDetailsCell.Border = 0;
+
+                    Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
+                    Paragraph shipline2 = new Paragraph("AWB#: "+shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
+                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentReferenceName, invoiceFont);
+                    Paragraph shipline4 = new Paragraph("Origin: "+ shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
+                    Paragraph shipline5 = new Paragraph("Destination: "+ shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
+                    Paragraph shipline6 = new Paragraph("Weight: "+ shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
+                    Paragraph shipline7 = new Paragraph("Date: "+ shipmentDetails.GeneralInformation.CreatedDate, invoiceFont);
+
+                    shipmentDetailsCell.AddElement(shipline1);
+                    shipmentDetailsCell.AddElement(shipline2);
+                    shipmentDetailsCell.AddElement(shipline3);
+                    shipmentDetailsCell.AddElement(shipline4);
+                    shipmentDetailsCell.AddElement(shipline5);
+                    shipmentDetailsCell.AddElement(shipline6);
+                    shipmentDetailsCell.AddElement(shipline7);
+                    //htmlWorker.StartDocument();
+                    //htmlWorker.Parse(txtReader);
+
+                    //packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
+                    //packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount)/100 + "</td>");
+
+                    Paragraph countPara = new Paragraph(shipmentDetails.PackageDetails.Count.ToString(), invoiceFont);
+                    Paragraph ratePara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
+                    Paragraph amountPara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
+                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount) / 100)).ToString(), invoiceFont);
+
+                    Paragraph paymentLabelPara = new Paragraph("PAYMENT");
+                    Paragraph balanceLabelPara = new Paragraph("BALANCE DUE");
+
+                    PdfPCell countCell = new PdfPCell(countPara);
+                    countCell.Border = 0;
+
+                    PdfPCell ratesCell = new PdfPCell(ratePara);
+                    ratesCell.Border = 0;
+
+                    PdfPCell amountsCell = new PdfPCell(amountPara);
+                    amountsCell.Border = 0;
+
+                    shipmentTable.AddCell(shipmentDetailsCell);
+
+                    shipmentTable.AddCell(countCell);
+                    shipmentTable.AddCell(ratesCell);
+                    shipmentTable.AddCell(amountsCell);
+
+                    PdfPCell paymentLabelCell = new PdfPCell(paymentLabelPara);
+                    paymentLabelCell.Border = 0;
+                    PdfPCell amountLabelCell = new PdfPCell(amountPara);
+                    amountLabelCell.Border = 0;
+
+                    PdfPCell balanceLabelCell = new PdfPCell(balanceLabelPara);
+                    balanceLabelCell.Border = 0;
+                    PdfPCell balanceCell = new PdfPCell(balancePara);
+                    balanceCell.Border = 0;
+                   
+
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(paymentLabelCell);
+                    shipmentTable.AddCell(amountLabelCell);
+
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(balanceLabelCell);
+                    shipmentTable.AddCell(balanceCell);
+
+
+                    invoicePdf.Add(shipmentTable);
+                    BaseFont bfSmall = BaseFont.CreateFont(BaseFont.TIMES_ROMAN, BaseFont.CP1252, false);
+                    iTextSharp.text.Font small = new iTextSharp.text.Font(bfTimes, 8, iTextSharp.text.Font.NORMAL, iTextSharp.text.BaseColor.BLACK);
+
+                    Paragraph accountno = new Paragraph("Bank Account Number: 1660838259", small);
+                    accountno.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph wire = new Paragraph("Wire Transfers", small);
+                    wire.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph domestic = new Paragraph("Domestic Wires: 121000248", small);
+                    domestic.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph internatwire = new Paragraph("International wires: WFBIUS6S", small);
+                    internatwire.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph topay = new Paragraph("To pay this invoice online : click the link in this email or send us a", small);
+                    topay.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph paypal = new Paragraph("request to use Paypal.", small);
+                    paypal.Alignment = Element.ALIGN_LEFT;
+
+                    Paragraph checks = new Paragraph("Checks can be mailed to our office address", small);
+                    checks.Alignment = Element.ALIGN_LEFT;
+
+                    invoicePdf.Add(accountno);
+                    invoicePdf.Add(wire);
+                    invoicePdf.Add(domestic);
+                    invoicePdf.Add(internatwire);
+                    invoicePdf.Add(topay);
+                    invoicePdf.Add(paypal);
+                    invoicePdf.Add(checks);
+                    
+                    //htmlWorker.EndDocument();
+                    //htmlWorker.Close();
                     //closing the doc
                     invoicePdf.Close();
 
@@ -741,7 +942,7 @@ namespace PI.Service.Controllers
                         CreatedBy = shipmentDetails.GeneralInformation.CreatedUser,
                         UserId = shipmentDetails.GeneralInformation.CreatedBy,
                         DueDate = DateTime.Now.AddDays(10).ToString("MM/dd/yyyy"),
-                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount),
+                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount)/100,
                         InvoiceStatus = InvoiceStatus.Paid.ToString(),
                         InvoiceDate = DateTime.Now.ToString()
                     };
