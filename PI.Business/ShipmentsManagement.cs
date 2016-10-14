@@ -358,7 +358,7 @@ namespace PI.Business
             addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
             {
                 CreatedBy = addShipment.CreatedBy,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 IsDelete = false,
                 Description = p.Description,
@@ -402,7 +402,7 @@ namespace PI.Business
             Data.Entity.Shipment newShipment = new Data.Entity.Shipment
             {
                 ShipmentName = addShipment.GeneralInformation.ShipmentName,
-                ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.Now.ToString("yyyyMMddHHmmssfff"),
+                ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"),
                 ShipmentCode = null, //addShipmentResponse.CodeShipment,
                 DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
                 CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
@@ -411,7 +411,7 @@ namespace PI.Business
                 Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
                 TrackingNumber = null, //addShipmentResponse.Awb,
                 CreatedBy = addShipment.CreatedBy,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 ServiceLevel = addShipment.CarrierInformation.serviceLevel,
                 TarriffType = addShipment.CarrierInformation.tarriffType,
                 TariffText = addShipment.CarrierInformation.tariffText,
@@ -438,7 +438,7 @@ namespace PI.Business
                     ContactName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 },
                 ConsignorAddress = new ShipmentAddress
                 {
@@ -457,7 +457,7 @@ namespace PI.Business
                     ContactName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 },
                 ShipmentPackage = new ShipmentPackage()
                 {
@@ -479,7 +479,7 @@ namespace PI.Business
                     VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     PackageProducts = packageProductList,
                     IsDG = addShipment.PackageDetails.IsDG,
                     Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
@@ -508,7 +508,7 @@ namespace PI.Business
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
                     UserId = addShipment.UserId,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 };
                 context.AddressBooks.Add(ConsignerAddressBook);
 
@@ -534,7 +534,7 @@ namespace PI.Business
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
                     UserId = addShipment.UserId,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.UtcNow
                 };
                 context.AddressBooks.Add(ConsignerAddressBook);
 
@@ -564,7 +564,7 @@ namespace PI.Business
                                     AppFunctionality.EditShipment : AppFunctionality.AddShipment,
                 Result = result.Status.ToString(),
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now
+                CreatedDate = DateTime.UtcNow
             });
             context.SaveChanges();
 
@@ -888,7 +888,7 @@ namespace PI.Business
             }
 
             shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
-            shipment.ManualStatusUpdatedDate = DateTime.Now;
+            shipment.ManualStatusUpdatedDate = DateTime.UtcNow;
             context.SaveChanges();
             return 1;
             //}
@@ -1245,7 +1245,7 @@ namespace PI.Business
 
             Random generator = new Random();
             string code = generator.Next(1000000, 9999999).ToString("D7");
-            string invoiceNumber = "PI_" + DateTime.Now.Year.ToString() + "_" + code;
+            string invoiceNumber = "PI_" + DateTime.UtcNow.Year.ToString() + "_" + code;
 
             //initializing azure storage
             AzureFileManager media = new AzureFileManager();
@@ -1664,7 +1664,7 @@ namespace PI.Business
                     }
                 }
                 locationHistory.ShipmentId = ShipmntId;
-                locationHistory.CreatedDate = DateTime.Now;
+                locationHistory.CreatedDate = DateTime.UtcNow;
                 context.ShipmentLocationHistories.Add(locationHistory);
                 context.SaveChanges();
             }
@@ -1682,7 +1682,7 @@ namespace PI.Business
                             activity.Status = activityItems.status;
                             activity.Time = Convert.ToDateTime(activityItems.timestamp.time);
                             activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
-                            activity.CreatedDate = DateTime.Now;
+                            activity.CreatedDate = DateTime.UtcNow;
                             context.LocationActivities.Add(activity);
                             context.SaveChanges();
                         }
@@ -1822,7 +1822,7 @@ namespace PI.Business
                 DocumentType = (int)fileDetails.DocumentType,
                 UploadedFileName = fileDetails.UploadedFileName,
                 IsActive = true,
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 CreatedBy = "1"
             });
 
@@ -2121,7 +2121,7 @@ namespace PI.Business
         //                ShipmentId = shipment.Id,
         //               // NewStatus = ,
         //                CreatedBy = userId,
-        //                CreatedDate = DateTime.Now
+        //                CreatedDate = DateTime.UtcNow
         //            });
         //            context.SaveChanges();
 
@@ -2499,7 +2499,7 @@ namespace PI.Business
                 PricePerPiece = p.PricePerPiece,
                 Quantity = p.Quantity,
                 CreatedBy = "1",
-                CreatedDate = DateTime.Now,
+                CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 HSCode = p.HSCode,
             }));
@@ -2527,7 +2527,7 @@ namespace PI.Business
                 InvoiceItem = new InvoiceItem()
                 {
                     CreatedBy = "1",
-                    CreatedDate = DateTime.Now,
+                    CreatedDate = DateTime.UtcNow,
                     IsActive = true,
                     InvoiceItemLines = invoiceItemLineList
                 }
@@ -3957,7 +3957,7 @@ namespace PI.Business
             // Added payment data
             var paymentEntity = new Payment();
             paymentEntity.CreatedBy = payment.UserId;
-            paymentEntity.CreatedDate = DateTime.Now;
+            paymentEntity.CreatedDate = DateTime.UtcNow;
             paymentEntity.IsActive = true;
             paymentEntity.PaymentId = result.FieldList["PaymentKey"];
             paymentEntity.Status = result.Status;

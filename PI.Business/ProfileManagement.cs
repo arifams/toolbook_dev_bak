@@ -401,7 +401,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 4;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "DE")
                         {
@@ -410,7 +410,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 2;
                             newAccountSetting.DefaultLanguageId = 4;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "NL")
                         {
@@ -419,7 +419,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 2;
                             newAccountSetting.DefaultLanguageId = 2;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "AT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "BE" ||
                             updatedProfile.CustomerDetails.CustomerAddress.Country == "CY" || updatedProfile.CustomerDetails.CustomerAddress.Country == "EE" ||
@@ -436,7 +436,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 2;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "JP")
                         {
@@ -445,7 +445,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 3;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
                         {
@@ -454,7 +454,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 1;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
                         }
                         else
                         {
@@ -463,7 +463,7 @@ namespace PI.Business
                             newAccountSetting.DefaultCurrencyId = 1;
                             newAccountSetting.DefaultLanguageId = 1;
                             newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.Now;
+                            newAccountSetting.CreatedDate = DateTime.UtcNow;
 
                         }
                         context.AccountSettings.Add(newAccountSetting);
@@ -667,7 +667,7 @@ namespace PI.Business
 
                     newAccountSettings.WeightMetricId = (short)updatedProfile.DefaultWeightMetricId;
                     newAccountSettings.VolumeMetricId = (short)updatedProfile.DefaultVolumeMetricId;
-                    newAccountSettings.CreatedDate = DateTime.Now;
+                    newAccountSettings.CreatedDate = DateTime.UtcNow;
 
                     context.AccountSettings.Add(newAccountSettings);
                     context.SaveChanges();
@@ -684,7 +684,7 @@ namespace PI.Business
                     currentNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
                     currentNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
                     currentNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
-                    currentNotificationCriteria.CreatedDate = DateTime.Now;
+                    currentNotificationCriteria.CreatedDate = DateTime.UtcNow;
                     context.SaveChanges();
                 }
                 else
@@ -697,7 +697,7 @@ namespace PI.Business
                     newNotificationCriteria.ShipmentException = updatedProfile.ShipmentException;
                     newNotificationCriteria.NotifyNewSolution = updatedProfile.NotifyNewSolution;
                     newNotificationCriteria.NotifyDiscountOffer = updatedProfile.NotifyDiscountOffer;
-                    newNotificationCriteria.CreatedDate = DateTime.Now;
+                    newNotificationCriteria.CreatedDate = DateTime.UtcNow;
 
                     context.NotificationCriterias.Add(newNotificationCriteria);
                     context.SaveChanges();

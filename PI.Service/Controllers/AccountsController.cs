@@ -93,7 +93,7 @@ namespace PI.Service.Controllers
 
             ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
 
-            bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.Now;
+            bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.UtcNow;
 
             if (!createUserModel.viaExternalLogin && isUserExistAndOldAccount)
             {
@@ -114,7 +114,7 @@ namespace PI.Service.Controllers
                     FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
                     LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
                     Level = 3,
-                    JoinDate = DateTime.Now,
+                    JoinDate = DateTime.UtcNow,
                     IsActive = true
                 };
 
@@ -355,7 +355,7 @@ namespace PI.Service.Controllers
                 }
                 else
                 {
-                    if (user.JoinDate.AddHours(24) < DateTime.Now)
+                    if (user.JoinDate.AddHours(24) < DateTime.UtcNow)
                     {
                         // user account is expired
                         return Ok(new
@@ -872,7 +872,7 @@ namespace PI.Service.Controllers
             var user = this.AppUserManager.FindByName(email);
 
             bool resendAllowed = (!string.IsNullOrWhiteSpace(user.MobileVerificationCode) &&
-                                  user.MobileVerificationExpiry.GetValueOrDefault().CompareTo(DateTime.Now) < 30) ?
+                                  user.MobileVerificationExpiry.GetValueOrDefault().CompareTo(DateTime.UtcNow) < 30) ?
                                   false : true;
 
             return resendAllowed;
