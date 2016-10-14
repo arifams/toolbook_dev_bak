@@ -40,7 +40,7 @@ namespace PI.StatusUpdater
             {
                 // Get the product
                 var httpResponse = await UpdateShipmentStatusAsync();
-                Console.WriteLine($"Updated (HTTP Status = {httpResponse.StatusCode})");
+                Console.WriteLine($"Shipment Records updated. (HTTP Status = {httpResponse.StatusCode})");
             }
             catch (Exception e)
             {
