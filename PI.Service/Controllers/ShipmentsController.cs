@@ -89,12 +89,14 @@ namespace PI.Service.Controllers
 
         }        
 
+        [AllowAnonymous]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpPost]
-        [Route("UpdateAllshipmentsByWebJob")]
-        public IHttpActionResult UpdateAllshipmentsByWebJob()
+        [HttpGet]
+        [Route("UpdateAllShipmentsFromWebJob")]
+        public IHttpActionResult UpdateAllShipmentsFromWebJob()
         {
             var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
+
             foreach (var shipment in allShipmentList)
             {
                 string carrier = shipment.CarrierInformation.CarrierName;

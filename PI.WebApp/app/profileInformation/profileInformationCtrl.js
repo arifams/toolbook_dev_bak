@@ -262,7 +262,7 @@
                      // vm.model.companyDetails = response.data.companyDetails;
                      vm.model.customerDetails.customerAddress = response.data.customerDetails.customerAddress;
                      vm.model.companyDetails.costCenter = response.data.companyDetails.costCenter;
-                     vm.changeCountry();
+                     //vm.changeCountry();
 
                      if (response.data.companyDetails.costCenter != null) {
                          vm.multipleCostCenters = true;

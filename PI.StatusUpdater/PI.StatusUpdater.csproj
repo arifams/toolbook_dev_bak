@@ -3,7 +3,6 @@
   <Import Project="..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props" Condition="Exists('..\packages\MSBuild.Microsoft.VisualStudio.Web.targets.14.0.0.3\build\MSBuild.Microsoft.VisualStudio.Web.targets.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <Import Project="..\packages\Microsoft.Web.WebJobs.Publish.1.0.2\tools\webjobs.targets" Condition="Exists('..\packages\Microsoft.Web.WebJobs.Publish.1.0.2\tools\webjobs.targets')" />
-
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -56,10 +55,15 @@
     <!-- ... Other props ... -->
     <DeployDefaultTargetFrameworkVersion>4.5</DeployDefaultTargetFrameworkVersion>
   </PropertyGroup>
-
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
