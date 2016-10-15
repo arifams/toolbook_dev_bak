@@ -37,6 +37,7 @@ using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using PI.Data.Entity.Identity;
+using PI.Contract.DTOs.Postmen;
 
 namespace PI.Business
 {
@@ -1165,29 +1166,29 @@ namespace PI.Business
                     DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
                 }
             };
-
+            AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
             // Add Shipment to SIS.
-            //if (shipment.Carrier.Name == "USPS")
-            //{
-                
-               var responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
-               isPostmen = true;
-               response = new AddShipmentResponse();
-                 if (responsePM.Awb!=null)
-                 {
+            if (shipment.Carrier.Name == "USPS")
+            {
+
+                 responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
+                isPostmen = true;
+                response = new AddShipmentResponse();
+                if (responsePM.Awb != null)
+                {
                     response.Awb = responsePM.Awb;
                     response.DatePickup = responsePM.DatePickup;
                     response.CodeShipment = responsePM.CodeShipment;
                     response.PDF = responsePM.PDF;
-                 }
-              
-            //}
-            //else
-            //{
-              //  response = sisManager.SendShipmentDetails(shipmentDto);
-            //}
-            
+                }
+
+            }
+            else
+            {
+                response = sisManager.SendShipmentDetails(shipmentDto);
+            }
+
 
 
             shipment.ShipmentCode = response.CodeShipment;
