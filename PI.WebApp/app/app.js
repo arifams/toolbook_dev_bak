@@ -360,7 +360,7 @@ var MakeApp = angular
            .when('/adminManageCustomers', {
                templateUrl: 'admin/manageCustomers.html',
                controller: 'adminManageCustomersCtrl',
-               controllerAs: 'mgtCustomerCtrl'
+               //controllerAs: 'mgtCustomerCtrl'
            })
           .when('/finance', {
               templateUrl: 'admin/finance.html',
