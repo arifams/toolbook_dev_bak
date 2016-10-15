@@ -146,6 +146,9 @@
                                 <th translate>company</th>
                                 <th translate>Origin</th>
                                 <th translate>Status</th>
+                                <th translate>Provider</th>
+                                <th translate>ShipmentCode</th>
+                                <th translate>Error</th>
                                 <th translate>View</th>
                                 <th translate>Edit</th>
                                 <th translate>Delete</th>
@@ -176,6 +179,11 @@
                                         </select>
                                     </div>
                                 </td>
+                                <td>{{row.carrierInformation.provider}}</td>
+                                <td>{{row.generalInformation.shipmentCode}}</td>
+                                <td > <a href={{row.generalInformation.errorUrl}}   ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
+                              
+                                
                                 <td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="btn btn-sm btn-primary btn-transparent">

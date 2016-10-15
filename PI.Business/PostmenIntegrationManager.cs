@@ -54,7 +54,12 @@ namespace PI.Business
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
-            AddShipmentResponse response = new AddShipmentResponse();
+            throw new NotImplementedException ();
+        }
+
+        public AddShipmentResponsePM SendShipmentDetailsPM(ShipmentDto addShipment)
+        {
+            AddShipmentResponsePM response = new AddShipmentResponsePM();
             WebRequest httpWebRequest = WebRequest.Create("https://sandbox-api.postmen.com/v3/labels");
             var request = this.CreateRequestJson(addShipment);
             string json = request;
@@ -78,10 +83,34 @@ namespace PI.Business
                 try
                 {
                     ShipmentResponceDto shipmentResult = serializer.Deserialize<ShipmentResponceDto>(result);
-                    response.Awb = shipmentResult.data.tracking_numbers[0];
-                    response.DatePickup = shipmentResult.data.ship_date;
-                    response.CodeShipment = shipmentResult.data.id;
-                    response.PDF = shipmentResult.data.files.label.url;
+                    
+
+                    if (shipmentResult.data.tracking_numbers==null)
+                    {
+                        //creating error message
+                        if (shipmentResult.meta!=null && shipmentResult.meta.code!=null)
+                        {
+                            StringBuilder errorMessage = new StringBuilder();
+                            errorMessage.Append(shipmentResult.meta.code + ",");
+                            errorMessage.Append(shipmentResult.meta.message + ",");
+
+                            foreach (var item in shipmentResult.meta.details)
+                            {
+                                errorMessage.Append(item.info + ",");
+                            }
+                            response.ErrorMessage = errorMessage.ToString();
+                        }
+                      
+                    }
+                    else
+                    {
+                        response.Awb = shipmentResult.data.tracking_numbers[0];
+                        response.DatePickup = shipmentResult.data.ship_date;
+                        response.CodeShipment = shipmentResult.data.id;
+                        response.PDF = shipmentResult.data.files.label.url;
+
+                    }
+                   
 
                 }
                 catch (Exception e)

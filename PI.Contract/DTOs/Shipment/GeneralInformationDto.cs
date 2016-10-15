@@ -60,5 +60,7 @@ namespace PI.Contract.DTOs.Shipment
 
         public string Owner { get; set; }
 
+        public string ErrorUrl { get; set; }
+
     }
 }
