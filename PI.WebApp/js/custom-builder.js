@@ -90,6 +90,14 @@
                 }
         },
 
+        selectRateRow: function () {
+            $("#selectRates tr").click(function () {
+                $(this).addClass('rowSelected').siblings().removeClass('rowSelected');
+                var value = $(this).find('td:first').html();
+                //alert('shjh');
+            });
+        },
+
         customScroll : function () {
             if ($.fn.mCustomScrollbar) {
                 $('.withScroll').each(function() {

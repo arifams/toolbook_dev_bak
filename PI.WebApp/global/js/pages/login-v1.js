@@ -80,10 +80,10 @@ $(function() {
         //        window.location.href = "dashboard.html";
         //    }, 2000);
         //});
-        $.backstretch(["../../global/images/gallery/login-back.jpg"], {
-            fade: 400,
-            duration: 4000
-        });
+        //$.backstretch(["../../global/images/gallery/login-back.jpg"], {
+        //    fade: 400,
+        //    duration: 4000
+        //});
 
 
         /***** DEMO CONTENT, CAN BE REMOVED ******/
@@ -230,10 +230,10 @@ $(function() {
     if ($('body').data('page') == 'signup') {
 
         var form = $(".form-signup");
-        $.backstretch(["../../global/images/gallery/login-back.jpg"], {
-            fade: 600,
-            duration: 4000
-        });
+        //$.backstretch(["../../global/images/gallery/login-back.jpg"], {
+        //    fade: 600,
+        //    duration: 4000
+        //});
         $("#account-builder").on('mouseenter', function() {
             TweenMax.to($(this), 0.35, {
                 css: {
