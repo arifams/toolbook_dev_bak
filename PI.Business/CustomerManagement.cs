@@ -206,12 +206,15 @@ namespace PI.Business
                    new Claim("CompanyId",companyId )
               }, "Custom");
 
+            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(20));
+
             var securityTokenDescriptor = new SecurityTokenDescriptor()
             {
                 AppliesToAddress = WebURL,
                 TokenIssuerName = ServiceURL,
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
+                Lifetime= life
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();

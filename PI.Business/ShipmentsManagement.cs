@@ -604,6 +604,7 @@ namespace PI.Business
 
             var content = (from shipment in context.Shipments
                            where shipment.Status != (short)ShipmentStatus.Delivered
+                           && shipment.TrackingNumber!=null
                            select shipment).ToList();
 
             foreach (var item in content)
@@ -613,7 +614,9 @@ namespace PI.Business
                     GeneralInformation = new GeneralInformationDto
                     {
                         TrackingNumber = item.TrackingNumber,
-                        ShipmentCode = item.ShipmentCode
+                        ShipmentCode = item.ShipmentCode,
+                        CreatedBy=item.CreatedBy
+                        
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
@@ -1172,7 +1175,7 @@ namespace PI.Business
             if (shipment.Carrier.Name == "USPS")
             {
 
-                 responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
+                responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
                 isPostmen = true;
                 response = new AddShipmentResponse();
                 if (responsePM.Awb != null)

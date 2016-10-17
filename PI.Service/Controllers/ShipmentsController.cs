@@ -35,6 +35,7 @@ using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
 using System.Drawing;
+using PI.Data.Entity.Identity;
 
 namespace PI.Service.Controllers
 {
@@ -105,7 +106,38 @@ namespace PI.Service.Controllers
                 string environment = "taleus";
 
                 // update all shipment details
-                shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+                var shipmentTracking= shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+
+                if (shipmentTracking.info.status== Utility.GetEnumDescription(ShipmentStatus.Exception))
+                {
+                  var profile=  profileManagement.getProfileByUserName(shipment.GeneralInformation.CreatedBy);
+
+                    var notifications = profileManagement.GetNotificationCriteriaByCustomerId(profile.CustomerDetails.Id);
+
+                    if (notifications.ShipmentException==true)
+                    {
+                        string htmlTemplate = "";
+                        TemplateLoader templateLoader = new TemplateLoader();
+
+                        //get the email template for invoice
+                        HtmlDocument template = templateLoader.getHtmlTemplatebyName("exceptionEmail");
+                        htmlTemplate = template.DocumentNode.InnerHtml;
+
+                        //replace strings in Html                       
+                        
+                       var updatedString= htmlTemplate.Replace("{firstname}", profile.CustomerDetails.FirstName).Replace("{lastname}", profile.CustomerDetails.LastName).Replace("{shipmentCode}", shipment.GeneralInformation.ShipmentCode).Replace("{shipmentreference}", shipment.GeneralInformation.ShipmentReferenceName).Replace("\r", "").Replace("\n", "");
+                       
+                        ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
+
+                        //sending email
+                        AppUserManager.SendEmail(existingUser.Id, "Reset your account password", updatedString);
+
+                    }
+
+
+                }
+
+
             }
             return Ok();
         }
