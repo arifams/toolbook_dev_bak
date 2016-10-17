@@ -1163,8 +1163,10 @@
                                 <a href="{{shipmentCtrl.labelUrl}}" target="_blank" translate>Click here to open the Label</a>
                             </div>
                             <div ng-hide="shipmentCtrl.isShowLabel">
-                                <a href="{{shipmentCtrl.errorUrl}}" target="_blank" translate>Click here to see the error details</a>
-                            </div>
+                                <!--<a href="{{shipmentCtrl.errorUrl}}" target="_blank" translate>Click here to see the error details</a>-->
+                                <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+
+</div>
                             <div ng-show="shipmentCtrl.isShowInvoice">
                                 <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Click here to download the Invoice</a>
                             </div>

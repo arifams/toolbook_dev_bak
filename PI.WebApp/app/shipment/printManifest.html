@@ -155,18 +155,18 @@
                                 </div>
                                 <br />
 
-                                <table st-table="manifestCtrl.shipmentInfo" st-safe-src="rowCollection" class="table table-striped">
+                                <table st-table="manifestCtrl.shipmentInfo" st-safe-src="rowCollection" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th translate>Reference</th>
                                             <th>AWB#</th>
-                                            <th translate>Cost Center</th>
-                                            <th translate>Consignee Name</th>
+                                            <!--<th translate>Cost Center</th>-->
+                                            <!--<th translate>Consignee Name</th>
                                             <th translate>street</th>
-                                            <th translate>city/zip/country</th>
+                                            <th translate>city/zip/country</th>-->
                                             <th translate>Code/Service</th>
                                             <th translate ng-show="manifestCtrl.isPackageEnable=='true'">Package | Description | Weight | Dim</th>
-                                            <th>#</th>
+                                            <th># items</th>
                                             <th translate>Weight</th>
                                         </tr>
 
@@ -175,10 +175,10 @@
                                         <tr ng-repeat="row in manifestCtrl.shipmentInfo" >
                                             <td>{{row.generalInformation.shipmentReferenceName}}</td>
                                             <td>{{row.generalInformation.trackingNumber}}</td>
-                                            <td>{{row.generalInformation.costCenterId}}</td>
-                                            <td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}} </td>
+                                            <!--<td>{{row.generalInformation.costCenterId}}</td>-->
+                                            <!--<td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}} </td>
                                             <td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>
-                                            <td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>
+                                            <td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>-->
                                             <td>{{row.carrierInformation.serviceLevel}}</td>
                                             <td ng-show="manifestCtrl.isPackageEnable=='true'">
                                                 <div ng-repeat="item in row.packageDetails.productIngredients">

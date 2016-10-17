@@ -72,11 +72,11 @@
             <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
                 <div dropdown="" class="btn-group">
                     <button data-toggle="dropdown" class="btn f-14 m-b-0" type="button"
-                            style="background-color:#f2f2f2;box-shadow:none" ng-click="">
+                            style="background-color:#f2f2f2;box-shadow:none" ng-click="invoiceCtrl.exportInvoiceDetailsReport()">
                         <i class="fa fa-download" aria-hidden="true" style="color:#319db5"></i>
                         <span style="color:#319db5">Export</span>
                     </button>
-                    <span class="dropdown-arrow"></span>
+                    <!--<span class="dropdown-arrow"></span>
                     <ul role="menu" class="dropdown-menu">
                         <li>
                             <a ng-csv="invoiceCtrl.exportcollection" filename="ShipmentDetails.csv">
@@ -88,7 +88,7 @@
                             <a ng-click="invoiceCtrl.exportInvoiceDetailsReport()">Excel Export</a>
                         </li>
 
-                    </ul>
+                    </ul>-->
                 </div>
             </div>
         </div>

@@ -37,6 +37,7 @@ using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using PI.Data.Entity.Identity;
+using PI.Contract.DTOs.Postmen;
 
 namespace PI.Business
 {
@@ -1165,16 +1166,29 @@ namespace PI.Business
                     DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
                 }
             };
-
+            AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
+            bool isPostmen = false;
             // Add Shipment to SIS.
             if (shipment.Carrier.Name == "USPS")
             {
-                response = postMenmanager.SendShipmentDetails(shipmentDto);
+
+                 responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
+                isPostmen = true;
+                response = new AddShipmentResponse();
+                if (responsePM.Awb != null)
+                {
+                    response.Awb = responsePM.Awb;
+                    response.DatePickup = responsePM.DatePickup;
+                    response.CodeShipment = responsePM.CodeShipment;
+                    response.PDF = responsePM.PDF;
+                }
+
             }
             else
             {
                 response = sisManager.SendShipmentDetails(shipmentDto);
             }
+
 
 
             shipment.ShipmentCode = response.CodeShipment;
@@ -1185,12 +1199,31 @@ namespace PI.Business
             shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
             shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
-            if (string.IsNullOrWhiteSpace(response.Awb))
+            ShipmentError shipmentError = new ShipmentError();
+
+            if (string.IsNullOrWhiteSpace(response.Awb) && !isPostmen)
             {
                 result.Status = Status.SISError;
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
+                shipment.Provider = "Ship It Smarter";              
+                
+            }
+            else if (string.IsNullOrWhiteSpace(response.Awb) && isPostmen)
+            {
+                result.Status = Status.PostmenError;
+                result.Message = "Error occured when adding shipment";
+                result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
+                result.ShipmentCode = response.CodeShipment;
+                result.ShipmentReference = shipment.ShipmentReferenceName;
+
+
+                shipment.Provider = "PostMen";
+
+                shipmentError.ShipmentId = shipment.Id;
+                shipmentError.ErrorMessage = responsePM.ErrorMessage;
+                shipmentError.CreatedDate = DateTime.UtcNow;
             }
             else
             {
@@ -1214,11 +1247,10 @@ namespace PI.Business
                 //adding the shipment label to azure
                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
-                //create the invoice and upload to the blob
-                //    result.InvoiceURL =  this.GenerateUSInvoice(shipment);
-
+            
             }
 
+            context.ShipmentErrors.Add(shipmentError);
             context.SaveChanges();
             return result;
             // }
@@ -1237,102 +1269,7 @@ namespace PI.Business
             return currentuser.TenantId;
         }
 
-
-        //method to generate US invoices
-        public string GenerateUSInvoice(Data.Entity.Shipment shipmentDetails)
-        {
-            string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
-
-            Random generator = new Random();
-            string code = generator.Next(1000000, 9999999).ToString("D7");
-            string invoiceNumber = "PI_" + DateTime.UtcNow.Year.ToString() + "_" + code;
-
-            //initializing azure storage
-            AzureFileManager media = new AzureFileManager();
-
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.CreatedBy);
-
-            var invoicePdf = new Document(PageSize.B5);
-            //getting the server path to create temp pdf file
-            string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
-
-            PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
-            HTMLWorker htmlWorker = new HTMLWorker(invoicePdf);
-
-            string htmlTemplate = "";
-            TemplateLoader templateLoader = new TemplateLoader();
-
-            StringBuilder packageDetails = new StringBuilder();
-
-            packageDetails.Append("<tr> <td> <label>" + shipmentDetails.Carrier.Name + "</label><br/>");
-            packageDetails.Append("<label>AWB#:</label><p>" + shipmentDetails.TrackingNumber + "</p><br/>");
-            packageDetails.Append("<label>Reference:</label><p>" + shipmentDetails.ShipmentPackage.PackageDescription + "</p><br/>");
-            packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.ConsignorAddress.City + " " + shipmentDetails.ConsignorAddress.Country + "</p><br/>");
-            packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.ConsigneeAddress.City + " " + shipmentDetails.ConsigneeAddress.Country + "</p><br/>");
-            packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.ShipmentPackage.TotalWeight + "</p><br/>");
-            packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.CreatedDate + "</p><br/>");
-            packageDetails.Append("</td>");
-            packageDetails.Append("<td>" + shipmentDetails.ShipmentPackage.PackageProducts.Count() + "</td>");
-            packageDetails.Append("<td>$" + shipmentDetails.ShipmentPackage.CarrierCost + "</td>");
-            packageDetails.Append("<td>$" + shipmentDetails.ShipmentPackage.CarrierCost + "</td> </tr>");
-            packageDetails.Append("<tr><td> <label>Services</label><br/> <p>Paypal fee(4.5%)</p></td>");
-            packageDetails.Append("<td>" + shipmentDetails.ShipmentPackage.PackageProducts.Count() + "</td>");
-            packageDetails.Append("<td>" + "" + "</td> </tr>");
-            packageDetails.Append("<td>" + "" + "</td> </tr>");
-
-
-            //get the email template for invoice
-            HtmlDocument template = templateLoader.getHtmlTemplatebyName("invoiceUS");
-            htmlTemplate = template.DocumentNode.InnerHtml;
-
-
-            //replacing values from shipment
-            var replacedString = htmlTemplate.Replace("{BillingName}", shipmentDetails.ConsignorAddress.FirstName + " " + shipmentDetails.ConsignorAddress.LastName)
-            .Replace("{BillingAddress1}", shipmentDetails.ConsignorAddress.StreetAddress1)
-            .Replace("{BillingAddress2}", shipmentDetails.ConsignorAddress.StreetAddress1)
-            .Replace("{BillingCity}", shipmentDetails.ConsignorAddress.City)
-            .Replace("{BillingState}", shipmentDetails.ConsignorAddress.State)
-            .Replace("{BillingZip}", shipmentDetails.ConsignorAddress.ZipCode)
-            .Replace("{BillingCountry}", shipmentDetails.ConsignorAddress.Country)
-            .Replace("{invoicenumber}", "2016-260")
-            .Replace("{invoicedate}", DateTime.Now.ToString("dd/MM/yyyy"))
-            .Replace("{duedate}", DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"))
-            .Replace("{terms}", "Net 10")
-            .Replace("{totalvalue}", shipmentDetails.ShipmentPackage.CarrierCost.ToString() + "$")
-            .Replace("{tableBody}", packageDetails.ToString());
-
-
-            TextReader txtReader = new StringReader(replacedString);
-            invoicePdf.Open();
-            htmlWorker.StartDocument();
-            htmlWorker.Parse(txtReader);
-
-            htmlWorker.EndDocument();
-            htmlWorker.Close();
-            //closing the doc
-            invoicePdf.Close();
-
-
-            var invoicename = "";
-            using (Stream savedPdf = File.OpenRead(wanted_path))
-            {
-                invoicename = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), invoiceNumber + ".pdf");
-
-                media.InitializeStorage(tenantId.ToString(), Utility.GetEnumDescription(DocumentType.Invoice));
-
-                // var opResult = media.Upload(savedPdf, invoicename);
-                Task.Run(async () => await media.Upload(savedPdf, invoicename));
-            }
-
-            //get the saved pdf url
-            var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
-                                     + "/" + invoicename;
-
-            return returnData;
-
-        }
-
-
+        
         private bool AddShipmentLabeltoAzure(ShipmentOperationResult operationResult, SendShipmentDetailsDto sendShipmentDetails)
         {
             AzureFileManager media = new AzureFileManager();
@@ -2864,6 +2801,7 @@ namespace PI.Business
             int pageSize = 10;
             var pagedRecord = new PagedList();
             short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
+            string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
 
             pagedRecord.Content = new List<ShipmentDto>();
 
@@ -2889,7 +2827,26 @@ namespace PI.Business
 
             foreach (var item in content)
             {
+                string errorUrl = "";
+
                 var owner = context.Users.Where(u => u.Id == item.CreatedBy).SingleOrDefault();
+               
+                //if shipment is in pending status get the error message
+                if ((ShipmentStatus)item.Status==ShipmentStatus.Pending)
+                {
+                    ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();                   
+
+                    if (error==null)
+                    {
+                        errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                    }
+                    else
+                    {
+                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                       
+                    }
+
+                }
 
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -2943,7 +2900,8 @@ namespace PI.Business
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
+                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ErrorUrl= errorUrl
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -2966,7 +2924,8 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate,
+                        Provider=item.Provider
                     }
 
                 });
