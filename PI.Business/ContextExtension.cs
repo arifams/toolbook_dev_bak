@@ -74,5 +74,26 @@ namespace PI.Business
             return context.Languages.SingleOrDefault(l => l.Id == id).LanguageCode;
         }
 
+        /// <summary>
+        /// Get local time by User
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="loggedUserId"></param>
+        /// <param name="utcDatetime"></param>
+        /// <returns></returns>
+        public static DateTime? GetLocalTimeByUser(this PIContext context, string loggedUserId, DateTime utcDatetime)
+        {
+            var account = context.AccountSettings.Where(ac => ac.Customer.UserId == loggedUserId).FirstOrDefault();
+
+            if (account == null)
+                return null;
+
+            var timeZone = context.TimeZones.Where(t => t.Id == account.DefaultTimeZoneId).First();
+
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById(timeZone.TimeZoneId);
+            DateTime localTime = TimeZoneInfo.ConvertTimeFromUtc(utcDatetime, cstZone);
+
+            return localTime;
+        }
     }
 }

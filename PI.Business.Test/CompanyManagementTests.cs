@@ -656,7 +656,7 @@ namespace PI.Business.Tests
                 FirstName = "FirstName",
                 LastName = "LastName",
                 Email = email,
-                LastLoginTime = DateTime.Now.ToString(),
+                LastLoginTime = DateTime.UtcNow.ToString(),
                 MiddleName = "MiddleName",
                 RoleName = "BusinessOwner",
                 Password = "123333",

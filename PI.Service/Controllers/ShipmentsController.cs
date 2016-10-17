@@ -35,6 +35,7 @@ using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
 using System.Drawing;
+using PI.Contract.DTOs.User;
 using PI.Data.Entity.Identity;
 
 namespace PI.Service.Controllers
@@ -88,14 +89,34 @@ namespace PI.Service.Controllers
 
             return Ok(shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment));
 
-        }        
+        }
 
         [AllowAnonymous]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
+        [HttpPost]
         [Route("UpdateAllShipmentsFromWebJob")]
-        public IHttpActionResult UpdateAllShipmentsFromWebJob()
+        public IHttpActionResult UpdateAllShipmentsFromWebJob([FromBody] UserDto userDetails)
         {
+            string roleName = null;
+            if (string.IsNullOrEmpty(userDetails.UserName) && string.IsNullOrEmpty(userDetails.Password))
+            {
+                return Unauthorized();
+            }
+
+            var user = AppUserManager.Find(userDetails.UserName, userDetails.Password);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+            roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
+
+            if (roleName != "Admin")
+            {
+                var response = Request.CreateResponse(HttpStatusCode.Forbidden);
+                return (IHttpActionResult)response;
+            }
+
             var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
 
             foreach (var shipment in allShipmentList)
@@ -140,6 +161,7 @@ namespace PI.Service.Controllers
 
             }
             return Ok();
+
         }
 
 
@@ -244,11 +266,11 @@ namespace PI.Service.Controllers
         [Route("loadAllShipmentsForAdmin")]
         public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null)
         {
-            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate,endDate, searchValue));
+            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate, endDate, searchValue));
 
         }
 
-        
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
@@ -258,7 +280,7 @@ namespace PI.Service.Controllers
                                                                       string number = null, string source = null, string destination = null)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-             result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
+            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
             result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;
@@ -272,8 +294,8 @@ namespace PI.Service.Controllers
                                          string number = null, string source = null, string destination = null, bool viaDashboard = false)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForExcel(status,  userId ,  startDate, endDate,
-                                          number ,  source, destination, viaDashboard));
+            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForExcel(status, userId, startDate, endDate,
+                                          number, source, destination, viaDashboard));
             result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;
@@ -302,7 +324,7 @@ namespace PI.Service.Controllers
             return Ok(shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number));
         }
 
-        
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
@@ -328,10 +350,10 @@ namespace PI.Service.Controllers
         [Route("SendShipmentDetails")]
         public IHttpActionResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
-           ShipmentOperationResult operationResult = new ShipmentOperationResult();
+            ShipmentOperationResult operationResult = new ShipmentOperationResult();
 
             // Make payment and send shipment to SIS.
-            operationResult = shipmentManagement.SendShipmentDetails(sendShipmentDetails);          
+            operationResult = shipmentManagement.SendShipmentDetails(sendShipmentDetails);
 
             #region Send Booking Confirmaion Email to customer.
 
@@ -533,7 +555,7 @@ namespace PI.Service.Controllers
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
-       
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetAvailableFilesForShipment")]
@@ -607,7 +629,7 @@ namespace PI.Service.Controllers
             {
                 AppUserManager.SendEmail(adminUser.Id, "Request for Quote", quoteTemplate);
 
-                oResult.Status = Status.Success;               
+                oResult.Status = Status.Success;
             }
             else
             {
@@ -684,7 +706,7 @@ namespace PI.Service.Controllers
         {
             ShipmentOperationResult operationResult = shipmentManagement.PaymentCharge(payment);
 
-            if(operationResult.Status == Status.Success)
+            if (operationResult.Status == Status.Success)
             {
                 try
                 {
@@ -707,16 +729,16 @@ namespace PI.Service.Controllers
                     var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
                     string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
                     // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
-                    
-                    PdfWriter writer= PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
-                
-                   
+
+                    PdfWriter writer = PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
+
+
                     Uri imageUrl = new Uri("http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg");
                     iTextSharp.text.Image LOGO = iTextSharp.text.Image.GetInstance(imageUrl);
                     LOGO.ScalePercent(25f);
                     invoicePdf.Open();
 
-                    
+
                     float[] Addresscolumns = { 25, 15, 45, 15 };
                     PdfPTable addressTable = new PdfPTable(4);
                     addressTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
@@ -750,12 +772,12 @@ namespace PI.Service.Controllers
 
                     addressTable.AddCell(logoCell);
                     addressTable.AddCell(emptyCell);
-                    addressTable.AddCell(new PdfPCell(addressCell));                    
+                    addressTable.AddCell(new PdfPCell(addressCell));
                     addressTable.AddCell(emptyCell);
-                    
+
                     invoicePdf.Add(addressTable);
 
-                    float[] Billingcolumns = { 40,10,10,40 };
+                    float[] Billingcolumns = { 40, 10, 10, 40 };
                     PdfPTable billingTable = new PdfPTable(4);
                     billingTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
                     billingTable.SetWidthPercentage(Billingcolumns, new iTextSharp.text.Rectangle(100, 200));
@@ -764,18 +786,18 @@ namespace PI.Service.Controllers
                     invoiceFont.Size = 10;
 
                     //add billing address and invoice details
-                    Paragraph billingline1 = new Paragraph("BILL TO" , invoiceFont);
+                    Paragraph billingline1 = new Paragraph("BILL TO", invoiceFont);
                     Paragraph billingline5 = new Paragraph(shipmentDetails.AddressInformation.Consigner.FirstName + " " + shipmentDetails.AddressInformation.Consigner.LastName, invoiceFont);
                     Paragraph billingline2 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Address1, invoiceFont);
                     Paragraph billingline3 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Address2, invoiceFont);
-                    Paragraph billingline4 = new Paragraph(shipmentDetails.AddressInformation.Consigner.City+","+ shipmentDetails.AddressInformation.Consigner.State+","+ shipmentDetails.AddressInformation.Consigner.Postalcode, invoiceFont);                  
+                    Paragraph billingline4 = new Paragraph(shipmentDetails.AddressInformation.Consigner.City + "," + shipmentDetails.AddressInformation.Consigner.State + "," + shipmentDetails.AddressInformation.Consigner.Postalcode, invoiceFont);
                     Paragraph billingline6 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
 
-                    Paragraph billingDetailsline1 = new Paragraph("INVOICE # "+  invoiceNumber, invoiceFont);
-                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + DateTime.Now.ToString("dd/MM/yyyy"), invoiceFont);
-                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
-                    Paragraph billingDetailsline4 = new Paragraph("TERMS  " +"Net 10", invoiceFont);
-
+                    DateTime localDateTimeofUser = shipmentManagement.GetLocalTimeByUser(shipmentDetails.GeneralInformation.CreatedUser, DateTime.UtcNow).Value;
+                    Paragraph billingDetailsline1 = new Paragraph("INVOICE # " + invoiceNumber, invoiceFont);
+                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + localDateTimeofUser.ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + localDateTimeofUser.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline4 = new Paragraph("TERMS  " + "Net 10", invoiceFont);
 
                     PdfPCell billingaddressCell = new PdfPCell();
                     billingaddressCell.Border = 0;
@@ -817,7 +839,7 @@ namespace PI.Service.Controllers
                     PdfPTable shipmentTable = new PdfPTable(4);
                     shipmentTable.DefaultCell.Border = iTextSharp.text.Rectangle.NO_BORDER;
                     shipmentTable.SetWidthPercentage(Shipmentcolumns, new iTextSharp.text.Rectangle(100, 200));
-                    
+
                     Paragraph activity = new Paragraph("ACTIVITY");
                     Paragraph qty = new Paragraph("QTY");
                     Paragraph rate = new Paragraph("RATE");
@@ -829,23 +851,23 @@ namespace PI.Service.Controllers
                     PdfPCell amountCell = new PdfPCell(amount);
 
                     //add table column headings
-                    shipmentTable.AddCell(activityCell).BackgroundColor= BaseColor.LIGHT_GRAY;
+                    shipmentTable.AddCell(activityCell).BackgroundColor = BaseColor.LIGHT_GRAY;
                     shipmentTable.AddCell(qtyCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
                     shipmentTable.AddCell(rateCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
                     shipmentTable.AddCell(amountCell).BackgroundColor = BaseColor.LIGHT_GRAY; ;
-                    
+
 
 
                     PdfPCell shipmentDetailsCell = new PdfPCell();
                     shipmentDetailsCell.Border = 0;
 
                     Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
-                    Paragraph shipline2 = new Paragraph("AWB#: "+shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
+                    Paragraph shipline2 = new Paragraph("AWB#: " + shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
                     Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentReferenceName, invoiceFont);
-                    Paragraph shipline4 = new Paragraph("Origin: "+ shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
-                    Paragraph shipline5 = new Paragraph("Destination: "+ shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
-                    Paragraph shipline6 = new Paragraph("Weight: "+ shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
-                    Paragraph shipline7 = new Paragraph("Date: "+ shipmentDetails.GeneralInformation.CreatedDate, invoiceFont);
+                    Paragraph shipline4 = new Paragraph("Origin: " + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
+                    Paragraph shipline5 = new Paragraph("Destination: " + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
+                    Paragraph shipline6 = new Paragraph("Weight: " + shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
+                    Paragraph shipline7 = new Paragraph("Date: " + shipmentDetails.GeneralInformation.CreatedDate, invoiceFont);
 
                     shipmentDetailsCell.AddElement(shipline1);
                     shipmentDetailsCell.AddElement(shipline2);
@@ -892,7 +914,7 @@ namespace PI.Service.Controllers
                     balanceLabelCell.Border = 0;
                     PdfPCell balanceCell = new PdfPCell(balancePara);
                     balanceCell.Border = 0;
-                   
+
 
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(emptyCell);
@@ -937,7 +959,7 @@ namespace PI.Service.Controllers
                     invoicePdf.Add(topay);
                     invoicePdf.Add(paypal);
                     invoicePdf.Add(checks);
-                    
+
                     //htmlWorker.EndDocument();
                     //htmlWorker.Close();
                     //closing the doc
@@ -974,7 +996,7 @@ namespace PI.Service.Controllers
                         CreatedBy = shipmentDetails.GeneralInformation.CreatedUser,
                         UserId = shipmentDetails.GeneralInformation.CreatedBy,
                         DueDate = DateTime.UtcNow.AddDays(10).ToString("MM/dd/yyyy"),
-                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount)/100,
+                        InvoiceValue = Convert.ToDecimal(paymentDetails.Amount) / 100,
                         InvoiceStatus = InvoiceStatus.Paid.ToString(),
                         InvoiceDate = DateTime.UtcNow.ToString()
                     };

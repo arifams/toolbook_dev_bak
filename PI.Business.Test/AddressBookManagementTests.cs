@@ -48,7 +48,7 @@ namespace PI.Business.Tests
                  ZipCode="12345",
                  IsActive=true,
                  IsDelete=false,
-                 CreatedDate=DateTime.Now
+                 CreatedDate=DateTime.UtcNow
                  
              },            
             };
