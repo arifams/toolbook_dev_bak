@@ -303,6 +303,76 @@
 
                            };
 
+
+                           //delete shipment
+                           vm.saveById = function (row) {
+
+                               $('#panel-notif').noty({
+                                   text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update reference') + '?</p></div>',
+                                   buttons: [
+                                           {
+                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+
+                                                   shipmentFactory.UpdateShipmentReference(row)
+                                                   .success(function (response) {
+                                                       debugger;
+                                                       if (response.status == 2) {
+
+
+                                                           $('#panel-notif').noty({
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully') + '!</p></div>',
+                                                               buttons: [
+                                                                       {
+                                                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                                                               $noty.close();
+                                                                              
+                                                                           }
+                                                                       }
+
+                                                               ],
+                                                               layout: 'bottom-right',
+                                                               theme: 'made',
+                                                               animation: {
+                                                                   open: 'animated bounceInLeft',
+                                                                   close: 'animated bounceOutLeft'
+                                                               },
+                                                               timeout: 3000,
+                                                           });
+
+
+                                                       }
+                                                   })
+                                       .error(function () {
+                                       })
+
+                                                   $noty.close();
+
+
+                                               }
+                                           },
+                                           {
+                                               addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+
+                                                   // updateProfile = false;
+                                                   $noty.close();
+                                                   return;
+                                                   // noty({text: 'You clicked "Cancel" button', type: 'error'});
+                                               }
+                                           }
+                                   ],
+                                   layout: 'bottom-right',
+                                   theme: 'made',
+                                   animation: {
+                                       open: 'animated bounceInLeft',
+                                       close: 'animated bounceOutLeft'
+                                   },
+                                   timeout: 3000,
+                               });
+
+
+                           };
+
+                         
                            vm.toggleFavourite = function (row) {
                                var count = 0;
                                angular.forEach(vm.rowCollection, function (item, key) {

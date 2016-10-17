@@ -188,6 +188,15 @@ namespace PI.Service.Controllers
         {
             return Ok(shipmentManagement.SaveShipment(addShipment));
         }
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateShipmentReference")]
+        public IHttpActionResult UpdateShipmentReference([FromBody]ShipmentDto addShipment)
+        {
+            return Ok(shipmentManagement.UpdateShipmentReference(addShipment));
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]

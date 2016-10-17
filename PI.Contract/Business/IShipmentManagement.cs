@@ -152,6 +152,8 @@ namespace PI.Contract.Business
         PaymentDto GetPaymentbyReference(long reference);
 
         DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime);
+
+        ShipmentOperationResult UpdateShipmentReference(ShipmentDto addShipment);
     }
 
 }
