@@ -155,7 +155,8 @@ namespace PI.Service.Controllers
                     var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
                     StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-                    emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+                    emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
+                                       .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
                     AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
 
@@ -664,7 +665,8 @@ namespace PI.Service.Controllers
 
             StringBuilder emailbody = new StringBuilder(userModel.TemplateLink);
 
-            emailbody.Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+            emailbody.Replace("FirstName", existingUser.FirstName).Replace("LastName", existingUser.LastName)
+                                        .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
             AppUserManager.SendEmail(existingUser.Id, "Reset your account password", emailbody.ToString());
 
