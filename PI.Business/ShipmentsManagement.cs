@@ -771,7 +771,7 @@ namespace PI.Business
                         ShipmentReferenceName = item.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         IsFavourite = item.IsFavourite,
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
@@ -1021,7 +1021,7 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("MM/dd/yyyy"),
                     Status = currentShipment.Status.ToString(),
                     ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
                 },
@@ -1270,7 +1270,7 @@ namespace PI.Business
             packageDetails.Append("<label>Origin:</label><p>" + shipmentDetails.ConsignorAddress.City + " " + shipmentDetails.ConsignorAddress.Country + "</p><br/>");
             packageDetails.Append("<label>Destination:</label><p>" + shipmentDetails.ConsigneeAddress.City + " " + shipmentDetails.ConsigneeAddress.Country + "</p><br/>");
             packageDetails.Append("<label>Weight:</label><p>" + shipmentDetails.ShipmentPackage.TotalWeight + "</p><br/>");
-            packageDetails.Append("<label>Date:</label><p>" + shipmentDetails.CreatedDate + "</p><br/>");
+            packageDetails.Append("<label>Date:</label><p>" + GetLocalTimeByUser(shipmentDetails.CreatedBy, shipmentDetails.CreatedDate).Value + "</p><br/>");
             packageDetails.Append("</td>");
             packageDetails.Append("<td>" + shipmentDetails.ShipmentPackage.PackageProducts.Count() + "</td>");
             packageDetails.Append("<td>$" + shipmentDetails.ShipmentPackage.CarrierCost + "</td>");
@@ -1604,7 +1604,7 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = currentShipment.CreatedDate.ToString("MM/dd/yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("MM/dd/yyyy"),
                     Status = currentShipment.Status.ToString(),
                     ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId),
                     CreatedBy = currentShipment.CreatedBy
@@ -1956,7 +1956,7 @@ namespace PI.Business
 
 
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
@@ -2001,7 +2001,8 @@ namespace PI.Business
             List<Data.Entity.Shipment> shipmentList = new List<Data.Entity.Shipment>();
             if (string.IsNullOrEmpty(reference))
             {
-                shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, Convert.ToDateTime(date), carreer);
+                DateTime datetimeFromString = GetLocalTimeByUser(userId, Convert.ToDateTime(date)).Value;
+                shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, datetimeFromString, carreer);
             }
             else
             {
@@ -2058,7 +2059,7 @@ namespace PI.Business
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -2213,7 +2214,7 @@ namespace PI.Business
                         CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString()
 
                     },
-                    CreatedDate = currentShipment.CommercialInvoice.CreatedDate.ToString("dd-MMM-yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CommercialInvoice.CreatedBy, currentShipment.CommercialInvoice.CreatedDate).Value.ToString("dd-MMM-yyyy"),
                     InvoiceNo = currentShipment.CommercialInvoice.InvoiceNo,
                     ShipTo = currentShipment.CommercialInvoice.ShipTo,
                     VatNo = currentShipment.CommercialInvoice.VatNo,
@@ -2275,7 +2276,7 @@ namespace PI.Business
                             Number = currentShipment.ConsignorAddress.Number
                         }
                     },
-                    CreatedDate = currentShipment.CreatedDate.ToString("dd-MMM-yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd-MMM-yyyy"),
                     InvoiceTo = string.Format("{0} {1} \n {2} {3} \n {4} {5} {6} \n {7}",
                         currentShipment.ConsigneeAddress.FirstName, currentShipment.ConsigneeAddress.LastName, currentShipment.ConsigneeAddress.StreetAddress1, currentShipment.ConsigneeAddress.Number,
                         currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
@@ -2419,7 +2420,7 @@ namespace PI.Business
                         Country = currentShipment.CostCenter.BillingAddress.Country
                     }
                 },
-                CreatedDate = currentShipment.CreatedDate.ToString("dd-MMM-yyyy"),
+                CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd-MMM-yyyy"),
                 InvoiceTo = string.Format("{0} {1} \n {2} {3} \n {4} {5} {6} \n {7}",
                     currentShipment.ConsigneeAddress.FirstName, currentShipment.ConsigneeAddress.LastName, currentShipment.ConsigneeAddress.StreetAddress1, currentShipment.ConsigneeAddress.Number,
                     currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
@@ -2509,7 +2510,7 @@ namespace PI.Business
                 ShipmentId = addInvoice.ShipmentId,
                 ShipmentReferenceName = addInvoice.ShipmentReferenceName,
                 CreatedBy = "1",
-                CreatedDate = Convert.ToDateTime(addInvoice.CreatedDate),
+                CreatedDate = Convert.ToDateTime(addInvoice.CreatedDate).ToUniversalTime(),
                 IsActive = true,
                 ShipTo = addInvoice.ShipTo,
                 InvoiceNo = addInvoice.InvoiceNo,
@@ -2712,7 +2713,7 @@ namespace PI.Business
 
 
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
@@ -2815,7 +2816,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy,item.CreatedDate).Value.ToString("MM/dd/yyyy"), //item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -2939,7 +2940,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3060,7 +3061,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3240,7 +3241,7 @@ namespace PI.Business
                         ShipmentName = item.ShipmentName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         IsFavourite = item.IsFavourite,
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
@@ -3871,7 +3872,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3997,6 +3998,11 @@ namespace PI.Business
                 });
             }
 
+        }
+
+        public DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime)
+        {
+            return context.GetLocalTimeByUser(loggedUserId, utcDatetime);
         }
     }
 

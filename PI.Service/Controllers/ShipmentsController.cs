@@ -739,11 +739,12 @@ namespace PI.Service.Controllers
                     Paragraph billingline4 = new Paragraph(shipmentDetails.AddressInformation.Consigner.City+","+ shipmentDetails.AddressInformation.Consigner.State+","+ shipmentDetails.AddressInformation.Consigner.Postalcode, invoiceFont);                  
                     Paragraph billingline6 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
 
-                    Paragraph billingDetailsline1 = new Paragraph("INVOICE # "+  invoiceNumber, invoiceFont);
-                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + DateTime.Now.ToString("dd/MM/yyyy"), invoiceFont);
-                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
-                    Paragraph billingDetailsline4 = new Paragraph("TERMS  " +"Net 10", invoiceFont);
+                    DateTime localDateTimeofUser = shipmentManagement.GetLocalTimeByUser(shipmentDetails.GeneralInformation.CreatedUser, DateTime.UtcNow).Value;
 
+                    Paragraph billingDetailsline1 = new Paragraph("INVOICE # "+  invoiceNumber, invoiceFont);
+                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + localDateTimeofUser.ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + localDateTimeofUser.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline4 = new Paragraph("TERMS  " +"Net 10", invoiceFont);
 
                     PdfPCell billingaddressCell = new PdfPCell();
                     billingaddressCell.Border = 0;
