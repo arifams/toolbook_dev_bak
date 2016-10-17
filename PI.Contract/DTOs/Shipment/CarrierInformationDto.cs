@@ -18,5 +18,6 @@ namespace PI.Contract.DTOs.Shipment
         public string tarriffType { get; set; }
         public string currency { get; set; }
         public string CountryCodeByTarrifText { get; set; }
+        public string Provider { get; set; }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.Azure.WebJobs;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Configuration;
+using PI.Contract.DTOs.User;
 
 namespace PI.StatusUpdater
 {
@@ -40,7 +41,7 @@ namespace PI.StatusUpdater
             {
                 // Get the product
                 var httpResponse = await UpdateShipmentStatusAsync();
-                Console.WriteLine($"Updated (HTTP Status = {httpResponse.StatusCode})");
+                Console.WriteLine($"Shipment Records updated. (HTTP Status = {httpResponse.StatusCode})");
             }
             catch (Exception e)
             {
@@ -51,7 +52,10 @@ namespace PI.StatusUpdater
 
         static async Task<HttpResponseMessage> UpdateShipmentStatusAsync()
         {
-            HttpResponseMessage response = await client.GetAsync($"api/shipments/UpdateAllShipmentsFromWebJob");
+            var userDto = new UserDto { UserName = ConfigurationManager.AppSettings["UserName"].ToString(),
+                                        Password = ConfigurationManager.AppSettings["Password"].ToString()
+            };
+            HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/UpdateAllShipmentsFromWebJob", userDto);
             response.EnsureSuccessStatusCode();
 
             // Deserialize the updated product from the response body.

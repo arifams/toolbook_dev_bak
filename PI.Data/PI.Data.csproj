@@ -128,6 +128,7 @@
     <Compile Include="Entity\RoleHierarchy.cs" />
     <Compile Include="Entity\Shipment\Shipment.cs" />
     <Compile Include="Entity\Shipment\ShipmentAddress.cs" />
+    <Compile Include="Entity\Shipment\ShipmentError.cs" />
     <Compile Include="Entity\Shipment\ShipmentLocationHistory.cs" />
     <Compile Include="Entity\Shipment\ShipmentDocument.cs" />
     <Compile Include="Entity\Shipment\ShipmentPackage.cs" />
@@ -200,6 +201,14 @@
     <Compile Include="Migrations\201610140142453_Updated_Timezone_Entity.Designer.cs">
       <DependentUpon>201610140142453_Updated_Timezone_Entity.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610140621341_adderrorMessagesinShipment.cs" />
+    <Compile Include="Migrations\201610140621341_adderrorMessagesinShipment.Designer.cs">
+      <DependentUpon>201610140621341_adderrorMessagesinShipment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610151450035_addShpmentErrorTable.cs" />
+    <Compile Include="Migrations\201610151450035_addShpmentErrorTable.Designer.cs">
+      <DependentUpon>201610151450035_addShpmentErrorTable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -262,6 +271,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610140142453_Updated_Timezone_Entity.resx">
       <DependentUpon>201610140142453_Updated_Timezone_Entity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610140621341_adderrorMessagesinShipment.resx">
+      <DependentUpon>201610140621341_adderrorMessagesinShipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610151450035_addShpmentErrorTable.resx">
+      <DependentUpon>201610151450035_addShpmentErrorTable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

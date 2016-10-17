@@ -36,7 +36,9 @@ namespace PI.Data.Entity
         public short Status { get; set; }
         [MaxLength(50)]
         public string TrackingNumber { get; set; }
-
+        
+        [MaxLength(50)]
+        public string Provider { get; set; }
 
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }

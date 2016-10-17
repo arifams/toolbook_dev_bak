@@ -1,16 +1,24 @@
 ﻿'use strict';
 
 (function (app) {
-    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory','$rootScope','ngDialog', '$controller',
-                  function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller) {
+    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory', '$rootScope', 'ngDialog', '$controller', 'customBuilderFactory',
+                  function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller, customBuilderFactory) {
                       var vm = this;
                       vm.status = 'All';
                       vm.itemsByPage = 25;
                       vm.rowCollection = [];
+                      vm.editUserBtnClick = false; // used for edit btn click function
+                      vm.rightPaneLoad = false; // used for change table width
 
                       vm.closeWindow = function () {
                           ngDialog.close()
                       }
+
+                      //toggle function
+                      vm.loadFilterToggle = function () {
+                          customBuilderFactory.customFilterToggle();
+
+                      };
 
 
                       
@@ -234,6 +242,12 @@
 
 
                       };
+
+                      vm.manageUsers = function () {
+                          debugger;
+                          vm.rightPaneLoad = true;
+                          vm.editUserBtnClick = true;
+                      }
 
                   }]);
 

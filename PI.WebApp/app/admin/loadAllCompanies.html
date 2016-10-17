@@ -1,20 +1,111 @@
 ﻿<div ng-controller="loadCompaniesCtrl as vm">
-    <h2 class="box-title" translate>
-        Manage Customers
-    </h2>
+    <div class="builder" id="builder1">
+        <a class="builder-toggle f-20" ng-click="vm.loadFilterToggle();" href="javascript:void(0)">
+            <i class="fa fa-filter" aria-hidden="true"></i>
+        </a>
+        <div class="inner">
+            <div class="row m-0 side-builder-header">
+                <h4 class="text-center m-t-0">FILTER CUSTOMERS</h4>
+            </div>
+            <div class="builder-container">
+                <!--<div dropdown="" class="btn-group btn-block">
+                    <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button">
+                        <translate>Status</translate>  :  {{vm.statusButton}}
+                        <span class="caret"></span>
+                    </button>
+                    <span class="dropdown-arrow"></span>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('All')">
+                                <translate>All</translate>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('true')">
+                                <translate>Active</translate>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('false')">
+                                <translate>InActive</translate>
+                            </a>
+                        </li>
+                    </ul>
+                </div>-->
+                <div class="row m-0">
+                    <label class="form-label" translate>Status</label>
+                    <div class="form-group">
+
+                        <div class="option-group">
+                            <select ng-model="vm.status" class="form-control form-white">
+                                <option value='All' href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('All')" translate>Status: All</option>
+                                <option value='Active' href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('true')" translate>Pending</option>
+                                <option value='InActive' href="javascript:;" ng-model="status" ng-click="vm.loadCompanyByStatus('false')" translate>Paid</option>
+                               
+                            </select>
+                        </div>
+
+                    </div>
+                </div>
+                <hr>
+                <a href="javascript:void(0)" ng-click="vm.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
+
+                <a href="javascript:void(0)" ng-click="vm.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="row m-l-0 m-r-0 m-b-10">
+        <h2 class="m-t-0 col-sm-9 col-md-9 col-xs-12 p-0 custom-page-header">Manage customers</h2>
+        <!--<div class="col-sm-1 col-md-1 col-xs-4 p-0" style="display:inline">
+            <a href="">
+                <div class="round round-lg blue">
+                    <span class="glyphicon glyphicon-user"></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-1 col-md-1 col-xs-4 p-0" style="display:inline">
+            <a href="">
+                <div class="round round-lg blue">
+                    <span class="glyphicon glyphicon-play-circle"></span>
+                </div>
+            </a>
+        </div>
+        <div class="col-sm-1 col-md-1 col-xs-4 p-0" style="display:inline">
+            <a href="">
+                <div class="round round-lg blue">
+                    <span class="glyphicon glyphicon-globe"></span>
+                </div>
+            </a>
+        </div>-->
+    </div>
+
+    <div class="row m-0">
+        <div class="col-sm-4 col-md-4 col-xs-12 input-group pull-left">
+            <input ng-model="vm.searchText" name="searchText" type="text" class="form-control form-white custom-search2"
+                   placeholder= "{{'Search by First Name, Last Name or Company Name'| translate}}" />
+
+            <span class="input-group-btn p-0">
+                <button type="button" class="btn btn-primary" ng-click="vm.searchComapnies()"
+                        style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
+        <div class="col-sm-8 col-md-8 col-xs-12 p-0 btn-wrapper">
+            <button type="button" style="width:auto;" class="btn btn-primary m-r-0" href="#" translate>
+                <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New customer
+            </button>
+        </div>
+    </div>
 
     <div class="panel">
         <!-- form start -->
         <!-- Main content -->
         <div class="panel-content panel-border">
             <form class="form-horizontal">
-                <!-- /.box-header -->
-
-                <div class="panel-header">
-                    <!-- left column -->
-
-                    <div class="box-body">
-                        <div class="row">
+                        <!--<div class="row">
                                 <div class="col-sm-2 form-group m-0">
                                     <div dropdown="" class="btn-group btn-block">
                                         <button data-toggle="dropdown" class="btn btn-primary dropdown-toggle" type="button" >
@@ -53,67 +144,85 @@
                                     </div>
                                 </div>                               
                             
+                        </div>-->
+                       
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover" ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
+                                    <thead>
+                                        <tr>
+                                            <th translate>Date</th>
+                                            <th st-sort="name" translate>Name</th>
+                                            <!--<th translate>Last Name</th>-->
+                                            <th translate>Company</th>
+                                            <!--<th translate>City</th>
+                                            <th translate>Number Of Users</th>-->
+                                            <th translate>Shipments</th>
+                                            <th>View</th>
+                                            <th translate>Status</th>
+                                            <!--<th translate>Invoice Payment</th>
+                                            <th></th>-->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>11</td>
+                                            <td>dsd</td>
+                                            <td>sdsa</td>
+                                            <td>3</td>
+                                            <td>
+                                                <button type="button" class="btn btn-sm btn-default"
+                                                        >
+                                                    <i class="fa fa-hand-o-right"></i>
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-large btn-primary btn-block"
+                                                       >
+                                                    
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <!--<tr ng-repeat="row in vm.displayedCollection">
+                                            <td>{{row.createdDate}}</td>
+                                            <td>{{row.firstName}}</td>-->
+                                            <!--<td>{{row.lastName}}</td>-->
+                                            <!--<td>{{row.corporateName}}</td>-->
+                                            <!--<td>{{row.city}}</td>
+                                            <td>{{row.assignedUserCount}}</td>-->
+                                            <!--<td>{{row.activeShipments}}</td>-->
+                                            <!--<td>
+                                                <button type="button" class="btn btn-sm btn-default"
+                                                        ng-click="vm.ViewCompany(row)">
+                                                    <i class="fa fa-hand-o-right"></i>
+                                                </button>
+                                            </td>-->
+
+                                            <!--<td>
+                                                <button type="button" class="btn btn-large btn-primary btn-block"
+                                                        ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-primary':'btn-danger' ">
+                                                    {{ (row.status ? 'Active' : 'Inactive') }}
+                                                </button>
+                                            </td>-->
+                                            <!--<td>
+                                                <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
+                                                    {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
+                                                </button>
+                                            </td>-->
+                                        <!--</tr>-->
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="col-sm-4 manageuser-rightpane" ng-show="mgtCustomerCtrl.rightPaneLoad == true" ng-include="'manageCustomers.html'"></div>
+
                         </div>
-                        <br />
-                        <div>
-                            <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th translate>Creation Date</th>
-                                        <th st-sort="name" translate>First Name</th>
-                                        <th translate>Last Name</th>
-                                        <th translate>Company Name</th>
-                                        <th translate>City</th>
-                                        <th translate>Number Of Users</th>
-                                        <th translate>Active Shipments</th>
-                                        <th>View</th>
-                                        <th translate>Status</th>
-                                        <th translate>Invoice Payment</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="row in vm.displayedCollection">
-                                        <td>{{row.createdDate}}</td>
-                                        <td>{{row.firstName}}</td>
-                                        <td>{{row.lastName}}</td>
-                                        <td>{{row.corporateName}}</td>
-                                        <td>{{row.city}}</td>
-                                        <td>{{row.assignedUserCount}}</td>
-                                        <td>{{row.activeShipments}}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-sm btn-default"
-                                                    ng-click="vm.ViewCompany(row)" >                                              
-                                                <i class="fa fa-hand-o-right" ></i>
-                                            </button>
-                                        </td>
-
-                                        <td>
-                                            <button type="button" class="btn btn-large btn-primary btn-block"
-                                                    ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-primary':'btn-danger' ">
-                                              {{ (row.status ? 'Active' : 'Inactive') }} 
-                                           </button>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
-                                                {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }} 
-</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-
-                        </div>
-
-                    </div>
-                </div>
                 <div id="panel-notif"></div>
             </form>
         </div>
