@@ -1140,6 +1140,8 @@
 
                         <div class="col-sm-5" ng-show="shipmentCtrl.isShowPaymentForm">
                             
+                            <label>Total Amount : {{shipmentCtrl.shipment.carrierInformation.totalPrice  | currency:"US $ "}}</label>
+                            <br/>
                             <label>Card Number</label>
                             <div id="sq-card-number"></div>
                             <label>CVV</label>
