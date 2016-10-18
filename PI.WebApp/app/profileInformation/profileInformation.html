@@ -1,7 +1,19 @@
-﻿<div ng-init="profileCtrl.loadProfile()">
+﻿<div >
 
-    <div class="panel">
 
+    <div ng-show="profileCtrl.showCustomerName"
+         class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
+        <a href="#CustomerMangement" class="close" data-dismiss="alert" aria-label="close">&times; Cancel </a>
+        <strong style="font-style:italic">
+            <translate>  Updating profiledata for customer </translate>:
+            <span style="text-transform:uppercase">
+                &nbsp"{{profileCtrl.model.customerDetails.firstName}} &nbsp
+                {{profileCtrl.model.customerDetails.lastName}}"
+            </span>
+        </strong>
+    </div>
+
+    <div class="panel">        
         <div class="panel-content panel-border">
             <tabset class="tab-fade-in">
                 <tab>

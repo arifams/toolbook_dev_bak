@@ -574,6 +574,41 @@ namespace PI.Business
             return result;
         }
 
+
+        public ShipmentOperationResult UpdateShipmentReference(ShipmentDto addShipment)
+        {
+
+            ShipmentOperationResult result = new ShipmentOperationResult();
+
+            var shipment = context.Shipments.Where(s => s.Id.ToString() == addShipment.GeneralInformation.ShipmentId).SingleOrDefault();
+
+
+            if (shipment!=null)
+            {
+                try
+                {
+                    shipment.ShipmentName = addShipment.GeneralInformation.ShipmentName;
+                    context.SaveChanges();
+
+                    result.Status = Status.Success;
+                }
+                catch (Exception ex)
+                {
+                    //throw ex;
+                    result.ShipmentId = 0;
+                    result.Status = Status.Error;
+                }
+
+            }
+
+
+          
+
+            //}
+
+            return result;
+        }
+
         public string GetSquareApplicationId()
         {
             return ConfigurationManager.AppSettings["SquareApplicationId"].ToString();

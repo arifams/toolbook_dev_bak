@@ -157,7 +157,7 @@ var MakeApp = angular
               
           })
           //profile Information Page
-        .when('/profileInformation-profileInformation', {
+        .when('/profileInformation/:id', {
             templateUrl: 'profileInformation/profileInformation.html',
             controller: 'profileInformationCtrl',
             controllerAs: 'profileCtrl'
@@ -315,6 +315,7 @@ var MakeApp = angular
            })
            .when('/CustomerMangement', {
                templateUrl: 'admin/loadAllCompanies.html',
+               controller: 'loadCompaniesCtrl'
            })
            .when('/AdminMangement', {
                templateUrl: 'admin/ImportRateSheet.html',

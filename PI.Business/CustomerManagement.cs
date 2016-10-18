@@ -274,6 +274,7 @@ namespace PI.Business
                 PhoneNumber = content.Customer.PhoneNumber,
                 Salutation = content.Customer.Salutation,
                 MobileNumber = content.Customer.MobileNumber,
+                UserId=content.Customer.UserId,
 
                 CustomerAddress = new Contract.DTOs.Address.AddressDto()
                 {

@@ -174,7 +174,7 @@
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
                             <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
-                            <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
+                            <li ng-class="{ active  : isActive('/profileInformation')}"><a href="#profileInformation/0" translate> PROFILE INFORMATION</a></li>
                         </ul>
                     </li>
                     <li class="nav-parent" ng-show="currentRole == 'Admin'">
@@ -185,6 +185,16 @@
                             </li>
                         </ul>
                     </li>
+                    
+                    <li class="nav-parent" ng-show="currentRole == 'Admin'">
+                        <a href="#"><span translate>CUSTOMER</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/CustomerMangement')}">
+                                <a href="#CustomerMangement" translate> CUSTOMER MANAGEMENT</a>
+                            </li>
+                        </ul>
+                    </li>
+
 
                 </ul>
             </div>

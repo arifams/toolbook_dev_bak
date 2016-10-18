@@ -55,7 +55,7 @@
         vm.errorCodeConsignor = false;
         vm.isShowInvoice = false;
         vm.loadingSymbole = false;
-        vm.rateTable = false;
+        vm.savedShipmentId = '';
         vm.shipmentReferenceName=''
         vm.closeWindow = function () {
             ngDialog.close()
@@ -743,6 +743,9 @@
                                 if (response.status == 2) {
 
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
+
+                                    vm.savedShipmentId = response.shipmentId;
+
 
                                     if (vm.shipment.generalInformation.shipmentPaymentTypeId == 1) {
                                         //window.location = webBaseUrl + "/app/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";

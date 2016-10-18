@@ -188,6 +188,15 @@ namespace PI.Service.Controllers
         {
             return Ok(shipmentManagement.SaveShipment(addShipment));
         }
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateShipmentReference")]
+        public IHttpActionResult UpdateShipmentReference([FromBody]ShipmentDto addShipment)
+        {
+            return Ok(shipmentManagement.UpdateShipmentReference(addShipment));
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -863,7 +872,7 @@ namespace PI.Service.Controllers
 
                     Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
                     Paragraph shipline2 = new Paragraph("AWB#: " + shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
-                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentReferenceName, invoiceFont);
+                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName+"/"+ shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
                     Paragraph shipline4 = new Paragraph("Origin: " + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
                     Paragraph shipline5 = new Paragraph("Destination: " + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
                     Paragraph shipline6 = new Paragraph("Weight: " + shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
