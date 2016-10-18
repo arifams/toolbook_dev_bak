@@ -10,6 +10,8 @@ namespace PI.Contract.DTOs.Postmen
     {
         public float code { get; set; }
         public string message { get; set; }
-        public string[] details { get; set; }
+        public List<PMDetails> details { get; set; }
+        public bool retryable { get; set; }
+        public string data { get; set; }
     }
 }

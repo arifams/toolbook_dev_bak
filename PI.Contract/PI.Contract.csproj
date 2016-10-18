@@ -82,12 +82,14 @@
     <Compile Include="DTOs\Node\NodeDto.cs" />
     <Compile Include="DTOs\OperationResult.cs" />
     <Compile Include="DTOs\Payment\PaymentDto.cs" />
+    <Compile Include="DTOs\Postmen\AddShipmentResponsePM.cs" />
     <Compile Include="DTOs\Postmen\PMAddress.cs" />
     <Compile Include="DTOs\Postmen\PMbilling.cs" />
     <Compile Include="DTOs\Postmen\PMCharge.cs" />
     <Compile Include="DTOs\Postmen\PMcustoms.cs" />
     <Compile Include="DTOs\Postmen\PMData.cs" />
     <Compile Include="DTOs\Postmen\PMDetailCharge.cs" />
+    <Compile Include="DTOs\Postmen\PMDetails.cs" />
     <Compile Include="DTOs\Postmen\PMDimension.cs" />
     <Compile Include="DTOs\Postmen\PMFiles.cs" />
     <Compile Include="DTOs\Postmen\PMItems.cs" />

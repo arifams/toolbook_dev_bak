@@ -79,6 +79,8 @@ namespace PI.Data
 
         public virtual DbSet<Country> Countries { get; set; }
 
+        public virtual DbSet<ShipmentError> ShipmentErrors { get; set; }
+
 
         public PIContext()
             : base("name=PIBookingConnectionString")

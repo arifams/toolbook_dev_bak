@@ -324,6 +324,11 @@ var MakeApp = angular
               controller: 'shipmentManageCtrl',/* To Do: replace this controller */
               controllerAs: 'manageShipCtrl'
           })
+           .when('/shipmentError', { /* To Do: loadShipCtrl  is temporary used for this controller */
+               templateUrl: 'shipment/shipmentError.html',
+               controller: 'shipmentErrorCtrl',/* To Do: replace this controller */
+               controllerAs: 'shipErrorCtrl'
+           })
            .when('/ShipmentReports', {
                templateUrl: 'reports/ShipmentReport.html',
                controller: 'shipReportCtrl'

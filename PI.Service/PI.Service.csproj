@@ -220,6 +220,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Tmp\FileUploads\ExceptionEmailTemplate.html" />
+    <Content Include="App_Data\Tmp\FileUploads\USInvoiceTemplate.html" />
     <Content Include="ExternalLibries\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll" />
     <Content Include="Global.asax" />
     <Content Include="Templates\USInvoiceTemplate.html">
@@ -298,7 +300,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="fonts\" />
     <Folder Include="Pdf\" />
   </ItemGroup>

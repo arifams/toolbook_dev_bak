@@ -56,7 +56,7 @@
         vm.isShowInvoice = false;
         vm.loadingSymbole = false;
         vm.rateTable = false;
-
+        vm.shipmentReferenceName=''
         vm.closeWindow = function () {
             ngDialog.close()
         }
@@ -639,10 +639,12 @@
                 //    timeout: 6000,
                 //});
             }
-            else if (response.status == 5) {
+            else if (response.status == 5 || response.status == 6) {
                 // SISError.
+                debugger;
+                vm.shipmentReferenceName = response.shipmentReference;
                 vm.isShowPaymentForm = false;
-                vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+            //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                 //window.open(errorUrl);
             }
         }
