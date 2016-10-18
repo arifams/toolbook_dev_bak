@@ -36,7 +36,7 @@
                                     <div class="prepend-icon">
                                         <input ng-cloak type="email" name="username" id="username" class="form-control form-ash" placeholder="{{'Email'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}" autocomplete="off">
                                         <i class="icon-user"></i>
-                                        <label ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="error" translate>Email is required.</label>
+                                        <label ng-show="loginForm.username.$error.required && loginForm.username.$dirty" class="error m-b-0" translate>Email is required.</label>
                                     </div>
                                 </div>
                             </div>
@@ -48,7 +48,7 @@
                                     <div class="prepend-icon">
                                         <input ng-cloak type="password" name="password" class="form-control form-ash" placeholder="{{'Password'|translate}}" required ng-model="user.password" ng-class="{ 'has-error' :loginForm.password.$error.required && loginForm.password.$dirty}">
                                         <i class="icon-lock" aria-hidden="true"></i>
-                                        <label ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="error" translate>Password is required.</label>
+                                        <label ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="error m-b-0" translate>Password is required.</label>
                                     </div>
                                 </div>
                             </div>
@@ -66,11 +66,11 @@
                         </div>-->
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12 text-center">
-                                <button class="btn btn-primary m-r-0" type="submit" id="submit-form">Sign in</button>
+                                <button class="btn btn-primary m-r-0 m-t-10" type="submit" id="submit-form">Sign in</button>
                             </div>
                         </div>
 
-                        <p class="text-center m-b-30"><a id="password" href="#" translate>Forgot Password?</a></p>
+                        <p class="text-center m-0"><a id="password" href="#" translate>Forgot Password?</a></p>
 
                         <hr class="m-b-5">
 
