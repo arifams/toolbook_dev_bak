@@ -1,7 +1,7 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('adminManageUsersCtrl', function (userManagementFactory, $scope, $location, $routeParams, $timeout,
+    app.controller('organizationUsersCtrl', function (userManagementFactory, $scope, $location, $routeParams, $timeout,
         $log, $window, $sce, $route, $rootScope) {
 
         var vm = this;
@@ -118,15 +118,11 @@
                 vm.user.salutation = 'Mr';
 
                 vm.user.roles = [{
-                    id: 'b1320df1-55f8-46a0-9754-13a0544658d4',
-                    roleName: 'BackOffice'
-                },
-                {
-                    id: 'e97b4e4c-45de-4fb2-a322-5b876b7661d0',
-                    roleName: 'FrontOffice'
+                    id: '440ad8ee-f212-4c83-b9be-e032e0d07192',
+                    roleName: 'Manager'
                 }];
 
-                vm.user.assignedRoleName = 'BackOffice';
+                vm.user.assignedRoleName = 'Manager';
             }
             else {
 
@@ -135,15 +131,10 @@
                     vm.user.isActive = 'true';
                 else
                     vm.user.isActive = 'false';
-                
-                vm.user.roles = [
-                {
-                    id: 'b1320df1-55f8-46a0-9754-13a0544658d4',
-                    roleName: 'BackOffice'
-                },
-                {
-                    id: 'e97b4e4c-45de-4fb2-a322-5b876b7661d0',
-                    roleName: 'FrontOffice'
+
+                vm.user.roles = [{
+                    id: '440ad8ee-f212-4c83-b9be-e032e0d07192',
+                    roleName: 'Manager'
                 }];
 
                 vm.user.assignedRoleName = vm.user.roleName;

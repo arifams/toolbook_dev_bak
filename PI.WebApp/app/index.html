@@ -168,7 +168,7 @@
                     <li class="nav-parent" ng-hide="currentRole == 'Admin'">
                         <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION STRUCTURE</a></li>
+                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationManagement')}"><a href="#OrganizationManagement" translate> ORGANIZATION MANAGEMENT</a></li>
                             <!--<li ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION</a></li>-->
                             <!--<li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
@@ -1105,6 +1105,7 @@
     <script src="admin/manageUsers.js"></script>
     <script src="../plugins/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
     <script src="admin/manageCustomers.js"></script>
+    <script src="organization/organizationManagement.js"></script>
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

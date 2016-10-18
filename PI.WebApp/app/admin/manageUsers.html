@@ -4,10 +4,8 @@
 <div class="row m-0">
 
     <div class="col-sm-12 p-0 btn-wrapper">
-        <!--<button type="button" style="width:auto;" class="btn btn-primary m-r-0" href="#saveUserManagement/0" translate>
-            <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New User
-        </button>-->
-        <a href="#saveUserManagement/0"class="btn btn-primary m-r-0" style="width:auto;" 
+
+        <a href="javascript:void(0)" ng-click="userCtrl.manageUsers(null)" class="btn btn-primary m-r-0" style="width:auto;" 
            role="button" translate><i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New User</a>
 
     </div>
@@ -42,8 +40,8 @@
                                        class="edit btn btn-sm btn-default" ng-hide="{{ userStrl.userId == row.id }}">
                                         <i class="icon-note"></i>
                                     </a>-->
-                                    <button ng-click="userCtrl.manageUsers()"
-                                       class="btn btn-sm btn-primary btn-transparent" ng-hide="{{ userCtrl.userId == row.id }}">
+                                    <button ng-click="userCtrl.manageUsers(row)"
+                                       class="btn btn-sm btn-primary btn-transparent" ng-hide="{{ userCtrl.id == row.id }}">
                                         <i class="icon-note"></i>
                                     </button>
                                 </td>
@@ -59,9 +57,11 @@
                         </tfoot>
                    </table>
                 </div>
-                <div class="col-sm-4 manageuser-rightpane" ng-show="userCtrl.rightPaneLoad == true" ng-include="'userManagement/saveUserManagement.html'"></div>
+                <div class="col-sm-4 manageuser-rightpane" ng-show="userCtrl.rightPaneLoad == true"
+                     ng-include="'userManagement/saveUserManagement.html'" > </div>
            
             </div>
+        <div id="panel-notif"></div>
         <div class="page-spinner-loader customLoad" ng-show="userCtrl.loadingSymbole">
             <div class="bounce1"></div>
             <div class="bounce2"></div>

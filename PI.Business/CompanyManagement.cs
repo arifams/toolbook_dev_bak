@@ -50,21 +50,21 @@ namespace PI.Business
             CostCenter costCenter = context.CostCenters.Where(cos => cos.CompanyId == company.Id).FirstOrDefault();
             Address costCenterAddress = costCenter != null ? costCenter.BillingAddress : null;
             Division division = context.Divisions.Where(div => div.CompanyId == company.Id).FirstOrDefault();
-            
 
-            if(costCenter != null)
+
+            if (costCenter != null)
                 context.CostCenters.Remove(costCenter);
             if (division != null)
                 context.Divisions.Remove(division);
             if (company != null)
                 context.Companies.Remove(company);
-            
+
             if (costCenterAddress != null)
                 context.Addresses.Remove(costCenterAddress);
-            
+
             if (tenant != null)
                 context.Tenants.Remove(tenant);
-            
+
             context.SaveChanges();
         }
 
@@ -1224,6 +1224,7 @@ namespace PI.Business
                 allRoles = context.Roles.ToList();
             }
 
+            /* Removed  for now
             RoleHierarchy roleHierarchy = context.RoleHierarchies.Where(rh => rh.ParentName == userRoleName).FirstOrDefault();
             if (roleHierarchy != null)
             {
@@ -1233,7 +1234,7 @@ namespace PI.Business
 
                 roleList.ForEach(rl => roles.Add(new RolesDto { Id = allRoles.Where(e => e.Name == rl).FirstOrDefault().Id, RoleName = rl }));
             }
-
+            */
             return roles;
         }
 
@@ -1250,39 +1251,17 @@ namespace PI.Business
             ApplicationUser user = new ApplicationUser();
             string assignedRole = null;
 
-            // Get all divisions, if user role is business owner.
-            if (context.GetUserRoleById(loggedInUser) == "BusinessOwner")
-            {
-                divisionList = GetAllActiveDivisionsForCompany(loggedInUser);
-            }
-            else
-            {
-                // Get divisions from UsersInDivisions
-                divisionList = GetAllActiveDivisionsOfUser(loggedInUser);
-            }
-
             roleList = GetAllActiveChildRoles(loggedInUser);
 
             if (string.IsNullOrEmpty(userId))
             {
                 return new UserDto
                 {
-                    Divisions = divisionList,
                     Roles = roleList,
                 };
             }
 
             user = context.Users.SingleOrDefault(c => c.Id == userId);
-
-            // find and mark assigned divisisons for the specific in user
-            foreach (DivisionDto div in divisionList)
-            {
-                div.IsAssigned = context.UsersInDivisions.Where(ud => ud.DivisionId == div.Id
-                                                                      && ud.UserId == userId
-                                                                      && ud.IsDelete == false
-                                                                      && ud.IsActive).ToList().Count() > 0;
-            }
-
 
             // find and mark assigned role for the specific user
             foreach (var role in roleList)
@@ -1338,7 +1317,7 @@ namespace PI.Business
             }
 
             ApplicationUser appUser = new ApplicationUser();
-            if (string.IsNullOrEmpty(userDto.Id))
+            if (string.IsNullOrEmpty(userDto.Id)  || userDto.Id == "0")
             {
                 result.IsAddUser = true;
 
@@ -1350,6 +1329,7 @@ namespace PI.Business
                 appUser.LastName = userDto.LastName;
                 appUser.Email = userDto.Email;
                 appUser.IsActive = userDto.IsActive;
+                //appUser.IsActive = userDto.Status == "Active" ? true : false;
                 appUser.JoinDate = DateTime.UtcNow;
                 appUser.Level = 1;
                 appUser.IsDeleted = false;
@@ -1377,7 +1357,7 @@ namespace PI.Business
                     UserName = userDto.Email,
                     Password = userDto.Password,
                     IsCorpAddressUseAsBusinessAddress = true,
-                    UserId = appUser.Id,
+                    UserId = userDto.Id,
                     AddressId = 1//businessOwnerRecord.Id
                 });
             }
@@ -1399,36 +1379,6 @@ namespace PI.Business
                 // Save user context.
                 context.SaveChanges();
             }
-
-            // -- Get whole userdivision list by userid to prevent multiple service call.
-            IList<UserInDivision> udList = context.UsersInDivisions.Where(ud => ud.UserId == appUser.Id && ud.IsActive && !ud.IsDelete).ToList();
-
-            // Removed division list which unselect
-            udList.Where(div => !userDto.AssignedDivisionIdList.Contains(div.DivisionId)).ToList().ForEach
-                                                            (dc => { dc.IsActive = false; dc.IsDelete = true; }); ;
-
-            context.SaveChanges();
-
-            // Get new list need to assign.
-            var newDivisiosnList = userDto.AssignedDivisionIdList.Where(ad => !udList.Select(ud => ud.DivisionId).ToList().Contains(ad)).ToList();
-
-            IList<UserInDivision> userDivisionList = new List<UserInDivision>();
-
-            foreach (var divisionId in newDivisiosnList)
-            {
-                userDivisionList.Add(new UserInDivision()
-                {
-                    UserId = appUser.Id,
-                    DivisionId = divisionId,
-                    IsActive = true,
-                    CreatedBy = "1",
-                    CreatedDate = DateTime.UtcNow
-                });
-            }
-
-            context.UsersInDivisions.AddRange(userDivisionList);
-            context.SaveChanges();
-
 
             //Add Audit Trail Record
             context.AuditTrail.Add(new AuditTrail
@@ -1475,12 +1425,12 @@ namespace PI.Business
         public PagedList GetAllUsers(string role, string userId, string status, string searchtext)
         {
             var pagedRecord = new PagedList();
-          //  long tenantId = context.GetTenantIdByUserId(userId);
+            long tenantId = context.GetTenantIdByUserId(userId);
 
             pagedRecord.Content = new List<UserDto>();
 
             var content = context.Users.Where(x => 
-                                                x.IsDeleted == false &&
+                                                x.TenantId == tenantId &&  x.IsDeleted == false &&
                                                 (string.IsNullOrEmpty(searchtext) || x.FirstName.Contains(searchtext) || x.LastName.Contains(searchtext)) &&
                                                 (status == "0" || x.IsActive.ToString() == status) &&
                                                 (role == "0" || x.Roles.Any(r => r.RoleId == role)) 
@@ -1489,13 +1439,16 @@ namespace PI.Business
 
             foreach (var item in content)
             {
-                if (item.Roles.Count()!=0 && item.Roles.FirstOrDefault().RoleId!= "b1320df1-55f8-46a0-9754-13a0544658d4" && item.Roles.FirstOrDefault().RoleId != "e97b4e4c-45de-4fb2-a322-5b876b7661d0" && item.Roles.FirstOrDefault().RoleId != "336eeffa-57c6-430d-9fa9-575e2a7e9787")
+                //if (item.Roles.Count()!=0 && item.Roles.FirstOrDefault().RoleId!= "b1320df1-55f8-46a0-9754-13a0544658d4" && item.Roles.FirstOrDefault().RoleId != "e97b4e4c-45de-4fb2-a322-5b876b7661d0" && item.Roles.FirstOrDefault().RoleId != "336eeffa-57c6-430d-9fa9-575e2a7e9787")
+                if (item.Roles.Count() != 0)
                 {
                     pagedRecord.Content.Add(new UserDto
                     {
                         Id = item.Id,
+                        Salutation = item.Salutation,
                         FirstName = item.FirstName,
                         LastName = item.LastName,
+                        Email = item.Email,
                         RoleName = item.Roles.Count() != 0 ? GetRoleName(item.Roles.FirstOrDefault().RoleId) : "",
                         Status = (item.IsActive) ? "Active" : "Inactive",
                         LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)

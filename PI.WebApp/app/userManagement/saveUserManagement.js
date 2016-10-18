@@ -37,14 +37,19 @@
         }
     });
 
-    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$routeParams',
-        function ($location, $window, userManagementFactory, $rootScope, $routeParams) {
+    app.controller('saveUserManagementCtrl', ['$location', '$window', 'userManagementFactory', '$rootScope', '$routeParams','$scope',
+        function ($location, $window, userManagementFactory, $rootScope, $routeParams, $scope) {
         var vm = this;
         vm.user = {};
+        debugger;
+
+        vm.item = '';
+
+        //vm.usere = $scope.$parent.$parent.userCtrl.parentUser;
 
         var loadUser = function () {
             debugger;
-            console.log($routeParams.id);
+            console.log(vm.user);
             userManagementFactory.getUser($routeParams.id)
             .success(function (data) {
                 debugger;
@@ -152,18 +157,18 @@
             $location.path('/adminManageUser');
         }
 
-        vm.toggleDivisionSelection = function (division) {
+        //vm.toggleDivisionSelection = function (division) {
             
-            var idx = vm.user.assignedDivisionIdList.indexOf(division.id);
-            // is currently selected
-            if (idx > -1) {
-                vm.user.assignedDivisionIdList.splice(idx, 1);
-            }
-                // is newly selected
-            else {
-                vm.user.assignedDivisionIdList.push(division.id);
-            }
-        }
+        //    var idx = vm.user.assignedDivisionIdList.indexOf(division.id);
+        //    // is currently selected
+        //    if (idx > -1) {
+        //        vm.user.assignedDivisionIdList.splice(idx, 1);
+        //    }
+        //        // is newly selected
+        //    else {
+        //        vm.user.assignedDivisionIdList.push(division.id);
+        //    }
+        //}
 
     }]);
 

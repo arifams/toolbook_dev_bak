@@ -1,0 +1,70 @@
+﻿<div class="row m-l-0 m-r-0">
+    <h2 class="m-t-0 custom-page-header">Manage Organizaion</h2>
+</div>
+<div class="row m-0">
+
+    <div class="col-sm-12 p-0 btn-wrapper">
+
+        <a href="javascript:void(0)" ng-click="orgMgtCtrl.manageUsers(null)" class="btn btn-primary m-r-0" style="width:auto;"
+           role="button" translate><i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New User</a>
+
+    </div>
+</div>
+<div class="panel">
+    <div class="panel-content">
+        <div class="row m-0">
+            <div class="col-sm-12" ng-class="orgMgtCtrl.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
+                <!--<table st-pipe="userStrl.callServerSearch" st-table="userStrl.rowCollection" class="table table-hover">-->
+                <table st-table="manageUser" st-safe-src="orgMgtCtrl.rowCollection" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Edit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="row in manageUser">
+                            <td>{{row.firstName}}</td>
+                            <td>{{row.lastName}}</td>
+                            <td>{{row.roleName}}</td>
+                            <td>
+                                <span ng-class="row.status == 'Active' ? 'label label-active active-status' : 'label label-inactive inactive-status'">
+                                    {{row.status}}
+                                </span>
+                            </td>
+                            <td>
+                                <button ng-click="orgMgtCtrl.manageUsers(row)"
+                                        class="btn btn-sm btn-primary btn-transparent" ng-hide="{{ orgMgtCtrl.id == row.id }}">
+                                    <i class="icon-note"></i>
+                                </button>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-center">
+                                <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="col-sm-4 manageuser-rightpane" ng-show="orgMgtCtrl.rightPaneLoad == true"
+                 ng-include="'organization/createOrgUser.html'"></div>
+
+        </div>
+        <div id="panel-notif"></div>
+        <div class="page-spinner-loader customLoad" ng-show="orgMgtCtrl.loadingSymbole">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+
+    </div>
+
+</div>
+

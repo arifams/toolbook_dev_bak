@@ -154,7 +154,7 @@ var MakeApp = angular
           .when('/OrganizationStructure', {
               templateUrl: 'organizationstructure/organizationStructure.html',
               //controller: 'orgStructureCtrl'
-              
+
           })
           //profile Information Page
         .when('/profileInformation-profileInformation', {
@@ -260,10 +260,10 @@ var MakeApp = angular
             controller: 'loadCostCentersCtrl',
         })
 
-        .when('/saveUserManagement/:id', {
-            templateUrl: 'userManagement/saveUserManagement.html',
-            controller: 'saveUserManagementCtrl'
-        })
+        //.when('/saveUserManagement/:id', {
+        //    templateUrl: 'userManagement/saveUserManagement.html',
+        //    controller: 'saveUserManagementCtrl'
+        //})
         .when('/loadUserManagement', {
             templateUrl: 'userManagement/loadUserManagement.html',
             controller: 'loadUserManagementCtrl',
@@ -345,13 +345,13 @@ var MakeApp = angular
 
           })
           .when('/ShipmentSearch', {
-              templateUrl: 'admin/SearchSpecificShipments.html',  
+              templateUrl: 'admin/SearchSpecificShipments.html',
               controller: 'shipmentSearchCtrl',
           })
           .when('/AdminDashboard', {
               templateUrl: 'shipmentControlCenter/adminDashboard.html',
               controller: 'adminDashboardCtrl',
-             
+
           })
            .when('/custOverview', {
                templateUrl: 'admin/custOverview.html',
@@ -375,6 +375,11 @@ var MakeApp = angular
               controller: 'adminManageUsersCtrl',
               controllerAs: 'userCtrl'
           })
+          .when('/OrganizationManagement', {
+              templateUrl: 'organization/organizationManagement.html',
+              controller: 'organizationUsersCtrl',
+              controllerAs: 'orgMgtCtrl'
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {
@@ -384,10 +389,10 @@ var MakeApp = angular
 
 
       jwtInterceptorProvider.tokenGetter = function (jwtHelper, $window) {
-          
+
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
-          
+
           if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
               var expireTime = new Date($window.localStorage.getItem('lastLogin'));
               expireTime.setMinutes(expireTime.getMinutes() + 120);
