@@ -26,7 +26,7 @@
                                                         Date *
                                                     </label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon">
-                                                        <input datetime-picker name="datetimepicker" class="form-control" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
+                                                        <input datetime-picker name="datetimepicker" class="form-control form-white" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
                                                                         (printmanifestform.datetimepicker.$dirty|| manifestCtrl.isSubmit) }" /><i class="icon-calendar"></i>
                                                         <div ng-messages="printmanifestform.datetimepicker.$error"
                                                              ng-show="printmanifestform.datetimepicker.$dirty || manifestCtrl.isSubmit">
@@ -55,7 +55,7 @@
                                             <div class="row">
                                                     <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate> Carrier *</label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12">
-                                                        <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
+                                                        <select class="form-control form-white" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
                                                                 ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
                                                             <option value="" translate>Select carrier</option>
                                                             <option value="UPS" translate>UPS</option>
@@ -122,7 +122,7 @@
                                 <input type="button" class="btn btn-primary" value="Print" ng-click="manifestCtrl.printManifest('manifest')" />
 
                             </div>
-                            <div id="manifest">
+                            <div>
                                 <div>
                                     <div class="row">
                                         <div class="col-sm-1">
@@ -176,9 +176,9 @@
                                             <td>{{row.generalInformation.shipmentReferenceName}}</td>
                                             <td>{{row.generalInformation.trackingNumber}}</td>
                                             <!--<td>{{row.generalInformation.costCenterId}}</td>-->
-                                            <!--<td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}} </td>
-                                            <td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>
-                                            <td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>-->
+                                            <!--<td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}}</td>-->
+                                            <!--<td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>-->
+                                            <!--<td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>-->
                                             <td>{{row.carrierInformation.serviceLevel}}</td>
                                             <td ng-show="manifestCtrl.isPackageEnable=='true'">
                                                 <div ng-repeat="item in row.packageDetails.productIngredients">
@@ -245,6 +245,133 @@
                             </div>
                         </div>
                     
+
+                   <!--####################################-->
+                <div id="manifest" style="display:none">
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-2" style="width:35%">
+                                <img src={{logoUrl}} style="width:138px;height:50px;">
+                            </div><br />
+                            <div class="col-sm-1" style="float:left">
+                                <label translate style="font-weight:bold"> Address </label>
+                            </div>&nbsp;&nbsp;&nbsp;
+                           
+                            <div class="col-sm-3">
+                                <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}},</label><br />
+                                <label>{{manifestCtrl.consignerzipCode}},</label><br />
+                                <label>{{manifestCtrl.consignernumber +","+manifestCtrl.consignerAddress1}},</label><br />
+                                <div ng-show="manifestCtrl.consignerAddress2!=''">
+                                    <label>{{manifestCtrl.consignerAddress2}}</label>
+                                </div><br />
+                                <label> {{manifestCtrl.consignerCity}}</label>
+                            </div><br />
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-1">
+                                <label translate style="font-weight:bold">Phone</label>&nbsp;&nbsp;&nbsp;
+                            </div>
+                            <div class="col-sm-4">
+                                <label>{{manifestCtrl.consignerContact}}</label>
+                            </div>
+
+                            <div class="col-sm-4" style="text-align:center">
+                                {{manifestCtrl.carrier}}  <label translate>Express End-of-Day Manifest </label> {{manifestCtrl.Date}}
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <table st-table="manifestCtrl.shipmentInfo" st-safe-src="rowCollection" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="padding:5px;border-bottom:1px solid #319db5" translate>Reference</th>
+                                <th style="padding:5px;border-bottom:1px solid #319db5">AWB#</th>
+                                <!--<th translate>Cost Center</th>-->
+                                <!--<th translate>Consignee Name</th>
+                    <th translate>street</th>
+                    <th translate>city/zip/country</th>-->
+                                <th style="padding:5px;border-bottom:1px solid #319db5" translate>Code/Service</th>
+                                <th style="padding:5px;border-bottom:1px solid #319db5" translate ng-show="manifestCtrl.isPackageEnable=='true'">Package | Description | Weight | Dim</th>
+                                <th style="padding:5px;border-bottom:1px solid #319db5"># items</th>
+                                <th style="padding:5px;border-bottom:1px solid #319db5" translate>Weight</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in manifestCtrl.shipmentInfo">
+                                <td>{{row.generalInformation.shipmentReferenceName}}</td>
+                                <td>{{row.generalInformation.trackingNumber}}</td>
+                                <!--<td>{{row.generalInformation.costCenterId}}</td>-->
+                                <!--<td>{{row.addressInformation.consignee.firstName+ " "+row.addressInformation.consignee.lastName}}</td>-->
+                                <!--<td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>-->
+                                <!--<td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>-->
+                                <td>{{row.carrierInformation.serviceLevel}}</td>
+                                <td ng-show="manifestCtrl.isPackageEnable=='true'">
+                                    <div ng-repeat="item in row.packageDetails.productIngredients">
+                                        {{item.quantity+"-"+ item.productType+" |"+item.description+" | "+item.weight+"|  ("+item.height+"x"+item.length+"x"+item.width+")" }}<br />
+                                    </div>
+                                </td>
+                                <td>{{row.packageDetails.count}}</td>
+                                <td>{{row.packageDetails.totalWeight}}</td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+
+                    <div>
+                        <br /><br />
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <label style="font-weight:bold"><translate>Pickup By</translate>  {{manifestCtrl.carrier}} <translate>Express</translate> </label>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-sm-3">
+                                <translate> Date</translate> : {{manifestCtrl.Date}}
+                            </div>
+                            <br />
+                            <div class="col-sm-3">
+                                <label style="font-weight:bold"><translate>Name</translate>:.....................................</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label style="font-weight:bold"><translate>Signature</translate>:.....................................</label>
+                            </div>
+                            <div class="col-sm-2"></div>
+                            <!--<div class="col-sm-1">
+                                <label translate> Address</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label> {{manifestCtrl.consignerfname+" "+manifestCtrl.consignerlname}},</label><br />
+                                <label>{{manifestCtrl.consignerzipCode}},</label><br />
+                                <label>{{manifestCtrl.consignernumber +","+manifestCtrl.consignerAddress1}},</label><br />
+
+                                <div ng-show="manifestCtrl.consignerAddress2!=''">
+                                    <label>{{manifestCtrl.consignerAddress2}},</label><br />
+                                </div>
+
+                                <label> {{manifestCtrl.consignerCity}}</label><br />
+                            </div>-->
+                        </div>
+                        <!--<div class="row">
+                            <div class="col-sm-8">
+
+                            </div>
+                            <div class="col-sm-1">
+                                <label translate>Phone</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <label>{{manifestCtrl.consignerContact}}</label>
+                            </div>
+
+                        </div>-->
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-4" ng-show="manifestCtrl.showError">

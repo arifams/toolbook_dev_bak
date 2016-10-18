@@ -18,7 +18,7 @@
     <div class="container" id="login-block">
         <div class="row">
             <div class="col-sm-6 col-md-4 col-md-offset-4">
-                <div class="account-wall" style="background-color:rgba(255, 255, 255,.7);border-radius:7px;box-shadow:inset 0px 0px 6px #000;">
+                <div class="account-wall" style="background-color:rgba(255, 255, 255,.7);border-radius:7px">
                     <div class="login-user" style="padding-top:20px;padding-right:20px;padding-left:20px;text-align:center;padding-bottom:25px;">
                         <img src="/global/images/logo/PI-logo-login-sm.png">
                     </div>
@@ -43,7 +43,7 @@
                                 <p ng-show="loginForm.password.$error.required && loginForm.password.$dirty" class="help-block" translate>Password is required.</p>
                             </div>
                         </div>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-sm-12">
                                 <div class="terms option-group">
                                     <label for="terms" style="color:white">
@@ -52,11 +52,12 @@
                                     </label>
                                 </div>
                             </div>
-                        </div>
+                        </div>-->
+                        <br />
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12" style="text-align:center">
 
-                                <button class="btn btn-primary" type="submit" style="box-shadow: -2px 2px 4px 2px #999999;" id="submit-form">Sign in</button>
+                                <button class="btn btn-primary m-r-0" type="submit" id="submit-form">Sign in</button>
                             </div>
                         </div>
                         

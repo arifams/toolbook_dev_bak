@@ -21,7 +21,7 @@
                         GENERAL
                     </tab-heading>
                     <form role="form" name="formUpdateProfileGeneral">
-                        <div class="row">
+                        <!--<div class="row">
 
                             <div class="col-md-2">
                                 <label class="control-label" translate>Account Type </label>
@@ -41,8 +41,8 @@
                                 </div>
                             </div>
 
-                        </div>
-                        <div class="row">
+                        </div>-->
+                        <div class="row m-0">
                             <div class="col-md-2" ng-show="profileCtrl.model.customerDetails.isCorporateAccount=='true'">
                                 <label class="control-label" translate>Company Name *</label>
                             </div>
@@ -73,8 +73,8 @@
                                     </div>
                                 </div>
                             </div>-->
-                            <div class="col-md-2 p-r-0">
-                                <label class="control-label p-t-0" translate>Job Capacity</label>
+                            <div class="col-md-2">
+                                <label class="control-label p-t-0" translate>Job title</label>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
@@ -88,9 +88,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
-                                <label class="control-label" translate>Salutation </label>
+                                <label class="control-label" translate>Title </label>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -138,7 +138,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <!--<div class="col-md-2">
                                 <label class="control-label">Job Capacity</label>
                             </div>
@@ -172,12 +172,12 @@
                             </div>
                         </div>
                         <br><br>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button class="btn btn-primary resize-btn" type="submit"
+                                        <button class="btn btn-primary pull-right m-r-0" type="submit"
                                                 ng-click="(formUpdateProfileGeneral.$valid ? profileCtrl.updateProfileGeneral() : profileCtrl.isSubmit = true)">
                                             <translate>Save</translate>
                                         </button>
@@ -193,7 +193,7 @@
                         ADDRESS
                     </tab-heading>
                     <form role="form" name="formUpdateProfileAddress">
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Country </label>
                             </div>
@@ -230,24 +230,24 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
-                                <label class="control-label" translate>Street Name *</label>
+                                <label class="control-label" translate>Address *</label>
                             </div>
-                            <div class="col-md-8">
+                            <div class="col-md-10">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="streetaddress1" class="form-control" required ng-maxlength="100" ng-minlength="3" placeholder="{{'Street Address 1' | translate}}"
+                                        <input type="text" name="streetaddress1" class="form-control" required ng-maxlength="100" ng-minlength="3" placeholder="{{'Address ' | translate}}"
                                                ng-model="profileCtrl.model.customerDetails.customerAddress.streetAddress1" ng-class="{ 'error' : formUpdateProfileAddress.streetaddress1.$invalid && (formUpdateProfileAddress.streetaddress1.$dirty||profileCtrl.isSubmit2)}" ng-focus="streetaddress1Focus = true" ng-blur="streetaddress1Focus = false">
                                         <div ng-messages="formUpdateProfileAddress.streetaddress1.$error" ng-show="(formUpdateProfileAddress.streetaddress1.$dirty && !streetaddress1Focus) ||profileCtrl.isSubmit2">
-                                            <label ng-message="required" class="error" for="streetaddress1" translate>Enter Street Address 1</label>
+                                            <label ng-message="required" class="error" for="streetaddress1" translate>Enter Street Address </label>
                                             <label ng-message="maxlength" class="error" for="streetaddress1" translate>Enter less than 100 characters</label>
                                             <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2">
+                            <!--<div class="col-md-2">
                                 <div class="form-group">
                                     <div class="append-icon">
                                         <input type="text" name="number" class="form-control" placeholder="{{'Number' | translate}}"
@@ -259,17 +259,17 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>-->
 
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
 
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="streetaddress2" class="form-control " placeholder="{{'Street Address 2' | translate}}"
+                                        <input type="text" name="streetaddress2" class="form-control " placeholder="{{'Additional address information' | translate}}"
                                                ng-model="profileCtrl.model.customerDetails.customerAddress.streetAddress2" ng-minlength="3" ng-maxlength="100" ng-class="{ 'error' : formUpdateProfileAddress.streetaddress2.$invalid &&(formUpdateProfileAddress.streetaddress2.$dirty || profileCtrl.isSubmit2)}" ng-focus="streetaddress2Focus = true" ng-blur="streetaddress2Focus = false">
                                         <div ng-messages="formUpdateProfileAddress.streetaddress2.$error" ng-show="(formUpdateProfileAddress.streetaddress2.$dirty && !streetaddress2Focus) ||profileCtrl.isSubmit2">
                                             <label ng-message="maxlength" class="error" for="streetaddress2" translate>Enter less than 100 characters</label>
@@ -279,7 +279,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>City *</label>
                             </div>
@@ -316,7 +316,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Phone Number </label>
                             </div>
@@ -383,7 +383,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>VAT Number </label>
                             </div>
@@ -416,12 +416,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button class="btn btn-primary resize-btn" type="submit"
+                                        <button class="btn btn-primary pull-right m-r-0" type="submit"
                                                 ng-click="(formUpdateProfileAddress.$valid ? profileCtrl.updateProfileAddress() : profileCtrl.isSubmit2 = true)" translate>
                                             Save
                                         </button>
@@ -437,7 +437,7 @@
                         BILLING ADDRESS
                     </tab-heading>
                     <form role="form" name="formUpdateProfileBillingAddress">
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-4">
                                 <h3><strong translate>Billing Address</strong></h3>
                             </div>
@@ -452,7 +452,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Country *</label>
                             </div>
@@ -491,7 +491,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Street Name *</label>
                             </div>
@@ -522,7 +522,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
 
                             </div>
@@ -539,7 +539,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>City *</label>
                             </div>
@@ -576,7 +576,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Billing Email Address </label>
                             </div>
@@ -598,12 +598,12 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button class="btn btn-primary resize-btn" type="submit"
+                                        <button class="btn btn-primary pull-right m-r-0" type="submit"
                                                 ng-click="(formUpdateProfileBillingAddress.$valid ?
                                                 profileCtrl.updateProfileBillingAddress() : profileCtrl.isSubmit3 = true)" translate>
                                             Save
@@ -623,7 +623,7 @@
                     <form role="form" name="formUpdateProfileLogin">
 
 
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Email Address </label>
                             </div>
@@ -639,7 +639,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-12">
                                 <div class="icheck-inline">
                                     <label>
@@ -650,7 +650,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Enter Old Password </label>
                             </div>
@@ -670,7 +670,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-md-2">
                                 <label class="control-label" translate>Create New Password </label>
                             </div>
@@ -703,7 +703,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
 
                             <div class="col-md-2">
                                 <label class="control-label" translate>Confirm Password </label>
@@ -726,12 +726,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button class="btn btn-primary resize-btn" type="submit"
+                                        <button class="btn btn-primary pull-right m-r-0" type="submit"
                                                 ng-click="( formUpdateProfileLogin.$valid ? profileCtrl.updateProfileLoginDetails() : profileCtrl.isSubmit4 = true)" translate>
                                             Save
                                         </button>
@@ -748,8 +748,8 @@
                     <tab-heading translate>
                         ACCOUNT SETTINGS
                     </tab-heading>
-                    <div class="row">
-                        <div class="col-md-8">
+                    <div class="row m-0">
+                        <div class="col-md-8 p-0">
                             <div class="form-group">
                                 <div class="col-md-3">
                                     <label class="control-label" translate>Default Language</label>
@@ -837,7 +837,7 @@
                             </div>
                         </div>
 
-                        <div class="col-sm-4">
+                        <div class="col-sm-4 p-0">
                             <div class="form-group">
                                 <p>
                                     <strong translate>Notify me of status changes:</strong>
@@ -890,12 +890,12 @@
                         </div>
 
                     </div>
-                    <div class="row">
+                    <div class="row m-0">
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <div class="col-sm-8 col-md-9"></div>
                                 <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                    <button class="btn btn-primary resize-btn" type="submit"
+                                    <button class="btn btn-primary pull-right m-r-0" type="submit"
                                             ng-click="profileCtrl.updateProfileAccountSettings()" translate>
                                         Save
                                     </button>
@@ -911,7 +911,7 @@
                         CUSTOMIZE
                     </tab-heading>
                     <form name="formCustomize" class="ng-pristine ng-valid ng-scope">
-                        <div class="row">
+                        <div class="row m-0">
                             <label class="col-sm-2 control-label">Upload Company Logo</label>
                             <div class="fileinput fileinput-new" data-provides="fileinput" style="width:75%;margin-left:30px;">
                                 <div class="fileinput-new thumbnail p-10">
@@ -921,7 +921,8 @@
                                     <div class="col-sm-4 p-0">
                                         <input type="file" ngf-select ng-model="profileCtrl.logo" name="file" accept="image/png, image/jpeg, image/jpg"
                                                ngf-max-size="2MB" ng-required="true" ngf-model-invalid="errorFile" ngf-change="profileCtrl.OnLogoChange($files)"
-                                               ng-class="{ 'error': formCustomize.file.$invalid && (formCustomize.file.$dirty||profileCtrl.isSubmit5) }">
+                                               ng-class="{ 'error': formCustomize.file.$invalid && (formCustomize.file.$dirty||profileCtrl.isSubmit5) }"
+                                               style="width:100%">
 
                                         <div ng-messages="formCustomize.file.$error" ng-show="formCustomize.file.$dirty || profileCtrl.isSubmit5">
                                             <label ng-message="required" class="error" for="file" translate>Please select an image.</label>
@@ -930,8 +931,8 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <button ng-click="formCustomize.$valid ? profileCtrl.uploadLogo(profileCtrl.logo) : profileCtrl.isSubmit5 = true"
-                                                class="btn">
-                                            <i class="fa fa-arrow-circle-o-up"></i><translate> Upload </translate>
+                                                class="btn btn-primary">
+                                            <i class="fa fa-upload f-18"></i><translate> Upload </translate>
                                         </button>
                                         {{errorMsg}}
                                     </div>
@@ -945,7 +946,7 @@
                             <br />
                         </div>
                         <div class="container p-0">
-                            <div class="row">
+                            <div class="row m-0">
                                 <label class="col-sm-2 control-label">Select Theme Color</label>
                                 <div class="col-sm-4">
                                     <div data-color="#396485" data-main="default" class="theme-color bg-dark" ng-click="profileCtrl.model.selectedColour = 'default'"></div>
@@ -959,12 +960,12 @@
                             </div>
                         </div>
                         <br />
-                        <div class="row">
+                        <div class="row m-0">
                             <div class="col-sm-12">
                                 <div class="form-group">
                                     <div class="col-sm-8 col-md-9"></div>
                                     <div class="col-sm-2 col-sm-offset-2 col-md-3 col-md-offset-0 p-0">
-                                        <button class="btn btn-primary resize-btn" type="button"
+                                        <button class="btn btn-primary pull-right m-r-0" type="button"
                                                 ng-click="profileCtrl.updateThemeColour()" translate>
                                             Save
                                         </button>
