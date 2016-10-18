@@ -60,7 +60,7 @@
         <div class="row m-0">
             <div class="form-group m-b-0">
                 <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="password" valid-password 
+                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="password" valid-passwordorg 
                            minlength="8" required ng-model="orgMgtCtrl.user.password" ng-minlength="3" ng-maxlength="100"
                            ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||orgMgtCtrl.isSubmit) }" />
                     <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
@@ -69,7 +69,6 @@
                 </span>
                 <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty ||orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="password" translate>Enter password</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="password" translate>Enter at least 8 characters or more</label>
                     <label ng-message="noValidPassword" class="error error-label-marginleft" for="password" translate>Enter valid password</label>
                 </div>
             </div>
@@ -77,7 +76,7 @@
         <div class="row m-0">
             <div class="form-group m-b-0">
                 <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="passwordConf" valid-password
+                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="passwordConf" valid-password-corg
                            minlength="8" required ng-model="orgMgtCtrl.user.passwordConf" ng-minlength="3" ng-maxlength="100"
                            ng-class="{ 'error': formSaveUser.passwordConf.$invalid && (formSaveUser.passwordConf.$dirty||orgMgtCtrl.isSubmit) }" />
                     <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
@@ -86,8 +85,7 @@
                 </span>
                 <div ng-messages="formSaveUser.passwordConf.$error" ng-show="formSaveUser.passwordConf.$dirty ||orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="passwordConf" translate>Enter password</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="passwordConf" translate>Enter at least 8 characters or more</label>
-                    <label ng-message="noValidPassword" class="error error-label-marginleft" for="passwordConf" translate>Enter valid password</label>
+                    <label ng-message="noMatch" class="error" for="passwordConf" translate>2 passwords must be the same</label>
                 </div>
             </div>
         </div>
