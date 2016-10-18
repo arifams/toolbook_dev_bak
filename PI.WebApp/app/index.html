@@ -127,10 +127,10 @@
 
                         </ul>
                     </li>-->
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-show="currentRole != 'Admin'">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-hide="currentRole == 'Admin' || currentRole == 'BackOffice' || currentRole == 'FrontOffice'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                     </li>
-                    <li class="nav-parent" ng-hide="currentRole == 'Admin'">
+                    <li class="nav-parent" ng-hide="currentRole == 'Admin' || currentRole=='BackOffice' ||currentRole == 'FrontOffice' ">
                         <a href="#"><i class="fa fa-ship"></i><span translate>SHIPMENTS</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
                             <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0" translate> ADD SHIPMENT</a></li>
@@ -142,39 +142,39 @@
                         </ul>
                     </li>
 
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin'">
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/shipmentManagement')}" ng-show="currentRole == 'Admin' || currentRole == 'BackOffice''">
                         <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span></a>
                     </li>
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/adminManageUser')}" ng-show="currentRole == 'Admin'">
                         <a href="#adminManageUser"><i class="icon-user"></i><span translate>MANAGE USERS</span></a>
                     </li>
                  
-                    <li class="nav-parent" ng-show="currentRole == 'Admin'">
+                    <li class="nav-parent" ng-show="currentRole == 'Admin' || currentRole == 'BackOffice'" >
                         <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>INVOICE & BILLING</a></li>
+                            <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>INVOICES</a></li>
                             
                         </ul>
                     </li>
 
-                    <li class="nav-parent" ng-show="currentRole != 'Admin'">
+                    <li class="nav-parent" ng-hide="currentRole == 'Admin' || currentRole == 'BackOffice' || currentRole == 'FrontOffice'">
                         <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/InvoiceandBilling')}"><a href="#InvoiceandBilling" translate>INVOICE & BILLING</a></li>
+                            <li ng-class="{ active  : isActive('/InvoiceandBilling')}"><a href="#InvoiceandBilling" translate>INVOICES</a></li>
 
                         </ul>
                     </li>
 
-                    <li class="nav-parent" ng-hide="currentRole == 'Admin'">
+                    <li class="nav-parent" ng-hide="currentRole == 'Admin' || currentRole == 'BackOffice' || currentRole == 'FrontOffice'">
                         <a href="#"><i class="icon-user"></i><span translate>MANAGE PROFILE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION STRUCTURE</a></li>
+                            <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationManagement')}"><a href="#OrganizationManagement" translate> ORGANIZATION MANAGEMENT</a></li>
                             <!--<li ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION</a></li>-->
                             <!--<li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
             <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
                             <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
-                            <li ng-class="{ active  : isActive('/profileInformation-profileInformation')}"><a href="#profileInformation-profileInformation" translate> PROFILE INFORMATION</a></li>
+                            <li ng-class="{ active  : isActive('/profileInformation')}"><a href="#profileInformation/0" translate> PROFILE INFORMATION</a></li>
                         </ul>
                     </li>
                     <li class="nav-parent" ng-show="currentRole == 'Admin'">
@@ -185,6 +185,16 @@
                             </li>
                         </ul>
                     </li>
+                    
+                    <li class="nav-parent" ng-show="currentRole == 'Admin'  || currentRole == 'FrontOffice'">
+                        <a href="#"><span translate>CUSTOMER</span> <span class="fa arrow"></span></a>
+                        <ul class="children collapse">
+                            <li ng-class="{ active  : isActive('/CustomerMangement')}">
+                                <a href="#CustomerMangement" translate> CUSTOMER MANAGEMENT</a>
+                            </li>
+                        </ul>
+                    </li>
+
 
                 </ul>
             </div>
@@ -1105,6 +1115,7 @@
     <script src="admin/manageUsers.js"></script>
     <script src="../plugins/angularjs-datetime-picker/angularjs-datetime-picker.js"></script>
     <script src="admin/manageCustomers.js"></script>
+    <script src="organization/organizationManagement.js"></script>
     <!-- END CUSTOM ANGULARJS SCRIPTS -->
 
 

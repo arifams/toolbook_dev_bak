@@ -109,8 +109,10 @@
     <Content Include="app\directive\tokensManagerService.js" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />
-    <Content Include="app\organizationstructure\orgStructureCtrl.js" />
-    <Content Include="app\organizationstructure\organizationStructure.html" />
+    <Content Include="app\organization\createOrgUser.html" />
+    <Content Include="app\organization\organizationManagement.js" />
+    <Content Include="app\organization\orgStructureCtrl.js" />
+    <Content Include="app\organization\organizationManagement.html" />
     <Content Include="app\reports\ShipmentReport.js" />
     <Content Include="app\shipmentControlCenter\adminDashboard.html" />
     <Content Include="app\shipmentControlCenter\adminDashboard.js" />

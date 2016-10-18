@@ -30,6 +30,7 @@
                                    vm.loadingSymbole = false;
                                    vm.shipmentList = responce.content;
                                }).error(function (error) {
+                                   vm.loadingSymbole = false;
                                    console.log("error occurd while retrieving shiments");
                                });
 

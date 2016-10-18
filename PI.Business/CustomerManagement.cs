@@ -206,12 +206,15 @@ namespace PI.Business
                    new Claim("CompanyId",companyId )
               }, "Custom");
 
+            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(20));
+
             var securityTokenDescriptor = new SecurityTokenDescriptor()
             {
                 AppliesToAddress = WebURL,
                 TokenIssuerName = ServiceURL,
                 Subject = claimsIdentity,
                 SigningCredentials = signingCredentials,
+                Lifetime= life
             };
 
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -271,6 +274,7 @@ namespace PI.Business
                 PhoneNumber = content.Customer.PhoneNumber,
                 Salutation = content.Customer.Salutation,
                 MobileNumber = content.Customer.MobileNumber,
+                UserId=content.Customer.UserId,
 
                 CustomerAddress = new Contract.DTOs.Address.AddressDto()
                 {

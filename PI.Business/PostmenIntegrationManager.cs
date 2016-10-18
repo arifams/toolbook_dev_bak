@@ -13,6 +13,7 @@ using PI.Contract.DTOs.Postmen;
 using System.Web.Script.Serialization;
 using PI.Data;
 using Microsoft.Owin.Logging;
+using System.Configuration;
 
 namespace PI.Business
 {
@@ -26,6 +27,23 @@ namespace PI.Business
             context = _context ?? PIContext.Get();
             this.logger = logger;
         }
+
+        public string PostMenAPIKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["PostMenAPIKey"].ToString();
+            }
+        }
+
+        public string USPSAccountKey
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["USPSAccountKey"].ToString();
+            }
+        }
+
 
         public void DeleteShipment(string shipmentCode)
         {
@@ -66,7 +84,7 @@ namespace PI.Business
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
-            httpWebRequest.Headers["postmen-api-key"] = "8d418aba-abc6-41b3-99db-159cfefe6137";
+            httpWebRequest.Headers["postmen-api-key"] = PostMenAPIKey;
 
             using (StreamWriter streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {
@@ -85,7 +103,7 @@ namespace PI.Business
                     ShipmentResponceDto shipmentResult = serializer.Deserialize<ShipmentResponceDto>(result);
                     
 
-                    if (shipmentResult.data.tracking_numbers==null)
+                    if (shipmentResult.data.tracking_numbers==null || shipmentResult.data.tracking_numbers.Length==0)
                     {
                         //creating error message
                         if (shipmentResult.meta!=null && shipmentResult.meta.code!=null)
@@ -115,7 +133,7 @@ namespace PI.Business
                 }
                 catch (Exception e)
                 {
-                  
+                    var x = e.Message;
                 }             
               
             }
@@ -131,15 +149,38 @@ namespace PI.Business
 
             var toCountry = context.Countries.SingleOrDefault(c => c.Code == addShipment.AddressInformation.Consignee.Country).ThreeLetterCode;
             var fromCountry = context.Countries.SingleOrDefault(c => c.Code == addShipment.AddressInformation.Consigner.Country).ThreeLetterCode;
-            
+
+            var termsOfTrade = "";
+            var serviceType = "";
+            var paidBy = "";
+
+            if (addShipment.CarrierInformation.serviceLevel== "First-Class Package International")
+            {
+               // serviceType = "usps_first_class_package_international";
+                serviceType = "usps_first_class_mail";
+            }
+
+
+            if (addShipment.GeneralInformation.ShipmentServices.Contains("DDU"))
+            {
+                termsOfTrade = "ddu";
+                paidBy = "recipient";
+            }
+            else if (addShipment.GeneralInformation.ShipmentServices.Contains("DDP"))
+            {
+                termsOfTrade = "ddp";
+                paidBy = "shipper";
+            }
+
             request.async = false;
             request.is_document = false;
             //request.service_type = addShipment.CarrierInformation.serviceLevel;
-            request.service_type = "fedex_ground";
+            //request.service_type = "fedex_ground";
+            request.service_type = serviceType;
             request.paper_size = "4x6";
             request.shipper_account = new PMShipperAccount()
             {               
-                 id = "23f73d65-11e9-4c7a-9b2d-9fe8117fe6bb"                 
+                 id = USPSAccountKey                 
             };
            
             request.billing = new PMbilling() {
@@ -148,10 +189,10 @@ namespace PI.Business
 
             request.customs = new PMcustoms() {
                 billing = new PMbilling() {
-                paid_by = "recipient",
+                paid_by = paidBy,
             },
                 // terms_of_trade = addShipment.GeneralInformation.ShipmentServices,
-                terms_of_trade = "ddu",
+                terms_of_trade = termsOfTrade,
                 purpose = "merchandise"
             };
 
@@ -162,7 +203,7 @@ namespace PI.Business
 
                     contact_name = addShipment.AddressInformation.Consigner.ContactName,
                     street1 = addShipment.AddressInformation.Consigner.Address1,
-                    street2 = addShipment.AddressInformation.Consigner.Address2,
+                   // street2 = addShipment.AddressInformation.Consigner.Address2,
                     postal_code = addShipment.AddressInformation.Consigner.Postalcode,
                     state = addShipment.AddressInformation.Consigner.State,
                     country = fromCountry,
@@ -178,7 +219,7 @@ namespace PI.Business
             {
                 contact_name = addShipment.AddressInformation.Consignee.ContactName,
                 street1 = addShipment.AddressInformation.Consignee.Address1,
-                street2 = addShipment.AddressInformation.Consignee.Address2,
+              //  street2 = addShipment.AddressInformation.Consignee.Address2,
                 postal_code = addShipment.AddressInformation.Consignee.Postalcode,
                 state = addShipment.AddressInformation.Consignee.State,
                 country = toCountry,
@@ -195,10 +236,11 @@ namespace PI.Business
 
             foreach (var products in addShipment.PackageDetails.ProductIngredients)
             {
+                var packageType = this.GetPackageTypesFromCarrirerAndPackegType(addShipment.CarrierInformation.CarrierName, products, addShipment.PackageDetails.VolumeCMM, addShipment.PackageDetails.CmLBS);
 
                 request.shipment.parcels.Add(new PMParcel()
                 {
-                    box_type= "custom",
+                    box_type= packageType,
                     description= products.Description,
                     
                     dimension= new PMDimension()
@@ -249,6 +291,80 @@ namespace PI.Business
            return serializer.Serialize(request);                     
         }
 
+
+        private string GetPackageTypesFromCarrirerAndPackegType(String Carrier,ProductIngredientsDto product, bool isCm, bool isKg)
+        {
+            
+
+            if (Carrier=="USPS")
+            {
+                return this.GetPackageTypeUSPS(product, isCm, isKg);
+            }
+            else
+            {
+                return "";
+            }
+
+
+        }
+
+
+        private string GetPackageTypeUSPS(ProductIngredientsDto product, bool isCm, bool isKg)
+        {
+            string packageType = "";
+            var width = 0.0;
+            var height = 0.0;
+            var length = 0.0;
+            var weight = 0.0;
+            if (isCm)
+            {
+                width = Convert.ToDouble(product.Width) * 0.39;
+                height = Convert.ToDouble(product.Height) * 0.39;
+                length = Convert.ToDouble(product.Length) * 0.39;
+            }
+            else
+            {
+                width = Convert.ToDouble(product.Width);
+                height = Convert.ToDouble(product.Height);
+                length = Convert.ToDouble(product.Length);
+            }
+
+            if (isKg)
+            {
+                weight = Convert.ToDouble(product.Weight) * 2.2;
+            }
+            else
+            {
+                weight = Convert.ToDouble(product.Weight);
+            }
+
+            if (product.ProductType=="Document")
+            {
+                packageType = "usps_large_envelope";
+
+            }
+
+            else if (product.ProductType=="Box")
+            {
+                if (length<12 && width<12 && height<12 && weight<=25)
+                {
+                    packageType = "usps_parcel";
+                }
+                else if (length+ (2* (width+height)) <=108 && weight<=70)
+                {
+                    packageType = "usps_large_parcel";
+                }
+                else if (weight>70)
+                {
+                    packageType = "usps_irregular_parcel";
+                }
+              
+
+            }
+
+            return packageType;
+
+        }
 
         public string TrackAndTraceShipment(string URL)
         {

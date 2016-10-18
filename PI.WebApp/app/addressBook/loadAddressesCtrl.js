@@ -53,15 +53,23 @@
         }
     });
 
-    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', 'ngDialog', '$controller',
-        function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope, ngDialog, $controller) {
+    app.controller('loadAddressesCtrl', ['$route', '$scope', '$location', 'loadAddressService', 'addressManagmentService', '$routeParams', '$log', '$window', '$sce', 'importAddressBookFactory', 'exportAddressExcelFactory', 'Upload', '$timeout', '$rootScope', 'ngDialog', '$controller', 'customBuilderFactory',
+        function ($route, $scope, $location, loadAddressService, addressManagmentService, $routeParams, $log, $window, $sce, importAddressBookFactory, exportAddressExcelFactory, Upload, $timeout, $rootScope, ngDialog, $controller, customBuilderFactory) {
             var vm = this;
             vm.stream = {};
             vm.noAvailableAddressDetails = false;
             vm.loading = false;
+            vm.loadingSymbole = true;
+
+            //toggle function
+            vm.loadFilterToggle = function () {
+                customBuilderFactory.customFilterToggle();
+
+            };
 
             vm.searchAddresses = function () {
                 vm.loading = true;
+                vm.loadingSymbole = true;
                 // Get values from view.
                 var userId = $window.localStorage.getItem('userGuid');
                 var type = (vm.state == undefined) ? "" : vm.state;
@@ -70,6 +78,7 @@
                 loadAddressService.find(userId, searchText, type)
                     .then(function successCallback(responce) {
                         vm.loading = false;
+                        vm.loadingSymbole = false;
                         vm.rowCollection = responce.data.content;
                         if (vm.rowCollection.length == 0) {
                             vm.noAvailableAddressDetails = true;

@@ -55,6 +55,7 @@
         vm.errorCodeConsignor = false;
         vm.isShowInvoice = false;
         vm.loadingSymbole = false;
+        vm.savedShipmentId = '';
         vm.shipmentReferenceName=''
         vm.closeWindow = function () {
             ngDialog.close()
@@ -321,21 +322,22 @@
 
         }
 
-        vm.checkGenaralInfo = function (value) {
-            if (value == true) {
-                vm.collapse1 = true;
-                vm.collapse2 = false;
-            }
-            vm.generalInfoisSubmit = true;
+        //vm.checkGenaralInfo = function (value) {
+        //    if (value == true) {
+        //        vm.collapse1 = true;
+        //        vm.collapse2 = false;
+        //    }
+        //    vm.generalInfoisSubmit = true;
 
-            customBuilderFactory.scrollTopackagedetails();
+        //    customBuilderFactory.scrollTopackagedetails();
 
-        }
+        //}
 
         vm.checkConsignInfo = function (value) {
             if (value == true) {
-                vm.collapse2 = true;
-                vm.collapse3 = false;
+                vm.collapse1 = true;
+                vm.collapse2 = false;
+               
 
             }
             vm.consignInfoisSubmit = true
@@ -346,8 +348,10 @@
         vm.checkPackageDetails = function (value) {
 
             if (value) {
-                vm.collapse3 = true;
-                vm.collapse4 = false;
+                vm.collapse2 = true;
+                vm.collapse3 = false;
+
+               
             }
             vm.packageDetailsisSubmit = true
         }
@@ -407,6 +411,7 @@
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
             vm.previousClicked = false;
+            vm.rateTable = true;
 
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -434,6 +439,8 @@
         var paymentForm;
 
         vm.selectCarrier = function (row) {
+
+            customBuilderFactory.selectRateRow();
 
             var total = 0.0;
             var insurance = 0.0;
@@ -737,6 +744,9 @@
 
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
 
+                                    vm.savedShipmentId = response.shipmentId;
+
+
                                     if (vm.shipment.generalInformation.shipmentPaymentTypeId == 1) {
                                         //window.location = webBaseUrl + "/app/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";
 
@@ -882,8 +892,8 @@
         vm.previousBtnClicked = function () {
             vm.carrierselected = false;
             vm.shipment.carrierInformation = {};
-            vm.collapse3 = false;
-            vm.collapse4 = true;
+            vm.collapse2 = false;
+            vm.collapse3 = true;
             vm.previousClicked = true;
         }
 

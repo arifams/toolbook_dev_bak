@@ -61,7 +61,8 @@
             loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
             PaymentCharge: PaymentCharge,
             GetAllShipmentCounts: GetAllShipmentCounts,
-            saveAwbNo: saveAwbNo
+            saveAwbNo: saveAwbNo,
+            UpdateShipmentReference: UpdateShipmentReference
         };
 
         function saveAwbNo(awbDto) {
@@ -130,6 +131,11 @@
         function saveShipment(shipmentDetail) {
 
             return $http.post(serverBaseUrl + '/api/shipments/SaveShipment', shipmentDetail);
+        }               
+
+        function UpdateShipmentReference(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/UpdateShipmentReference', shipmentDetail);
         }
 
         function UpdateshipmentStatusManually(shipmentDetail) {

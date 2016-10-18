@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using OfficeOpenXml;
+﻿using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using PI.Common;
 using PI.Contract.Business;
@@ -17,23 +16,15 @@ using PI.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Address;
 using PI.Contract.DTOs.Company;
 using PI.Contract;
 using AzureMediaManager;
-using System.IO;
-using HtmlAgilityPack;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.text.html.simpleparser;
-using PI.Contract.TemplateLoader;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using PI.Data.Entity.Identity;
@@ -574,6 +565,41 @@ namespace PI.Business
             return result;
         }
 
+
+        public ShipmentOperationResult UpdateShipmentReference(ShipmentDto addShipment)
+        {
+
+            ShipmentOperationResult result = new ShipmentOperationResult();
+
+            var shipment = context.Shipments.Where(s => s.Id.ToString() == addShipment.GeneralInformation.ShipmentId).SingleOrDefault();
+
+
+            if (shipment!=null)
+            {
+                try
+                {
+                    shipment.ShipmentName = addShipment.GeneralInformation.ShipmentName;
+                    context.SaveChanges();
+
+                    result.Status = Status.Success;
+                }
+                catch (Exception ex)
+                {
+                    //throw ex;
+                    result.ShipmentId = 0;
+                    result.Status = Status.Error;
+                }
+
+            }
+
+
+          
+
+            //}
+
+            return result;
+        }
+
         public string GetSquareApplicationId()
         {
             return ConfigurationManager.AppSettings["SquareApplicationId"].ToString();
@@ -604,6 +630,7 @@ namespace PI.Business
 
             var content = (from shipment in context.Shipments
                            where shipment.Status != (short)ShipmentStatus.Delivered
+                           && shipment.TrackingNumber!=null
                            select shipment).ToList();
 
             foreach (var item in content)
@@ -613,7 +640,9 @@ namespace PI.Business
                     GeneralInformation = new GeneralInformationDto
                     {
                         TrackingNumber = item.TrackingNumber,
-                        ShipmentCode = item.ShipmentCode
+                        ShipmentCode = item.ShipmentCode,
+                        CreatedBy=item.CreatedBy
+                        
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
@@ -1132,7 +1161,7 @@ namespace PI.Business
             if (shipment.Carrier.Name == "USPS")
             {
 
-                 responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
+                responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
                 isPostmen = true;
                 response = new AddShipmentResponse();
                 if (responsePM.Awb != null)
