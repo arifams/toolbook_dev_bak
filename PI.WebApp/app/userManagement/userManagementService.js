@@ -11,7 +11,8 @@
             getUsersByFilter: getUsersByFilter,
             getUser: getUser,
             saveUser: saveUser,
-            loadUserManagement: loadUserManagement
+            loadUserManagement: loadUserManagement,
+            createUser: createUser
         }
 
         // Implement the functions.
@@ -71,6 +72,11 @@
                 }
             });
         }
+
+        function createUser(newuser) {
+                return $http.post(serverBaseUrl + '/api/accounts/create', newuser)
+        }
+
 
     }]);
 
