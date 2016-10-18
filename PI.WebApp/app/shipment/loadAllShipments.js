@@ -126,6 +126,7 @@
                            }
 
                            vm.ExportExcel = function () {
+                               //vm.loadingSymbole = true;
                                                              
                                var status = (statusValue == undefined || statusValue == 'All' || statusValue == null || statusValue == "") ? null : statusValue;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
@@ -136,6 +137,7 @@
 
                                shipmentFactory.getFilteredShipmentsExcel(status, startDate, endDate, number, source, destination, vm.viaDashboard)
                                .success(function (data, status, headers) {
+                                   //vm.loadingSymbole = false;
 
                                    var octetStreamMime = 'application/octet-stream';
                                    var success = false;

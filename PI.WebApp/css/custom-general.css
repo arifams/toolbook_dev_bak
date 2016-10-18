@@ -1706,6 +1706,3 @@ a.list-group-item:focus, a.list-group-item:hover {
     background-color:#add8e1;
     color: #FFF;
 }
-.prepend-icon span {
-    padding-left:0;
-}
