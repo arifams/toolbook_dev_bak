@@ -263,8 +263,6 @@
                           vm.user.assignedRoleName = 'BusinessOwner';
                       }
 
-                      vm.t = function () { alert('ddddddddddd'); };
-
 
                       vm.createUser = function () {
                           debugger;
@@ -281,7 +279,7 @@
 
                                   body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
                                   $('#panel-notif').noty({
-                                      text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('User saved successfully') + '!</p></div>',
+                                      text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Customer created successfully') + '!</p></div>',
                                       layout: 'bottom-right',
                                       theme: 'made',
                                       animation: {
