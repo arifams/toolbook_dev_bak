@@ -150,6 +150,10 @@ namespace PI.Contract.Business
         /// <param name="">reference</param>
         /// <returns></returns>
         PaymentDto GetPaymentbyReference(long reference);
+
+        DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime);
+
+        ShipmentOperationResult UpdateShipmentReference(ShipmentDto addShipment);
     }
 
 }

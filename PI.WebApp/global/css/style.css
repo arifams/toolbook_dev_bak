@@ -4091,9 +4091,9 @@ body:not(.fixed-sidebar):not(.fixed-topbar):not(.sidebar-top) .sidebar .logopane
   -webkit-transition: transform 0s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
   transition: transform 0s cubic-bezier(0.25, 0.1, 0.25, 1) !important;
 }
-.boxed {
+/*.boxed {
   background: #353535 !important;
-}
+}*/
 .boxed section {
   margin: auto;
   position: relative;
@@ -6522,13 +6522,13 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 /****  Login Page, Sign Up Page, Password Recover Page, Lockscreen Page  ****/
 .account {
-  background: #1f3649;
-  background: -moz-radial-gradient(center, ellipse cover, #1f3649 0%, #17253d 44%, #040d11 100%);
-  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #1f3649), color-stop(44%, #17253d), color-stop(100%, #040d11));
-  background: -webkit-radial-gradient(center, ellipse cover, #1f3649 0%, #17253d 44%, #040d11 100%);
-  background: -o-radial-gradient(center, ellipse cover, #1f3649 0%, #17253d 44%, #040d11 100%);
-  background: -ms-radial-gradient(center, ellipse cover, #1f3649 0%, #17253d 44%, #040d11 100%);
-  background: radial-gradient(ellipse at center, #1f3649 0%, #17253d 44%, #040d11 100%);
+  background: #329fca;
+  background: -moz-radial-gradient(center, ellipse cover, #329fca 0%, #329fca 44%, #329fca 100%);
+  background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(0%, #329fca), color-stop(44%, #329fca), color-stop(100%, #329fca));
+  background: -webkit-radial-gradient(center, ellipse cover, #329fca 0%, #329fca 44%, #329fca 100%);
+  background: -o-radial-gradient(center, ellipse cover, #329fca 0%, #17253d 44%, #040d11 100%);
+  background: -ms-radial-gradient(center, ellipse cover, #329fca 0%, #17253d 44%, #040d11 100%);
+  background: radial-gradient(ellipse at center, #329fca 0%, #329fca 44%, #329fca 100%);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='@account-color-dark', endColorstr='#040d11', GradientType=1);
 }
 .account a {
@@ -6889,7 +6889,8 @@ body:not(.fixed-topbar) .main-content .page-content {
 }
 .account-copyright {
   bottom: 10px;
-  color: #BDBDBD;
+  /*color: #BDBDBD;*/
+  color:#fff;
   font-family: 'Open Sans';
   left: 0;
   position: absolute;

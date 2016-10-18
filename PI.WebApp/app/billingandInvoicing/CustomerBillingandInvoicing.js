@@ -61,7 +61,7 @@
                         vm.datePicker.date = { startDate: null, endDate: null };
                         vm.status = 'All';
                         vm.loadingSymbole = true;
-
+                        vm.currentTotalAmount = 0;
                         //toggle function
                         vm.loadFilterToggle = function () {
                             customBuilderFactory.customFilterToggle();
@@ -374,6 +374,8 @@
                             vm.isShowPaymentForm = true;
                             vm.invoiceId = row.id;
                             currentRow = row;
+
+                            vm.currentTotalAmount = currentRow.invoiceValue;
                             //if (statusChange == true) {
                                 
                             //}

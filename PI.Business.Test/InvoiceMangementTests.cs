@@ -50,7 +50,7 @@ namespace PI.Business.Tests
                      IsActive=true,
                      IsDelete=false,
                      CreatedBy="1",
-                     CreatedDate=DateTime.Now,
+                     CreatedDate=DateTime.UtcNow,
                      Invoice= new Invoice
                      {
                          Id=1,
@@ -116,8 +116,8 @@ namespace PI.Business.Tests
         {
             string status = "";
             string userId = "1";
-            DateTime? startDate = DateTime.Now;
-            DateTime? endDate = DateTime.Now;
+            DateTime? startDate = DateTime.UtcNow;
+            DateTime? endDate = DateTime.UtcNow;
             string shipmentNumber = "";
             string invoiceNumber = "";
 
@@ -169,7 +169,7 @@ namespace PI.Business.Tests
                 InvoiceStatus = "1",
                 ShipmentReference="ref1234",
                 InvoiceNumber="12312",
-                InvoiceDate=DateTime.Now.ToString(),
+                InvoiceDate=DateTime.UtcNow.ToString(),
                 DisputeComment="Dispute comment"
             };
 
@@ -184,8 +184,8 @@ namespace PI.Business.Tests
         {
             string status = "";
             string userId = "";
-            DateTime? startDate = DateTime.Now;
-            DateTime? endDate = DateTime.Now;
+            DateTime? startDate = DateTime.UtcNow;
+            DateTime? endDate = DateTime.UtcNow;
             string shipmentnumber = "";
             string businessowner = "";
             string invoicenumber = "";
@@ -243,7 +243,7 @@ namespace PI.Business.Tests
                     CreditNoteURL="URL",
                     DisputeComment="coment",
                     Id=1,
-                    InvoiceDate=DateTime.Now.ToString(),
+                    InvoiceDate=DateTime.UtcNow.ToString(),
                     InvoiceNumber="1",
                     InvoiceStatus=InvoiceStatus.Pending.ToString(),
                     InvoiceValue=1000,

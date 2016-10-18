@@ -28,16 +28,19 @@
                   function (responce) {
                   if (responce) {
 
-                      ngDialog.open({
-                          scope: $scope,
-                          template: '/app/admin/CustomerDetailsView.html',
-                          className: 'ngdialog-theme-plain custom-width-max',
-                          controller: $controller('customerDetailsCtrl', {
-                              $scope: $scope,
-                              company: responce
-                          })
+                      $location.path('/profileInformation/' +responce.userId);
+                      //ngDialog.open({
+                      //    scope: $scope,
+                      //    template: '/app/admin/CustomerDetailsView.html',
+                      //    className: 'ngdialog-theme-plain custom-width-max',
+                      //    controller: $controller('customerDetailsCtrl', {
+                      //        $scope: $scope,
+                      //        company: responce
+                      //    })
 
-                      });
+                      //});
+
+
                     
                     
                   }   else {

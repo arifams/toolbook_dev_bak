@@ -286,6 +286,8 @@
 
                         <div class="col-sm-5" ng-show="customerinvoiceCtrl.isShowPaymentForm">
 
+                            <label>Total Amount : {{customerinvoiceCtrl.currentTotalAmount | currency:"US $ "}}   </label>
+                            <br />
                             <label>Card Number</label>
                             <div id="sq-card-number"></div>
                             <label>CVV</label>

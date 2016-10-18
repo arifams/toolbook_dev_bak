@@ -36,6 +36,7 @@ using HtmlAgilityPack;
 using PI.Contract.DTOs.Invoice;
 using System.Drawing;
 using PI.Contract.DTOs.User;
+using PI.Data.Entity.Identity;
 
 namespace PI.Service.Controllers
 {
@@ -126,7 +127,38 @@ namespace PI.Service.Controllers
                 string environment = "taleus";
 
                 // update all shipment details
-                shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+                var shipmentTracking= shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+
+                if (shipmentTracking.info.status== Utility.GetEnumDescription(ShipmentStatus.Exception))
+                {
+                  var profile=  profileManagement.getProfileByUserName(shipment.GeneralInformation.CreatedBy);
+
+                    var notifications = profileManagement.GetNotificationCriteriaByCustomerId(profile.CustomerDetails.Id);
+
+                    if (notifications.ShipmentException==true)
+                    {
+                        string htmlTemplate = "";
+                        TemplateLoader templateLoader = new TemplateLoader();
+
+                        //get the email template for invoice
+                        HtmlDocument template = templateLoader.getHtmlTemplatebyName("exceptionEmail");
+                        htmlTemplate = template.DocumentNode.InnerHtml;
+
+                        //replace strings in Html                       
+                        
+                       var updatedString= htmlTemplate.Replace("{firstname}", profile.CustomerDetails.FirstName).Replace("{lastname}", profile.CustomerDetails.LastName).Replace("{shipmentCode}", shipment.GeneralInformation.ShipmentCode).Replace("{shipmentreference}", shipment.GeneralInformation.ShipmentReferenceName).Replace("\r", "").Replace("\n", "");
+                       
+                        ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
+
+                        //sending email
+                        AppUserManager.SendEmail(existingUser.Id, "Reset your account password", updatedString);
+
+                    }
+
+
+                }
+
+
             }
             return Ok();
 
@@ -156,6 +188,15 @@ namespace PI.Service.Controllers
         {
             return Ok(shipmentManagement.SaveShipment(addShipment));
         }
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateShipmentReference")]
+        public IHttpActionResult UpdateShipmentReference([FromBody]ShipmentDto addShipment)
+        {
+            return Ok(shipmentManagement.UpdateShipmentReference(addShipment));
+        }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -761,11 +802,11 @@ namespace PI.Service.Controllers
                     Paragraph billingline4 = new Paragraph(shipmentDetails.AddressInformation.Consigner.City + "," + shipmentDetails.AddressInformation.Consigner.State + "," + shipmentDetails.AddressInformation.Consigner.Postalcode, invoiceFont);
                     Paragraph billingline6 = new Paragraph(shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
 
+                    DateTime localDateTimeofUser = shipmentManagement.GetLocalTimeByUser(shipmentDetails.GeneralInformation.CreatedUser, DateTime.UtcNow).Value;
                     Paragraph billingDetailsline1 = new Paragraph("INVOICE # " + invoiceNumber, invoiceFont);
-                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + DateTime.Now.ToString("dd/MM/yyyy"), invoiceFont);
-                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + DateTime.Now.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline2 = new Paragraph("DATE  " + localDateTimeofUser.ToString("dd/MM/yyyy"), invoiceFont);
+                    Paragraph billingDetailsline3 = new Paragraph("DUE DATE  " + localDateTimeofUser.AddDays(10).ToString("dd/MM/yyyy"), invoiceFont);
                     Paragraph billingDetailsline4 = new Paragraph("TERMS  " + "Net 10", invoiceFont);
-
 
                     PdfPCell billingaddressCell = new PdfPCell();
                     billingaddressCell.Border = 0;
@@ -831,7 +872,7 @@ namespace PI.Service.Controllers
 
                     Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
                     Paragraph shipline2 = new Paragraph("AWB#: " + shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
-                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentReferenceName, invoiceFont);
+                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName+"/"+ shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
                     Paragraph shipline4 = new Paragraph("Origin: " + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
                     Paragraph shipline5 = new Paragraph("Destination: " + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
                     Paragraph shipline6 = new Paragraph("Weight: " + shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
