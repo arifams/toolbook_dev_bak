@@ -2,6 +2,42 @@
 
 (function (app) {
 
+    app.directive('validPasswordorg', function () {
+        return {
+            require: 'ngModel',
+            link: function (scope, elm, attrs, ctrl) {
+                ctrl.$parsers.unshift(function (viewValue, $scope) {
+                    debugger;
+                    // password validate.
+                    var res = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\S]{7,20}$/.test(viewValue);
+                    ctrl.$setValidity('noValidPassword', res);
+                    
+                    // if change the password when having confirmation password, check match and give error.
+                    if (scope.formSaveUser.password_c.$viewValue != '') {
+                        var noMatch = viewValue != scope.formSaveUser.password_c.$viewValue;
+                        scope.formSaveUser.password_c.$setValidity('noMatch', !noMatch);
+                    }
+
+                    return viewValue;
+                })
+            }
+        }
+    });
+
+    //app.directive('validPasswordCorg', function () {
+    //    return {
+    //        require: 'ngModel',
+    //        link: function (scope, elm, attrs, ctrl) {
+    //            ctrl.$parsers.unshift(function (viewValue, $scope) {
+    //                debugger;
+    //                var noMatch = viewValue != scope.formSaveUser.password.$viewValue;
+    //                ctrl.$setValidity('noMatch', !noMatch);
+    //                return viewValue;
+    //            })
+    //        }
+    //    }
+    //});
+
     app.factory('loadOrganizationStructureFactory', function ($http, $window) {
         return {
             loadOrganizationStructure: function () {
