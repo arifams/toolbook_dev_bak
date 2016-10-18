@@ -23,7 +23,7 @@
 
 
             if (from == 'manageShipCtrl') {
-                debugger;
+               
                 //$scope.manageShipCtrl.CompanyId = company.id;
                 $scope.manageShipCtrl.closeWindow();
                 $location.path('/addShipment/0');

@@ -51,10 +51,11 @@
 
     app.factory('loadProfilefactory', function ($http, $window) {
         return {
-            loadProfileinfo: function () {
+            loadProfileinfo: function (userId) {
+               
                 return $http.get(serverBaseUrl + '/api/profile/GetProfile', {
                     params: {
-                        userId: $window.localStorage.getItem('userGuid') //$localStorage.userGuid
+                        userId: userId //$localStorage.userGuid
                     }
                 });
             }
@@ -129,8 +130,8 @@
     });
 
     app.controller('profileInformationCtrl',
-        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'customBuilderFactory', '$window', '$rootScope', 'Upload', 'gettextCatalog', '$scope',
-    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, customBuilderFactory, $window, $rootScope, Upload, gettextCatalog, $scope) {
+        ['loadProfilefactory', 'updateProfilefactory', 'getAllAccountSettings', 'getCustomerAddressDetails', 'customBuilderFactory', '$window', '$rootScope', 'Upload', 'gettextCatalog', '$scope','$routeParams',
+    function (loadProfilefactory, updateProfilefactory, getAllAccountSettings, getCustomerAddressDetails, customBuilderFactory, $window, $rootScope, Upload, gettextCatalog, $scope, $routeParams) {
 
 
         //applicationService.init();
@@ -157,6 +158,8 @@
         vm.errorCodeCustomer = false;
         vm.errorCodeBilling = false;
         vm.isverifyClicked = false;
+        vm.showCustomerName = false;
+
 
         vm.isImage = function (ext) {
 
@@ -290,11 +293,10 @@
              });
         }
 
-        vm.loadProfile = function () {
+        vm.loadProfile = function (userId) {
             vm.loading = true;
-
-
-            loadProfilefactory.loadProfileinfo()
+            
+            loadProfilefactory.loadProfileinfo(userId)
             .success(function (response) {
 
                 if (response != null) {
@@ -324,6 +326,17 @@
                vm.model.isServerError = "true";
                vm.loading = false;
            })
+        }
+
+        //loading the profile according to the logged in user
+        if ($routeParams.id != "0") {
+
+            vm.Loggeduser = $routeParams.id;
+            // (ShipmentCode, ShipmentId)
+            vm.showCustomerName = true;
+            vm.loadProfile(vm.Loggeduser);
+        } else {
+            vm.loadProfile($window.localStorage.getItem('userGuid'));
         }
 
         vm.loadAccountSettings = function () {

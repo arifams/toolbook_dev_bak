@@ -152,63 +152,40 @@
                                     <thead>
                                         <tr>
                                             <th translate>Date</th>
-                                            <th st-sort="name" translate>Name</th>
-                                            <!--<th translate>Last Name</th>-->
-                                            <th translate>Company</th>
-                                            <!--<th translate>City</th>
-                                            <th translate>Number Of Users</th>-->
+                                            <th st-sort="name" translate>Name</th>                                           
+                                            <th translate>Company</th>                                           
                                             <th translate>Shipments</th>
-                                            <th>View</th>
+                                            <th translate>View</th>
                                             <th translate>Status</th>
-                                            <!--<th translate>Invoice Payment</th>
-                                            <th></th>-->
+                                            <th translate>Invoice </th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>11</td>
-                                            <td>dsd</td>
-                                            <td>sdsa</td>
-                                            <td>3</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-default"
-                                                        >
-                                                    <i class="fa fa-hand-o-right"></i>
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <button type="button" class="btn btn-large btn-primary btn-block"
-                                                       >
-                                                    
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <!--<tr ng-repeat="row in vm.displayedCollection">
+                                       
+                                         <tr ng-repeat="row in vm.displayedCollection">
                                             <td>{{row.createdDate}}</td>
-                                            <td>{{row.firstName}}</td>-->
-                                            <!--<td>{{row.lastName}}</td>-->
-                                            <!--<td>{{row.corporateName}}</td>-->
-                                            <!--<td>{{row.city}}</td>
-                                            <td>{{row.assignedUserCount}}</td>-->
-                                            <!--<td>{{row.activeShipments}}</td>-->
-                                            <!--<td>
+                                            <td>{{row.firstName}} {{row.lastName}}</td>                                           
+                                            <td>{{row.corporateName}}</td> 
+                                            <td>{{row.activeShipments}}</td>
+                                            <td>
                                                 <button type="button" class="btn btn-sm btn-default"
                                                         ng-click="vm.ViewCompany(row)">
                                                     <i class="fa fa-hand-o-right"></i>
                                                 </button>
-                                            </td>-->
+                                            </td>
 
-                                            <!--<td>
+                                            <td>
                                                 <button type="button" class="btn btn-large btn-primary btn-block"
                                                         ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-primary':'btn-danger' ">
                                                     {{ (row.status ? 'Active' : 'Inactive') }}
                                                 </button>
-                                            </td>-->
-                                            <!--<td>
+                                            </td>
+                                            <td>
                                                 <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
                                                     {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
                                                 </button>
-                                            </td>-->
+                                            </td>
                                         <!--</tr>-->
                                     </tbody>
                                     <tfoot>
