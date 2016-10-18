@@ -176,13 +176,13 @@
                                             </td>
 
                                             <td>
-                                                <button type="button" class="btn btn-large btn-primary btn-block"
-                                                        ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn-primary':'btn-danger' ">
+                                                <button type="button" class="btn btn-success"
+                                                        ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn btn-success':'btn btn-default' ">
                                                     {{ (row.status ? 'Active' : 'Inactive') }}
                                                 </button>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-large btn-primary btn-block" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
+                                                <button type="button" class="btn btn-primary" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
                                                     {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
                                                 </button>
                                             </td>
@@ -197,7 +197,7 @@
                                     </tfoot>
                                 </table>
                             </div>
-                            <div class="col-sm-4 manageuser-rightpane" ng-show="mgtCustomerCtrl.rightPaneLoad == true" ng-include="'manageCustomers.html'"></div>
+                            <div class="col-sm-4 manageuser-rightpane" ng-show="mgtCustomerCtrl.rightPaneLoad == true" ng-include="'organization/createOrgUser.html'"></div>
 
                         </div>
                 <div id="panel-notif"></div>
