@@ -195,19 +195,6 @@ namespace PI.Service.Controllers
 
         }
 
-        //[EnableCors(origins: "*", headers: "*", methods: "*")]
-        ////[Authorize]
-        //[HttpGet]
-        //[Route("GetAllShipments")]
-        //public IHttpActionResult GetAllShipments(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-        //                                 string number = null, string source = null, string destination = null, bool viaDashboard = false)
-        //{
-        //    return Ok(shipmentManagement.GetAllShipmentsbyUser(status, userId, startDate, endDate,
-        //                                                       number, source, destination, viaDashboard));
-
-        //}
-
-
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
@@ -232,9 +219,9 @@ namespace PI.Service.Controllers
         //[Authorize]
         [HttpGet]
         [Route("loadAllShipmentsForAdmin")]
-        public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null)
+        public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10)
         {
-            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate, endDate, searchValue));
+            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate, endDate, searchValue,currentPage, pageSize));
 
         }
 

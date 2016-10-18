@@ -630,8 +630,6 @@ namespace PI.Business
         //get shipments by User
         public PagedList GetAllShipmentsbyUser(PagedList shipmentSerach)
         {
-            int page = 1;
-            int pageSize = 10;
             IList<DivisionDto> divisions = null;
             IList<int> divisionList = new List<int>();
             List<Data.Entity.Shipment> Shipments = new List<Data.Entity.Shipment>();
@@ -664,44 +662,7 @@ namespace PI.Business
 
 
             pagedRecord.Content = new List<ShipmentDto>();
-
-
-            var content = (from shipment in Shipments
-                           where shipment.IsDelete == false && !shipment.IsParent &&
-                           ((bool)shipmentSerach.DynamicContent.viaDashboard ?
-                            shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
-                               && shipment.IsFavourite :
-                               ((string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.status.ToString()) ||
-                                  (shipmentSerach.DynamicContent.status.ToString() == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                    : shipmentSerach.DynamicContent.status.ToString() == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                    : shipmentSerach.DynamicContent.status.ToString() == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                    : (shipmentSerach.DynamicContent.status.ToString() == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), shipmentSerach.DynamicContent.status.ToString())))
-                                                   )
-                               //(startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                               //(string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                               //(string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                               //(string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
-                               )
-                           ) &&
-                           !shipment.IsParent
-                           select shipment).ToList();
-
-            // Update retrieve shipment list status from SIS.
-            //string environment = "";
-            //foreach (var shipment in content)
-            //{
-            //    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-            //    {
-            //        environment = GetEnvironmentByTarrif(shipment.TariffText);
-            //        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-            //    }
-            //}
-
-            //using (PIContext context = PIContext.Get())
-            //{
-            var latestStatusHistory = context.ShipmentLocationHistories.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-            //latestStatusHistory.CreatedDate 
-
+            
             // Get new updated shipment list again.
             var updatedtContent = (from shipment in Shipments
                                    join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
@@ -722,7 +683,7 @@ namespace PI.Business
                                      )
                                    ) &&
                                    !shipment.IsParent
-                                   select shipment).ToList();
+                                   select shipment).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
 
             foreach (var item in updatedtContent)
             {
@@ -804,10 +765,9 @@ namespace PI.Business
 
                 });
             }
-            // }
+            
             pagedRecord.TotalRecords = Shipments.Count();
-            pagedRecord.CurrentPage = page;
-            pagedRecord.PageSize = pageSize;
+            pagedRecord.PageSize = shipmentSerach.PageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
             return pagedRecord;
@@ -2796,19 +2756,15 @@ namespace PI.Business
         }
 
 
-        public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null)
+        public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10)
         {
-            int page = 1;
-            int pageSize = 10;
             var pagedRecord = new PagedList();
             short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
             string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            //using (var context = PIContext.Get())
-            //{
-            var content = (from shipment in context.Shipments
+            IQueryable<Shipment> querableContent = (from shipment in context.Shipments
                            where shipment.IsDelete == false &&
                            //shipment.
                            (string.IsNullOrEmpty(status) ||
@@ -2823,8 +2779,9 @@ namespace PI.Business
                            (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
                            (shipment.ConsignorAddress.Country.Contains(searchValue) || shipment.ConsignorAddress.City.Contains(searchValue)) ||
                            (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
-                           select shipment).ToList();
+                           select shipment);
 
+            var content = querableContent.OrderBy(d=>d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
 
             foreach (var item in content)
             {
@@ -2932,13 +2889,11 @@ namespace PI.Business
                 });
             }
 
-            pagedRecord.TotalRecords = content.Count();
-            pagedRecord.CurrentPage = page;
+            pagedRecord.TotalRecords = querableContent.Count();
             pagedRecord.PageSize = pageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
             return pagedRecord;
-            // }
         }
 
 

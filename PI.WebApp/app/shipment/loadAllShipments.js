@@ -18,14 +18,13 @@
                            vm.status = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };
-                           vm.itemsByPage = 25; // Set page size    // 25
                            vm.rowCollection = [];
                            vm.loadingSymbole = true;
 
+                           vm.loadAllShipments = function (status, startRecord, pageRecord, tableState) {
 
-                           vm.loadAllShipments = function (status, pageStart, pageNumber, tableState) {
-                               debugger;
                                vm.loadingSymbole = true;
+
                                var pagedList = {
                                    filterContent: {
                                        status: (status == undefined || status == 'All' || status == null || status == "") ? null : status,
@@ -36,26 +35,20 @@
                                        destination: (vm.desCityCountry == undefined) ? null : vm.desCityCountry,
                                        viaDashboard: vm.viaDashboard
                                    },
-                                   pageSize: vm.itemsByPage,
-                                   currentPage: pageStart
+                                   pageSize: pageRecord,
+                                   currentPage: startRecord
                                }
-                               //var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
-                               //var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
-                               //var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
-                               //var number = (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber;
-                               //var source = (vm.originCityCountry == undefined) ? null : vm.originCityCountry;
-                               //var destination = (vm.desCityCountry == undefined) ? null : vm.desCityCountry;
 
                                statusValue = status;
 
                                shipmentFactory.loadAllShipments(pagedList)
                                     .success(
                                            function (responce) {
-                                               debugger;
+                                                
                                                vm.loadingSymbole = false;
                                                vm.rowCollection = responce.content;
 
-                                               //tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
+                                               tableState.pagination.numberOfPages = responce.totalPages;
 
                                                vm.setCSVData(responce);
 
@@ -101,7 +94,7 @@
                                vm.exportcollection.push(headers);
 
                                $.each(responce.content, function (index, value) {
-                                   debugger;
+                                    
                                    var shipmentObj = {}
                                    shipmentObj.orderSubmitted = value.generalInformation.createdDate;
                                    shipmentObj.trackingNumber = value.generalInformation.trackingNumber;
@@ -344,12 +337,12 @@
 
 
                            vm.callServerSearch = function (tableState) {
-                               debugger;
-                               var pagination = 0;//tableState.pagination;
 
-                               var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                               var number = pagination.number || 10;  // Number of entries showed per page.
 
+
+                               var start = tableState.pagination.start;
+                               var number = tableState.pagination.number;
+                               var numberOfPages = tableState.pagination.numberOfPages;
 
                                if ($routeParams.status != undefined && $routeParams.status != null) {
                                    vm.loadAllShipments($routeParams.status, start, number, tableState);
@@ -358,26 +351,12 @@
                                    console.log(vm.status);
                                    vm.loadAllShipments(vm.status, start, number, tableState);
                                }
-
-
-                               //ServerPagination.getPage(start, number, tableState)
-                               //    .then(function (result) {
-                               //        vm.rowCollection = result.data;
-                               //        tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
-                               //        vm.isLoading = false;
-                               //});
-                               //ServerPagination.getPage(start, number, tableState)
-                               //    .then(function (result) {
-                               //        vm.rowCollection = result.data;
-                               //        tableState.pagination.numberOfPages = result.numberOfPages;//set the number of pages so the pagination can update
-                               //        vm.isLoading = false;
-                               //    })
                            };
 
-                           vm.callServerSearch();
+                          // vm.callServerSearch();
 
                            vm.resetSearch = function (tableState) {
-                               debugger;
+                                
                                var pagination = 0;//tableState.pagination;
 
                                var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.

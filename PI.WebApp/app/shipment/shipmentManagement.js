@@ -1,9 +1,9 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory', 'modalService',
-                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory, modalService) {
-
+    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory', 'modalService','$route',
+                       function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory, modalService, $route) {
+                           
                            var vm = this;
                            vm.searchText = '';
                            vm.CompanyId = '';
@@ -22,7 +22,7 @@
                            };
                            
                            vm.ExportExcel = function () {
-                               debugger;
+                                
                                var status = (vm.status == undefined || vm.status == 'All' || vm.status == null || vm.status == "") ? null : vm.status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -131,20 +131,23 @@
 
                            }
 
-                           vm.loadShipmentsBySearch = function (status, pageStart, pageNumber, tableState) {
-                               debugger;
+                           vm.loadShipmentsBySearch = function (status, startRecord, pageRecord, tableState) {
+                                
                                vm.loadingSymbole = true;
+                          
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                                var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
 
-
-                               shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue)
+                               shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue,startRecord,pageRecord)
                                .then(function (responce) {
-                                    debugger;
+                                     
                                     if (responce.data.content != null) {
                                         vm.rowCollection = responce.data.content;
+                                      
+                                        tableState.pagination.numberOfPages = responce.data.totalPages;
+
                                         vm.noShipments = false;
                                         vm.loadingSymbole = false;
 
@@ -191,7 +194,7 @@
                                vm.exportcollection.push(headers);
 
                                $.each(responce.data.content, function (index, value) {
-                                   debugger;
+                                    
                                    var shipmentObj = {}
                                    shipmentObj.orderSubmitted = value.generalInformation.createdDate;
                                    shipmentObj.trackingNumber = value.generalInformation.trackingNumber;
@@ -312,7 +315,7 @@
 
                         
                            vm.closeWindow = function () {
-                               debugger;
+                                
                                ngDialog.close()
                            }
 
@@ -382,10 +385,10 @@
                            }
 
                            vm.getShipmentStatusCounts = function () {
-                               debugger;
+                                
                                shipmentFactory.GetAllShipmentCounts()
                                .then(function (response) {
-                                   debugger;
+                                    
                                    if (response.data != null) {
                                        vm.counts = response.data;
                                    }
@@ -395,22 +398,26 @@
                                })
                            }
 
+                           var tableStateCopy;
+
                            vm.callServerSearch = function (tableState) {
-                               debugger;
-                               var pagination = 0;//tableState.pagination;
+                              
+                               if (tableState != undefined) {
+                                   tableStateCopy = tableState;
+                                }
+                               else {
+                                   tableState = tableStateCopy;
+                                }
 
-                               var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                               var number = pagination.number || 10;  // Number of entries showed per page.
+                               var start = tableState.pagination.start;
+                               var number = tableState.pagination.number;
+                               var numberOfPages = tableState.pagination.numberOfPages;
 
-                            
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
-
                            };
 
-                           vm.callServerSearch();
-
                            vm.resetSearch = function (tableState) {
-                               debugger;
+                                
                                var pagination = 0;//tableState.pagination;
 
                                var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.

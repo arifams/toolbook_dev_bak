@@ -185,7 +185,7 @@ registerExternalUser, ngAuthSettings) {
 
         
         vm.resetForgetPassword = function (option) {
-            debugger;
+             
             if (option == "false") {
                 vm.resetForgetPasswordUsingEmail();
             }
@@ -220,7 +220,7 @@ registerExternalUser, ngAuthSettings) {
 
 
         vm.resetForgetPasswordUsingSMS = function () {
-            debugger;
+             
             userManager.loginUser(vm.pwdReset, 'api/accounts/SendOPTCodeForPhoneValidation')
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
@@ -240,11 +240,11 @@ registerExternalUser, ngAuthSettings) {
 
 
         vm.submitSecurityCode = function () {
-            debugger;
+             
             userManager.loginUser(vm.pwdReset, 'api/accounts/VerifyPhoneCode')
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                      
                      if(returnedResult.data)
                      {
                          $window.localStorage.setItem('isViaPhone', true);
@@ -271,11 +271,11 @@ registerExternalUser, ngAuthSettings) {
         };
 
         vm.isEmailPhoneNumberVerified = function ($event) {
-            debugger;
+             
             userManager.isPhoneNumberVerified(vm.pwdReset.email)
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                      
                      if (returnedResult.data.result == 1) {
                          vm.showNext = true;
                          vm.isEnabled = true;

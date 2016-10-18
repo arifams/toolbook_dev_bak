@@ -9,7 +9,7 @@
 
 
         function setLoginUserID() {
-            debugger;
+             
             if ($window.localStorage.getItem('userRole') == 'Admin') {
 
                 createdBy = $window.localStorage.getItem('userGuid');
@@ -253,15 +253,17 @@
             });
         }
 
-
-        function loadAllShipmentsForAdmin(status, startDate, endDate, searchValue) {
+        
+        function loadAllShipmentsForAdmin(status, startDate, endDate, searchValue, startRecord, pageRecord) {
 
             return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdmin', {
                 params: {
                     status: status,
                     startDate: startDate,
                     endDate: endDate,
-                    searchValue: searchValue
+                    searchValue: searchValue,
+                    currentPage: startRecord,
+                    pageSize: pageRecord
                 }
             });
         }
@@ -285,7 +287,7 @@
 
 
         function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
-            debugger;
+             
             return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
                 params: {
                     userId: userId,
@@ -303,7 +305,6 @@
 
 
         function loadAllShipments(pagedList) {
-            debugger;
             setLoginUserID();
             pagedList.userId = userId;
             return $http.post(serverBaseUrl + '/api/shipments/GetAllShipments', pagedList);
