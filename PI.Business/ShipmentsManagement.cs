@@ -1188,7 +1188,7 @@ namespace PI.Business
             shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
             shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
-            ShipmentError shipmentError = new ShipmentError();
+            ShipmentError shipmentError = null;
 
             if (string.IsNullOrWhiteSpace(response.Awb) && !isPostmen)
             {
@@ -1210,9 +1210,12 @@ namespace PI.Business
 
                 shipment.Provider = "PostMen";
 
-                shipmentError.ShipmentId = shipment.Id;
-                shipmentError.ErrorMessage = responsePM.ErrorMessage;
-                shipmentError.CreatedDate = DateTime.UtcNow;
+                shipmentError = new ShipmentError()
+                {
+                    ShipmentId = shipment.Id,
+                    ErrorMessage = responsePM.ErrorMessage,
+                    CreatedDate = DateTime.UtcNow
+                };
             }
             else
             {
@@ -1239,10 +1242,12 @@ namespace PI.Business
             
             }
 
-            context.ShipmentErrors.Add(shipmentError);
+            if(shipmentError != null)
+                context.ShipmentErrors.Add(shipmentError);
+
             context.SaveChanges();
             return result;
-            // }
+
         }
 
         public long GetTenantIdByUserId(string userid)
