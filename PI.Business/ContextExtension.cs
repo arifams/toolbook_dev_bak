@@ -83,6 +83,9 @@ namespace PI.Business
         /// <returns></returns>
         public static DateTime GetLocalTimeByUser(this PIContext context, string loggedUserId, DateTime utcDatetime)
         {
+            if(string.IsNullOrWhiteSpace(loggedUserId))
+                return utcDatetime;
+
             var account = context.AccountSettings.Where(ac => ac.Customer.UserId == loggedUserId).FirstOrDefault();
 
             if (account == null)
