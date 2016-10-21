@@ -382,6 +382,9 @@
 
         //calculating the total volume and total weight
         vm.CalctotalWeightVolume = function () {
+
+            debugger;
+
             var packages = vm.shipment.packageDetails.productIngredients;
             var count = 0;
             var totWeight = 0;
@@ -390,7 +393,7 @@
             for (var i = 0; i < packages.length; i++) {
 
                 var Pieces = packages[i].quantity != undefined ? packages[i].quantity : 0;
-                count = count + (Pieces);
+                count = count + parseInt(Pieces);
 
                 totWeight = totWeight + ((packages[i].weight != undefined ? packages[i].weight : 0) * Pieces);
 

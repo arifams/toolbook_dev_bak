@@ -3144,6 +3144,13 @@ namespace PI.Business
 
             foreach (var item in updatedtContent)
             {
+                var packageCount = 0;
+                foreach (var product in item.ShipmentPackage.PackageProducts)
+                {
+                    packageCount = packageCount + product.Quantity;
+                }
+
+
                 shipments.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -3199,7 +3206,7 @@ namespace PI.Business
                     {
                         CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
                         VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        Count = packageCount,
                         DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
                         HsCode = item.ShipmentPackage.HSCode,
                         Instructions = item.ShipmentPackage.CarrierInstruction,
