@@ -275,7 +275,7 @@
             vm.deleteById = function (row) {
 
                 $('#panel-notif').noty({
-                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you want to delete') + '?</p></div>',
+                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to delete this address') + ' ?</p></div>',
                     buttons: [
                             {
                                 addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {

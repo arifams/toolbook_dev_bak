@@ -27,7 +27,9 @@
         }
     })
 
-    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams', '$rootScope', '$scope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope, $scope) {
+    app.controller('saveAddressCtrl', ['saveAddressBookFactory', 'loadAddressBookFactory', '$location', '$window', '$routeParams',
+        '$rootScope', '$scope', function (saveAddressBookFactory, loadAddressBookFactory, $location, $window, $routeParams, $rootScope, $scope)
+        {
 
         var vm = this;
 
@@ -45,6 +47,7 @@
            .then(function (result) {
                
                if (result.status == 200) {
+
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });
                    $('#panel-notif').noty({
@@ -57,8 +60,10 @@
                        },
                        timeout: 3000,
                    });
+
                }
 
+               vm.close();
            },
            function (error) {
                 });
@@ -67,7 +72,7 @@
             $location.path('/loadAddresses');
         }
 
-        var loadDivision = function () {
+        var loadAddressBook = function () {
             loadAddressBookFactory.loadAddressInfo()
             .success(function (data) {
 
@@ -174,7 +179,7 @@
         }
 
 
-        loadDivision();
+        loadAddressBook();
 
 
     }]);
