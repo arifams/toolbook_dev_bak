@@ -9,7 +9,7 @@
     <link href="../../global/css/style.css" rel="stylesheet">
     <link href="../../global/css/ui.css" rel="stylesheet">
     <link href="../../global/plugins/icheck/skins/all.css" rel="stylesheet" />
-    <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
+    <link href="../../global/plugins/bootstrap-loading/lada.min.cssFirstName" rel="stylesheet">
     <link href="../../css/custom.css" rel="stylesheet" />
     <link href="../../css/custom-general.css" rel="stylesheet" />
 </head>
@@ -29,14 +29,31 @@
                         <div class="row">
                             <div class="col-sm-6 col-md-6 col-xs-6">
                                 <div class="form-group">
-                                    <input ng-cloak type="text" name="firstname" id="firstname" class="form-control form-ash" placeholder="{{'First name*'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}" autocomplete="off">
+                                    <input ng-cloak type="text" name="firstname" id="firstname" class="form-control form-ash"
+                                            placeholder="{{'First name *'|translate}}" required ng-model="regCtrl.user.firstName" 
+                                           ng-maxlength="100" ng-class="{ 'error': formSignup.firstname.$invalid &&
+                                    (formSignup.firstname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
+
+                                    <div ng-messages="formSignup.firstname.$error" ng-show="(formSignup.firstname.$dirty ) 
+                                         || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="email" translate>Enter your first name</label>
+                                        <!--<label ng-message="email" class="error" for="email" translate>Enter valid email address</label>-->
+                                    </div>
 
                                 </div>
                             </div>
                             <div class="col-sm-6 col-md-6 col-xs-6">
                                 <div class="form-group">
-                                    <input type="text" name="lastname" id="lname" class="form-control form-ash" placeholder="{{'Last name*'|translate}}"
-                                           ng-maxlength="100" />
+                                    <input type="text" name="lastname" id="lname" class="form-control form-ash" ng-model="regCtrl.user.lastName"
+                                           placeholder="{{'Last name *'|translate}}"
+                                           ng-maxlength="100" ng-class="{ 'error': formSignup.lastname.$invalid &&
+                                    (formSignup.lastname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
+                                    
+                                    <div ng-messages="formSignup.lastname.$error" ng-show="(formSignup.lastname.$dirty) 
+                                         || regCtrl.isSubmit || isfirstFormInvalid">
+                                        <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
+                                        <!--<label ng-message="email" class="error" for="email" translate>Enter valid email address</label>-->
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -53,7 +70,8 @@
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12">
                                 <div class="form-group">
-                                    <input type="email" name="email" id="email" class="form-control form-ash" placeholder="{{'Email address*'|translate}}" required ng-model="regCtrl.user.email"
+                                    <input type="email" name="email" id="email" class="form-control form-ash" placeholder="{{'Email address*'|translate}}" 
+                                           required ng-model="regCtrl.user.email"
                                            ng-maxlength="100" ng-class="{ 'error': formSignup.email.$invalid &&
                                                        (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" ng-focus="emailFocus = true" ng-blur="emailFocus = false" />
 

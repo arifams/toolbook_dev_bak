@@ -126,8 +126,6 @@
     </div>-->
 
     <div class="panel">
-        <!-- form start -->
-        <!-- Main content -->
         <form class="form-horizontal" name="loadAddressForm" novalidate>
            <div class="panel-content panel-border">
                         <!--<div class="row">
@@ -194,10 +192,12 @@
                                         <th st-sort="name" translate>Company</th>
                                         <th translate>Name</th>
                                         <th translate>Address</th>
-                                        <th translate>Status</th>
-
-                                        <th translate>Edit</th>
-                                        <th translate>Delete</th>
+                                        <th translate>city</th>
+                                        <th translate>state</th>
+                                        <th translate>country code</th>
+                                        <th style="text-align:center" translate>status</th>
+                                        <th style="text-align:center" translate>Edit</th>
+                                        <th style="text-align:center" translate>Delete</th>
                                     </tr>
 
                                 </thead>
@@ -206,14 +206,16 @@
                                         <td>{{row.companyName}}</td>
                                         <td>{{row.fullName}}</td>
                                         <td>{{row.fullAddress}}</td>
-                                        <td>
+                                        <td>{{row.city}}</td>
+                                        <td>{{row.state}}</td>
+                                        <td>{{row.Code}}</td>
+                                        <td style="text-align:center">
                                             <span ng-class="row.isActive==true ? 'label label-active active-status' : 'label label-inactive inactive-status'">
                                                 {{row.isActive==true ?'Active':'Inactive'}}
                                             </span>
-                                        <!--{{row.isActive==true ?'Active':'Inactive'}}--></td>
-
-                                        <td><a href="#/saveAddress/{{row.id}}" class="btn btn-sm btn-primary btn-transparent" href="javascript:;"><i class="icon-note"></i></a></td>
-                                        <td><a ng-click="addressCtrl.deleteById(row)" class="btn btn-sm btn-danger btn-transparent" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                                        </td>
+                                        <td style="text-align:center"><a href="#/saveAddress/{{row.id}}" class="btn btn-sm btn-primary btn-transparent" href="javascript:;"><i class="icon-note"></i></a></td>
+                                        <td style="text-align:center"><a ng-click="addressCtrl.deleteById(row)" class="btn btn-sm btn-danger btn-transparent" href="javascript:;"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -232,6 +234,7 @@
                             <div id="panel-notif"></div>
 
                         </div>
+               <div id="panel-notif"></div>
                <div class="page-spinner-loader customLoad" ng-show="addressCtrl.loadingSymbole">
                    <div class="bounce1"></div>
                    <div class="bounce2"></div>

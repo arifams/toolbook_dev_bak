@@ -87,13 +87,14 @@
     margin-bottom:0px;
 }
 .change-head {
-    background-color:#8DD8C2;
+    background-color:#b1dbfb;
     min-height:20px;
 }
 #panel-footer1, #panel-footer2, #panel-footer3 {
     background-color:#B1DBFB;
     min-height:5px;
     margin-bottom:1px;
+    border-top:1px solid #fff;
 }
 .icon-check{
     font-size:1.6em;
@@ -106,11 +107,11 @@
     padding-left:5px;
     color:#0D4773;     
 }
-#heading1 {
+/*#heading1 {
     color:#000000;
     font-weight:normal;
     margin-top:5px;
-}
+}*/
 /*.panel-border {
     margin:12px; 
 }*/
@@ -703,7 +704,7 @@
     font-weight:bold;
 }
 .txt {
-    font-size:16px;
+    font-size:13px;
     text-align:center;
 }
 .charts-inline {
@@ -1114,9 +1115,10 @@ div.inside_content {
      background-color: #ff9122;
 }*/
 .widget-infobox .infobox {
-    margin-right:15px;
+    /*margin-right:15px;*/
     margin-bottom:17px;
     border-radius:6px;
+    width:11%;
 }
 .widget-infobox .right .pull-left {
     margin-bottom: 10px;
@@ -1126,21 +1128,21 @@ div.inside_content {
     min-width:0;
 }
 .widget-infobox .left i::before {
-    width:40px;
-    height:40px;
+    width:35px;
+    height:35px;
 }
 [class^="flaticon-"]::before, [class*=" flaticon-"]::before, [class^="flaticon-"]::after, [class*=" flaticon-"]::after {
 margin-left:0;
 font-size:24px;
 }
 .widget-infobox .left i.flaticon-transport::before {
-    padding:5px;
+    padding:3px;
 }
 .widget-infobox .left i.flaticon-clock::before {
-    padding:5px;
+    padding:3px;
 }
 .widget-infobox .left i.flaticon-symbol::before {
-    padding:5px;
+    padding:1px;
 }
 #chartdiv {
   width: 100%;
@@ -1706,4 +1708,23 @@ a.list-group-item:focus, a.list-group-item:hover {
 .rowSelected {
     background-color:#add8e1;
     color: #FFF;
+}
+.widget-infobox .infobox {
+    min-width:124px;
+}
+.dashboard-status {
+    padding:10px;
+    background-color:#fff;
+    border-radius:8px;
+}
+.dashboard-status .left i::before {
+    border-radius: 50%;
+    display: inline-block;
+    height: 35px;
+    margin-top: 0;
+    padding: 8px;
+    width: 35px;
+}
+.widget-infobox .infobox {
+    margin-right:14px;
 }

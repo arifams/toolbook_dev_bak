@@ -124,8 +124,8 @@
         vm.loadAllShipmentServices = function () {
 
             vm.shipmentServices = [];
-            vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
-                               { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+            vm.shipmentServices = [{ "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid (standard)" },
+                               { "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
                                { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
                                { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
                                { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
@@ -385,6 +385,9 @@
 
         //calculating the total volume and total weight
         vm.CalctotalWeightVolume = function () {
+
+            debugger;
+
             var packages = vm.shipment.packageDetails.productIngredients;
             var count = 0;
             var totWeight = 0;
@@ -393,7 +396,7 @@
             for (var i = 0; i < packages.length; i++) {
 
                 var Pieces = packages[i].quantity != undefined ? packages[i].quantity : 0;
-                count = count + (Pieces);
+                count = count + parseInt(Pieces);
 
                 totWeight = totWeight + ((packages[i].weight != undefined ? packages[i].weight : 0) * Pieces);
 
@@ -414,7 +417,7 @@
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
             vm.previousClicked = false;
-            vm.rateTable = true;
+            vm.rateTable = false;
 
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -443,6 +446,7 @@
 
         vm.selectCarrier = function (row) {
 
+            vm.rateTable = true;
             customBuilderFactory.selectRateRow();
 
             var total = 0.0;
@@ -455,17 +459,20 @@
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.carrierInformation.deliveryTime = row.delivery_date;
                 vm.shipment.carrierInformation.price = parseFloat(row.price).toFixed(2);
+
+                var declaredVal = vm.shipment.packageDetails.declaredValue;
+
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
-                    insurance = (row.price * 0.011).toFixed(2);
+                    insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
 
-                    if (insurance < 10 && currencyCode != null && currencyCode == 'USD') {
-                        insurance = 10;
+                    if (insurance < 5.5 && currencyCode != null && currencyCode == 'USD') {
+                        insurance = 5.5;
                     }
-                    if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
-                        insurance = 5;
-                    }
+                    //if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
+                    //    insurance = 5;
+                    //}
                 }
 
                 vm.shipment.carrierInformation.insurance = insurance;
@@ -711,7 +718,8 @@
             vm.loadAllShipmentServices();
         }
 
-        vm.selectExpress();
+        //vm.selectExpress();
+        vm.selectall();
 
         vm.submitShipment = function () {
             
