@@ -23,6 +23,14 @@ $(function() {
                 $('.form-password').slideDown(300);
             });
         });
+
+        $('#backToLogin').on('click', function (e) {
+            e.preventDefault();
+            $('.form-password').slideUp(300, function () {
+                $('.form-signin').slideDown(300);
+            });
+        });
+
         $('#login').on('click', function(e) {
             e.preventDefault();
             $('.form-password').slideUp(300, function() {

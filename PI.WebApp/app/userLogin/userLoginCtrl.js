@@ -70,6 +70,8 @@ registerExternalUser, ngAuthSettings) {
         vm.passwordResetError = false;
         vm.UserModel = {};
 
+        vm.signInLodingSymbole = false;
+
         var loggedusername = $cookieStore.get('username');
         var loggedpassword = $cookieStore.get('password');
         $scope.user = {};
@@ -93,8 +95,9 @@ registerExternalUser, ngAuthSettings) {
         };
 
         vm.login = function (user) {
-
+            //vm.signInLodingSymbole = true;
             if (!user.viaExternalLogin) {
+                vm.signInLodingSymbole = true;
                 if (vm.rememberme == true) {
                     $cookieStore.put('username', user.username);
                     $cookieStore.put('password', user.password);
@@ -130,7 +133,7 @@ registerExternalUser, ngAuthSettings) {
             }
             userManager.loginUser(user, 'api/accounts/LoginUser')
              .then(function (returnedResult) {
-
+                 vm.signInLodingSymbole = true;
                  if (returnedResult.data.result == "1" || returnedResult.data.result == "2") {
 
                      // TODO: To be coverted to a token.

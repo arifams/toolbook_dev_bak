@@ -124,8 +124,8 @@
         vm.loadAllShipmentServices = function () {
 
             vm.shipmentServices = [];
-            vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
-                               { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+            vm.shipmentServices = [{ "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid (standard)" },
+                               { "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
                                { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
                                { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
                                { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
@@ -411,7 +411,7 @@
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
             vm.previousClicked = false;
-            vm.rateTable = true;
+            vm.rateTable = false;
 
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -440,6 +440,7 @@
 
         vm.selectCarrier = function (row) {
 
+            vm.rateTable = true;
             customBuilderFactory.selectRateRow();
 
             var total = 0.0;
@@ -708,7 +709,8 @@
             vm.loadAllShipmentServices();
         }
 
-        vm.selectExpress();
+        //vm.selectExpress();
+        vm.selectall();
 
         vm.submitShipment = function () {
             

@@ -204,11 +204,11 @@
                                     <th translate>Carrier</th>
                                     <th translate>Origin</th>
                                     <th translate>Destination</th>
-                                    <th translate>Status</th>
-                                    <th translate>Favorites</th>
-                                    <th translate>View</th>
-                                    <th translate>Edit</th>
-                                    <th translate>Delete</th>
+                                    <th translate class="text-center">Status</th>
+                                    <th translate class="text-center">Favorites</th>
+                                    <th translate class="text-center">View</th>
+                                    <th translate class="text-center">Edit</th>
+                                    <th translate class="text-center">Delete</th>
                                    
                                 </tr>
 
@@ -216,12 +216,8 @@
                             <tbody>
                                 <tr ng-repeat="row in loadShipCtrl.rowCollection">
                                     <td>{{row.generalInformation.createdDate}}</td>
-                                    <td>
-                                        <a href="">{{row.generalInformation.trackingNumber}}</a>
-                                        
-                                    </td>
-                                    <td>
-                                  
+                                    <td>{{row.generalInformation.trackingNumber}}</td>
+                                    <td>{{row.generalInformation.shipmentName}}
                                      <div class="form-group input-group">
                                          <input type="text" value={{row.generalInformation.shipmentName}} ng-model="row.generalInformation.shipmentName" />
                                       
@@ -231,21 +227,12 @@
                                                  <i class="icon-note" aria-hidden="true"></i>
                                              </a>
                                          </span>
-
-
-
-
                                      </div>
-                                        
-                                            
-                                        
-                                    
-                                    
-                                       </td>
+                                    </td>
                                     <td>{{row.carrierInformation.carrierName}}</td>
                                     <td>{{row.addressInformation.consigner.city}}</td>
                                     <td>{{row.addressInformation.consignee.city}}</td>
-                                    <td>
+                                    <td style="text-align:center">
                                         <span ng-class="{'label label-warning' : row.generalInformation.status === 'Pending', 
                                                    'label label-success' : row.generalInformation.status === 'Delivered', 
                                                    'label label-danger' : row.generalInformation.status === 'Error', 
@@ -254,24 +241,24 @@
                                                    'label bg-dark' : row.generalInformation.status === 'Exception'}">{{row.generalInformation.status}}
                                         </span>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center">
                                         <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
                                            ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
                                         </a>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center">
                                         <a ng-hide="row.generalInformation.shipmentCode == null" href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                            class="btn btn-sm btn-primary btn-transparent">
                                             <i class="fa fa-eye"></i>
                                         </a>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center">
                                         <a ng-show="row.generalInformation.isEnableEdit" href="#/addShipment/{{row.generalInformation.shipmentId}}"
                                            class="btn btn-sm btn-primary btn-transparent">
                                             <i class="icon-note"></i>
                                         </a>
                                     </td>
-                                    <td>
+                                    <td style="text-align:center">
                                         <a  ng-click="loadShipCtrl.deleteById(row)"
                                            class="btn btn-sm btn-danger btn-transparent" href="javascript:;">
                                             <i class="fa fa-times" aria-hidden="true"></i>
