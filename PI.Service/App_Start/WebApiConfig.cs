@@ -40,9 +40,6 @@ namespace PI.Service
 
             config.Filters.Add(new CustomAuthorizeAttribute());
 
-            //config.Services.Replace(typeof(IExceptionLogger), new UnhandledExceptionLogger());
-            config.Services.Replace(typeof(IExceptionHandler), new UnhandledExceptionLogger());
-
         }
     }
 }

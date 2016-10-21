@@ -17,6 +17,7 @@ using PI.Common;
 using PI.Contract;
 using PI.Contract.Business;
 using PI.Data;
+using PI.Service.ExceptionLogging;
 using PI.Service.Providers;
 using System;
 using System.Collections.Generic;
@@ -96,6 +97,8 @@ namespace PI.Service
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Filters.Add(new UnhandledExceptionLogger());
 
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
