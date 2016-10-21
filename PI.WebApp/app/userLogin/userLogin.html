@@ -65,9 +65,16 @@
                             </div>
                         </div>-->
                         <div class="row">
-                            <div class="col-sm-12 col-md-12 col-xs-12 text-center">
-                                <button class="btn btn-primary m-r-0 m-t-10" type="submit" id="submit-form">Sign in</button>
+                            <div class="col-md-3"></div>
+                            <div class="col-md-5 text-center"><button class="btn btn-primary m-r-0 m-t-10 m-l-20" type="submit" id="submit-form">Sign in</button>
+                                
                             </div>
+                            <div class="col-md-1 m-t-20 p-0">
+                                <span class="font-animation p-0" ng-show="userLog.signInLodingSymbole==true">
+                                    <label><i class="fa fa-spinner faa-spin animated"></i></label>
+                                </span>
+                            </div>
+                            <div class="col-md-3"></div>
                         </div>
 
                         <p class="text-center m-0"><a id="password" href="#" translate>Forgot Password?</a></p>
@@ -79,7 +86,7 @@
                         </div>
 
 
-                        <div class="row text-center">
+                        <!--<div class="row text-center">
                             <button class="btn btn-sm btn-icon btn-rounded btn-social m-b-10 m-r-10" type="button" data-ng-click="authExternalProvider('Facebook')">
                                 <i class="fa fa-facebook"></i>
                             </button>
@@ -89,7 +96,7 @@
                             <button class="btn btn-sm btn-icon btn-rounded btn-social" type="button" data-ng-click="authExternalProvider('Microsoft')">
                                 <i class="fa fa-windows"></i>
                             </button>
-                        </div>
+                        </div>-->
 
 
                         <div class="form-group" ng-show="userLog.loginInvalid">
@@ -204,7 +211,7 @@
                         </div>
 
                         <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">
-                            <p class="pull-left m-t-20"><a href="../userLogin/userLogin.html" translate>Back to login</a></p>
+                            <p class="pull-left m-t-20"><a id="backToLogin" href="" translate>Back to login</a></p>
                             <p class="pull-right m-t-20"><a href="../userRegistration/userRegistration.html" translate>New here? Sign up</a></p>
                         </div>
 
@@ -212,7 +219,7 @@
                 </div>
             </div>
         </div>
-        <p class="account-copyright m-t-10">
+        <p class="account-copyright" style="margin-top:60px;">
             <span><translate>Copyright</translate> © 2016 </span><span>Parcel International</span>.&nbsp;<span translate>All rights reserved.</span>
         </p>
 

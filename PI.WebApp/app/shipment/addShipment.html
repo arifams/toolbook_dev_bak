@@ -183,7 +183,7 @@
         <div class="panel-header change-head">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3 class="select-options" id="heading1">
+                    <h3 class="select-options">
                         <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
                                 ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse1==true">
                             <i class="fa fa-check"></i>
@@ -1210,7 +1210,7 @@
                     </div>
                 </div>
                 -->
-                <div class="row">
+                <!--<div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="col-sm-2 label-font-align">Total Weight</label>
@@ -1221,14 +1221,14 @@
                                             <div class="col-sm-4">
                                                 <h4 class="border"><strong>{{shipmentCtrl.shipment.packageDetails.totalWeight}}</strong></h4>
                                             </div>
-                                            <!--<div class="col-sm-4">
+                                            <div class="col-sm-4">
                                                 <div class="input-group">
                                                     <div class="icheck-inline">
                                                         <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="true" checked="checked"> kg </label>
                                                         <label><input type="radio" icheck name="weightCMLBS" ng-model="shipmentCtrl.shipment.packageDetails.cmLBS" value="false"> lbs </label>
                                                     </div>
                                                 </div>
-                                            </div>-->
+                                            </div>
 
                                         </div>
                                     </div>
@@ -1236,7 +1236,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>-->
                 <!--<div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
@@ -1328,7 +1328,7 @@
                     <div class="col-sm-12">
                         <div class="form-group">
                             <label class="col-sm-2 label-font" translate> Dangerous goods *</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="input-group">
                                     <div class="icheck-inline">
                                         <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value="true"> <translate>Yes</translate> </label>
@@ -1360,7 +1360,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="col-sm-2 label-font" translate> Preferred Collection Date *</label>
+                            <label class="col-sm-2 p-r-0" translate> Preferred pickup Date *</label>
                             <div class="col-sm-4 prepend-icon">
                                 <!--<input ng-model="shipmentCtrl.shipment.packageDetails.preferredCollectionDate" type="text" name="preferredCollectionDate"
                                 class="date_time form-control"  placeholder="dd/MM/yyyy HH:mm"/>-->
@@ -1390,7 +1390,9 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-12 p-0">
-                        <div class="col-sm-2"></div>
+                        <div class="col-sm-2">
+                            <label translate> Declared value</label>
+                        </div>
                         <div class="col-sm-4">
                             <div class="form-group m-0">
                                 <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue" placeholder="{{'Declared value'|translate}}" required
@@ -1553,11 +1555,12 @@
                             <label class="col-sm-2 label-font" translate>Product*</label>
 
                             <div class="col-sm-10 p-r-0">
-                                <div id="t_express1" class="shipmentmethod" ng-click="shipmentCtrl.selectExpress()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode =='Express' ? 'selected' :''" translate>Express</div>
-                                <div id="t_express2" class="shipmentmethod" ng-click="shipmentCtrl.selectAir()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='AirFreight' ? 'selected' :''" translate>Air Freight</div>
-                                <div id="t_express3" class="shipmentmethod" ng-click="shipmentCtrl.selectSea()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='SeaFreight' ? 'selected' :''" translate>Sea Freight</div>
-                                <div id="t_express4" class="shipmentmethod" ng-click="shipmentCtrl.selectRoad()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='RoadFreight' ? 'selected' :''" translate>Road Freight</div>
-                                <div id="t_express5" class="shipmentmethod" ng-click="shipmentCtrl.selectall()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='All' ? 'selected' :''" translate>Show All Options </div>
+                                <div id="t_express1" class="shipmentmethod" ng-click="shipmentCtrl.selectall()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='All' ? 'selected' :''" translate>Show All Options </div>
+                                <div id="t_express2" class="shipmentmethod" ng-click="shipmentCtrl.selectExpress()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode =='Express' ? 'selected' :''" translate>Express</div>
+                                <div id="t_express3" class="shipmentmethod" ng-click="shipmentCtrl.selectAir()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='AirFreight' ? 'selected' :''" translate>Air Freight</div>
+                                <div id="t_express4" class="shipmentmethod" ng-click="shipmentCtrl.selectSea()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='SeaFreight' ? 'selected' :''" translate>Sea Freight</div>
+                                <div id="t_express5" class="shipmentmethod" ng-click="shipmentCtrl.selectRoad()" ng-class="shipmentCtrl.shipment.generalInformation.shipmentMode=='RoadFreight' ? 'selected' :''" translate>Road Freight</div>
+                                
                             </div>
                         </div>
                     </div>

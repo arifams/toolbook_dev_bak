@@ -210,10 +210,10 @@
                                         <th translate>Invoice amount</th>
                                         <th translate>credited amount</th>
                                         <th translate>amount due</th>
-                                        <th translate>Status</th>
-                                        <th translate>pay</th>
-                                        <th translate>view</th>
-                                        <th translate>Raise a dispute</th>
+                                        <th style="text-align:center" translate>Status</th>
+                                        <th style="text-align:center" translate>pay</th>
+                                        <th style="text-align:center" translate>view</th>
+                                        <th style="text-align:center" translate>Raise a dispute</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -222,28 +222,28 @@
                                         <td>{{row.invoiceDate}}</td>
                                         <!--<td>{{row.shipmentReference}}</td>-->
                                         <td>{{row.invoiceNumber}}</td>
-                                        <td>{{row.invoiceValue | currency:"US $ "}}</td>
-                                        <td>{{row.creditedValue | currency:"US $ "}}</td>
-                                        <td>{{row.sum | currency:"US $ "}}</td>
-                                        <td>
+                                        <td><span style="float:right">{{row.invoiceValue | currency:"US $ "}}</span></td>
+                                        <td><span style="float:right">{{row.creditedValue | currency:"US $ "}}</span></td>
+                                        <td><span style="float:right">{{row.sum | currency:"US $ "}}</span></td>
+                                        <td style="text-align:center">
                                             <span ng-class="{'label label-warning warning-status' : row.invoiceStatus === 'Pending',
                                                    'label label-success success-status' : row.invoiceStatus === 'Paid',
                                                    'label label-danger danger-status' : row.invoiceStatus === 'Disputed'}">{{row.invoiceStatus}}</span>
                                             <!--<span ng-class="{{row.invoiceStatus}}=='pending' ? 'label label-warning warning-status':'label label-success success-status'">{{row.invoiceStatus}}</span>-->
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             <!--if invoiceStatus == 'Pending'-->
-                                            <button type="button" class="btn btn-sm btn-primary" ng-show="row.invoiceStatus == 'Pending'"
+                                            <button type="button" class="btn btn-sm btn-primary"
                                                     ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
                                                 Pay
                                             </button>
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             <a href='{{row.url}}' class="btn btn-sm btn-primary btn-transparent">
                                                 <i class="fa fa-eye"></i>
                                             </a>
                                         </td>
-                                        <td>
+                                        <td style="text-align:center">
                                             <a class="btn btn-sm btn-danger btn-transparent" ng-show="row.invoiceStatus == 'Pending'"
                                                ng-click="customerinvoiceCtrl.disputeInvoice(row)" translate>
                                                 <i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
