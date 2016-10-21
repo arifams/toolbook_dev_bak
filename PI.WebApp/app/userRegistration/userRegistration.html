@@ -76,7 +76,7 @@
 
                                     <div ng-messages="formSignup.password.$error" ng-show="(formSignup.password.$dirty && !passwordFocus) || regCtrl.isSubmit || isfirstFormInvalid">
                                         <label ng-message="required" class="error" for="password" translate>Enter your password</label>
-                                        <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
+                                        <label ng-message="noValidPassword" class="error" for="password" translate>Should contain a min of 8 characters including an upper case</label>
                                     </div>
                                 </div>
                             </div>

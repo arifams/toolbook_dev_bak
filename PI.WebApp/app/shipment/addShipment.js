@@ -382,6 +382,9 @@
 
         //calculating the total volume and total weight
         vm.CalctotalWeightVolume = function () {
+
+            debugger;
+
             var packages = vm.shipment.packageDetails.productIngredients;
             var count = 0;
             var totWeight = 0;
@@ -390,7 +393,7 @@
             for (var i = 0; i < packages.length; i++) {
 
                 var Pieces = packages[i].quantity != undefined ? packages[i].quantity : 0;
-                count = count + (Pieces);
+                count = count + parseInt(Pieces);
 
                 totWeight = totWeight + ((packages[i].weight != undefined ? packages[i].weight : 0) * Pieces);
 
@@ -453,17 +456,20 @@
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.carrierInformation.deliveryTime = row.delivery_date;
                 vm.shipment.carrierInformation.price = parseFloat(row.price).toFixed(2);
+
+                var declaredVal = vm.shipment.packageDetails.declaredValue;
+
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
-                    insurance = (row.price * 0.011).toFixed(2);
+                    insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
 
-                    if (insurance < 10 && currencyCode != null && currencyCode == 'USD') {
-                        insurance = 10;
+                    if (insurance < 5.5 && currencyCode != null && currencyCode == 'USD') {
+                        insurance = 5.5;
                     }
-                    if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
-                        insurance = 5;
-                    }
+                    //if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
+                    //    insurance = 5;
+                    //}
                 }
 
                 vm.shipment.carrierInformation.insurance = insurance;

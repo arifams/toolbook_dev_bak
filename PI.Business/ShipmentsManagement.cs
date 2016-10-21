@@ -1188,7 +1188,7 @@ namespace PI.Business
             shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
             shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
-            ShipmentError shipmentError = new ShipmentError();
+            ShipmentError shipmentError = null;
 
             if (string.IsNullOrWhiteSpace(response.Awb) && !isPostmen)
             {
@@ -1210,9 +1210,12 @@ namespace PI.Business
 
                 shipment.Provider = "PostMen";
 
-                shipmentError.ShipmentId = shipment.Id;
-                shipmentError.ErrorMessage = responsePM.ErrorMessage;
-                shipmentError.CreatedDate = DateTime.UtcNow;
+                shipmentError = new ShipmentError()
+                {
+                    ShipmentId = shipment.Id,
+                    ErrorMessage = responsePM.ErrorMessage,
+                    CreatedDate = DateTime.UtcNow
+                };
             }
             else
             {
@@ -1239,10 +1242,12 @@ namespace PI.Business
             
             }
 
-            context.ShipmentErrors.Add(shipmentError);
+            if(shipmentError != null)
+                context.ShipmentErrors.Add(shipmentError);
+
             context.SaveChanges();
             return result;
-            // }
+
         }
 
         public long GetTenantIdByUserId(string userid)
@@ -2084,6 +2089,15 @@ namespace PI.Business
 
                 }));
 
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    var message = e.Message;
+                }
+
 
                 invocieDto = new CommercialInvoiceDto()
                 {
@@ -2410,6 +2424,8 @@ namespace PI.Business
             //long sysDivisionId = 0;
             //long sysCostCenterId = 0;
 
+            Shipment shipment = context.Shipments.Where(s => s.Id == addInvoice.ShipmentId).SingleOrDefault();
+
             //using (PIContext context = PIContext.Get())
             //{
             // If has invoice from shipment id, delete
@@ -2425,7 +2441,7 @@ namespace PI.Business
                 Description = p.Description,
                 PricePerPiece = p.PricePerPiece,
                 Quantity = p.Quantity,
-                CreatedBy = "1",
+                CreatedBy = shipment.CreatedBy,
                 CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 HSCode = p.HSCode,
@@ -2435,7 +2451,7 @@ namespace PI.Business
             {
                 ShipmentId = addInvoice.ShipmentId,
                 ShipmentReferenceName = addInvoice.ShipmentReferenceName,
-                CreatedBy = "1",
+                CreatedBy = shipment.CreatedBy,
                 CreatedDate = Convert.ToDateTime(addInvoice.CreatedDate).ToUniversalTime(),
                 IsActive = true,
                 ShipTo = addInvoice.ShipTo,
@@ -2453,16 +2469,16 @@ namespace PI.Business
                 ValueCurrency = addInvoice.ValueCurrency,
                 InvoiceItem = new InvoiceItem()
                 {
-                    CreatedBy = "1",
+                    CreatedBy = shipment.CreatedBy,
                     CreatedDate = DateTime.UtcNow,
                     IsActive = true,
                     InvoiceItemLines = invoiceItemLineList
                 }
             };
 
-            context.CommercialInvoices.Add(invoice);
+            context.CommercialInvoices.Add(invoice);            
             context.SaveChanges();
-            // }
+           
             return result;
         }
 
@@ -3139,6 +3155,13 @@ namespace PI.Business
 
             foreach (var item in updatedtContent)
             {
+                var packageCount = 0;
+                foreach (var product in item.ShipmentPackage.PackageProducts)
+                {
+                    packageCount = packageCount + product.Quantity;
+                }
+
+
                 shipments.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -3194,7 +3217,7 @@ namespace PI.Business
                     {
                         CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
                         VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        Count = item.ShipmentPackage.PackageProducts.Count,
+                        Count = packageCount,
                         DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
                         HsCode = item.ShipmentPackage.HSCode,
                         Instructions = item.ShipmentPackage.CarrierInstruction,
@@ -3228,39 +3251,76 @@ namespace PI.Business
             {
                 //Create the worksheet
                 ExcelWorksheet ws = excel.Workbook.Worksheets.Add("Shipments");
+                                
+                ws.Cells["A1"].Value = "Report:";
+                ws.Cells["A1"].Style.Font.Size = 16;
+                ws.Cells["A1"].Style.Font.Bold = true;
+                ws.Cells["A1"].Style.Font.Name = "Calibri";
+                ws.Cells["A1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                //Merging cells and create a center heading for out table
-                ws.Cells[2, 1].Value = "Shipment Details";
-                ws.Cells[2, 1, 2, 8].Merge = true;
-                ws.Cells[2, 1, 2, 8].Style.Font.Bold = true;
-                ws.Cells[2, 1, 2, 8].Style.Font.Size = 15;
-                ws.Cells[2, 1, 2, 8].Style.Font.Name = "Calibri";
-                ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                ws.Cells["B1"].Value = "Shipment Details";
+                ws.Cells["B1"].Style.Font.Size = 16;
+                ws.Cells["B1"].Style.Font.Bold = true;
+                ws.Cells["B1"].Style.Font.Name = "Calibri";
+                ws.Cells["B1"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                // Set headings.
-                ws.Cells["A6"].Value = "Order Submitted";
-                ws.Cells["B6"].Value = "Tracking Number";
-                ws.Cells["C6"].Value = "Shipment ID";
-                ws.Cells["D6"].Value = "Carrier";
-                ws.Cells["E6"].Value = "Orgin City";
-                ws.Cells["F6"].Value = "Orgin Country";
-                ws.Cells["G6"].Value = "Consignor Name";
-                ws.Cells["H6"].Value = "Consignor Number";
-                ws.Cells["I6"].Value = "Consignor Email";
+                ws.Cells["A2"].Value = "Generated on:";
+                ws.Cells["A2"].Style.Font.Size = 12;
+                ws.Cells["A2"].Style.Font.Bold = true;
+                ws.Cells["A2"].Style.Font.Name = "Calibri";
+                ws.Cells["A2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
 
-                ws.Cells["J6"].Value = "Destination City";
-                ws.Cells["K6"].Value = "Destination Country";
-                ws.Cells["L6"].Value = "Consignee Name";
-                ws.Cells["M6"].Value = "Consignee Number";
-                ws.Cells["N6"].Value = "Consignee Email";
+                ws.Cells["B2"].Value = DateTime.Now;
+                ws.Cells["B2"].Style.Numberformat.Format = "dd-MMM-yyyy hh:mm";
+                ws.Cells["B2"].Style.Font.Size = 12;
+                ws.Cells["B2"].Style.Font.Bold = true;
+                ws.Cells["B2"].Style.Font.Name = "Calibri";
+                ws.Cells["B2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
+                
+                // Set headings.              
 
-                ws.Cells["O6"].Value = "Status";
-                ws.Cells["P6"].Value = "Shipment Mode";
-                ws.Cells["Q6"].Value = "Pickup date";
-                ws.Cells["R6"].Value = "Service Level";
+                ws.Cells["A6"].Value = "Shipment Reference";
+                ws.Cells["B6"].Value = "Carrier";
+                ws.Cells["C6"].Value = "Product";
+                ws.Cells["D6"].Value = "Shipment Status";
+                ws.Cells["E6"].Value = "Tracking Number";
+                ws.Cells["F6"].Value = "Price";
+                ws.Cells["G6"].Value = "Total Weight";
+                ws.Cells["H6"].Value = "Weight Metric Unit";
+                ws.Cells["I6"].Value = "Shipment Condition";
+                ws.Cells["J6"].Value = "Package Count";
+                ws.Cells["K6"].Value = "Sender Company Name";
+                ws.Cells["L6"].Value = "Sender First Name";
+                ws.Cells["M6"].Value = "Sender Last Name";
+                ws.Cells["N6"].Value = "Sender Phone Number";
+                ws.Cells["O6"].Value = "Sender Email";
+                ws.Cells["P6"].Value = "Sender Address";
+                ws.Cells["Q6"].Value = "Sender Postal Code";
+                ws.Cells["R6"].Value = "Sender City";
+                ws.Cells["S6"].Value = "Sender State";
+                ws.Cells["T6"].Value = "Sender Country Code";
+
+                ws.Cells["U6"].Value = "Created Date";
+                ws.Cells["V6"].Value = "Pickup Date";
+                ws.Cells["W6"].Value = "Delivery Date";
+
+                ws.Cells["X6"].Value = "Recipient Company Name";
+                ws.Cells["Y6"].Value = "Recipient First Name";
+                ws.Cells["Z6"].Value = "Recipient Last Name";
+                ws.Cells["AA6"].Value = "Recipient Phone Number";
+                ws.Cells["AB6"].Value = "Recipient Email";
+                ws.Cells["AC6"].Value = "Recipient Address";
+                ws.Cells["AD6"].Value = "Recipient Postal Code";
+                ws.Cells["AE6"].Value = "Recipient City";
+                ws.Cells["AF6"].Value = "Recipient State";
+                ws.Cells["AG6"].Value = "Recipient Country Code";
+
+                ws.Cells["AH6"].Value = "Shipment ID";
+
+
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:U6"])
+                using (ExcelRange rng = ws.Cells["A6:AH6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -3275,60 +3335,124 @@ namespace PI.Business
                 foreach (var shipment in shipments) // Adding Data into rows
                 {
                     rowIndex++;
+                    var WeightMetric = "";
+                    if (shipment.PackageDetails.CmLBS )
+                    {
+                        WeightMetric = "Kg";
+                    }
+                    else
+                    {
+                        WeightMetric = "Lbs";
+                    }
 
                     var cell = ws.Cells[rowIndex, 1];
-                    cell.Value = shipment.GeneralInformation.CreatedDate;
+                    cell.Value = shipment.GeneralInformation.ShipmentName;
 
                     cell = ws.Cells[rowIndex, 2];
-                    cell.Value = shipment.GeneralInformation.TrackingNumber;
-
-                    cell = ws.Cells[rowIndex, 3];
-                    cell.Value = shipment.GeneralInformation.ShipmentCode;
-
-                    cell = ws.Cells[rowIndex, 4];
                     cell.Value = shipment.CarrierInformation.CarrierName;
 
-                    cell = ws.Cells[rowIndex, 5];
-                    cell.Value = shipment.AddressInformation.Consigner.City;
-
-                    cell = ws.Cells[rowIndex, 6];
-                    cell.Value = shipment.AddressInformation.Consigner.Country;
-
-                    cell = ws.Cells[rowIndex, 7];
-                    cell.Value = shipment.AddressInformation.Consigner.ContactName;
-
-                    cell = ws.Cells[rowIndex, 8];
-                    cell.Value = shipment.AddressInformation.Consigner.ContactNumber;
-
-                    cell = ws.Cells[rowIndex, 9];
-                    cell.Value = shipment.AddressInformation.Consigner.Email;
-
-                    cell = ws.Cells[rowIndex, 10];
-                    cell.Value = shipment.AddressInformation.Consignee.City;
-
-                    cell = ws.Cells[rowIndex, 11];
-                    cell.Value = shipment.AddressInformation.Consignee.Country;
-
-                    cell = ws.Cells[rowIndex, 12];
-                    cell.Value = shipment.AddressInformation.Consignee.ContactName;
-
-                    cell = ws.Cells[rowIndex, 13];
-                    cell.Value = shipment.AddressInformation.Consignee.ContactNumber;
-
-                    cell = ws.Cells[rowIndex, 14];
-                    cell.Value = shipment.AddressInformation.Consignee.Email;
-
-                    cell = ws.Cells[rowIndex, 15];
-                    cell.Value = shipment.GeneralInformation.Status;
-
-                    cell = ws.Cells[rowIndex, 16];
+                    cell = ws.Cells[rowIndex, 3];
                     cell.Value = shipment.GeneralInformation.ShipmentMode;
 
+                    cell = ws.Cells[rowIndex, 4];
+                    cell.Value = shipment.GeneralInformation.Status;
+
+                    cell = ws.Cells[rowIndex, 5];
+                    cell.Value = shipment.GeneralInformation.TrackingNumber;
+
+                    cell = ws.Cells[rowIndex, 6];                    
+                    cell.Style.Numberformat.Format = "$0.00";                  
+                    cell.Value = shipment.CarrierInformation.Price;
+
+                    cell = ws.Cells[rowIndex, 7];
+                    cell.Style.Numberformat.Format = "0.00";
+                    cell.Value = shipment.PackageDetails.TotalWeight;
+
+                    cell = ws.Cells[rowIndex, 8];                 
+                    cell.Value = WeightMetric;
+
+                    cell = ws.Cells[rowIndex, 9];
+                    cell.Value = shipment.GeneralInformation.ShipmentServices;
+
+                    cell = ws.Cells[rowIndex, 10];
+                    cell.Value = shipment.PackageDetails.Count;
+
+                    cell = ws.Cells[rowIndex, 11];
+                    cell.Value = shipment.AddressInformation.Consigner.CompanyName;
+
+                    cell = ws.Cells[rowIndex, 12];
+                    cell.Value = shipment.AddressInformation.Consigner.FirstName;
+
+                    cell = ws.Cells[rowIndex, 13];
+                    cell.Value = shipment.AddressInformation.Consigner.LastName;
+
+                    cell = ws.Cells[rowIndex, 14];
+                    cell.Value = shipment.AddressInformation.Consigner.ContactNumber;
+
+                    cell = ws.Cells[rowIndex, 15];
+                    cell.Value = shipment.AddressInformation.Consigner.Email;
+
+                    cell = ws.Cells[rowIndex, 16];
+                    cell.Value = shipment.AddressInformation.Consigner.Address1+ shipment.AddressInformation.Consigner.Address2;
+                    
                     cell = ws.Cells[rowIndex, 17];
-                    cell.Value = shipment.CarrierInformation.PickupDate != null ? shipment.CarrierInformation.PickupDate.Value.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture) : "";
+                    cell.Value = shipment.AddressInformation.Consigner.Postalcode;
 
                     cell = ws.Cells[rowIndex, 18];
-                    cell.Value = shipment.CarrierInformation.serviceLevel;
+                    cell.Value = shipment.AddressInformation.Consigner.City;
+
+                    cell = ws.Cells[rowIndex, 19];
+                    cell.Value = shipment.AddressInformation.Consigner.State;
+
+                    cell = ws.Cells[rowIndex, 20];
+                    cell.Value = shipment.AddressInformation.Consigner.Country;
+
+                    cell = ws.Cells[rowIndex, 21];
+                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
+                    cell.Value = shipment.GeneralInformation.CreatedDate;
+
+                    cell = ws.Cells[rowIndex, 22];
+                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
+                    cell.Value = shipment.CarrierInformation.PickupDate;
+
+                    cell = ws.Cells[rowIndex, 23];
+                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
+                    cell.Value = shipment.CarrierInformation.DeliveryTime;
+
+
+                    cell = ws.Cells[rowIndex, 24];
+                    cell.Value = shipment.AddressInformation.Consignee.CompanyName;
+
+                    cell = ws.Cells[rowIndex, 25];
+                    cell.Value = shipment.AddressInformation.Consignee.FirstName;
+
+                    cell = ws.Cells[rowIndex, 26];
+                    cell.Value = shipment.AddressInformation.Consignee.LastName;
+
+                    cell = ws.Cells[rowIndex, 27];
+                    cell.Value = shipment.AddressInformation.Consignee.ContactNumber;
+
+                    cell = ws.Cells[rowIndex, 28];
+                    cell.Value = shipment.AddressInformation.Consignee.Email;
+
+                    cell = ws.Cells[rowIndex, 29];
+                    cell.Value = shipment.AddressInformation.Consignee.Address1 + shipment.AddressInformation.Consignee.Address2;
+
+                    cell = ws.Cells[rowIndex, 30];
+                    cell.Value = shipment.AddressInformation.Consignee.Postalcode;
+
+                    cell = ws.Cells[rowIndex, 31];
+                    cell.Value = shipment.AddressInformation.Consignee.City;
+
+                    cell = ws.Cells[rowIndex, 32];
+                    cell.Value = shipment.AddressInformation.Consignee.State;
+
+                    cell = ws.Cells[rowIndex, 33];
+                    cell.Value = shipment.AddressInformation.Consignee.Country;
+
+                    cell = ws.Cells[rowIndex, 34];
+                    cell.Value = shipment.GeneralInformation.ShipmentCode;
+
 
                     ws.Row(rowIndex).Height = 25;
                 }
@@ -3382,7 +3506,7 @@ namespace PI.Business
                 ws.Cells["U6"].Value = "Package Count";
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:U6"])
+                using (ExcelRange rng = ws.Cells["A6:Z6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
