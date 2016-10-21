@@ -23,6 +23,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using PI.Service.Results;
 using Twilio;
+using System.Data.Entity.Validation;
 
 namespace PI.Service.Controllers
 {
@@ -86,87 +87,108 @@ namespace PI.Service.Controllers
         [Route("create")]
         public IHttpActionResult CreateUser(CustomerDto createUserModel)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
-            }
-
-            ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
-
-            bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.UtcNow;
-
-            if (!createUserModel.viaExternalLogin && isUserExistAndOldAccount)
-            {
-                // Account is older than 24 hour.
-                // Delete account and all associated records.
-                customerManagement.DeleteCustomer(existingUser.Id);
-                AppUserManager.Delete(existingUser);
-                companyManagement.DeleteCompanyDetails(existingUser.TenantId, existingUser.Id);
-            }
-
-            if (existingUser == null)
-            {
-                var user = new ApplicationUser()
+                if (!ModelState.IsValid)
                 {
-                    UserName = createUserModel.Email,
-                    Email = createUserModel.Email,
-                    Salutation = "-",
-                    FirstName = createUserModel.viaExternalLogin ? createUserModel.FirstName : "-",
-                    LastName = createUserModel.viaExternalLogin ? createUserModel.LastName : "-",
-                    Level = 3,
-                    JoinDate = DateTime.UtcNow,
-                    IsActive = true
-                };
-
-                if (existingUser == null || isUserExistAndOldAccount)
-                {
-                    //Create Tenant, Default Company, Division & CostCenter 
-                    createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
-                    long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
-
-                    // Add tenant Id to user
-                    user.TenantId = tenantId;
-                    user.EmailConfirmed = createUserModel.viaExternalLogin ? true : false;
-
-                    IdentityResult addUserResult = createUserModel.viaExternalLogin ? AppUserManager.Create(user) :
-                                                                                      AppUserManager.Create(user, createUserModel.Password);
-
-                    createUserModel.UserId = user.Id;
-
-                    // Save in customer table.
-                    customerManagement.SaveCustomer(createUserModel);
-                }
-                else
-                {
-                    return BadRequest("Email address is already in use!");
+                    return BadRequest(ModelState);
                 }
 
+                ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
 
-                // Add Business Owner Role to user
-                AppUserManager.AddToRole(user.Id, "BusinessOwner");
+                bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.UtcNow;
 
-                AppUserManager.Update(user);
-
-                if (!createUserModel.viaExternalLogin)
+                if (!createUserModel.viaExternalLogin && isUserExistAndOldAccount)
                 {
-                    #region For Email Confirmaion
-
-                    string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
-                    var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
-
-                    StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-                    emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
-                                       .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
-
-                    AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
-
-                    #endregion
+                    // Account is older than 24 hour.
+                    // Delete account and all associated records.
+                    customerManagement.DeleteCustomer(existingUser.Id);
+                    AppUserManager.Delete(existingUser);
+                    companyManagement.DeleteCompanyDetails(existingUser.TenantId, existingUser.Id);
                 }
+
+                if (existingUser == null)
+                {
+                    var user = new ApplicationUser()
+                    {
+                        UserName = createUserModel.Email,
+                        Email = createUserModel.Email,
+                        Salutation = "Mr",
+                        FirstName = createUserModel.FirstName,
+                        LastName = createUserModel.LastName,
+                        Level = 3,
+                        JoinDate = DateTime.UtcNow,
+                        IsActive = true
+                    };
+
+                    if (existingUser == null || isUserExistAndOldAccount)
+                    {
+                        //Create Tenant, Default Company, Division & CostCenter 
+                        createUserModel.CustomerAddress = new Contract.DTOs.Address.AddressDto();
+
+                        //Currently only corporate users will exist in the system.
+                        createUserModel.IsCorporateAccount = true;
+                        long tenantId = companyManagement.CreateCompanyDetails(createUserModel);
+
+                        // Add tenant Id to user
+                        user.TenantId = tenantId;
+                        user.EmailConfirmed = createUserModel.viaExternalLogin ? true : false;
+
+                        IdentityResult addUserResult = createUserModel.viaExternalLogin ? AppUserManager.Create(user) :
+                                                                                          AppUserManager.Create(user, createUserModel.Password);
+
+                        createUserModel.UserId = user.Id;
+
+                        // Save in customer table.
+                        customerManagement.SaveCustomer(createUserModel);
+                    }
+                    else
+                    {
+                        return BadRequest("Email address is already in use!");
+                    }
+
+
+                    // Add Business Owner Role to user
+                    AppUserManager.AddToRole(user.Id, "BusinessOwner");
+
+                    AppUserManager.Update(user);
+
+                    if (!createUserModel.viaExternalLogin)
+                    {
+                        #region For Email Confirmaion
+
+                        string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
+                        var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
+
+                        StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+                        emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
+                                           .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
+
+                        AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
+
+                        #endregion
+                    }
+                }
+
+                //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
+
             }
-
-            //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));
-
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Console.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Console.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
             return Ok();
+
         }
 
 
