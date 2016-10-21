@@ -452,17 +452,20 @@
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.carrierInformation.deliveryTime = row.delivery_date;
                 vm.shipment.carrierInformation.price = parseFloat(row.price).toFixed(2);
+
+                var declaredVal = vm.shipment.packageDetails.declaredValue;
+
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
-                    insurance = (row.price * 0.011).toFixed(2);
+                    insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
 
-                    if (insurance < 10 && currencyCode != null && currencyCode == 'USD') {
-                        insurance = 10;
+                    if (insurance < 5.5 && currencyCode != null && currencyCode == 'USD') {
+                        insurance = 5.5;
                     }
-                    if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
-                        insurance = 5;
-                    }
+                    //if (insurance < 5 && currencyCode != null && currencyCode == 'EUR') {
+                    //    insurance = 5;
+                    //}
                 }
 
                 vm.shipment.carrierInformation.insurance = insurance;
