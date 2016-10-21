@@ -971,17 +971,15 @@ namespace PI.Business
         //retrieve all languages
         private List<LanguageDto> GetAllLanguages()
         {
-            //using (PIContext context = PIContext.Get())
-            //{
-                var languages = from l in context.Languages
-                                select new LanguageDto()
-                                {
-                                    Id = l.Id,
-                                    LanguageCode = l.LanguageCode,
-                                    LanguageName = l.LanguageName
-                                };
-                return languages.ToList();
-            //}
+            var languages = from l in context.Languages
+                            where l.IsActive
+                            select new LanguageDto()
+                            {
+                                Id = l.Id,
+                                LanguageCode = l.LanguageCode,
+                                LanguageName = l.LanguageName
+                            };
+            return languages.ToList();
         }
 
         //retrieve all currencies
