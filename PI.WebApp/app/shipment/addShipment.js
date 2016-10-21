@@ -249,6 +249,9 @@
 
         vm.consignorSearchChange = function () {
             vm.addressDetailsEmpty = false;
+
+            // For testing purpose only. Auto Fill data.
+            testShipmentDataFill();
         }
         vm.consigneeSearchChange = function () {
             vm.addressDetailsEmpty = false;
@@ -940,11 +943,12 @@
         }
 
         // In production remove this.
-        vm.textChangeOfName = function () {
-
-            if (vm.shipment.generalInformation.shipmentName == "code123") {
+        function testShipmentDataFill () {
+            
+            if (vm.consignorSearchText == "code123") {
 
                 vm.shipment.addressInformation.consigner = {};
+                vm.shipment.generalInformation.shipmentName = 'code123';
                 vm.shipment.addressInformation.consigner.firstName = 'Comp1';
                 vm.shipment.addressInformation.consigner.lastName = 'Comp11';
                 vm.shipment.addressInformation.consigner.country = 'US';
@@ -972,10 +976,12 @@
                 vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
                 vm.shipment.addressInformation.consignee.contactName = "contact name B";
 
+                vm.shipment.packageDetails.productIngredients = [{ productType:'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
+
                 vm.shipment.packageDetails.shipmentDescription = "testDesc";
                 vm.shipment.packageDetails.declaredValue = 500;
             }
-            if (vm.shipment.generalInformation.shipmentName == "code123h") {
+            if (vm.consignorSearchText == "code1234") {
                 // Added UK country
                 vm.shipment.addressInformation.consignee.country = 'GB';
                 vm.shipment.addressInformation.consignee.postalcode = 'W1J 8NE';
