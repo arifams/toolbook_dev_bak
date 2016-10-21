@@ -2089,6 +2089,15 @@ namespace PI.Business
 
                 }));
 
+                try
+                {
+
+                }
+                catch (Exception e)
+                {
+                    var message = e.Message;
+                }
+
 
                 invocieDto = new CommercialInvoiceDto()
                 {
@@ -2415,6 +2424,8 @@ namespace PI.Business
             //long sysDivisionId = 0;
             //long sysCostCenterId = 0;
 
+            Shipment shipment = context.Shipments.Where(s => s.Id == addInvoice.ShipmentId).SingleOrDefault();
+
             //using (PIContext context = PIContext.Get())
             //{
             // If has invoice from shipment id, delete
@@ -2430,7 +2441,7 @@ namespace PI.Business
                 Description = p.Description,
                 PricePerPiece = p.PricePerPiece,
                 Quantity = p.Quantity,
-                CreatedBy = "1",
+                CreatedBy = shipment.CreatedBy,
                 CreatedDate = DateTime.UtcNow,
                 IsActive = true,
                 HSCode = p.HSCode,
@@ -2440,7 +2451,7 @@ namespace PI.Business
             {
                 ShipmentId = addInvoice.ShipmentId,
                 ShipmentReferenceName = addInvoice.ShipmentReferenceName,
-                CreatedBy = "1",
+                CreatedBy = shipment.CreatedBy,
                 CreatedDate = Convert.ToDateTime(addInvoice.CreatedDate).ToUniversalTime(),
                 IsActive = true,
                 ShipTo = addInvoice.ShipTo,
@@ -2458,16 +2469,16 @@ namespace PI.Business
                 ValueCurrency = addInvoice.ValueCurrency,
                 InvoiceItem = new InvoiceItem()
                 {
-                    CreatedBy = "1",
+                    CreatedBy = shipment.CreatedBy,
                     CreatedDate = DateTime.UtcNow,
                     IsActive = true,
                     InvoiceItemLines = invoiceItemLineList
                 }
             };
 
-            context.CommercialInvoices.Add(invoice);
+            context.CommercialInvoices.Add(invoice);            
             context.SaveChanges();
-            // }
+           
             return result;
         }
 
