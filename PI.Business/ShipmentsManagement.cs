@@ -779,7 +779,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -1902,7 +1902,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -2004,7 +2004,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -2670,7 +2670,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -2775,7 +2775,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -2917,7 +2917,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -3037,7 +3037,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -3224,7 +3224,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
@@ -3726,7 +3726,7 @@ namespace PI.Business
                     IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                     TotalVolume = item.ShipmentPackage.TotalVolume,
                     TotalWeight = item.ShipmentPackage.TotalWeight,
-                    ValueCurrency = Convert.ToInt32(item.ShipmentPackage.Currency),
+                    ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                     PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                     ShipmentDescription = item.ShipmentPackage.PackageDescription,
@@ -3956,7 +3956,7 @@ namespace PI.Business
                         IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
                         TotalVolume = item.ShipmentPackage.TotalVolume,
                         TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 0 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                         ShipmentDescription = item.ShipmentPackage.PackageDescription
