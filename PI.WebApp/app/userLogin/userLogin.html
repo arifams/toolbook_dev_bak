@@ -11,7 +11,10 @@
     <link href="../../global/css/style.css" rel="stylesheet">
     <link href="../../global/css/ui.css" rel="stylesheet">
     <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
+    <link href="../../global/css/icons/font-awesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../global/plugins/font-awesome-animation/font-awesome-animation.min.css" rel="stylesheet" />
     <link href="../../css/custom-general.css" rel="stylesheet" />
+
 </head>
 <body class="account separate-inputs" data-page="login" ng-app="userLogin" ng-controller="userLoginCtrl as userLog" ng-cloak>
     <!-- BEGIN LOGIN BOX -->
@@ -66,12 +69,12 @@
                         </div>-->
                         <div class="row">
                             <div class="col-md-3"></div>
-                            <div class="col-md-5 text-center"><button class="btn btn-primary m-r-0 m-t-10 m-l-20" type="submit" id="submit-form">Sign in</button>
+                            <div class="col-md-5 text-center p-r-0"><button class="btn btn-primary m-r-0 m-t-10 m-l-20" type="submit" id="submit-form">Sign in</button>
                                 
                             </div>
-                            <div class="col-md-1 m-t-20 p-0">
-                                <span class="font-animation p-0" ng-show="userLog.signInLodingSymbole==true">
-                                    <label><i class="fa fa-spinner faa-spin animated"></i></label>
+                            <div class="col-md-1 m-t-20">
+                                <span class="font-animation p-0" ng-show="userLog.signInLodingSymbole == true">
+                                    <label><i class="fa fa-spinner faa-spin animated p-0"></i></label>
                                 </span>
                             </div>
                             <div class="col-md-3"></div>
