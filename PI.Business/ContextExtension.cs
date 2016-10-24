@@ -81,12 +81,15 @@ namespace PI.Business
         /// <param name="loggedUserId"></param>
         /// <param name="utcDatetime"></param>
         /// <returns></returns>
-        public static DateTime? GetLocalTimeByUser(this PIContext context, string loggedUserId, DateTime utcDatetime)
+        public static DateTime GetLocalTimeByUser(this PIContext context, string loggedUserId, DateTime utcDatetime)
         {
+            if(string.IsNullOrWhiteSpace(loggedUserId))
+                return utcDatetime;
+
             var account = context.AccountSettings.Where(ac => ac.Customer.UserId == loggedUserId).FirstOrDefault();
 
             if (account == null)
-                return null;
+                return utcDatetime;
 
             var timeZone = context.TimeZones.Where(t => t.Id == account.DefaultTimeZoneId).First();
 

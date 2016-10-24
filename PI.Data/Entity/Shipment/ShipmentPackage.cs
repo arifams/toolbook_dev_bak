@@ -47,13 +47,13 @@ namespace PI.Data.Entity
         //public PaymentType PaymentType { get; set; }
 
         [ForeignKey("WeightMetricId")]
-        public WeightMetric WeightMetric { get; set; }
+        public virtual WeightMetric WeightMetric { get; set; }
 
         [ForeignKey("VolumeMetricId")]
-        public VolumeMetric VolumeMetric { get; set; }
+        public virtual VolumeMetric VolumeMetric { get; set; }
 
         [ForeignKey("InsuranceCurrencyType")]
-        public Currency Currency { get; set; }
+        public virtual Currency Currency { get; set; }
 
         #endregion
     }

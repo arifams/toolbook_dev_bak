@@ -124,8 +124,8 @@
         vm.loadAllShipmentServices = function () {
 
             vm.shipmentServices = [];
-            vm.shipmentServices = [{ "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
-                               { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
+            vm.shipmentServices = [{ "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid (standard)" },
+                               { "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
                                { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
                                { "Id": "DP-CIP-PP", "Name": "Door-to-Port, CIP, Prepaid" },
                                { "Id": "DP-CPT-PP", "Name": "Door-to-Port, CPT, Prepaid" },
@@ -249,6 +249,9 @@
 
         vm.consignorSearchChange = function () {
             vm.addressDetailsEmpty = false;
+
+            // For testing purpose only. Auto Fill data.
+            testShipmentDataFill();
         }
         vm.consigneeSearchChange = function () {
             vm.addressDetailsEmpty = false;
@@ -414,7 +417,7 @@
             vm.ratesNotAvailable = false;
             vm.searchRates = false;
             vm.previousClicked = false;
-            vm.rateTable = true;
+            vm.rateTable = false;
 
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -443,6 +446,7 @@
 
         vm.selectCarrier = function (row) {
 
+            vm.rateTable = true;
             customBuilderFactory.selectRateRow();
 
             var total = 0.0;
@@ -716,7 +720,8 @@
             vm.loadAllShipmentServices();
         }
 
-        vm.selectExpress();
+        //vm.selectExpress();
+        vm.selectall();
 
         vm.submitShipment = function () {
             
@@ -948,11 +953,12 @@
         }
 
         // In production remove this.
-        vm.textChangeOfName = function () {
-
-            if (vm.shipment.generalInformation.shipmentName == "code123") {
+        function testShipmentDataFill () {
+            
+            if (vm.consignorSearchText == "code123") {
 
                 vm.shipment.addressInformation.consigner = {};
+                vm.shipment.generalInformation.shipmentName = 'code123';
                 vm.shipment.addressInformation.consigner.firstName = 'Comp1';
                 vm.shipment.addressInformation.consigner.lastName = 'Comp11';
                 vm.shipment.addressInformation.consigner.country = 'US';
@@ -980,10 +986,12 @@
                 vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
                 vm.shipment.addressInformation.consignee.contactName = "contact name B";
 
+                vm.shipment.packageDetails.productIngredients = [{ productType:'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
+
                 vm.shipment.packageDetails.shipmentDescription = "testDesc";
                 vm.shipment.packageDetails.declaredValue = 500;
             }
-            if (vm.shipment.generalInformation.shipmentName == "code123h") {
+            if (vm.consignorSearchText == "code1234") {
                 // Added UK country
                 vm.shipment.addressInformation.consignee.country = 'GB';
                 vm.shipment.addressInformation.consignee.postalcode = 'W1J 8NE';

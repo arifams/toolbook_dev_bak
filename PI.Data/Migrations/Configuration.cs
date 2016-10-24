@@ -77,10 +77,10 @@ namespace PI.Data.Migrations
 
             context.Languages.AddOrUpdate(
                 x => x.Id,
-                new Entity.Language() { Id = 1, LanguageCode = "EN", LanguageName = "ENGLISH", CreatedBy = "1", CreatedDate = DateTime.UtcNow }
-                //new Entity.Language() { Id = 2, LanguageCode = "NL", LanguageName = "DUTCH", CreatedBy = "1", CreatedDate = DateTime.UtcNow },
-                //new Entity.Language() { Id = 3, LanguageCode = "ZH", LanguageName = "CHINESE", CreatedBy = "1", CreatedDate = DateTime.UtcNow },
-                //new Entity.Language() { Id = 4, LanguageCode = "DE", LanguageName = "GERMAN", CreatedBy = "1", CreatedDate = DateTime.UtcNow }
+                new Entity.Language() { Id = 1, LanguageCode = "EN", LanguageName = "ENGLISH", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = true},
+                new Entity.Language() { Id = 2, LanguageCode = "NL", LanguageName = "DUTCH", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false },
+                new Entity.Language() { Id = 3, LanguageCode = "ZH", LanguageName = "CHINESE", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false },
+                new Entity.Language() { Id = 4, LanguageCode = "DE", LanguageName = "GERMAN", CreatedBy = "1", CreatedDate = DateTime.UtcNow, IsActive = false }
                 );
 
             context.Currencies.AddOrUpdate(

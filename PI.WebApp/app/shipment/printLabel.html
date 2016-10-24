@@ -81,14 +81,14 @@
                     <table st-table="shipmentList" st-safe-src="rowCollection" class="table table-hover">
                         <thead>
                             <tr>
-                                <th st-sort="name" translate>Date</th>
+                                <th st-sort="name" translate>order Date</th>
                                 <th translate>Tracking #</th>
                                 <th translate>Shipment ID</th>
                                 <th translate>Carrier</th>
                                 <th translate>Origin</th>
                                 <th translate>Destination</th>
                                                                
-                                <th translate>Preview</th>
+                                <th style="text-align:center" translate>Preview</th>
                                 
                             </tr>
 
@@ -101,7 +101,7 @@
                                 <td>{{row.carrierInformation.carrierName}}</td>
                                 <td>{{row.addressInformation.consigner.city}}</td>
                                 <td>{{row.addressInformation.consignee.city}}</td> 
-                                <td>
+                                <td style="text-align:center">
                                     <a href='{{row.generalInformation.shipmentLabelBLOBURL}}' class="btn btn-sm btn-primary btn-transparent">
                                         <i class="fa fa-eye"></i>
                                     </a>
