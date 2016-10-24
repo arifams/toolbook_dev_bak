@@ -450,11 +450,13 @@
             vm.searchRates = false;
             if (row != null) {
 
+                debugger;
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
                 vm.shipment.carrierInformation.deliveryTime = row.delivery_date;
                 vm.shipment.carrierInformation.price = parseFloat(row.price).toFixed(2);
+                vm.shipment.carrierInformation.description = row.price_detail.description;
 
                 var declaredVal = vm.shipment.packageDetails.declaredValue;
 

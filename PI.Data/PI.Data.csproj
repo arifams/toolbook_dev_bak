@@ -209,6 +209,10 @@
     <Compile Include="Migrations\201610151450035_addShpmentErrorTable.Designer.cs">
       <DependentUpon>201610151450035_addShpmentErrorTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610211053008_add_carrier_descriptionto_shipment.cs" />
+    <Compile Include="Migrations\201610211053008_add_carrier_descriptionto_shipment.Designer.cs">
+      <DependentUpon>201610211053008_add_carrier_descriptionto_shipment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -277,6 +281,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610151450035_addShpmentErrorTable.resx">
       <DependentUpon>201610151450035_addShpmentErrorTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610211053008_add_carrier_descriptionto_shipment.resx">
+      <DependentUpon>201610211053008_add_carrier_descriptionto_shipment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

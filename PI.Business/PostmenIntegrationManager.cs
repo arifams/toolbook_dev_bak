@@ -154,12 +154,7 @@ namespace PI.Business
             var serviceType = "";
             var paidBy = "";
 
-            if (addShipment.CarrierInformation.serviceLevel== "First-Class Package International")
-            {
-               // serviceType = "usps_first_class_package_international";
-                serviceType = "usps_first_class_mail";
-            }
-
+            serviceType = this.GetservicetypeBycarrierAndDescription(addShipment.CarrierInformation.CarrierName, addShipment.CarrierInformation.description); ;
 
             if (addShipment.GeneralInformation.ShipmentServices.Contains("DDU"))
             {
@@ -296,7 +291,7 @@ namespace PI.Business
         {
             
 
-            if (Carrier=="USPS")
+            if (Carrier=="USP")
             {
                 return this.GetPackageTypeUSPS(product, isCm, isKg);
             }
@@ -307,6 +302,42 @@ namespace PI.Business
 
 
         }
+
+
+        private string GetservicetypeBycarrierAndDescription(string Carrier, string Description)
+        {
+            if (Carrier == "USP")
+            {
+                return this.GetServiceTypeUSPS(Description);
+            }
+            else
+            {
+                return "";
+            }
+        }
+
+        private string GetServiceTypeUSPS(string Description)
+        {
+            switch (Description)
+            {
+                case "First-Class Mail":
+                    return "usps_first_class_mail";
+                case "First-Class Package International":
+                    return "usps_first_class_package_international";
+                case "Priority Mail":
+                    return "usps_priority_mail";
+                case "Priority Mail Express":
+                    return "usps_priority_mail_express";
+                case "Priority Mail Express International":
+                    return "usps_priority_mail_express_international";
+                case "Priority Mail International":
+                    return "usps_priority_mail_international";
+            }
+
+            return string.Empty;
+
+        }
+
 
 
         private string GetPackageTypeUSPS(ProductIngredientsDto product, bool isCm, bool isKg)
