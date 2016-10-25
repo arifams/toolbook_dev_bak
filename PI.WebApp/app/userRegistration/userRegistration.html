@@ -1,7 +1,7 @@
 ﻿<html>
 <head>
     <meta charset="utf-8">
-    <title>Parcel InterNational- Register New User</title>
+    <title>One2Send - Register user</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="" name="description" />
     <meta content="themes-lab" name="author" />
@@ -19,9 +19,14 @@
         <div class="row text-center">
             <div class="form-content">
                 <div class="account-wall">
-                    <div class="login-user p-0">
+                    <!--<div class="login-user p-0">
                         <img src="/global/images/logo/PI-logo-login-sm.png">
                         <p style="text-align:center;color:#fff;font-size:16px">Tailor-made logistics at your fingertips</p>
+                    </div>-->
+
+                    <div class="login-user m-b-20" style="overflow-x:auto">
+                        <img src="/global/images/logo/logo_12send-new.png">
+                        <!--<p style="text-align:center;color:#fff;font-size:16px">Tailormade logistics</p>-->
                     </div>
 
                     <form class="form-signup" role="form" id="form-signup" name="formSignup" ng-hide="regCtrl.isSentMail" ng-submit="formSignup.$valid && regCtrl.register();">
@@ -37,7 +42,7 @@
                                     <div ng-messages="formSignup.firstname.$error" ng-show="(formSignup.firstname.$dirty ) 
                                          || regCtrl.isSubmit || isfirstFormInvalid">
                                         <label ng-message="required" class="error" for="email" translate>Enter your first name</label>
-                                        <!--<label ng-message="email" class="error" for="email" translate>Enter valid email address</label>-->
+                                        
                                     </div>
 
                                 </div>
@@ -52,7 +57,7 @@
                                     <div ng-messages="formSignup.lastname.$error" ng-show="(formSignup.lastname.$dirty) 
                                          || regCtrl.isSubmit || isfirstFormInvalid">
                                         <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
-                                        <!--<label ng-message="email" class="error" for="email" translate>Enter valid email address</label>-->
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -212,8 +217,8 @@
 
             </div>
         </div>
-        <p class="account-copyright">
-            <translate>Parcel International. All rights reserved.</translate>
+        <p class="account-copyright" style="margin-top:60px;">
+            <span><translate>Copyright</translate> © 2016 </span><span>One2Send</span>.&nbsp;<span translate>All rights reserved.</span>
         </p>
 
     </div>
