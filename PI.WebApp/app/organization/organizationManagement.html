@@ -20,6 +20,7 @@
                         <tr>
                             <th>First Name</th>
                             <th>Last Name</th>
+                            <th>email address</th>
                             <th>Role</th>
                             <th style="text-align:center">Status</th>
                             <th style="text-align:center">Edit</th>
@@ -29,6 +30,7 @@
                         <tr ng-repeat="row in manageUser">
                             <td>{{row.firstName}}</td>
                             <td>{{row.lastName}}</td>
+                            <td>{{row.email}}</td>
                             <td>{{row.roleName}}</td>
                             <td style="text-align:center">
                                 <span ng-class="row.status == 'Active' ? 'label label-active active-status' : 'label label-inactive inactive-status'">

@@ -107,7 +107,6 @@
     <Content Include="app\directive\authService.js" />
     <Content Include="app\directive\ordersService.js" />
     <Content Include="app\directive\tokensManagerService.js" />
-    <Content Include="app\httpError\httpError.js" />
     <Content Include="app\httpError\httpError.html" />
     <Content Include="app\index.html" />
     <Content Include="app\manualTraslationExtract.html" />

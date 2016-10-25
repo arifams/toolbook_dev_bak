@@ -90,7 +90,7 @@
                      else if (response.status === 403) {
                          //redirect to login and clear the local storage
 
-                         $window.location = webBaseUrl + "/app/httpError/httpErrors.html";
+                         $window.location = webBaseUrl + "/app/httpError/httpError.html";
                          $window.localStorage.setItem('lastLogin', null);
 
                          $rootScope.$broadcast('forbidden', response);
