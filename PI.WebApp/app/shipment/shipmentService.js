@@ -221,7 +221,7 @@
         }
 
         function loadAllcompanies(searchtext) {
-            return $http.get(serverBaseUrl + '/api/Company/GetAllComapniesForAdminSearch', {
+            return $http.get(serverBaseUrl + '/api/Admin/GetAllComapniesForAdminSearch', {
                 params: {
                     searchText: searchtext
                 }
@@ -262,7 +262,7 @@
         
         function loadAllShipmentsForAdmin(status, startDate, endDate, searchValue, startRecord, pageRecord) {
 
-            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdmin', {
+            return $http.get(serverBaseUrl + '/api/Admin/loadAllShipmentsForAdmin', {
                 params: {
                     status: status,
                     startDate: startDate,
@@ -277,7 +277,7 @@
         
         function loadAllShipmentsForAdminExcelExport(companyId, status, startDate, endDate, number, source, destination) {
 
-            return $http.get(serverBaseUrl + '/api/shipments/loadAllShipmentsForAdminExcelExport', {
+            return $http.get(serverBaseUrl + '/api/Admin/loadAllShipmentsForAdminExcelExport', {
                 params: {
                     companyId: companyId,
                     status: status,

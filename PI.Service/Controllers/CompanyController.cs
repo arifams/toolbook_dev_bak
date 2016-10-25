@@ -207,36 +207,7 @@ namespace PI.Service.Controllers
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [CustomAuthorize(Roles = "Admin")]
-        [HttpGet]
-        [Route("GetAllComapnies")]
-        public IHttpActionResult GetAllComapnies(string status = null, string searchText = null)
-        {
-            return Ok(companyManagement.GetAllComapnies(status, searchText));
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpGet]
-        [Route("GetAllComapniesForAdminSearch")]
-        public IHttpActionResult GetAllComapniesForAdmin(string searchText = null)
-        {
-            return Ok(companyManagement.GetAllComapniesForAdminSearch(searchText));
-        }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        // [Authorize]
-        [HttpPost]
-        [Route("ChangeCompanyStatus")]
-        public IHttpActionResult ChangeCompanyStatus([FromBody] CompanyDto copmany)
-        {
-            return Ok(companyManagement.ChangeCompanyStatus(copmany.Id));
-        }
-
-
+     
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         // [Authorize]
         [HttpGet]

@@ -94,13 +94,6 @@ namespace PI.Service.Controllers
         }
         
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
-        [Route("GetCustomerByCompanyId")]
-        public IHttpActionResult GetCustomerByCompanyId(int companyid)
-        {
-            return Ok(customerManagement.GetCustomerByCompanyId(companyid));
-        }
 
     }
 }
