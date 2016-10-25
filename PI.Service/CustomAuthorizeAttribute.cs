@@ -142,30 +142,24 @@ namespace PI.Service
             var roleId = user.Roles.FirstOrDefault().RoleId;
             var role = prof.GetRoleNameById(roleId);
 
-            if (!string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(tokenobjects.role) && role.Equals(tokenobjects.role))
+            if (!string.IsNullOrEmpty(roles))
             {
-                if (!string.IsNullOrEmpty(roles))
+                if (!string.IsNullOrEmpty(tokenobjects.role) && roles.Equals(tokenobjects.role))
                 {
-                    if (roles.Equals(tokenobjects.role))
-                    {
-                        //return true;
-                        return new HttpResponseMessage(HttpStatusCode.OK);
-                    }
-                    else
-                    {
-                        //return false;
-                        return new HttpResponseMessage(HttpStatusCode.Forbidden);
-                    }
+                    //return true;
+                    return new HttpResponseMessage(HttpStatusCode.OK);
                 }
-
-                //return true;
-                return new HttpResponseMessage(HttpStatusCode.OK);
+                else
+                {
+                    //return false;
+                    return new HttpResponseMessage(HttpStatusCode.Forbidden);
+                }
 
             }
             else
             {
-                //return false;
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+
             }
 
 
