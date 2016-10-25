@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IdentityModel.Tokens;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Web;
 using System.Web.Http;
@@ -15,7 +17,7 @@ using System.Web.Script.Serialization;
 
 namespace PI.Service
 {
-    public class CustomAuthorizeAttribute: AuthorizeAttribute
+    public class CustomAuthorizeAttribute : AuthorizeAttribute
     {
         public string WebURL
         {
@@ -35,7 +37,7 @@ namespace PI.Service
 
         private static bool SkipAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
-           // Contract.Assert(actionContext != null);
+            // Contract.Assert(actionContext != null);
 
             return actionContext.ActionDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any()
                        || actionContext.ControllerContext.ControllerDescriptor.GetCustomAttributes<AllowAnonymousAttribute>().Any();
@@ -44,27 +46,39 @@ namespace PI.Service
         //overriding on authorization method
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
+            HttpResponseMessage httpMessage = new HttpResponseMessage();
+
             if (SkipAuthorization(actionContext))
                 return;
 
-            if (AuthorizeRequest(actionContext))
+            httpMessage.StatusCode = AuthorizeRequest(actionContext).StatusCode;
+
+            if (httpMessage.StatusCode == HttpStatusCode.OK)
             {
                 return;
             }
-            HandleUnauthorizedRequest(actionContext);
+            else
+            {
+                //HandleUnauthorizedRequest(actionContext, httpMessage.StatusCode);
+                actionContext.Response = new System.Net.Http.HttpResponseMessage();
+                actionContext.Response.StatusCode = httpMessage.StatusCode;
+            }
+
         }
 
-        //handle unauthorize requests
-        protected override void HandleUnauthorizedRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
-        {
-            actionContext.Response = new System.Net.Http.HttpResponseMessage();
-            //Code to handle unauthorized request
-            actionContext.Response.StatusCode = System.Net.HttpStatusCode.Unauthorized;
-        }
+        ////handle unauthorize requests
+        //protected override void HandleUnauthorizedRequest(System.Web.Http.Controllers.HttpActionContext actionContext, HttpStatusCode statusCode)
+        //{
+        //    actionContext.Response = new System.Net.Http.HttpResponseMessage();
 
-        private bool AuthorizeRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
+        //    //Code to handle unauthorized request
+        //    actionContext.Response.StatusCode = statusCode;
+        //}
+
+
+        private HttpResponseMessage AuthorizeRequest(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
-            var roles=this.Roles;
+            var roles = this.Roles;
             var authHeader = actionContext.Request.Headers.Authorization;
             string signedtoken = string.Empty;
             if (authHeader != null)
@@ -74,7 +88,7 @@ namespace PI.Service
             var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
 
             var tokenValidationParameters = new TokenValidationParameters()
-             {
+            {
                 ValidAudiences = new string[]
              {
                  WebURL
@@ -97,61 +111,70 @@ namespace PI.Service
             {
                 //handle if there is an error in decoding
                 validatedToken = null;
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
-            
-            if (validatedToken==null)
+
+            if (validatedToken == null)
             {
-                return false;
+                // return false;
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
             }
 
-                var tokenstring = validatedToken.ToString();
-                string output = tokenstring.Substring(tokenstring.IndexOf('.') + 1);
-                JWT tokenobjects = new JavaScriptSerializer().Deserialize<JWT>(output);
-                if (tokenobjects == null)
-                {
-                    return false;
-                }
+            var tokenstring = validatedToken.ToString();
+            string output = tokenstring.Substring(tokenstring.IndexOf('.') + 1);
+            JWT tokenobjects = new JavaScriptSerializer().Deserialize<JWT>(output);
+            if (tokenobjects == null)
+            {
+                //return false;
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            }
 
-                ProfileManagement prof = new ProfileManagement();
-                var user = prof.GetUserById(tokenobjects.UserId);
+            ProfileManagement prof = new ProfileManagement();
+            var user = prof.GetUserById(tokenobjects.UserId);
 
-                if (user == null)
-                {
-                    return false;
-                }
+            if (user == null)
+            {
+                //return false;
+                return new HttpResponseMessage(HttpStatusCode.Unauthorized);
 
-                var roleId = user.Roles.FirstOrDefault().RoleId;
-                var role = prof.GetRoleNameById(roleId);
-                
-                if (!string.IsNullOrEmpty(role)&& !string.IsNullOrEmpty(tokenobjects.role) && role.Equals(tokenobjects.role) )
+            }
+
+            var roleId = user.Roles.FirstOrDefault().RoleId;
+            var role = prof.GetRoleNameById(roleId);
+
+            if (!string.IsNullOrEmpty(role) && !string.IsNullOrEmpty(tokenobjects.role) && role.Equals(tokenobjects.role))
+            {
+                if (!string.IsNullOrEmpty(roles))
                 {
-                   if (!string.IsNullOrEmpty(roles) )
-                   {
                     if (roles.Equals(tokenobjects.role))
                     {
-                        return true;
+                        //return true;
+                        return new HttpResponseMessage(HttpStatusCode.OK);
                     }
                     else
                     {
-                        return false;
+                        //return false;
+                        return new HttpResponseMessage(HttpStatusCode.Forbidden);
                     }
-                  
-                   }
-                   
-                    return true;
-                }
-                else
-                {
-                    return false;
                 }
 
-                    
-                }
+                //return true;
+                return new HttpResponseMessage(HttpStatusCode.OK);
 
-                
             }
-           
+            else
+            {
+                //return false;
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+            }
+
 
         }
 
-    
+
+    }
+
+
+}
+
+

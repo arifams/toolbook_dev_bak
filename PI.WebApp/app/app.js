@@ -395,10 +395,10 @@ var MakeApp = angular
           var tokenPayload = jwtHelper.decodeToken(token);
 
           //if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
-          //    var expireTime = new Date($window.localStorage.getItem('lastLogin'));
-          //    expireTime.setMinutes(expireTime.getMinutes() + 120);
+          //    //var expireTime = new Date($window.localStorage.getItem('lastLogin'));
+          //    //expireTime.setMinutes(expireTime.getMinutes() + 120);
           //    var currentRole = $window.localStorage.getItem('userRole');
-
+          //    debugger;
           //    if (expireTime.getTime() < new Date().getTime()) {
           //        //redirect to login and clear the local storage
           //        if (currentRole != 'Admin') {
@@ -406,8 +406,6 @@ var MakeApp = angular
           //        } else {
           //            window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
           //        }
-
-
           //        $window.localStorage.setItem('lastLogin', null);
           //    } else {
           //        //updating the last login time

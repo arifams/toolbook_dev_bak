@@ -254,35 +254,7 @@ namespace PI.Service.Controllers
         {
             return Ok(companyManagement.GetBusinessOwneridbyCompanyId(companyId));
         }
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
-        [HttpGet]
-        [Route("loadAllShipmentsForAdmin")]
-        public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10)
-        {
-            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate, endDate, searchValue,currentPage, pageSize));
-
-        }
-
-
-
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        //[Authorize]
-        [HttpGet]
-        [Route("loadAllShipmentsForAdminExcelExport")]
-        public HttpResponseMessage loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
-                                                                      string number = null, string source = null, string destination = null)
-        {
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
-            result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-            return result;
-        }
-
-
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetFilteredShipmentsExcel")]

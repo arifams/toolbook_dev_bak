@@ -26,7 +26,8 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-    [CustomAuthorize]
+      
+    [CustomAuthorize(Roles = "Admin,BackOffice,FrontOffice")]
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
@@ -34,13 +35,16 @@ namespace PI.Service.Controllers
         readonly IInvoiceMangement invoiceMangement;
         readonly ICompanyManagement companyManagement;
         readonly IShipmentManagement shipmentManagement;
+        readonly ICustomerManagement customerManagement;
 
-        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, ICompanyManagement companyManagement, IShipmentManagement shipmentManagement)
+        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, 
+                               ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, ICustomerManagement customerManagement)
         {
             this.adminManagement = adminManagement;
             this.invoiceMangement = invoiceMangement;
             this.companyManagement = companyManagement;
             this.shipmentManagement = shipmentManagement;
+            this.customerManagement = customerManagement;
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
@@ -462,6 +466,71 @@ namespace PI.Service.Controllers
             return Ok(adminManagement.GetAuditTrailsForCustomer(userId));
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("loadAllShipmentsForAdmin")]
+        public IHttpActionResult loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10)
+        {
+            return Ok(shipmentManagement.loadAllShipmentsForAdmin(status, startDate, endDate, searchValue, currentPage, pageSize));
+
+        }
+
+        
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        //[Authorize]
+        [HttpGet]
+        [Route("loadAllShipmentsForAdminExcelExport")]
+        public HttpResponseMessage loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
+                                                                      string number = null, string source = null, string destination = null)
+        {
+            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForAdminExcelExport(status, startDate, endDate, number, source, destination));
+            result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
+            result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            return result;
+        }
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [CustomAuthorize(Roles = "Admin")]
+        [HttpGet]
+        [Route("GetAllComapnies")]
+        public IHttpActionResult GetAllComapnies(string status = null, string searchText = null)
+        {
+            return Ok(companyManagement.GetAllComapnies(status, searchText));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpGet]
+        [Route("GetAllComapniesForAdminSearch")]
+        public IHttpActionResult GetAllComapniesForAdmin(string searchText = null)
+        {
+            return Ok(companyManagement.GetAllComapniesForAdminSearch(searchText));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // [Authorize]
+        [HttpPost]
+        [Route("ChangeCompanyStatus")]
+        public IHttpActionResult ChangeCompanyStatus([FromBody] CompanyDto copmany)
+        {
+            return Ok(companyManagement.ChangeCompanyStatus(copmany.Id));
+        }
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetCustomerByCompanyId")]
+        public IHttpActionResult GetCustomerByCompanyId(int companyid)
+        {
+            return Ok(customerManagement.GetCustomerByCompanyId(companyid));
+        }
 
         #region Private methods
 
