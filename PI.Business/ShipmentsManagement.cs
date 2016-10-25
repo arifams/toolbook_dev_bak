@@ -1199,6 +1199,7 @@ namespace PI.Business
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
+                result.ShipmentReference = shipment.ShipmentReferenceName;
                 shipment.Provider = "Ship It Smarter";              
                 
             }
