@@ -962,6 +962,7 @@ namespace PI.Service.Controllers
 
 
         #region Helpers
+
         private IAuthenticationManager Authentication
         {
             get { return Request.GetOwinContext().Authentication; }

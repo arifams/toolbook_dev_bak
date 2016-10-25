@@ -394,31 +394,29 @@ var MakeApp = angular
           var token = localStorage.getItem('token');
           var tokenPayload = jwtHelper.decodeToken(token);
 
-          if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
-              var expireTime = new Date($window.localStorage.getItem('lastLogin'));
-              expireTime.setMinutes(expireTime.getMinutes() + 120);
-              var currentRole = $window.localStorage.getItem('userRole');
+          //if ($window.localStorage.getItem('lastLogin') || $window.localStorage.getItem('lastLogin') != null) {
+          //    //var expireTime = new Date($window.localStorage.getItem('lastLogin'));
+          //    //expireTime.setMinutes(expireTime.getMinutes() + 120);
+          //    var currentRole = $window.localStorage.getItem('userRole');
+          //    debugger;
+          //    if (expireTime.getTime() < new Date().getTime()) {
+          //        //redirect to login and clear the local storage
+          //        if (currentRole != 'Admin') {
+          //            window.location = webBaseUrl + "/app/userLogin/userLogin.html";
+          //        } else {
+          //            window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
+          //        }
+          //        $window.localStorage.setItem('lastLogin', null);
+          //    } else {
+          //        //updating the last login time
+          //        $window.localStorage.setItem('lastLogin', new Date());
+          //    }
 
-              if (expireTime.getTime() < new Date().getTime()) {
-                  //redirect to login and clear the local storage
-                  if (currentRole != 'Admin') {
-                      window.location = webBaseUrl + "/app/userLogin/userLogin.html";
-                  } else {
-                      window.location = webBaseUrl + "/app/adminLogin/adminLogin.html";
-                  }
+          //} else {
+          //    //set the logged time for the first time
+          //    $window.localStorage.setItem('lastLogin', new Date());
 
-
-                  $window.localStorage.setItem('lastLogin', null);
-              } else {
-                  //updating the last login time
-                  $window.localStorage.setItem('lastLogin', new Date());
-              }
-
-          } else {
-              //set the logged time for the first time
-              $window.localStorage.setItem('lastLogin', new Date());
-
-          }
+          //}
 
           return token;
       };

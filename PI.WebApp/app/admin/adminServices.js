@@ -18,7 +18,7 @@
 
         function loadAllInvoices(status, startDate, endDate, searchValue) {
            
-            return $http.get(serverBaseUrl + '/api/admin/GetAllInvoices', {
+            return $http.get(serverBaseUrl + '/api/Admin/GetAllInvoices', {
                 params: {
                     status: status,
                     userId: $window.localStorage.getItem('userGuid'),
@@ -32,7 +32,7 @@
         function exportInvoiceDetailsReport(status, startDate, endDate, searchValue) {
             
 
-            return $http.get(serverBaseUrl + '/api/admin/ExportInvoiceReport', {
+            return $http.get(serverBaseUrl + '/api/Admin/ExportInvoiceReport', {
                 params: {
                     status: status,
                     userId: $window.localStorage.getItem('userGuid'),
@@ -47,7 +47,7 @@
 
         function getAllComapnies(searchText, status) {
             
-            return $http.get(serverBaseUrl + '/api/Company/GetAllComapnies', {
+            return $http.get(serverBaseUrl + '/api/Admin/GetAllComapnies', {
                 params: {
                     status: status,
                     searchText: searchText,
@@ -58,7 +58,7 @@
                 
         function GetCustomerByCompanyId(companyId) {
 
-            return $http.get(serverBaseUrl + '/api/Customer/GetCustomerByCompanyId', {
+            return $http.get(serverBaseUrl + '/api/Admin/GetCustomerByCompanyId', {
                 params: {
                     companyid: companyId                  
                 }
@@ -68,7 +68,7 @@
 
         function changeCompanyStatus(companyDetail) {
             
-            return $http.post(serverBaseUrl + '/api/Company/ChangeCompanyStatus', companyDetail);
+            return $http.post(serverBaseUrl + '/api/Admin/ChangeCompanyStatus', companyDetail);
         }
 
 
