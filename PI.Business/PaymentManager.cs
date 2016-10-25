@@ -69,7 +69,8 @@ namespace PI.Business
 
             try
             {
-                response = _transactionApi.Charge(GetAccessToken, GetLocation()[0].Id, body);
+                var locationId = GetLocation()[0].Id;
+                response = _transactionApi.Charge(GetAccessToken, locationId, body);
             }
             catch(Exception ex)
             {
@@ -105,7 +106,15 @@ namespace PI.Business
         
         private IList<Location> GetLocation()
         {
-            return locationApi.ListLocations(GetAccessToken).Locations.ToList();
+            var location = locationApi.ListLocations(GetAccessToken).Locations.ToList();
+
+            // To process the payment, need to have location capability location id.
+            var processingCapabilityLocList = location.Where(l => l.Capabilities != null && l.Capabilities.Count != 0).ToList();
+
+            if (processingCapabilityLocList.Count == 0)
+                throw new Exception("Currently don't have Credit Card Processing Enabled location");
+
+            return processingCapabilityLocList;
         }
 
         private static Money NewMoney(int amount, string currency)
