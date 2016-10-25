@@ -140,23 +140,23 @@
     border: 3px solid #319DB5;
 }
 #t_express1 {
-    background: url('/proj_img/shipment_icons.png') -10px 0px;                                     
+    background: url('/proj_img/shipment_icons.png') -618px 0px;                                     
     background-repeat: no-repeat; 
 }
 #t_express2 {
-    background: url('/proj_img/shipment_icons.png') -165px 0px;
+    background: url('/proj_img/shipment_icons.png') -10px 0px;
     background-repeat: no-repeat;
 }
 #t_express3 {
-    background: url('/proj_img/shipment_icons.png') -310px 0px;
+    background: url('/proj_img/shipment_icons.png') -165px 0px;
     background-repeat: no-repeat;
 }
 #t_express4 {
-    background: url('/proj_img/shipment_icons.png') -470px 0px;
+    background: url('/proj_img/shipment_icons.png') -310px 0px;
     background-repeat: no-repeat;
 }
 #t_express5 {
-    background: url('/proj_img/shipment_icons.png') -618px 0px;
+    background: url('/proj_img/shipment_icons.png') -470px 0px;
     background-repeat: no-repeat;
 }
 
