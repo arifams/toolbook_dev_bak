@@ -30,8 +30,12 @@ namespace PI.Data.Entity
         public string TarriffType { get; set; }
         [MaxLength(50)]
         public string TariffText { get; set; }
+        [MaxLength(100)]
+        public string CarrierDescription { get; set; }
+
         [MaxLength(20)]
         public string ServiceLevel {get;set;}
+
         public DateTime? PickUpDate { get; set; }
         public short Status { get; set; }
         [MaxLength(50)]

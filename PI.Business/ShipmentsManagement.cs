@@ -287,7 +287,7 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
 
 
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
@@ -407,6 +407,7 @@ namespace PI.Business
                 ServiceLevel = addShipment.CarrierInformation.serviceLevel,
                 TarriffType = addShipment.CarrierInformation.tarriffType,
                 TariffText = addShipment.CarrierInformation.tariffText,
+                CarrierDescription=addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Pending,
                 PickUpDate = addShipment.CarrierInformation.PickupDate,
@@ -1107,7 +1108,9 @@ namespace PI.Business
                     Price = shipment.ShipmentPackage.CarrierCost,
                     Insurance = shipment.ShipmentPackage.InsuranceCost,
                     tarriffType = shipment.TarriffType,
-                    tariffText = shipment.TariffText
+                    tariffText = shipment.TariffText,
+                    description=shipment.CarrierDescription
+                    
                 },
                 AddressInformation = new ConsignerAndConsigneeInformationDto()
                 {
@@ -1158,7 +1161,7 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
             // Add Shipment to SIS.
-            if (shipment.Carrier.Name == "USPS")
+            if (shipment.Carrier.Name == "USP")
             {
 
                 responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
@@ -1196,6 +1199,7 @@ namespace PI.Business
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
+                result.ShipmentReference = shipment.ShipmentReferenceName;
                 shipment.Provider = "Ship It Smarter";              
                 
             }
