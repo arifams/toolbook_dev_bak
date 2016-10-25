@@ -13,6 +13,8 @@ namespace PI.Contract.Business
 
         string GetJwtToken(string userid, string role, string tenantId, string userName, string companyId);
 
+        string GetJwtTokenFromCurrentToken(string currentToken);
+
         CustomerDto GetCustomerByCompanyId(int companyId);
 
         /// <summary>

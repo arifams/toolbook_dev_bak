@@ -13,7 +13,17 @@
         ]);
 
     angular.module('angular-jwt.interceptor', [])
-     .provider('jwtInterceptor', function () {
+        //.factory('test', function ($http) {
+
+
+        //    return {
+        //        func1: function () {
+        //            console.log("test");
+        //        }
+        //    }
+
+        //})
+     .provider('jwtInterceptor', function ($http) {
 
          this.urlParam = null;
          this.authHeader = 'Authorization';
@@ -86,7 +96,25 @@
                          $rootScope.$broadcast('forbidden', response);
                      }
                      return $q.reject(response);
-                 }
+                 },
+                 response: function (response) {
+                     debugger;
+
+                     var currentToken = localStorage.getItem('token');
+                     
+                     //var token = $http.get(serverBaseUrl + '/api/accounts/GetNewSignedToken', {
+                     //    params: {
+                     //        currentToken: currentToken
+                     //        }
+                     //    });                   
+
+                     //if (token!=null) {
+                     //    $window.localStorage.setItem('token', token);
+                     //}
+
+                     return response;
+
+              }
              };
          }];
      });

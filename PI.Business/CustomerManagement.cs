@@ -183,6 +183,71 @@ namespace PI.Business
         /// <summary>
         /// Get Jwt token for user
         /// </summary>
+        /// <param name="token"></param>        
+        /// <returns></returns>
+        public string GetJwtTokenFromCurrentToken(string currentToken)
+        {
+
+            var plainTextSecurityKey = "Secretkeyforparcelinternational_base64string_test1";
+            var signingKey = new InMemorySymmetricSecurityKey(Encoding.UTF8.GetBytes(plainTextSecurityKey));
+            var signingCredentials = new SigningCredentials(signingKey,
+                SecurityAlgorithms.HmacSha256Signature, SecurityAlgorithms.Sha256Digest);
+
+            var tokenValidationParameters = new TokenValidationParameters()
+            {
+                ValidAudiences = new string[]
+            {
+                 WebURL
+            },
+                ValidIssuers = new string[]
+           {
+                ServiceURL
+           },
+                IssuerSigningKey = signingKey
+            };
+
+
+            ClaimsPrincipal claimsPrincipal = null;
+            var tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken validatedToken;
+            try
+            {
+                claimsPrincipal =  tokenHandler.ValidateToken(currentToken,
+                tokenValidationParameters, out validatedToken);
+            }
+            catch (Exception)
+            {
+                //handle if there is an error in decoding
+                
+            }
+
+            if (claimsPrincipal==null)
+            {
+                return "";
+            }
+
+            var claimsIdentity = new ClaimsIdentity(claimsPrincipal.Claims.ToList(), "Custom");
+
+            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(20));
+
+            var securityTokenDescriptor = new SecurityTokenDescriptor()
+            {
+                AppliesToAddress = WebURL,
+                TokenIssuerName = ServiceURL,
+                Subject = claimsIdentity,
+                SigningCredentials = signingCredentials,
+                Lifetime = life
+            };
+         
+            var plainToken = tokenHandler.CreateToken(securityTokenDescriptor);
+            var signedAndEncodedToken = tokenHandler.WriteToken(plainToken);
+            return signedAndEncodedToken;
+        }
+
+
+        /// <summary>
+        /// Get Jwt token for user
+        /// </summary>
         /// <param name="userid"></param>
         /// <param name="role"></param>
         /// <param name="tenantId"></param>
