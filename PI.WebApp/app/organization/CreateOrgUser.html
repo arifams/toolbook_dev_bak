@@ -1,39 +1,32 @@
 ﻿<div>
-    <h2 class="box-title" ng-hide="orgMgtCtrl.user.id != 0"> <translate> Add User </translate></h2>
-    <h2 class="box-title" ng-show="orgMgtCtrl.user.id != 0"> <translate> Edit User </translate></h2>
-    <div class="col-sm-12">
+    <h2 class="box-title m-t-0" ng-hide="orgMgtCtrl.user.id != 0"> <translate> Add User </translate></h2>
+    <h2 class="box-title m-t-0" ng-show="orgMgtCtrl.user.id != 0"> <translate> Edit User </translate></h2>
+    <div class="form-group col-sm-12 p-0">
         <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
     </div>
     <form class="form-horizontal" name="formSaveUser">
-        <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="firstname"
-                           required autofocus ng-model="orgMgtCtrl.user.firstName" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||orgMgtCtrl.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">First name *</span>
-                    </label>
 
-                </span>
+        <div class="row m-0">
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>First name *</label>
+                <input type="text" name="firstname" class="form-control form-white"
+                        required autofocus ng-model="orgMgtCtrl.user.firstName" ng-minlength="3" ng-maxlength="100"
+                        ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||orgMgtCtrl.isSubmit) }" />
                 <div ng-messages="formSaveUser.firstname.$error" ng-show="formSaveUser.firstname.$dirty || orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
                 </div>
             </div>
+
         </div>
 
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="lastname"
-                           minlength="4" required ng-model="orgMgtCtrl.user.lastName" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||orgMgtCtrl.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Last Name *</span>
-                    </label>
-                </span>
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Last name *</label>
+                <input type="text" name="lastname" class="form-control form-white"
+                       minlength="4" required ng-model="orgMgtCtrl.user.lastName" ng-minlength="3" ng-maxlength="100"
+                       ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||orgMgtCtrl.isSubmit) }"/>
                 <div ng-messages="formSaveUser.lastname.$error" ng-show="formSaveUser.lastname.$dirty ||orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
@@ -41,57 +34,49 @@
                 </div>
             </div>
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="email"
-                           ng-model="orgMgtCtrl.user.email" required ng-maxlength="100"
-                           ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||orgMgtCtrl.isSubmit) }">
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Email address *</span>
-                    </label>
-                </span>
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Email address *</label>
+                <input type="text" name="email" class="form-control form-white"
+                       ng-model="orgMgtCtrl.user.email" required ng-maxlength="100"
+                       ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||orgMgtCtrl.isSubmit) }"/>
                 <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="email" translate>Enter your email address</label>
                     <label ng-message="email" class="error error-label-marginleft" for="email" translate>Enter valid email address</label>
                 </div>
             </div>
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="password" valid-passwordorg 
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Password *</label>
+                <input type="password" name="password" class="form-control form-white" valid-passwordorg 
                            minlength="8" required ng-model="orgMgtCtrl.user.password" ng-minlength="3" ng-maxlength="100"
                            ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||orgMgtCtrl.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Password *</span>
-                    </label>
-                </span>
                 <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty ||orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="password" translate>Enter password</label>
                     <label ng-message="noValidPassword" class="error error-label-marginleft" for="password" translate>Enter valid password</label>
                 </div>
             </div>
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="passwordConf" valid-password-corg
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Confirm Password *</label>
+                <input type="password" name="password" class="form-control form-white" valid-password-corg
                            minlength="8" required ng-model="orgMgtCtrl.user.passwordConf" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': formSaveUser.passwordConf.$invalid && (formSaveUser.passwordConf.$dirty||orgMgtCtrl.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Confirm Password *</span>
-                    </label>
-                </span>
+                           ng-class="{ 'error': formSaveUser.passwordConf.$invalid && (formSaveUser.passwordConf.$dirty||orgMgtCtrl.isSubmit) }"/>
                 <div ng-messages="formSaveUser.passwordConf.$error" ng-show="formSaveUser.passwordConf.$dirty ||orgMgtCtrl.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="passwordConf" translate>Enter password</label>
                     <label ng-message="noMatch" class="error" for="passwordConf" translate>2 passwords must be the same</label>
                 </div>
             </div>
         </div>
+
         <div class="row m-l-0 m-r-0" style="margin-top:20px">
             <div class="form-group m-0">
-                <label style="color: rgba(102, 102, 102,.7);margin-left:4px">
+                <label class="control-label" translate>
                     Status
                 </label>
                 <div class="option-group">
@@ -107,7 +92,7 @@
         </div>
         <div class="row m-l-0 m-r-0" style="margin-top:20px;">
             <div class="form-group m-0">
-                <label style="color: rgba(102, 102, 102,.7);margin-left:4px">
+                <label class="control-label" translate>
                     Role
                 </label>
                 <div class="option-group">
@@ -119,8 +104,9 @@
                             data-html="true"
                             data-content="User role will determine the user's permisssion level.">
                         <option value="Admin" translate>Admin</option>
-                        <option value="FrontOffice" translate>Front office</option>
-                        <option value="BackOffice" translate>Back office</option>
+                        <option value="user" translate>User</option>
+                        <!--<option value="FrontOffice" translate>Front office</option>
+                        <option value="BackOffice" translate>Back office</option>-->
                     </select>
                 </div>
             </div>

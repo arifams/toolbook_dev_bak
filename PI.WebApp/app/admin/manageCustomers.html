@@ -1,98 +1,86 @@
 ﻿<div>
-    <h2 class="box-title" ng-hide="vm.user.id != 0"> <translate> Add Customer </translate></h2>
-    <div class="col-sm-12">
+    <h2 class="box-title m-t-0" ng-hide="vm.user.id != 0"> <translate> Add Customer </translate></h2>
+    <div class="form-control col-sm-12 p-0">
     <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
     </div>
     <ng-form class="form-horizontal" name="formSaveCustomer">
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="firstname"
-                           required autofocus ng-model="vm.user.firstName" ng-minlength="3" ng-maxlength="100"
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>First name *</label>
+                <input type="text" name="firstname" class="form-control form-white"
+                      required autofocus ng-model="vm.user.firstName" ng-minlength="3" ng-maxlength="100"
                            ng-class="{ 'error': formSaveCustomer.firstname.$invalid && (formSaveCustomer.firstname.$dirty||vm.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">First name *</span>
-                    </label>
-
-                </span>
                 <div ng-messages="formSaveCustomer.firstname.$error" ng-show="formSaveCustomer.firstname.$dirty || vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
                 </div>
             </div>
+
         </div>
 
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="lastname"
-                           minlength="4" required ng-model="vm.user.lastName" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': formSaveCustomer.lastname.$invalid && (formSaveCustomer.lastname.$dirty||vm.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Last Name *</span>
-                    </label>
-                </span>
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Last name *</label>
+                <input type="text" name="lastname" class="form-control form-white"
+                       minlength="4" required ng-model="vm.user.lastName" ng-minlength="3" ng-maxlength="100"
+                           ng-class="{ 'error': formSaveCustomer.lastname.$invalid && (formSaveCustomer.lastname.$dirty||vm.isSubmit) }"/>
                 <div ng-messages="formSaveCustomer.lastname.$error" ng-show="formSaveCustomer.lastname.$dirty ||vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
                 </div>
             </div>
+
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="text" id="input-4" class="input__field input__field--hoshi" name="email"
-                           ng-model="vm.user.email" required ng-maxlength="100"
-                           ng-class="{ 'error': formSaveCustomer.email.$invalid && (formSaveCustomer.email.$dirty||vm.isSubmit) }">
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Email address *</span>
-                    </label>
-                </span>
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Email address *</label>
+                <input type="text" name="email" class="form-control form-white"
+                      ng-model="vm.user.email" required ng-maxlength="100"
+                      ng-class="{ 'error': formSaveCustomer.email.$invalid && (formSaveCustomer.email.$dirty||vm.isSubmit) }"/>
                 <div ng-messages="formSaveCustomer.email.$error" ng-show="formSaveCustomer.email.$dirty || vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="email" translate>Enter your email address</label>
                     <label ng-message="email" class="error error-label-marginleft" for="email" translate>Enter valid email address</label>
                 </div>
             </div>
+
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="password" id="input-4" class="input__field input__field--hoshi" name="password" 
-                           minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100"
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Password *</label>
+                <input type="password" name="password" class="form-control form-white"
+                       minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100"
                            ng-class="{ 'error': formSaveCustomer.password.$invalid && (formSaveCustomer.password.$dirty||vm.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Password *</span>
-                    </label>
-                </span>
                 <div ng-messages="formSaveCustomer.password.$error" ng-show="formSaveCustomer.password.$dirty ||vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="password" translate>Enter password</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="password" translate>Should contain a min of 8 characters including an upper case</label>
                     <label ng-message="noValidPassword" class="error error-label-marginleft" for="password" translate>Should contain a min of 8 characters including an upper case</label>
                 </div>
             </div>
+
         </div>
+
         <div class="row m-0">
-            <div class="form-group m-b-0">
-                <span class="input input--hoshi m-t-0 m-b-0">
-                    <input type="password" id="input-4" class="input__field input__field--hoshi" name="passwordConf" 
-                           minlength="8" required ng-model="vm.user.passwordConf" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': formSaveCustomer.passwordConf.$invalid && (formSaveCustomer.passwordConf.$dirty||vm.isSubmit) }" />
-                    <label for="input-4" class="input__label input__label--hoshi input__label--hoshi-color-1">
-                        <span class="input__label-content input__label-content--hoshi">Confirm Password *</span>
-                    </label>
-                </span>
+            <div class="form-group m-l-0 m-r-0">
+                <label class="control-label" translate>Confirm password *</label>
+                <input type="password" name="password" class="form-control form-white"
+                       minlength="8" required ng-model="vm.user.passwordConf" ng-minlength="3" ng-maxlength="100"
+                       ng-class="{ 'error': formSaveCustomer.passwordConf.$invalid && (formSaveCustomer.passwordConf.$dirty||vm.isSubmit) }"/>
                 <div ng-messages="formSaveCustomer.passwordConf.$error" ng-show="formSaveCustomer.passwordConf.$dirty ||vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="passwordConf" translate>Enter password</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="passwordConf" translate>Should contain a min of 8 characters including an upper case</label>
                     <label ng-message="noValidPassword" class="error error-label-marginleft" for="passwordConf" translate>Should contain a min of 8 characters including an upper case</label>
                 </div>
             </div>
+
         </div>
+
         <div class="row m-l-0 m-r-0" style="margin-top:20px">
             <div class="form-group m-0">
-                <label style="color: rgba(102, 102, 102,.7);margin-left:4px">
+                <label class="control-label" translate>
                     Status
                 </label>
                 <div class="option-group">
@@ -108,7 +96,7 @@
         </div>
         <div class="row m-l-0 m-r-0" style="margin-top:20px;">
             <div class="form-group m-0">
-                <label style="color: rgba(102, 102, 102,.7);margin-left:4px">
+                <label class="control-label" translate>
                     Role
                 </label>
                 <div class="option-group">
