@@ -228,7 +228,7 @@ namespace PI.Business
 
             var claimsIdentity = new ClaimsIdentity(claimsPrincipal.Claims.ToList(), "Custom");
 
-            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(20));
+            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(60));
 
             var securityTokenDescriptor = new SecurityTokenDescriptor()
             {
@@ -271,7 +271,7 @@ namespace PI.Business
                    new Claim("CompanyId",companyId )
               }, "Custom");
 
-            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(20));
+            Lifetime life = new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddMinutes(60));
 
             var securityTokenDescriptor = new SecurityTokenDescriptor()
             {

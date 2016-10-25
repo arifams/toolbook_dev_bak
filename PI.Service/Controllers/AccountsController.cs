@@ -220,9 +220,9 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetNewSignedToken")]
-        public IHttpActionResult GetNewSignedToken(string currentToken)
+        public async Task<IHttpActionResult> GetNewSignedToken(string currentToken)
         {
-            return Ok(customerManagement.GetJwtTokenFromCurrentToken(currentToken));
+            return  Ok(customerManagement.GetJwtTokenFromCurrentToken(currentToken));
         }
 
         [CustomAuthorize]
