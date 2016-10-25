@@ -22,15 +22,10 @@ namespace PI.Data.Migrations
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Shipments", t => t.ShipmentId)
                 .Index(t => t.ShipmentId);
-            
-            DropColumn("dbo.Shipments", "ErrorUrl");
-            DropColumn("dbo.Shipments", "ErrorMessage");
         }
         
         public override void Down()
         {
-            AddColumn("dbo.Shipments", "ErrorMessage", c => c.String());
-            AddColumn("dbo.Shipments", "ErrorUrl", c => c.String());
             DropForeignKey("dbo.ShipmentErrors", "ShipmentId", "dbo.Shipments");
             DropIndex("dbo.ShipmentErrors", new[] { "ShipmentId" });
             DropTable("dbo.ShipmentErrors");
