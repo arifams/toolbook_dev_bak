@@ -215,6 +215,16 @@ namespace PI.Service.Controllers
             }
         }
 
+
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetNewSignedToken")]
+        public async Task<IHttpActionResult> GetNewSignedToken(string currentToken)
+        {
+            return  Ok(customerManagement.GetJwtTokenFromCurrentToken(currentToken));
+        }
+
         [CustomAuthorize]
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)

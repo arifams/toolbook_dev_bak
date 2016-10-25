@@ -9,10 +9,12 @@
     angular.module('angular-jwt',
         [
             'angular-jwt.interceptor',
-            'angular-jwt.jwt'
+            'angular-jwt.jwt',
+          
         ]);
 
     angular.module('angular-jwt.interceptor', [])
+        
      .provider('jwtInterceptor', function () {
 
          this.urlParam = null;
@@ -86,7 +88,40 @@
                          $rootScope.$broadcast('forbidden', response);
                      }
                      return $q.reject(response);
-                 }
+                 },
+                 response: function (response) {
+                     debugger;
+
+                     var currentToken = localStorage.getItem('token');
+                     
+                     var initInjector = angular.injector(['ng']);
+                     var $http = initInjector.get('$http');
+                        
+
+                     function getNewToken() {
+                         return $http.get(serverBaseUrl + '/api/accounts/GetNewSignedToken', {
+                             params: {
+                                 currentToken: currentToken
+                             }
+                         });
+                     }
+                                         
+                     var token = getNewToken().success(function (data) {
+
+                         debugger;
+                         if (data!=null) {
+                             $window.localStorage.setItem('token', data);
+                         }
+                       
+                     })
+                      .error(function () {
+
+                           });
+                    
+
+                     return response;
+
+              }
              };
          }];
      });
