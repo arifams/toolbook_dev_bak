@@ -1339,13 +1339,16 @@ namespace PI.Business
                 // Save user context.
                 context.SaveChanges();
 
+
+                //var newUser = context.Users.Where(u => u.TenantId == tenantId
+                //                                         && (u.Email == userDto.Email)).SingleOrDefault();
                 // Add customer record for the newly added user.
 
                 //string roleId = userContext.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
                 //var businessOwnerRecord = userContext.Users.Where(x => x.TenantId == tenantId
                 //                                                     && x.Roles.Any(r => r.RoleId == roleId)).SingleOrDefault();
-
+                
 
                 customerManagement.SaveCustomer(new CustomerDto
                 {
@@ -1357,8 +1360,9 @@ namespace PI.Business
                     UserName = userDto.Email,
                     Password = userDto.Password,
                     IsCorpAddressUseAsBusinessAddress = true,
-                    UserId = userDto.Id,
-                    AddressId = 1//businessOwnerRecord.Id
+                    UserId = appUser.Id,
+                    AddressId = 1
+                    //businessOwnerRecord.Id
                 });
             }
             else

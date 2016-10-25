@@ -23,8 +23,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Business.Test", "PI.Busi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.StatusUpdater", "PI.StatusUpdater\PI.StatusUpdater.csproj", "{607F5DAD-376E-48AA-AF80-4BB613E81EEF}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PI.Scripts", "PI.Scripts\PI.Scripts.sqlproj", "{2E53DB71-3E7B-4C25-8B17-345100C2A43A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,12 +69,6 @@ Global
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
