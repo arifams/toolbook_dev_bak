@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Service", "PI.Service\PI.Service.csproj", "{94950D65-91E5-42B4-A329-1F295DECA7FB}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Business.Test", "PI.Business.Test\PI.Business.Test.csproj", "{9D37F341-B371-4BF5-A76B-25C2E4E214E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.StatusUpdater", "PI.StatusUpdater\PI.StatusUpdater.csproj", "{607F5DAD-376E-48AA-AF80-4BB613E81EEF}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "PI.Scripts", "PI.Scripts\PI.Scripts.sqlproj", "{2E53DB71-3E7B-4C25-8B17-345100C2A43A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,6 +71,12 @@ Global
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E53DB71-3E7B-4C25-8B17-345100C2A43A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
