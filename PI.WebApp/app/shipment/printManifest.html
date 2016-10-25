@@ -26,7 +26,7 @@
                                                        Pickup date *
                                                     </label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon">
-                                                        <input datetime-picker name="datetimepicker" class="form-control form-white" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
+                                                        <input datetime-picker name="datetimepicker" class="form-control" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
                                                                         (printmanifestform.datetimepicker.$dirty|| manifestCtrl.isSubmit) }" /><i class="icon-calendar"></i>
                                                         <div ng-messages="printmanifestform.datetimepicker.$error"
                                                              ng-show="printmanifestform.datetimepicker.$dirty || manifestCtrl.isSubmit">
@@ -55,7 +55,7 @@
                                             <div class="row">
                                                     <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate> Carrier *</label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12">
-                                                        <select class="form-control form-white" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
+                                                        <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
                                                                 ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
                                                             <option value="" translate>Select carrier</option>
                                                             <option value="UPS" translate>UPS</option>
