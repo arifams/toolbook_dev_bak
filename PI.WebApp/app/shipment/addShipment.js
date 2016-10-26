@@ -485,9 +485,8 @@
                 vm.shipment.carrierInformation.tarriffType = row.tariff_type
                 vm.shipment.carrierInformation.currency = row.currency
 
-                if (vm.consignorSearchText == "code123C") {
-                    vm.shipment.carrierInformation.totalPrice = 1;
-                }
+                // TODO: Remove later
+                vm.shipment.carrierInformation.totalPrice = 1;
 
                 initializePaymentForm();
 
