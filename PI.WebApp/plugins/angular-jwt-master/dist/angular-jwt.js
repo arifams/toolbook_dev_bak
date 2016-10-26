@@ -9,10 +9,12 @@
     angular.module('angular-jwt',
         [
             'angular-jwt.interceptor',
-            'angular-jwt.jwt'
+            'angular-jwt.jwt',
+          
         ]);
 
     angular.module('angular-jwt.interceptor', [])
+        
      .provider('jwtInterceptor', function () {
 
          this.urlParam = null;
@@ -61,7 +63,7 @@
                      });
                  },
                  responseError: function (response) {
-                     debugger;
+                      
                      // handle the case where the user is not authenticated
                      if (response.status === 401) {
                          var currentRole = $window.localStorage.getItem('userRole');
@@ -80,13 +82,46 @@
                      else if (response.status === 403) {
                          //redirect to login and clear the local storage
 
-                         $window.location = webBaseUrl + "/app/httpError/httpErrors.html";
+                         $window.location = webBaseUrl + "/app/httpError/httpError.html";
                          $window.localStorage.setItem('lastLogin', null);
 
                          $rootScope.$broadcast('forbidden', response);
                      }
                      return $q.reject(response);
-                 }
+                 },
+                 response: function (response) {
+                      
+
+                     var currentToken = localStorage.getItem('token');
+                     
+                     var initInjector = angular.injector(['ng']);
+                     var $http = initInjector.get('$http');
+                        
+
+                     function getNewToken() {
+                         return $http.get(serverBaseUrl + '/api/accounts/GetNewSignedToken', {
+                             params: {
+                                 currentToken: currentToken
+                             }
+                         });
+                     }
+                                         
+                     var token = getNewToken().success(function (data) {
+
+                          
+                         if (data!=null) {
+                             $window.localStorage.setItem('token', data);
+                         }
+                       
+                     })
+                      .error(function () {
+
+                           });
+                    
+
+                     return response;
+
+              }
              };
          }];
      });

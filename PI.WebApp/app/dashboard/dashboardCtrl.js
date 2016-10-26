@@ -37,77 +37,78 @@
                    return $scope.profile;
                };
           
-               angular.element(document).ready(function () {
+               //angular.element(document).ready(function () {
 
-                   loadProfilefactory.loadProfileinfo()
-                  .success(function (response) {
+               //    loadProfilefactory.loadProfileinfo()
+               //   .success(function (response) {
 
-                      $scope.profile = response;                      
+               //       $scope.profile = response;                      
 
-                      if (response.customerDetails != null) {
-                          vm.loadingSymbole = false;
-                          if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
-                          (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
-                          (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||
-                          (response.customerDetails.phoneNumber == null || response.customerDetails.phoneNumber == '')) {
+               //       if (response.customerDetails != null) {
+               //           vm.loadingSymbole = false;
+               //           debugger;
+               //           if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
+               //           (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
+               //           (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||
+               //           (response.customerDetails.phoneNumber == null || response.customerDetails.phoneNumber == '')) {
 
-                              $scope.modalInstance = $modal.open({
-                                  templateUrl: 'accountsetupwizard/accountSetup.html',
-                                  animation: true,
-                                  controller: 'accountSetupCtrl',
-                                  controllerAs: 'vm',
-                                  //size: '',
-                                  backdrop: 'static',
-                                  scope: $scope,
-                                  resolve: {
-                                      params: function () {
-                                          return {
-                                              level: 1,
-                                              response: response
-                                          };
-                                      }
-                                  }
-                              });
+               //               $scope.modalInstance = $modal.open({
+               //                   templateUrl: 'accountsetupwizard/accountSetup.html',
+               //                   animation: true,
+               //                   controller: 'accountSetupCtrl',
+               //                   controllerAs: 'vm',
+               //                   //size: '',
+               //                   backdrop: 'static',
+               //                   scope: $scope,
+               //                   resolve: {
+               //                       params: function () {
+               //                           return {
+               //                               level: 1,
+               //                               response: response
+               //                           };
+               //                       }
+               //                   }
+               //               });
 
-                         }
-                        else if ((response.customerDetails.customerAddress.zipCode == null || response.customerDetails.customerAddress.zipCode == '') ||
-                          (response.customerDetails.customerAddress.streetAddress1 == null || response.customerDetails.customerAddress.streetAddress1 == '') ||
-                          (response.customerDetails.customerAddress.number == null || response.customerDetails.customerAddress.number == '') ||
-                          (response.customerDetails.customerAddress.city == null || response.customerDetails.customerAddress.city == '') ||
-                         (response.customerDetails.customerAddress.country == null || response.customerDetails.customerAddress.country == ''))
-                          {
-                              $scope.modalInstance = $modal.open({
-                                  templateUrl: 'accountsetupwizard/accountSetup.html',
-                                  animation: true,
-                                  controller: 'accountSetupCtrl',
-                                  controllerAs: 'vm',
-                                  //size: '',
-                                  backdrop: 'static',
-                                  scope: $scope,
-                                  resolve: {
-                                      params: function () {
-                                          return {
-                                              level: 2,
-                                              response: response
-                                          };
-                                      }
-                                  }
-                              });
+               //          }
+               //         else if ((response.customerDetails.customerAddress.zipCode == null || response.customerDetails.customerAddress.zipCode == '') ||
+               //           (response.customerDetails.customerAddress.streetAddress1 == null || response.customerDetails.customerAddress.streetAddress1 == '') ||
+               //           (response.customerDetails.customerAddress.number == null || response.customerDetails.customerAddress.number == '') ||
+               //           (response.customerDetails.customerAddress.city == null || response.customerDetails.customerAddress.city == '') ||
+               //          (response.customerDetails.customerAddress.country == null || response.customerDetails.customerAddress.country == ''))
+               //           {
+               //               $scope.modalInstance = $modal.open({
+               //                   templateUrl: 'accountsetupwizard/accountSetup.html',
+               //                   animation: true,
+               //                   controller: 'accountSetupCtrl',
+               //                   controllerAs: 'vm',
+               //                   //size: '',
+               //                   backdrop: 'static',
+               //                   scope: $scope,
+               //                   resolve: {
+               //                       params: function () {
+               //                           return {
+               //                               level: 2,
+               //                               response: response
+               //                           };
+               //                       }
+               //                   }
+               //               });
     
-                          }                         
+               //           }                         
                     
-                      }                     
+               //       }                     
 
-                  })
-                  .error(function () {
-                      vm.loadingSymbole = false;
-                      vm.model.isServerError = "true";
-                      vm.loading = false;
-                  })
+               //   })
+               //   .error(function () {
+               //       vm.loadingSymbole = false;
+               //       vm.model.isServerError = "true";
+               //       vm.loading = false;
+               //   })
 
 
                   
-               });
+               //});
                
 
               // $scope.$on('$viewContentLoaded', function () {

@@ -82,6 +82,7 @@
                }
 
                vm.loadAllInvoices = function (status, from) {
+                   
                    debugger;
                    vm.loadingSymbole = true;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;

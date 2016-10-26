@@ -26,8 +26,9 @@ using System.Web.Http.Cors;
 
 namespace PI.Service.Controllers
 {
-      
-    [CustomAuthorize(Roles = "Admin,BackOffice,FrontOffice")]
+
+    [CustomAuthorize(Roles = "Admin,1st Line Support,2nd Line Support")]
+    //[CustomAuthorize(Roles = "Admin")]
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController
     {
@@ -495,12 +496,12 @@ namespace PI.Service.Controllers
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [CustomAuthorize(Roles = "Admin")]
-        [HttpGet]
+        //[CustomAuthorize(Roles = "Admin")]
+        [HttpPost]
         [Route("GetAllComapnies")]
-        public IHttpActionResult GetAllComapnies(string status = null, string searchText = null)
+        public IHttpActionResult GetAllComapnies(PagedList pageList)
         {
-            return Ok(companyManagement.GetAllComapnies(status, searchText));
+            return Ok(companyManagement.GetAllComapnies(pageList));
         }
 
 
