@@ -485,6 +485,9 @@
                 vm.shipment.carrierInformation.tarriffType = row.tariff_type
                 vm.shipment.carrierInformation.currency = row.currency
 
+                // TODO: Remove later
+                vm.shipment.carrierInformation.totalPrice = 1;
+
                 initializePaymentForm();
 
             }
@@ -548,7 +551,6 @@
                                    var body = $("html, body");
 
                                    // Show payment page.
-
                                    var paymentDto = {
                                        ChargeAmount: vm.shipment.carrierInformation.totalPrice,
                                        CurrencyType: vm.shipment.carrierInformation.currency,
