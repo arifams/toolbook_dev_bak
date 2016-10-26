@@ -485,9 +485,6 @@
                 vm.shipment.carrierInformation.tarriffType = row.tariff_type
                 vm.shipment.carrierInformation.currency = row.currency
 
-                // TODO: Remove later
-                vm.shipment.carrierInformation.totalPrice = 1;
-
                 initializePaymentForm();
 
             }
