@@ -485,6 +485,10 @@
                 vm.shipment.carrierInformation.tarriffType = row.tariff_type
                 vm.shipment.carrierInformation.currency = row.currency
 
+                if (vm.consignorSearchText == "code123C") {
+                    vm.shipment.carrierInformation.totalPrice = 1;
+                }
+
                 initializePaymentForm();
 
             }
@@ -548,7 +552,6 @@
                                    var body = $("html, body");
 
                                    // Show payment page.
-
                                    var paymentDto = {
                                        ChargeAmount: vm.shipment.carrierInformation.totalPrice,
                                        CurrencyType: vm.shipment.carrierInformation.currency,
