@@ -108,7 +108,7 @@
 
                       vm.loadCompanyByStatus = function (status) {
                            
-                          vm.searchComapnies(status, 10, 10, tableStateCopy);
+                          vm.searchComapnies(status, 0, 10, tableStateCopy);
                       };
 
                       vm.changeCompanyStatus = function (row) {
