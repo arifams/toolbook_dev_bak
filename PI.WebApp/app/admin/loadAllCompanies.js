@@ -5,11 +5,11 @@
                   function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller, customBuilderFactory, userManagementFactory) {
                       var vm = this;
                       vm.status = 'All';
-                      vm.itemsByPage = 25;
+                      vm.itemsByPage = 10;
                       vm.rowCollection = [];
                       vm.editUserBtnClick = false; // used for edit btn click function
                       vm.rightPaneLoad = false; // used for change table width
-
+                       
                       vm.closeWindow = function () {
                           ngDialog.close()
                       }
@@ -58,51 +58,57 @@
 
                       }
 
+                      var tableStateCopy;
 
-                      vm.searchComapnies = function () {
-
+                      vm.searchComapnies = function (status,startRecord, pageRecord, tableState) {
+                          
                           // Get values from view.
                           var userId = $window.localStorage.getItem('userGuid');
                           vm.userId = userId;
-                          var searchText = (vm.searchText == undefined || vm.searchText == "") ? null : vm.searchText;
-                          var status = (status == undefined || status == "" || status == "All") ? null : status;
 
+                          if (startRecord == undefined)
+                              startRecord = 0;
+                          if (pageRecord == undefined)
+                              pageRecord = 10;
+                          if (tableState == undefined)
+                              tableState = tableStateCopy;
 
-                          adminFactory.getAllComapnies(searchText, status)
+                          var pagedList = {
+                              dynamicContent: {
+                                  searchText : (vm.searchText == undefined || vm.searchText == "") ? null : vm.searchText,
+                                  status : (status == undefined || status == "" || status == "All") ? null : status
+                              },
+                              pageSize: pageRecord,
+                              currentPage: startRecord
+                          }
+
+                          adminFactory.getAllComapnies(pagedList)
                               .then(function successCallback(responce) {
-
+                                   
                                   vm.rowCollection = responce.data.content;
+                                  tableState.pagination.numberOfPages = responce.data.totalPages;
 
                               }, function errorCallback(response) {
                                   //todo
                               });
                       };
 
+                      
+                      vm.callServerSearch = function (tableState) {
 
-                      vm.searchComapnies = function (status) {
+                          tableStateCopy = tableState;
 
-                          // Get values from view.
-                          var userId = $window.localStorage.getItem('userGuid');
-                          vm.userId = userId;
-                          var searchText = (vm.searchText == undefined || vm.searchText == "") ? null : vm.searchText;
-                          var status = (status == undefined || status == "" || status == "All") ? null : status;
-
-                          adminFactory.getAllComapnies(searchText, status)
-                              .then(function successCallback(responce) {
-
-                                  vm.rowCollection = responce.data.content;
-                              }, function errorCallback(response) {
-                                  //todo
-                              });
+                          var start = tableState.pagination.start;
+                          var number = tableState.pagination.number;
+                          var numberOfPages = tableState.pagination.numberOfPages;
+                           
+                          vm.searchComapnies("",start, number, tableState);
                       };
 
-                      // Call search function in page load.
-                      vm.searchComapnies();
 
                       vm.loadCompanyByStatus = function (status) {
-
-
-                          vm.searchComapnies(status);
+                           
+                          vm.searchComapnies(status, 10, 10, tableStateCopy);
                       };
 
                       vm.changeCompanyStatus = function (row) {
@@ -247,7 +253,7 @@
                       };
 
                       vm.manageUsers = function () {
-                          debugger;
+                           
                           vm.rightPaneLoad = true;
                           vm.editUserBtnClick = true;
                           vm.user = {};
@@ -265,7 +271,7 @@
 
 
                       vm.createUser = function () {
-                          debugger;
+                           
 
                           vm.user.loggedInUserId = $window.localStorage.getItem('userGuid');
                           vm.user.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Account Activation</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Thank you for registering. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>';
@@ -273,7 +279,7 @@
 
                           userManagementFactory.createUser(vm.user)
                           .then(function (result) {
-                              debugger;
+                               
                               if (result.status == 200) {
                                   vm.close();
 
@@ -314,7 +320,7 @@
                       }
 
                       vm.close = function () {
-                          debugger;
+                           
                           vm.user = {};
                           //hide right pane
                           vm.rightPaneLoad = false;

@@ -39,7 +39,7 @@ namespace PI.Contract.Business
         IList<DivisionDto> GetAssignedDivisions(string userid);
         bool ChangeCompanyStatus(long comapnyId);
         int DeleteCostCenter(long id);
-        PagedList GetAllComapnies(string status, string searchtext);
+        PagedList GetAllComapnies(PagedList pageList);
         PagedList GetAllCostCenters(long divisionId, string type, string userId, string searchtext, int page = 1, int pageSize = 10,
                                          string sortBy = "Id", string sortDirection = "asc");
         CostCenterDto GetCostCentersById(long id, string userId);       

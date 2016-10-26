@@ -149,26 +149,27 @@
                        
                         <div class="row">
                             <div class="col-sm-12">
-                                <table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover" 
-                                       ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
+                                    <!--<table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover"
+                                           ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">-->
+                                <table st-pipe="vm.callServerSearch" st-table="vm.rowCollection" class="table table-hover" ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
                                     <thead>
                                         <tr>
                                             <th translate>Date</th>
-                                            <th st-sort="name" translate>Name</th>                                           
-                                            <th translate>Company</th>                                           
+                                            <th st-sort="name" translate>Name</th>
+                                            <th translate>Company</th>
                                             <th translate>Shipments</th>
                                             <th translate>View</th>
                                             <th translate>Status</th>
                                             <th translate>Invoice </th>
-                                            
+
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
-                                         <tr ng-repeat="row in vm.displayedCollection">
+
+                                        <tr ng-repeat="row in vm.rowCollection">
                                             <td>{{row.createdDate}}</td>
-                                            <td>{{row.firstName}} {{row.lastName}}</td>                                           
-                                            <td>{{row.corporateName}}</td> 
+                                            <td>{{row.firstName}} {{row.lastName}}</td>
+                                            <td>{{row.corporateName}}</td>
                                             <td>{{row.activeShipments}}</td>
                                             <td>
                                                 <button type="button" class="btn btn-sm btn-default"
@@ -188,17 +189,17 @@
                                                     {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
                                                 </button>
                                             </td>
-                                        <!--</tr>-->
+                                            <!--</tr>-->
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td colspan="5" class="text-center">
-                                                <div st-pagination="" st-items-by-page="itemsByPage"></div>
+                                                <div st-pagination="" st-items-by-page="10"></div>
                                             </td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                            </div>
+</div>
                             <div class="col-sm-4 manageuser-rightpane" ng-show="vm.rightPaneLoad == true" 
                                  ng-include="'admin/manageCustomers.html'"></div>
 

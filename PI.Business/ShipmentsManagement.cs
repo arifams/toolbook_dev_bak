@@ -694,7 +694,7 @@ namespace PI.Business
             pagedRecord.Content = new List<ShipmentDto>();
             
             // Get new updated shipment list again.
-            var updatedtContent = (from shipment in Shipments
+            var querableShipmentList = (from shipment in Shipments
                                    join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
                                    where shipment.IsDelete == false &&
                                    ((bool)shipmentSerach.DynamicContent.viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered &&
@@ -713,9 +713,11 @@ namespace PI.Business
                                      )
                                    ) &&
                                    !shipment.IsParent
-                                   select shipment).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+                                   select shipment);
 
-            foreach (var item in updatedtContent)
+            var shipmentList = querableShipmentList.OrderBy(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+
+            foreach (var item in shipmentList)
             {
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -796,7 +798,7 @@ namespace PI.Business
                 });
             }
             
-            pagedRecord.TotalRecords = Shipments.Count();
+            pagedRecord.TotalRecords = querableShipmentList.Count();
             pagedRecord.PageSize = shipmentSerach.PageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 

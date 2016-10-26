@@ -1506,7 +1506,7 @@ namespace PI.Business
         /// <param name="sortBy"></param>
         /// <param name="sortDirection"></param>
         /// <returns></returns>
-        public PagedList GetAllComapnies(string status, string searchtext)
+        public PagedList GetAllComapnies(PagedList pageList)
         {
             var pagedRecord = new PagedList();
 
@@ -1514,7 +1514,10 @@ namespace PI.Business
 
             string BusinessOwnerId = context.Roles.Where(r => r.Name == "BusinessOwner").Select(r => r.Id).FirstOrDefault();
 
-            var content = (from customer in context.Customers
+            string status = pageList.DynamicContent.status.ToString();
+            string searchtext = pageList.DynamicContent.searchText.ToString();
+
+            var querableContent = (from customer in context.Customers
                            join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
                            where customer.User.Roles.Any(r => r.RoleId == BusinessOwnerId) &&
                            customer.IsDelete == false &&
@@ -1525,9 +1528,9 @@ namespace PI.Business
                            {
                                Customer = customer,
                                Company = comapny
-                           }).ToList();
+                           });
 
-
+            var content = querableContent.OrderBy(d => d.Company.CreatedDate).Skip(pageList.CurrentPage).Take(pageList.PageSize).ToList();
 
             foreach (var item in content)
             {
@@ -1553,8 +1556,11 @@ namespace PI.Business
                 });
             }
 
-            return pagedRecord;
+            pagedRecord.TotalRecords = querableContent.Count();
+            pagedRecord.PageSize = pageList.PageSize;
+            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
+            return pagedRecord;
         }
 
 
