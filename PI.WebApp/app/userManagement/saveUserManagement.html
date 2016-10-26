@@ -99,13 +99,13 @@
                     </div>
 
                 </div>
-
-                <!--<div class="row m-0">
-                    <div class="form-group m-l-0 m-r-0" ng-show="userCtrl.user.id == 0 || userCtrl.user.id == null">
+     
+                <div class="row m-0">
+                    <div class="form-group m-l-0 m-r-0">
                         <label class="col-sm-4 control-label" translate>Password *</label>
                         <div class="col-sm-8">
                             <div class="append-icon">
-                                <input type="password" name="password" id="password" class="form-control password" placeholder="{{ 'Password *' | translate }}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
+                                <input type="password" name="password" id="password" class="form-control form-white" placeholder="{{ 'Password *' | translate }}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
                                        ng-model="userCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||userCtrl.isSubmit) }" valid-password-save />
                                 <i translate class="icon-info" rel="popover" data-container="body" data-toggle="popover"
                                    data-placement="top"
@@ -124,13 +124,13 @@
                             </div>
                         </div>
                     </div>
-                </div>-->
-                <!--<div class="row m-0">
-                    <div class="form-group m-l-0 m-r-0" ng-show="userCtrl.user.id == 0 || userCtrl.user.id == null">
+                </div>
+                <div class="row m-0">
+                    <div class="form-group m-l-0 m-r-0">
                         <label class="col-sm-4 control-label" translate>Confirm Password *</label>
                         <div class="col-sm-8">
                             <div class="append-icon">
-                                <input type="password" name="password_c" id="password_c" class="form-control password2" placeholder="{{'Confirm Password *' | translate}}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
+                                <input type="password" name="password_c" id="password_c" class="form-control form-white" placeholder="{{'Confirm Password *' | translate}}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
                                        ng-model="userCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||userCtrl.isSubmit) }" valid-password-c-save />
                                 <i class="icon-lock"></i>
                                 <div ng-messages="formSaveUser.password_c.$error" ng-show="formSaveUser.password_c.$dirty || userCtrl.isSubmit">
@@ -140,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                </div>-->
+                </div>
                 <!--<div class="row m-0">
                     <div class="form-group m-l-0 m-r-0">
                         <label class="col-sm-4 control-label" translate>User Role *</label>
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                     </div>
-                </div>-->
+                </div>
                 <!--<div class="row m-0">
                     <div class="form-group m-l-0 m-r-0" ng-show="userCtrl.user.divisions.length > 0">
                         <label class="col-sm-4 control-label" translate>Assigned Division(s) </label>

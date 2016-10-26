@@ -27,7 +27,7 @@ using System.Web.Http.Cors;
 namespace PI.Service.Controllers
 {
 
-    //[CustomAuthorize(Roles = "Admin,BackOffice,FrontOffice")]
+    [CustomAuthorize(Roles = "Admin,1st Line Support,2nd Line Support")]
     //[CustomAuthorize(Roles = "Admin")]
     [RoutePrefix("api/Admin")]
     public class AdminController : BaseApiController

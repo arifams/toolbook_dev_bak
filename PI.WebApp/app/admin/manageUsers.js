@@ -118,15 +118,15 @@
                 vm.user.salutation = 'Mr';
 
                 vm.user.roles = [{
-                    id: 'b1320df1-55f8-46a0-9754-13a0544658d4',
-                    roleName: 'BackOffice'
+                    id: '1',
+                    roleName: '1st Line Support'
                 },
                 {
-                    id: 'e97b4e4c-45de-4fb2-a322-5b876b7661d0',
-                    roleName: 'FrontOffice'
+                    id: '2',
+                    roleName: '2nd Line Support'
                 }];
 
-                vm.user.assignedRoleName = 'BackOffice';
+                vm.user.assignedRoleName = '1st Line Support';
             }
             else {
 
@@ -136,15 +136,14 @@
                 else
                     vm.user.isActive = 'false';
                 
-                vm.user.roles = [
-                {
-                    id: 'b1320df1-55f8-46a0-9754-13a0544658d4',
-                    roleName: 'BackOffice'
+                vm.user.roles = [{
+                    id: '1',
+                    roleName: '1st Line Support'
                 },
-                {
-                    id: 'e97b4e4c-45de-4fb2-a322-5b876b7661d0',
-                    roleName: 'FrontOffice'
-                }];
+                 {
+                     id: '2',
+                     roleName: '2nd Line Support'
+                 }];
 
                 vm.user.assignedRoleName = vm.user.roleName;
             }
