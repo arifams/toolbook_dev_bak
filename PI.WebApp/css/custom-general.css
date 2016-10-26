@@ -90,7 +90,7 @@
     background-color:#b1dbfb;
     min-height:20px;
 }
-#panel-footer1, #panel-footer2, #panel-footer3 {
+.panel-footer1 {
     background-color:#B1DBFB;
     min-height:5px;
     margin-bottom:1px;
