@@ -1938,7 +1938,7 @@ namespace PI.Business
             List<Data.Entity.Shipment> shipmentList = new List<Data.Entity.Shipment>();
             if (string.IsNullOrEmpty(reference))
             {
-                DateTime datetimeFromString = GetLocalTimeByUser(userId, Convert.ToDateTime(date)).Value;
+                DateTime datetimeFromString = Convert.ToDateTime(date);
                 shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, datetimeFromString, carreer);
             }
             else
