@@ -9,21 +9,13 @@
     angular.module('angular-jwt',
         [
             'angular-jwt.interceptor',
-            'angular-jwt.jwt'
+            'angular-jwt.jwt',
+          
         ]);
 
     angular.module('angular-jwt.interceptor', [])
-        //.factory('test', function ($http) {
-
-
-        //    return {
-        //        func1: function () {
-        //            console.log("test");
-        //        }
-        //    }
-
-        //})
-     .provider('jwtInterceptor', function ($http) {
+        
+     .provider('jwtInterceptor', function () {
 
          this.urlParam = null;
          this.authHeader = 'Authorization';
@@ -102,15 +94,30 @@
 
                      var currentToken = localStorage.getItem('token');
                      
-                     //var token = $http.get(serverBaseUrl + '/api/accounts/GetNewSignedToken', {
-                     //    params: {
-                     //        currentToken: currentToken
-                     //        }
-                     //    });                   
+                     var initInjector = angular.injector(['ng']);
+                     var $http = initInjector.get('$http');
+                        
 
-                     //if (token!=null) {
-                     //    $window.localStorage.setItem('token', token);
-                     //}
+                     function getNewToken() {
+                         return $http.get(serverBaseUrl + '/api/accounts/GetNewSignedToken', {
+                             params: {
+                                 currentToken: currentToken
+                             }
+                         });
+                     }
+                                         
+                     var token = getNewToken().success(function (data) {
+
+                         debugger;
+                         if (data!=null) {
+                             $window.localStorage.setItem('token', data);
+                         }
+                       
+                     })
+                      .error(function () {
+
+                           });
+                    
 
                      return response;
 
