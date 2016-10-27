@@ -6,7 +6,7 @@
                 <h4 class="text-center m-t-0">FILTER FINANCE</h4>
             </div>
             <div class="builder-container">
-
+           
                 <div class="row m-0">
                     <div class="form-group">
                         <label class="form-label">Invoice date</label>
@@ -19,11 +19,13 @@
                 </div>
                 <h4 class="border-top"></h4>
                 <div class="row m-0">
-                    <label class="form-label" translate>Status</label>
+                    <label class="form-label" translate >Status</label>
                     <div class="form-group">
 
                         <div class="option-group">
                             <select ng-model="invoiceCtrl.invoiceStatus" class="form-control form-white">
+                                    <!--ng-disabled="(currentRole == '1sst Line Support' ? true: false)">-->
+                              
                                 <option value='All' translate>Status: All</option>
                                 <option value='Pending' translate>Pending</option>
                                 <option value='Paid' translate>Paid</option>
@@ -62,7 +64,8 @@
         <div class="col-sm-4 col-md-4 col-xs-12">
             <div class="col-sm-6 col-md-6 col-xs-6 p-0" style="display:inline">
                 <div dropdown="" class="btn-group pull-right">
-                    <button data-toggle="dropdown" class="btn f-14" type="button" style="background-color:#f2f2f2;box-shadow:none" ng-click="invoiceCtrl.uploadInvoice('invoice')">
+                    <button data-toggle="dropdown" class="btn f-14" type="button" style="background-color:#f2f2f2;box-shadow:none" 
+                            ng-click="invoiceCtrl.uploadInvoice('invoice')"  ng-hide="(currentRole == '1st Line Support' ? true : false)">
                         <i aria-hidden="true" class="fa fa-upload" style="color:#319db5"></i>
                         <span style="color:#319db5">Import</span>
                     </button>
@@ -230,6 +233,7 @@
                                             <div class="option-group form-group m-0">
                                                 <select data-content="" data-html="true" data-placement="top" data-toggle="popover"
                                                         ng-model=row.invoiceStatus ng-change="invoiceCtrl.updateInvoiceStatus(row)"
+                                                        ng-disabled="(currentRole == '1st Line Support' ? true : false)"
                                                         data-container="body" rel="popover" name="status"
                                                         class="form-control form-white" data-original-title="">
                                                     <option value="Pending" translate>Pending</option>
@@ -356,6 +360,7 @@
                                         <td>
                                             <div class="option-group form-group m-0">
                                                 <select class="form-control form-white" ng-model=row.invoiceStatus
+                                                        ng-disabled="(currentRole == '1st Line Support' ? true : false)"
                                                         ng-change="invoiceCtrl.updateInvoiceStatus(row)">
                                                     <option value="Pending" translate>Pending</option>
                                                     <option value="Paid" translate>Paid</option>

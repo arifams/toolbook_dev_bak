@@ -1767,8 +1767,8 @@
                             <div id="sq-postal-code"></div>
 
                             <button class="btn btn-primary" ng-click="shipmentCtrl.chargeFromCard()" translate=""><span class="ng-scope">Charge from card</span></button>
-
-                            <div class="alert alert-warning"> {{shipmentCtrl.shipmentStatusMsg}} </div>
+                            
+                            <div class="alert alert-warning" ng-hide="shipmentCtrl.shipmentStatusMsg == ''"> {{shipmentCtrl.shipmentStatusMsg}} </div>
 
                         </div>
 
@@ -1780,7 +1780,6 @@
                                 <a href="{{shipmentCtrl.labelUrl}}" target="_blank" translate>Download the Label</a>
                             </div>
                             <div ng-hide="shipmentCtrl.isShowLabel">
-                                <!--<a href="{{shipmentCtrl.errorUrl}}" target="_blank" translate>Click here to see the error details</a>-->
                                 <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
 </div>

@@ -44,15 +44,8 @@
             });
         }
 
-
-        function getAllComapnies(searchText, status) {
-            
-            return $http.get(serverBaseUrl + '/api/Admin/GetAllComapnies', {
-                params: {
-                    status: status,
-                    searchText: searchText,
-                }
-            });
+        function getAllComapnies(pageList) {
+            return $http.post(serverBaseUrl + '/api/Admin/GetAllComapnies', pageList);
         }
         
                 

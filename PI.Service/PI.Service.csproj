@@ -282,6 +282,8 @@
     <None Include="Properties\PublishProfiles\PIServiceQA - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceUAT - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceUAT - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\TRANSPORTAL-QA-SERVICE - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\TRANSPORTAL-QA-SERVICE - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

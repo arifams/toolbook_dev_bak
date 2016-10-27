@@ -144,7 +144,9 @@ namespace PI.Service
 
             if (!string.IsNullOrEmpty(roles))
             {
-                if (!string.IsNullOrEmpty(tokenobjects.role) && roles.Equals(tokenobjects.role))
+                var roleArray = roles.Split(',');
+
+                if (!string.IsNullOrEmpty(tokenobjects.role) && roleArray.Contains(tokenobjects.role))
                 {
                     //return true;
                     return new HttpResponseMessage(HttpStatusCode.OK);

@@ -60,7 +60,7 @@
         vm.closeWindow = function () {
             ngDialog.close()
         }
-
+        vm.shipmentStatusMsg = '';
         vm.loadConsignerInfo = function () {
 
             shipmentFactory.getProfileInfo().success(
@@ -402,7 +402,7 @@
         //calculating the total volume and total weight
         vm.CalctotalWeightVolume = function () {
 
-            debugger;
+             
 
             var packages = vm.shipment.packageDetails.productIngredients;
             var count = 0;
@@ -470,7 +470,7 @@
             vm.searchRates = false;
             if (row != null) {
 
-                debugger;
+                 
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
@@ -544,24 +544,26 @@
                            // Called when the SqPaymentForm completes a request to generate a card
                            // nonce, even if the request failed because of an error.
                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-                               debugger;
+                               
                                if (errors) {
-                                   console.log("Encountered errors:");
-
                                    // This logs all errors encountered during nonce generation to the
                                    // Javascript console.
+                                   var errorList = '';
                                    errors.forEach(function (error) {
-                                       console.log('  ' + error.message);
+                                       errorList = errorList + error.message + '  ';
                                    });
 
+                                   $scope.$apply(function () {
+                                       vm.shipmentStatusMsg = errorList;
+                                       vm.loadingSymbole = false;
+                                   });
                                    // No errors occurred. Extract the card nonce.
                                } else {
 
-                                   debugger;
+                                    
                                    var body = $("html, body");
 
                                    // Show payment page.
-
                                    var paymentDto = {
                                        ChargeAmount: vm.shipment.carrierInformation.totalPrice,
                                        CurrencyType: vm.shipment.carrierInformation.currency,
@@ -637,7 +639,7 @@
         
         //section to set the shipment mode
         function addShipmentResponse(response) {
-            debugger;
+             
             vm.loadingSymbole = false;
             vm.shipmentStatusMsg = response.message;
             vm.isShowResponse = true;
@@ -669,7 +671,7 @@
             }
             else if (response.status == 5 || response.status == 6) {
                 // SISError.
-                debugger;
+                 
                 vm.shipmentReferenceName = response.shipmentReference;
                 vm.isShowPaymentForm = false;
             //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
@@ -855,7 +857,7 @@
         };
 
         vm.chargeFromCard = function () {
-
+            vm.shipmentStatusMsg = '';
             vm.loadingSymbole = true;
             paymentForm.requestCardNonce();
 
