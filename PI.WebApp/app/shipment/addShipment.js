@@ -67,6 +67,22 @@
                function (responce) {
                    if (responce != null) {
 
+                       debugger;
+                       if (responce.defaultVolumeMetricId==1) {
+
+                           vm.shipment.packageDetails.volumeCMM = "true";
+                       } else {
+
+                           vm.shipment.packageDetails.volumeCMM = "false";
+                       }
+
+                       if (responce.defaultWeightMetricId == 1) {
+
+                           vm.shipment.packageDetails.cmLBS == "true";
+                       } else {
+                           vm.shipment.packageDetails.cmLBS == "false";
+                       }
+
                        if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
                            //assigning customer address info to consigner details
                            vm.shipment.addressInformation.consigner.firstName = responce.customerDetails.firstName;
@@ -913,21 +929,17 @@
         var loadShipmentInfo = function (code, id) {
             shipmentFactory.loadShipmentInfo(code, id)
             .success(function (data) {
+
+                debugger;
                 vm.shipment = data;
 
-                if (vm.shipment.packageDetails.cmlbs == true) {
-                    vm.shipment.packageDetails.cmLBS = "true";
-                }
-                else {
-                    vm.shipment.packageDetails.cmLBS = "false";
-                }
 
-                if (vm.shipment.packageDetails.volumeCMM == true) {
-                    vm.shipment.packageDetails.volumeCMM = "true";
+                if (vm.shipment.packageDetails.isDG==true) {
+                    vm.shipment.packageDetails.isDG="true"
+                } else {
+                    vm.shipment.packageDetails.isDG = "false"
                 }
-                else {
-                    vm.shipment.packageDetails.volumeCMM = "false";
-                }
+                                
 
                 if (vm.shipment.packageDetails.isInsuared == "True") {
                     vm.shipment.packageDetails.isInsuared = "true";
