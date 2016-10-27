@@ -1146,7 +1146,7 @@
     </div>-->
 
     <div class="panel" id="divPackage">
-        <div class="panel-header" id="panel-footer2">
+        <div class="panel-header panel-footer1">
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
@@ -1276,10 +1276,10 @@
                                     <th translate> Product Type *  </th>
                                     <th translate> Quantity * </th>
                                     <th translate> Description * </th>
-                                    <th translate> Weight *  <p class="label-default" ng-show="shipmentCtrl.shipment.packageDetails.cmLBS=='true'">(Kg)</p> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (Lbs)</p> </th>
+                                    <th translate> Weight *  <span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.cmLBS=='true'">/(Kg)</span> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (Lbs)</p> </th>
                                     <th translate> Height * </th>
                                     <th translate> Length * </th>
-                                    <th translate> Width  *<p class="label-default" ng-show="shipmentCtrl.shipment.packageDetails.volumeCMM=='true'">(cm)</p> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (inch)</p>  </th>
+                                    <th translate> Width  *<span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.volumeCMM=='true'">/(cm)</span> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (inch)</p>  </th>
                                     <th style="text-align:center"></th>
                                     <th style="text-align:center"></th>
                                 </tr>
@@ -1327,10 +1327,10 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="form-group">
-                            <label class="col-sm-2 label-font" translate> Dangerous goods *</label>
+                            <label class="col-sm-2 control-label" translate> Dangerous goods *</label>
                             <div class="col-sm-3">
                                 <div class="input-group">                                   
-                                    <div class="inline">
+                                    <div class="icheck-inline ">
                                         <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value=true> <translate>Yes</translate> </label>
                                         <label><input type="radio" name="isDangerous" icheck ng-model="shipmentCtrl.shipment.packageDetails.isDG" value=false><translate>No</translate> </label>
                                     </div>
@@ -1458,20 +1458,20 @@
     </div>
 
     <div class="panel" id="divRatesCarrier">
-        <div class="panel-header" id="panel-footer3">
+        <div class="panel-header panel-footer1">
 
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="shipmentCtrl.vm.collapse3==true"><i class="fa fa-check"></i></button>
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="shipmentCtrl.collapse4==false"><i class="fa fa-check"></i></button>
                         <translate>Rates and Carrier Details</translate>
                     </h3>
                 </div>
             </div>
         </div>
         <!--<form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse4==true" ng-submit="ratesandCareerDetailsForm.$valid && shipmentCtrl.updateRates()" novalidate>-->
-        <form class="form-horizontal" name="ratesandCareerDetailsForm"collapse="shipmentCtrl.collapse3==true" ng-submit="ratesandCareerDetailsForm.$valid" novalidate>
-
+        <form class="form-horizontal" name="ratesandCareerDetailsForm" collapse="shipmentCtrl.collapse3==true" ng-submit="ratesandCareerDetailsForm.$valid" novalidate>
+           
             <div class="panel-content panel-default" style="height:auto;">
                 <fieldset>
                     <legend translate>Shipment Summary</legend>
@@ -1586,7 +1586,7 @@
                 </div>
                 <div class="row">
 
-                    <div class="col-sm-9">
+                    <div class="col-sm-7">
                         <button class="btn btn-primary" ng-click="shipmentCtrl.previousBtnClicked()" ng-disabled="shipmentCtrl.isPrevDisabled" translate>Previous</button>
                     </div>
                     <div class="col-sm-1">
@@ -1595,7 +1595,10 @@
                         </div>
                     </div>
                     <div class="col-sm-2">
-                        <button class="btn btn-primary no-margin" style="float:right;" type="button" ng-click="shipmentCtrl.calculateRates()" translate>Find Rates</button>
+                        <a class="btn btn-primary no-margin" href="#loadShipments" translate>Save as Draft</a>
+                    </div>
+                    <div class="col-sm-2">
+                        <button class="btn btn-primary no-margin" style="float:right;" type="button" ng-click="shipmentCtrl.calculateRates()" translate>Save and Find Rates</button>
                     </div>
                 </div>
                 <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
@@ -1655,7 +1658,27 @@
 
                 </div>
             </div>
-            <div class="panel-content panel-default" ng-show="shipmentCtrl.rateTable == true">
+            
+        </form>
+    </div>
+
+    <div class="panel" id="shipmentBooking">
+        <div class="panel-header panel-footer1">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3 class="select-options">
+                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
+                                ng-show="">
+                            <i class="fa fa-check"></i>
+                        </button>-->
+                        <translate>Shipment Booking</translate>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <form class="form-horizontal" name="calculateRatesForm" collapse="shipmentCtrl.collapse4" novalidate ng-submit="calculateRatesForm.$valid">
+          
+            <div class="panel-content panel-default">
                 <div class="row">
                     <div class="col-sm-12">
                         <fieldset>
@@ -1711,6 +1734,11 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-sm-2">
+                                    <button ng-click="shipmentCtrl.backToRates()" class="btn btn-primary" translate>
+                                        Previous
+                                    </button>
+                                </div>
 
                                 <div class="col-sm-2" style="float:right;" ng-show="shipmentCtrl.isInvoicePaymentEnabled && !shipmentCtrl.ratesNotAvailable">
                                     <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
@@ -1724,7 +1752,7 @@
                                     <button class="btn btn-primary" type="button" ng-click="shipmentCtrl.requestForQuote()" ng-disabled="!shipmentCtrl.isClickCalculateRate">Request for quote</button>
                                 </div>
 
-                               
+
                                 <div class="col-sm-2"></div>
                             </div>
                         </fieldset>
@@ -1733,6 +1761,61 @@
                 </div>
             </div>
         </form>
+        <div class="paymentForm panel" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse" style="background-color:white;padding:10px;margin-top:10px;">
+
+            <div class="row">
+
+                <div class="col-sm-12">
+
+                    <fieldset>
+
+                        <div class="row">
+
+                            <div class="col-sm-5" ng-show="shipmentCtrl.isShowPaymentForm">
+
+                                <label>Shipment :  {{shipmentCtrl.shipment.generalInformation.shipmentName}}/{{shipmentCtrl.savedShipmentId}}</label>
+                                <br />
+                                <label>Total Amount : {{shipmentCtrl.shipment.carrierInformation.totalPrice  | currency:"US $ "}}</label>
+                                <br />
+                                <label>Card Number</label>
+                                <div id="sq-card-number"></div>
+                                <label>CVV</label>
+                                <div id="sq-cvv"></div>
+                                <label>Expiration Date</label>
+                                <div id="sq-expiration-date"></div>
+                                <label>Postal Code</label>
+                                <div id="sq-postal-code"></div>
+
+                                <button class="btn btn-primary" ng-click="shipmentCtrl.chargeFromCard()" translate=""><span class="ng-scope">Charge from card</span></button>
+
+                                <div class="alert alert-warning" ng-hide="shipmentCtrl.shipmentStatusMsg == ''"> {{shipmentCtrl.shipmentStatusMsg}} </div>
+
+                            </div>
+
+                            <div class="col-sm-12" ng-hide="shipmentCtrl.isShowPaymentForm">
+
+                                <span> {{shipmentCtrl.shipmentStatusMsg}} </span>
+
+                                <div ng-show="shipmentCtrl.isShowLabel">
+                                    <a href="{{shipmentCtrl.labelUrl}}" target="_blank" translate>Download the Label</a>
+                                </div>
+                                <div ng-hide="shipmentCtrl.isShowLabel">
+                                    <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+
+                                </div>
+                                <div ng-show="shipmentCtrl.isShowInvoice">
+                                    <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </fieldset>
+                </div>
+            </div>
+
+        </div>
     </div>
 
     <div class="page-spinner-loader shipmentLoad" ng-show="shipmentCtrl.loadingSymbole" style="position:fixed !important;">
@@ -1741,60 +1824,6 @@
         <div class="bounce3"></div>
     </div>
 
-    <div class="paymentForm panel" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse" style="background-color:white;padding:10px;margin-top:10px;">
-
-        <div class="row">
-
-            <div class="col-sm-12">
-
-                <fieldset>
-
-                    <div class="row">
-
-                        <div class="col-sm-5" ng-show="shipmentCtrl.isShowPaymentForm">
-                            
-                            <label>Shipment :  {{shipmentCtrl.shipment.generalInformation.shipmentName}}/{{shipmentCtrl.savedShipmentId}}</label>
-                            <br />
-                            <label>Total Amount : {{shipmentCtrl.shipment.carrierInformation.totalPrice  | currency:"US $ "}}</label>
-                            <br/>
-                            <label>Card Number</label>
-                            <div id="sq-card-number"></div>
-                            <label>CVV</label>
-                            <div id="sq-cvv"></div>
-                            <label>Expiration Date</label>
-                            <div id="sq-expiration-date"></div>
-                            <label>Postal Code</label>
-                            <div id="sq-postal-code"></div>
-
-                            <button class="btn btn-primary" ng-click="shipmentCtrl.chargeFromCard()" translate=""><span class="ng-scope">Charge from card</span></button>
-                            
-                            <div class="alert alert-warning" ng-hide="shipmentCtrl.shipmentStatusMsg == ''"> {{shipmentCtrl.shipmentStatusMsg}} </div>
-
-                        </div>
-
-                        <div class="col-sm-12" ng-hide="shipmentCtrl.isShowPaymentForm">
-
-                            <span> {{shipmentCtrl.shipmentStatusMsg}} </span>
-
-                            <div ng-show="shipmentCtrl.isShowLabel">
-                                <a href="{{shipmentCtrl.labelUrl}}" target="_blank" translate>Download the Label</a>
-                            </div>
-                            <div ng-hide="shipmentCtrl.isShowLabel">
-                                <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
-
-</div>
-                            <div ng-show="shipmentCtrl.isShowInvoice">
-                                <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </fieldset>
-            </div>
-        </div>
-
-    </div>
+    
     
 </div>
