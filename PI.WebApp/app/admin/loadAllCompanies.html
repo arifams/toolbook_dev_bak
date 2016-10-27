@@ -148,11 +148,10 @@
                         </div>-->
                        
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
                                     <!--<table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover"
                                            ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">-->
-                                <table st-pipe="vm.callServerSearch" st-table="vm.rowCollection" class="table table-hover"
-                                       ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
+                                <table st-pipe="vm.callServerSearch" st-table="vm.rowCollection" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th translate>Date</th>

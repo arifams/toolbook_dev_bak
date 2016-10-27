@@ -87,7 +87,7 @@
                           adminFactory.getAllComapnies(pagedList)
                               .then(function successCallback(responce) {
                                    
-                                  vm.loadingSymbole = true;
+                                  vm.loadingSymbole = false;
                                   vm.rowCollection = responce.data.content;
                                   tableState.pagination.numberOfPages = responce.data.totalPages;
 
