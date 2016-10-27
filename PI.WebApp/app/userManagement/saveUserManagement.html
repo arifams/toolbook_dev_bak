@@ -99,36 +99,36 @@
                     </div>
 
                 </div>
-     
-                <div class="row m-0">
+
+                <div class="row m-l-0 m-r-0" style="margin-top:20px;">
                     <div class="form-group m-l-0 m-r-0">
-                        <label class="col-sm-4 control-label" translate>Password *</label>
-                        <div class="col-sm-8">
-                            <div class="append-icon">
-                                <input type="password" name="password" id="password" class="form-control form-white" placeholder="{{ 'Password *' | translate }}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
-                                       ng-model="userCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||userCtrl.isSubmit) }" valid-password-save />
-                                <i translate class="icon-info" rel="popover" data-container="body" data-toggle="popover"
-                                   data-placement="top"
-                                   data-html="true"
-                                   data-content="- At least 8 characters long. <br>
+                        <label class="control-label" translate>Password *</label>
+                        <div class="append-icon">
+                            <input type="password" name="password" id="password" class="form-control form-white" placeholder="{{ 'Password *' | translate }}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
+                                   ng-model="userCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||userCtrl.isSubmit) }" valid-password-save />
+                            <i translate class="icon-info" rel="popover" data-container="body" data-toggle="popover"
+                               data-placement="top"
+                               data-html="true"
+                               data-content="- At least 8 characters long. <br>
                             - <translate>Should at least contain</translate> ;
                             <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One lowercase letter.</translate>
                             <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One uppercase letter.</translate>
                             <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One special character.</translate>
                             <br> &nbsp;&nbsp;&nbsp;&nbsp; <translate>One digit.</translate>"
                                data-original-title="{{'Your Password should be'|translate}}:"></i>
-                                <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || userCtrl.isSubmit">
-                                    <label ng-message="required" class="error" for="password" translate>Enter your password</label>
-                                    <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
-                                </div>
-                            </div>
+                        </div>
+                        
+                        <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || userCtrl.isSubmit">
+                            <label ng-message="required" class="error" for="password" translate>Enter your password</label>
+                            <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
                         </div>
                     </div>
+
                 </div>
-                <div class="row m-0">
+
+                <div class="row m-l-0 m-r-0" style="margin-top:20px;">
                     <div class="form-group m-l-0 m-r-0">
-                        <label class="col-sm-4 control-label" translate>Confirm Password *</label>
-                        <div class="col-sm-8">
+                        <label class="control-label" translate>Confirm Password *</label>
                             <div class="append-icon">
                                 <input type="password" name="password_c" id="password_c" class="form-control form-white" placeholder="{{'Confirm Password *' | translate}}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
                                        ng-model="userCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||userCtrl.isSubmit) }" valid-password-c-save />
@@ -138,7 +138,6 @@
                                     <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
                 <!--<div class="row m-0">

@@ -159,6 +159,8 @@ namespace PI.Business
 
             Customer currentCustomer = this.GetCustomerByUserId(username);
             ApplicationUser applicationUser = this.GetUserById(username);
+            AccountSettings accountSettings = context.AccountSettings.Where(c => c.CustomerId == currentCustomer.Id).SingleOrDefault();
+
 
 
             //assigning basic customer details to Dto
@@ -173,6 +175,8 @@ namespace PI.Business
             currentProfile.CustomerDetails.PhoneNumber = currentCustomer.PhoneNumber;
             currentProfile.CustomerDetails.MobileNumber = currentCustomer.MobileNumber;
             currentAddress = this.GetAddressbyId(currentCustomer.AddressId);
+            currentProfile.DefaultVolumeMetricId = accountSettings.VolumeMetricId;
+            currentProfile.DefaultWeightMetricId = accountSettings.WeightMetricId;
 
             //assign address values to the  Profile Dto
             if (currentAddress != null)

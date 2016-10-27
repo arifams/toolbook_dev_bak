@@ -411,6 +411,7 @@ namespace PI.Business
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Pending,
                 PickUpDate = addShipment.CarrierInformation.PickupDate,
+                
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
@@ -1033,7 +1034,8 @@ namespace PI.Business
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
-                    CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString()
+                    CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
+                    IsDG=currentShipment.ShipmentPackage.IsDG
 
                 },
                 CarrierInformation = new CarrierInformationDto

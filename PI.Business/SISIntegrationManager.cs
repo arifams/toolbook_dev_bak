@@ -316,16 +316,31 @@ namespace PI.Business
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
-                data["codeshipment"] = codeShipment;
-                data["userid"] = userID;
-                data["password"] = password;
-                data["environment"] = environment;
+                if (carrier!="USP")
+                {
+                    data["codeshipment"] = codeShipment;
+                    data["userid"] = userID;
+                    data["password"] = password;
+                    data["environment"] = environment;
+                }
+                else
+                {
 
-                //data["codeshipment"] = "38165364";
-                //data["userid"] = "info@parcelinternational.com";
-                //data["password"] = "Shipper01";
-                //data["environment"] = "taleus";
+                    Data.Entity.Shipment currentShipment = context.Shipments.Where(s=>s.TrackingNumber== trackingNumber).SingleOrDefault();
+                    if (currentShipment==null)
+                    {
+                        return null;
+                    }
 
+                    data["country_from"] = currentShipment.ConsignorAddress.Country;
+                    data["city_from"] = currentShipment.ConsignorAddress.City;
+                    data["country_to"] = currentShipment.ConsigneeAddress.Country;
+                    data["city_to"] = currentShipment.ConsigneeAddress.City;
+                    data["userid"] = userID;
+                    data["password"] = password;
+                    data["environment"] = environment;
+                }
+               
 
                 var response = wb.UploadValues(URL, "POST", data);
                 var responseString = Encoding.Default.GetString(response);

@@ -1728,3 +1728,22 @@ a.list-group-item:focus, a.list-group-item:hover {
 .widget-infobox .infobox {
     margin-right:14px;
 }
+#panel-footer2 {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
+}
+#panel-footer3 {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
+}shipmentBooking
+
+ #shipmentBooking {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
+}
