@@ -750,8 +750,8 @@
             vm.loadAllShipmentServices();
         }
 
-        //vm.selectExpress();
-        vm.selectall();
+        vm.selectExpress();
+        //vm.selectall();
 
         vm.submitShipment = function () {
             
