@@ -3502,7 +3502,7 @@ namespace PI.Business
                 // Set width
                 for (int i = 1; i < 22; i++)
                 {
-                    ws.Column(i).Width = 25;
+                    ws.Column(i).Width = 34;
                 }
 
                 return excel.GetAsByteArray();

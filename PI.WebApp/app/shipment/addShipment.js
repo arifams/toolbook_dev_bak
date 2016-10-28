@@ -357,7 +357,6 @@
                 vm.collapse1 = true;
                 vm.collapse2 = false;
                
-
             }
             vm.consignInfoisSubmit = true
 
@@ -369,7 +368,7 @@
             if (value) {
                 vm.collapse2 = true;
                 vm.collapse3 = false;
-
+                vm.collapse4 = true;
                
             }
             vm.packageDetailsisSubmit = true
@@ -462,6 +461,9 @@
 
         vm.selectCarrier = function (row) {
 
+            vm.collapse3 = true;
+            vm.collapse4 = false;
+
             vm.rateTable = true;
             customBuilderFactory.selectRateRow();
 
@@ -470,7 +472,7 @@
             vm.searchRates = false;
             if (row != null) {
 
-                 
+                
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
@@ -481,6 +483,7 @@
                 var declaredVal = vm.shipment.packageDetails.declaredValue;
 
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
+                   
                     insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
@@ -492,6 +495,7 @@
                     //    insurance = 5;
                     //}
                 }
+                
 
                 vm.shipment.carrierInformation.insurance = insurance;
                 total = parseFloat(row.price) + parseFloat(insurance);
@@ -505,6 +509,14 @@
 
             }
         }
+
+        vm.backToRates = function () {
+            vm.collapse3 = false;
+            vm.collapse4 = true;
+            vm.isShowPaymentForm = false;
+            vm.isShowResponse = false;
+        }
+
 
         vm.isShowLabel = false;
         vm.isPrevDisabled = false;
@@ -738,8 +750,8 @@
             vm.loadAllShipmentServices();
         }
 
-        //vm.selectExpress();
-        vm.selectall();
+        vm.selectExpress();
+        //vm.selectall();
 
         vm.submitShipment = function () {
             

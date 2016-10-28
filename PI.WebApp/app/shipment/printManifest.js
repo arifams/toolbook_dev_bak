@@ -89,6 +89,10 @@
                     vm.showManifest = true;
                        
                    }
+                   else {
+                       vm.showEdit = true;
+                       vm.showError = true;
+                   }
                  
                }).error(function (error) {
                    vm.showEdit = true;
