@@ -23,6 +23,8 @@
                            
                            vm.ExportExcel = function () {
                                 
+                               vm.loadingSymbole = true;
+
                                var status = (vm.status == undefined || vm.status == 'All' || vm.status == null || vm.status == "") ? null : vm.status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
@@ -32,7 +34,7 @@
 
                                shipmentFactory.loadAllShipmentsForAdminExcelExport(vm.CompanyId, status, startDate, endDate, number, source, destination)
                               .success(function (data, status, headers) {
-
+                                  vm.loadingSymbole = false;
                                   var octetStreamMime = 'application/octet-stream';
                                   var success = false;
 
@@ -143,13 +145,14 @@
                                shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue,startRecord,pageRecord)
                                .then(function (responce) {
                                      
+                                   vm.loadingSymbole = false;
                                     if (responce.data.content != null) {
                                         vm.rowCollection = responce.data.content;
                                       
                                         tableState.pagination.numberOfPages = responce.data.totalPages;
 
                                         vm.noShipments = false;
-                                        vm.loadingSymbole = false;
+                                     
 
                                         vm.setCSVData(responce);
 

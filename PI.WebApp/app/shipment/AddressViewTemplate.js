@@ -14,6 +14,7 @@
                //set selected address details
                $scope.selectAddress = function (address) {
                    if (consignor) {
+                       $scope.shipmentCtrl.shipment.addressInformation.consigner.companyName = address.companyName;
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.firstName = address.firstName;
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.lastName = address.lastName;
                        $scope.shipmentCtrl.shipment.addressInformation.consigner.country = address.country;
@@ -29,6 +30,7 @@
                        $scope.shipmentCtrl.closeWindow();
                        
                    } else {
+                       $scope.shipmentCtrl.shipment.addressInformation.consignee.companyName = address.companyName;
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.firstName = address.firstName;
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.lastName = address.lastName;
                        $scope.shipmentCtrl.shipment.addressInformation.consignee.country = address.country;
