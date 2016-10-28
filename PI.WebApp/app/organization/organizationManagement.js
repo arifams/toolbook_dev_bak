@@ -118,14 +118,19 @@
                 vm.user.salutation = 'Mr';
 
                 vm.user.roles = [{
-                    id: '440ad8ee-f212-4c83-b9be-e032e0d07192',
+                    id: '1',
+                    roleName: 'BusinessOwner'
+                }
+                , {
+                    id: '2',
                     roleName: 'Manager'
                 }];
+
 
                 vm.user.assignedRoleName = 'Manager';
             }
             else {
-
+                debugger;
                 // Exisiting user.
                 if (vm.user.status == 'Active')
                     vm.user.isActive = 'true';
@@ -133,9 +138,13 @@
                     vm.user.isActive = 'false';
 
                 vm.user.roles = [{
-                    id: '440ad8ee-f212-4c83-b9be-e032e0d07192',
-                    roleName: 'Manager'
-                }];
+                    id: '1',
+                    roleName: 'BusinessOwner'
+                },
+               {
+                   id: '2',
+                   roleName: 'Manager'
+               }];
 
                 vm.user.assignedRoleName = vm.user.roleName;
             }
