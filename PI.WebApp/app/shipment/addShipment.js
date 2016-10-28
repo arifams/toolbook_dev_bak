@@ -67,6 +67,22 @@
                function (responce) {
                    if (responce != null) {
 
+                       debugger;
+                       if (responce.defaultVolumeMetricId==1) {
+
+                           vm.shipment.packageDetails.volumeCMM = "true";
+                       } else {
+
+                           vm.shipment.packageDetails.volumeCMM = "false";
+                       }
+
+                       if (responce.defaultWeightMetricId == 1) {
+
+                           vm.shipment.packageDetails.cmLBS == "true";
+                       } else {
+                           vm.shipment.packageDetails.cmLBS == "false";
+                       }
+
                        if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
                            //assigning customer address info to consigner details
                            vm.shipment.addressInformation.consigner.firstName = responce.customerDetails.firstName;
@@ -341,7 +357,6 @@
                 vm.collapse1 = true;
                 vm.collapse2 = false;
                
-
             }
             vm.consignInfoisSubmit = true
 
@@ -353,7 +368,7 @@
             if (value) {
                 vm.collapse2 = true;
                 vm.collapse3 = false;
-
+                vm.collapse4 = true;
                
             }
             vm.packageDetailsisSubmit = true
@@ -446,6 +461,9 @@
 
         vm.selectCarrier = function (row) {
 
+            vm.collapse3 = true;
+            vm.collapse4 = false;
+
             vm.rateTable = true;
             customBuilderFactory.selectRateRow();
 
@@ -454,7 +472,7 @@
             vm.searchRates = false;
             if (row != null) {
 
-                 
+                
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
@@ -465,6 +483,7 @@
                 var declaredVal = vm.shipment.packageDetails.declaredValue;
 
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
+                   
                     insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
@@ -476,6 +495,7 @@
                     //    insurance = 5;
                     //}
                 }
+                
 
                 vm.shipment.carrierInformation.insurance = insurance;
                 total = parseFloat(row.price) + parseFloat(insurance);
@@ -485,13 +505,18 @@
                 vm.shipment.carrierInformation.tarriffType = row.tariff_type
                 vm.shipment.carrierInformation.currency = row.currency
 
-                // TODO: Remove later
-                vm.shipment.carrierInformation.totalPrice = 1;
-
                 initializePaymentForm();
 
             }
         }
+
+        vm.backToRates = function () {
+            vm.collapse3 = false;
+            vm.collapse4 = true;
+            vm.isShowPaymentForm = false;
+            vm.isShowResponse = false;
+        }
+
 
         vm.isShowLabel = false;
         vm.isPrevDisabled = false;
@@ -725,8 +750,8 @@
             vm.loadAllShipmentServices();
         }
 
-        //vm.selectExpress();
-        vm.selectall();
+        vm.selectExpress();
+        //vm.selectall();
 
         vm.submitShipment = function () {
             
@@ -918,21 +943,17 @@
         var loadShipmentInfo = function (code, id) {
             shipmentFactory.loadShipmentInfo(code, id)
             .success(function (data) {
+
+                debugger;
                 vm.shipment = data;
 
-                if (vm.shipment.packageDetails.cmlbs == true) {
-                    vm.shipment.packageDetails.cmLBS = "true";
-                }
-                else {
-                    vm.shipment.packageDetails.cmLBS = "false";
-                }
 
-                if (vm.shipment.packageDetails.volumeCMM == true) {
-                    vm.shipment.packageDetails.volumeCMM = "true";
+                if (vm.shipment.packageDetails.isDG==true) {
+                    vm.shipment.packageDetails.isDG="true"
+                } else {
+                    vm.shipment.packageDetails.isDG = "false"
                 }
-                else {
-                    vm.shipment.packageDetails.volumeCMM = "false";
-                }
+                                
 
                 if (vm.shipment.packageDetails.isInsuared == "True") {
                     vm.shipment.packageDetails.isInsuared = "true";

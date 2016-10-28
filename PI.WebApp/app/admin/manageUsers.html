@@ -21,8 +21,8 @@
                                 <th>First Name</th>
                                 <th>Last Name</th>
                                 <th>Role</th>
-                                <th>Status</th>
-                                <th>Edit</th>
+                                <th style="text-align:center">Status</th>
+                                <th style="text-align:center">Edit</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -30,12 +30,12 @@
                                 <td>{{row.firstName}}</td>
                                 <td>{{row.lastName}}</td>
                                 <td>{{row.roleName}}</td>
-                                <td>
+                                <td style="text-align:center">
                                     <span ng-class="row.status == 'Active' ? 'label label-active active-status' : 'label label-inactive inactive-status'">
                                         {{row.status}}
                                     </span>
                                 </td>
-                                <td>
+                                <td style="text-align:center">
                                     <!--<a href="#/saveUserManagement/{{row.id}}"
                                        class="edit btn btn-sm btn-default" ng-hide="{{ userStrl.userId == row.id }}">
                                         <i class="icon-note"></i>
@@ -61,7 +61,7 @@
                      ng-include="'userManagement/saveUserManagement.html'" > </div>
            
             </div>
-        <div id="panel-notif"></div>
+        
         <div class="page-spinner-loader customLoad" ng-show="userCtrl.loadingSymbole">
             <div class="bounce1"></div>
             <div class="bounce2"></div>
@@ -71,4 +71,5 @@
         </div>
 
 </div>
+<div id="panel-notif"></div>
 

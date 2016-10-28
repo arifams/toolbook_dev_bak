@@ -9,7 +9,8 @@
                       vm.rowCollection = [];
                       vm.editUserBtnClick = false; // used for edit btn click function
                       vm.rightPaneLoad = false; // used for change table width
-                       
+                      vm.loadingSymbole = true;
+
                       vm.closeWindow = function () {
                           ngDialog.close()
                       }
@@ -65,6 +66,7 @@
                           // Get values from view.
                           var userId = $window.localStorage.getItem('userGuid');
                           vm.userId = userId;
+                          vm.loadingSymbole = true;
 
                           if (startRecord == undefined)
                               startRecord = 0;
@@ -85,16 +87,19 @@
                           adminFactory.getAllComapnies(pagedList)
                               .then(function successCallback(responce) {
                                    
+                                  vm.loadingSymbole = false;
                                   vm.rowCollection = responce.data.content;
                                   tableState.pagination.numberOfPages = responce.data.totalPages;
 
                               }, function errorCallback(response) {
                                   //todo
+                                  vm.loadingSymbole = false;
                               });
                       };
 
                       
                       vm.callServerSearch = function (tableState) {
+                          vm.loadingSymbole = true;
 
                           tableStateCopy = tableState;
 

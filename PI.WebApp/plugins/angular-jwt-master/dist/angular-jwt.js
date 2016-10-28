@@ -63,7 +63,7 @@
                      });
                  },
                  responseError: function (response) {
-                      
+                    
                      // handle the case where the user is not authenticated
                      if (response.status === 401) {
                          var currentRole = $window.localStorage.getItem('userRole');
@@ -90,7 +90,7 @@
                      return $q.reject(response);
                  },
                  response: function (response) {
-                      
+                    
 
                      var currentToken = localStorage.getItem('token');
                      
@@ -108,7 +108,7 @@
                                          
                      var token = getNewToken().success(function (data) {
 
-                          
+                        
                          if (data!=null) {
                              $window.localStorage.setItem('token', data);
                          }

@@ -147,6 +147,7 @@ registerExternalUser, ngAuthSettings) {
                  else if (returnedResult.data.result == "-1") {
                      //vm.loginInvalid = true;
                      //vm.loginInvalidMessage = "Incorrect UserName/Password";
+                     vm.signInLodingSymbole = false;
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
 
@@ -168,11 +169,13 @@ registerExternalUser, ngAuthSettings) {
                  }
                  else if (returnedResult.data.result == "-2") {
                      vm.invalidToken = true;
+                     //vm.signInLodingSymbole = false;
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');
                  }
                  else if (returnedResult.data.result == "-11") {
                      vm.loginInvalid = true;
+                     //vm.signInLodingSymbole = false;
                      vm.loginInvalidMessage = $rootScope.translate("You must have a confirmed email to log in!");
                      $cookieStore.remove('username');
                      $cookieStore.remove('password');

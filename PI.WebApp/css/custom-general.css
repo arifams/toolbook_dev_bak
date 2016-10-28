@@ -90,7 +90,7 @@
     background-color:#b1dbfb;
     min-height:20px;
 }
-#panel-footer1, #panel-footer2, #panel-footer3 {
+.panel-footer1 {
     background-color:#B1DBFB;
     min-height:5px;
     margin-bottom:1px;
@@ -140,23 +140,23 @@
     border: 3px solid #319DB5;
 }
 #t_express1 {
-    background: url('/proj_img/shipment_icons.png') -618px 0px;                                     
+    background: url('/proj_img/shipment_icons.png') -10px 0px;                                     
     background-repeat: no-repeat; 
 }
 #t_express2 {
-    background: url('/proj_img/shipment_icons.png') -10px 0px;
-    background-repeat: no-repeat;
-}
-#t_express3 {
     background: url('/proj_img/shipment_icons.png') -165px 0px;
     background-repeat: no-repeat;
 }
-#t_express4 {
+#t_express3 {
     background: url('/proj_img/shipment_icons.png') -310px 0px;
     background-repeat: no-repeat;
 }
-#t_express5 {
+#t_express4 {
     background: url('/proj_img/shipment_icons.png') -470px 0px;
+    background-repeat: no-repeat;
+}
+#t_express5 {
+    background: url('/proj_img/shipment_icons.png') -618px 0px;
     background-repeat: no-repeat;
 }
 
@@ -1727,4 +1727,23 @@ a.list-group-item:focus, a.list-group-item:hover {
 }
 .widget-infobox .infobox {
     margin-right:14px;
+}
+#panel-footer2 {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
+}
+#panel-footer3 {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
+}shipmentBooking
+
+ #shipmentBooking {
+    background-color:#B1DBFB;
+    min-height:5px;
+    margin-bottom:1px;
+    border-top:1px solid #fff;
 }

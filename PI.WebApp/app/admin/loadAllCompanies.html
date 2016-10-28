@@ -48,9 +48,9 @@
                     </div>
                 </div>
                 <hr>
-                <a href="javascript:void(0)" ng-click="vm.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff">APPLY </a>
+                <a href="javascript:void(0)" ng-click="vm.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-309px">APPLY </a>
 
-                <a href="javascript:void(0)" ng-click="vm.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style">RESET FILTERS</a>
+                <a href="javascript:void(0)" ng-click="vm.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style" style="bottom:-311px">RESET FILTERS</a>
 
 
             </div>
@@ -82,7 +82,7 @@
     </div>
 
     <div class="row m-0">
-        <div class="col-sm-4 col-md-4 col-xs-12 input-group pull-left">
+        <div class="col-sm-5 col-md-5 col-xs-12 input-group pull-left">
             <input ng-model="vm.searchText" name="searchText" type="text" class="form-control form-white custom-search2"
                    placeholder= "{{'Search by First Name, Last Name or Company Name'| translate}}" />
 
@@ -93,7 +93,7 @@
                 </button>
             </span>
         </div>
-        <div class="col-sm-8 col-md-8 col-xs-12 p-0 btn-wrapper">
+        <div class="col-sm-7 col-md-7 col-xs-12 p-0 btn-wrapper">
             <button type="button" style="width:auto;" class="btn btn-primary m-r-0" ng-click="vm.manageUsers(null)" translate>
                 <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New customer
             </button>
@@ -148,19 +148,19 @@
                         </div>-->
                        
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
                                     <!--<table st-table="vm.displayedCollection" st-safe-src="vm.rowCollection" class="table table-hover"
                                            ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">-->
-                                <table st-pipe="vm.callServerSearch" st-table="vm.rowCollection" class="table table-hover" ng-class="vm.rightPaneLoad == true ? 'manageuser-table-halfwidth' : 'manageuser-table-fullwidth'" style="overflow-x:auto">
+                                <table st-pipe="vm.callServerSearch" st-table="vm.rowCollection" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th translate>Date</th>
                                             <th st-sort="name" translate>Name</th>
                                             <th translate>Company</th>
                                             <th translate>Shipments</th>
-                                            <th translate>View</th>
-                                            <th translate>Status</th>
-                                            <th translate>Invoice </th>
+                                            <th style="text-align:center" translate>View</th>
+                                            <th style="text-align:center" translate>Status</th>
+                                            <th style="text-align:center" translate>Invoice </th>
 
                                         </tr>
                                     </thead>
@@ -171,21 +171,21 @@
                                             <td>{{row.firstName}} {{row.lastName}}</td>
                                             <td>{{row.corporateName}}</td>
                                             <td>{{row.activeShipments}}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-sm btn-default"
+                                            <td style="text-align:center">
+                                                <button type="button" class="btn btn-sm btn-primary btn-transparent"
                                                         ng-click="vm.ViewCompany(row)">
-                                                    <i class="fa fa-hand-o-right"></i>
+                                                    <i class="fa fa-eye"></i>
                                                 </button>
                                             </td>
 
-                                            <td>
-                                                <button type="button" class="btn btn-success"
-                                                        ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn btn-success':'btn btn-default' ">
+                                            <td style="text-align:center">
+                                                <button type="button"
+                                                        ng-click="vm.changeCompanyStatus(row)" ng-class="row.status ? 'btn btn-sm btn-success f-15':'btn btn-sm btn-default f-13' ">
                                                     {{ (row.status ? 'Active' : 'Inactive') }}
                                                 </button>
                                             </td>
-                                            <td>
-                                                <button type="button" class="btn btn-primary" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn-danger':'btn-primary' ">
+                                            <td style="text-align:center">
+                                                <button type="button" ng-click="vm.changeInvoiceSetting(row)" ng-class="row.isInvoiceEnabled ? 'btn btn-sm btn-danger f-15':'btn btn-sm btn-primary f-15' ">
                                                     {{ (row.isInvoiceEnabled ? 'Disable'  : 'Enable') }}
                                                 </button>
                                             </td>
@@ -199,13 +199,18 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-</div>
+                                </div>
                             <div class="col-sm-4 manageuser-rightpane" ng-show="vm.rightPaneLoad == true" 
                                  ng-include="'admin/manageCustomers.html'"></div>
 
                         </div>
                
             </form>
+        </div>
+        <div class="page-spinner-loader customLoad" ng-show="vm.loadingSymbole">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
         </div>
     </div>
     <div id="panel-notif"></div>
