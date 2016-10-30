@@ -410,7 +410,7 @@ namespace PI.Business
                 CarrierDescription=addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Pending,
-                PickUpDate = addShipment.CarrierInformation.PickupDate,
+                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?) addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
                 
                 IsActive = true,
                 IsParent = false,
@@ -467,7 +467,7 @@ namespace PI.Business
                     CarrierCost = addShipment.CarrierInformation.Price,
                     InsuranceCost = addShipment.CarrierInformation.Insurance,
                     PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate ?? null,
+                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
                     EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
                     WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                     VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
@@ -691,6 +691,16 @@ namespace PI.Business
                 Shipments.AddRange(this.GetshipmentsByUserId(shipmentSerach.UserId));
             }
 
+            DateTime? startDate = null, endDate = null;
+            if(!string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()))
+            {
+                // Convert to utc
+                startDate = Convert.ToDateTime(shipmentSerach.DynamicContent.startDate.ToString());
+                startDate = startDate.Value.ToUniversalTime();
+
+                endDate = Convert.ToDateTime(shipmentSerach.DynamicContent.endDate.ToString());
+                endDate = endDate.Value.ToUniversalTime();
+            }
 
             pagedRecord.Content = new List<ShipmentDto>();
             
@@ -707,7 +717,7 @@ namespace PI.Business
                                                     : shipmentSerach.DynamicContent.status.ToString() == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
                                                     : (shipmentSerach.DynamicContent.status.ToString() == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), shipmentSerach.DynamicContent.status.ToString())))
                                                    ) &&
-                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()) || (shipment.ShipmentPackage.EarliestPickupDate >= DateTime.Parse(shipmentSerach.DynamicContent.startDate.ToString()) && shipment.ShipmentPackage.EarliestPickupDate <= DateTime.Parse(shipmentSerach.DynamicContent.endDate.ToString()))) &&
+                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()) || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                        (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.number.ToString()) || (!string.IsNullOrEmpty(shipment.TrackingNumber) && shipment.TrackingNumber.Contains(shipmentSerach.DynamicContent.number.ToString())) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(shipmentSerach.DynamicContent.number.ToString()))) &&
                                        (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.Country.Contains(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.City.Contains(shipmentSerach.DynamicContent.source.ToString())) &&
                                        (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.Country.Contains(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.City.Contains(shipmentSerach.DynamicContent.destination.ToString()))
@@ -766,7 +776,7 @@ namespace PI.Business
                         ShipmentReferenceName = item.ShipmentReferenceName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         IsFavourite = item.IsFavourite,
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
@@ -793,7 +803,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?) context.GetLocalTimeByUser(shipmentSerach.UserId, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -1015,7 +1025,7 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd MMM yyyy"),
                     Status = currentShipment.Status.ToString(),
                     ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
                 },
@@ -1042,7 +1052,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = currentShipment.PickUpDate,
+                    PickupDate = currentShipment.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.PickUpDate.Value) : null,
                     CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
 
@@ -1191,7 +1201,10 @@ namespace PI.Business
             shipment.TrackingNumber = response.Awb;
             result.AddShipmentXML = response.AddShipmentXML;
 
-            shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
+            // SIS will return the pacific time zone. So need to convert it to user time zone
+            DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
+            shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(shipment.CreatedBy, utcPickupDate);
+
             shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
             shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
@@ -1543,7 +1556,7 @@ namespace PI.Business
                     //ShipmentTermCode = currentShipment.ShipmentTermCode,
                     //ShipmentTypeCode = currentShipment.ShipmentTypeCode,
                     TrackingNumber = currentShipment.TrackingNumber,
-                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                    CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd MMM yyyy"),
                     Status = currentShipment.Status.ToString(),
                     ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId),
                     CreatedBy = currentShipment.CreatedBy
@@ -1569,7 +1582,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = currentShipment.PickUpDate,
+                    PickupDate = context.GetLocalTimeByUser(currentShipment.CreatedBy, Convert.ToDateTime(currentShipment.PickUpDate).ToUniversalTime()),
                     //CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
 
@@ -1839,6 +1852,11 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
+            if (startDate.HasValue)
+                startDate = startDate.Value.ToUniversalTime();
+            if(endDate.HasValue)
+                endDate = endDate.Value.ToUniversalTime();
+
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false &&
                            shipment.Status == (short)ShipmentStatus.BookingConfirmation &&
@@ -1895,7 +1913,7 @@ namespace PI.Business
 
 
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
@@ -1920,7 +1938,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?) context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -1998,7 +2016,7 @@ namespace PI.Business
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -2022,7 +2040,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -2401,9 +2419,10 @@ namespace PI.Business
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
-                    EarliestPickupDate = currentShipment.ShipmentPackage.EarliestPickupDate.ToString(),
-                    EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.ToString()
-
+                    EarliestPickupDate = currentShipment.ShipmentPackage.EarliestPickupDate.HasValue ?
+                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
+                    EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.HasValue ?
+                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
                 },
 
                 VatNo = currentShipment.Division.Company.VATNumber
@@ -2663,7 +2682,7 @@ namespace PI.Business
 
 
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
@@ -2688,7 +2707,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -2766,7 +2785,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy,item.CreatedDate).Value.ToString("MM/dd/yyyy"), //item.CreatedDate.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy,item.CreatedDate).Value.ToString("dd MMM yyyy"), //item.CreatedDate.ToString("MM/dd/yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -2793,7 +2812,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -2816,6 +2835,11 @@ namespace PI.Business
             string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
 
             pagedRecord.Content = new List<ShipmentDto>();
+
+            if (startDate.HasValue)
+                startDate = startDate.Value.ToUniversalTime();
+            if (endDate.HasValue)
+                endDate = endDate.Value.ToUniversalTime();
 
             IQueryable<Shipment> querableContent = (from shipment in context.Shipments
                            where shipment.IsDelete == false &&
@@ -2907,7 +2931,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -2935,7 +2959,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate,
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null,
                         Provider=item.Provider
                     }
 
@@ -2959,6 +2983,11 @@ namespace PI.Business
             short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
 
             var Content = new List<ShipmentDto>();
+
+            if (startDate.HasValue)
+                startDate = startDate.Value.ToUniversalTime();
+            if (endDate.HasValue)
+                endDate = endDate.Value.ToUniversalTime();
 
             //using (var context = PIContext.Get())
             //{
@@ -3028,7 +3057,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3055,7 +3084,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -3103,6 +3132,11 @@ namespace PI.Business
 
 
             var shipments = new List<ShipmentDto>();
+
+            if (startDate.HasValue)
+                startDate = startDate.Value.ToUniversalTime();
+            if (endDate.HasValue)
+                endDate = endDate.Value.ToUniversalTime();
 
             var content = (from shipment in Shipments
                            where shipment.IsDelete == false && !shipment.IsParent &&
@@ -3215,7 +3249,7 @@ namespace PI.Business
                         ShipmentName = item.ShipmentName,
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         IsFavourite = item.IsFavourite,
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
@@ -3242,7 +3276,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -3416,15 +3450,15 @@ namespace PI.Business
                     cell.Value = shipment.AddressInformation.Consigner.Country;
 
                     cell = ws.Cells[rowIndex, 21];
-                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
+                    cell.Style.Numberformat.Format = "dd MMM yyyy";
                     cell.Value = shipment.GeneralInformation.CreatedDate;
 
                     cell = ws.Cells[rowIndex, 22];
-                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
-                    cell.Value = shipment.CarrierInformation.PickupDate;
+                    cell.Style.Numberformat.Format = "dd MMM yyyy";
+                    cell.Value = shipment.CarrierInformation.PickupDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipment.CreatedBy, shipment.CarrierInformation.PickupDate.Value) : null;
 
                     cell = ws.Cells[rowIndex, 23];
-                    cell.Style.Numberformat.Format = "dd/MM/yyyy";
+                    cell.Style.Numberformat.Format = "dd MMM yyyy";
                     cell.Value = shipment.CarrierInformation.DeliveryTime;
 
 
@@ -3552,10 +3586,10 @@ namespace PI.Business
                     cell.Value = shipment.CreatedDate;
 
                     cell = ws.Cells[rowIndex, 8];
-                    cell.Value = shipment.PickupDate;
+                    cell.Value = context.GetLocalTimeByUser(shipment.UserId, Convert.ToDateTime(shipment.PickupDate));
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = shipment.DeliveryTime; ////
+                    cell.Value = shipment.DeliveryTime;
 
                     cell = ws.Cells[rowIndex, 10];
                     cell.Value = shipment.ShipmentDescription;
@@ -3620,6 +3654,11 @@ namespace PI.Business
             var roleName = context.Roles.Where(r => r.Id == roleId).FirstOrDefault().Name;
 
             IList<Data.Entity.Shipment> shipmentList = null;
+
+            if (startDate.HasValue)
+                startDate = startDate.Value.ToUniversalTime();
+            if (endDate.HasValue)
+                endDate = endDate.Value.ToUniversalTime();
 
             if (roleName == "Admin" || roleName == "BusinessOwner")
             {
@@ -3719,7 +3758,7 @@ namespace PI.Business
                     ShipmentName = item.ShipmentName,
                     ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                     TrackingNumber = item.TrackingNumber,
-                    CreatedDate = item.CreatedDate.ToString("MM/dd/yyyy"),
+                    CreatedDate = item.CreatedDate.ToString("dd MMM yyyy"),
                     Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                     IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                     IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3742,8 +3781,8 @@ namespace PI.Business
                     //CarrierInformation                       
                     CarrierName = item.Carrier.Name,
                     serviceLevel = item.ServiceLevel,
-                    PickupDate = item.PickUpDate == null ? null : DateTime.Parse(item.PickUpDate.ToString()).ToString("dd/MM/yyyy"),
-                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd/MM/yyyy")
+                    PickupDate = item.PickUpDate.HasValue ? context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value).ToString("dd MMM yyyy") : string.Empty,
+                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy")
 
                 });
             }
@@ -3951,7 +3990,7 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("MM/dd/yyyy"),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
@@ -3978,7 +4017,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -4082,6 +4121,19 @@ namespace PI.Business
         public DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime)
         {
             return context.GetLocalTimeByUser(loggedUserId, utcDatetime);
+        }
+
+        public DateTime GetSISTaleUSTime(DateTime datetime)
+        {
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time");
+            DateTime sisTime = TimeZoneInfo.ConvertTimeFromUtc(datetime, cstZone);
+
+            return sisTime;
+        }
+
+        public DateTime GetUTCTimeFromSISTaleUS(DateTime datetime)
+        {
+            return TimeZoneInfo.ConvertTime(datetime, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"), TimeZoneInfo.Utc);
         }
     }
 
