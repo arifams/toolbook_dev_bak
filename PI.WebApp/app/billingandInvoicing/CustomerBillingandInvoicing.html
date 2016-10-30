@@ -233,7 +233,7 @@
                                         </td>
                                         <td style="text-align:center">
                                             <!--if invoiceStatus == 'Pending'-->
-                                            <button type="button" class="btn btn-sm btn-primary"
+                                            <button type="button" class="btn btn-sm btn-primary" ng-show="invoiceStatus == 'Pending'"
                                                     ng-click="customerinvoiceCtrl.payInvoice(row)" translate>
                                                 Pay
                                             </button>

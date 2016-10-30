@@ -8,7 +8,7 @@ namespace PI.Contract.DTOs.Dashboard
 {
     public class DashboardShipments
     {
-        public int PendingStatusCount;
+        public int DraftStatusCount;
 
         public int InTransitStatusCount;
 
@@ -19,6 +19,14 @@ namespace PI.Contract.DTOs.Dashboard
         public int DelayedStatusCount;
 
         public int BookingConfStatusCount;
+
+        public int PickeduptatusCount;
+
+        public int OutForDeliveryStatusCount;
+
+        public int ErrorStatusCount;
+
+        public int DeletedStatusCount;
 
         public int allStatusCount;
 

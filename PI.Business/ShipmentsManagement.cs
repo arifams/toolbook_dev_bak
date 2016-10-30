@@ -3845,26 +3845,30 @@ namespace PI.Business
 
             var allShipments = Shipments.Where(s => s.IsParent == false).ToList();
 
-            shipmentCounts.PendingStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
-            shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
-            shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit || x.Status == (short)ShipmentStatus.Pickup || x.Status == (short)ShipmentStatus.OutForDelivery).Count();
-            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception || x.Status == (short)ShipmentStatus.Claim).Count();
+            shipmentCounts.DraftStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Draft).Count();
             shipmentCounts.BookingConfStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.BookingConfirmation).Count();
+            shipmentCounts.PickeduptatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pickup ).Count();
+            shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
+            shipmentCounts.OutForDeliveryStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.OutForDelivery).Count();
+            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+            shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
+            shipmentCounts.ErrorStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
+            shipmentCounts.DeletedStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Deleted).Count();
             shipmentCounts.allStatusCount = allShipments.Count();
 
 
-            var delayed = (from shipment in allShipments
-                           join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
-                           join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
-                           where shipment.Status != (short)ShipmentStatus.Delivered &&
-                           history.CreatedDate > package.EstDeliveryDate.Value &&
-                           !shipment.IsParent
-                           select shipment).Count();
+            //var delayed = (from shipment in allShipments
+            //               join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
+            //               join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
+            //               where shipment.Status != (short)ShipmentStatus.Delivered &&
+            //               history.CreatedDate > package.EstDeliveryDate.Value &&
+            //               !shipment.IsParent
+            //               select shipment).Count();
 
-            shipmentCounts.DelayedStatusCount = delayed;
+            //shipmentCounts.DelayedStatusCount = delayed;
 
             return shipmentCounts;
-            //}
+            
         }
 
 

@@ -70,8 +70,9 @@ namespace PI.Contract.Enums
         Delivered,
         Deleted,
         Exception,
-        Claim,    
-        
+        Claim,
+        Draft,
+
     }
 
 
