@@ -62,10 +62,12 @@
                vm.GenerateManifest = function () {
                    vm.showEdit = false;              
                    career=vm.carrier;
-
-                   if (vm.Date == null && career==null) {
-                       vm.Date = '';
+                   
+                   if (career == undefined || career == null) {
                        career = '';
+                   }
+                   if (vm.Date == undefined || vm.Date == null) {
+                       vm.Date = '';
                    }
 
                    if (vm.reference==null) {

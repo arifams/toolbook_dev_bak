@@ -143,6 +143,7 @@
                                        number: (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber,
                                        source: (vm.originCityCountry == undefined) ? null : vm.originCityCountry,
                                        destination: (vm.desCityCountry == undefined) ? null : vm.desCityCountry,
+                                       viaDashboard: false
                                    },
                                    pageSize: number,
                                    currentPage: start
@@ -159,7 +160,7 @@
                                    headers = headers();
 
                                    // Get the filename from the x-filename header or default to "download.bin"
-                                   var filename = headers['x-filename'] || 'AddressBook.xlsx';
+                                   var filename = headers['x-filename'] || 'ShipmentDetails.xlsx';
 
                                    // Determine the content type from the header or default to "application/octet-stream"
                                    var contentType = headers['content-type'] || octetStreamMime;
