@@ -745,7 +745,7 @@
 
 
             file.upload = Upload.upload({
-                url: serverBaseUrl + '/api/Admin/UploadLogo',
+                url: serverBaseUrl + '/api/Company/UploadLogo',
                 data: {
                     file: file,
                     userId: $window.localStorage.getItem('userGuid'),
