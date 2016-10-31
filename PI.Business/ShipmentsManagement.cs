@@ -866,16 +866,28 @@ namespace PI.Business
         }
 
         //get shipments by user ID and created date
-        public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
+        private List<Shipment> GetshipmentsByUserIdAndPickupdDate(string userId, DateTime pickupDate, string carreer)
         {
-            List<Shipment> currentShipments = null;
+            // Need to convert saved times on shipment entity back to user specific time zone.
+            var shipmentIdList = context.Shipments.Where(x =>
+                                                         x.CreatedBy == userId &&
+                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber))
+                                                         .Select(s => new
+                                                         {
+                                                             Id = s.Id,
+                                                             PickUpDate = s.PickUpDate
+                                                         }).ToList();
 
-            currentShipments = 
-                context.Shipments.Where(x => x.CreatedBy == userId &&
-                x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && 
-                //this.GetLocalTimeByUser(userId, x.CreatedDate.Date) == createdDate.Date &&
-                x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            
+            List<Shipment> currentShipments = new List<Shipment>();
+
+            foreach (var shipment in shipmentIdList)
+            {
+                if(shipment.PickUpDate.HasValue && GetLocalTimeByUser(userId, shipment.PickUpDate.Value).Value.Date == pickupDate.Date)
+                {
+                    currentShipments.Add(context.Shipments.Where(sh => sh.Id == shipment.Id).First());
+                }
+            }
+
             return currentShipments;
         }
 
@@ -1951,7 +1963,7 @@ namespace PI.Business
             if (string.IsNullOrEmpty(reference))
             {
                 DateTime datetimeFromString = Convert.ToDateTime(date);
-                shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, datetimeFromString, carreer);
+                shipmentList = this.GetshipmentsByUserIdAndPickupdDate(userId, datetimeFromString, carreer);
             }
             else
             {
