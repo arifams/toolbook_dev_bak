@@ -62,6 +62,8 @@
 
 
 
+        vm.shipmentReferenceName = '';
+        vm.shipmentChanged = false;
         vm.closeWindow = function () {
             ngDialog.close()
         }
@@ -438,6 +440,8 @@
             vm.searchRates = false;
             vm.previousClicked = false;
             vm.rateTable = false;
+            vm.shipmentChanged = false;
+
 
             vm.shipment.packageDetails.preferredCollectionDate = vm.shipment.packageDetails.preferredCollectionDateLocal + " " + new Date().getHours() + ":" + ("0" + new Date().getMinutes()).slice(-2);
 
@@ -863,8 +867,85 @@
                             });
         }
 
-        vm.isShowPaymentForm = false;
 
+       function saveShipmentAsDraft() {
+
+           debugger;
+
+
+            vm.loadingSymbole = true;
+
+            vm.addingShipment = true;
+            var body = $("html, body");
+
+            vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
+
+            if ($window.localStorage.getItem('userRole') == 'Admin') {
+                vm.shipment.userId = $window.localStorage.getItem('businessOwnerId');
+            } else {
+            vm.shipment.userId = $window.localStorage.getItem('userGuid');
+            }
+
+                // Save shipment in database.
+            shipmentFactory.saveShipment(vm.shipment).success(
+                        function (response) {
+                                vm.addingShipment = false;
+
+                                if (response.status == 2) {
+
+                                    vm.loadingSymbole = false;
+                                    body.stop().animate({
+                                        scrollTop: 0
+                                    }, '500', 'swing', function () { });
+                                    $('#panel-notif').noty({
+                                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate("saved as Draft") + '!</p></div>',
+                                        layout: 'bottom-right',
+                                        theme: 'made',
+                                        animation: {
+                                            open: 'animated bounceInLeft',
+                                            close: 'animated bounceOutLeft'
+                                        },
+                                        timeout: 6000,
+                                    });
+
+
+                                }
+                                else {
+                                    vm.addingShipment = false;
+                                    body.stop().animate({
+                scrollTop: 0 }, '500', 'swing', function () { });
+                                    $('#panel-notif').noty({
+                text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate("Error occured while saving the Shipment") + '!</p></div>',
+                                                layout: 'bottom-right',
+                                            theme: 'made',
+                                                animation : {
+                                                open: 'animated bounceInLeft',
+                                                close: 'animated bounceOutLeft'
+                                        },
+                                            timeout: 6000,
+                                    });
+                                        }
+                            }).error(function (error) {
+                                vm.loadingSymbole = false;
+                                $('#panel-notif').noty({
+                                                text: '<div class="alert alert-danger media fade in"><p>' +$rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
+                                            layout: 'bottom-right',
+                                                theme : 'made',
+                                                animation: {
+                                                open: 'animated bounceInLeft',
+                                                close: 'animated bounceOutLeft'
+                                                },
+                                                timeout: 6000,
+                                        });
+                            });
+                            }
+
+       vm.isShowPaymentForm = false;
+
+       vm.openLabel = function (url) {
+           window.open(url);
+       }
+        
         vm.payOnline = function () {
             vm.shipment.generalInformation.shipmentPaymentTypeId = 2; // Payment type is Online.
 
@@ -876,6 +957,11 @@
             //vm.isShowPaymentForm = true;
             //paymentForm.build();
         };
+
+        vm.saveAsDraft = function myfunction() {
+
+            saveShipmentAsDraft();
+        }
 
         vm.chargeFromCard = function () {
             vm.shipmentStatusMsg = '';
@@ -948,6 +1034,12 @@
             vm.collapse3 = true;
             vm.previousClicked = true;
         }
+
+        vm.selectShipmentType = function () {
+
+            vm.shipmentChanged = true;
+       }
+
 
         var loadShipmentInfo = function (code, id) {
             shipmentFactory.loadShipmentInfo(code, id)

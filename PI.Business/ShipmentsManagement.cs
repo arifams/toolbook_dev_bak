@@ -287,7 +287,8 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
+           // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
 
 
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
@@ -866,16 +867,28 @@ namespace PI.Business
         }
 
         //get shipments by user ID and created date
-        public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
+        private List<Shipment> GetshipmentsByUserIdAndPickupdDate(string userId, DateTime pickupDate, string carreer)
         {
-            List<Shipment> currentShipments = null;
+            // Need to convert saved times on shipment entity back to user specific time zone.
+            var shipmentIdList = context.Shipments.Where(x =>
+                                                         x.CreatedBy == userId &&
+                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber))
+                                                         .Select(s => new
+                                                         {
+                                                             Id = s.Id,
+                                                             PickUpDate = s.PickUpDate
+                                                         }).ToList();
 
-            currentShipments = 
-                context.Shipments.Where(x => x.CreatedBy == userId &&
-                x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && 
-                //this.GetLocalTimeByUser(userId, x.CreatedDate.Date) == createdDate.Date &&
-                x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            
+            List<Shipment> currentShipments = new List<Shipment>();
+
+            foreach (var shipment in shipmentIdList)
+            {
+                if(shipment.PickUpDate.HasValue && GetLocalTimeByUser(userId, shipment.PickUpDate.Value).Value.Date == pickupDate.Date)
+                {
+                    currentShipments.Add(context.Shipments.Where(sh => sh.Id == shipment.Id).First());
+                }
+            }
+
             return currentShipments;
         }
 
@@ -1260,10 +1273,22 @@ namespace PI.Business
                 {
                     // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
                     result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                   // shipment.BlobUrl = result.LabelURL;
                 }
                 else
                 {
-                    result.LabelURL = response.PDF;
+                    if (shipment.Carrier.Name=="TNT")
+                    {
+                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                    }
+                    else
+                    {
+                        result.LabelURL = response.PDF;
+                    }
+                  
+
+
+                   // shipment.BlobUrl = response.PDF;
                 }
                 result.ShipmentId = shipment.Id;
                 shipment.Status = (short)ShipmentStatus.BookingConfirmation;
@@ -1271,6 +1296,9 @@ namespace PI.Business
                 //adding the shipment label to azure
                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
+                var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
+                var Url= getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+                result.LabelURL = Url;
             }
 
             if (shipmentError != null)
@@ -1951,7 +1979,7 @@ namespace PI.Business
             if (string.IsNullOrEmpty(reference))
             {
                 DateTime datetimeFromString = Convert.ToDateTime(date);
-                shipmentList = this.GetshipmentsByUserIdAndCreatedDate(userId, datetimeFromString, carreer);
+                shipmentList = this.GetshipmentsByUserIdAndPickupdDate(userId, datetimeFromString, carreer);
             }
             else
             {
@@ -2051,6 +2079,8 @@ namespace PI.Business
                                                                           + "/" + (shipmentId.ToString() + ".pdf");
             return fileAbsoluteURL;
         }
+
+      
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
