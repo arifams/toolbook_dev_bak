@@ -856,13 +856,16 @@ namespace PI.Business
         }
 
         //get shipments by user ID and created date
-        public List<Data.Entity.Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
+        public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
         {
-            List<Data.Entity.Shipment> currentShipments = null;
-            //using (PIContext context = PIContext.Get())
-            //{
-            currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            //}
+            List<Shipment> currentShipments = null;
+
+            currentShipments = 
+                context.Shipments.Where(x => x.CreatedBy == userId &&
+                x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && 
+                //this.GetLocalTimeByUser(userId, x.CreatedDate.Date) == createdDate.Date &&
+                x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
+            
             return currentShipments;
         }
 
