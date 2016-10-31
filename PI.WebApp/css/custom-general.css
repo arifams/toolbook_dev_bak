@@ -1627,6 +1627,7 @@ width:10px;
 .list-group-item { /*overwrite bootstrap css*/
     border:none;
     background-color:#f5f5f5;
+    padding:10px 10px;
 }
 a.list-group-item:focus, a.list-group-item:hover {
     background-color:#f5f5f5;
