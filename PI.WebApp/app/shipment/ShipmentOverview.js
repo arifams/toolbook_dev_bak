@@ -35,10 +35,13 @@
                    
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
+                       debugger;
                        vm.locationHistory = data;
 
                        if (vm.locationHistory.info != null) {
+                         
                            vm.step = vm.locationHistory.info.status;
+                         //  vm.step = 2;
                        }
                        if (vm.locationHistory.history != null && vm.locationHistory.history.items.length > 0) {
                            for (var i = 0; i < vm.locationHistory.history.items.length; i++) {
@@ -55,30 +58,30 @@
 
                        }
 
-                       if ($("#simple-map").length) {
-                           simple_map = new GMaps({
-                               el: '#simple-map',
-                               lat: lat,
-                               lng: lng,
-                               zoomControl: true,
-                               zoomControlOpt: {
-                                   style: 'SMALL',
-                                   position: 'TOP_LEFT'
-                               },
-                               panControl: false,
-                               streetViewControl: false,
-                               mapTypeControl: false,
-                               overviewMapControl: false
-                           });
-                           simple_map.addMarker({
-                               lat: lat,
-                               lng: lng,
-                               title: 'Marker with InfoWindow',
-                               infoWindow: {
-                                   content: '<p>Here we are!</p>'
-                               }
-                           });
-                       }
+                       //if ($("#simple-map").length) {
+                       //    simple_map = new GMaps({
+                       //        el: '#simple-map',
+                       //        lat: lat,
+                       //        lng: lng,
+                       //        zoomControl: true,
+                       //        zoomControlOpt: {
+                       //            style: 'SMALL',
+                       //            position: 'TOP_LEFT'
+                       //        },
+                       //        panControl: false,
+                       //        streetViewControl: false,
+                       //        mapTypeControl: false,
+                       //        overviewMapControl: false
+                       //    });
+                       //    simple_map.addMarker({
+                       //        lat: lat,
+                       //        lng: lng,
+                       //        title: 'Marker with InfoWindow',
+                       //        infoWindow: {
+                       //            content: '<p>Here we are!</p>'
+                       //        }
+                       //    });
+                       //}
                    })
                    .error(function () {
                    })

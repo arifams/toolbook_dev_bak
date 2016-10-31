@@ -153,10 +153,19 @@
                     </div>
                 </div>--> 
                 <!--Time line start...............................................-->
+                
                 <div class="row">
                     <div class="col-md-12 col-sm-12 col-xs-12 time-line-t-d">
                         <div class="col-md-6 col-sm-6 col-xs-6 text-center time-line-header" style="border-right:solid 4px #fff">
-                            <label class="time-line-header-lbl">Booking confirmation</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==3" >Booking confirmation</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==4" >Pickup</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==5">Transit</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==6">OutForDelivery</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==7">Delivered</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==8">Deleted</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==9">Exception</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==10">Claim</label>
+                            <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==11">Draft</label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6 text-center time-line-header" >
                             <label class="time-line-header-lbl">Scheduled: 6 Sep</label>
@@ -167,20 +176,20 @@
                             
 
                         <section id="timeline">
-                            <div class="timeline-block">
+                            <div class="timeline-block" ng-repeat="item in overviewShipCtrl.locationHistory.history.items">
                                 <div class="time-line-l-d p-r-20">
-                                    <lable style="clear: both;float: right;">Sep 21, 2016</lable>
-                                    <label class="time-line-b-lbl pull-right">09:31 pm</label>
+                                    <lable style="clear: both;float: right;">{{item.location.country}} : {{item.location.city}}</lable>                               
+                                    
                                 </div>
                                 <div class="timeline-icon bg-primary">
                                     <img style="width:60px;" src="../../proj_img/success.png" />
-                                </div>
-                                <div class="time-line-r-d">
-                                    <lable style="clear: both;float: left;">Voided Information Received<span class="checkpoint__courier-name">UPS</span></lable>
-                                    <label class="time-line-b-lbl pull-left">09:31 pm</label>
+                                </div>                               
+
+                                <div class="time-line-r-d"  ng-repeat="activity in  item.activity.items">
+                                    <lable style="clear: both;float: left;">{{activity.status}}<span class="checkpoint__courier-name">{{activity.timestamp.date}}</span></lable>
+                                    <label class="time-line-b-lbl pull-left">{{activity.timestamp.time}}</label>
                                 </div>
                             </div>
-                            
                             
                         </section>
                         <!-- END TIMELINE CONTENT -->

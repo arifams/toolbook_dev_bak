@@ -10,7 +10,7 @@ namespace PI.Data.Entity
 {
     public class LocationActivity: LongIdBaseEntity
     {
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Status { get; set; }
         public DateTime Date { get; set; }
         public DateTime Time { get; set; }
