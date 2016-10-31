@@ -119,18 +119,27 @@
                            }
 
                            vm.ExportExcel = function () {
-                               //vm.loadingSymbole = true;
-                                                             
-                               var status = (statusValue == undefined || statusValue == 'All' || statusValue == null || statusValue == "") ? null : statusValue;
-                               var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
-                               var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
-                               var number = (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber;
-                               var source = (vm.originCityCountry == undefined) ? null : vm.originCityCountry;
-                               var destination = (vm.desCityCountry == undefined) ? null : vm.desCityCountry;
 
-                               shipmentFactory.getFilteredShipmentsExcel(status, startDate, endDate, number, source, destination, vm.viaDashboard)
+                               vm.loadingSymbole = true;
+
+                               var pagedList = {
+                                   filterContent: {
+                                       status: (vm.status == undefined || vm.status == 'All' || vm.status == null || vm.status == "") ? null : vm.status,
+                                       startDate: (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate(),
+                                       endDate: (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate(),
+                                       number: (vm.shipmentNumber == undefined) ? null : vm.shipmentNumber,
+                                       source: (vm.originCityCountry == undefined) ? null : vm.originCityCountry,
+                                       destination: (vm.desCityCountry == undefined) ? null : vm.desCityCountry,
+                                   },
+                                   pageSize: pageRecord,
+                                   currentPage: startRecord
+                               }
+
+                               statusValue = status;
+
+                               shipmentFactory.getFilteredShipmentsExcel(pagedList)
                                .success(function (data, status, headers) {
-                                   //vm.loadingSymbole = false;
+                                   vm.loadingSymbole = false;
 
                                    var octetStreamMime = 'application/octet-stream';
                                    var success = false;
@@ -407,10 +416,16 @@
                                }
                            }
 
-
+                           var tableStateCopy;
                            vm.callServerSearch = function (tableState) {
 
-
+                               debugger;
+                               if (tableState != undefined) {
+                                   tableStateCopy = tableState;
+                               }
+                               else {
+                                   tableState = tableStateCopy;
+                               }
 
                                var start = tableState.pagination.start;
                                var number = tableState.pagination.number;
