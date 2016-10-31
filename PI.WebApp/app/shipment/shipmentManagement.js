@@ -221,7 +221,6 @@
                                });
                            }
 
-
                            vm.updateShipmentStatus = function (row) {
 
                                row.generalInformation.manualStatusUpdatedDate = Date();
@@ -234,8 +233,8 @@
                                                    shipmentFactory.UpdateshipmentStatusManually(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                           // location.reload();
-                                                           vm.loadShipmentsBySearch();
+                                                            location.reload();
+                                                           //vm.loadShipmentsBySearch();
                                                        }
                                                    })
                                        .error(function () {

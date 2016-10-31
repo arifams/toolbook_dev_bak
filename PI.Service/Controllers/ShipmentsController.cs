@@ -203,7 +203,7 @@ namespace PI.Service.Controllers
         [Route("UpdateshipmentStatusManually")]
         public int UpdateshipmentStatusManually([FromBody]ShipmentDto addShipment)
         {
-            bool result = shipmentManagement.UpdateshipmentStatusManually(addShipment.GeneralInformation.ShipmentCode, addShipment.GeneralInformation.Status);
+            bool result = shipmentManagement.UpdateshipmentStatusManually(addShipment);
 
             if (result == false)
                 return 0;

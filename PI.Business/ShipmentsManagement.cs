@@ -908,10 +908,13 @@ namespace PI.Business
 
 
         //update shipment status manually only by admin
-        public bool UpdateshipmentStatusManually(string codeShipment, string status)
+        public bool UpdateshipmentStatusManually(ShipmentDto shipmentDetails)
         {
+
+            long id = long.Parse(shipmentDetails.GeneralInformation.ShipmentId);
+
             var shipment = (from shipmentinfo in context.Shipments
-                            where shipmentinfo.ShipmentCode == codeShipment
+                            where shipmentinfo.Id == id
                             select shipmentinfo).FirstOrDefault();
             if (shipment == null)
             {
@@ -920,7 +923,7 @@ namespace PI.Business
 
             try
             {
-                shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
+                shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), shipmentDetails.GeneralInformation.Status);
                 shipment.ManualStatusUpdatedDate = DateTime.UtcNow;
                 context.SaveChanges();
             }
