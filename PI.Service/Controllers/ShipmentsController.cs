@@ -109,6 +109,7 @@ namespace PI.Service.Controllers
             {
                 return Unauthorized();
             }
+
             roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
 
             if (roleName != "Admin")
@@ -151,10 +152,9 @@ namespace PI.Service.Controllers
                         ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
 
                         //sending email
-                        AppUserManager.SendEmail(existingUser.Id, "Reset your account password", updatedString);
+                        AppUserManager.SendEmail(existingUser.Id, "Exception occured in shipment - "+ trackingNumber, updatedString);
 
                     }
-
 
                 }
 
@@ -203,8 +203,43 @@ namespace PI.Service.Controllers
         [Route("UpdateshipmentStatusManually")]
         public int UpdateshipmentStatusManually([FromBody]ShipmentDto addShipment)
         {
-            return shipmentManagement.UpdateshipmentStatusManually(addShipment.GeneralInformation.ShipmentCode, addShipment.GeneralInformation.Status);
+            bool result = shipmentManagement.UpdateshipmentStatusManually(addShipment);
+
+            if (result == false)
+                return 0;
+
+            // Send email
+            if (addShipment.GeneralInformation.Status == Utility.GetEnumDescription(ShipmentStatus.Exception))
+            {
+                NotificationCriteria notifications = new NotificationCriteria();
+                var profile = profileManagement.getProfileByUserName(addShipment.GeneralInformation.CreatedBy);
+
+                notifications = profileManagement.GetNotificationCriteriaByCustomerId(profile.CustomerDetails.Id);
+
+                if (notifications != null && notifications.ShipmentException == true)
+                {
+                    string htmlTemplate = "";
+                    TemplateLoader templateLoader = new TemplateLoader();
+
+                    //get the email template for invoice
+                    HtmlDocument template = templateLoader.getHtmlTemplatebyName("exceptionEmail");
+                    htmlTemplate = template.DocumentNode.InnerHtml;
+
+                    //replace strings in Html                       
+
+                    var updatedString = htmlTemplate.Replace("{firstname}", profile.CustomerDetails.FirstName).Replace("{lastname}", profile.CustomerDetails.LastName).Replace("{shipmentCode}", addShipment.GeneralInformation.ShipmentCode).Replace("{shipmentReference}", addShipment.GeneralInformation.ShipmentName).Replace("\r", "").Replace("\n", "");
+
+                    ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
+
+                    //sending email
+                    AppUserManager.SendEmail(existingUser.Id, "Exception occured in shipment - " + addShipment.GeneralInformation.TrackingNumber, updatedString);
+
+                }
+
+            }
+            return 1;
         }
+
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]

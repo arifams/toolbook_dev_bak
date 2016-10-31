@@ -117,7 +117,7 @@
             shipmentFactory.saveCommercialInvoice(vm.shipment)
             .success(function (data) {
                 console.log('saved success');
-                $('#panel-notif').noty({
+                $('#panel-notif1').noty({
                     text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Commercial invoice saved successfully') + '</p></div>',
                     layout: 'bottom-right',
                     theme: 'made',
