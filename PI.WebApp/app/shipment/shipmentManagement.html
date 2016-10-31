@@ -100,34 +100,59 @@
         <div class="panel-content panel-border">
             <div class="row m-l-20">
                 <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-
+               
                     <div class="list-group list-group-horizontal">
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
-                            Not picked-up
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.callServerSearch()"
+                           class="list-group-item list-right-margin">
+                            Draft
+                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.draftStatusCount}}</span>
+                        </a>
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" 
+                           class="list-group-item list-right-margin">
+                            Booking Confirmed
                             <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.callServerSearch()"
+                           class="list-group-item list-right-margin">
+                            Picked up
+                            <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pickeduptatusCount}}</span>
+                        </a>
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()"
+                           class="list-group-item list-right-margin">
                             In-Transit
                             <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.inTransitStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delayed') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
-                            Delayed
-                            <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.delayedStatusCount}}</span>
-                        </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" 
+                           class="list-group-item list-right-margin">
                             Error
-                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pendingStatusCount}}</span>
-                        </a>               
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
+                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.errorStatusCount}}</span>
+                        </a>  
+                                     
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" 
+                           class="list-group-item list-right-margin">
                             Exceptions
                             <span class="badge bg-orange f-14 custom-badge m-l-5">{{manageShipCtrl.counts.exceptionStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.callServerSearch()"
+                           class="list-group-item list-right-margin">
+                            Out for delivery
+                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.outForDeliveryStatusCount}}</span>
+                        </a> 
+                         
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" 
+                           class="list-group-item list-right-margin">
                             Delivered
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" class="list-group-item list-right-margin">
+
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" 
+                           class="list-group-item list-right-margin">
                             All
                             <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.allStatusCount}}</span>
                         </a>
@@ -168,16 +193,15 @@
                                 <td>
                                     <div class="option-group">
                                         <select id="salutation" name="salutation" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
-                                            <option value="Error" translate>Error</option>
-                                            <option value="Pending" translate>Pending</option>
-                                            <option value="BookingConfirmation" translate>Booking Confirmation</option>
-                                            <option value="Pickup" translate>Pickup</option>
-                                            <option value="Transit" translate>Transit</option>
-                                            <option value="OutForDelivery" translate>Out For Delivery</option>
-                                            <option value="Delivered" translate>Delivered</option>
-                                            <option value="Deleted" translate>Deleted</option>
-                                            <option value="Exception" translate>Exception</option>
-                                            <option value="Claim" translate>Claim</option>
+                                            <option value='All' translate>All</option>
+                                            <option value='BookingConfirmation' translate>Booking confirmed</option>
+                                            <option value='Error' translate>Booking error</option>
+                                            <option value='Delivered' translate>Delivered</option>
+                                            <option value='Draft' translate>Draft</option>
+                                            <option value='Exception' translate>Exception</option>
+                                            <option value='Transit' translate>In transit</option>
+                                            <option value='Pickup' translate>Picked up</option>
+                                            <option value='OutForDelivery' translate>Out for delivery</option>   
                                         </select>
                                     </div>
                                 </td>

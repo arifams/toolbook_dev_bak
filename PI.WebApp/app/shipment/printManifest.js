@@ -50,6 +50,8 @@
                    vm.reference = '';
                    // Clear the errors.
                    vm.showError = false;
+                   vm.showManifest = false;
+                   vm.BacktoSearch();
                }
 
                vm.clickSpecific = function () {
@@ -57,9 +59,12 @@
                    vm.Date = '';
                    // Clear the errors.
                    vm.showError = false;
+                   vm.showManifest = false;
+                   vm.BacktoSearch();
                }
 
                vm.GenerateManifest = function () {
+                   vm.showError = false;
                    vm.showEdit = false;              
                    career=vm.carrier;
                    
