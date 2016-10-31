@@ -56,6 +56,12 @@
         vm.isShowInvoice = false;
         vm.loadingSymbole = false;
         vm.savedShipmentId = '';
+        vm.shipmentReferenceName = ''
+        vm.isNotViaInvoicePayment = true;
+
+
+
+
         vm.shipmentReferenceName = '';
         vm.shipmentChanged = false;
         vm.closeWindow = function () {
@@ -69,7 +75,7 @@
                    if (responce != null) {
 
                        debugger;
-                       if (responce.defaultVolumeMetricId==1) {
+                       if (responce.defaultVolumeMetricId == 1) {
 
                            vm.shipment.packageDetails.volumeCMM = "true";
                        } else {
@@ -357,7 +363,7 @@
             if (value == true) {
                 vm.collapse1 = true;
                 vm.collapse2 = false;
-               
+
             }
             vm.consignInfoisSubmit = true
 
@@ -370,7 +376,7 @@
                 vm.collapse2 = true;
                 vm.collapse3 = false;
                 vm.collapse4 = true;
-               
+
             }
             vm.packageDetailsisSubmit = true
         }
@@ -402,7 +408,7 @@
         //calculating the total volume and total weight
         vm.CalctotalWeightVolume = function () {
 
-             
+
 
             var packages = vm.shipment.packageDetails.productIngredients;
             var count = 0;
@@ -475,7 +481,7 @@
             vm.searchRates = false;
             if (row != null) {
 
-                
+
                 vm.carrierselected = true;
                 vm.shipment.carrierInformation.carrierName = row.carrier_name;
                 vm.shipment.carrierInformation.pickupDate = row.pickup_date;
@@ -486,7 +492,7 @@
                 var declaredVal = vm.shipment.packageDetails.declaredValue;
 
                 if (vm.shipment.packageDetails.isInsuared == 'true') {
-                   
+
                     insurance = (declaredVal * 0.011).toFixed(2);
 
                     var currencyCode = vm.getCurrenyCode(vm.shipment.packageDetails.valueCurrency);
@@ -498,7 +504,7 @@
                     //    insurance = 5;
                     //}
                 }
-                
+
 
                 vm.shipment.carrierInformation.insurance = insurance;
                 total = parseFloat(row.price) + parseFloat(insurance);
@@ -559,7 +565,7 @@
                            // Called when the SqPaymentForm completes a request to generate a card
                            // nonce, even if the request failed because of an error.
                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-                               
+
                                if (errors) {
                                    // This logs all errors encountered during nonce generation to the
                                    // Javascript console.
@@ -575,7 +581,7 @@
                                    // No errors occurred. Extract the card nonce.
                                } else {
 
-                                    
+
                                    var body = $("html, body");
 
                                    // Show payment page.
@@ -590,7 +596,7 @@
 
                                    shipmentFactory.PaymentCharge(paymentDto).success(
                                                    function (response) {
-                                                       
+
                                                        addShipmentResponse(response);
 
                                                    }).error(function (error) {
@@ -651,20 +657,20 @@
                });
 
         }
-        
+
         //section to set the shipment mode
         function addShipmentResponse(response) {
-             
+
             vm.loadingSymbole = false;
             vm.shipmentStatusMsg = response.message;
             vm.isShowResponse = true;
 
             if (response.status == 2) {
                 // Success both payment and shipment.
-                
-                vm.isShowPaymentForm = false;                
+
+                vm.isShowPaymentForm = false;
                 vm.labelUrl = response.labelURL;
-             
+
                 vm.isShowLabel = true;
                 if (response.invoiceURL != '') {
                     vm.isShowInvoice = true;
@@ -686,10 +692,10 @@
             }
             else if (response.status == 5 || response.status == 6) {
                 // SISError.
-                 
+
                 vm.shipmentReferenceName = response.shipmentReference;
                 vm.isShowPaymentForm = false;
-            //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                 //window.open(errorUrl);
             }
         }
@@ -756,12 +762,16 @@
         vm.selectExpress();
         //vm.selectall();
 
-        vm.submitShipment = function () {
-            
+        vm.submitShipment = function (source) {
+
             vm.shipment.generalInformation.shipmentPaymentTypeId = 1; // Payment type is Invoice.
 
             vm.carrierselected = false;
             vm.isPrevDisabled = true;
+
+            if (source == 'invoice') {
+                vm.isNotViaInvoicePayment = false;
+            }
 
             saveShipment();
         }
@@ -1039,12 +1049,12 @@
                 vm.shipment = data;
 
 
-                if (vm.shipment.packageDetails.isDG==true) {
-                    vm.shipment.packageDetails.isDG="true"
+                if (vm.shipment.packageDetails.isDG == true) {
+                    vm.shipment.packageDetails.isDG = "true"
                 } else {
                     vm.shipment.packageDetails.isDG = "false"
                 }
-                                
+
 
                 if (vm.shipment.packageDetails.isInsuared == "True") {
                     vm.shipment.packageDetails.isInsuared = "true";
@@ -1070,8 +1080,8 @@
         }
 
         // In production remove this.
-        function testShipmentDataFill () {
-            
+        function testShipmentDataFill() {
+
             if (vm.consignorSearchText == "code123") {
 
                 vm.shipment.addressInformation.consigner = {};
@@ -1103,7 +1113,7 @@
                 vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
                 vm.shipment.addressInformation.consignee.contactName = "contact name B";
 
-                vm.shipment.packageDetails.productIngredients = [{ productType:'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
+                vm.shipment.packageDetails.productIngredients = [{ productType: 'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
 
                 vm.shipment.packageDetails.shipmentDescription = "testDesc";
                 vm.shipment.packageDetails.declaredValue = 500;

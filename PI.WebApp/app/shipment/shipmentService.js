@@ -9,7 +9,7 @@
 
 
         function setLoginUserID() {
-             
+            debugger;
             if ($window.localStorage.getItem('userRole') == 'Admin') {
 
                 createdBy = $window.localStorage.getItem('userGuid');
@@ -276,7 +276,7 @@
 
         
         function loadAllShipmentsForAdminExcelExport(companyId, status, startDate, endDate, number, source, destination) {
-
+            debugger;
             return $http.get(serverBaseUrl + '/api/Admin/loadAllShipmentsForAdminExcelExport', {
                 params: {
                     companyId: companyId,
@@ -292,21 +292,14 @@
         }
 
 
-        function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
+        function getFilteredShipmentsExcel(shipmentSerach) {
              
-            return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
-                params: {
-                    userId: userId,
-                    status: status,
-                    startDate: startDate,
-                    endDate: endDate,
-                    number: number,
-                    source: source,
-                    destination: destination,
-                    viaDashboard: viaDashboard
-                },
-                responseType: 'arraybuffer'
-            });
+            setLoginUserID();
+            shipmentSerach.userId = userId;
+            debugger;
+            return $http.post(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel',shipmentSerach,           
+               {responseType: 'arraybuffer'}            
+            );
         }
 
 

@@ -103,7 +103,7 @@ namespace PI.Business
                 {
                     Id = item.Id,
                     ShipmentReference = item.Shipment.ShipmentCode,
-                    InvoiceDate = item.CreatedDate.ToString("dd/MM/yyyy"),
+                    InvoiceDate = item.CreatedDate.ToString("dd MMM yyyy"),
                     InvoiceNumber = item.InvoiceNumber,
                     InvoiceValue = item.InvoiceValue,
                     InvoiceStatus = item.InvoiceStatus.ToString(),

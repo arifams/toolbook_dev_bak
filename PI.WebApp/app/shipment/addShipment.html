@@ -391,18 +391,20 @@
                             </div>
 
 
-                            <div class="form-group">
-                                <div class="col-sm-12 p-r-1 p-l-0">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.contactNumber" type="text" name="consignercontactNumber" class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()"
-                                           ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercontactNumber.$invalid &&
+                        <div class="form-group">
+                            <div class="col-sm-12 p-r-1 p-l-0">
+                                <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.contactNumber" type="text" name="consignercontactNumber" 
+                                       class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()"  ng-minlength="10"
+                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignercontactNumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consignercontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}" valid-phone-no ng-focus="consignercontactNumberFocus = true" ng-blur="consignercontactNumberFocus = false" />
-                                    <div ng-messages="consignerConsigneeInfoForm.consignercontactNumber.$error"
-                                         ng-show="(consignerConsigneeInfoForm.consignercontactNumber.$dirty  && !consignerConsigneeInfoForm.$pristine && !consignercontactNumberFocus)|| shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consignercontactNumber" translate>Consignor phone number is required</label>
-                                        <label ng-message="maxlength" class="error" for="consignercontactNumber" translate>Max length should be 200 characters</label>
-                                        <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid phone number</label>
-                                    </div>
+                                <div ng-messages="consignerConsigneeInfoForm.consignercontactNumber.$error"
+                                     ng-show="(consignerConsigneeInfoForm.consignercontactNumber.$dirty  && !consignerConsigneeInfoForm.$pristine && !consignercontactNumberFocus)|| shipmentCtrl.consignInfoisSubmit">
+                                    <label ng-message="required" class="error" for="consignercontactNumber" translate>Consignor phone number is required</label>
+                                    <label ng-message="minlength" class="error" for="consignercontactNumber" translate>Minimum length should be 10 digits</label>
+                                    <label ng-message="maxlength" class="error" for="consignercontactNumber" translate>Maximum length should be 200 characters</label>
+                                    <label ng-message="notValidPhoneNo" class="error" for="consignercontactNumber" translate>Enter valid phone number</label>
                                 </div>
+                            </div>
 
                             </div>
 
@@ -607,17 +609,20 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber" class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
-                                                                        (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}" valid-phone-no ng-focus="consigneecontactNumberFocus = true" ng-blur="consigneecontactNumberFocus = false" />
-                                <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
-                                     ng-show="(consignerConsigneeInfoForm.consigneecontactNumber.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecontactNumberFocus) || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneecontact" translate>Consignee Phone number is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneecontact" translate>Max length should be 200 characters</label>
-                                    <label ng-message="notValidPhoneNo" class="error" for="mobilenumber" translate>Enter valid Phone number</label>
-                                </div>
+                        <div class="form-group">
+                            <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber" 
+                                   class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()" ng-minlength="10"
+                                   ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
+                                                                        (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}" 
+                                   valid-phone-no ng-focus="consigneecontactNumberFocus = true" ng-blur="consigneecontactNumberFocus = false" />
+                            <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
+                                 ng-show="(consignerConsigneeInfoForm.consigneecontactNumber.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecontactNumberFocus) || shipmentCtrl.consignInfoisSubmit">
+                                <label ng-message="required" class="error" for="consigneecontactNumber" translate>Consignee Phone number is required</label>
+                                <label ng-message="minlength" class="error" for="consigneecontactNumber" translate>Minimum length should be 10 digits</label>
+                                <label ng-message="maxlength" class="error" for="consigneecontactNumber" translate>Maximum length should be 200 characters</label>
+                                <label ng-message="notValidPhoneNo" class="error" for="consigneecontactNumber" translate>Enter valid Phone number</label>
                             </div>
+                        </div>
 
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.email" type="email" name="consigneeemail" class="form-control" ng-change="shipmentCtrl.consigneeEdited()"
@@ -1748,18 +1753,16 @@
                                         </button>
                                     </div>
 
-                                    <div class="col-sm-2 p-0">
-                                        <button class="btn btn-primary no-margin pull-right"  ng-click="shipmentCtrl.saveAsDraft()" translate>Save as Draft</button>
-                                    </div>
+                                <div class="col-sm-2" style="float:right;" 
+                                     ng-show="!shipmentCtrl.ratesNotAvailable? 
+                                     (currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support' ? true : shipmentCtrl.isInvoicePaymentEnabled ) : false">
+                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment(invoice)" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
+                                </div>
 
-                                    <div class="col-sm-2" style="float:right;" ng-show="shipmentCtrl.isInvoicePaymentEnabled && !shipmentCtrl.ratesNotAvailable">
-                                        <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
-                                    </div>
-
-                                    <div class="col-sm-2" style="float:right;" ng-hide="shipmentCtrl.ratesNotAvailable">
-                                        <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected" translate>Proceed to payment</button>
-                                    </div>
-                                    <div class="col-sm-4" style="float:right;" ng-show="shipmentCtrl.ratesNotAvailable">
+                                <div class="col-sm-2" style="float:right;" ng-hide="shipmentCtrl.ratesNotAvailable ||  (currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support')">
+                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.payOnline()" ng-disabled="!shipmentCtrl.carrierselected" translate>Proceed to payment</button>
+                                </div>
+                                <div class="col-sm-4" style="float:right;" ng-show="shipmentCtrl.ratesNotAvailable">
 
                                         <button class="btn btn-primary" type="button" ng-click="shipmentCtrl.requestForQuote()" ng-disabled="!shipmentCtrl.isClickCalculateRate">Request for quote</button>
                                     </div>
@@ -1815,7 +1818,7 @@
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice">
+                                    <div ng-show="shipmentCtrl.isShowInvoice && isNotViaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
 

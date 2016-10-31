@@ -25,13 +25,15 @@
 
                         <div class="option-group">
                             <select id="shipmentStatus" name="shipmentStatus" ng-model="loadShipCtrl.status" class="form-control form-white">
-                                <option value='All' translate>All</option>
-                                <option value='Delayed' translate>Delayed</option>
+                                <option value='All' translate>All</option>                                
+                                <option value='BookingConfirmation' translate>Booking confirmed</option>
+                                <option value='Error' translate>Booking error</option>
                                 <option value='Delivered' translate>Delivered</option>
-                                <option value='Error' translate>Error</option>
-                                <option value='Exception' translate>Exceptions</option>
-                                <option value='Transit' translate>In transit</option>
-                                <option value='BookingConfirmation' translate>Not picked up</option>
+                                <option value='Draft' translate>Draft</option>                               
+                                <option value='Exception' translate>Exception</option>
+                                <option value='Transit' translate>In transit</option>   
+                                <option value='Pickup' translate>Picked up</option>   
+                                <option value='OutForDelivery' translate>Out for delivery</option>                
                             </select>
                         </div>
 
@@ -192,7 +194,6 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>-->
-               
                 <div class="custom-table">
                     <!--<table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="loadShipCtrl.callServerSearch" st-table="loadShipCtrl.rowCollection" class="table table-hover">
@@ -215,7 +216,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in loadShipCtrl.rowCollection">
-                                    <td>{{row.generalInformation.createdDate}}</td>
+                                    <td class="p-r-0 p-l-0">{{row.generalInformation.createdDate}}</td>
                                     <td>{{row.generalInformation.trackingNumber}}</td>
                                     <td>{{row.generalInformation.shipmentName}}
                                      <!--<div class="form-group input-group">

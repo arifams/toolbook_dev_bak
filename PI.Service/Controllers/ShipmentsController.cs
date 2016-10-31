@@ -256,14 +256,14 @@ namespace PI.Service.Controllers
         }
         
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
+        [HttpPost]
         [Route("GetFilteredShipmentsExcel")]
-        public HttpResponseMessage GetFilteredShipmentsExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null, bool viaDashboard = false)
+        public HttpResponseMessage GetFilteredShipmentsExcel([FromBody] PagedList shipmentSerach)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForExcel(status, userId, startDate, endDate,
-                                          number, source, destination, viaDashboard));
+            shipmentSerach.DynamicContent = shipmentSerach.filterContent;
+
+            result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForExcel(shipmentSerach));
             result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;

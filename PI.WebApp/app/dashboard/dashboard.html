@@ -3,27 +3,27 @@
      
     <div class="row m-0">
             <div class="widget-infobox text-center">
-                <a class="infobox" href="" style="width:10%">
+                <a class="infobox" href="#/loadShipments/Draft" style="width:10%">
                     <div class="left">
                         <i class="fa fa-pencil-square bg-blue" aria-hidden="true"></i>
                     </div>
-                    <span class="c-blue pull-left f-20" style="font-weight:bold">0</span>
+                    <span class="c-blue pull-left f-20" style="font-weight:bold">{{dashCtrl.model.draftStatusCount}}</span>
                     <br><br>
                      <span class="txt">Draft</span>
                 </a>
-                <a class="infobox" href="">
+                <a class="infobox" href="#/loadShipments/BookingConfirmation" style="width:10%">
                     <div class="left">
                         <i class="icon-check bg-green" aria-hidden="true"></i>
                     </div>
-                     <span class="c-green pull-left f-20" style="font-weight:bold">0</span>
+                     <span class="c-green pull-left f-20" style="font-weight:bold">{{dashCtrl.model.bookingConfStatusCount}}</span>
                        <br><br>
                      <span class="txt">Booking confirmed</span>
                 </a>
-                <a class="infobox" href="#/loadShipments/BookingConfirmation" style="width:10%">
+                <a class="infobox" href="#/loadShipments/Pickup" style="width:10%">
                     <div class="left">
                         <i class="flaticon-symbol bg-purple"></i>
                     </div>
-                     <span class="c-purple pull-left f-20" style="font-weight:bold">{{dashCtrl.model.bookingConfStatusCount}}</span>
+                     <span class="c-purple pull-left f-20" style="font-weight:bold">{{dashCtrl.model.pickeduptatusCount}}</span>
                        <br><br>
                     <span class="txt">Picked up</span>
                 </a>
@@ -44,11 +44,11 @@
                         <span class="txt">Delayed</span>
                        
                 </a>-->
-                <a class="infobox" href="">
+                <a class="infobox" href="#/loadShipments/OutForDelivery" >
                     <div class="left">
                         <i class="flaticon-clock bg-dark"></i>
                     </div>
-                        <span class="c-dark pull-left f-20" style="font-weight:bold">0</span>
+                        <span class="c-dark pull-left f-20" style="font-weight:bold">{{dashCtrl.model.outForDeliveryStatusCount}}</span>
                            <br><br>
                         <span class="txt">Out for delivery</span>
                       
@@ -74,7 +74,7 @@
                     <div class="left">
                         <i class="fa fa-times bg-red"></i>
                     </div>
-                        <span class="c-red pull-left f-20" style="font-weight:bold">{{dashCtrl.model.pendingStatusCount}}</span>
+                        <span class="c-red pull-left f-20" style="font-weight:bold">{{dashCtrl.model.errorStatusCount}}</span>
                         <br><br>
                         <span class="txt">Booking error</span>
                       

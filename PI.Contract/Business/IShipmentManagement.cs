@@ -104,8 +104,7 @@ namespace PI.Contract.Business
         /// load All Shipments ForExcel generation
         /// </summary>
         /// <param name="codeShipmen
-        byte[] loadAllShipmentsForExcel(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                         string number = null, string source = null, string destination = null, bool viaDashboard = false);
+        byte[] loadAllShipmentsForExcel(PagedList shipmentSerach);
 
 
         /// <summary>
@@ -125,15 +124,6 @@ namespace PI.Contract.Business
 
       
         /// <summary>
-        /// Get Tenant Id By UserId
-        /// </summary>
-        /// <param name="userid">payment</param>
-        /// <returns></returns>
-        long GetTenantIdByUserId(string userid);
-
-
-
-        /// <summary>
         /// load All Shipments For Admin Excel Export
         /// </summary>
         /// <param name="">payment</param>
@@ -142,6 +132,9 @@ namespace PI.Contract.Business
                                         string number = null, string source = null, string destination = null);
 
         OperationResult UpdateTrackingNo(AirwayBillDto awbDto);
+
+
+        long GetTenantIdByUserId(string user);
 
 
         /// <summary>
