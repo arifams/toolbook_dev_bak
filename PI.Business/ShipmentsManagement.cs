@@ -738,6 +738,8 @@ namespace PI.Business
 
             foreach (var item in shipmentList)
             {
+                item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
+
                 pagedRecord.Content.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -785,7 +787,7 @@ namespace PI.Business
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),//((ShipmentStatus)item.Status).ToString(),
                         IsFavourite = item.IsFavourite,
                         //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
