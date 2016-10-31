@@ -611,14 +611,13 @@
 
                         <div class="form-group">
                             <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber" 
-                                   class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()" ng-minlength="10"
+                                   class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()" 
                                    ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}" 
                                    valid-phone-no ng-focus="consigneecontactNumberFocus = true" ng-blur="consigneecontactNumberFocus = false" />
                             <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
                                  ng-show="(consignerConsigneeInfoForm.consigneecontactNumber.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecontactNumberFocus) || shipmentCtrl.consignInfoisSubmit">
                                 <label ng-message="required" class="error" for="consigneecontactNumber" translate>Consignee Phone number is required</label>
-                                <label ng-message="minlength" class="error" for="consigneecontactNumber" translate>Minimum length should be 10 digits</label>
                                 <label ng-message="maxlength" class="error" for="consigneecontactNumber" translate>Maximum length should be 200 characters</label>
                                 <label ng-message="notValidPhoneNo" class="error" for="consigneecontactNumber" translate>Enter valid Phone number</label>
                             </div>
@@ -1822,7 +1821,7 @@
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice && isNotViaInvoicePayment">
+                                    <div ng-show="shipmentCtrl.isShowInvoice && !isViaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
 

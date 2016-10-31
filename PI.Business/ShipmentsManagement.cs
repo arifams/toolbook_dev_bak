@@ -738,6 +738,8 @@ namespace PI.Business
 
             foreach (var item in shipmentList)
             {
+                item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
+
                 pagedRecord.Content.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -785,7 +787,7 @@ namespace PI.Business
                         ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),//((ShipmentStatus)item.Status).ToString(),
                         IsFavourite = item.IsFavourite,
                         //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
@@ -2856,7 +2858,7 @@ namespace PI.Business
         public PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10)
         {
             var pagedRecord = new PagedList();
-            short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
+            short enumStatus = status == null? (short)0 :(short)Enum.Parse(typeof(ShipmentStatus), status);
             string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
 
             pagedRecord.Content = new List<ShipmentDto>();
@@ -2866,17 +2868,16 @@ namespace PI.Business
             if (endDate.HasValue)
                 endDate = endDate.Value.ToUniversalTime();
 
-            bool isStatusNull = string.IsNullOrWhiteSpace(status);
-
-            IQueryable<Shipment> querableContent = (from shipment in context.Shipments
+            var querableContent = (from shipment in context.Shipments
                                                     where shipment.IsDelete == false &&
                                                     //shipment.
-                                                    (isStatusNull ||
+                                                     ((status == null ||
                                                       (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
                                                     : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
                                                     : status == "Out for delivery" ? shipment.Status == (short)ShipmentStatus.OutForDelivery
-                                                    : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))
-                                                    ) &&
+                                                    : shipment.Status == enumStatus
+                                                    )
+                                                   )) &&
                                                     (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                                     (searchValue == null ||
                                                     (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
@@ -2885,6 +2886,7 @@ namespace PI.Business
                                                     select shipment);
 
             var content = querableContent.OrderBy(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+
 
             foreach (var item in content)
             {
@@ -2908,6 +2910,9 @@ namespace PI.Business
                     }
 
                 }
+
+                item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
+
 
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -2958,7 +2963,7 @@ namespace PI.Business
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
                         IsEnableDelete = true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
