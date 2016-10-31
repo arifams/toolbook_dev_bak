@@ -1753,6 +1753,10 @@
                                         </button>
                                     </div>
 
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary no-margin pull-right" ng-click="shipmentCtrl.saveAsDraft()" translate>Save as Draft</button>
+                                    </div>
+
                                 <div class="col-sm-2" style="float:right;" 
                                      ng-show="!shipmentCtrl.ratesNotAvailable? 
                                      (currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support' ? true : shipmentCtrl.isInvoicePaymentEnabled ) : false">
