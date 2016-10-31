@@ -1820,7 +1820,7 @@
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice && isNotViaInvoicePayment">
+                                    <div ng-show="shipmentCtrl.isShowInvoice && !isViaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
 

@@ -57,7 +57,7 @@
         vm.loadingSymbole = false;
         vm.savedShipmentId = '';
         vm.shipmentReferenceName = ''
-        vm.isNotViaInvoicePayment = true;
+        vm.isViaInvoicePayment = true;
 
 
 
@@ -766,7 +766,7 @@
             vm.isPrevDisabled = true;
 
             if (source == 'invoice') {
-                vm.isNotViaInvoicePayment = false;
+                vm.isViaInvoicePayment = true;
             }
 
             saveShipment();
