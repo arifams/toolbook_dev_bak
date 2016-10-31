@@ -292,18 +292,14 @@
         }
 
 
-        function getFilteredShipmentsExcel( status, startDate, endDate, number, source, destination, viaDashboard) {
+        function getFilteredShipmentsExcel(pagedList) {
              
+            setLoginUserID();
+            pagedList.userId = userId;
+
             return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
                 params: {
-                    userId: userId,
-                    status: status,
-                    startDate: startDate,
-                    endDate: endDate,
-                    number: number,
-                    source: source,
-                    destination: destination,
-                    viaDashboard: viaDashboard
+                    pagedList: pagedList
                 },
                 responseType: 'arraybuffer'
             });
