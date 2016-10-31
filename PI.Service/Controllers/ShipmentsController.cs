@@ -256,9 +256,9 @@ namespace PI.Service.Controllers
         }
         
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [HttpGet]
+        [HttpPost]
         [Route("GetFilteredShipmentsExcel")]
-        public HttpResponseMessage GetFilteredShipmentsExcel(PagedList shipmentSerach)
+        public HttpResponseMessage GetFilteredShipmentsExcel([FromBody] PagedList shipmentSerach)
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             shipmentSerach.DynamicContent = shipmentSerach.filterContent;
