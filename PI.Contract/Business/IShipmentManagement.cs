@@ -40,7 +40,7 @@ namespace PI.Contract.Business
         PagedList GetAllShipmentByCompanyId(string companyId);
         PagedList loadAllShipmentsForAdmin(string status = null, DateTime? startDate = null, DateTime? endDate = null, string searchValue = null, int currentPage = 0, int pageSize = 10);
 
-        bool UpdateshipmentStatusManually(string codeShipment, string status);
+        bool UpdateshipmentStatusManually(ShipmentDto shipmentDetails);
 
         StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, string codeShipment,
                                                                                                        string environment);
