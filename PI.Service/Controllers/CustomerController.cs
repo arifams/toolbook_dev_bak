@@ -10,6 +10,8 @@ using Microsoft.AspNet.Identity;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net;
+using PI.Contract.DTOs.FileUpload;
+using System.Threading.Tasks;
 
 namespace PI.Service.Controllers
 {
@@ -92,8 +94,7 @@ namespace PI.Service.Controllers
         {
             return Ok(customerManagement.GetThemeColour(loggedInUserId));
         }
-        
-        
 
+        
     }
 }

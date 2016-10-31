@@ -373,47 +373,6 @@ namespace PI.Service.Controllers
         }
 
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [System.Web.Http.AcceptVerbs("GET", "POST")]
-        [System.Web.Http.HttpPost]
-        [Route("UploadLogo")]
-        public async Task<HttpResponseMessage> UploadLogo()
-        {
-            HttpResponseMessage uploadResult = new HttpResponseMessage();
-            var logoUpdated = false;
-            try
-            {
-                if (!Request.Content.IsMimeMultipartContent())
-                {
-                    this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
-                }
-
-                var provider = GetMultipartProvider();
-                var result = await Request.Content.ReadAsMultipartAsync(provider);
-                var fileDetails = GetFormData<FileUploadDto>(result);
-
-                uploadResult = await this.Upload(result);
-
-                var urlJson = await uploadResult.Content.ReadAsStringAsync();
-
-                Result deSelizalizedObject = null;
-                deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
-
-                if (uploadResult.Content != null)
-                {
-                    logoUpdated = companyManagement.UpdateCompanyLogo(deSelizalizedObject.returnData, fileDetails.UserId);
-
-                }
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception();
-            }
-
-            return this.Request.CreateResponse(uploadResult.StatusCode == HttpStatusCode.OK && logoUpdated ? HttpStatusCode.OK : HttpStatusCode.InternalServerError);
-        }
-           
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
@@ -492,7 +451,6 @@ namespace PI.Service.Controllers
             result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             return result;
         }
-
 
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

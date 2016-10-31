@@ -407,11 +407,11 @@ namespace PI.Business
                 ServiceLevel = addShipment.CarrierInformation.serviceLevel,
                 TarriffType = addShipment.CarrierInformation.tarriffType,
                 TariffText = addShipment.CarrierInformation.tariffText,
-                CarrierDescription=addShipment.CarrierInformation.description,
+                CarrierDescription = addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
-                Status = (short)ShipmentStatus.Pending,
-                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?) addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
-                
+                Status = (short)ShipmentStatus.Draft,
+                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
@@ -576,7 +576,7 @@ namespace PI.Business
             var shipment = context.Shipments.Where(s => s.Id.ToString() == addShipment.GeneralInformation.ShipmentId).SingleOrDefault();
 
 
-            if (shipment!=null)
+            if (shipment != null)
             {
                 try
                 {
@@ -595,7 +595,7 @@ namespace PI.Business
             }
 
 
-          
+
 
             //}
 
@@ -606,6 +606,14 @@ namespace PI.Business
         {
             return ConfigurationManager.AppSettings["SquareApplicationId"].ToString();
         }
+
+
+
+        public long GetTenantIdByUserId(string user)
+        {
+          return  ContextExtension.GetTenantIdByUserId(context, user);
+        }
+
 
         private static string Hash(string input)
         {
@@ -632,7 +640,7 @@ namespace PI.Business
 
             var content = (from shipment in context.Shipments
                            where shipment.Status != (short)ShipmentStatus.Delivered
-                           && shipment.TrackingNumber!=null
+                           && shipment.TrackingNumber != null
                            select shipment).ToList();
 
             foreach (var item in content)
@@ -643,8 +651,8 @@ namespace PI.Business
                     {
                         TrackingNumber = item.TrackingNumber,
                         ShipmentCode = item.ShipmentCode,
-                        CreatedBy=item.CreatedBy
-                        
+                        CreatedBy = item.CreatedBy
+
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
@@ -675,10 +683,10 @@ namespace PI.Business
             {
                 divisions = this.GetAllDivisionsinCompany(shipmentSerach.UserId);
             }
-            else if (role == "Supervisor")
-            {
-                divisions = companyManagment.GetAssignedDivisions(shipmentSerach.UserId);
-            }
+            //else if (role == "Supervisor")
+            //{
+            //    divisions = companyManagment.GetAssignedDivisions(shipmentSerach.UserId);
+            //}
             if (divisions != null && divisions.Count > 0)
             {
                 foreach (var item in divisions)
@@ -692,7 +700,7 @@ namespace PI.Business
             }
 
             DateTime? startDate = null, endDate = null;
-            if(!string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()))
+            if (!string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()))
             {
                 // Convert to utc
                 startDate = Convert.ToDateTime(shipmentSerach.DynamicContent.startDate.ToString());
@@ -703,28 +711,27 @@ namespace PI.Business
             }
 
             pagedRecord.Content = new List<ShipmentDto>();
-            
+
             // Get new updated shipment list again.
             var querableShipmentList = (from shipment in Shipments
-                                   join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
-                                   where shipment.IsDelete == false &&
-                                   ((bool)shipmentSerach.DynamicContent.viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered &&
-                                    shipment.Status != (short)ShipmentStatus.Deleted
-                                    && shipment.IsFavourite :
-                                    ((string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.status.ToString()) ||
-                                        (shipmentSerach.DynamicContent.status.ToString() == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                    : shipmentSerach.DynamicContent.status.ToString() == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                    : shipmentSerach.DynamicContent.status.ToString() == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                    : (shipmentSerach.DynamicContent.status.ToString() == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), shipmentSerach.DynamicContent.status.ToString())))
-                                                   ) &&
-                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()) || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.number.ToString()) || (!string.IsNullOrEmpty(shipment.TrackingNumber) && shipment.TrackingNumber.Contains(shipmentSerach.DynamicContent.number.ToString())) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(shipmentSerach.DynamicContent.number.ToString()))) &&
-                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.Country.Contains(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.City.Contains(shipmentSerach.DynamicContent.source.ToString())) &&
-                                       (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.Country.Contains(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.City.Contains(shipmentSerach.DynamicContent.destination.ToString()))
-                                     )
-                                   ) &&
-                                   !shipment.IsParent
-                                   select shipment);
+                                        join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
+                                        where shipment.IsDelete == false &&
+                                        ((bool)shipmentSerach.DynamicContent.viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered &&
+                                         shipment.Status != (short)ShipmentStatus.Deleted
+                                         && shipment.IsFavourite :
+                                         ((string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.status.ToString()) ||
+                                             (shipmentSerach.DynamicContent.status.ToString() == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                                         : shipmentSerach.DynamicContent.status.ToString() == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                                         : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), shipmentSerach.DynamicContent.status.ToString()))
+                                                        ) &&
+                                            (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.startDate.ToString()) || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                            (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.number.ToString()) || (!string.IsNullOrEmpty(shipment.TrackingNumber) && shipment.TrackingNumber.Contains(shipmentSerach.DynamicContent.number.ToString())) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(shipmentSerach.DynamicContent.number.ToString()))) &&
+                                            (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.Country.Contains(shipmentSerach.DynamicContent.source.ToString()) || shipment.ConsignorAddress.City.Contains(shipmentSerach.DynamicContent.source.ToString())) &&
+                                            (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.Country.Contains(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.City.Contains(shipmentSerach.DynamicContent.destination.ToString()))
+                                          )
+                                        ) &&
+                                        !shipment.IsParent
+                                        select shipment);
 
             var shipmentList = querableShipmentList.OrderBy(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
 
@@ -779,8 +786,11 @@ namespace PI.Business
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         IsFavourite = item.IsFavourite,
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
+                        //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
+                        IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
+                        //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
+                        IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
+
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -803,12 +813,12 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?) context.GetLocalTimeByUser(shipmentSerach.UserId, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipmentSerach.UserId, item.PickUpDate.Value) : null
                     }
 
                 });
             }
-            
+
             pagedRecord.TotalRecords = querableShipmentList.Count();
             pagedRecord.PageSize = shipmentSerach.PageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
@@ -856,13 +866,16 @@ namespace PI.Business
         }
 
         //get shipments by user ID and created date
-        public List<Data.Entity.Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
+        public List<Shipment> GetshipmentsByUserIdAndCreatedDate(string userId, DateTime createdDate, string carreer)
         {
-            List<Data.Entity.Shipment> currentShipments = null;
-            //using (PIContext context = PIContext.Get())
-            //{
-            currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
-            //}
+            List<Shipment> currentShipments = null;
+
+            currentShipments = 
+                context.Shipments.Where(x => x.CreatedBy == userId &&
+                x.CreatedDate.Year == createdDate.Year && x.CreatedDate.Month == createdDate.Month && x.CreatedDate.Day == createdDate.Day && 
+                //this.GetLocalTimeByUser(userId, x.CreatedDate.Date) == createdDate.Date &&
+                x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
+            
             return currentShipments;
         }
 
@@ -872,7 +885,8 @@ namespace PI.Business
             List<Data.Entity.Shipment> currentShipments = null;
             //using (PIContext context = PIContext.Get())
             //{
-            currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference) && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
+            currentShipments = context.Shipments.Where(x => x.CreatedBy == userId && x.ShipmentReferenceName.Contains(reference)
+                                                            && !string.IsNullOrEmpty(x.TrackingNumber)).ToList();
             //}
             return currentShipments;
         }
@@ -939,8 +953,6 @@ namespace PI.Business
 
             return currentShipment;
         }
-
-
 
         //get shipments by ID
         public ShipmentDto GetshipmentById(string shipmentCode, long shipmentId = 0)
@@ -1045,7 +1057,7 @@ namespace PI.Business
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
-                    IsDG=currentShipment.ShipmentPackage.IsDG
+                    IsDG = currentShipment.ShipmentPackage.IsDG
 
                 },
                 CarrierInformation = new CarrierInformationDto
@@ -1060,6 +1072,7 @@ namespace PI.Business
 
             return currentShipmentDto;
         }
+
         //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
@@ -1123,8 +1136,8 @@ namespace PI.Business
                     Insurance = shipment.ShipmentPackage.InsuranceCost,
                     tarriffType = shipment.TarriffType,
                     tariffText = shipment.TariffText,
-                    description=shipment.CarrierDescription
-                    
+                    description = shipment.CarrierDescription
+
                 },
                 AddressInformation = new ConsignerAndConsigneeInformationDto()
                 {
@@ -1217,8 +1230,8 @@ namespace PI.Business
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
                 result.ShipmentReference = shipment.ShipmentReferenceName;
-                shipment.Provider = "Ship It Smarter";              
-                
+                shipment.Provider = "Ship It Smarter";
+
             }
             else if (string.IsNullOrWhiteSpace(response.Awb) && isPostmen)
             {
@@ -1227,8 +1240,6 @@ namespace PI.Business
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
                 result.ShipmentReference = shipment.ShipmentReferenceName;
-
-
                 shipment.Provider = "PostMen";
 
                 shipmentError = new ShipmentError()
@@ -1260,10 +1271,9 @@ namespace PI.Business
                 //adding the shipment label to azure
                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
-            
             }
 
-            if(shipmentError != null)
+            if (shipmentError != null)
                 context.ShipmentErrors.Add(shipmentError);
 
             context.SaveChanges();
@@ -1271,20 +1281,7 @@ namespace PI.Business
 
         }
 
-        public long GetTenantIdByUserId(string userid)
-        {
-            ApplicationUser currentuser = null;
 
-            currentuser = context.Users.SingleOrDefault(u => u.Id == userid);
-
-            if (currentuser == null)
-            {
-                return 0;
-            }
-            return currentuser.TenantId;
-        }
-
-        
         private bool AddShipmentLabeltoAzure(ShipmentOperationResult operationResult, SendShipmentDetailsDto sendShipmentDetails)
         {
             AzureFileManager media = new AzureFileManager();
@@ -1294,7 +1291,6 @@ namespace PI.Business
             return true;
 
         }
-
 
 
         public List<DivisionDto> GetAllDivisionsinCompany(string userId)
@@ -1483,7 +1479,6 @@ namespace PI.Business
         }
 
 
-
         //get shipment details by tracking number
         public Data.Entity.Shipment GetShipmentByTrackingNo(string trackingNo)
         {
@@ -1498,10 +1493,8 @@ namespace PI.Business
         //get shipment details by tracking number
         public ShipmentDto GetShipmentDetailsByTrackingNo(string trackingNo)
         {
-
             ShipmentDto shipmentdetails;
             Data.Entity.Shipment currentShipment = new Data.Entity.Shipment();
-
 
             currentShipment = (from shipment in context.Shipments
                                where shipment.TrackingNumber == trackingNo
@@ -1675,7 +1668,6 @@ namespace PI.Business
             return tracker;
 
         }
-
 
         public void DeleteLocationActivityByLocationHistoryId(long historyId)
         {
@@ -1854,7 +1846,7 @@ namespace PI.Business
 
             if (startDate.HasValue)
                 startDate = startDate.Value.ToUniversalTime();
-            if(endDate.HasValue)
+            if (endDate.HasValue)
                 endDate = endDate.Value.ToUniversalTime();
 
             var content = (from shipment in Shipments
@@ -1938,7 +1930,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?) context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
                     }
 
                 });
@@ -2048,6 +2040,7 @@ namespace PI.Business
 
             return shipments;
         }
+
 
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
@@ -2503,9 +2496,9 @@ namespace PI.Business
                 }
             };
 
-            context.CommercialInvoices.Add(invoice);            
+            context.CommercialInvoices.Add(invoice);
             context.SaveChanges();
-           
+
             return result;
         }
 
@@ -2683,7 +2676,7 @@ namespace PI.Business
 
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = ((ShipmentStatus)item.Status).ToString(),
+                        Status =  Utility.GetEnumDescription((ShipmentStatus)item.Status),
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -2785,10 +2778,12 @@ namespace PI.Business
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy,item.CreatedDate).Value.ToString("dd MMM yyyy"), //item.CreatedDate.ToString("MM/dd/yyyy"),
-                        Status = ((ShipmentStatus)item.Status).ToString(),
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
+                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"), //item.CreatedDate.ToString("MM/dd/yyyy"),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
+                        IsEnableEdit = true,
+                        //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
+                        IsEnableDelete = true,
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -2842,43 +2837,42 @@ namespace PI.Business
                 endDate = endDate.Value.ToUniversalTime();
 
             IQueryable<Shipment> querableContent = (from shipment in context.Shipments
-                           where shipment.IsDelete == false &&
-                           //shipment.
-                           (string.IsNullOrEmpty(status) ||
-                              (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                : (status == "Delayed" || shipment.Status == enumStatus)
-                              )
-                            ) &&
-                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                           (searchValue == null ||
-                           (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
-                           (shipment.ConsignorAddress.Country.Contains(searchValue) || shipment.ConsignorAddress.City.Contains(searchValue)) ||
-                           (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
-                           select shipment);
+                                                    where shipment.IsDelete == false &&
+                                                    //shipment.
+                                                     ((string.IsNullOrWhiteSpace(status) ||
+                                                      (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
+                                                    : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
+                                                    : status == "Out for delivery" ? shipment.Status == (short)ShipmentStatus.OutForDelivery
+                                                    : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))
+                                                   )) &&
+                                                    (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
+                                                    (searchValue == null ||
+                                                    (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
+                                                    (shipment.ConsignorAddress.Country.Contains(searchValue) || shipment.ConsignorAddress.City.Contains(searchValue)) ||
+                                                    (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
+                                                    select shipment);
 
-            var content = querableContent.OrderBy(d=>d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+            var content = querableContent.OrderBy(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
 
             foreach (var item in content)
             {
                 string errorUrl = "";
 
                 var owner = context.Users.Where(u => u.Id == item.CreatedBy).SingleOrDefault();
-               
-                //if shipment is in pending status get the error message
-                if ((ShipmentStatus)item.Status==ShipmentStatus.Pending)
-                {
-                    ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();                   
 
-                    if (error==null)
+                //if shipment is in pending status get the error message
+                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending)
+                {
+                    ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
+
+                    if (error == null)
                     {
                         errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
                     }
                     else
                     {
                         errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
-                       
+
                     }
 
                 }
@@ -2932,11 +2926,11 @@ namespace PI.Business
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = ((ShipmentStatus)item.Status).ToString(),
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        IsEnableEdit = true, // Any status is ediitable for admins/support staff
+                        IsEnableDelete = true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        ErrorUrl= errorUrl
+                        ErrorUrl = errorUrl
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -2960,7 +2954,7 @@ namespace PI.Business
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null,
-                        Provider=item.Provider
+                        Provider = item.Provider
                     }
 
                 });
@@ -2978,322 +2972,37 @@ namespace PI.Business
         public byte[] loadAllShipmentsForAdminExcelExport(string status = null, DateTime? startDate = null, DateTime? endDate = null,
                                         string number = null, string source = null, string destination = null)
         {
-            int page = 1;
-            int pageSize = 10;
-            short enumStatus = string.IsNullOrEmpty(status) || status == "Delayed" ? (short)0 : (short)Enum.Parse(typeof(ShipmentStatus), status);
+            var pagedRecord = new PagedList();
+            pagedRecord.Content = new List<ShipmentDto>();
 
-            var Content = new List<ShipmentDto>();
+            pagedRecord.Content = loadAllShipmentsForAdmin().Content;
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
-
-            //using (var context = PIContext.Get())
-            //{
-            var content = (from shipment in context.Shipments
-                           where shipment.IsDelete == false &&
-                           (string.IsNullOrEmpty(status) ||
-                              (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                : (status == "Delayed" || shipment.Status == enumStatus)
-                              )
-                            ) &&
-                           /*shipment.Division.CompanyId.ToString() == companyId &&*/
-                           //(string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
-                           (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                           (number == null || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                           (source == null || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                           (destination == null || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
-                           select shipment).ToList();
-
-
-            foreach (var item in content)
-            {
-                Content.Add(new ShipmentDto
-                {
-                    AddressInformation = new ConsignerAndConsigneeInformationDto
-                    {
-                        Consignee = new ConsigneeDto
-                        {
-                            Address1 = item.ConsigneeAddress.StreetAddress1,
-                            Address2 = item.ConsigneeAddress.StreetAddress2,
-                            Postalcode = item.ConsigneeAddress.ZipCode,
-                            City = item.ConsigneeAddress.City,
-                            Country = item.ConsigneeAddress.Country,
-                            State = item.ConsigneeAddress.State,
-                            FirstName = item.ConsigneeAddress.FirstName,
-                            LastName = item.ConsigneeAddress.LastName,
-                            ContactName = item.ConsigneeAddress.ContactName,
-                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
-                            Email = item.ConsigneeAddress.EmailAddress,
-                            Number = item.ConsigneeAddress.Number
-                        },
-                        Consigner = new ConsignerDto
-                        {
-                            Address1 = item.ConsignorAddress.StreetAddress1,
-                            Address2 = item.ConsignorAddress.StreetAddress2,
-                            Postalcode = item.ConsignorAddress.ZipCode,
-                            City = item.ConsignorAddress.City,
-                            Country = item.ConsignorAddress.Country,
-                            State = item.ConsignorAddress.State,
-                            FirstName = item.ConsignorAddress.FirstName,
-                            LastName = item.ConsignorAddress.LastName,
-                            ContactName = item.ConsignorAddress.ContactName,
-                            ContactNumber = item.ConsignorAddress.PhoneNumber,
-                            Email = item.ConsignorAddress.EmailAddress,
-                            Number = item.ConsignorAddress.Number
-                        }
-                    },
-                    GeneralInformation = new GeneralInformationDto
-                    {
-                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
-                        DivisionId = item.DivisionId.GetValueOrDefault(),
-                        ShipmentCode = item.ShipmentCode,
-                        ShipmentMode = item.ShipmentMode.ToString(),
-                        ShipmentName = item.ShipmentName,
-                        //ShipmentTermCode = item.ShipmentTermCode,
-                        //ShipmentTypeCode = item.ShipmentTypeCode,
-                        ShipmentId = item.Id.ToString(),
-                        TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = ((ShipmentStatus)item.Status).ToString(),
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
-                    },
-                    PackageDetails = new PackageDetailsDto
-                    {
-                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        Count = item.ShipmentPackage.PackageProducts.Count,
-                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
-                        HsCode = item.ShipmentPackage.HSCode,
-                        Instructions = item.ShipmentPackage.CarrierInstruction,
-                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
-                        TotalVolume = item.ShipmentPackage.TotalVolume,
-                        TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
-                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
-                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
-                        ShipmentDescription = item.ShipmentPackage.PackageDescription
-
-                    },
-                    CarrierInformation = new CarrierInformationDto
-                    {
-                        CarrierName = item.Carrier.Name,
-                        serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
-                    }
-
-                });
-            }
-
-            return this.GenerateExcelSheetForShipmentExportFunction(Content);
+            return this.GenerateExcelSheetForShipmentExportFunction((List<ShipmentDto>)pagedRecord.Content);
 
             // }
         }
 
 
-        public byte[] loadAllShipmentsForExcel(string status, string userId, DateTime? startDate, DateTime? endDate,
-                                              string number, string source, string destination, bool viaDashboard)
+        public byte[] loadAllShipmentsForExcel(PagedList shipmentSerach)
         {
-            int page = 1;
-            int pageSize = 10;
-            IList<DivisionDto> divisions = null;
-            IList<int> divisionList = new List<int>();
-            List<Data.Entity.Shipment> Shipments = new List<Data.Entity.Shipment>();
+            var pagedRecord = new PagedList();
+            pagedRecord.Content = new List<ShipmentDto>();
 
-            if (userId == null)
-            {
-                return null;
-            }
-            string role = context.GetUserRoleById(userId);
-            if (role == "BusinessOwner" || role == "Manager")
-            {
-                divisions = this.GetAllDivisionsinCompany(userId);
-            }
-            else if (role == "Supervisor")
-            {
-                divisions = companyManagment.GetAssignedDivisions(userId);
-            }
-            if (divisions != null && divisions.Count > 0)
-            {
-                foreach (var item in divisions)
-                {
-                    Shipments.AddRange(this.GetshipmentsByDivisionId(item.Id));
-                }
-            }
-            else
-            {
-                Shipments.AddRange(this.GetshipmentsByUserId(userId));
-            }
+            var retunedResult = GetAllShipmentsbyUser(shipmentSerach);
+            pagedRecord.Content = retunedResult == null ? null : retunedResult.Content;
 
-
-            var shipments = new List<ShipmentDto>();
-
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
-
-            var content = (from shipment in Shipments
-                           where shipment.IsDelete == false && !shipment.IsParent &&
-                           (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
-                               && shipment.IsFavourite :
-                               ((string.IsNullOrEmpty(status) ||
-                                  (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                    : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                    : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                    : (status == "Delayed" || shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status)))
-                                                   )
-                               //(startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                               //(string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number)) &&
-                               //(string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                               //(string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
-                               )
-                           ) &&
-                           !shipment.IsParent
-                           select shipment).ToList();
-
-            // Update retrieve shipment list status from SIS.
-            string environment = "";
-            foreach (var shipment in content)
-            {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-                {
-                    environment = GetEnvironmentByTarrif(shipment.TariffText);
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-                }
-            }
-
-            //using (PIContext context = PIContext.Get())
-            //{
-            var latestStatusHistory = context.ShipmentLocationHistories.OrderByDescending(x => x.CreatedDate).FirstOrDefault();
-            //latestStatusHistory.CreatedDate 
-
-            // Get new updated shipment list again.
-            var updatedtContent = (from shipment in Shipments
-                                   join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
-                                   where shipment.IsDelete == false &&
-                                   (viaDashboard ? shipment.Status != (short)ShipmentStatus.Delivered && shipment.Status != (short)ShipmentStatus.Deleted
-                                    && shipment.IsFavourite :
-                                       ((string.IsNullOrEmpty(status) ||
-                                        (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
-                                                         : status == "Transit" ? (shipment.Status == (short)ShipmentStatus.Pickup || shipment.Status == (short)ShipmentStatus.Transit || shipment.Status == (short)ShipmentStatus.OutForDelivery)
-                                                         : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
-                                                         : status == "Delayed" ? (shipment.Status != (short)ShipmentStatus.Delivered && latestStatusHistory != null && latestStatusHistory.CreatedDate > package.EstDeliveryDate.Value)
-                                                         : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))) &&
-                                       //((string.IsNullOrEmpty(status) || (status == "Active" ? shipment.Status != (short)ShipmentStatus.Delivered : shipment.Status == (short)ShipmentStatus.Delivered)) &&
-                                       (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
-                                         (string.IsNullOrEmpty(number) || (!string.IsNullOrEmpty(shipment.TrackingNumber) && shipment.TrackingNumber.Contains(number)) || (!string.IsNullOrEmpty(shipment.ShipmentCode) && shipment.ShipmentCode.Contains(number))) &&
-                                       (string.IsNullOrEmpty(source) || shipment.ConsignorAddress.Country.Contains(source) || shipment.ConsignorAddress.City.Contains(source)) &&
-                                       (string.IsNullOrEmpty(destination) || shipment.ConsigneeAddress.Country.Contains(destination) || shipment.ConsigneeAddress.City.Contains(destination))
-                                     )
-                                   ) &&
-                                   !shipment.IsParent
-                                   select shipment).ToList();
-
-            foreach (var item in updatedtContent)
-            {
-                var packageCount = 0;
-                foreach (var product in item.ShipmentPackage.PackageProducts)
-                {
-                    packageCount = packageCount + product.Quantity;
-                }
-
-
-                shipments.Add(new ShipmentDto
-                {
-                    AddressInformation = new ConsignerAndConsigneeInformationDto
-                    {
-                        Consignee = new ConsigneeDto
-                        {
-                            Address1 = item.ConsigneeAddress.StreetAddress1,
-                            Address2 = item.ConsigneeAddress.StreetAddress2,
-                            Postalcode = item.ConsigneeAddress.ZipCode,
-                            City = item.ConsigneeAddress.City,
-                            Country = item.ConsigneeAddress.Country,
-                            State = item.ConsigneeAddress.State,
-                            FirstName = item.ConsigneeAddress.FirstName,
-                            LastName = item.ConsigneeAddress.LastName,
-                            ContactName = item.ConsigneeAddress.ContactName,
-                            ContactNumber = item.ConsigneeAddress.PhoneNumber,
-                            Email = item.ConsigneeAddress.EmailAddress,
-                            Number = item.ConsigneeAddress.Number
-                        },
-                        Consigner = new ConsignerDto
-                        {
-                            Address1 = item.ConsignorAddress.StreetAddress1,
-                            Address2 = item.ConsignorAddress.StreetAddress2,
-                            Postalcode = item.ConsignorAddress.ZipCode,
-                            City = item.ConsignorAddress.City,
-                            Country = item.ConsignorAddress.Country,
-                            State = item.ConsignorAddress.State,
-                            FirstName = item.ConsignorAddress.FirstName,
-                            LastName = item.ConsignorAddress.LastName,
-                            ContactName = item.ConsignorAddress.ContactName,
-                            ContactNumber = item.ConsignorAddress.PhoneNumber,
-                            Email = item.ConsignorAddress.EmailAddress,
-                            Number = item.ConsignorAddress.Number
-                        }
-                    },
-                    GeneralInformation = new GeneralInformationDto
-                    {
-                        CostCenterId = item.CostCenterId.GetValueOrDefault(),
-                        DivisionId = item.DivisionId.GetValueOrDefault(),
-                        ShipmentCode = item.ShipmentCode,
-                        ShipmentId = item.Id.ToString(),
-                        ShipmentMode = Enum.GetName(typeof(Contract.Enums.CarrierType), item.ShipmentMode),
-                        ShipmentName = item.ShipmentName,
-                        ShipmentServices = Utility.GetEnumDescription((ShipmentService)item.ShipmentService),
-                        TrackingNumber = item.TrackingNumber,
-                        CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
-                        IsFavourite = item.IsFavourite,
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
-                    },
-                    PackageDetails = new PackageDetailsDto
-                    {
-                        CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                        Count = packageCount,
-                        DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
-                        HsCode = item.ShipmentPackage.HSCode,
-                        Instructions = item.ShipmentPackage.CarrierInstruction,
-                        IsInsuared = item.ShipmentPackage.IsInsured.ToString(),
-                        TotalVolume = item.ShipmentPackage.TotalVolume,
-                        TotalWeight = item.ShipmentPackage.TotalWeight,
-                        ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
-                        PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
-                        ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
-                        ShipmentDescription = item.ShipmentPackage.PackageDescription
-
-                    },
-                    CarrierInformation = new CarrierInformationDto
-                    {
-                        CarrierName = item.Carrier.Name,
-                        serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
-                    }
-
-                });
-            }
-
-            return this.GenerateExcelSheetForShipmentExportFunction(shipments); ;
+            return this.GenerateExcelSheetForShipmentExportFunction((List<ShipmentDto>)pagedRecord.Content); ;
         }
 
 
 
-        private byte[] GenerateExcelSheetForShipmentExportFunction(List<ShipmentDto> shipments)
+        private byte[] GenerateExcelSheetForShipmentExportFunction(IList<ShipmentDto> shipments)
         {
             using (ExcelPackage excel = new ExcelPackage())
             {
                 //Create the worksheet
                 ExcelWorksheet ws = excel.Workbook.Worksheets.Add("Shipments");
-                                
+
                 ws.Cells["A1"].Value = "Report:";
                 ws.Cells["A1"].Style.Font.Size = 16;
                 ws.Cells["A1"].Style.Font.Bold = true;
@@ -3318,7 +3027,7 @@ namespace PI.Business
                 ws.Cells["B2"].Style.Font.Bold = true;
                 ws.Cells["B2"].Style.Font.Name = "Calibri";
                 ws.Cells["B2"].Style.HorizontalAlignment = ExcelHorizontalAlignment.Left;
-                
+
                 // Set headings.              
 
                 ws.Cells["A6"].Value = "Shipment Reference";
@@ -3378,7 +3087,7 @@ namespace PI.Business
                 {
                     rowIndex++;
                     var WeightMetric = "";
-                    if (shipment.PackageDetails.CmLBS )
+                    if (shipment.PackageDetails.CmLBS)
                     {
                         WeightMetric = "Kg";
                     }
@@ -3402,15 +3111,15 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 5];
                     cell.Value = shipment.GeneralInformation.TrackingNumber;
 
-                    cell = ws.Cells[rowIndex, 6];                    
-                    cell.Style.Numberformat.Format = "$0.00";                  
+                    cell = ws.Cells[rowIndex, 6];
+                    cell.Style.Numberformat.Format = "$0.00";
                     cell.Value = shipment.CarrierInformation.Price;
 
                     cell = ws.Cells[rowIndex, 7];
                     cell.Style.Numberformat.Format = "0.00";
                     cell.Value = shipment.PackageDetails.TotalWeight;
 
-                    cell = ws.Cells[rowIndex, 8];                 
+                    cell = ws.Cells[rowIndex, 8];
                     cell.Value = WeightMetric;
 
                     cell = ws.Cells[rowIndex, 9];
@@ -3435,8 +3144,8 @@ namespace PI.Business
                     cell.Value = shipment.AddressInformation.Consigner.Email;
 
                     cell = ws.Cells[rowIndex, 16];
-                    cell.Value = shipment.AddressInformation.Consigner.Address1+ shipment.AddressInformation.Consigner.Address2;
-                    
+                    cell.Value = shipment.AddressInformation.Consigner.Address1 + shipment.AddressInformation.Consigner.Address2;
+
                     cell = ws.Cells[rowIndex, 17];
                     cell.Value = shipment.AddressInformation.Consigner.Postalcode;
 
@@ -3508,6 +3217,7 @@ namespace PI.Business
                 return excel.GetAsByteArray();
             }
         }
+
 
         private byte[] GenerateExcelSheetForShipmentReport(List<ShipmentReportDto> shipmentReport)
         {
@@ -3760,8 +3470,6 @@ namespace PI.Business
                     TrackingNumber = item.TrackingNumber,
                     CreatedDate = item.CreatedDate.ToString("dd MMM yyyy"),
                     Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
-                    IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                    IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
 
                     //Package Details
                     CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
@@ -3884,26 +3592,30 @@ namespace PI.Business
 
             var allShipments = Shipments.Where(s => s.IsParent == false).ToList();
 
-            shipmentCounts.PendingStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
-            shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
-            shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit || x.Status == (short)ShipmentStatus.Pickup || x.Status == (short)ShipmentStatus.OutForDelivery).Count();
-            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception || x.Status == (short)ShipmentStatus.Claim).Count();
+            shipmentCounts.DraftStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Draft).Count();
             shipmentCounts.BookingConfStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.BookingConfirmation).Count();
+            shipmentCounts.PickeduptatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pickup).Count();
+            shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
+            shipmentCounts.OutForDeliveryStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.OutForDelivery).Count();
+            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+            shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
+            shipmentCounts.ErrorStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
+            shipmentCounts.DeletedStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Deleted).Count();
             shipmentCounts.allStatusCount = allShipments.Count();
 
 
-            var delayed = (from shipment in allShipments
-                           join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
-                           join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
-                           where shipment.Status != (short)ShipmentStatus.Delivered &&
-                           history.CreatedDate > package.EstDeliveryDate.Value &&
-                           !shipment.IsParent
-                           select shipment).Count();
+            //var delayed = (from shipment in allShipments
+            //               join package in context.ShipmentPackages on shipment.ShipmentPackageId equals package.Id
+            //               join history in context.ShipmentLocationHistories on shipment.Id equals history.ShipmentId
+            //               where shipment.Status != (short)ShipmentStatus.Delivered &&
+            //               history.CreatedDate > package.EstDeliveryDate.Value &&
+            //               !shipment.IsParent
+            //               select shipment).Count();
 
-            shipmentCounts.DelayedStatusCount = delayed;
+            //shipmentCounts.DelayedStatusCount = delayed;
 
             return shipmentCounts;
-            //}
+
         }
 
 
@@ -3987,9 +3699,9 @@ namespace PI.Business
                         ShipmentId = item.Id.ToString(),
                         TrackingNumber = item.TrackingNumber,
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
-                        Status = ((ShipmentStatus)item.Status).ToString(),
-                        IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
-                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation),
+                        Status = Utility.GetEnumDescription((ShipmentStatus)item.Status),
+                        IsEnableEdit = true,
+                        IsEnableDelete = true,
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -4028,6 +3740,7 @@ namespace PI.Business
             //}
         }
 
+
         private string GetEnvironmentByTarrif(string tarrifText)
         {
             string environment = string.Empty;
@@ -4059,8 +3772,6 @@ namespace PI.Business
 
             return paymentDetails;
         }
-
-
 
 
         public ShipmentOperationResult PaymentCharge(PaymentDto payment)
@@ -4114,10 +3825,12 @@ namespace PI.Business
 
         }
 
+
         public DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime)
         {
             return context.GetLocalTimeByUser(loggedUserId, utcDatetime);
         }
+
 
         public DateTime GetSISTaleUSTime(DateTime datetime)
         {
@@ -4127,10 +3840,13 @@ namespace PI.Business
             return sisTime;
         }
 
+
         public DateTime GetUTCTimeFromSISTaleUS(DateTime datetime)
         {
             return TimeZoneInfo.ConvertTime(datetime, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"), TimeZoneInfo.Utc);
         }
+
+
     }
 
 
