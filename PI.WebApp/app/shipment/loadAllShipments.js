@@ -7,6 +7,8 @@
                            var vm = this;
                            var statusValue = null;
                            vm.viaDashboard = false;
+                           var tableStateCopy;
+
                            vm.viaDashboard = $scope.dashCtrl == undefined ? false : $scope.dashCtrl.isViaDashboard;
 
                            //toggle function
@@ -118,9 +120,20 @@
                                });
                            }
 
-                           vm.ExportExcel = function () {
+                           vm.ExportExcel = function (tableState) {
 
                                vm.loadingSymbole = true;
+                               debugger;
+                               if (tableState != undefined) {
+                                   tableStateCopy = tableState;
+                               }
+                               else {
+                                   tableState = tableStateCopy;
+                               }
+
+                               var start = tableState.pagination.start;
+                               var number = tableState.pagination.number;
+                               var numberOfPages = tableState.pagination.numberOfPages;
 
                                var pagedList = {
                                    filterContent: {
@@ -131,15 +144,13 @@
                                        source: (vm.originCityCountry == undefined) ? null : vm.originCityCountry,
                                        destination: (vm.desCityCountry == undefined) ? null : vm.desCityCountry,
                                    },
-                                   pageSize: pageRecord,
-                                   currentPage: startRecord
+                                   pageSize: number,
+                                   currentPage: start
                                }
-
-                               statusValue = status;
 
                                shipmentFactory.getFilteredShipmentsExcel(pagedList)
                                .success(function (data, status, headers) {
-                                   vm.loadingSymbole = false;
+                                  vm.loadingSymbole = false;
 
                                    var octetStreamMime = 'application/octet-stream';
                                    var success = false;
@@ -306,8 +317,7 @@
 
 
                            };
-
-
+                           
                            //delete shipment
                            vm.saveById = function (row) {
 
@@ -416,7 +426,6 @@
                                }
                            }
 
-                           var tableStateCopy;
                            vm.callServerSearch = function (tableState) {
 
                                debugger;
