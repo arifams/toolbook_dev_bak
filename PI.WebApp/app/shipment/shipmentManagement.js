@@ -324,6 +324,7 @@
 
                            vm.loadAllCompanies = function () {
                                var from = 'manageShipCtrl'
+                               vm.loadingSymbole = true;
 
                                vm.rowCollection = [];
 
@@ -331,6 +332,7 @@
                                   function (responce) {
                                       if (responce.content.length > 0) {
 
+                                          vm.loadingSymbole = false;
                                           vm.noShipments = false;
                                           ngDialog.open({
                                               scope: $scope,
