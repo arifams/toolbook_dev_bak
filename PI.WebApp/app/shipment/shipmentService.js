@@ -292,17 +292,14 @@
         }
 
 
-        function getFilteredShipmentsExcel(pagedList) {
+        function getFilteredShipmentsExcel(shipmentSerach) {
              
             setLoginUserID();
-            pagedList.userId = userId;
-
-            return $http.get(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel', {
-                params: {
-                    pagedList: pagedList
-                },
-                responseType: 'arraybuffer'
-            });
+            shipmentSerach.userId = userId;
+            debugger;
+            return $http.post(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel',shipmentSerach,           
+               {responseType: 'arraybuffer'}            
+            );
         }
 
 

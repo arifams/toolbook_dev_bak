@@ -287,7 +287,8 @@ namespace PI.Business
             currentRateSheetDetails.language = "EN";
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
+           // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
 
 
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
@@ -1272,10 +1273,22 @@ namespace PI.Business
                 {
                     // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
                     result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                   // shipment.BlobUrl = result.LabelURL;
                 }
                 else
                 {
-                    result.LabelURL = response.PDF;
+                    if (shipment.Carrier.Name=="TNT")
+                    {
+                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                    }
+                    else
+                    {
+                        result.LabelURL = response.PDF;
+                    }
+                  
+
+
+                   // shipment.BlobUrl = response.PDF;
                 }
                 result.ShipmentId = shipment.Id;
                 shipment.Status = (short)ShipmentStatus.BookingConfirmation;
@@ -1283,6 +1296,9 @@ namespace PI.Business
                 //adding the shipment label to azure
                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
+                var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
+                var Url= getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+                result.LabelURL = Url;
             }
 
             if (shipmentError != null)
@@ -2063,6 +2079,8 @@ namespace PI.Business
                                                                           + "/" + (shipmentId.ToString() + ".pdf");
             return fileAbsoluteURL;
         }
+
+      
         //Update shipment status
         //public int ShipmentStatusBulkUpdate(string shipmentCode, string trackingNumber, string carrierName, string userId)
         //{
@@ -3221,7 +3239,7 @@ namespace PI.Business
                 }
 
                 // Set width
-                for (int i = 1; i < 22; i++)
+                for (int i = 1; i < 35; i++)
                 {
                     ws.Column(i).Width = 34;
                 }
