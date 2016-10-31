@@ -1582,7 +1582,7 @@
                                         <select id="shipmentServices" class="form-control"
                                                 convert-to-number ng-options="service.Id as translate(service.Name) for service in shipmentCtrl.shipmentServices"
                                                 name="shipmentType" ng-model="shipmentCtrl.shipment.generalInformation.shipmentServices"
-                                                ng-change="selectShipmentType();"
+                                                ng-change="shipmentCtrl.selectShipmentType();"
                                                 rel="popover" data-container="body" data-toggle="popover"
                                                 data-placement="top"
                                                 data-html="true"
@@ -1601,14 +1601,12 @@
                                 <label><i class="fa fa-spinner faa-spin animated"></i> <translate>loading...</translate></label>
                             </div>
                         </div>
-                        <div class="col-sm-2 p-0">
-                            <a class="btn btn-primary no-margin pull-right" href="#loadShipments" translate>Save as Draft</a>
-                        </div>
+                      
                         <div class="col-sm-2">
-                            <button class="btn btn-primary no-margin" style="float:right;" type="button" ng-click="shipmentCtrl.calculateRates()" translate>Save & Find Rates</button>
+                            <button class="btn btn-primary no-margin" style="float:right;" type="button" ng-click="shipmentCtrl.calculateRates()" translate>Find Rates</button>
                         </div>
                     </div>
-                    <div class="row" ng-show="shipmentCtrl.ratesNotAvailable">
+                    <div class="row" ng-show="shipmentCtrl.ratesNotAvailable && !shipmentCtrl.shipmentChanged" >
                         <div class="col-sm-7"></div>
                         <div class="col-sm-3">
                             <label class="label label-danger">
@@ -1625,7 +1623,7 @@
                         </div>
                     </div>
 
-                    <div class="CareeDetailsTable" collapse="!shipmentCtrl.searchRates||shipmentCtrl.previousClicked" style="height:auto">
+                    <div class="CareeDetailsTable" collapse="!shipmentCtrl.searchRates||shipmentCtrl.previousClicked || shipmentCtrl.shipmentChanged" style="height:auto">
                         <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-hover" id="selectRates">
                             <thead>
                                 <tr>
@@ -1750,6 +1748,10 @@
                                         </button>
                                     </div>
 
+                                    <div class="col-sm-2 p-0">
+                                        <button class="btn btn-primary no-margin pull-right"  ng-click="shipmentCtrl.saveAsDraft()" translate>Save as Draft</button>
+                                    </div>
+
                                     <div class="col-sm-2" style="float:right;" ng-show="shipmentCtrl.isInvoicePaymentEnabled && !shipmentCtrl.ratesNotAvailable">
                                         <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
                                     </div>
@@ -1807,7 +1809,7 @@
                                     <span> {{shipmentCtrl.shipmentStatusMsg}} </span>
 
                                     <div ng-show="shipmentCtrl.isShowLabel">
-                                        <a href="{{shipmentCtrl.labelUrl}}" target="_blank" translate>Download the Label</a>
+                                        <a  ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
                                     </div>
                                     <div ng-hide="shipmentCtrl.isShowLabel">
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
