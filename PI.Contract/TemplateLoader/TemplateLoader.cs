@@ -22,7 +22,7 @@ namespace PI.Contract.TemplateLoader
            else if (name == "exceptionEmail")
             {
 
-                var uploadFolder = "~/App_Data/Tmp/FileUploads/ExceptionEmailTemplate.html";
+                var uploadFolder = "~/App_Data/Templates/ExceptionEmailTemplate.html";
                 string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
                 //var stream= System.Web.HttpContext.Current.Server.MapPath("~\\Templates\\USInvoiceTemplate.html");
                 template.Load(wanted_path);

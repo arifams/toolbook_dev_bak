@@ -908,25 +908,30 @@ namespace PI.Business
 
 
         //update shipment status manually only by admin
-        public int UpdateshipmentStatusManually(string codeShipment, string status)
+        public bool UpdateshipmentStatusManually(string codeShipment, string status)
         {
-            //using (PIContext context = PIContext.Get())
-            //{
             var shipment = (from shipmentinfo in context.Shipments
                             where shipmentinfo.ShipmentCode == codeShipment
                             select shipmentinfo).FirstOrDefault();
             if (shipment == null)
             {
-                return 0;
+                return false;
             }
 
-            shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
-            shipment.ManualStatusUpdatedDate = DateTime.UtcNow;
-            context.SaveChanges();
-            return 1;
-            //}
+            try
+            {
+                shipment.Status = (short)Enum.Parse(typeof(ShipmentStatus), status);
+                shipment.ManualStatusUpdatedDate = DateTime.UtcNow;
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
 
+            return true;
         }
+
 
         public void UpdateShipmentStatus(string trackingNo, short status)
         {
@@ -2967,7 +2972,9 @@ namespace PI.Business
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
                         IsEnableDelete = true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        ErrorUrl = errorUrl
+                        ErrorUrl = errorUrl,
+                        CreatedBy = item.CreatedBy
+
                     },
                     PackageDetails = new PackageDetailsDto
                     {
