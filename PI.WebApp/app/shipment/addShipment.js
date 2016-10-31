@@ -58,7 +58,7 @@
         vm.savedShipmentId = '';
         vm.shipmentReferenceName = ''
         vm.isViaInvoicePayment = true;
-
+        vm.isBacktoRatesDisabled = false;
 
 
 
@@ -951,7 +951,7 @@
 
             vm.carrierselected = false;
             vm.isPrevDisabled = true;
-
+            vm.isBacktoRatesDisabled = true;
             saveShipment();
 
             //vm.isShowPaymentForm = true;
