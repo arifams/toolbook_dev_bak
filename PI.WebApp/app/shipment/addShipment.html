@@ -1758,7 +1758,7 @@
                                 <div class="col-sm-2" style="float:right;" 
                                      ng-show="!shipmentCtrl.ratesNotAvailable? 
                                      (currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support' ? true : shipmentCtrl.isInvoicePaymentEnabled ) : false">
-                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment()" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
+                                    <button class="btn btn-primary" type="submit" ng-click="shipmentCtrl.submitShipment(invoice)" ng-disabled="!shipmentCtrl.carrierselected" translate>Pay via invoice</button>
                                 </div>
 
                                 <div class="col-sm-2" style="float:right;" ng-hide="shipmentCtrl.ratesNotAvailable ||  (currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support')">
@@ -1820,7 +1820,7 @@
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice">
+                                    <div ng-show="shipmentCtrl.isShowInvoice && isNotViaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
 
