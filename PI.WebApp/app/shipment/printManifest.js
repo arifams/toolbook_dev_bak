@@ -13,7 +13,8 @@
                var password = 'Mitrai462';
                var career = null;
                vm.isPackageEnable = 'false';
-               vm.isSubmit = false;
+               vm.isGeneralSubmit = false;
+               vm.isSpecificSubmit = false;
                vm.shipmentInfo = {};
                vm.consignerfname = "";
                vm.consignerlname = "";
@@ -47,19 +48,19 @@
                vm.clickGeneral = function () {
                    vm.specific = false;
                    vm.reference = '';
+                   // Clear the errors.
+                   vm.showError = false;
                }
 
                vm.clickSpecific = function () {
                    vm.specific = true;
                    vm.Date = '';
-                   //career = null;
+                   // Clear the errors.
+                   vm.showError = false;
                }
 
-
-
                vm.GenerateManifest = function () {
-                   vm.showEdit = false;
-                   vm.isSubmit = true;                   
+                   vm.showEdit = false;              
                    career=vm.carrier;
 
                    if (vm.Date == null && career==null) {
@@ -100,6 +101,16 @@
 
                    console.log("error occurd while retrieving customer details");
                });
+               }
+
+               vm.GenerateManifestFromGeneral = function () {
+                   vm.isGeneralSubmit = true;
+                   vm.GenerateManifest();
+               }
+
+               vm.GenerateManifestFromSpecific = function () {
+                   vm.isSpecificSubmit = true;
+                   vm.GenerateManifest();
                }
 
            }]);

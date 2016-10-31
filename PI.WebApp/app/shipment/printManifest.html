@@ -19,16 +19,16 @@
                                     <input type="button" class="btn btn-default" value="Shipment Specific" ng-click="manifestCtrl.clickSpecific()" />
                                 </div>-->
                                         <div id="general" ng-show="!manifestCtrl.specific">
-                                            <form name="printmanifestform" class="form-horizontal" ng-show="manifestCtrl.showEdit">
+                                            <form name="printmanifestGeneralform" class="form-horizontal" ng-show="manifestCtrl.showEdit">
                                                 <div class="row">
                                                     <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate>
                                                         Pickup date *
                                                     </label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12 prepend-icon">
-                                                        <input datetime-picker name="datetimepicker" class="form-control" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestform.datetimepicker.$invalid &&
-                                                                        (printmanifestform.datetimepicker.$dirty|| manifestCtrl.isSubmit) }" /><i class="icon-calendar"></i>
-                                                        <div ng-messages="printmanifestform.datetimepicker.$error"
-                                                             ng-show="printmanifestform.datetimepicker.$dirty || manifestCtrl.isSubmit">
+                                                        <input datetime-picker name="datetimepicker" class="form-control" ng-model="manifestCtrl.Date" date-format="dd-MMM-yyyy" ng-required="!manifestCtrl.specific" date-only ng-class="{ 'error': printmanifestGeneralform.datetimepicker.$invalid &&
+                                                                        (printmanifestGeneralform.datetimepicker.$dirty|| manifestCtrl.isGeneralSubmit) }" /><i class="icon-calendar"></i>
+                                                        <div ng-messages="printmanifestGeneralform.datetimepicker.$error"
+                                                             ng-show="printmanifestGeneralform.datetimepicker.$dirty || manifestCtrl.isGeneralSubmit">
                                                             <label ng-message="required" class="error" for="Date" translate><span class="p-0">Date is Required</span></label>
                                                         </div>
                                                     </div>
@@ -57,15 +57,15 @@
                                                     <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate> Carrier *</label>
                                                     <div class="col-sm-3 col-md-3 col-xs-12">
                                                         <select class="form-control" name="manifestCarrier" ng-model="manifestCtrl.carrier" ng-required="!manifestCtrl.specific"
-                                                                ng-class="{ 'error': (printmanifestform.manifestCarrier.$dirty|| manifestCtrl.isSubmit) }">
+                                                                ng-class="{ 'error': (printmanifestGeneralform.manifestCarrier.$dirty|| manifestCtrl.isGeneralSubmit) }">
                                                             <option value="" translate>Select carrier</option>
                                                             <option value="UPS" translate>UPS</option>
                                                             <option value="TNT" translate>TNT</option>
                                                             <option value="DHL" translate>DHL</option>
                                                             <option value="FEDEX" translate>FEDEX</option>
                                                         </select>
-                                                        <div ng-messages="printmanifestform.manifestCarrier.$error"
-                                                             ng-show="printmanifestform.manifestCarrier.$dirty ||  manifestCtrl.isSubmit">
+                                                        <div ng-messages="printmanifestGeneralform.manifestCarrier.$error"
+                                                             ng-show="printmanifestGeneralform.manifestCarrier.$dirty ||  manifestCtrl.isGeneralSubmit">
                                                             <label ng-message="required" class="error" translate>Carrier is required</label>
                                                         </div>
                                                     </div>
@@ -74,7 +74,7 @@
                                                     <div>
                                                         <div class="col-sm-8 col-md-8 col-xs-12 pull-right">
                                                             <button type="submit" class="btn btn-primary btn-app pull-right"
-                                                                    ng-click="(printmanifestform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSubmit=true)" translate>
+                                                                    ng-click="(printmanifestGeneralform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isGeneralSubmit=true)" translate>
                                                                 Generate
                                                             </button>
                                                         </div>
@@ -90,23 +90,17 @@
                                             SHIPMENT SPECIFIC
                                         </tab-heading>
                                         <div id="specific" ng-show="manifestCtrl.specific">
-                                            <form>
+                                            <form name="printmanifestReferenceform" ng-show="manifestCtrl.showEdit">
                                                 <div class="row">
-
-                                                    <!--<div class="col-sm-4">
-            <select class="form-control" ng-model="manifestCtrl.referencedropdown">
-                <option value="reference" translate>Shipment Reference</option>
-            </select>
-        </div>-->
                                                     <label class="col-sm-3 control-label" translate>
                                                         Shipment reference
                                                     </label>
                                                     <div class="col-sm-4">
                                                         <input type="text" ng-model="manifestCtrl.reference" class="form-control" name="shipreference"
                                                                ng-required="manifestCtrl.specific"
-                                                               ng-class="{ 'error': printmanifestform.shipreference.$invalid && (printmanifestform.shipreference.$dirty|| manifestCtrl.isSubmit) }" />
-                                                        <div ng-messages="printmanifestform.shipreference.$error"
-                                                             ng-show="printmanifestform.shipreference.$dirty || manifestCtrl.isSubmit">
+                                                               ng-class="{ 'error': printmanifestReferenceform.shipreference.$invalid && (printmanifestReferenceform.shipreference.$dirty|| manifestCtrl.isSpecificSubmit) }" />
+                                                        <div ng-messages="printmanifestReferenceform.shipreference.$error"
+                                                             ng-show="printmanifestReferenceform.shipreference.$dirty || manifestCtrl.isSpecificSubmit">
                                                             <label ng-message="required" class="error" for="shipmentreference" translate>Reference is Required</label>
                                                         </div>
                                                     </div>
@@ -115,7 +109,7 @@
                                                     <div>
                                                         <div class="col-sm-8 col-md-8 col-xs-12 pull-right">
                                                             <button type="submit" class="btn btn-primary btn-app pull-right"
-                                                                    ng-click="(printmanifestform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSubmit=true)" translate>
+                                                                    ng-click="(printmanifestReferenceform.$valid? manifestCtrl.GenerateManifest():manifestCtrl.isSpecificSubmit=true)" translate>
                                                                 Generate
                                                             </button>
                                                         </div>

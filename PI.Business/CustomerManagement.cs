@@ -116,6 +116,19 @@ namespace PI.Business
                     };
                     context.Customers.Add(newCustomer);
 
+                    // Add default account setting
+                    AccountSettings account = new AccountSettings();
+                    account.CustomerId = newCustomer.Id;
+                    account.DefaultCurrencyId = context.Currencies.Where(cu => cu.CurrencyCode == "USD").First().Id;
+                    account.DefaultLanguageId = context.Languages.Where(la => la.LanguageCode == "EN").First().Id;
+                    account.DefaultTimeZoneId = context.TimeZones.Where(ti => ti.TimeZoneId == "Pacific Standard Time").First().Id;
+                    account.VolumeMetricId = context.VolumeMetrics.Where(v => v.Name == "kg").First().Id;
+                    account.WeightMetricId = context.WeightMetrics.Where(w => w.Name == "cm").First().Id;
+                    account.IsActive = true;
+                    account.CreatedBy = "1";
+                    account.CreatedDate = DateTime.UtcNow;
+                    context.AccountSettings.Add(account);
+                    context.SaveChanges();
                 }
                 else
                 {
