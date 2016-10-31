@@ -129,6 +129,17 @@ namespace PI.Business
                     account.CreatedDate = DateTime.UtcNow;
                     context.AccountSettings.Add(account);
                     context.SaveChanges();
+
+                    NotificationCriteria notification = new NotificationCriteria()
+                    {
+                      CreatedBy = "1",
+                      CreatedDate = DateTime.UtcNow,
+                      CustomerId = newCustomer.Id,
+                      IsActive = true,
+                      ShipmentException = true
+                    };
+                    context.NotificationCriterias.Add(notification);
+                    context.SaveChanges();  
                 }
                 else
                 {
