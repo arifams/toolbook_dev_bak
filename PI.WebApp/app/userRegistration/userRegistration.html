@@ -114,8 +114,8 @@
                                                        (formSignup.password_c.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password-c ng-focus="password_cFocus = true" ng-blur="password_cFocus = false" />
 
                                     <div ng-messages="formSignup.password_c.$error" ng-show="(formSignup.password_c.$dirty && !password_cFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
-                                        <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
+                                        <label ng-message="required" class="error" for="password_c" translate>Reenter your password</label>
+                                        <label ng-message="noMatch" class="error" for="password_c" translate>Passwords must match</label>
                                     </div>
                                 </div>
                             </div>
@@ -199,7 +199,7 @@
                             <translate>Create an Account</translate>
                         </button>
 
-                        <p style="text-align:center;color:#8c8c8c">By clicking "Create an Account" you are agreeing to <br> Parcel International <a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()">Terms &amp; Conditions</a></p>
+                        <p style="text-align:center;color:#8c8c8c">By clicking "Create an Account" you are agreeing to the <br>One2send<a href="javascript:void(0)" ng-click="regCtrl.OpenNewWindow()">Terms &amp; Conditions</a></p>
 
                         <div class="alert alert-success" ng-show="regCtrl.isSubmit && regCtrl.alreadySubmitted" translate>
                             Please wait ...
@@ -208,7 +208,7 @@
                     </form>
 
                     <div class="row alert alert-success confirmationMailSend m-0" ng-show="regCtrl.isSentMail">
-                        <translate> Thank you for registering with us! A Confirmation message was sent to your email</translate>.
+                        <translate> Thank you for registering with us! A confirmation message was sent to your email</translate>.
                         <translate> Please check your mailbox to activate the account</translate>.
                     </div>
 
