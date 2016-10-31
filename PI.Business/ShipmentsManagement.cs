@@ -2866,15 +2866,17 @@ namespace PI.Business
             if (endDate.HasValue)
                 endDate = endDate.Value.ToUniversalTime();
 
+            bool isStatusNull = string.IsNullOrWhiteSpace(status);
+
             IQueryable<Shipment> querableContent = (from shipment in context.Shipments
                                                     where shipment.IsDelete == false &&
                                                     //shipment.
-                                                     ((string.IsNullOrWhiteSpace(status) ||
+                                                    (isStatusNull ||
                                                       (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
                                                     : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
                                                     : status == "Out for delivery" ? shipment.Status == (short)ShipmentStatus.OutForDelivery
                                                     : shipment.Status == (short)Enum.Parse(typeof(ShipmentStatus), status))
-                                                   )) &&
+                                                    ) &&
                                                     (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                                                     (searchValue == null ||
                                                     (shipment.TrackingNumber.Contains(searchValue)) || (shipment.Division.Company.Name.Contains(searchValue)) ||
