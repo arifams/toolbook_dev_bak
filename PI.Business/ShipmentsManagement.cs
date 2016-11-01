@@ -1078,6 +1078,7 @@ namespace PI.Business
                     TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
                     ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                     PreferredCollectionDate = currentShipment.ShipmentPackage.CollectionDate.ToString(),
+                    EstDeliveryDate= DateTime.Parse(currentShipment.ShipmentPackage.EstDeliveryDate.ToString()).ToShortDateString(),
                     ProductIngredients = this.getPackageDetails(currentShipment.ShipmentPackage.PackageProducts),
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),

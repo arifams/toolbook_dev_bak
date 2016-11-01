@@ -168,7 +168,7 @@
                             <label class="time-line-header-lbl" ng-show="overviewShipCtrl.step==11">Draft</label>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-6 text-center time-line-header" >
-                            <label class="time-line-header-lbl">Scheduled: 6 Sep</label>
+                            <label class="time-line-header-lbl">Scheduled: {{overviewShipCtrl.shipment.packageDetails.estDeliveryDate| date:'mediumDate'}}</label>
                         </div>
                     </div>
                     <div class="col-lg-12">
