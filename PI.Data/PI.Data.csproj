@@ -213,6 +213,10 @@
     <Compile Include="Migrations\201610211053008_add_carrier_descriptionto_shipment.Designer.cs">
       <DependentUpon>201610211053008_add_carrier_descriptionto_shipment.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610311057184_changedstatuslength.cs" />
+    <Compile Include="Migrations\201610311057184_changedstatuslength.Designer.cs">
+      <DependentUpon>201610311057184_changedstatuslength.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -284,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610211053008_add_carrier_descriptionto_shipment.resx">
       <DependentUpon>201610211053008_add_carrier_descriptionto_shipment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610311057184_changedstatuslength.resx">
+      <DependentUpon>201610311057184_changedstatuslength.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

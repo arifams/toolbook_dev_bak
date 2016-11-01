@@ -304,7 +304,7 @@
                                 <th style="padding:5px;border-bottom:1px solid #319db5" translate>Code/Service</th>
                                 <th style="padding:5px;border-bottom:1px solid #319db5" translate ng-show="manifestCtrl.isPackageEnable=='true'">Package | Description | Weight | Dim</th>
                                 <th style="padding:5px;border-bottom:1px solid #319db5"># items</th>
-                                <th style="padding:5px;border-bottom:1px solid #319db5" translate>Weight</th>
+                                <th style="padding:5px;border-bottom:1px solid #319db5" translate>Total weight</th>
                             </tr>
 
                         </thead>
@@ -317,10 +317,10 @@
                                 <!--<td>{{row.addressInformation.consignee.address1}}<div ng-show="row.addressInformation.consignee.address2!=null">,{{row.addressInformation.consignee.address2}}</div></td>-->
                                 <!--<td>{{row.addressInformation.consignee.city+ "/"+ row.addressInformation.consignee.postalcode+"/"+row.addressInformation.consignee.country}}</td>-->
                                 <td>{{row.carrierInformation.serviceLevel}}</td>
-                                <td ng-show="manifestCtrl.isPackageEnable=='true'">
-                                    <div ng-repeat="item in row.packageDetails.productIngredients">
+                                <td ng-show="manifestCtrl.isPackageEnable=='true'" class="text-center">&nbsp;&nbsp;&nbsp;
+                                    <span ng-repeat="item in row.packageDetails.productIngredients">
                                         {{item.quantity+"-"+ item.productType+" |"+item.description+" | "+item.weight+"|  ("+item.height+"x"+item.length+"x"+item.width+")" }}<br />
-                                    </div>
+                                    </span>
                                 </td>
                                 <td>{{row.packageDetails.count}}</td>
                                 <td>{{row.packageDetails.totalWeight}}</td>

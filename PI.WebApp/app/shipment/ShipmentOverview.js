@@ -35,10 +35,13 @@
                    
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
+                       debugger;
                        vm.locationHistory = data;
 
                        if (vm.locationHistory.info != null) {
+                         
                            vm.step = vm.locationHistory.info.status;
+                         //  vm.step = 2;
                        }
                        if (vm.locationHistory.history != null && vm.locationHistory.history.items.length > 0) {
                            for (var i = 0; i < vm.locationHistory.history.items.length; i++) {

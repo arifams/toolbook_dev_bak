@@ -108,19 +108,19 @@
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.callServerSearch()"
                            class="list-group-item list-right-margin">
                             Draft
-                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.draftStatusCount}}</span>
+                            <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.draftStatusCount}}</span>
                         </a>
 
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" 
                            class="list-group-item list-right-margin">
                             Booking Confirmed
-                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
+                            <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
 
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.callServerSearch()"
                            class="list-group-item list-right-margin">
                             Picked up
-                            <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pickeduptatusCount}}</span>
+                            <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pickeduptatusCount}}</span>
                         </a>
 
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()"
@@ -144,7 +144,7 @@
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.callServerSearch()"
                            class="list-group-item list-right-margin">
                             Out for delivery
-                            <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.outForDeliveryStatusCount}}</span>
+                            <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.outForDeliveryStatusCount}}</span>
                         </a> 
                          
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" 
@@ -169,7 +169,7 @@
                     <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
                         <thead>
                             <tr>
-                                <th st-sort="name" translate>Order date</th>
+                                <th st-sort="name" translate>Pickup date</th>
                                 <th translate>Tracking #</th>
                                 <th translate>Owner</th>
                                 <th translate>company</th>
@@ -186,7 +186,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in manageShipCtrl.rowCollection">
-                                <td>{{row.generalInformation.createdDate}}</td>
+                                <td>{{row.carrierInformation.pickupDate | date:'mediumDate'}}</td>
                                 <td>{{row.generalInformation.trackingNumber}}</td>
                                 <td>{{row.generalInformation.owner}}</td>
                                 <td>{{row.carrierInformation.companyName}}</td>
@@ -195,7 +195,6 @@
                                 <td>
                                     <div class="option-group">
                                         <select id="salutation" name="salutation" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
-                                            <option value='All' translate>All</option>
                                             <option value='BookingConfirmation' translate>Booking confirmed</option>
                                             <option value='Error' translate>Booking error</option>
                                             <option value='Delivered' translate>Delivered</option>
@@ -237,7 +236,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="5" class="text-center">
+                                <td colspan="12" class="text-center">
                                     <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
                                 </td>
                             </tr>
