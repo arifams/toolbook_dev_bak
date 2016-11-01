@@ -319,12 +319,11 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
-        [HttpGet]
+        [HttpPost]
         [Route("GetAllPendingShipments")]
-        public IHttpActionResult GetAllPendingShipments(string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                                string number = null)
+        public IHttpActionResult GetAllPendingShipments(PagedList pageList)
         {
-            return Ok(shipmentManagement.GetAllPendingShipmentsbyUser(userId, startDate, endDate, number));
+            return Ok(shipmentManagement.GetAllPendingShipmentsbyUser(pageList));
         }
 
 
