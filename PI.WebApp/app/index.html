@@ -128,14 +128,14 @@
                         </ul>
                     </li>-->
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-hide="currentRole == 'Admin' || currentRole == '1st Line Support' 
-                                                                                                          || currentRole == '2nd Line Support'">
+                        || currentRole == '2nd Line Support'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                     </li>
 
                     <li class="nav-parent" ng-hide="currentRole == 'Admin' || currentRole=='1st Line Support' ||currentRole == '2nd Line Support' ">
                         <a href="#"><i class="fa fa-ship"></i><span translate>SHIPMENTS</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
-                            <li ng-class="{ active  : isActive('/addShipment')}"><a href="#addShipment/0" translate> ADD SHIPMENT</a></li>
+                            <li ng-class="{ active  : isActive('/addShipment/0')}"><a href="#addShipment/0" translate> ADD SHIPMENT</a></li>
                             <li ng-class="{ active  : isActive('/PrintLabel')}"><a href="#PrintLabel" translate> PRINT LABEL</a></li>
                             <!--<li ng-class="{ active  : isActive('/TrackAndTrace')}"><a href="#TrackAndTrace" translate> TRACK & TRACE</a></li>-->
                             <li ng-class="{ active  : isActive('/loadShipments')}"><a href="#loadShipments" translate> MANAGE SHIPMENTS</a></li>

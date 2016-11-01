@@ -16,17 +16,9 @@
         };
         
 
-        function loadAllInvoices(status, startDate, endDate, searchValue) {
+        function loadAllInvoices(pageList) {
            
-            return $http.get(serverBaseUrl + '/api/Admin/GetAllInvoices', {
-                params: {
-                    status: status,
-                    userId: $window.localStorage.getItem('userGuid'),
-                    startDate: startDate,
-                    endDate: endDate,
-                    searchValue: searchValue
-                }
-            });
+            return $http.post(serverBaseUrl + '/api/Admin/GetAllInvoices', pageList);
         }
 
         function exportInvoiceDetailsReport(status, startDate, endDate, searchValue) {
