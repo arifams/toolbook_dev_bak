@@ -344,6 +344,7 @@
 
             getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
              .then(function successCallback(response) {
+                 debugger;
                  vm.loading = false;
 
                  vm.languageList = response.data.accountSettings.languages;
@@ -368,7 +369,7 @@
                  vm.model.shipmentException = response.data.shipmentException;
                  vm.model.notifyNewSolution = response.data.notifyNewSolution;
                  vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
-
+                 debugger;
                  vm.model.defaultVolumeMetricId = response.data.accountSettings.defaultVolumeMetricId;
                  vm.model.defaultWeightMetricId = response.data.accountSettings.defaultWeightMetricId;
 
