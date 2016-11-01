@@ -145,6 +145,7 @@
                                shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue,startRecord,pageRecord)
                                .then(function (responce) {
                                      
+                                   debugger;
                                    vm.loadingSymbole = false;
                                     if (responce.data.content != null) {
                                         vm.rowCollection = responce.data.content;
@@ -360,6 +361,7 @@
 
                            vm.shipmentSyncWithSIS = function () {
 
+                              
                                shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
                                   function (responce) {
                                       if (responce.content.length > 0) {

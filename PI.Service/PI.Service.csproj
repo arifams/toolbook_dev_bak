@@ -278,10 +278,13 @@
     <Content Include="ConfigSettings\ConnectionStrings\qa.config" />
     <Content Include="ConfigSettings\ConnectionStrings\prod.config" />
     <Content Include="ConfigSettings\ConnectionStrings\uat.config" />
+    <Content Include="App_Data\Tmp\FileUploads\invoice.pdf" />
     <None Include="Properties\PublishProfiles\PIServiceQA - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceQA - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceUAT - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\PIServiceUAT - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\TRANSPORTAL-PROD-SERVICE - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\TRANSPORTAL-PROD-SERVICE - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\TRANSPORTAL-QA-SERVICE - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\TRANSPORTAL-QA-SERVICE - Web Deploy.pubxml" />
     <None Include="Web.Debug.config">

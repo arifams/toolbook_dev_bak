@@ -37,7 +37,7 @@ namespace PI.Contract.Business
         /// <param name="businessowner"></param>
         /// <param name="invoicenumber"></param>
         /// <returns></returns>
-        PagedList GetAllInvoicesForAdmin(string status, string userId, DateTime? startDate, DateTime? endDate, string searchValue);
+        PagedList GetAllInvoicesForAdmin(PagedList pageList);
 
 
         /// <summary>

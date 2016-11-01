@@ -3033,7 +3033,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null,
+                        PickupDate = item.PickUpDate.HasValue ? ((DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value)) : null,
                         Provider = item.Provider
                     }
 
