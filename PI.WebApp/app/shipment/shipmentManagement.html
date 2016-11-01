@@ -169,7 +169,7 @@
                     <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
                         <thead>
                             <tr>
-                                <th st-sort="name" translate>Order date</th>
+                                <th st-sort="name" translate>Pickup date</th>
                                 <th translate>Tracking #</th>
                                 <th translate>Owner</th>
                                 <th translate>company</th>
@@ -186,7 +186,7 @@
                         </thead>
                         <tbody>
                             <tr ng-repeat="row in manageShipCtrl.rowCollection">
-                                <td>{{row.generalInformation.createdDate}}</td>
+                                <td>{{row.carrierInformation.pickupDate | date:'mediumDate'}}</td>
                                 <td>{{row.generalInformation.trackingNumber}}</td>
                                 <td>{{row.generalInformation.owner}}</td>
                                 <td>{{row.carrierInformation.companyName}}</td>

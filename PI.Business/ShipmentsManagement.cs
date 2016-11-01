@@ -29,6 +29,7 @@ using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using PI.Data.Entity.Identity;
 using PI.Contract.DTOs.Postmen;
+using System.Data.Entity.Validation;
 
 namespace PI.Business
 {
@@ -288,8 +289,8 @@ namespace PI.Business
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
            // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
-
+          //  currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD";
 
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
@@ -1444,7 +1445,7 @@ namespace PI.Business
             else
             {
                 info = UpdateLocationHistory(carrier, trackingNumber, codeShipment, environment, Convert.ToInt64(currentShipmet.GeneralInformation.ShipmentId));
-                // locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
+                 locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
             }
             locationHistory.info = info;
             return locationHistory;
@@ -1462,8 +1463,8 @@ namespace PI.Business
             {
                 if (!string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
-                    short status = (short)Utility.GetValueFromDescription<ShipmentStatus>(currentSisLocationHistory.info.status);
-                    this.UpdateShipmentStatus(codeShipment, status);
+                    short status = (short)Enum.Parse(typeof(ShipmentStatus), currentSisLocationHistory.info.status);
+                    this.UpdateShipmentStatus(trackingNumber, status);
                 }
 
                 //this.UpdateShipmentStatus(codeShipment, (short)ShipmentStatus.Delivered);
@@ -1646,6 +1647,9 @@ namespace PI.Business
                         locationHistory.Latitude = Convert.ToDouble(item.location.geo.lat);
                     }
                 }
+
+                TimeSpan time = TimeSpan.Parse(item.activity.Items.FirstOrDefault().timestamp.time);
+                locationHistory.DateTime =Convert.ToDateTime(item.activity.Items.FirstOrDefault().timestamp.date).Add(time);
                 locationHistory.ShipmentId = ShipmntId;
                 locationHistory.CreatedDate = DateTime.UtcNow;
                 context.ShipmentLocationHistories.Add(locationHistory);
@@ -1666,8 +1670,11 @@ namespace PI.Business
                             activity.Time = Convert.ToDateTime(activityItems.timestamp.time);
                             activity.Date = Convert.ToDateTime(activityItems.timestamp.date);
                             activity.CreatedDate = DateTime.UtcNow;
-                            context.LocationActivities.Add(activity);
-                            context.SaveChanges();
+                         
+
+                            context.LocationActivities.Add(activity);                                                       
+                            context.SaveChanges();                            
+                                                      
                         }
                     }
                 }
@@ -1679,31 +1686,57 @@ namespace PI.Business
 
 
         //get updated tracking history history from DB
-        public TrackerDto getUpdatedShipmentHistoryFromDB(string shipmentId)
+        public StatusHistoryResponce getUpdatedShipmentHistoryFromDB(string codeShipment)
         {
             StatusHistoryResponce statusHistory = new StatusHistoryResponce();
-            TrackerDto tracker = new TrackerDto();
-            tracker.TrackingDetails = new List<TrackingDetails>();
+            ShipmentDto currentShipment = this.GetShipmentByCodeShipment(codeShipment);
 
-            List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(Convert.ToInt16(shipmentId));
+            List<ShipmentLocationHistory> historyList = GetShipmentLocationHistoryByShipmentId(currentShipment.Id);
+            history historynew = new history();
+            List<items> itemList = new List<items>();
+            historynew.Items = itemList;
+
 
             foreach (var item in historyList)
             {
-                tracker.TrackingDetails.Add(new TrackingDetails()
+                items items = new items();
+                location location = new location();
+                geo geo = new geo();
+
+                location.city = item.City;
+                location.country = item.Country;
+
+                geo.lat = item.Latitude.ToString();
+                geo.lng = item.Longitude.ToString();
+                location.geo = geo;
+                items.location = location;
+
+                List<LocationActivity> locationActivities = this.GetLocationActivityByLocationHistoryId(item.Id);
+                activity activity = new activity();
+                foreach (var activ in locationActivities)
                 {
 
-                    Status = item.Status,
-                    DateTime = item.DateTime.ToString(),
-                    City = item.City,
-                    Country = item.Country,
-                    Message = item.Message,
-                    State = item.State,
-                    Zip = item.Zip
-                });
+                    timestamp time = new timestamp()
+                    {
+                        date = activ.Date.ToShortDateString().ToString(),
+                        time = activ.Time.TimeOfDay.ToString(),
+
+                    };
+                    activity.Items.Add(
+                        new item
+                        {
+                            status = activ.Status,
+                            timestamp = time
+                        });
+
+                    //adding location activity histories                
+
+                }
+                items.activity = activity;
+                historynew.Items.Add(items);
+                statusHistory.history = historynew;
             }
-            tracker.Status = tracker.TrackingDetails.Last().Status;
-            //   tracker.Status = historyList.Last().Status;
-            return tracker;
+            return statusHistory;
 
         }
 
@@ -3000,7 +3033,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null,
+                        PickupDate = item.PickUpDate.HasValue ? ((DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value)) : null,
                         Provider = item.Provider
                     }
 

@@ -23,7 +23,7 @@
                     <div class="form-group">
 
                         <div class="option-group">
-                            <select ng-model="invoiceCtrl.invoiceStatus" class="form-control form-white">
+                            <select ng-model="invoiceCtrl.invoiceStatus" class="form-control form-white" ng-disabled="invoiceCtrl.isDisputeCall">
                                     <!--ng-disabled="(currentRole == '1sst Line Support' ? true: false)">-->
                               
                                 <option value='All' translate>Status: All</option>
@@ -105,7 +105,7 @@
     <div class="panel">
         <div class="panel-content panel-border">
             <tabset class="tab-fade-in">
-                <tab> <!--select="invoiceCtrl.loadAllInvoices()">-->
+                <tab select="invoiceCtrl.callInvoice()"> <!--select="invoiceCtrl.loadAllInvoices()">-->
                     <tab-heading translate>
                         INVOICES
                     </tab-heading>
@@ -200,8 +200,8 @@
                         </div>-->
 
                         <div class="row res-grid m-0">
-                            <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">
-                            <!--<table st-pipe="invoiceCtrl.callServerSearch" st-table="invoiceCtrl.rowCollection" class="table table-hover">-->
+                            <!--<table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollection" class="table table-hover">-->
+                            <table st-pipe="invoiceCtrl.callServerSearch" st-table="invoiceCtrl.rowCollection" class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th st-sort="name" translate>Date</th>
@@ -219,8 +219,8 @@
 
                                 </thead>
                                 <tbody>
-                                    <!--<tr ng-repeat="row in invoiceCtrl.rowCollection">-->
-                                    <tr ng-repeat="row in shipmentList">
+                                    <tr ng-repeat="row in invoiceCtrl.rowCollection">
+                                    <!--<tr ng-repeat="row in shipmentList">-->
                                         <td>{{row.invoiceDate}}</td>
                                         <td>{{row.businessOwner}}</td>
                                         <td>{{row.companyName}}</td>
@@ -254,23 +254,16 @@
                                 <tfoot>
                                     <tr>
                                         <td colspan="9" class="text-center">
-                                            <div st-pagination="" st-items-by-page="5" st-displayed-pages="20"></div>
+                                            <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
                                         </td>
                                     </tr>
                                 </tfoot>
-                                <!--<tfoot>
-                                    <tr>
-                                        <td colspan="5" class="text-center">
-                                            <div st-pagination="" st-items-by-page="itemsByPage"></div>
-                                        </td>
-                                    </tr>
-                                </tfoot>-->
                             </table>
                         </div>
                     </form>
                 </tab>
 
-                <tab select="invoiceCtrl.callServerSearchDisputed()">
+                <tab select="invoiceCtrl.callSearchDisputed()">
                     <tab-heading translate>
                         DISPUTES
                     </tab-heading>
@@ -331,58 +324,57 @@
 
                         </div>-->
                         <div class="row res-grid"> 
-                            <!--<table st-table="invoiceCtrl.rowCollectionDisputed" class="table table-hover">-->
-                                <table st-table="shipmentList" st-safe-src="invoiceCtrl.rowCollectionDisputed" class="table table-hover"> 
-                                <thead>
-                                    <tr>
-                                        <th st-sort="name" translate>Date</th>
-                                        <th translate> Owner</th>
-                                        <th translate>Company</th>
-                                        <!--<th translate>Shipment References</th>-->
-                                        <th translate>Invoice #</th>
-                                        <th translate>Invoice Value</th>
-                                        <th translate>credit Value</th>
-                                        <th translate>sum</th>
-                                        <th translate>Status</th>
-                                        <th translate>View Credit Note</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="row in shipmentList">
-                                        <td>{{row.invoiceDate}}</td>
-                                        <td>{{row.businessOwner}}</td>
-                                        <td>{{row.companyName}}</td>
-                                        <!--<td>{{row.shipmentReference}}</td>-->
-                                        <td>{{row.invoiceNumber}}</td>                                      
-                                        <td>{{row.invoiceValue | currency:"US $ "}}</td>
-                                        <td>{{row.creditedValue | currency:"US $ "}}</td>
-                                        <td>{{row.sum | currency:"US $ "}}</td>
-                                        <td>
-                                            <div class="option-group form-group m-0">
-                                                <select class="form-control form-white" ng-model=row.invoiceStatus
-                                                        ng-disabled="(currentRole == '1st Line Support' ? true : false)"
-                                                        ng-change="invoiceCtrl.updateInvoiceStatus(row)">
-                                                    <option value="Pending" translate>Pending</option>
-                                                    <option value="Paid" translate>Paid</option>
-                                                    <option value="Disputed" translate>Disputed</option>
+                            <table st-pipe="invoiceCtrl.callServerSearchDisputed" st-table="invoiceCtrl.rowCollectionDisputed" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th st-sort="name" translate>Date</th>
+                                            <th translate> Owner</th>
+                                            <th translate>Company</th>
+                                            <!--<th translate>Shipment References</th>-->
+                                            <th translate>Invoice #</th>
+                                            <th translate>Invoice Value</th>
+                                            <th translate>credit Value</th>
+                                            <th translate>sum</th>
+                                            <th translate>Status</th>
+                                            <th translate>View Credit Note</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="row in invoiceCtrl.rowCollectionDisputed">
+                                            <td>{{row.invoiceDate}}</td>
+                                            <td>{{row.businessOwner}}</td>
+                                            <td>{{row.companyName}}</td>
+                                            <!--<td>{{row.shipmentReference}}</td>-->
+                                            <td>{{row.invoiceNumber}}</td>
+                                            <td>{{row.invoiceValue | currency:"US $ "}}</td>
+                                            <td>{{row.creditedValue | currency:"US $ "}}</td>
+                                            <td>{{row.sum | currency:"US $ "}}</td>
+                                            <td>
+                                                <div class="option-group form-group m-0">
+                                                    <select class="form-control form-white" ng-model=row.invoiceStatus
+                                                            ng-disabled="(currentRole == '1st Line Support' ? true : false)"
+                                                            ng-change="invoiceCtrl.updateInvoiceStatus(row)">
+                                                        <option value="Pending" translate>Pending</option>
+                                                        <option value="Paid" translate>Paid</option>
+                                                        <option value="Disputed" translate>Disputed</option>
 
-                                                </select>
-                                            </div>
-                                        </td>
-                                        <!--<td style="text-align:center">
-                                            <a class="edit btn btn-sm btn-default" ng-click="invoiceCtrl.uploadInvoice('creditNote', row.id)">
-                                                <i class="glyphicon glyphicon-circle-arrow-up"></i>
-                                            </a>
-                                        </td>-->
-                                  
-                                        <td style="text-align:center">                               
-                                            <a ng-show="(row.creditNoteURL != null && row.creditNoteURL != '')"  href='{{row.creditNoteURL}}' class="btn btn-sm btn-primary btn-transparent">
-                                                <i class="glyphicon glyphicon-download-alt"></i>
-                                            </a>
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <!--<td style="text-align:center">
+                        <a class="edit btn btn-sm btn-default" ng-click="invoiceCtrl.uploadInvoice('creditNote', row.id)">
+                            <i class="glyphicon glyphicon-circle-arrow-up"></i>
+                        </a>
+                    </td>-->
+
+                                            <td style="text-align:center">
+                                                <a ng-show="(row.creditNoteURL != null && row.creditNoteURL != '')" href='{{row.creditNoteURL}}' class="btn btn-sm btn-primary btn-transparent">
+                                                    <i class="glyphicon glyphicon-download-alt"></i>
+                                                </a>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="5" class="text-center">
@@ -390,8 +382,8 @@
                                         </td>
                                     </tr>
                                 </tfoot>
-                            </table>
-                        </div>
+                                </table>
+</div>
                     </form>
                 </tab>
 

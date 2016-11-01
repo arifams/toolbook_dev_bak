@@ -387,10 +387,10 @@ namespace PI.Service.Controllers
         [System.Web.Http.AcceptVerbs("GET", "POST")]
         [System.Web.Http.HttpGet]
         [Route("GetAllInvoices")]
-        public IHttpActionResult GetAllInvoices(string status = null, string userId = null, DateTime? startDate = null, DateTime? endDate = null,
-                                                string searchValue = null)
+        public IHttpActionResult GetAllInvoices(PagedList pageList)
         {
-            return Ok(invoiceMangement.GetAllInvoicesForAdmin(status, userId, startDate, endDate, searchValue));
+            return Ok(invoiceMangement.GetAllInvoicesForAdmin(pageList));
+            //return Ok(invoiceMangement.GetAllInvoicesForAdmin(status, userId, startDate, endDate, searchValue));
         }
 
 
