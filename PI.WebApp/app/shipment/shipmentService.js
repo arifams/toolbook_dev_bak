@@ -310,17 +310,10 @@
         }
 
 
-        function loadAllPendingShipments(startDate, endDate, number) {
+        function loadAllPendingShipments(pageList) {
             setLoginUserID();
-            return $http.get(serverBaseUrl + '/api/shipments/GetAllPendingShipments', {
-                params: {
-                    // userId: $window.localStorage.getItem('userGuid'),
-                    userId: userId,
-                    startDate: startDate,
-                    endDate: endDate,
-                    number: number,
-                }
-            });
+            pageList.userId = userId;
+            return $http.post(serverBaseUrl + '/api/shipments/GetAllPendingShipments', pageList);
         }
 
         function getAvailableFilesForShipment(shipmentId, userId) {
