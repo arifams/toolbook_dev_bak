@@ -113,8 +113,13 @@
             applicationService.customScroll();
             applicationService.handlePanelAction();
             $('.nav.nav-sidebar .nav-active').removeClass('nav-active active');
-            $('.nav.nav-sidebar .active:not(.nav-parent)').closest('.nav-parent').addClass('nav-active active');
-
+            //$('.nav.nav-sidebar .active:not(.nav-parent)').closest('.nav-parent').addClass('nav-active active');
+            $('.nav.nav-sidebar .nav-parent-single').click(function () {
+                $('.nav.nav-sidebar .nav-parent').removeClass('nav-active active');
+                $('.nav.nav-sidebar .nav-parent .children').removeClass('nav-active active');
+                $('.nav.nav-sidebar .nav-parent-single').addClass('active');
+                $('.nav.nav-sidebar .nav-parent .children').slideUp(200);
+            })
             if ($location.$$path == '/' || $location.$$path == '/layout-api') {
                 $('.nav.nav-sidebar .nav-parent').removeClass('nav-active active');
                 $('.nav.nav-sidebar .nav-parent .children').removeClass('nav-active active');

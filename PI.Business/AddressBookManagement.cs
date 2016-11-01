@@ -555,7 +555,7 @@ namespace PI.Business
                             EmailAddress = detailsarray[10].ToString(),
                             PhoneNumber = detailsarray[11].ToString(),
                             Country = detailsarray[12].ToString(),
-                            AccountNumber = detailsarray.Length > 13 ? detailsarray[12].ToString() : string.Empty,
+                            AccountNumber = detailsarray.Length > 13 ? detailsarray[13].ToString() : string.Empty,
                             CreatedBy = userId,
                             CreatedDate = DateTime.UtcNow,
                             UserId = userId,
