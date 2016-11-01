@@ -17,7 +17,6 @@
                //toggle function
                vm.loadFilterToggle = function () {
                    customBuilderFactory.customFilterToggle();
-
                };
 
                vm.closeWindow = function () {
@@ -81,9 +80,8 @@
                    });
                }
 
-               vm.loadAllInvoices = function (status, from) {
-                   
-                   debugger;
+               vm.loadAllInvoices = function (status, from, start, number, tableState) {
+
                    vm.loadingSymbole = true;
                    var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                    var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
@@ -92,7 +90,18 @@
                    
                    vm.statusSelect = status;
 
-                   adminFactory.loadAllInvoices(status, startDate, endDate, searchValue)
+                   var pageList = {
+                       filterContent: {
+                           status: status,
+                           startDate: startDate,
+                           endDate: endDate,
+                           searchValue: searchValue
+                       },
+                       currentPage: start,
+                       pageSize: number
+                   }
+
+                   adminFactory.loadAllInvoices(pageList)
                         .then(
                                function (responce) {
                                    debugger;
@@ -103,6 +112,8 @@
                                    }
                                    else {
                                        vm.rowCollection = responce.data.content;
+                                       tableState.pagination.numberOfPages = responce.data.totalPages;
+                                       debugger;
                                    }
                                },
                                function (error) {
@@ -111,10 +122,6 @@
                                });
 
                }
-
-
-              
-
 
                vm.exportInvoiceDetailsReport = function () {
 
@@ -285,42 +292,97 @@
 
                }
 
+               var tableStateDisputedCopy = null;
+               vm.isDisputeCall = false;
+
+               var tableStateCopy = null;
+
+               vm.callSearchDisputed = function () {
+                   vm.isDisputeCall = true;
+                   vm.invoiceStatus = 'Disputed';
+                   vm.callServerSearchDisputed(tableStateCopy);
+               };
+
+               vm.callInvoice = function (tableState) {
+                   if (tableStateCopy == undefined)
+                       return;
+
+                   tableState = tableStateCopy;
+
+                   tableState.pagination.start = 0;
+                   tableState.pagination.numberOfPages = undefined;
+
+                   var start = tableState.pagination.start;
+                   var number = tableState.pagination.number;
+                   var numberOfPages = tableState.pagination.numberOfPages;
+
+                   vm.datePicker.date = { "startDate": null, "endDate": null };
+
+                   vm.isDisputeCall = false;
+                   vm.invoiceStatus = 'All';
+                   vm.loadAllInvoices(vm.invoiceStatus, "", start, number, tableState);
+               };
+
                vm.callServerSearchDisputed = function (tableState) {
                    debugger;
-                   var pagination = 0;//tableState.pagination;
+                   if (!vm.isDisputeCall)
+                       return;
 
-                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                   var number = pagination.number || 10;  // Number of entries showed per page.
-                   vm.loadAllInvoices('Disputed', 'fromDisputed');
+                   tableState.pagination.start = 0;
+                   tableState.pagination.numberOfPages = undefined;
+
+                   var start = tableState.pagination.start;
+                   var number = tableState.pagination.number;
+                   var numberOfPages = tableState.pagination.numberOfPages;
+
+                   vm.loadAllInvoices('Disputed', 'fromDisputed', start, number, tableState);
                };
+
+             
 
                vm.callServerSearch = function (tableState) {
+                   vm.isDisputeCall = false;
                    debugger;
-                   var pagination = 0;//tableState.pagination;
+                   if (tableState != undefined) {
+                       tableStateCopy = tableState;
+                   }
+                   else {
+                       tableState = tableStateCopy;
+                       // tableState undefined mean, this come from directly button click event. so set pagination to zero.
+                       tableState.pagination.start = 0;
+                       tableState.pagination.numberOfPages = undefined;
+                   }
 
-                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                   var number = pagination.number || 10;  // Number of entries showed per page.
-         
-                   vm.loadAllInvoices(vm.invoiceStatus);
+                   var start = tableState.pagination.start;
+                   var number = tableState.pagination.number;
+                   var numberOfPages = tableState.pagination.numberOfPages;
+
+                   vm.loadAllInvoices(vm.invoiceStatus, "", start, number, tableState);
                };
 
-               vm.callServerSearch();
-
                vm.resetSearch = function (tableState) {
-                   debugger;
-                   var pagination = 0;//tableState.pagination;
+                 
+                   tableState = tableStateCopy;
 
-                   var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
-                   var number = pagination.number || 10;  // Number of entries showed per page.
+                   // reset
+                   tableState.pagination.start = 0;
+                   tableState.pagination.numberOfPages = undefined;
 
-                   vm.invoiceStatus = 'All';
+                   var start = tableState.pagination.start;
+                   var number = tableState.pagination.number;
+                   var numberOfPages = tableState.pagination.numberOfPages;
+
                    vm.datePicker.date = { "startDate": null, "endDate": null };
-                   //vm.datePicker.date.endDate = null;
 
-                   vm.loadAllInvoices();
+                   if (vm.isDisputeCall) {
+                       vm.invoiceStatus = 'Disputed';
+                       vm.loadAllInvoices('Disputed', 'fromDisputed', start, number, tableState);
+                   } else {
+                       vm.invoiceStatus = 'All';
+                       vm.loadAllInvoices(vm.invoiceStatus, "", start, number, tableState);
+                   }
 
                }
-
 
            }]);
 
