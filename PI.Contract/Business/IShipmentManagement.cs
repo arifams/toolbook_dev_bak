@@ -32,8 +32,7 @@ namespace PI.Contract.Business
         PagedList GetAllShipmentsbyUser(PagedList shipmentSerach);
         List<ShipmentDto> GetAllshipmentsForManifest(string userId, string date, string carreer, string reference);
 
-        PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
-                                               string number);
+        PagedList GetAllPendingShipmentsbyUser(PagedList pageList);
         ShipmentDto GetshipmentById(string shipmentCode, long shipmentId = 0);
         int DeleteShipment(string shipmentCode, string trackingNumber, string carrierName, bool isAdmin, long shipmentId);
         StatusHistoryResponce GetTrackAndTraceInfo(string carrier, string trackingNumber);

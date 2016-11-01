@@ -56,10 +56,7 @@ namespace PI.Business
             if (currentTenant != null)
             {
                 currentCompany = this.GetCompanyByTenantId(currentTenant.Id);
-            }
-
-
-            
+            }            
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
@@ -119,8 +116,6 @@ namespace PI.Business
 
                     };
                 }
-
-
             }
 
             if (currentTenant != null)
@@ -370,114 +365,135 @@ namespace PI.Business
                
 
                 if (currentAddress != null)
-                {
-                    currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
-                    currentAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
-                    currentAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
-                    currentAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
-                    currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
-                    currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
-                    currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
+            {
+                currentAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country;
+                currentAddress.ZipCode = updatedProfile.CustomerDetails.CustomerAddress.ZipCode;
+                currentAddress.Number = updatedProfile.CustomerDetails.CustomerAddress.Number;
+                currentAddress.StreetAddress1 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress1;
+                currentAddress.StreetAddress2 = updatedProfile.CustomerDetails.CustomerAddress.StreetAddress2;
+                currentAddress.City = updatedProfile.CustomerDetails.CustomerAddress.City;
+                currentAddress.State = updatedProfile.CustomerDetails.CustomerAddress.State;
 
-                    if (accountSettings!=null)
-                    {
-                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB" || updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
-                        {
-                            accountSettings.VolumeMetricId = 2;
-                            accountSettings.WeightMetricId = 2;
-                        }
-                        else
-                        {
-                            accountSettings.VolumeMetricId = 1;
-                            accountSettings.WeightMetricId = 1;
-
-                        }
-
-                    }
-                    else
-                    {
-                        AccountSettings newAccountSetting = new AccountSettings();
-                        newAccountSetting.CustomerId = currentCustomer.Id;
-                        if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
-                        {
-                            newAccountSetting.VolumeMetricId = 2;
-                            newAccountSetting.WeightMetricId = 2;
-                            newAccountSetting.DefaultCurrencyId = 4;
-                            newAccountSetting.DefaultLanguageId = 1;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "DE")
-                        {
-                            newAccountSetting.VolumeMetricId = 1;
-                            newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 2;
-                            newAccountSetting.DefaultLanguageId = 4;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "NL")
-                        {
-                            newAccountSetting.VolumeMetricId = 1;
-                            newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 2;
-                            newAccountSetting.DefaultLanguageId = 2;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "AT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "BE" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "CY" || updatedProfile.CustomerDetails.CustomerAddress.Country == "EE" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "FI" || updatedProfile.CustomerDetails.CustomerAddress.Country == "FR" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "GR" || updatedProfile.CustomerDetails.CustomerAddress.Country == "IE" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "IT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LV" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "LT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LU" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "MT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "PT" ||
-                            updatedProfile.CustomerDetails.CustomerAddress.Country == "SK")
-                            
-                        {
-                            newAccountSetting.VolumeMetricId = 1;
-                            newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 2;
-                            newAccountSetting.DefaultLanguageId = 1;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "JP")
-                        {
-                            newAccountSetting.VolumeMetricId = 1;
-                            newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 3;
-                            newAccountSetting.DefaultLanguageId = 1;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
-                        {
-                            newAccountSetting.VolumeMetricId = 2;
-                            newAccountSetting.WeightMetricId = 2;
-                            newAccountSetting.DefaultCurrencyId = 1;
-                            newAccountSetting.DefaultLanguageId = 1;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-                        }
-                        else
-                        {
-                            newAccountSetting.VolumeMetricId = 1;
-                            newAccountSetting.WeightMetricId = 1;
-                            newAccountSetting.DefaultCurrencyId = 1;
-                            newAccountSetting.DefaultLanguageId = 1;
-                            newAccountSetting.DefaultTimeZoneId = 1;
-                            newAccountSetting.CreatedDate = DateTime.UtcNow;
-
-                        }
-                        context.AccountSettings.Add(newAccountSetting);
-                        
-                    }
-                    //updating account settings according to the country
-                    context.SaveChanges();
-                }
+                UpdateMetricSettingsForUser(updatedProfile, currentCustomer.Id, accountSettings);
+                //updating account settings according to the country
+                context.SaveChanges();
+            }
 
             return 1;
+        }
+
+
+        private AccountSettingsDto UpdateMetricSettingsForUser(ProfileDto updatedProfile, long currentCustomerId, AccountSettings accountSettings )
+        {
+            AccountSettingsDto accountSettingsDto = new AccountSettingsDto();
+
+            if (updatedProfile.CustomerDetails.CustomerAddress == null)
+            {
+                updatedProfile.CustomerDetails.CustomerAddress = new AddressDto();
+            }
+            updatedProfile.CustomerDetails.CustomerAddress.Country = updatedProfile.CustomerDetails.CustomerAddress.Country == null ? updatedProfile.CustomerDetails.CustomerAddress.Country = "US" : updatedProfile.CustomerDetails.CustomerAddress.Country;
+
+            if (accountSettings != null)
+            {
+                if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB" || 
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
+                {
+                    accountSettings.VolumeMetricId = 2;
+                    accountSettings.WeightMetricId = 2;
+                }
+                else
+                {
+                    accountSettings.VolumeMetricId = 1;
+                    accountSettings.WeightMetricId = 1;
+                }
+
+                accountSettingsDto.DefaultVolumeMetricId = accountSettings.VolumeMetricId;
+                accountSettingsDto.DefaultWeightMetricId = accountSettings.WeightMetricId;
+            }
+            else
+            {
+                AccountSettings newAccountSetting = new AccountSettings();
+                newAccountSetting.CustomerId = currentCustomerId;
+                if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB")
+                {
+                    newAccountSetting.VolumeMetricId = 2;
+                    newAccountSetting.WeightMetricId = 2;
+                    newAccountSetting.DefaultCurrencyId = 4;
+                    newAccountSetting.DefaultLanguageId = 1;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "DE")
+                {
+                    newAccountSetting.VolumeMetricId = 1;
+                    newAccountSetting.WeightMetricId = 1;
+                    newAccountSetting.DefaultCurrencyId = 2;
+                    newAccountSetting.DefaultLanguageId = 4;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "NL")
+                {
+                    newAccountSetting.VolumeMetricId = 1;
+                    newAccountSetting.WeightMetricId = 1;
+                    newAccountSetting.DefaultCurrencyId = 2;
+                    newAccountSetting.DefaultLanguageId = 2;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "AT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "BE" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "CY" || updatedProfile.CustomerDetails.CustomerAddress.Country == "EE" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "FI" || updatedProfile.CustomerDetails.CustomerAddress.Country == "FR" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "GR" || updatedProfile.CustomerDetails.CustomerAddress.Country == "IE" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "IT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LV" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "LT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "LU" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "MT" || updatedProfile.CustomerDetails.CustomerAddress.Country == "PT" ||
+                    updatedProfile.CustomerDetails.CustomerAddress.Country == "SK")
+
+                {
+                    newAccountSetting.VolumeMetricId = 1;
+                    newAccountSetting.WeightMetricId = 1;
+                    newAccountSetting.DefaultCurrencyId = 2;
+                    newAccountSetting.DefaultLanguageId = 1;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "JP")
+                {
+                    newAccountSetting.VolumeMetricId = 1;
+                    newAccountSetting.WeightMetricId = 1;
+                    newAccountSetting.DefaultCurrencyId = 3;
+                    newAccountSetting.DefaultLanguageId = 1;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else if (updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
+                {
+                    newAccountSetting.VolumeMetricId = 2;
+                    newAccountSetting.WeightMetricId = 2;
+                    newAccountSetting.DefaultCurrencyId = 1;
+                    newAccountSetting.DefaultLanguageId = 1;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+                }
+                else
+                {
+                    newAccountSetting.VolumeMetricId = 1;
+                    newAccountSetting.WeightMetricId = 1;
+                    newAccountSetting.DefaultCurrencyId = 1;
+                    newAccountSetting.DefaultLanguageId = 1;
+                    newAccountSetting.DefaultTimeZoneId = 1;
+                    newAccountSetting.CreatedDate = DateTime.UtcNow;
+
+                }
+                context.AccountSettings.Add(newAccountSetting);
+
+                accountSettingsDto.DefaultVolumeMetricId = newAccountSetting.VolumeMetricId;
+                accountSettingsDto.DefaultWeightMetricId = newAccountSetting.WeightMetricId;
+
+            }
+
+            return accountSettingsDto;
         }
 
         public int UpdateProfileBillingAddress(ProfileDto updatedProfile)
@@ -924,6 +940,8 @@ namespace PI.Business
 
             AccountSettings dbSettings = GetAccountSettingByCustomerId(customerId);
 
+            Customer currentCustomer = context.Customers.SingleOrDefault(c => c.Id == customerId);
+
             if (dbSettings != null)
             {
                 accountSettings.DefaultCurrencyId = dbSettings.DefaultCurrencyId;
@@ -931,15 +949,24 @@ namespace PI.Business
                 accountSettings.DefaultTimeZoneId = dbSettings.DefaultTimeZoneId;
 
                 //get volume and weight metrics
-                accountSettings.DefaultVolumeMetricId = dbSettings.VolumeMetricId;
-                accountSettings.DefaultWeightMetricId = dbSettings.WeightMetricId;
+                //accountSettings.DefaultVolumeMetricId = dbSettings.VolumeMetricId;
+                //accountSettings.DefaultWeightMetricId = dbSettings.WeightMetricId;
             }
+
 
             accountSettings.Languages = GetAllLanguages();
             accountSettings.Currencies = GetAllCurrencies();
             accountSettings.TimeZones = GetAllTimeZones();
 
             profileDetails.AccountSettings = accountSettings;
+
+            profileDetails.CustomerDetails = new CustomerDto();
+            profileDetails.CustomerDetails.Id = currentCustomer.Id;
+            var settings = UpdateMetricSettingsForUser(profileDetails, customerId, dbSettings);
+            profileDetails.AccountSettings.DefaultVolumeMetricId = settings.DefaultVolumeMetricId;
+            profileDetails.AccountSettings.DefaultWeightMetricId = settings.DefaultWeightMetricId;
+
+
             NotificationCriteria notifications = this.GetNotificationCriteriaByCustomerId(customerId);
 
 
