@@ -41,7 +41,7 @@
 
                                     <div ng-messages="formSignup.firstname.$error" ng-show="(formSignup.firstname.$dirty ) 
                                          || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="email" translate>Enter your first name</label>
+                                        <label ng-message="required" class="error" for="firstname" translate><span style="padding-left:13px">Enter your first name</span></label>
                                         
                                     </div>
 
@@ -49,14 +49,14 @@
                             </div>
                             <div class="col-sm-6 col-md-6 col-xs-6">
                                 <div class="form-group">
-                                    <input type="text" name="lastname" id="lname" class="form-control form-ash" ng-model="regCtrl.user.lastName"
-                                           placeholder="{{'Last name *'|translate}}"
+                                    <input type="text" name="lastname" id="lastname" class="form-control form-ash" ng-model="regCtrl.user.lastName"
+                                           placeholder="{{'Last name *'|translate}}" required
                                            ng-maxlength="100" ng-class="{ 'error': formSignup.lastname.$invalid &&
                                     (formSignup.lastname.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" />
                                     
                                     <div ng-messages="formSignup.lastname.$error" ng-show="(formSignup.lastname.$dirty) 
                                          || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
+                                        <label ng-message="required" class="error" for="lastname" translate><span style="padding-left:13px">Enter your last name</span></label>
                                         
                                     </div>
                                 </div>
@@ -81,8 +81,8 @@
                                                        (formSignup.email.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" ng-focus="emailFocus = true" ng-blur="emailFocus = false" />
 
                                     <div ng-messages="formSignup.email.$error" ng-show="(formSignup.email.$dirty && !emailFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="email" translate>Enter your email address</label>
-                                        <label ng-message="email" class="error" for="email" translate>Enter valid email address</label>
+                                        <label ng-message="required" class="error" for="email" translate><span style="padding-left:13px">Enter your email address</span></label>
+                                        <label ng-message="email" class="error" for="email" translate><span style="padding-left:13px">Enter valid email address</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -98,8 +98,8 @@
                                                        (formSignup.password.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password ng-focus="passwordFocus = true" ng-blur="passwordFocus = false" />
 
                                     <div ng-messages="formSignup.password.$error" ng-show="(formSignup.password.$dirty && !passwordFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="password" translate>Enter your password</label>
-                                        <label ng-message="noValidPassword" class="error" for="password" translate>Should contain a min of 8 characters including an upper case</label>
+                                        <label ng-message="required" class="error" for="password" translate><span style="padding-left:13px">Enter your password</span></label>
+                                        <label ng-message="noValidPassword" class="error" for="password" translate><span style="padding-left:13px">Should contain a min of 8 characters including an upper case</span></label>
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +114,8 @@
                                                        (formSignup.password_c.$dirty||regCtrl.isSubmit || regCtrl.isfirstFormInvalid || isfirstFormInvalid) }" valid-password-c ng-focus="password_cFocus = true" ng-blur="password_cFocus = false" />
 
                                     <div ng-messages="formSignup.password_c.$error" ng-show="(formSignup.password_c.$dirty && !password_cFocus) || regCtrl.isSubmit || isfirstFormInvalid">
-                                        <label ng-message="required" class="error" for="password_c" translate>Reenter your password</label>
-                                        <label ng-message="noMatch" class="error" for="password_c" translate>Passwords must match</label>
+                                        <label ng-message="required" class="error" for="password_c" translate><span style="padding-left:13px">Reenter your password</span></label>
+                                        <label ng-message="noMatch" class="error" for="password_c" translate><span style="padding-left:13px">Passwords must match</span></label>
                                     </div>
                                 </div>
                             </div>

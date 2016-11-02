@@ -117,7 +117,7 @@
             $('.nav.nav-sidebar .nav-parent-single').click(function () {
                 $('.nav.nav-sidebar .nav-parent').removeClass('nav-active active');
                 $('.nav.nav-sidebar .nav-parent .children').removeClass('nav-active active');
-                $('.nav.nav-sidebar .nav-parent-single').addClass('active');
+                $(this).addClass('active');
                 $('.nav.nav-sidebar .nav-parent .children').slideUp(200);
             })
             if ($location.$$path == '/' || $location.$$path == '/layout-api') {

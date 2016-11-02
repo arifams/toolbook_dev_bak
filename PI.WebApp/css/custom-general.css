@@ -1748,3 +1748,14 @@ a.list-group-item:focus, a.list-group-item:hover {
     margin-bottom:1px;
     border-top:1px solid #fff;
 }
+.sidebar .nav > li + li {
+    margin-bottom:0;
+}
+.label bg-pickedup-color {
+    background-color:rgb(0, 204, 153);
+    color:#fff;
+}
+.label bg-outofdelivery-color {
+    background-color:rgb(153, 102, 0);
+    color:#fff;
+}

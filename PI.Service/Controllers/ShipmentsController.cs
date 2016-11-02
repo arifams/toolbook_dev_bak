@@ -735,7 +735,7 @@ namespace PI.Service.Controllers
                     PdfWriter writer = PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
 
 
-                    Uri imageUrl = new Uri("http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg");
+                    Uri imageUrl = new Uri("http://www.12send.com/template/logo_12send.png");
                     iTextSharp.text.Image LOGO = iTextSharp.text.Image.GetInstance(imageUrl);
                     LOGO.ScalePercent(25f);
                     invoicePdf.Open();
