@@ -1635,7 +1635,7 @@ a.list-group-item:focus, a.list-group-item:hover {
    
 }
 .list-group-horizontal .list-group-item.list-right-margin {
-    margin-right:20px;
+    margin-right:10px;
     margin-bottom:10px;
 }
 .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {

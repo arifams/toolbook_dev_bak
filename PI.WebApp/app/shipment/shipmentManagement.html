@@ -152,7 +152,11 @@
                             Delivered
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
-
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Deleted') && manageShipCtrl.callServerSearch()"
+                           class="list-group-item list-right-margin">
+                            Deleted
+                            <span class="badge bg-yellow f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.deletedStatusCount}}</span>
+                        </a>
                         <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" 
                            class="list-group-item list-right-margin">
                             All

@@ -1879,8 +1879,7 @@ namespace PI.Business
 
 
         //get shipments by User
-        public PagedList GetAllPendingShipmentsbyUser(string userId, DateTime? startDate, DateTime? endDate,
-                                               string number)
+        public PagedList GetAllPendingShipmentsbyUser(PagedList pageList)
         {
             int page = 1;
             int pageSize = 10;
@@ -1888,18 +1887,18 @@ namespace PI.Business
             IList<int> divisionList = new List<int>();
             List<Data.Entity.Shipment> Shipments = new List<Data.Entity.Shipment>();
             var pagedRecord = new PagedList();
-            if (userId == null)
+            if (pageList.UserId == null)
             {
                 return null;
             }
-            string role = context.GetUserRoleById(userId);
+            string role = context.GetUserRoleById(pageList.UserId);
             if (role == "BusinessOwner" || role == "Manager")
             {
-                divisions = this.GetAllDivisionsinCompany(userId);
+                divisions = this.GetAllDivisionsinCompany(pageList.UserId);
             }
             else if (role == "Supervisor")
             {
-                divisions = companyManagment.GetAssignedDivisions(userId);
+                divisions = companyManagment.GetAssignedDivisions(pageList.UserId);
             }
             if (divisions.Count > 0)
             {
@@ -1910,23 +1909,34 @@ namespace PI.Business
             }
             else
             {
-                Shipments.AddRange(this.GetshipmentsByUserId(userId));
+                Shipments.AddRange(this.GetshipmentsByUserId(pageList.UserId));
             }
 
+            pageList.DynamicContent = pageList.filterContent;
+
+            DateTime? startDate = null, endDate = null;
+            if (!string.IsNullOrWhiteSpace(pageList.DynamicContent.startDate.ToString()))
+            {
+                // Convert to utc
+                startDate = Convert.ToDateTime(pageList.DynamicContent.startDate.ToString());
+                startDate = startDate.Value.ToUniversalTime();
+
+                endDate = Convert.ToDateTime(pageList.DynamicContent.endDate.ToString());
+                endDate = endDate.Value.ToUniversalTime();
+            }
+
+            string number = pageList.DynamicContent.shipmentNumber.ToString();
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
-
-            var content = (from shipment in Shipments
+            var contentQuerable = (from shipment in Shipments
                            where shipment.IsDelete == false &&
                            shipment.Status == (short)ShipmentStatus.BookingConfirmation &&
                            (startDate == null || (shipment.ShipmentPackage.EarliestPickupDate >= startDate && shipment.ShipmentPackage.EarliestPickupDate <= endDate)) &&
                            (string.IsNullOrEmpty(number) || shipment.TrackingNumber.Contains(number) || shipment.ShipmentCode.Contains(number))
-                           select shipment).ToList();
+                           select shipment);
+
+            var content = contentQuerable.OrderBy(d => d.CreatedDate).Skip(pageList.CurrentPage).Take(pageList.PageSize).ToList();
 
             foreach (var item in content)
             {
@@ -2008,9 +2018,8 @@ namespace PI.Business
                 });
             }
 
-            pagedRecord.TotalRecords = Shipments.Count();
-            pagedRecord.CurrentPage = page;
-            pagedRecord.PageSize = pageSize;
+            pagedRecord.TotalRecords = contentQuerable.Count();
+            pagedRecord.PageSize = pageList.PageSize;
             pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
 
             return pagedRecord;
