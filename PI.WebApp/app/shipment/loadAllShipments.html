@@ -236,14 +236,14 @@
                                     <td>{{row.addressInformation.consignee.city}}</td>
                                     <td style="text-align:center">
                                         <span ng-class="{'label label-success' : row.generalInformation.status === 'Delivered', 
-                                                   'label label-danger' : row.generalInformation.status === 'Error', 
-                                                   'label bg-purple' : row.generalInformation.status === 'Transit', 
-                                                   'label bg-blue' : row.generalInformation.status === 'BookingConfirmation', 
+                                                   'label label-danger' : row.generalInformation.status === 'Booking error', 
+                                                   'label bg-purple' : row.generalInformation.status === 'In transit', 
+                                                   'label bg-blue' : row.generalInformation.status === 'Booking confirmed', 
                                                    'label bg-warning' : row.generalInformation.status === 'Exception',
-                                                   'label bg-blue' : row.generalInformation.status === 'Draft',
-                                                   'label bg-purple' : row.generalInformation.status === 'Pickup',
-                                                   'label bg-dark' : row.generalInformation.status === 'OutForDelivery',
-                                                   'label bg-danger' : row.generalInformation.status === 'Deleted'}">{{row.generalInformation.status}}
+                                                   'label bg-dark' : row.generalInformation.status === 'Draft',
+                                                   'label bg-pickedup-color' : row.generalInformation.status === 'Picked up',
+                                                   'label label bg-outofdelivery-color' : row.generalInformation.status === 'Out for delivery',
+                                                   'label label-default' : row.generalInformation.status === 'Deleted'}">{{row.generalInformation.status}}
                                         </span>
                                     </td>
                                     <td style="text-align:center">
