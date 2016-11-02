@@ -74,7 +74,7 @@
                function (responce) {
                    if (responce != null) {
 
-                       debugger;
+                       
                        if (responce.defaultVolumeMetricId == 1) {
 
                            vm.shipment.packageDetails.volumeCMM = "true";
@@ -870,7 +870,7 @@
 
        function saveShipmentAsDraft() {
 
-           debugger;
+           
 
 
             vm.loadingSymbole = true;
@@ -1045,7 +1045,7 @@
             shipmentFactory.loadShipmentInfo(code, id)
             .success(function (data) {
 
-                debugger;
+                
                 vm.shipment = data;
 
 

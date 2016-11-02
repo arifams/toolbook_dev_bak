@@ -41,18 +41,18 @@
         function ($location, $window, userManagementFactory, $rootScope, $routeParams, $scope) {
         var vm = this;
         vm.user = {};
-        debugger;
+        
 
         vm.item = '';
 
         //vm.usere = $scope.$parent.$parent.userCtrl.parentUser;
 
         var loadUser = function () {
-            debugger;
+            
             console.log(vm.user);
             userManagementFactory.getUser($routeParams.id)
             .success(function (data) {
-                debugger;
+                
                 vm.user = data;
                 vm.user.roles = [{
                     id: '1',

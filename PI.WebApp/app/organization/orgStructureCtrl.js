@@ -7,7 +7,7 @@
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
                 ctrl.$parsers.unshift(function (viewValue, $scope) {
-                    debugger;
+                    
                     // password validate.
                     var res = /^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\S]{7,20}$/.test(viewValue);
                     ctrl.$setValidity('noValidPassword', res);
@@ -29,7 +29,7 @@
     //        require: 'ngModel',
     //        link: function (scope, elm, attrs, ctrl) {
     //            ctrl.$parsers.unshift(function (viewValue, $scope) {
-    //                debugger;
+    //                
     //                var noMatch = viewValue != scope.formSaveUser.password.$viewValue;
     //                ctrl.$setValidity('noMatch', !noMatch);
     //                return viewValue;
@@ -160,7 +160,7 @@
             $scope.loadOrganizationStructure();
 
             $scope.manageUsers = function () {
-                debugger;
+                
                 $scope.rightPaneLoad = true;
                 $scope.editUserBtnClick = true;
             }

@@ -123,7 +123,7 @@
                            vm.ExportExcel = function (tableState) {
 
                                vm.loadingSymbole = true;
-                               debugger;
+                               
                                if (tableState != undefined) {
                                    tableStateCopy = tableState;
                                }
@@ -330,7 +330,7 @@
 
                                                    shipmentFactory.UpdateShipmentReference(row)
                                                    .success(function (response) {
-                                                       debugger;
+                                                       
                                                        if (response.status == 2) {
 
 
@@ -429,7 +429,7 @@
 
                            vm.callServerSearch = function (tableState) {
 
-                               debugger;
+                               
                                if (tableState != undefined) {
                                    tableStateCopy = tableState;
                                }
