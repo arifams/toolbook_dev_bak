@@ -3008,7 +3008,7 @@ namespace PI.Business
                         ShipmentMode = item.ShipmentMode.ToString(),
                         ShipmentName = item.ShipmentName,
                         CompanyName = item.Division.Company.Name,
-                        Owner = owner.FirstName + " " + owner.LastName,
+                        Owner = owner != null ? (owner.FirstName + " " + owner.LastName) : "",
                         //ShipmentTermCode = item.ShipmentTermCode,
                         //ShipmentTypeCode = item.ShipmentTypeCode,
                         ShipmentId = item.Id.ToString(),
