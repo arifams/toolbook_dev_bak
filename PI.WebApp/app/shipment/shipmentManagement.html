@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <hr>
-                <a href="javascript:void(0)" ng-click="manageShipCtrl.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-200px">APPLY </a>
+                <a href="javascript:void(0)" ng-click="manageShipCtrl.applySearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-200px">APPLY </a>
 
                 <a href="javascript:void(0)" ng-click="manageShipCtrl.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style" style="bottom:-195px">RESET FILTERS</a>
 
@@ -62,7 +62,7 @@
                    placeholder="{{'Search'|translate}}" />
             <!--'Tracking Number/ Shipment Id/ Customer Name/ Origin/ Destination'-->
             <span class="input-group-btn p-0">
-                <button type="button" class="btn btn-primary" ng-click="manageShipCtrl.callServerSearch()"
+                <button type="button" class="btn btn-primary" ng-click="manageShipCtrl.shipmentSearch()"
                         style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
                     <i class="fa fa-search"></i>
                 </button>
@@ -105,59 +105,59 @@
                
                     <div class="list-group list-group-horizontal">
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Draft
                             <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.draftStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Booking Confirmed
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Picked up
                             <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pickeduptatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             In-Transit
                             <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.inTransitStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Error
                             <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.errorStatusCount}}</span>
                         </a>  
                                      
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Exceptions
                             <span class="badge bg-orange f-14 custom-badge m-l-5">{{manageShipCtrl.counts.exceptionStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Out for delivery
                             <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.outForDeliveryStatusCount}}</span>
                         </a> 
                          
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Delivered
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Deleted') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Deleted') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Deleted
                             <span class="badge bg-yellow f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.deletedStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             All
                             <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.allStatusCount}}</span>
