@@ -35,7 +35,7 @@
                    
                    shipmentFactory.getLocationHistory(vm.shipment)
                    .success(function (data) {
-                       debugger;
+                       
                        vm.locationHistory = data;
 
                        if (vm.locationHistory.info != null) {

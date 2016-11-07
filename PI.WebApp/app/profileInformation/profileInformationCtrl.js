@@ -253,7 +253,7 @@
             getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
              .then(function successCallback(response) {
                  vm.loading = false;
-                 debugger;
+                 
                  if (response.data.customerDetails != null) {
 
                      vm.isPhoneNumberVerified();
@@ -344,7 +344,7 @@
 
             getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
              .then(function successCallback(response) {
-                 debugger;
+                 
                  vm.loading = false;
 
                  vm.languageList = response.data.accountSettings.languages;
@@ -369,7 +369,7 @@
                  vm.model.shipmentException = response.data.shipmentException;
                  vm.model.notifyNewSolution = response.data.notifyNewSolution;
                  vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
-                 debugger;
+                 
                  vm.model.defaultVolumeMetricId = response.data.accountSettings.defaultVolumeMetricId;
                  vm.model.defaultWeightMetricId = response.data.accountSettings.defaultWeightMetricId;
 
@@ -967,7 +967,7 @@
         }
 
         vm.textPhoneCode = function () {
-            debugger;
+            
 
             var userDetails = {
                 email: vm.model.customerDetails.email,
@@ -976,14 +976,14 @@
             };
             updateProfilefactory.SendOPTCodeForPhoneValidation(userDetails)
              .then(function (returnedResult) {
-                 debugger;
+                 
                  if (returnedResult.status == 200) {
                      vm.showError = false;
                      vm.isSentSecurityCode = true;
                  }
              },
             function (error) {
-                debugger;
+                
                 vm.showError = true;
                 vm.errorMessage = $rootScope.translate(error.data.message);
 
@@ -995,7 +995,7 @@
 
 
         vm.submitSecurityCode = function () {
-            debugger;
+            
             var userDetails = {
                 email: vm.model.customerDetails.email,          
                 mobileVerificationCode: vm.model.customerDetails.mobileVerificationCode,
@@ -1004,7 +1004,7 @@
             updateProfilefactory.VerifyPhoneCode(userDetails)
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                     
                      if (returnedResult.data) {
                          vm.isVerified = true;
                      }
@@ -1026,11 +1026,11 @@
 
         vm.isVerified = false;
         vm.isPhoneNumberVerified = function () {
-            debugger;
+            
             updateProfilefactory.isPhoneNumberVerified(vm.model.customerDetails.email)
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                     
                      if (returnedResult.data.result == 1) {
                          vm.isVerified = true;
                      }
@@ -1046,7 +1046,7 @@
 
        
         vm.changePhone = function () {
-            debugger;
+            
             vm.isVerified = (vm.originalPhone == vm.model.customerDetails.mobileNumber) && vm.originalVerifiedStatus;
         };
 

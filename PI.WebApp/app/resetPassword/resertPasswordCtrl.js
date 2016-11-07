@@ -71,7 +71,7 @@
 
 
         vm.resetOldPassword = function (user) {
-            debugger;
+            
             if ($window.localStorage.getItem('isViaPhone')) {
                 user.email = $window.localStorage.getItem('email');
                 resetURL = "api/accounts/resetForgetPasswordViaPhone";

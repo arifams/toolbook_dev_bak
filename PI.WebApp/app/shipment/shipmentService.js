@@ -9,7 +9,7 @@
 
 
         function setLoginUserID() {
-            debugger;
+            
             if ($window.localStorage.getItem('userRole') == 'Admin') {
 
                 createdBy = $window.localStorage.getItem('userGuid');
@@ -276,7 +276,7 @@
 
         
         function loadAllShipmentsForAdminExcelExport(companyId, status, startDate, endDate, number, source, destination) {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/Admin/loadAllShipmentsForAdminExcelExport', {
                 params: {
                     companyId: companyId,
@@ -296,7 +296,7 @@
              
             setLoginUserID();
             shipmentSerach.userId = userId;
-            debugger;
+            
             return $http.post(serverBaseUrl + '/api/shipments/GetFilteredShipmentsExcel',shipmentSerach,           
                {responseType: 'arraybuffer'}            
             );
