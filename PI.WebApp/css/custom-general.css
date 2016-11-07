@@ -3,6 +3,9 @@
 }
 
 /*index.html*/
+body {
+    font-size:13px;
+}
 
 .sidebar .sidebar-inner .nav-sidebar > li > a {
     padding:7px 20px;
@@ -752,6 +755,7 @@
 }
 .table > tbody > tr > td {
     border-bottom:1px solid #DDD;
+    font-size:13px;
     /*text-align:center;*/
 }
 .noshipmentContent {
@@ -1437,6 +1441,7 @@ width:10px;
 }
 .dropdown-menu {
     left:23px;
+    font-size:13px;
 }
 .pull-right > .dropdown-menu {
     left:23px;
@@ -1660,6 +1665,7 @@ a.list-group-item:focus, a.list-group-item:hover {
 }
 .table > thead > tr > th {
     border-bottom:2px solid #319db5;
+    font-size:13px;
 }
 .sidebar .sidebar-inner .nav-sidebar .children > li > a {
     letter-spacing:0.4px;
@@ -1759,3 +1765,9 @@ a.list-group-item:focus, a.list-group-item:hover {
     background-color:rgb(153, 102, 0);
     color:#fff;
 }
+.custom-dropdown {
+    width:auto;
+}
+/*.main-content .page-content .panel table .btn-group {
+    z-index:
+}*/
