@@ -38,7 +38,7 @@
         }
 
         function getUsersByFilter(userId, searchText, role, status) {
-            debugger;
+            
             return $http.get(serverBaseUrl + '/api/accounts/GetUsersByFilter', {
                 params: {
                     loggedInuserId: userId,

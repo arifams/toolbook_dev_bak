@@ -208,9 +208,9 @@
                                     <th translate>Destination</th>
                                     <th translate class="text-center">Status</th>
                                     <th translate class="text-center">Favorites</th>
-                                    <th translate class="text-center">View</th>
-                                    <th translate class="text-center">Edit</th>
-                                    <th translate class="text-center">Delete</th>
+                                    <th translate class="text-center">Action</th>
+                                    <!--<th translate class="text-center">Edit</th>
+                                    <th translate class="text-center">Delete</th>-->
                                    
                                 </tr>
 
@@ -235,20 +235,47 @@
                                     <td>{{row.addressInformation.consigner.city}}</td>
                                     <td>{{row.addressInformation.consignee.city}}</td>
                                     <td style="text-align:center">
-                                        <span ng-class="{'label label-warning' : row.generalInformation.status === 'Pending', 
-                                                   'label label-success' : row.generalInformation.status === 'Delivered', 
-                                                   'label label-danger' : row.generalInformation.status === 'Error', 
-                                                   'label bg-purple' : row.generalInformation.status === 'Transit', 
-                                                   'label bg-blue' : row.generalInformation.status === 'Booking confirmation', 
-                                                   'label bg-dark' : row.generalInformation.status === 'Exception'}">{{row.generalInformation.status}}
+                                        <span ng-class="{'label label-success' : row.generalInformation.status === 'Delivered', 
+                                                   'label label-danger' : row.generalInformation.status === 'Booking error', 
+                                                   'label bg-purple' : row.generalInformation.status === 'In transit', 
+                                                   'label bg-blue' : row.generalInformation.status === 'Booking confirmed', 
+                                                   'label bg-warning' : row.generalInformation.status === 'Exception',
+                                                   'label bg-dark' : row.generalInformation.status === 'Draft',
+                                                   'label bg-pickedup-color' : row.generalInformation.status === 'Picked up',
+                                                   'label label bg-outofdelivery-color' : row.generalInformation.status === 'Out for delivery',
+                                                   'label label-default' : row.generalInformation.status === 'Deleted'}">{{row.generalInformation.status}}
                                         </span>
                                     </td>
+
                                     <td style="text-align:center">
                                         <a ng-hide="row.generalInformation.status == 'Delivered'" class="fa fa-star" ng-click="loadShipCtrl.toggleFavourite(row)"
                                            ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
                                         </a>
                                     </td>
+
                                     <td style="text-align:center">
+                                        <div class="btn-group m-r-0" dropdown="">
+                                            <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                                Action <span class="caret"></span>
+                                            </button>
+                                            <span class="dropdown-arrow"></span>
+                                            <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
+                                                <li><a href="javascript:;" ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
+                                                <li ng-hide="row.generalInformation.shipmentCode == null"><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
+                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
+                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">Edit/Print Commercial invoice</a></li>
+                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Add Documents</a></li>
+                                                <hr class="m-0">
+                                                <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit shipments</a></li>
+                                                <li><a href="javascript:;" ng-click="loadShipCtrl.deleteById(row)">Delete shipments</a></li>
+                                                <li><a href="javascript:;">Copy as new shipment</a></li>
+                                                <li><a href="javascript:;">Delete & copy as new shipment</a></li>
+                                                <li><a href="javascript:;">Create return shipment</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+
+                                    <!--<td style="text-align:center">
                                         <a ng-hide="row.generalInformation.shipmentCode == null" href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                            class="btn btn-sm btn-primary btn-transparent">
                                             <i class="fa fa-eye"></i>
@@ -266,13 +293,13 @@
                                             <i class="fa fa-times" aria-hidden="true"></i>
                                         </a>
                                        
-                                    </td>
+                                    </td>-->
                                    
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="5" class="text-center">
+                                    <td colspan="12" class="text-center">
                                         <div st-pagination="" st-items-by-page="10" st-displayed-pages="20"></div>
                                     </td>
                                 </tr>

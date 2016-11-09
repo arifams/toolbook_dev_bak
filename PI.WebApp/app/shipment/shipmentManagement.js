@@ -1,9 +1,9 @@
 ﻿'use strict';
 (function (app) {
 
-    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory', 'modalService','$route',
+    app.controller('shipmentManageCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$rootScope', 'customBuilderFactory', 'modalService', '$route',
                        function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $rootScope, customBuilderFactory, modalService, $route) {
-                           
+
                            var vm = this;
                            vm.searchText = '';
                            vm.CompanyId = '';
@@ -20,9 +20,9 @@
                                customBuilderFactory.customFilterToggle();
 
                            };
-                           
+
                            vm.ExportExcel = function () {
-                                
+
                                vm.loadingSymbole = true;
 
                                var status = (vm.status == undefined || vm.status == 'All' || vm.status == null || vm.status == "") ? null : vm.status;
@@ -134,38 +134,38 @@
                            }
 
                            vm.loadShipmentsBySearch = function (status, startRecord, pageRecord, tableState) {
-                                
+
                                vm.loadingSymbole = true;
-                          
+
                                var status = (status == undefined || status == 'All' || status == null || status == "") ? null : status;
                                var startDate = (vm.datePicker.date.startDate == null) ? null : vm.datePicker.date.startDate.toDate();
                                var endDate = (vm.datePicker.date.endDate == null) ? null : vm.datePicker.date.endDate.toDate();
                                var searchValue = (vm.searchValue == undefined || vm.searchValue == null || vm.searchValue == "") ? null : vm.searchValue;
 
-                               shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue,startRecord,pageRecord)
+                               shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue, startRecord, pageRecord)
                                .then(function (responce) {
-                                     
-                                   debugger;
+
+
                                    vm.loadingSymbole = false;
-                                    if (responce.data.content != null) {
-                                        vm.rowCollection = responce.data.content;
-                                      
-                                        tableState.pagination.numberOfPages = responce.data.totalPages;
+                                   if (responce.data.content != null) {
+                                       vm.rowCollection = responce.data.content;
 
-                                        vm.noShipments = false;
-                                     
+                                       tableState.pagination.numberOfPages = responce.data.totalPages;
 
-                                        vm.setCSVData(responce);
+                                       vm.noShipments = false;
 
-                                    } else {
 
-                                        vm.noShipments = true;
-                                        vm.rowCollection = [];
-                                    }
+                                       vm.setCSVData(responce);
+
+                                   } else {
+
+                                       vm.noShipments = true;
+                                       vm.rowCollection = [];
+                                   }
                                }, function errorCallback(error) {
                                    vm.loadingSymbole = false;
                                    console.log("error occurd while retrieving Addresses");
-                               });                              
+                               });
 
                            }
 
@@ -198,7 +198,7 @@
                                vm.exportcollection.push(headers);
 
                                $.each(responce.data.content, function (index, value) {
-                                    
+
                                    var shipmentObj = {}
                                    shipmentObj.orderSubmitted = value.generalInformation.createdDate;
                                    shipmentObj.trackingNumber = value.generalInformation.trackingNumber;
@@ -234,7 +234,7 @@
                                                    shipmentFactory.UpdateshipmentStatusManually(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-                                                            location.reload();
+                                                           location.reload();
                                                            //vm.loadShipmentsBySearch();
                                                        }
                                                    })
@@ -316,9 +316,9 @@
 
                            };
 
-                        
+
                            vm.closeWindow = function () {
-                                
+
                                ngDialog.close()
                            }
 
@@ -361,7 +361,7 @@
 
                            vm.shipmentSyncWithSIS = function () {
 
-                              
+
                                shipmentFactory.getShipmentForCompanyAndSyncWithSIS(vm.CompanyId).success(
                                   function (responce) {
                                       if (responce.content.length > 0) {
@@ -384,36 +384,38 @@
                                    className: 'ngdialog-theme-plain custom-width-max',
                                    controller: $controller('shipmentSearchCtrl', {
                                        $scope: $scope,
-                                       
+
                                    })
                                });
-                              
+
                            }
 
                            vm.getShipmentStatusCounts = function () {
-                                
+
                                shipmentFactory.GetAllShipmentCounts()
                                .then(function (response) {
-                                    
+
                                    if (response.data != null) {
                                        vm.counts = response.data;
                                    }
                                },
                                function (error) {
-                                  vm.model.isServerError = "true";
+                                   vm.model.isServerError = "true";
                                })
                            }
 
                            var tableStateCopy;
 
                            vm.callServerSearch = function (tableState) {
-                              
+
                                if (tableState != undefined) {
                                    tableStateCopy = tableState;
-                                }
+                               }
                                else {
                                    tableState = tableStateCopy;
-                                }
+                                   // tablestate undefined mean, this is come from search btn. Not from click on pagination. Reset everything.
+                                   tableState.pagination.start = 0;
+                               }
 
                                var start = tableState.pagination.start;
                                var number = tableState.pagination.number;
@@ -422,8 +424,25 @@
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            };
 
+                           vm.shipmentSearch = function () {
+                               vm.status = 'All';
+                               vm.datePicker.date = { "startDate": null, "endDate": null };
+                               vm.callServerSearch();
+                           };
+
+                           vm.applySearch = function () {
+                               vm.searchValue = '';
+                               vm.callServerSearch();
+                           };
+
+                           vm.statusSearch = function () {
+                               vm.datePicker.date = { "startDate": null, "endDate": null };
+                               vm.searchValue = '';
+                               vm.callServerSearch();
+                           };
+
                            vm.resetSearch = function (tableState) {
-                                
+
                                var pagination = 0;//tableState.pagination;
 
                                var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
@@ -431,8 +450,6 @@
 
                                vm.status = 'All';
                                vm.datePicker.date = { "startDate": null, "endDate": null };
-                               //vm.datePicker.date.endDate = null;
-                               console.log(vm.status);
 
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            }

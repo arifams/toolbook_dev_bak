@@ -59,8 +59,9 @@
         vm.shipmentReferenceName = ''
         vm.isViaInvoicePayment = true;
         vm.isBacktoRatesDisabled = false;
-
-
+        vm.savePayShipment = false;
+        vm.payementProgress = false;
+        vm.hideSummary = false;
 
         vm.shipmentReferenceName = '';
         vm.shipmentChanged = false;
@@ -74,7 +75,7 @@
                function (responce) {
                    if (responce != null) {
 
-                       debugger;
+                       
                        if (responce.defaultVolumeMetricId == 1) {
 
                            vm.shipment.packageDetails.volumeCMM = "true";
@@ -168,8 +169,8 @@
             vm.shipmentServices = [];
             vm.shipmentServices =
                         [
+                         { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid (standard)" },
                          { "Id": "DD-DDP-PP", "Name": "Door-to-Door, DDP, Prepaid" },
-                         { "Id": "DD-DDU-PP", "Name": "Door-to-Door, DDU, Prepaid" },
                          { "Id": "DD-CIP-PP", "Name": "Door-to-Door, CIP, Prepaid" },
                          { "Id": "KMSDY", "Name": "Door-to-Door, SDY, Same Day" },
                         ];
@@ -577,6 +578,7 @@
                                    $scope.$apply(function () {
                                        vm.shipmentStatusMsg = errorList;
                                        vm.loadingSymbole = false;
+                                       vm.payementProgress = false;
                                    });
                                    // No errors occurred. Extract the card nonce.
                                } else {
@@ -591,7 +593,7 @@
                                        CardNonce: nonce,
                                        shipmentId: $window.localStorage.getItem('shipmentId'),
                                        userId: $window.localStorage.getItem('userGuid'),
-                                       templateLink: '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Thank you for using One2send </h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:16px;">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-weight:700;font-style:italic;font-size:16px;">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-weight:700;font-style:italic;font-size:16px;">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-weight:700;font-style:italic;font-size:16px">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><table><thead><tr><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Product Type</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Quantity</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Weight</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="font-size:20px;text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
+                                       templateLink: '<html><head><title></title></head><body style="margin-left:40px;margin-right:40px;margin-top:30px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000font-size:13px"><p style="font-style:italic;">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="font-family:verdana,geneva,sans-serif;font-size:14px;text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
                                    };
 
                                    shipmentFactory.PaymentCharge(paymentDto).success(
@@ -669,11 +671,15 @@
                 // Success both payment and shipment.
 
                 vm.isShowPaymentForm = false;
+                vm.payementProgress = false;
+                vm.savePayShipment = false;
                 vm.labelUrl = response.labelURL;
 
                 vm.isShowLabel = true;
                 if (response.invoiceURL != '') {
                     vm.isShowInvoice = true;
+                    vm.payementProgress = false;
+                    vm.savePayShipment = false;
                     vm.invoiceUrl = response.invoiceURL;
                 }
             }
@@ -695,6 +701,8 @@
 
                 vm.shipmentReferenceName = response.shipmentReference;
                 vm.isShowPaymentForm = false;
+                vm.payementProgress = false;
+                vm.savePayShipment = false;
                 //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                 //window.open(errorUrl);
             }
@@ -811,7 +819,7 @@
                                         var sendShipmentData = {
                                             shipmentId: $window.localStorage.getItem('shipmentId'),
                                             userId: $window.localStorage.getItem('userGuid'),
-                                            templateLink: '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Thank you for using One2send </h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:16px;">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-weight:700;font-style:italic;font-size:16px;">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-weight:700;font-style:italic;font-size:16px;">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-weight:700;font-style:italic;font-size:16px;">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-weight:700;font-style:italic;font-size:16px">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><table><thead><tr><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Product Type</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Quantity</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Weight</th><th style="width:290px;color:#fff;font-size:16px;border-bottom:2px solid #fff;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="font-size:20px;text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
+                                            templateLink: '<html><head><title></title></head><body style="margin-top:30px;margin-left:40px;margin-right:40px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:20px;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><p style="font-style:italic;font-size:16px">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;font-size:16px">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;font-size:16px">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;font-size:16px">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;font-size:16px">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;font-size:16px">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;font-size:16px">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
                                         };
 
                                         shipmentFactory.sendShipmentDetails(sendShipmentData).success(
@@ -870,7 +878,7 @@
 
        function saveShipmentAsDraft() {
 
-           debugger;
+           
 
 
             vm.loadingSymbole = true;
@@ -890,10 +898,11 @@
             shipmentFactory.saveShipment(vm.shipment).success(
                         function (response) {
                                 vm.addingShipment = false;
-
+                                vm.savePayShipment = false;
                                 if (response.status == 2) {
 
                                     vm.loadingSymbole = false;
+                                    vm.savePayShipment = false;
                                     body.stop().animate({
                                         scrollTop: 0
                                     }, '500', 'swing', function () { });
@@ -912,6 +921,7 @@
                                 }
                                 else {
                                     vm.addingShipment = false;
+                                    vm.savePayShipment = false;
                                     body.stop().animate({
                 scrollTop: 0 }, '500', 'swing', function () { });
                                     $('#panel-notif').noty({
@@ -927,6 +937,7 @@
                                         }
                             }).error(function (error) {
                                 vm.loadingSymbole = false;
+                                vm.savePayShipment = false;
                                 $('#panel-notif').noty({
                                                 text: '<div class="alert alert-danger media fade in"><p>' +$rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                             layout: 'bottom-right',
@@ -964,8 +975,10 @@
         }
 
         vm.chargeFromCard = function () {
+            vm.hideSummary = true;
+            vm.savePayShipment = true;
             vm.shipmentStatusMsg = '';
-            vm.loadingSymbole = true;
+            vm.payementProgress = true;
             paymentForm.requestCardNonce();
 
         }
@@ -977,9 +990,13 @@
 
                                 if (response.status == 2) {
                                     // Successfully saved in db.
+                                    vm.payementProgress = false;
+                                    vm.savePayShipment = false;
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
                                 }
                                 else {
+                                    vm.payementProgress = false;
+                                    vm.savePayShipment = false;
                                     $('#panel-notif').noty({
                                         text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                         layout: 'bottom-right',
@@ -993,6 +1010,8 @@
                                 }
 
                             }).error(function (error) {
+                                vm.payementProgress = false;
+                                vm.savePayShipment = false;
 
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
@@ -1045,7 +1064,7 @@
             shipmentFactory.loadShipmentInfo(code, id)
             .success(function (data) {
 
-                debugger;
+                
                 vm.shipment = data;
 
 

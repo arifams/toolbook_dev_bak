@@ -16,7 +16,7 @@
         };
 
         vm.manageUsers = function () {
-            debugger;
+            
             vm.rightPaneLoad = true;
             vm.editUserBtnClick = true;
         }

@@ -38,7 +38,7 @@ namespace PI.Service.Controllers
         readonly IShipmentManagement shipmentManagement;
         readonly ICustomerManagement customerManagement;
 
-        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement, 
+        public AdminController(IAdministrationManagment adminManagement, IInvoiceMangement invoiceMangement,
                                ICompanyManagement companyManagement, IShipmentManagement shipmentManagement, ICustomerManagement customerManagement)
         {
             this.adminManagement = adminManagement;
@@ -318,7 +318,7 @@ namespace PI.Service.Controllers
                 // so this is how you can get the original file name
                 var originalFileName = GetDeserializedFileName(invoice);
 
-              //  string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
+                //  string[] invoiceDetails = (Path.GetFileNameWithoutExtension(originalFileName)).Split('_');
 
                 // uploadedFileInfo object will give you some additional stuff like file length,
                 // creation time, directory name, a few filesystem methods etc..
@@ -336,37 +336,42 @@ namespace PI.Service.Controllers
                 // Make absolute link
                 string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
-              //  var codeshipment = invoiceDetails[0];
-              //  var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
+                //  var codeshipment = invoiceDetails[0];
+                //  var currentShipment = shipmentManagement.GetShipmentByCodeShipment(codeshipment);
 
                 //if (currentShipment != null)
                 //{
-                  //  var tenantId = currentShipment.Division.Company.TenantId;
+                //  var tenantId = currentShipment.Division.Company.TenantId;
 
-                    //fileDetails.TenantId = tenantId;
+                //fileDetails.TenantId = tenantId;
 
-                    imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
-                  //  fileDetails.ClientFileName = originalFileName;
-                   // fileDetails.UploadedFileName = imageFileNameInFull;
+                imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
+                //  fileDetails.ClientFileName = originalFileName;
+                // fileDetails.UploadedFileName = imageFileNameInFull;
 
-                    media.InitializeStorage("0", "Invoice_Temp");
-                    await media.Upload(stream, imageFileNameInFull);
+                media.InitializeStorage("0", "Invoice_Temp");
+                await media.Upload(stream, imageFileNameInFull);
 
-                    //Delete the temporary saved file.
+                //Delete the temporary saved file.
+                try
+                {
                     if (File.Exists(uploadedFileInfo.FullName))
                     {
-                        System.IO.File.Delete(uploadedFileInfo.FullName);
+                        File.Delete(uploadedFileInfo.FullName);
                     }
-                    // Through the request response you can return an object to the Angular controller
-                    // You will be able to access this in the .success callback through its data attribute
-                    // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-                    var returnData = baseUrl + "TENANT_" + 0 + "/" + "Invoice_Temp"
-                                     + "/" + imageFileNameInFull;
+                }
+                catch (Exception)
+                {
+                    // No need to do extra action, if failed of delete.
+                }
 
-                   await invoiceMangement.FetchInvoiceDetailsfromPdf(returnData);
+                // Through the request response you can return an object to the Angular controller
+                // You will be able to access this in the .success callback through its data attribute
+                // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
+                var returnData = baseUrl + "TENANT_" + 0 + "/" + "Invoice_Temp"
+                                 + "/" + imageFileNameInFull;
 
-                //}
-
+                await invoiceMangement.FetchInvoiceDetailsfromPdf(returnData);
             }
 
             return this.Request.CreateResponse(HttpStatusCode.OK);
@@ -437,7 +442,7 @@ namespace PI.Service.Controllers
 
         }
 
-        
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         //[Authorize]
         [HttpGet]
