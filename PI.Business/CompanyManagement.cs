@@ -1286,7 +1286,8 @@ namespace PI.Business
                     IsActive = user.IsActive,
                     Divisions = divisionList,
                     Roles = roleList,
-                    AssignedRoleName = assignedRole
+                    AssignedRoleName = assignedRole,
+                    IsActualUser = (user.Id == loggedInUser? true : false)
                 };
 
             }
@@ -1440,7 +1441,6 @@ namespace PI.Business
                                                 (role == "0" || x.Roles.Any(r => r.RoleId == role)) 
                                                 ).ToList();
 
-
             foreach (var item in content)
             {
                 //if (item.Roles.Count()!=0 && item.Roles.FirstOrDefault().RoleId!= "b1320df1-55f8-46a0-9754-13a0544658d4" && item.Roles.FirstOrDefault().RoleId != "e97b4e4c-45de-4fb2-a322-5b876b7661d0" && item.Roles.FirstOrDefault().RoleId != "336eeffa-57c6-430d-9fa9-575e2a7e9787")
@@ -1455,6 +1455,7 @@ namespace PI.Business
                         Email = item.Email,
                         RoleName = item.Roles.Count() != 0 ? GetRoleName(item.Roles.FirstOrDefault().RoleId) : "",
                         Status = (item.IsActive) ? "Active" : "Inactive",
+                        IsActualUser = (item.Id == userId ? true: false),
                         LastLoginTime = (item.LastLoginTime == null) ? null : item.LastLoginTime.Value.ToString("MM/dd/yyyy   HH:mm:ss tt", CultureInfo.InvariantCulture)
                     });
 

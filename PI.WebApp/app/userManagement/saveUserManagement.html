@@ -68,7 +68,7 @@
                             Status
                         </label>
                         <div class="option-group">
-                            <select class="form-control form-white"
+                            <select class="form-control form-white" ng-disabled="userCtrl.user.isActualUser"
                                     name="role" ng-model="userCtrl.user.isActive"
                                     data-container="body" data-toggle="popover"
                                     data-placement="top" data-html="true" data-content="">
@@ -87,6 +87,7 @@
                             <select name="mySelect" class="form-control form-white" ng-model="userCtrl.user.assignedRoleName"
                                     convert-to-number ng-options="option.roleName as option.roleName for option in
                                                     userCtrl.user.roles" ng-required="true"
+                                    ng-disabled="userCtrl.user.isActualUser"
                                     rel="popover" data-container="body" data-toggle="popover"
                                     data-placement="top"
                                     data-html="true"
@@ -99,7 +100,7 @@
                     </div>
 
                 </div>
-
+        
                 <div class="row m-l-0 m-r-0" style="margin-top:20px;">
                     <div class="form-group m-l-0 m-r-0">
                         <label class="control-label" translate>Password *</label>
