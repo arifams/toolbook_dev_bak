@@ -651,7 +651,7 @@ namespace PI.Business
         public async Task<bool> FetchInvoiceDetailsfromPdf(string pdfUrl)
         {
             InvoiceDto invoiceDetails = new InvoiceDto();
-            ShipmentDto shipmentDetails = new ShipmentDto();
+            //ShipmentDto shipmentDetails = new ShipmentDto();
             AzureFileManager media = new AzureFileManager();
             string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
@@ -744,19 +744,29 @@ namespace PI.Business
 
             f.ClosePdf();
             var savedInvoice = this.GetInvoiceByNumber(invoiceNumber);
-            
-            if (savedInvoice==null)
+
+            Shipment shipmentDetails = null;
+            if (!invoice && savedInvoice ==null)
             {
                 return false;
+            }
+            else if(invoice)
+            {
+                // Invoice upload
+                shipmentDetails = context.Shipments.Where(sh => sh.TrackingNumber == trackingNo).FirstOrDefault();
+            }
+            else
+            {
+                // Dispute upload
+                shipmentDetails = context.Shipments.Where(sh => sh.Id == (long)savedInvoice.ShipmentId).FirstOrDefault();
             }
 
-            shipmentDetails = shipmentManagement.GetshipmentById("", (long)savedInvoice.ShipmentId);
             //get tenantId 
-            if (shipmentDetails==null || shipmentDetails.GeneralInformation==null)
+            if (shipmentDetails==null)
             {
                 return false;
             }
-            var tenantId = context.GetTenantIdByUserId(shipmentDetails.GeneralInformation.CreatedUser);
+            var tenantId = context.GetTenantIdByUserId(shipmentDetails.CreatedBy);
 
             //saving invoice details fetched from the Pdf
             WebClient myclient = new WebClient();
@@ -772,19 +782,35 @@ namespace PI.Business
             
 
             if (invoice)
-            {  
+            {
                 //saving fetched details from Pdf
-                invoiceDetails.InvoiceNumber = invoiceNumber;
-                invoiceDetails.Id = savedInvoice.Id;
-                invoiceDetails.InvoiceDate = createdDate;
-                invoiceDetails.DueDate = duedate;
-                invoiceDetails.CreatedOn = createdDate;
-                invoiceDetails.Terms = terms;
-                invoiceDetails.InvoiceValue = Convert.ToDecimal(invoiceAmount);
-                invoiceDetails.URL = returnData;
-                invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
-                invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
-                this.SaveCreditNoteDetails(invoiceDetails);              
+                Invoice invoiceToSave = new Invoice()
+                {
+                    InvoiceNumber = invoiceNumber,
+                    CreatedDate = Convert.ToDateTime(createdDate),
+                    DueDate = Convert.ToDateTime(duedate),
+                    CreatedBy = shipmentDetails.CreatedBy,
+                    InvoiceStatus = InvoiceStatus.Pending,
+                    InvoiceValue = Convert.ToDecimal(invoiceAmount),
+                    IsActive = true,
+                    ShipmentId = shipmentDetails.Id,
+                    URL = returnData,
+                    Terms = terms
+                };
+                context.Invoices.Add(invoiceToSave);
+                context.SaveChanges();
+
+                //invoiceDetails.InvoiceNumber = invoiceNumber;
+                //invoiceDetails.Id = savedInvoice.Id;
+                //invoiceDetails.InvoiceDate = createdDate;
+                //invoiceDetails.DueDate = duedate;
+                //invoiceDetails.CreatedOn = createdDate;
+                //invoiceDetails.Terms = terms;
+                //invoiceDetails.InvoiceValue = Convert.ToDecimal(invoiceAmount);
+                //invoiceDetails.URL = returnData;
+                //invoiceDetails.InvoiceStatus = InvoiceStatus.Paid.ToString();
+                //invoiceDetails.CreatedBy = shipmentDetails.GeneralInformation.CreatedBy;
+                //this.SaveCreditNoteDetails(invoiceDetails);
             }
             else
             {
@@ -797,8 +823,6 @@ namespace PI.Business
                 
                 //saving credit notes
                 this.SaveCreditNoteDetails(invoiceDetails);
-               
-
             }
 
            
