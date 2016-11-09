@@ -2921,7 +2921,7 @@ namespace PI.Business
 
             var querableContent = (from shipment in context.Shipments
                                                     where shipment.IsDelete == false &&
-                                                    //shipment.
+                                                    !shipment.IsParent &&
                                                      ((status == null ||
                                                       (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
                                                     : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)
