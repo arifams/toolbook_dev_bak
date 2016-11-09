@@ -59,7 +59,6 @@
             getFilteredShipmentsExcel: getFilteredShipmentsExcel,
             PaymentCharge: PaymentCharge,
             loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
-            PaymentCharge: PaymentCharge,
             GetAllShipmentCounts: GetAllShipmentCounts,
             saveAwbNo: saveAwbNo,
             UpdateShipmentReference: UpdateShipmentReference

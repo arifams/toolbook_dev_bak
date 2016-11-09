@@ -260,9 +260,9 @@
                                             </button>
                                             <span class="dropdown-arrow"></span>
                                             <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
-                                                <li><a href="javascript:;" ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Download Shipment label</a></li>
+                                                <li><a href="javascript:;" ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
                                                 <li ng-hide="row.generalInformation.shipmentCode == null"><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
-                                                <li><a href="#/ShipmentOverview#aaaaaaaaaaa">View/Print AWB</a></li>
+                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
                                                 <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">Edit/Print Commercial invoice</a></li>
                                                 <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Add Documents</a></li>
                                                 <hr class="m-0">
