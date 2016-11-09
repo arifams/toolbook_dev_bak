@@ -59,8 +59,9 @@
         vm.shipmentReferenceName = ''
         vm.isViaInvoicePayment = true;
         vm.isBacktoRatesDisabled = false;
-
-
+        vm.savePayShipment = false;
+        vm.payementProgress = false;
+        vm.hideSummary = false;
 
         vm.shipmentReferenceName = '';
         vm.shipmentChanged = false;
@@ -577,6 +578,7 @@
                                    $scope.$apply(function () {
                                        vm.shipmentStatusMsg = errorList;
                                        vm.loadingSymbole = false;
+                                       vm.payementProgress = false;
                                    });
                                    // No errors occurred. Extract the card nonce.
                                } else {
@@ -669,11 +671,15 @@
                 // Success both payment and shipment.
 
                 vm.isShowPaymentForm = false;
+                vm.payementProgress = false;
+                vm.savePayShipment = false;
                 vm.labelUrl = response.labelURL;
 
                 vm.isShowLabel = true;
                 if (response.invoiceURL != '') {
                     vm.isShowInvoice = true;
+                    vm.payementProgress = false;
+                    vm.savePayShipment = false;
                     vm.invoiceUrl = response.invoiceURL;
                 }
             }
@@ -695,6 +701,8 @@
 
                 vm.shipmentReferenceName = response.shipmentReference;
                 vm.isShowPaymentForm = false;
+                vm.payementProgress = false;
+                vm.savePayShipment = false;
                 //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                 //window.open(errorUrl);
             }
@@ -890,10 +898,11 @@
             shipmentFactory.saveShipment(vm.shipment).success(
                         function (response) {
                                 vm.addingShipment = false;
-
+                                vm.savePayShipment = false;
                                 if (response.status == 2) {
 
                                     vm.loadingSymbole = false;
+                                    vm.savePayShipment = false;
                                     body.stop().animate({
                                         scrollTop: 0
                                     }, '500', 'swing', function () { });
@@ -912,6 +921,7 @@
                                 }
                                 else {
                                     vm.addingShipment = false;
+                                    vm.savePayShipment = false;
                                     body.stop().animate({
                 scrollTop: 0 }, '500', 'swing', function () { });
                                     $('#panel-notif').noty({
@@ -927,6 +937,7 @@
                                         }
                             }).error(function (error) {
                                 vm.loadingSymbole = false;
+                                vm.savePayShipment = false;
                                 $('#panel-notif').noty({
                                                 text: '<div class="alert alert-danger media fade in"><p>' +$rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                             layout: 'bottom-right',
@@ -964,8 +975,10 @@
         }
 
         vm.chargeFromCard = function () {
+            vm.hideSummary = true;
+            vm.savePayShipment = true;
             vm.shipmentStatusMsg = '';
-            vm.loadingSymbole = true;
+            vm.payementProgress = true;
             paymentForm.requestCardNonce();
 
         }
@@ -977,9 +990,13 @@
 
                                 if (response.status == 2) {
                                     // Successfully saved in db.
+                                    vm.payementProgress = false;
+                                    vm.savePayShipment = false;
                                     $window.localStorage.setItem('shipmentId', response.shipmentId);
                                 }
                                 else {
+                                    vm.payementProgress = false;
+                                    vm.savePayShipment = false;
                                     $('#panel-notif').noty({
                                         text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                         layout: 'bottom-right',
@@ -993,6 +1010,8 @@
                                 }
 
                             }).error(function (error) {
+                                vm.payementProgress = false;
+                                vm.savePayShipment = false;
 
                                 $('#panel-notif').noty({
                                     text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
