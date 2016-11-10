@@ -398,7 +398,7 @@ var MakeApp = angular
           //    //var expireTime = new Date($window.localStorage.getItem('lastLogin'));
           //    //expireTime.setMinutes(expireTime.getMinutes() + 120);
           //    var currentRole = $window.localStorage.getItem('userRole');
-          //    debugger;
+          //    
           //    if (expireTime.getTime() < new Date().getTime()) {
           //        //redirect to login and clear the local storage
           //        if (currentRole != 'Admin') {

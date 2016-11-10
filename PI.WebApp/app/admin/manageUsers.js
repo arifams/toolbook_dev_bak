@@ -29,7 +29,7 @@
         // vm.rowCollection.push(1);
 
         vm.searchUsers = function () {
-            debugger;
+            
 
             // Get values from view.
             var loggedInuserId = $window.localStorage.getItem('userGuid');
@@ -73,7 +73,7 @@
         };
 
         vm.callServerSearch = function (tableState) {
-            debugger;
+            
             var pagination = 0;//tableState.pagination;
 
             var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
@@ -85,7 +85,7 @@
         vm.callServerSearch();
 
         vm.resetSearch = function (tableState) {
-            debugger;
+            
             var pagination = 0;//tableState.pagination;
 
             var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
@@ -101,7 +101,7 @@
 
 
         vm.manageUsers = function (userObj) {
-            debugger;
+            
             vm.rightPaneLoad = true;
             vm.editUserBtnClick = true;
 
@@ -150,14 +150,14 @@
         }
 
         vm.saveUser = function () {
-            debugger;
+            
             vm.user.loggedInUserId = $window.localStorage.getItem('userGuid');
             vm.user.templateLink = '<html><head>    <title></title></head><body>    <p><img alt="" src="http://www.parcelinternational.nl/assets/Uploads/_resampled/SetWidth495-id-parcel-big.jpg" style="width: 200px; height: 200px; float: right;" /></p><div>        <h4 style="text-align: justify;">&nbsp;</h4><div style="background:#eee;border:1px solid #ccc;padding:5px 10px;">            <span style="font-family:verdana,geneva,sans-serif;">                <span style="color:#0000CD;">                    <span style="font-size:28px;">Account Activation</span>                </span>            </span>        </div><p style="text-align: justify;">&nbsp;</p><h4 style="text-align: justify;">            &nbsp;        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    Dear <strong>Salutation FirstName LastName, </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <br /><span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>Welcome to Parcel International, we are looking forward to supporting your shipping needs. &nbsp;&nbsp;</strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Thank you for registering. To activate your account, please click &nbsp;ActivationURL                    </strong>                </span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;"><strong>IMPORTANT! This activation link is valid for 24 hours only. &nbsp;&nbsp;</strong></span>            </span>        </h4><h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <strong>                        Should you have any questions or concerns, please contact Parcel International helpdesk for support &nbsp;                    </strong>                </span>            </span>        </h4>        <h4 style="text-align: justify;">            <span style="font-size:12px;">                <span style="font-family:verdana,geneva,sans-serif;">                    <i>                        *** This is an automatically generated email, please do not reply ***                    </i>                </span>            </span>        </h4>        <h4 style="text-align: justify;">&nbsp;</h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Thank You, </span>                </span>            </strong>        </h4><h4 style="text-align: justify;">            <strong>                <span style="font-size:12px;">                    <span style="font-family:verdana,geneva,sans-serif;">Parcel International Team<br/>Phone: +18589144414 <br/>Email: <a href="mailto:helpdesk@parcelinternational.com">helpdesk@parcelinternational.com</a><br/>Website: <a href="http://www.parcelinternational.com">http://www.parcelinternational.com</a></span>                </span>            </strong>        </h4>    </div>   </body></html>';
             var body = $("html, body");
 
             userManagementFactory.saveUser(vm.user)
             .then(function (result) {
-                debugger;
+                
                 if (result.status == 200) {
                     vm.close();
 
@@ -198,7 +198,7 @@
         }
 
         vm.close = function () {
-            debugger;
+            
             vm.user = {};
             //hide right pane
             vm.rightPaneLoad = false;

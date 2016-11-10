@@ -84,7 +84,7 @@
                             customerInvoiceFactory.getAllInvoicesByCustomer(status, startDate, endDate, searchValue)
                                 .then(function successCallback(responce) {
 
-                                    debugger;
+                                    
                                     vm.loadingSymbole = false;
                                     vm.rowCollection = responce.data.content;
                                     vm.exportcollection = [];
@@ -265,7 +265,7 @@
                                            // Called when the SqPaymentForm completes a request to generate a card
                                            // nonce, even if the request failed because of an error.
                                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-                                               debugger;
+                                               
                                                if (errors) {
                                                    console.log("Encountered errors:");
 
@@ -278,7 +278,7 @@
                                                    // No errors occurred. Extract the card nonce.
                                                } else {
 
-                                                   debugger;
+                                                   
                                                    var body = $("html, body");
 
                                                    customerInvoiceFactory.payInvoice({ Id: vm.invoiceId, CardNonce: nonce, UserId: $window.localStorage.getItem('userGuid') })
@@ -443,7 +443,7 @@
 
 
                         vm.callServerSearch = function (tableState) {
-                            debugger;
+                            
                             var pagination = 0;//tableState.pagination;
 
                             var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
@@ -455,7 +455,7 @@
                         vm.callServerSearch();
 
                         vm.resetSearch = function (tableState) {
-                            debugger;
+                            
                             var pagination = 0;//tableState.pagination;
 
                             var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.

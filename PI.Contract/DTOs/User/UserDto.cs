@@ -59,5 +59,7 @@ namespace PI.Contract.DTOs.User
 
         public string MobileNumber { get; set; }
 
+        public bool IsActualUser { get; set; }
+
     }
 }

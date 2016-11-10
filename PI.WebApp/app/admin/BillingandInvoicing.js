@@ -42,7 +42,7 @@
 
                    vm.exportcollection = [];
 
-                   debugger;
+                   
 
                    var headers = {};
                    headers.orderSubmitted = "Invoice Date";
@@ -104,7 +104,7 @@
                    adminFactory.loadAllInvoices(pageList)
                         .then(
                                function (responce) {
-                                   debugger;
+                                   
                                    vm.loadingSymbole = false;
                                    vm.CreateCSV(responce);
                                    if (from == 'fromDisputed') {
@@ -113,7 +113,7 @@
                                    else {
                                        vm.rowCollection = responce.data.content;
                                        tableState.pagination.numberOfPages = responce.data.totalPages;
-                                       debugger;
+                                       
                                    }
                                },
                                function (error) {
@@ -246,7 +246,7 @@
                                        adminFactory.updateInvoiceStatus(row)
                                                   .then(
                                                          function (responce) {
-                                                             debugger;
+                                                             
                                                              row.invoiceStatus = responce.data;
                                                              $('#panel-notif').noty({
                                                                  text: '<div class="alert alert-success media fade in"><p> ' + $rootScope.translate('Invoice updated successfully') + '.</p></div>',
@@ -324,7 +324,7 @@
                };
 
                vm.callServerSearchDisputed = function (tableState) {
-                   debugger;
+                   
                    if (!vm.isDisputeCall)
                        return;
 
@@ -342,7 +342,7 @@
 
                vm.callServerSearch = function (tableState) {
                    vm.isDisputeCall = false;
-                   debugger;
+                   
                    if (tableState != undefined) {
                        tableStateCopy = tableState;
                    }

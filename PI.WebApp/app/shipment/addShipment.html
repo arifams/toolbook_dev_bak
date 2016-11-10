@@ -451,7 +451,7 @@
                                 </span>
                             </div>
                             <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.addressDetailsEmpty">
-                                <label class="error" translate>Searsh criteria does not match with any saved address details</label>
+                                <label class="error" translate>Search criteria does not match with any saved address details</label>
                             </div>
                             <div ng-show="!shipmentCtrl.consignor && shipmentCtrl.emptySearch">
                                 <label class="error" translate>Add text before search</label>
@@ -1284,10 +1284,10 @@
                                         <th translate> Product Type *  </th>
                                         <th translate> Quantity * </th>
                                         <th translate> Description * </th>
-                                        <th translate> Weight *  <span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.cmLBS=='true'">/(Kg)</span> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (Lbs)</p> </th>
+                                        <th translate> Weight *  <span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.cmLBS=='true'">/(Kg)</span> <span style="text-transform:lowercase" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> /(Lbs)</span> </th>
                                         <th translate> Height * </th>
                                         <th translate> Length * </th>
-                                        <th translate> Width  *<span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.volumeCMM=='true'">/(cm)</span> <p class="label-default" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> (inch)</p>  </th>
+                                        <th translate> Width  *<span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.volumeCMM=='true'">/(cm)</span> <span style="text-transform:lowercase" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> /(inch)</span>  </th>
                                         <th style="text-align:center"></th>
                                         <th style="text-align:center"></th>
                                     </tr>
@@ -1484,7 +1484,95 @@
             <form class="form-horizontal" name="ratesandCareerDetailsForm" ng-submit="ratesandCareerDetailsForm.$valid" novalidate>
 
                 <div class="panel-content panel-default" style="height:auto;">
-                    <fieldset>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Shipment Summary</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Number of packages:&nbsp;{{shipmentCtrl.shipment.packageDetails.count}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Total weight:&nbsp;{{shipmentCtrl.shipment.packageDetails.totalWeight}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Declared value:&nbsp;{{shipmentCtrl.shipment.packageDetails.declaredValue}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Insuarance:&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Reference:&nbsp;{{shipmentCtrl.shipment.generalInformation.shipmentName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Pickup address</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consigner.address1}}</p>
+                                    <p class="m-0" translate>
+                                        {{shipmentCtrl.shipment.addressInformation.consigner.postalcode}},
+                                        {{shipmentCtrl.shipment.addressInformation.consigner.city}},{{shipmentCtrl.shipment.addressInformation.consignee.state}}
+                                    </p>
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consigner.country}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate><strong>Contact:</strong>&nbsp;{{shipmentCtrl.shipment.addressInformation.consigner.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Delivery address</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consignee.address1}}</p>
+                                    <p class="m-0" translate>
+                                        {{shipmentCtrl.shipment.addressInformation.consignee.postalcode}},
+                                        {{shipmentCtrl.shipment.addressInformation.consignee.city}},{{shipmentCtrl.shipment.addressInformation.consigner.state}}
+                                    </p>
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consignee.country}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate><strong>Contact:</strong>&nbsp;{{shipmentCtrl.shipment.addressInformation.consignee.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!--<fieldset>
                         <legend translate>Shipment Summary</legend>
                         <div class="row">
                             <div class="col-sm-2">
@@ -1541,14 +1629,14 @@
                                     {{shipmentCtrl.shipment.packageDetails.totalWeight}}
                                 </label>
                             </div>
-                            <!--<div class="col-sm-2">
+                            <div class="col-sm-2">
                         <label class="label-font" translate>Package Volume</label>
                     </div>
                     <div class="col-sm-2">
                         <label class="label-info">
                             {{shipmentCtrl.shipment.packageDetails.totalVolume}}
                         </label>
-                    </div>-->
+                    </div>
                             <div class="col-sm-2">
                                 <label class="label-font" translate>Package count</label>
                             </div>
@@ -1558,8 +1646,8 @@
                             </div>
                         </div>
                         <br />
-                    </fieldset>
-                    <br>
+                    </fieldset>-->
+                    <br><br><br>
                     <div class="row m-0">
                         <div class="col-sm-12">
                             <div class="form-group">
@@ -1679,10 +1767,10 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
-                                ng-show="">
+                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
+                                ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse">
                             <i class="fa fa-check"></i>
-                        </button>-->
+                        </button>
                         <translate>Shipment Booking</translate>
                     </h3>
                 </div>
@@ -1692,14 +1780,97 @@
             <form class="form-horizontal" name="calculateRatesForm" novalidate ng-submit="calculateRatesForm.$valid">
 
                 <div class="panel-content panel-default">
+                    <div class="row" ng-hide="shipmentCtrl.hideSummary">
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Shipment Summary</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Number of packages:&nbsp;{{shipmentCtrl.shipment.packageDetails.count}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Total weight:&nbsp;{{shipmentCtrl.shipment.packageDetails.totalWeight}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Declared value:&nbsp;{{shipmentCtrl.shipment.packageDetails.declaredValue}}</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Insuarance:&nbsp;</p>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>Reference:&nbsp;{{shipmentCtrl.shipment.generalInformation.shipmentName}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Pickup address</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consigner.address1}}</p>
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consigner.postalcode}},
+                                    {{shipmentCtrl.shipment.addressInformation.consigner.city}},{{shipmentCtrl.shipment.addressInformation.consignee.state}}</p>
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consigner.country}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate><strong>Contact:</strong>&nbsp;{{shipmentCtrl.shipment.addressInformation.consigner.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-md-4">
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <label>Delivery address</label>
+                                </div>
+                            </div>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consignee.address1}}</p>
+                                    <p class="m-0" translate>
+                                        {{shipmentCtrl.shipment.addressInformation.consignee.postalcode}},
+                                        {{shipmentCtrl.shipment.addressInformation.consignee.city}},{{shipmentCtrl.shipment.addressInformation.consigner.state}}
+                                    </p>
+                                    <p class="m-0" translate>{{shipmentCtrl.shipment.addressInformation.consignee.country}}</p>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row m-0">
+                                <div class="col-md-12 m-l-0">
+                                    <p class="m-0" translate><strong>Contact:</strong>&nbsp;{{shipmentCtrl.shipment.addressInformation.consignee.email}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br><br>
                     <div class="row">
-                        <div class="col-sm-12">
+                        <div class="col-sm-12" ng-hide="shipmentCtrl.ratesNotAvailable||shipmentCtrl.hideSummary">
                             <fieldset>
                                 <legend translate>Rate Summary</legend>
-                                <div class="row" ng-hide="shipmentCtrl.ratesNotAvailable">
+                                <div class="row">
                                     <!--<h3><i class="fa fa-table"></i> <strong>Rate Summary</strong></h3>-->
-
-
                                     <table class="table table-hover">
                                         <thead>
                                             <tr>
@@ -1738,7 +1909,7 @@
                                 <div class="row">
                                     <div class="col-sm-10"></div>
                                     <div class="col-sm-2">
-                                        <div class="font-animation" ng-show="shipmentCtrl.addingShipment==true">
+                                        <div class="font-animation" ng-show="shipmentCtrl.addingShipment">
                                             <label>
                                                 <i class="fa fa-spinner faa-spin animated"></i>
                                                 <translate> Adding... </translate>
@@ -1780,6 +1951,28 @@
                     </div>
                 </div>
             </form>
+            <div class="row m-0" ng-show="shipmentCtrl.savePayShipment">
+                <div class="row m-0">
+                    <div class="col-md-3">
+                        <label>Shipment booking in progress</label>
+                    </div>
+                    <div class="col-sm-1">
+                        <div class="font-animation p-0" ng-show="shipmentCtrl.payementProgress==true">
+                            <label><i class="fa fa-spinner faa-spin animated f-18"></i></label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row m-0">
+                    <div class="col-md-12">
+                        <a onclick="location.reload();">Create another shipment</a>
+                    </div>
+                </div>
+                <div class="row m-0">
+                    <div class="col-md-12">
+                        <a href="#loadShipments">Go to manage shipment</a>
+                    </div>
+                </div>
+            </div>
             <div class="paymentForm panel" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse" style="background-color:white;padding:10px;margin-top:10px;">
 
                 <div class="row">
@@ -1790,7 +1983,7 @@
 
                             <div class="row">
 
-                                <div class="col-sm-5" ng-show="shipmentCtrl.isShowPaymentForm">
+                                <div class="col-sm-6" ng-show="shipmentCtrl.isShowPaymentForm">
 
                                     <label>Shipment :  {{shipmentCtrl.shipment.generalInformation.shipmentName}}/{{shipmentCtrl.savedShipmentId}}</label>
                                     <br />
@@ -1813,8 +2006,11 @@
 
                                 <div class="col-sm-12" ng-hide="shipmentCtrl.isShowPaymentForm">
 
-                                    <span> {{shipmentCtrl.shipmentStatusMsg}} </span>
+                                    <label> {{shipmentCtrl.shipmentStatusMsg}} </label>
 
+                                    <div class="row m-0">
+                                        <a href="#/ShipmentOverview/">View shipment</a>
+                                    </div>
                                     <div ng-show="shipmentCtrl.isShowLabel">
                                         <a  ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
                                     </div>
@@ -1825,7 +2021,13 @@
                                     <div ng-show="shipmentCtrl.isShowInvoice && !isViaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
-
+                                    <br>
+                                    <div class="row m-0">
+                                        <a onclick="location.reload();">Create another shipment</a>
+                                    </div>
+                                    <div class="row m-0">
+                                        <a href="#loadShipments">Go to manage shipment</a>
+                                    </div>
                                 </div>
 
                             </div>
@@ -1835,6 +2037,7 @@
                 </div>
 
             </div>
+            
         </div>
         
 

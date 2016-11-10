@@ -9,7 +9,7 @@
            function ($location, $window) {
                var vm = this;
               
-               debugger;
+               
                vm.errorMessage = $location.search().message;
 
            }]);

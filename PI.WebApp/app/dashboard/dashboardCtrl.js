@@ -46,7 +46,7 @@
 
                //       if (response.customerDetails != null) {
                //           vm.loadingSymbole = false;
-               //           debugger;
+               //           
                //           if ((response.customerDetails.firstName == null || response.customerDetails.firstName == '') ||
                //           (response.customerDetails.lastName == null || response.customerDetails.lastName == '') ||
                //           (response.customerDetails.salutation == null || response.customerDetails.salutation == '') ||

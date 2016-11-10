@@ -44,7 +44,7 @@
                     </div>
                 </div>
                 <hr>
-                <a href="javascript:void(0)" ng-click="manageShipCtrl.callServerSearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-200px">APPLY </a>
+                <a href="javascript:void(0)" ng-click="manageShipCtrl.applySearch()" class="btn btn-sm btn-primary f-14 m-l-0 toggle-footer-apply" style="color:#fff;bottom:-200px">APPLY </a>
 
                 <a href="javascript:void(0)" ng-click="manageShipCtrl.resetSearch()" class="btn btn-sm btn-hidden f-14 toggle-footer-reset" id="reset-style" style="bottom:-195px">RESET FILTERS</a>
 
@@ -59,10 +59,10 @@
     <div class="row m-0 m-r-0 m-b-10"><!--same code of the customer manage shipment.-->
         <div class="col-sm-4 col-md-4 col-xs-12 input-group pull-left">
             <input ng-model="manageShipCtrl.searchValue" name="shipmentNumber" type="text" class="form-control form-white custom-search2"
-                   placeholder="{{'Search'|translate}}" />
+                   placeholder="{{'Search by Tracking Number, Origin, Destination'|translate}}" />
             <!--'Tracking Number/ Shipment Id/ Customer Name/ Origin/ Destination'-->
             <span class="input-group-btn p-0">
-                <button type="button" class="btn btn-primary" ng-click="manageShipCtrl.callServerSearch()"
+                <button type="button" class="btn btn-primary" ng-click="manageShipCtrl.shipmentSearch()"
                         style="border-top-right-radius: 18px;border-bottom-right-radius: 18px">
                     <i class="fa fa-search"></i>
                 </button>
@@ -105,59 +105,59 @@
                
                     <div class="list-group list-group-horizontal">
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Draft') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Draft
                             <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.draftStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'BookingConfirmation') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Booking Confirmed
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.bookingConfStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Pickup') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Picked up
                             <span class="badge bg-purple f-14 custom-badge m-l-5">{{manageShipCtrl.counts.pickeduptatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Transit') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             In-Transit
                             <span class="badge bg-blue f-14 custom-badge m-l-5">{{manageShipCtrl.counts.inTransitStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Error') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Error
                             <span class="badge bg-red f-14 custom-badge m-l-5">{{manageShipCtrl.counts.errorStatusCount}}</span>
                         </a>  
                                      
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Exception') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Exceptions
                             <span class="badge bg-orange f-14 custom-badge m-l-5">{{manageShipCtrl.counts.exceptionStatusCount}}</span>
                         </a>
 
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'OutForDelivery') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Out for delivery
                             <span class="badge bg-dark f-14 custom-badge m-l-5">{{manageShipCtrl.counts.outForDeliveryStatusCount}}</span>
                         </a> 
                          
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Delivered') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             Delivered
                             <span class="badge bg-green f-14 custom-badge m-l-5">{{manageShipCtrl.counts.deliveredStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Deleted') && manageShipCtrl.callServerSearch()"
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'Deleted') && manageShipCtrl.statusSearch()"
                            class="list-group-item list-right-margin">
                             Deleted
                             <span class="badge bg-yellow f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.deletedStatusCount}}</span>
                         </a>
-                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.callServerSearch()" 
+                        <a href="javascript:void(0)" ng-click="(manageShipCtrl.status = 'All') && manageShipCtrl.statusSearch()" 
                            class="list-group-item list-right-margin">
                             All
                             <span class="badge bg-black f-14 custom-badge m-l-10 m-r-10">{{manageShipCtrl.counts.allStatusCount}}</span>
@@ -168,7 +168,7 @@
             </div>
             
  
-            <div class="row m-0">
+            <div class="row m-0" style="overflow-x:auto">
                 <!--<table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
                         <thead>
@@ -182,9 +182,9 @@
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
                                 <th translate>Error</th>
-                                <th translate>View</th>
-                                <th translate>Edit</th>
-                                <th translate>Delete</th>
+                                <th translate>Action</th>
+                                <!--<th translate>Edit</th>
+                                <th translate>Delete</th>-->
                             </tr>
 
                         </thead>
@@ -198,7 +198,7 @@
 
                                 <td>
                                     <div class="option-group">
-                                        <select id="salutation" name="salutation" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
+                                        <select id="status" name="status" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
                                             <option value='BookingConfirmation' translate>Booking confirmed</option>
                                             <option value='Error' translate>Booking error</option>
                                             <option value='Delivered' translate>Delivered</option>
@@ -218,6 +218,28 @@
                               
                                 
                                 <td>
+                                    <div class="btn-group m-r-0" dropdown="">
+                                        <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
+                                            Action <span class="caret"></span>
+                                        </button>
+                                        <span class="dropdown-arrow"></span>
+                                        <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
+                                            <li><a ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
+                                            <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
+                                            <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
+                                            <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">Edit/Print Commercial invoice</a></li>
+                                            <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Add Documents</a></li>
+                                            <hr class="m-0">
+                                            <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit shipments</a></li>
+                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete shipments</a></li>
+                                            <li><a href="javascript:;">Copy as new shipment</a></li>
+                                            <li><a href="javascript:;">Delete & copy as new shipment</a></li>
+                                            <li><a href="javascript:;">Create return shipment</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                
+                                <!--<td>
                                     <a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}"
                                        class="btn btn-sm btn-primary btn-transparent">
                                         <i class="fa fa-eye"></i>
@@ -235,7 +257,7 @@
                                        class="btn btn-sm btn-danger btn-transparent" href="javascript:;">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </a>
-                                </td>
+                                </td>-->
                             </tr>
                         </tbody>
                         <tfoot>

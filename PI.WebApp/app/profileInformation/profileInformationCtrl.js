@@ -253,7 +253,7 @@
             getCustomerAddressDetails.getCustomerAddressDetails(vm.model.customerDetails.addressId, vm.model.companyDetails.id)
              .then(function successCallback(response) {
                  vm.loading = false;
-                 debugger;
+                 
                  if (response.data.customerDetails != null) {
 
                      vm.isPhoneNumberVerified();
@@ -344,7 +344,7 @@
 
             getAllAccountSettings.getAllAccountSettings(vm.model.customerDetails.id)
              .then(function successCallback(response) {
-                 debugger;
+                 
                  vm.loading = false;
 
                  vm.languageList = response.data.accountSettings.languages;
@@ -369,7 +369,7 @@
                  vm.model.shipmentException = response.data.shipmentException;
                  vm.model.notifyNewSolution = response.data.notifyNewSolution;
                  vm.model.notifyDiscountOffer = response.data.notifyDiscountOffer;
-                 debugger;
+                 
                  vm.model.defaultVolumeMetricId = response.data.accountSettings.defaultVolumeMetricId;
                  vm.model.defaultWeightMetricId = response.data.accountSettings.defaultWeightMetricId;
 
@@ -438,7 +438,7 @@
                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
                                 $noty.close();
-                                vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin:30px;"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:28px;border:5px solid #d9d9d9;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification-One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 150px; height: 150px;" /></div><div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:22px;font-family:verdana,geneva,sans-serif;color:#005c99">Email verification required</h3></div></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;border:5px solid #0af;background-color:#005c99;font-size:13px"><p style="font-weight:700;font-style:italic;font-size:14px">Dear Salutation FirstName LastName,</p><br/><p style="font-weight:700;font-style:italic;font-size:14px">Welcome to One2send, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click <span style="color:#80d4ff;font-size:14px;">ActivationURL</span> to verify your email address.</p><p style="font-weight:700;font-style:italic;font-size:14px">IMPORTANT! Please note that this link is valid for 24 hours only. <p><p style="font-weight:700;font-style:italic;font-size:14px">Should you have any questions or concerns, please contact One2send helpdesk for support.</p></br><p style="font-weight:700;font-style:italic;font-size:14px">Thank you,</p><p style="font-weight:700;font-style:italic;font-size:14px">One2send Service Team</p></br>Phone: <span style="font-size:14px;color:#80d4ff">+1 858 914 4414</span> </br>Email address:<a href="support@12send.com" style="color:#80d4ff">support@12send.com</a></br>Website: <a href="http://www.12send.com" style="color:#80d4ff">www.12send.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
+                                vm.model.customerDetails.templateLink = '<html><head><title></title></head><body style="margin-left:40px;margin-right:40p;margin-top:30px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Email Verification-One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:20px;font-family:verdana,geneva,sans-serif;color:#000">Email verification required</h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><p style="font-style:italic">Dear Salutation FirstName LastName,</p><br/><p style="font-style:italic">Welcome to One2send, we are looking forward to supporting your shipping needs.Your email has been updated, but before you can start shipping, please click <span style="color:#005c99;font-size:13px;">ActivationURL</span> to verify your email address.</p><p style="font-style:italic">The link will be valid for 24 hours.<p><p style="font-style:italic">In need of assistance? Reach out to our support team.</p></br>Phone: <span style="font-size:13px;color:#005c99">+1 858 914 4414</span> </br>Email address:<a href="support@12send.com" style="color:#005c99">support@12send.com</a></br>Website: <a href="http://www.12send.com" style="color:#005c99">www.12send.com</a></div><p><i>*** This is an automatically generated email, please do not reply ***</i></p></div></body></html>';
 
                                 var updatedtoCorporate = false;
 
@@ -967,7 +967,7 @@
         }
 
         vm.textPhoneCode = function () {
-            debugger;
+            
 
             var userDetails = {
                 email: vm.model.customerDetails.email,
@@ -976,14 +976,14 @@
             };
             updateProfilefactory.SendOPTCodeForPhoneValidation(userDetails)
              .then(function (returnedResult) {
-                 debugger;
+                 
                  if (returnedResult.status == 200) {
                      vm.showError = false;
                      vm.isSentSecurityCode = true;
                  }
              },
             function (error) {
-                debugger;
+                
                 vm.showError = true;
                 vm.errorMessage = $rootScope.translate(error.data.message);
 
@@ -995,7 +995,7 @@
 
 
         vm.submitSecurityCode = function () {
-            debugger;
+            
             var userDetails = {
                 email: vm.model.customerDetails.email,          
                 mobileVerificationCode: vm.model.customerDetails.mobileVerificationCode,
@@ -1004,7 +1004,7 @@
             updateProfilefactory.VerifyPhoneCode(userDetails)
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                     
                      if (returnedResult.data) {
                          vm.isVerified = true;
                      }
@@ -1026,11 +1026,11 @@
 
         vm.isVerified = false;
         vm.isPhoneNumberVerified = function () {
-            debugger;
+            
             updateProfilefactory.isPhoneNumberVerified(vm.model.customerDetails.email)
              .then(function (returnedResult) {
                  if (returnedResult.status == 200) {
-                     debugger;
+                     
                      if (returnedResult.data.result == 1) {
                          vm.isVerified = true;
                      }
@@ -1046,7 +1046,7 @@
 
        
         vm.changePhone = function () {
-            debugger;
+            
             vm.isVerified = (vm.originalPhone == vm.model.customerDetails.mobileNumber) && vm.originalVerifiedStatus;
         };
 

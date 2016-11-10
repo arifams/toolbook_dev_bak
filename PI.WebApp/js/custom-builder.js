@@ -25,7 +25,7 @@
     function setColor(mColor, mName) {
         var main_color = mColor;
         var main_name = mName;
-        debugger;
+        
         $('body').removeClass(function (index, css) {
             return (css.match(/(^|\s)color-\S+/g) || []).join(' ');
         });
