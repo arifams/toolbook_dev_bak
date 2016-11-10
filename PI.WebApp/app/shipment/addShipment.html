@@ -195,7 +195,7 @@
         </div>
         <div class="panel-content p-0" collapse="shipmentCtrl.collapse1==true">
             <form class="form-horizontal" name="consignerConsigneeInfoForm"
-                  ng-submit="consignerConsigneeInfoForm.$valid && shipmentCtrl.updateConsignInfo()">
+                  ng-submit="consignerConsigneeInfoForm.$valid && shipmentCtrl.updateConsignInfo()" novalidate>
                 <div class="panel-content panel-default" style="padding:30px;">
                     <div class="row">
                         <div class="col-sm-6">
@@ -1164,7 +1164,7 @@
             </div>
         </div>
         <div class="panel-content p-0" collapse="shipmentCtrl.collapse2==true">
-            <form class="form-horizontal" name="formPackage" ng-submit="formPackage.$valid">
+            <form class="form-horizontal" name="formPackage" ng-submit="formPackage.$valid" novalidate>
                 <div class="panel-content panel-default" style="height:auto;padding:30px;">
                     <div class="row">
                         <div class="col-sm-12">
