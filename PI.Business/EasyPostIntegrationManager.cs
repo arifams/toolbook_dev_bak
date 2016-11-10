@@ -9,6 +9,7 @@ using PI.Contract.DTOs.Shipment;
 using EasyPost;
 using System.Configuration;
 using PI.Contract.Enums;
+using Microsoft.ServiceBus.Messaging;
 
 namespace PI.Business
 {
@@ -190,6 +191,11 @@ namespace PI.Business
         }
 
         public StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AddShipmentResponse HandleSISRequest(BrokeredMessage brokeredMessage)
         {
             throw new NotImplementedException();
         }

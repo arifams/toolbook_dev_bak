@@ -14,6 +14,7 @@ using System.Web.Script.Serialization;
 using PI.Data;
 using Microsoft.Owin.Logging;
 using System.Configuration;
+using Microsoft.ServiceBus.Messaging;
 
 namespace PI.Business
 {
@@ -398,6 +399,11 @@ namespace PI.Business
         }
 
         public string TrackAndTraceShipment(string URL)
+        {
+            throw new NotImplementedException();
+        }
+
+        public AddShipmentResponse HandleSISRequest(BrokeredMessage brokeredMessage)
         {
             throw new NotImplementedException();
         }

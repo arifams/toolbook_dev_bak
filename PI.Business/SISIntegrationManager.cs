@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Microsoft.ServiceBus.Messaging;
+using PI.Common;
 
 namespace PI.Business
 {
@@ -30,6 +32,26 @@ namespace PI.Business
             context = _context ?? PIContext.Get();
             this.logger = logger;
         }
+
+      
+
+        public string ServiceBusConnectionString
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ServiceBusConnectionString"].ToString();
+            }
+        }
+
+
+        public string AddShipmentQueueName
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["AddShipmentQueueName"].ToString();
+            }
+        }
+
 
         public string SISWebURLUS
         {
@@ -102,6 +124,10 @@ namespace PI.Business
                 return ConfigurationManager.AppSettings["IsSendShipmentDebugData"].ToString();
             }
         }
+
+
+
+
 
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
@@ -236,19 +262,34 @@ namespace PI.Business
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
-            using (var wb = new WebClient())
+            QueueMessageSender messageSender = new QueueMessageSender();
+
+            try
             {
-                var data = new NameValueCollection();
-                data["data_xml"] = addShipmentXML;
 
-                var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
-                var responseString = Encoding.Default.GetString(response);
-
-                XDocument doc = XDocument.Parse(responseString);
-
-                XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
-                addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+                messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
+               
             }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+
+            //using (var wb = new WebClient())
+            //{
+            //    var data = new NameValueCollection();
+            //    data["data_xml"] = addShipmentXML;
+
+            //    var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
+            //    var responseString = Encoding.Default.GetString(response);
+
+            //    XDocument doc = XDocument.Parse(responseString);
+
+            //    XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
+            //    addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+            //}
 
             //return myObject != null ? myObject.StatusShipment : "Error";
 
@@ -257,6 +298,8 @@ namespace PI.Business
 
             return addShipmentResponse;
         }
+
+        
 
         public void DeleteShipment(string shipmentCode)
         {

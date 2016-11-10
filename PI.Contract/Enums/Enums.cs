@@ -83,6 +83,8 @@ namespace PI.Contract.Enums
         Exception,
         Claim,
         Draft,
+        [Description("Booking Being Processed")]
+        BookingBeingProcessed
     }
 
 
@@ -120,7 +122,8 @@ namespace PI.Contract.Enums
         Warning,
         PaymentError,
         SISError,
-        PostmenError
+        PostmenError,
+        Processing
     }
 
     public enum DocumentType : short

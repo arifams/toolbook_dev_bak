@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
+using Microsoft.ServiceBus.Messaging;
 
 namespace PI.Contract.Business
 {
@@ -146,6 +147,10 @@ namespace PI.Contract.Business
         DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime);
 
         ShipmentOperationResult UpdateShipmentReference(ShipmentDto addShipment);
+
+        bool HandleSISRequest(string addshipmentXml,string shipmentReference);
+
+        ShipmentOperationResult CheckTheShipmentStatusToViewLabel(SendShipmentDetailsDto sendShipmentDetails);
     }
 
 }
