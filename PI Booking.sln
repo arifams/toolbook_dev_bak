@@ -23,6 +23,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.Business.Test", "PI.Busi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PI.StatusUpdater", "PI.StatusUpdater\PI.StatusUpdater.csproj", "{607F5DAD-376E-48AA-AF80-4BB613E81EEF}"
 EndProject
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "ShipmentWorkerRole", "ShipmentWorkerRole\ShipmentWorkerRole.ccproj", "{4CD78AE6-EF32-421F-A201-D22721319A4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkerRoleWithSBQueue2", "WorkerRoleWithSBQueue2\WorkerRoleWithSBQueue2.csproj", "{C50DFD70-7F17-4C54-BB51-821028808F73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +73,14 @@ Global
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{607F5DAD-376E-48AA-AF80-4BB613E81EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD78AE6-EF32-421F-A201-D22721319A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD78AE6-EF32-421F-A201-D22721319A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD78AE6-EF32-421F-A201-D22721319A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD78AE6-EF32-421F-A201-D22721319A4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C50DFD70-7F17-4C54-BB51-821028808F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C50DFD70-7F17-4C54-BB51-821028808F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C50DFD70-7F17-4C54-BB51-821028808F73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C50DFD70-7F17-4C54-BB51-821028808F73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

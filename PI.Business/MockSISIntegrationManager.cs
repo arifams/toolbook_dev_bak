@@ -15,6 +15,7 @@ using System.Configuration;
 using System.Net;
 using System.Xml.Linq;
 using System.Collections.Specialized;
+using Microsoft.ServiceBus.Messaging;
 
 namespace PI.Business
 {
@@ -580,6 +581,10 @@ namespace PI.Business
             return productType;
         }
 
+        public AddShipmentResponse HandleSISRequest(BrokeredMessage brokeredMessage)
+        {
+            throw new NotImplementedException();
+        }
     }
 
 

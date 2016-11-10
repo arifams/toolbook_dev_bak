@@ -34,6 +34,10 @@
       <HintPath>..\packages\HtmlAgilityPack.1.4.9.5\lib\Net45\HtmlAgilityPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.ServiceBus, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WindowsAzure.ServiceBus.3.4.1\lib\net45-full\Microsoft.ServiceBus.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -42,6 +46,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -127,6 +132,7 @@
     <Compile Include="DTOs\Shipment\ShipmentDto.cs" />
     <Compile Include="DTOs\Shipment\ShipmentOperationResult.cs" />
     <Compile Include="DTOs\Shipment\ShipmentStatusHistoryDto.cs" />
+    <Compile Include="DTOs\Shipment\SISShipmentCreateDto.cs" />
     <Compile Include="DTOs\Shipment\StatusHistoryResponce.cs" />
     <Compile Include="DTOs\Shipment\TrackerDto.cs" />
     <Compile Include="DTOs\Shipment\TrackingDetails.cs" />
