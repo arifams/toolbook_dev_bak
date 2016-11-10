@@ -34,7 +34,7 @@
                         <p class="pull-left m-t-20">{{userLog.emailConfirmationMessage}}</p>
                     </div>
 
-                    <form ng-cloak class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm">
+                    <form ng-cloak class="form-signin" role="form" ng-submit="userLog.login(user)" name="loginForm" novalidate>
 
                         <div class="row">
                             <div class="col-sm-12 col-md-12 col-xs-12">
@@ -117,7 +117,7 @@
                         </div>
                     </form>
 
-                    <form class="form-password" role="form" name="forgotPasswordForm">
+                    <form class="form-password" role="form" name="forgotPasswordForm" novalidate>
                         <div ng-hide="userLog.isSentPasswordResetMail">
                             <div ng-hide="userLog.showNext" class="prepend-icon m-b-20">
                                 <input type="email" name="passwordResetEmail" class="form-control form-ash username" placeholder="{{'Email'|translate}}" required

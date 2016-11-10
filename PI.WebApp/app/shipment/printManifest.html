@@ -19,7 +19,7 @@
                                     <input type="button" class="btn btn-default" value="Shipment Specific" ng-click="manifestCtrl.clickSpecific()" />
                                 </div>-->
                                         <div id="general" ng-show="!manifestCtrl.specific">
-                                            <form name="printmanifestGeneralform" class="form-horizontal" ng-show="manifestCtrl.showEdit">
+                                            <form name="printmanifestGeneralform" class="form-horizontal" ng-show="manifestCtrl.showEdit" novalidate>
                                                 <div class="row">
                                                     <label class="col-sm-3 col-md-3 col-xs-12 control-label" translate>
                                                         Pickup date *
@@ -90,7 +90,7 @@
                                             SHIPMENT SPECIFIC
                                         </tab-heading>
                                         <div id="specific" ng-show="manifestCtrl.specific">
-                                            <form name="printmanifestReferenceform" ng-show="manifestCtrl.showEdit">
+                                            <form name="printmanifestReferenceform" ng-show="manifestCtrl.showEdit" novalidate>
                                                 <div class="row">
                                                     <label class="col-sm-3 control-label" translate>
                                                         Shipment reference

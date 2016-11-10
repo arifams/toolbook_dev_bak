@@ -1771,3 +1771,6 @@ a.list-group-item:focus, a.list-group-item:hover {
 /*.main-content .page-content .panel table .btn-group {
     z-index:
 }*/
+.nav > li > a {
+    padding:11px 15px;
+}
