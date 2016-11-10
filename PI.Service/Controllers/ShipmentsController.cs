@@ -426,7 +426,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
-        [Route("SendShipmentDetails")]
+        [Route("CheckTheBookingConfirmation")]
         public IHttpActionResult CheckTheBookingConfirmation(SendShipmentDetailsDto sendShipmentDetails)
         {
             ShipmentOperationResult operationResult = new ShipmentOperationResult();
