@@ -11,5 +11,6 @@ namespace PI.Contract.Business
     public interface IPaymentManager
     {
         OperationResult Charge(PaymentDto paymentDto);
+        OperationResult Refund(PaymentDto paymentDto);
     }
 }

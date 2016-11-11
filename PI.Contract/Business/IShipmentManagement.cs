@@ -151,6 +151,13 @@ namespace PI.Contract.Business
         bool HandleSISRequest(string addshipmentXml,string shipmentReference);
 
         ShipmentOperationResult CheckTheShipmentStatusToViewLabel(SendShipmentDetailsDto sendShipmentDetails);
+
+        /// <summary>
+        /// Refund the charge
+        /// </summary>
+        /// <param name="shipmentId"></param>
+        /// <returns></returns>
+        OperationResult RefundCharge(long shipmentId);
     }
 
 }
