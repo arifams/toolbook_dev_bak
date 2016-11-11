@@ -735,7 +735,7 @@ namespace PI.Business
                                         !shipment.IsParent
                                         select shipment);
 
-            var shipmentList = querableShipmentList.OrderBy(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
 
             foreach (var item in shipmentList)
             {
@@ -1098,6 +1098,7 @@ namespace PI.Business
             return currentShipmentDto;
         }
 
+
         //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
@@ -1120,6 +1121,7 @@ namespace PI.Business
             }
             return ingrediantList;
         }
+
 
         public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
@@ -2936,7 +2938,7 @@ namespace PI.Business
                                                     (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
                                                     select shipment);
 
-            var content = querableContent.OrderBy(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+            var content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
 
 
             foreach (var item in content)
@@ -3016,7 +3018,7 @@ namespace PI.Business
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
-                        IsEnableDelete = true, // Any status is deletable for admins/support staff
+                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
                         CreatedBy = item.CreatedBy

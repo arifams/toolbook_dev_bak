@@ -83,6 +83,9 @@ namespace PI.Contract.Enums
         Exception,
         Claim,
         Draft,
+
+        [Description("Booking Processing")]
+        Processing
     }
 
 

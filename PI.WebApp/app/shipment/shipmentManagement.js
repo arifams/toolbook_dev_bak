@@ -267,7 +267,7 @@
 
                            }
 
-                           vm.deleteById = function (row) {
+                           vm.deleteById = function (row, source) {
 
                                $('#panel-notif').noty({
                                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to delete') + '?</p></div>',
@@ -280,6 +280,12 @@
                                                        if (response == 1) {
 
                                                            row.generalInformation.status = 'Deleted';
+                                                           row.generalInformation.isEnableEdit = false;
+                                                           row.generalInformation.isEnableDelete = false;
+
+                                                           if (source == 'delete-copy') {
+                                                               $location.path('/addShipment/0');
+                                                           }
                                                            //var index = vm.rowCollection.indexOf(row);
                                                            //if (index !== -1) {
                                                            //    vm.rowCollection.splice(index, 1);
@@ -315,8 +321,7 @@
 
 
                            };
-
-
+                           
                            vm.closeWindow = function () {
 
                                ngDialog.close()
@@ -357,8 +362,7 @@
                                   });
 
                            }
-
-
+                           
                            vm.shipmentSyncWithSIS = function () {
 
 
@@ -454,7 +458,40 @@
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            }
 
+                           vm.copyAsNewShipment = function (shipmentId) {
+                               
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipmentId);
+                               $location.path('/addShipment/0');
+                           }
+
+                           vm.deleteAndCopyShipment = function (shipment) {
+                               debugger;
+                               // call delete shipment
+                      
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'delete-copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipment.generalInformation.shipmentId);
+
+                               vm.deleteById(shipment, 'delete-copy');                      
+                           }
+                           
+                           vm.createReturnShipment = function (shipmentId) {
+
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'return-copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipmentId);
+
+                               $location.path('/addShipment/0');
+                           }
+
+
                            vm.getShipmentStatusCounts();
 
                        }])
+
 })(angular.module('newApp'));
