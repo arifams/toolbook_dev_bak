@@ -123,7 +123,8 @@ namespace PI.Contract.Enums
         Warning,
         PaymentError,
         SISError,
-        PostmenError
+        PostmenError,
+        Processing
     }
 
     public enum DocumentType : short

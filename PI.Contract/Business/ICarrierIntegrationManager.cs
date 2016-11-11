@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.ServiceBus.Messaging;
 
 namespace PI.Contract.Business
 {
@@ -23,5 +24,7 @@ namespace PI.Contract.Business
         string GetLabel(string shipmentCode);
 
         StatusHistoryResponce GetUpdatedShipmentStatusehistory(string carrier, string trackingNumber, string codeShipment, string environment);
+
+       
     }
 }

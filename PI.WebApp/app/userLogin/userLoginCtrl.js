@@ -156,7 +156,7 @@ registerExternalUser, ngAuthSettings) {
                      noty({
                          text: '<p style="font-size:medium">' + $rootScope.translate('Error') + '! </p>' + returnedResult.data.message,
                          layout: 'topRight',
-                         type: 'warning',
+                         type: 'error',
                          animation: {
                              open: 'animated bounceInRight', // Animate.css class names
                              //close: 'animated bounceInLeft', // Animate.css class names

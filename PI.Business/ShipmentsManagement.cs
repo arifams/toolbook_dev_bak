@@ -30,6 +30,12 @@ using PI.Contract.DTOs.Payment;
 using PI.Data.Entity.Identity;
 using PI.Contract.DTOs.Postmen;
 using System.Data.Entity.Validation;
+using Microsoft.ServiceBus.Messaging;
+using System.Net;
+using System.Collections.Specialized;
+using System.Xml.Linq;
+using RestSharp.Serializers;
+using System.IO;
 
 namespace PI.Business
 {
@@ -41,6 +47,14 @@ namespace PI.Business
         private ILogger logger;
         IPaymentManager paymentManager;
         PostmenIntegrationManager postMenmanager;
+
+        public string SISWebURLUS
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["SISWebURLUS"].ToString();
+            }
+        }
 
 
         public ShipmentsManagement(ILogger logger, ICompanyManagement companyManagment, ICarrierIntegrationManager sisManager, IPaymentManager paymentManager, PIContext _context = null)
@@ -1214,84 +1228,174 @@ namespace PI.Business
             };
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
-            // Add Shipment to SIS.
-            if (shipment.Carrier.Name == "USP")
-            {
 
-                responsePM = postMenmanager.SendShipmentDetailsPM(shipmentDto);
-                isPostmen = true;
-                response = new AddShipmentResponse();
-                if (responsePM.Awb != null)
-                {
-                    response.Awb = responsePM.Awb;
-                    response.DatePickup = responsePM.DatePickup;
-                    response.CodeShipment = responsePM.CodeShipment;
-                    response.PDF = responsePM.PDF;
-                }
+             response = sisManager.SendShipmentDetails(shipmentDto);
 
-            }
-            else
-            {
-                response = sisManager.SendShipmentDetails(shipmentDto);
-            }
-
-
-
-            shipment.ShipmentCode = response.CodeShipment;
-            shipment.TrackingNumber = response.Awb;
-            result.AddShipmentXML = response.AddShipmentXML;
+            shipment.Status = (short)ShipmentStatus.BookingBeingProcessed;
+            //shipment.ShipmentCode = response.CodeShipment;
+            //shipment.TrackingNumber = response.Awb;
+            //result.AddShipmentXML = response.AddShipmentXML;
 
             // SIS will return the pacific time zone. So need to convert it to user time zone
-            DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
-            shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(shipment.CreatedBy, utcPickupDate);
+            //DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
+            //shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(shipment.CreatedBy, utcPickupDate);
 
-            shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
-            shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
+            //shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
+            //shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
-            ShipmentError shipmentError = null;
+            //ShipmentError shipmentError = null;
 
-            if (string.IsNullOrWhiteSpace(response.Awb) && !isPostmen)
+            //if (string.IsNullOrWhiteSpace(response.Awb) )
+            //{
+            //    result.Status = Status.SISError;
+            //    result.Message = "Error occured when adding shipment";
+            //    result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
+            //    result.ShipmentCode = response.CodeShipment;
+            //    result.ShipmentReference = shipment.ShipmentReferenceName;
+            //    shipment.Provider = "Ship It Smarter";
+
+            //}
+
+            //else
+            //{
+            //    result.Status = Status.Success;
+            //    result.Message = "Shipment added successfully";
+            //    result.ShipmentDto = shipmentDto;
+
+            //    // If response.PDF is empty, get from following url.
+            //    if (string.IsNullOrWhiteSpace(response.PDF))
+            //    {
+            //        // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+            //        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+            //       // shipment.BlobUrl = result.LabelURL;
+            //    }
+            //    else
+            //    {
+            //        if (shipment.Carrier.Name=="TNT")
+            //        {
+            //            result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+            //        }
+            //        else
+            //        {
+            //            result.LabelURL = response.PDF;
+            //        }
+
+
+
+            //       // shipment.BlobUrl = response.PDF;
+            //    }
+            //    result.ShipmentId = shipment.Id;
+            //    shipment.Status = (short)ShipmentStatus.BookingConfirmation;
+
+            //    //adding the shipment label to azure
+            //    this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
+
+            //    var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
+            //    var Url= getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+            //    result.LabelURL = Url;
+            //}
+
+            //if (shipmentError != null)
+            //    context.ShipmentErrors.Add(shipmentError);
+
+            context.SaveChanges();
+            return result;
+
+        }
+
+        //check the shipment after communicated with the SIS to get the label
+        public ShipmentOperationResult CheckTheShipmentStatusToViewLabel(SendShipmentDetailsDto sendShipmentDetails)
+        {
+            // Get data from database and fill dto.                      
+            ShipmentOperationResult result = new ShipmentOperationResult();
+
+            Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
+
+            if (shipment.Status== (short)ShipmentStatus.BookingConfirmation)
             {
-                result.Status = Status.SISError;
-                result.Message = "Error occured when adding shipment";
-                result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
-                result.ShipmentCode = response.CodeShipment;
-                result.ShipmentReference = shipment.ShipmentReferenceName;
-                shipment.Provider = "Ship It Smarter";
-
+                result.Status = Status.Success;
             }
-            else if (string.IsNullOrWhiteSpace(response.Awb) && isPostmen)
+            else if (shipment.Status == (short)ShipmentStatus.Error)
             {
-                result.Status = Status.PostmenError;
-                result.Message = "Error occured when adding shipment";
-                result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
-                result.ShipmentCode = response.CodeShipment;
-                result.ShipmentReference = shipment.ShipmentReferenceName;
-                shipment.Provider = "PostMen";
+                result.Status = Status.Error;
+            }
+            else if (shipment.Status == (short)ShipmentStatus.BookingBeingProcessed)
+            {
+                result.Status = Status.Processing;
+            }
 
-                shipmentError = new ShipmentError()
-                {
-                    ShipmentId = shipment.Id,
-                    ErrorMessage = responsePM.ErrorMessage,
-                    CreatedDate = DateTime.UtcNow
-                };
+            return result;
+
+        }
+
+        public bool HandleSISRequest(string addShipmentXml, string shipmentReference)
+        {
+            AddShipmentResponse addShipmentResponse = null;
+            long shipmentId = Convert.ToInt16(shipmentReference);
+            using (var wb = new WebClient())
+            {
+                var data = new NameValueCollection();
+                data["data_xml"] = addShipmentXml;
+
+                var response = wb.UploadValues(SISWebURLUS + "insert_shipment.asp", "POST", data);
+                var responseString = Encoding.Default.GetString(response);
+
+                XDocument doc = XDocument.Parse(responseString);
+
+                System.Xml.Serialization.XmlSerializer mySerializer = new System.Xml.Serialization.XmlSerializer(typeof(AddShipmentResponse));
+                addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+            }
+            if (addShipmentResponse!=null)
+            {
+                return this.SaveCommunicatedShipment(addShipmentResponse, shipmentId);
+                 
             }
             else
             {
-                result.Status = Status.Success;
-                result.Message = "Shipment added successfully";
-                result.ShipmentDto = shipmentDto;
+                return false;
+            }
+           
+        }
+
+
+        private bool SaveCommunicatedShipment(AddShipmentResponse response, long shipmentId)
+        {
+
+            Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == shipmentId).FirstOrDefault();
+            SendShipmentDetailsDto sendShipmentDetails = new SendShipmentDetailsDto();
+            ShipmentOperationResult result = new ShipmentOperationResult();
+
+            if (shipment==null)
+            {
+                return false;
+            }
+
+            sendShipmentDetails.UserId = shipment.CreatedBy;
+            shipment.ShipmentCode = response.CodeShipment;
+            shipment.TrackingNumber = response.Awb;
+          
+            ShipmentError shipmentError = null;
+
+            if (string.IsNullOrWhiteSpace(response.Awb))
+            {                
+                shipment.Provider = "Ship It Smarter";
+                shipment.Status = (short)ShipmentStatus.Error;
+
+            }
+
+            else
+            {
+               
 
                 // If response.PDF is empty, get from following url.
                 if (string.IsNullOrWhiteSpace(response.PDF))
-                {
-                    // ICarrierIntegrationManager sisManager = new SISIntegrationManager();
+                {                   
                     result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
-                   // shipment.BlobUrl = result.LabelURL;
+                    // shipment.BlobUrl = result.LabelURL;
                 }
                 else
                 {
-                    if (shipment.Carrier.Name=="TNT")
+                    if (shipment.Carrier.Name == "TNT")
                     {
                         result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
                     }
@@ -1300,18 +1404,16 @@ namespace PI.Business
                         result.LabelURL = response.PDF;
                     }
                   
-
-
-                   // shipment.BlobUrl = response.PDF;
                 }
                 result.ShipmentId = shipment.Id;
+                shipment.Provider = "Ship It Smarter";
                 shipment.Status = (short)ShipmentStatus.BookingConfirmation;
 
                 //adding the shipment label to azure
                 this.AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
                 var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
-                var Url= getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+                var Url = getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
                 result.LabelURL = Url;
             }
 
@@ -1319,8 +1421,7 @@ namespace PI.Business
                 context.ShipmentErrors.Add(shipmentError);
 
             context.SaveChanges();
-            return result;
-
+            return true;
         }
 
 
@@ -2923,7 +3024,7 @@ namespace PI.Business
 
             var querableContent = (from shipment in context.Shipments
                                                     where shipment.IsDelete == false &&
-                                                    //shipment.
+                                                    !shipment.IsParent &&
                                                      ((status == null ||
                                                       (status == "Error" ? (shipment.Status == (short)ShipmentStatus.Error || shipment.Status == (short)ShipmentStatus.Pending)
                                                     : status == "Exception" ? (shipment.Status == (short)ShipmentStatus.Exception || shipment.Status == (short)ShipmentStatus.Claim)

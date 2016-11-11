@@ -188,7 +188,18 @@ namespace PI.Service.Controllers
         {
             return Ok(shipmentManagement.SaveShipment(addShipment));
         }
-        
+
+        [AllowAnonymous]       
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("HandleSISRequest")]
+        public IHttpActionResult HandleSISRequest([FromBody]SISShipmentCreateDto shipmentInfo)
+        {
+            return Ok(shipmentManagement.HandleSISRequest(shipmentInfo.AddShipmentXml, shipmentInfo.ShipmentReference));
+        }
+
+
+
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         [Route("UpdateShipmentReference")]
@@ -356,6 +367,72 @@ namespace PI.Service.Controllers
 
             // Make payment and send shipment to SIS.
             operationResult = shipmentManagement.SendShipmentDetails(sendShipmentDetails);
+
+            //#region Send Booking Confirmaion Email to customer.
+
+            //if (operationResult.Status == Status.Success)
+            //{
+            //    StringBuilder emailbody = new StringBuilder(sendShipmentDetails.TemplateLink);
+
+            //    emailbody
+            //        .Replace("<OrderReference>", operationResult.ShipmentDto.GeneralInformation.ShipmentName)
+            //        .Replace("<PickupDate>", operationResult.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(operationResult.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
+            //        .Replace("<ShipmentMode>", operationResult.ShipmentDto.GeneralInformation.shipmentModeName)
+            //        .Replace("<ShipmentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentServices)
+            //        .Replace("<Carrier>", operationResult.ShipmentDto.CarrierInformation.CarrierName)
+            //        .Replace("<ShipmentPrice>", operationResult.ShipmentDto.PackageDetails.ValueCurrencyString + " " + operationResult.ShipmentDto.CarrierInformation.Price.ToString())
+            //        .Replace("<PaymentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
+
+            //    StringBuilder productList = new StringBuilder();
+            //    decimal totalVol = 0;
+
+            //    foreach (var product in operationResult.ShipmentDto.PackageDetails.ProductIngredients)
+            //    {
+            //        productList.Append("<tr>");
+
+            //        productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
+            //        productList.Append(product.ProductType);
+            //        productList.Append("</td>");
+
+            //        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+            //        productList.Append(product.Quantity);
+            //        productList.Append("</td>");
+
+            //        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+            //        productList.Append(product.Weight.ToString("n2"));
+            //        productList.Append("</td>");
+
+            //        totalVol = product.Length * product.Width * product.Height * product.Quantity;
+            //        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+            //        productList.Append(totalVol.ToString("n2"));
+            //        productList.Append("</td>");
+
+            //        productList.Append("</tr>");
+            //    }
+
+            //    emailbody
+            //        .Replace("<tableRecords>", productList.ToString());
+
+            //    AppUserManager.SendEmail(sendShipmentDetails.UserId, "Order Confirmation", emailbody.ToString());
+            //}
+
+            //#endregion
+
+            return Ok(operationResult);
+        }
+
+
+
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("CheckTheBookingConfirmation")]
+        public IHttpActionResult CheckTheBookingConfirmation(SendShipmentDetailsDto sendShipmentDetails)
+        {
+            ShipmentOperationResult operationResult = new ShipmentOperationResult();
+
+            //Checking the shipment Status wether it is sucess or not
+            operationResult = shipmentManagement.CheckTheShipmentStatusToViewLabel(sendShipmentDetails);
 
             #region Send Booking Confirmaion Email to customer.
 
