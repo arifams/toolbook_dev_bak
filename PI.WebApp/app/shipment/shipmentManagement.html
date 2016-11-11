@@ -219,6 +219,7 @@
                                 
                                 <td>
                                     <div class="btn-group m-r-0" dropdown="">
+
                                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                             Action <span class="caret"></span>
                                         </button>
@@ -232,9 +233,9 @@
                                             <hr class="m-0">
                                             <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit shipments</a></li>
                                             <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete shipments</a></li>
-                                            <li><a href="javascript:;">Copy as new shipment</a></li>
-                                            <li><a href="javascript:;">Delete & copy as new shipment</a></li>
-                                            <li><a href="javascript:;">Create return shipment</a></li>
+                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as new shipment</a></li>
+                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="manageShipCtrl.deleteAndCopyShipment(row)"> Delete & copy as new shipment</a></li>
+                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create return shipment</a></li>
                                         </ul>
                                     </div>
                                 </td>
