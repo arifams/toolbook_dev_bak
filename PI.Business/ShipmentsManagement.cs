@@ -1229,7 +1229,7 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-             response = sisManager.SendShipmentDetails(shipmentDto);
+            response = sisManager.SendShipmentDetails(shipmentDto);
 
             shipment.Status = (short)ShipmentStatus.Processing;
             //shipment.ShipmentCode = response.CodeShipment;
@@ -3983,6 +3983,9 @@ namespace PI.Business
             paymentEntity.PaymentType = PaymentType.Shipment;
             paymentEntity.ReferenceId = payment.ShipmentId;
             paymentEntity.Amount = payment.ChargeAmount;
+            paymentEntity.LocationId = result.FieldList["LocationId"];
+            paymentEntity.TransactionId = result.FieldList["TransactionId"];
+            paymentEntity.TenderId = result.FieldList["TenderId"];
 
             if (payment.CurrencyType == "USD")
             {
@@ -4008,16 +4011,40 @@ namespace PI.Business
             }
             else
             {
-                return SendShipmentDetails(new SendShipmentDetailsDto()
+                ShipmentOperationResult shipmentResult = SendShipmentDetails(new SendShipmentDetailsDto()
                 {
                     ShipmentId = payment.ShipmentId,
                     PaymentResult = result,
                     UserId = payment.UserId
                 });
+
+                return shipmentResult;
             }
 
         }
 
+        public OperationResult RefundCharge(long shipmentId)
+        {
+            Payment payment = context.Payments.Where(p => p.ReferenceId == shipmentId).FirstOrDefault();
+
+            if (payment == null)
+                return new OperationResult()
+                {
+                    Status = Status.PaymentError,
+                    Message = "Couldn't find the Payment"
+                };
+
+            PaymentDto dto = new PaymentDto();
+            dto.ChargeAmount = payment.Amount;
+            dto.CurrencyType = payment.CurrencyType == CurrencyType.USD ? "USD" : "";
+            dto.TenderId = payment.TenderId;
+            dto.LocationId = payment.LocationId;
+            dto.TransactionId = payment.TransactionId;
+
+            OperationResult result = paymentManager.Refund(dto);
+
+            return result;
+        }
 
         public DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime)
         {

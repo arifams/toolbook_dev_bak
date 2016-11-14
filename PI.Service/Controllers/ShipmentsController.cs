@@ -780,6 +780,14 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
+        [Route("RefundCharge")]
+        public IHttpActionResult RefundCharge(PaymentDto payment)
+        {
+            return Ok(shipmentManagement.RefundCharge(payment.ShipmentId));
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
         [Route("PaymentCharge")]
         public async Task<IHttpActionResult> PaymentCharge(PaymentDto payment)
         {

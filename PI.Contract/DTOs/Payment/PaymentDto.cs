@@ -44,6 +44,10 @@ namespace PI.Contract.DTOs.Payment
         /// </summary>
         public string Amount { get; set; }
 
-       
+        public string LocationId { get; set; }
+
+        public string TransactionId { get; set; }
+
+        public string TenderId { get; set; }
     }
 }

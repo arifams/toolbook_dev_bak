@@ -19,6 +19,7 @@ namespace PI.Business
     {
         private static LocationApi locationApi;
         private static TransactionApi _transactionApi;
+        private static RefundApi refundApi;
         //private string _accessToken = "sandbox-sq0atb-m24_A-IqrhzXk1Y8LM2PoA";
         //private string _locationId = "CBASEFV_9FQXS2BGj_6H9k1y2cw";
 
@@ -35,6 +36,7 @@ namespace PI.Business
         {
             _transactionApi = new TransactionApi();
             locationApi = new LocationApi();
+            refundApi = new RefundApi();
         }
 
         public OperationResult Charge(PaymentDto paymentDto)
@@ -66,13 +68,14 @@ namespace PI.Business
 
             ChargeResponse response = null;
             string paymentError = null;
+            string locationId = null;
 
             try
             {
-                var locationId = GetLocation()[0].Id;
+                locationId = GetLocation()[0].Id;
                 response = _transactionApi.Charge(GetAccessToken, locationId, body);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response = new ChargeResponse();
 
@@ -89,6 +92,9 @@ namespace PI.Business
             }
 
             result.FieldList.Add("PaymentKey", uuid);
+            result.FieldList.Add("TenderId", response.Transaction.Tenders.First().Id);
+            result.FieldList.Add("LocationId", locationId);
+            result.FieldList.Add("TransactionId", response.Transaction.Id);
 
             if (response.Errors == null && string.IsNullOrEmpty(paymentError))
             {
@@ -103,7 +109,36 @@ namespace PI.Business
 
             return result;
         }
-        
+
+        public OperationResult Refund(PaymentDto paymentDto)
+        {
+            string refundUuid = NewIdempotencyKey();
+
+            Money amount = NewMoney(Convert.ToInt32(paymentDto.ChargeAmount), paymentDto.CurrencyType);
+
+            var refundBody = new CreateRefundRequest(refundUuid, paymentDto.TenderId, null, amount);
+            CreateRefundResponse refundResponse = null;
+            OperationResult result = new OperationResult();
+
+            try
+            {
+                refundResponse = refundApi.CreateRefund(GetAccessToken, paymentDto.LocationId, paymentDto.TransactionId, refundBody);
+
+                if (refundResponse.Refund.Status.HasValue)
+                    result.Status = refundResponse.Refund.Status.Value == Square.Connect.Model.Refund.StatusEnum.Approved ?
+                                    Contract.Enums.Status.Success : Contract.Enums.Status.PaymentError;
+                else
+                    result.Status = Contract.Enums.Status.PaymentError;
+            }
+            catch (Exception ex)
+            {
+                result.Status = Contract.Enums.Status.PaymentError;
+                result.Message = ex.Message;
+            }
+
+            return result;
+        }
+
         private IList<Location> GetLocation()
         {
             var location = locationApi.ListLocations(GetAccessToken).Locations.ToList();
