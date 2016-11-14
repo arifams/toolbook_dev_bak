@@ -1121,7 +1121,7 @@
 
                         vm.shipment.generalInformation.shipmentCode = "0";
                         debugger;
-                        if ($routeParams.id != "0" || paramSourceId != "" || paramSourceId != null) {
+                        if ($routeParams.id != "0" || (paramSourceId != "" && paramSourceId != null)) {
                             vm.editShipmentCode = $routeParams.id;
 
                             if (paramSource != null && paramSource != '') {
