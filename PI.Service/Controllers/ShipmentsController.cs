@@ -426,7 +426,7 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
-        [Route("SendShipmentDetails")]
+        [Route("CheckTheBookingConfirmation")]
         public IHttpActionResult CheckTheBookingConfirmation(SendShipmentDetailsDto sendShipmentDetails)
         {
             ShipmentOperationResult operationResult = new ShipmentOperationResult();
@@ -776,6 +776,14 @@ namespace PI.Service.Controllers
         public IHttpActionResult SearchShipmentsById(string number)
         {
             return Ok(shipmentManagement.SearchShipmentsById(number));
+        }
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("RefundCharge")]
+        public IHttpActionResult RefundCharge(PaymentDto payment)
+        {
+            return Ok(shipmentManagement.RefundCharge(payment.ShipmentId));
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

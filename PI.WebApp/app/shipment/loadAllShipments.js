@@ -259,7 +259,7 @@
                                            {
                                                addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
 
-                                                   shipmentFactory.deleteShipment(row)
+                                                   shipmentFactory.deleteShipment(row, source)
                                                    .success(function (response) {
                                                        if (response == 1) {
 
@@ -273,6 +273,10 @@
                                                                                row.generalInformation.status = 'Deleted';
                                                                                row.generalInformation.isEnableEdit = false;
                                                                                row.generalInformation.isEnableDelete = false;
+
+                                                                               if (source == 'delete-copy') {
+                                                                                   $location.path('/addShipment/0');
+                                                                               }
                                                                            }
                                                                        }
 
@@ -386,8 +390,7 @@
 
 
                            };
-
-                         
+                                                    
                            vm.toggleFavourite = function (row) {
                                var count = 0;
                                angular.forEach(vm.rowCollection, function (item, key) {
@@ -426,6 +429,38 @@
                                                   });
                                }
                            }
+
+                           vm.copyAsNewShipment = function (shipmentId) {
+
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipmentId);
+                               $location.path('/addShipment/0');
+                           }
+
+                           vm.deleteAndCopyShipment = function (shipment) {
+                               debugger;
+                               // call delete shipment
+
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'delete-copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipment.generalInformation.shipmentId);
+
+                               vm.deleteById(shipment, 'delete-copy');
+                           }
+
+                           vm.createReturnShipment = function (shipmentId) {
+
+                               $window.localStorage.setItem('paramSource', null);
+                               $window.localStorage.setItem('paramSource', 'return-copy');
+                               $window.localStorage.setItem('paramSourceId', null);
+                               $window.localStorage.setItem('paramSourceId', shipmentId);
+
+                               $location.path('/addShipment/0');
+                           }
+
 
                            vm.callServerSearch = function (tableState) {
 

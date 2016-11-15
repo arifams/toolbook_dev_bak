@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201610311057184_changedstatuslength.Designer.cs">
       <DependentUpon>201610311057184_changedstatuslength.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611111548061_Update_Payment_Entity.cs" />
+    <Compile Include="Migrations\201611111548061_Update_Payment_Entity.Designer.cs">
+      <DependentUpon>201611111548061_Update_Payment_Entity.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -291,6 +295,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610311057184_changedstatuslength.resx">
       <DependentUpon>201610311057184_changedstatuslength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611111548061_Update_Payment_Entity.resx">
+      <DependentUpon>201611111548061_Update_Payment_Entity.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

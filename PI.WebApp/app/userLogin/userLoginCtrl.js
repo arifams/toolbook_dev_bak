@@ -60,6 +60,8 @@ registerExternalUser, ngAuthSettings) {
         //$localStorage.userGuid = '';
         $window.localStorage.setItem('userGuid', '');
         $window.localStorage.setItem('currentLnguage', '');
+        $window.localStorage.setItem('paramSource', '');
+        $window.localStorage.setItem('paramSourceId','');
         gettextCatalog.setCurrentLanguage($window.localStorage.getItem('currentLnguage'));
 
         vm.loginInvalid = false;

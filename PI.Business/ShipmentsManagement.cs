@@ -749,7 +749,7 @@ namespace PI.Business
                                         !shipment.IsParent
                                         select shipment);
 
-            var shipmentList = querableShipmentList.OrderBy(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
 
             foreach (var item in shipmentList)
             {
@@ -1112,6 +1112,7 @@ namespace PI.Business
             return currentShipmentDto;
         }
 
+
         //get the product ingrediants List
         public List<ProductIngredientsDto> getPackageDetails(IList<PackageProduct> products)
         {
@@ -1134,6 +1135,7 @@ namespace PI.Business
             }
             return ingrediantList;
         }
+
 
         public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
@@ -1227,9 +1229,9 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-             response = sisManager.SendShipmentDetails(shipmentDto);
+            response = sisManager.SendShipmentDetails(shipmentDto);
 
-            shipment.Status = (short)ShipmentStatus.BookingBeingProcessed;
+            shipment.Status = (short)ShipmentStatus.Processing;
             //shipment.ShipmentCode = response.CodeShipment;
             //shipment.TrackingNumber = response.Awb;
             //result.AddShipmentXML = response.AddShipmentXML;
@@ -1317,7 +1319,7 @@ namespace PI.Business
             {
                 result.Status = Status.Error;
             }
-            else if (shipment.Status == (short)ShipmentStatus.BookingBeingProcessed)
+            else if (shipment.Status == (short)ShipmentStatus.Processing)
             {
                 result.Status = Status.Processing;
             }
@@ -3037,7 +3039,7 @@ namespace PI.Business
                                                     (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
                                                     select shipment);
 
-            var content = querableContent.OrderBy(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+            var content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
 
 
             foreach (var item in content)
@@ -3117,7 +3119,7 @@ namespace PI.Business
                         CreatedDate = GetLocalTimeByUser(item.CreatedBy, item.CreatedDate).Value.ToString("dd MMM yyyy"),
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
-                        IsEnableDelete = true, // Any status is deletable for admins/support staff
+                        IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
                         CreatedBy = item.CreatedBy
@@ -3981,6 +3983,9 @@ namespace PI.Business
             paymentEntity.PaymentType = PaymentType.Shipment;
             paymentEntity.ReferenceId = payment.ShipmentId;
             paymentEntity.Amount = payment.ChargeAmount;
+            paymentEntity.LocationId = result.FieldList["LocationId"];
+            paymentEntity.TransactionId = result.FieldList["TransactionId"];
+            paymentEntity.TenderId = result.FieldList["TenderId"];
 
             if (payment.CurrencyType == "USD")
             {
@@ -4006,16 +4011,40 @@ namespace PI.Business
             }
             else
             {
-                return SendShipmentDetails(new SendShipmentDetailsDto()
+                ShipmentOperationResult shipmentResult = SendShipmentDetails(new SendShipmentDetailsDto()
                 {
                     ShipmentId = payment.ShipmentId,
                     PaymentResult = result,
                     UserId = payment.UserId
                 });
+
+                return shipmentResult;
             }
 
         }
 
+        public OperationResult RefundCharge(long shipmentId)
+        {
+            Payment payment = context.Payments.Where(p => p.ReferenceId == shipmentId).FirstOrDefault();
+
+            if (payment == null)
+                return new OperationResult()
+                {
+                    Status = Status.PaymentError,
+                    Message = "Couldn't find the Payment"
+                };
+
+            PaymentDto dto = new PaymentDto();
+            dto.ChargeAmount = payment.Amount;
+            dto.CurrencyType = payment.CurrencyType == CurrencyType.USD ? "USD" : "";
+            dto.TenderId = payment.TenderId;
+            dto.LocationId = payment.LocationId;
+            dto.TransactionId = payment.TransactionId;
+
+            OperationResult result = paymentManager.Refund(dto);
+
+            return result;
+        }
 
         public DateTime? GetLocalTimeByUser(string loggedUserId, DateTime utcDatetime)
         {

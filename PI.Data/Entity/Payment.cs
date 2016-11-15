@@ -11,9 +11,12 @@ namespace PI.Data.Entity
 {
     public class Payment : LongIdBaseEntity
     {
+        /// <summary>
+        /// Shipment or Invoice Id
+        /// </summary>
         public long ReferenceId { get; set; }
 
-        public PI.Contract.Enums.PaymentType PaymentType { get; set; }
+        public PaymentType PaymentType { get; set; }
 
         public string PaymentId { get; set; }
         
@@ -24,5 +27,11 @@ namespace PI.Data.Entity
         public decimal Amount { get; set; }
 
         public CurrencyType CurrencyType { get; set; }
+
+        public string LocationId { get; set; }
+
+        public string TransactionId { get; set; }
+
+        public string TenderId { get; set; }
     }
 }
