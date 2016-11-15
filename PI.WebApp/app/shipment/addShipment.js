@@ -66,9 +66,9 @@
                         vm.shipmentReferenceName = '';
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
+
                         var paramSource = $window.localStorage.getItem('paramSource');
                         var paramSourceId = $window.localStorage.getItem('paramSourceId');
-
 
                         vm.closeWindow = function () {
                             ngDialog.close()
@@ -80,20 +80,20 @@
                                function (responce) {
                                    if (responce != null) {
 
-
+                                       debugger;
                                        if (responce.defaultVolumeMetricId == 1) {
 
-                                           vm.shipment.packageDetails.volumeCMM = "true";
+                                           vm.shipment.packageDetails.volumeUnit = "/(cm)";
                                        } else {
 
-                                           vm.shipment.packageDetails.volumeCMM = "false";
+                                           vm.shipment.packageDetails.volumeUnit = "/(inch)";
                                        }
 
                                        if (responce.defaultWeightMetricId == 1) {
 
-                                           vm.shipment.packageDetails.cmLBS == "true";
+                                           vm.shipment.packageDetails.weightUnit = "/(Kg)";
                                        } else {
-                                           vm.shipment.packageDetails.cmLBS == "false";
+                                           vm.shipment.packageDetails.weightUnit = "/(Lbs)";
                                        }
 
                                        if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
@@ -182,8 +182,8 @@
 
                         // Select default values.
                         vm.shipment.generalInformation.shipmentServices = "DD-DDU-PP";
-                        vm.shipment.packageDetails.cmLBS = "true";
-                        vm.shipment.packageDetails.volumeCMM = "true";
+                        //vm.shipment.packageDetails.weightUnit = true;
+                        //vm.shipment.packageDetails.volumeUnit = "true";
                         vm.shipment.packageDetails.isInsuared = "false";
                         vm.shipment.packageDetails.isDG = "false";
                         vm.shipment.packageDetails.valueCurrency = 1;
@@ -952,8 +952,29 @@
                                         });
                         }
 
-                        vm.isShowPaymentForm = false;
+                        function GetAddShipmentResponse() {
 
+                            shipmentFactory.GetAddShipmentResponse(paymentDto)
+                              .then(
+                              function (response) {
+                                  addShipmentResponse(response);
+                              }).error(function (error) {
+
+                                  $('#panel-notif').noty({
+                                      text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while processing payment') + '!</p></div>',
+                                      layout: 'bottom-right',
+                                      theme: 'made',
+                                      animation: {
+                                          open: 'animated bounceInLeft',
+                                          close: 'animated bounceOutLeft'
+                                      },
+                                      timeout: 6000,
+                                  });
+                              });
+                        }
+
+
+                        vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
                             window.open(url);
                         }
@@ -1027,16 +1048,19 @@
                                             });
                         }
 
+
                         //change state required according to the country code
                         vm.changeConsignerCountry = function () {
                             vm.isRequiredConsignerState = vm.shipment.addressInformation.consigner.country == 'US' || vm.shipment.addressInformation.consigner.country == 'CA' || vm.shipment.addressInformation.consigner.country == 'PR' || vm.shipment.addressInformation.consigner.country == 'AU';
                             vm.consignorAdded = false;
                         };
 
+
                         vm.changeConsigneeCountry = function () {
                             vm.isRequiredConsigneeState = vm.shipment.addressInformation.consignee.country == 'US' || vm.shipment.addressInformation.consignee.country == 'CA' || vm.shipment.addressInformation.consignee.country == 'PR' || vm.shipment.addressInformation.consignee.country == 'AU';
                             vm.consigneeAdded = false;
                         };
+
 
                         vm.getCurrenyCode = function (key) {
                             for (var i = 0; i < vm.currencies.length; i++) {
@@ -1046,6 +1070,8 @@
                                 }
                             }
                         }
+
+
                         //clear carrier information if previous button clicked
                         vm.previousBtnClicked = function () {
                             vm.carrierselected = false;
@@ -1055,11 +1081,12 @@
                             vm.previousClicked = true;
                         }
 
+
                         vm.selectShipmentType = function () {
 
                             vm.shipmentChanged = true;
                         }
-                        
+
 
                         vm.loadConsignerInfo();
 
@@ -1070,12 +1097,28 @@
                                 debugger;
 
                                 vm.shipment = data;
+
+                                if (responce.defaultVolumeMetricId == 1) {
+
+                                    vm.shipment.packageDetails.volumeUnit = "/(cm)";
+                                } else {
+
+                                    vm.shipment.packageDetails.volumeUnit = "/(inch)";
+                                }
+
+                                if (responce.defaultWeightMetricId == 1) {
+
+                                    vm.shipment.packageDetails.weightUnit == "/(Kg)";
+                                } else {
+                                    vm.shipment.packageDetails.weightUnit == "/(Lbs)";
+                                }
+
                                 debugger;
                                 if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
 
                                     if (paramSource == 'return-copy') {
-                                        var consigneeDetails =  angular.copy(vm.shipment.addressInformation.consignee);
+                                        var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);
 
                                         vm.shipment.addressInformation.consignee = consignerDetails;
@@ -1120,6 +1163,7 @@
 
 
                         vm.shipment.generalInformation.shipmentCode = "0";
+
                         debugger;
                         if ($routeParams.id != "0" || (paramSourceId != "" && paramSourceId != null)) {
                             vm.editShipmentCode = $routeParams.id;
