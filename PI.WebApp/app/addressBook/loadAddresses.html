@@ -1,4 +1,5 @@
-﻿<div ng-controller="loadAddressesCtrl as addressCtrl">
+﻿<div id="panel-notif"></div>
+<div ng-controller="loadAddressesCtrl as addressCtrl">
 
     <!--<div class="builder" id="builder1">
         <a class="builder-toggle f-20" ng-click="addressCtrl.loadFilterToggle();" href="javascript:void(0)"><i class="fa fa-filter" aria-hidden="true"></i></a>
@@ -234,16 +235,15 @@
                             <div id="panel-notif"></div>
 
                         </div>
-               <div id="panel-notif"></div>
-               <div class="page-spinner-loader customLoad" ng-show="addressCtrl.loadingSymbole">
-                   <div class="bounce1"></div>
-                   <div class="bounce2"></div>
-                   <div class="bounce3"></div>
-               </div>
+               
                 </div>
            
         </form>
+        <div class="page-spinner-loader customLoad" ng-show="addressCtrl.loadingSymbole">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
     </div>
-
-
 </div>
+

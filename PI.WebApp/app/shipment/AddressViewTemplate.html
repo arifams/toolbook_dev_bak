@@ -1,7 +1,7 @@
 ﻿
 <div>
-  <h3 translate>Select from AddressBook</h3>
-    <table st-table="addressCollection"  class="table table-striped">
+  <h3 class="m-t-0" translate><strong>Select from Address Book</strong></h3>
+    <table st-table="addressCollection"  class="table table-hover">
         <thead>
             <tr>                
                 <th translate>Company Name </th>
@@ -16,7 +16,11 @@
                 <td>{{row.companyName}}</td>               
                 <td>{{row.firstName}}</td>
                 <td>{{row.lastName}}</td>
-                <td><a ng-click="selectAddress(row)" class="edit btn btn-sm btn-default" href="javascript:;"><i class="icon-note"></i></a></td>
+                <td style="text-align:center">
+                    <label class="colored-radio lbl col-md-6" ng-click="selectAddress(row)" href="javascript:;">
+                        <input type="radio" name="radio1">
+                    </label>
+                </td>
                 
             </tr>
         </tbody>

@@ -184,11 +184,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
+                        <i class="fa fa-check-circle f-30" style="color:#18a689" aria-hidden="true" ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse1==true"></i>
+                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success btn-right m-b-5 m-r-5"
                                 ng-show="consignerConsigneeInfoForm.$valid&&shipmentCtrl.collapse1==true">
                             <i class="fa fa-check"></i>
-                        </button>
-                        <translate> Pickup & delivery Information</translate>
+                        </button>-->
+                        <translate><strong> Pickup & delivery Information</strong></translate>
                     </h3>
                 </div>
             </div>
@@ -246,7 +247,7 @@
                                     </div>
                                     <div ng-messages="consignerConsigneeInfoForm.countryConsigner.$error"
                                          ng-show="shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneestate" translate>Consigner Country is required</label>
+                                        <label ng-message="required" class="error" for="consigneestate" translate>Pickup country is required</label>
                                     </div>
                                 </div>
 
@@ -271,7 +272,7 @@
                                                                         (consignerConsigneeInfoForm.consigneraddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consigneraddress1Focus = true" ng-blur="consigneraddress1Focus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consigneraddress1.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneraddress1.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneraddress1Focus) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneraddress1" translate>Consignor address is required</label>
+                                        <label ng-message="required" class="error" for="consigneraddress1" translate>Pickup address is required</label>
                                         <label ng-message="maxlength" class="error" for="consigneraddress1" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -301,7 +302,7 @@
                             </div>
                             <div ng-messages="consignerConsigneeInfoForm.consignerpostalcode.$error"
                                  ng-show="(consignerConsigneeInfoForm.consignerpostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerpostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
-                                <label ng-message="required" class="error" for="consignerpostalcode" translate>Consignor Postal/Zip code is required</label>
+                                <label ng-message="required" class="error" for="consignerpostalcode" translate>Pickup Postal/Zip code is required</label>
                                 <label ng-message="maxlength" class="error" for="consignerpostalcode" translate>Max length should be 200 characters</label>
                             </div>
                             <label class="error" for="consignorname" translate ng-show="shipmentCtrl.errorCodeConsignor">Invalid Postal/Zip Code</label>
@@ -325,7 +326,7 @@
                                                                         (consignerConsigneeInfoForm.consignercity.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consignercityFocus = true" ng-blur="consignercityFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consignercity.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignercity.$dirty && !consignerConsigneeInfoForm.$pristine && !consignercityFocus) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consignercity" translate>Consignor city is required</label>
+                                        <label ng-message="required" class="error" for="consignercity" translate>Pickup city is required</label>
                                         <label ng-message="maxlength" class="error" for="consignercity" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -339,7 +340,7 @@
                                                                         (consignerConsigneeInfoForm.consignerstate.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-required="shipmentCtrl.isRequiredConsignerState" ng-focus="consignerstateFocus = true" ng-blur="consignerstateFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consignerstate.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignerstate.$dirty  && !consignerConsigneeInfoForm.$pristine && !consignerstateFocus)|| shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consignerstate" translate>Consignor State is required</label>
+                                        <label ng-message="required" class="error" for="consignerstate" translate>Pickup state is required</label>
                                         <label ng-message="maxlength" class="error" for="consignerstate" translate>Max length should be 20 characters</label>
                                         <label ng-message="minlength" class="error" for="consigneestate" translate>Min length should be 2 characters</label>
                                     </div>
@@ -374,7 +375,7 @@
                                                                         ((consignerConsigneeInfoForm.consignerFirstName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'First Name*'|translate}}" ng-focus="consignerFirstNameFocus = true" ng-blur="consignerFirstNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consignerFirstName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignerFirstName.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerFirstNameFocus)|| shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consignerFirstName" translate>Consignor First Name is required</label>
+                                        <label ng-message="required" class="error" for="consignerFirstName" translate>Pickup first name is required</label>
                                         <label ng-message="maxlength" class="error" for="consignerFirstName" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -399,7 +400,7 @@
                                                                         (consignerConsigneeInfoForm.consignercontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}" valid-phone-no ng-focus="consignercontactNumberFocus = true" ng-blur="consignercontactNumberFocus = false" />
                                 <div ng-messages="consignerConsigneeInfoForm.consignercontactNumber.$error"
                                      ng-show="(consignerConsigneeInfoForm.consignercontactNumber.$dirty  && !consignerConsigneeInfoForm.$pristine && !consignercontactNumberFocus)|| shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consignercontactNumber" translate>Consignor phone number is required</label>
+                                    <label ng-message="required" class="error" for="consignercontactNumber" translate>Pickup phone number is required</label>
                                     <label ng-message="minlength" class="error" for="consignercontactNumber" translate>Minimum length should be 10 digits</label>
                                     <label ng-message="maxlength" class="error" for="consignercontactNumber" translate>Maximum length should be 200 characters</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="consignercontactNumber" translate>Enter valid phone number</label>
@@ -417,7 +418,7 @@
                                     <div ng-messages="consignerConsigneeInfoForm.consigneremail.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneremail.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneremailFocus)|| shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="email" class="error" for="consigneremail" translate>Enter valid email address</label>
-                                        <label ng-message="required" class="error" for="consigneremail" translate>Consignor Email is required</label>
+                                        <label ng-message="required" class="error" for="consigneremail" translate>Pickup email is required</label>
                                         <label ng-message="maxlength" class="error" for="consigneremail" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -482,7 +483,7 @@
                                     </country-select>
                                     <div ng-messages="consignerConsigneeInfoForm.countryConsignee.$error"
                                          ng-show="shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneestate" translate>Consignee Country is required</label>
+                                        <label ng-message="required" class="error" for="consigneestate" translate>Delivery country is required</label>
                                     </div>
                                 </div>
                             </div>
@@ -504,7 +505,7 @@
                                                                         (consignerConsigneeInfoForm.consigneeaddress1.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consigneeaddress1Focus = true" ng-blur="consigneeaddress1Focus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consigneeaddress1.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneeaddress1.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneeaddress1Focus) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneeaddress1" translate>Consignee address is required</label>
+                                        <label ng-message="required" class="error" for="consigneeaddress1" translate>Delivery address is required</label>
                                         <label ng-message="maxlength" class="error" for="consigneeaddress1" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -535,7 +536,7 @@
                             </div>
                             <div ng-messages="consignerConsigneeInfoForm.consigneepostalcode.$error"
                                  ng-show="(consignerConsigneeInfoForm.consigneepostalcode.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneepostalcodeFocus) || shipmentCtrl.consignInfoisSubmit">
-                                <label ng-message="required" class="error" for="consigneeName" translate>Consignee Postal/Zip code is required</label>
+                                <label ng-message="required" class="error" for="consigneeName" translate>Delivery Postal/Zip code is required</label>
                                 <label ng-message="maxlength" class="error" for="consigneeName" translate>Max length should be 200 characters</label>
                             </div>
                             <label class="error" for="consigneeName" translate ng-show="shipmentCtrl.errorCodeConsignee">Invalid Postal/Zip Code</label>
@@ -553,7 +554,7 @@
                                                                         (consignerConsigneeInfoForm.consigneecity.$dirty|| shipmentCtrl.consignInfoisSubmit) }" ng-focus="consigneecityFocus = true" ng-blur="consigneecityFocus = false" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneecity.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneecity.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecityFocus) || shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneecity" translate>Consignee city is required</label>
+                                    <label ng-message="required" class="error" for="consigneecity" translate>Delivery city is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneecity" translate>Max length should be 200 characters</label>
                                 </div>
                             </div>
@@ -564,7 +565,7 @@
 
                                 <div ng-messages="consignerConsigneeInfoForm.consigneestate.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneestate.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneestateFocus)|| shipmentCtrl.consignInfoisSubmit">
-                                    <label ng-message="required" class="error" for="consigneestate" translate>Consignee state is required</label>
+                                    <label ng-message="required" class="error" for="consigneestate" translate>Delivery state is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneestate" translate>Max length should be 2 characters</label>
                                     <label ng-message="minlength" class="error" for="consigneestate" translate>Min length should be 2 characters</label>
                                 </div>
@@ -594,7 +595,7 @@
                                                                         (consignerConsigneeInfoForm.consigneeFirstName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'First Name*'|translate}}" ng-focus="consigneeFirstNameFocus = true" ng-blur="consigneeFirstNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consigneeFirstName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneeFirstName.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneeFirstNameFocus) || shipmentCtrl.consignInfoisSubmit">
-                                        <label ng-message="required" class="error" for="consigneeFirstName" translate>Consignee First Name is required</label>
+                                        <label ng-message="required" class="error" for="consigneeFirstName" translate>Delivery first name is required</label>
                                         <label ng-message="maxlength" class="error" for="consigneeFirstName" translate>Max length should be 200 characters</label>
                                     </div>
                                 </div>
@@ -617,7 +618,7 @@
                                    valid-phone-no ng-focus="consigneecontactNumberFocus = true" ng-blur="consigneecontactNumberFocus = false" />
                             <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
                                  ng-show="(consignerConsigneeInfoForm.consigneecontactNumber.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecontactNumberFocus) || shipmentCtrl.consignInfoisSubmit">
-                                <label ng-message="required" class="error" for="consigneecontactNumber" translate>Consignee Phone number is required</label>
+                                <label ng-message="required" class="error" for="consigneecontactNumber" translate>Delivery phone number is required</label>
                                 <label ng-message="maxlength" class="error" for="consigneecontactNumber" translate>Maximum length should be 200 characters</label>
                                 <label ng-message="notValidPhoneNo" class="error" for="consigneecontactNumber" translate>Enter valid Phone number</label>
                             </div>
@@ -630,7 +631,7 @@
                                 <div ng-messages="consignerConsigneeInfoForm.consigneeemail.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneeemail.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneeemailFocus)|| shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="email" class="error" for="consigneeemail" translate>Enter valid email address</label>
-                                    <label ng-message="required" class="error" for="consigneeemail" translate>Consignee Email is required</label>
+                                    <label ng-message="required" class="error" for="consigneeemail" translate>Delivery email is required</label>
                                     <label ng-message="maxlength" class="error" for="consigneeemail" translate>Max length should be 200 characters</label>
                                 </div>
                             </div>
@@ -1157,8 +1158,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="formPackage.$valid&&shipmentCtrl.collapse2==true"><i class="fa fa-check"></i></button>
-                        <translate>Package Details</translate>
+                        <i class="fa fa-check-circle f-30" style="color:#18a689" aria-hidden="true" ng-show="formPackage.$valid&&shipmentCtrl.collapse2==true"></i>
+                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="formPackage.$valid&&shipmentCtrl.collapse2==true"><i class="fa fa-check"></i></button>-->
+                        <translate><strong>Package Details</strong></translate>
                     </h3>
                 </div>
             </div>
@@ -1388,7 +1390,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="form-group">
-                                <label class="col-sm-2 label-font" translate> Carrier Instructions</label>
+                                <label class="col-sm-2 label-font" translate> Carrier pickup instructions</label>
                                 <div class="col-sm-10">
                                     <input ng-model="shipmentCtrl.shipment.packageDetails.instructions" type="text" name="instructions"
                                            class="form-control" />
@@ -1473,8 +1475,9 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="shipmentCtrl.collapse4==false"><i class="fa fa-check"></i></button>
-                        <translate>Rates and Carrier Details</translate>
+                        <i class="fa fa-check-circle f-30" style="color:#18a689" aria-hidden="true" ng-show="shipmentCtrl.collapse4==false"></i>
+                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5" ng-show="shipmentCtrl.collapse4==false"><i class="fa fa-check"></i></button>-->
+                        <translate><strong>Rates and Carrier Details</strong></translate>
                     </h3>
                 </div>
             </div>
@@ -1767,11 +1770,12 @@
             <div class="row">
                 <div class="col-sm-12">
                     <h3 class="select-options">
-                        <button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
+                        <i class="fa fa-check-circle f-30" style="color:#18a689" aria-hidden="true" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse"></i>
+                        <!--<button type="button" class="btn btn-sm btn-icon btn-rounded btn-success m-b-5 m-r-5"
                                 ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse">
                             <i class="fa fa-check"></i>
-                        </button>
-                        <translate>Shipment Booking</translate>
+                        </button>-->
+                        <translate><strong>Shipment Booking</strong></translate>
                     </h3>
                 </div>
             </div>
@@ -1964,14 +1968,10 @@
                 </div>
                 <div class="row m-0">
                     <div class="col-md-12">
-                        <a onclick="location.reload();">Create another shipment</a>
+                        <a onclick="location.reload();">Create another shipment</a>&nbsp;|&nbsp;<a href="#loadShipments">Go to manage shipment</a>
                     </div>
                 </div>
-                <div class="row m-0">
-                    <div class="col-md-12">
-                        <a href="#loadShipments">Go to manage shipment</a>
-                    </div>
-                </div>
+               
             </div>
             <div class="paymentForm panel" ng-show="shipmentCtrl.isShowPaymentForm || shipmentCtrl.isShowResponse" style="background-color:white;padding:10px;margin-top:10px;">
 
@@ -2023,10 +2023,11 @@
                                     </div>
                                     <br>
                                     <div class="row m-0">
-                                        <a onclick="location.reload();">Create another shipment</a>
-                                    </div>
-                                    <div class="row m-0">
-                                        <a href="#loadShipments">Go to manage shipment</a>
+                                        <div class="row m-0">
+                                            <div class="col-md-12">
+                                                <a onclick="location.reload();">Create another shipment</a>&nbsp;|&nbsp;<a href="#loadShipments">Go to manage shipment</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 

@@ -541,7 +541,7 @@
             });
 
             $('#panel-notif').noty({
-                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the profile') + '?</p></div>',
                 buttons: [
                         {
                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -590,7 +590,7 @@
                 });
 
                 $('#panel-notif').noty({
-                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New Password Cannot be same as old Password') + '</p></div>',
+                    text: '<div class="alert alert-warning media fade in"><p>' + $rootScope.translate('New password cannot be same as old password') + '</p></div>',
                     layout: 'bottom-right',
                     theme: 'made',
                     animation: {
@@ -607,7 +607,7 @@
             });
 
             $('#panel-notif').noty({
-                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the profile') + '?</p></div>',
                 buttons: [
                         {
                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -662,7 +662,7 @@
             });
 
             $('#panel-notif').noty({
-                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the Profile') + '?</p></div>',
+                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to update the profile') + '?</p></div>',
                 buttons: [
                         {
                             addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
@@ -763,7 +763,7 @@
                     });
 
                     $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company Logo updated, click ok to reload the page') + '?</p></div>',
+                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company logo updated, click ok to reload the page') + '?</p></div>',
                         buttons: [
                                 {
                                     addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {

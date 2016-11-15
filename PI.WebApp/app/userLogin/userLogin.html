@@ -106,12 +106,12 @@
 
 
                         <div class="form-group" ng-show="userLog.loginInvalid">
-                            <div class="alert alert-warning">
+                            <div class="alert alert-danger">
                                 {{userLog.loginInvalidMessage}}
                             </div>
                         </div>
                         <div class="form-group" ng-show="userLog.invalidToken">
-                            <div class="alert alert-warning" translate>
+                            <div class="alert alert-danger" translate>
                                 Invalid token.
                             </div>
                         </div>
@@ -208,11 +208,11 @@
                             </div>
                         </div>
 
-                        <div class="alert alert-success" ng-show="userLog.isSentPasswordResetMail">
+                        <div class="alert alert-info" ng-show="userLog.isSentPasswordResetMail">
                             <translate>A password reset link was sent to your email </translate> .
                             <translate> Please check your inbox to reset the password</translate>
                         </div>
-                        <div class="alert alert-success" ng-show="userLog.passwordResetError">
+                        <div class="alert alert-danger" ng-show="userLog.passwordResetError">
                             {{userLog.passwordResetErrorMsg}}
                         </div>
 
