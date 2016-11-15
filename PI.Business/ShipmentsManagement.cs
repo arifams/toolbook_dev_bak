@@ -1151,18 +1151,18 @@ namespace PI.Business
                 }
             };
 
-            var payment = context.Payments.Where(p => p.ReferenceId == currentShipment.Id).FirstOrDefault();
-            if(payment != null)
-            {
-                currentShipmentDto.PaymentDto = new PaymentDto()
-                {
-                    Amount = payment.Amount.ToString(),
-                    CurrencyType = payment.CurrencyType.ToString(),
-                    LocationId = payment.LocationId,
-                    TransactionId = payment.TransactionId,
-                    TenderId = payment.TenderId
-                };
-            }
+            //var payment = context.Payments.Where(p => p.ReferenceId == currentShipment.Id).FirstOrDefault();
+            //if(payment != null)
+            //{
+            //    currentShipmentDto.PaymentDto = new PaymentDto()
+            //    {
+            //        Amount = payment.Amount.ToString(),
+            //        CurrencyType = payment.CurrencyType.ToString(),
+            //        LocationId = payment.LocationId,
+            //        TransactionId = payment.TransactionId,
+            //        TenderId = payment.TenderId
+            //    };
+            //}
             
             return currentShipmentDto;
         }

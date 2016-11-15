@@ -792,7 +792,7 @@ namespace PI.Service.Controllers
         {
             ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("", result.ShipmentId);
 
-            if (result.Status == Status.Success && (shipmentDetails.PaymentDto != null))
+            if (result.Status == Status.Success && shipmentDetails.GeneralInformation.ShipmentPaymentTypeId == 2)
             {
                 // This is online payment.
                 try
@@ -949,7 +949,7 @@ namespace PI.Service.Controllers
 
                     Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
                     Paragraph shipline2 = new Paragraph("AWB#: " + shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
-                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName+"/"+ shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
+                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName + "/" + shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
                     Paragraph shipline4 = new Paragraph("Origin: " + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
                     Paragraph shipline5 = new Paragraph("Destination: " + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
                     Paragraph shipline6 = new Paragraph("Weight: " + shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
@@ -1141,8 +1141,12 @@ namespace PI.Service.Controllers
                 }
                 catch (Exception ex)
                 {
-                    
+
                 }
+            }
+            else if (result.Status == Status.SISError && (shipmentDetails.GeneralInformation.ShipmentPaymentTypeId == 2))
+            {
+                shipmentManagement.RefundCharge(result.ShipmentId);
             }
         }
 
