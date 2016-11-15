@@ -99,12 +99,23 @@ namespace WorkerRoleWithSBQueue2
 
         static async Task<HttpResponseMessage> CreateShipmentAsync(SISShipmentCreateDto createDto)
         {
-                                                                                        
-            HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", createDto);
-            //if (response.StatusCode)
-            //{
+            ShipmentOperationResult operationResult = new ShipmentOperationResult();
 
-            //}
+            HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", createDto);
+            if (response.StatusCode==HttpStatusCode.BadRequest)
+            {
+                operationResult.Status = PI.Contract.Enums.Status.SISError;
+                operationResult.ShipmentId =Convert.ToInt16(createDto.ShipmentReference);
+                HttpResponseMessage responseRefund = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", operationResult);
+                responseRefund.EnsureSuccessStatusCode();
+            }
+            else
+            {
+                operationResult.Status = PI.Contract.Enums.Status.Success;
+                operationResult.ShipmentId = Convert.ToInt16(createDto.ShipmentReference);
+                HttpResponseMessage responsePaid = await client.PostAsJsonAsync($"api/shipments/ShipmentAddResponse", operationResult);
+                responsePaid.EnsureSuccessStatusCode();
+            }
             response.EnsureSuccessStatusCode();           
             // Deserialize the updated product from the response body.
             return response;
