@@ -1287,7 +1287,7 @@ namespace PI.Business
 
             response = sisManager.SendShipmentDetails(shipmentDto);
 
-            shipment.Status = (short)ShipmentStatus.BookingBeingProcessed;
+            shipment.Status = (short)ShipmentStatus.Processing;
             result.Status = Status.Processing;
             //shipment.ShipmentCode = response.CodeShipment;
             //shipment.TrackingNumber = response.Awb;
