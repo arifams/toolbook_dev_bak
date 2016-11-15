@@ -1767,10 +1767,21 @@ a.list-group-item:focus, a.list-group-item:hover {
 }
 .custom-dropdown {
     width:auto;
+    left:-53px;
+    top:0;
+    overflow-y:auto
 }
 /*.main-content .page-content .panel table .btn-group {
     z-index:
 }*/
 .nav > li > a {
     padding:11px 15px;
+}
+.dropdown-menu > li > a {
+    padding:7px 5px;
+}
+
+
+.btn-right:hover {
+     background-position: 0px;
 }

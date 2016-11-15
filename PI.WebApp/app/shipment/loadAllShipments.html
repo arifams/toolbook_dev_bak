@@ -195,7 +195,7 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>-->
-                <div class="custom-table">
+                <div class="" style="overflow-y:scroll">
                     <!--<table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="loadShipCtrl.callServerSearch" st-table="loadShipCtrl.rowCollection" class="table table-hover">
                             <thead>
@@ -208,7 +208,7 @@
                                     <th translate>Destination</th>
                                     <th translate class="text-center">Status</th>
                                     <th translate class="text-center">Favorites</th>
-                                    <th translate class="text-center">Action</th>
+                                    <th translate class="text-center" style="width:11%">Action</th>
                                     <!--<th translate class="text-center">Edit</th>
                                     <th translate class="text-center">Delete</th>-->
                                    
@@ -253,13 +253,13 @@
                                         </a>
                                     </td>
 
-                                    <td style="text-align:center">
+                                    <td style="text-align:center;width:15%">
                                         <div class="btn-group m-r-0" dropdown="">
                                             <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                                 Action <span class="caret"></span>
                                             </button>
                                             <span class="dropdown-arrow"></span>
-                                            <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
+                                            <ul class="dropdown-menu custom-dropdown m-0" role="menu">
                                                 <li><a href="javascript:;" ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
                                                 <li ng-hide="row.generalInformation.shipmentCode == null"><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
                                                 <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
