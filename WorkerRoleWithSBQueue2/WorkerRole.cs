@@ -101,6 +101,10 @@ namespace WorkerRoleWithSBQueue2
         {
                                                                                         
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", createDto);
+            //if (response.StatusCode)
+            //{
+
+            //}
             response.EnsureSuccessStatusCode();           
             // Deserialize the updated product from the response body.
             return response;

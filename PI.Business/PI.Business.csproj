@@ -163,6 +163,7 @@
     <Compile Include="ProfileManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipmentsManagement.cs" />
+    <Compile Include="StampsIntegrationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
