@@ -36,6 +36,7 @@ using System.Collections.Specialized;
 using System.Xml.Linq;
 using RestSharp.Serializers;
 using System.IO;
+using AutoMapper;
 
 namespace PI.Business
 {
@@ -4124,6 +4125,24 @@ namespace PI.Business
         public DateTime GetUTCTimeFromSISTaleUS(DateTime datetime)
         {
             return TimeZoneInfo.ConvertTime(datetime, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"), TimeZoneInfo.Utc);
+        }
+
+
+        public ShipmentDto GetShipmentResult(long shipmentId)
+        {
+            ShipmentDto shipmentDto = new ShipmentDto();
+            Shipment shipment = context.Shipments.Where(s => s.Id == shipmentId).FirstOrDefault();
+
+            if(shipment.Status == (short)ShipmentStatus.Processing || shipment.Status == (short)ShipmentStatus.Draft)
+            {
+                return null;
+            }
+
+            shipmentDto.LabelUrl = sisManager.GetLabel(shipment.ShipmentCode);
+            var invoice = context.Invoices.Where(s => s.Id == shipmentId).FirstOrDefault();
+            shipmentDto.InvoiceUrl = invoice != null ? invoice.URL : "";
+
+            return shipmentDto;
         }
 
 

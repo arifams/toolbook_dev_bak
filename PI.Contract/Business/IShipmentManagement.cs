@@ -158,6 +158,10 @@ namespace PI.Contract.Business
         /// <param name="shipmentId"></param>
         /// <returns></returns>
         OperationResult RefundCharge(long shipmentId);
+
+
+        ShipmentDto GetShipmentResult(long shipmentId);
+
     }
 
 }

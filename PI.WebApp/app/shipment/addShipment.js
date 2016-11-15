@@ -812,7 +812,7 @@
                             shipmentFactory.saveShipment(vm.shipment).success(
                                             function (response) {
                                                 vm.addingShipment = false;
-
+                                                GetAddShipmentResponse();
                                                 if (response.status == 2) {
 
                                                 }
@@ -983,27 +983,29 @@
                                         });
                         }
 
+                        var isReceived = false;
+
                         function GetAddShipmentResponse() {
 
                             shipmentFactory.GetAddShipmentResponse(paymentDto)
                               .then(
                               function (response) {
-                                  addShipmentResponse(response);
-                              }).error(function (error) {
+                                  console.log('rec');
+                                  debugger;
+                                  isReceived = true;
 
-                                  $('#panel-notif').noty({
-                                      text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while processing payment') + '!</p></div>',
-                                      layout: 'bottom-right',
-                                      theme: 'made',
-                                      animation: {
-                                          open: 'animated bounceInLeft',
-                                          close: 'animated bounceOutLeft'
-                                      },
-                                      timeout: 6000,
-                                  });
+                                  $setTimeout(function () {
+
+                                      if (!isReceived) {
+                                          GetAddShipmentResponse();
+                                      }
+
+                                  }, 5000);
+
                               });
                         }
 
+                        
 
                         vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
