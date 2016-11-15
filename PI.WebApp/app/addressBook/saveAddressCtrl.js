@@ -40,6 +40,7 @@
         };
 
         vm.saveAddressDetail = function () {
+            debugger;
             vm.model.userId = $window.localStorage.getItem('userGuid');
             vm.model.id = $routeParams.id;
             var body = $("html, body");
@@ -50,25 +51,46 @@
 
                    body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                    });
-                   $('#panel-notif').noty({
+                   $('#panel-notif2').noty({
                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Address details saved successfully') + '</p></div>',
+                       buttons: [
+                        {
+                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                $noty.close();
+                                
+                            }
+                        },
+                        {
+                            addClass: 'btn btn-danger', text: $rootScope.translate('Cancel'), onClick: function ($noty) {
+
+                                $noty.close();
+                                return;
+                            }
+                        }
+                       ],
                        layout: 'bottom-right',
                        theme: 'made',
                        animation: {
                            open: 'animated bounceInLeft',
                            close: 'animated bounceOutLeft'
                        },
-                       timeout: 3000,
+                     
+                       onClose: function () {
+                           $location.path('/loadAddresses');
+                          
+                       },
                    });
+                   
 
                }
 
-               vm.close();
+               //vm.close();
            },
            function (error) {
                 });
         }
         vm.close = function () {
+            debugger;
             $location.path('/loadAddresses');
         }
 

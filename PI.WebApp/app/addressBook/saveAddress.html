@@ -1,4 +1,5 @@
-﻿<div ng-controller="saveAddressCtrl as addressCtrl">
+﻿<div id="panel-notif2"></div>
+<div ng-controller="saveAddressCtrl as addressCtrl">
 
     <div class="row m-l-0 m-r-0 m-b-10">
         <h2 class="m-t-0 custom-page-header" ng-hide="addressCtrl.model.id > 0">Add address</h2>
@@ -18,11 +19,11 @@
             
             <div class="panel-content panel-border">
                 <div class="row">
-                    <div class="col-xs-12">
+                    <div class="col-md-12">
                         <!-- left column -->                      
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Company Name</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Company Name</label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.companyName" type="text" name="companyname" class="form-control"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.companyname.$invalid &&
                                                                         (saveAddressForm.companyname.$dirty|| addressCtrl.isSubmit) }"
@@ -54,8 +55,8 @@
                         </div>-->
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>First Name *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>First Name *</label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.firstName" type="text" name="firstname" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.firstname.$invalid &&
                                                                         (saveAddressForm.firstname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter first name' | translate}}" ng-focus="fnameFocus = true" ng-blur="fnameFocus = false"/>
@@ -68,8 +69,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Last Name *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Last Name *</label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.lastName" type="text" name="lastname" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.lastname.$invalid &&
                                                                         (saveAddressForm.lastname.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter last name' | translate}}" ng-focus="lnameFocus = true" ng-blur="lnameFocus = false"/>
@@ -82,8 +83,8 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Email Address *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Email Address *</label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.emailAddress" type="email" name="email" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.email.$invalid &&
                                                                         (saveAddressForm.email.$dirty|| addressCtrl.isSubmit) }"  placeholder="{{'Enter email' | translate}}" ng-focus="emailFocus = true" ng-blur="emailFocus = false"/>
@@ -97,8 +98,8 @@
                         </div>  
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Phone Number *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Phone Number *</label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.phoneNumber" type="text" name="phonenumber" class="form-control" ng-required="true" valid-phone-no
                                        ng-maxlength="20" ng-class="{ 'error': saveAddressForm.phonenumber.$invalid &&
                                                                         (saveAddressForm.phonenumber.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter phone number' | translate}}" ng-focus="phoneFocus = true" ng-blur="phoneFocus = false"/>
@@ -112,8 +113,8 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Account Number </label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Account Number </label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.accountNumber" type="text" name="accountnumber" class="form-control" 
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.accountnumber.$invalid &&
                                                                         (saveAddressForm.accountnumber.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter account number' | translate}}"/>
@@ -126,14 +127,14 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label"><strong translate>Address Details </strong></label>
-                            <div class="col-sm-10">                                
+                            <label class="col-md-2 control-label"><strong translate>Address Details </strong></label>
+                            <div class="col-md-10">                                
                             </div>
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Country *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Country *</label>
+                            <div class="col-md-8">
                                 <div class="option-group">
                                     <country-select id="country" name="country"
                                                     ng-model="addressCtrl.model.country" ng-change="addressCtrl.changeCountry()"
@@ -148,8 +149,8 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Postal/ Zip Code *</label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2 control-label" translate>Postal/ Zip Code *</label>
+                            <div class="col-md-8">
                                 <div class="form-group input-group m-0">
                                     <input ng-model="addressCtrl.model.zipCode" type="text" name="postalcode" class="form-control" required
                                            ng-maxlength="20" ng-class="{ 'error': saveAddressForm.postalcode.$invalid &&
@@ -171,7 +172,7 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Address *</label>
+                            <label class="col-md-2 control-label" translate>Address *</label>
                             <!--<div class="col-sm-3">
                                 <input ng-model="addressCtrl.model.number" type="text" name="number" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.number.$invalid &&
@@ -182,7 +183,7 @@
                                     <label ng-message="maxlength" class="error" for="postalcode" translate>Max length should be 200 characters</label>
                                 </div>
                             </div>-->
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.streetAddress1" type="text" name="address1" class="form-control" ng-required="true"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.address1.$invalid &&
                                                                         (saveAddressForm.address1.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter address1' | translate}}"/>
@@ -195,8 +196,8 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2"></label>
-                            <div class="col-sm-8">
+                            <label class="col-md-2"></label>
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.streetAddress2" type="text" name="address2" class="form-control" 
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.address2.$invalid &&
                                                                         (saveAddressForm.address2.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Additional address information' | translate}}"/>
@@ -208,10 +209,10 @@
                         </div> 
                                
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>
+                            <label class="col-md-2 control-label" translate>
                                 City*
                             </label>
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.city" type="text" name="city" class="form-control" required 
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.city.$invalid &&
                                                                         (saveAddressForm.city.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter city' | translate}}" ng-focus="cityFocus = true" ng-blur="cityFocus = false"/>
@@ -224,10 +225,10 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>
+                            <label class="col-md-2 control-label" translate>
                                 State
                             </label>
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input ng-model="addressCtrl.model.state" type="text" name="state" class="form-control" ng-required="addressCtrl.isRequiredState"
                                        ng-maxlength="200" ng-class="{ 'error': saveAddressForm.state.$invalid &&
                                                                         (saveAddressForm.state.$dirty|| addressCtrl.isSubmit) }" placeholder="{{'Enter state' | translate}} {{addressCtrl.isRequiredState?'*':''}}" />
@@ -240,8 +241,8 @@
                         </div> 
 
                         <div class="form-group">
-                            <label class="col-sm-2 control-label" translate>Status</label>
-                            <div class="col-sm-10 radio-inline " >
+                            <label class="col-md-2 control-label" translate>Status</label>
+                            <div class="col-md-10 radio-inline " >
                                 <div class="icheck-inline">
                                    
                                     <label><input type="radio" name="iscorporate" icheck ng-model="addressCtrl.model.isActive" value="true" > <translate>Active </translate></label>
@@ -250,7 +251,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="row m-0">
                             <button ng-click="addressCtrl.close()" class="btn btn-primary btn-app pull-right">
                                 <i class="fa fa-close"></i><translate>Cancel</translate> 
                             </button>
@@ -258,13 +259,10 @@
                                 <i class="fa fa-save"></i> <translate>Save</translate> 
                             </button>
                         </div>
- 
                                        
                     </div>
                 </div>
-                <div id="panel-notif"></div>
             </div>
         </form>
     </div>
-
 </div>

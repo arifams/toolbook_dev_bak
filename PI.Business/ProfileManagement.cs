@@ -395,17 +395,17 @@ namespace PI.Business
 
             if (accountSettings != null)
             {
-                if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB" || 
-                    updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
-                {
-                    accountSettings.VolumeMetricId = 2;
-                    accountSettings.WeightMetricId = 2;
-                }
-                else
-                {
-                    accountSettings.VolumeMetricId = 1;
-                    accountSettings.WeightMetricId = 1;
-                }
+                //if (updatedProfile.CustomerDetails.CustomerAddress.Country == "GB" || 
+                //    updatedProfile.CustomerDetails.CustomerAddress.Country == "US")
+                //{
+                //    accountSettings.VolumeMetricId = 2;
+                //    accountSettings.WeightMetricId = 2;
+                //}
+                //else
+                //{
+                //    accountSettings.VolumeMetricId = 1;
+                //    accountSettings.WeightMetricId = 1;
+                //}
 
                 accountSettingsDto.DefaultVolumeMetricId = accountSettings.VolumeMetricId;
                 accountSettingsDto.DefaultWeightMetricId = accountSettings.WeightMetricId;
@@ -982,6 +982,7 @@ namespace PI.Business
 
             return profileDetails;
         }
+
 
         //get role name by Id
         public string GetRoleNameById(string id)
