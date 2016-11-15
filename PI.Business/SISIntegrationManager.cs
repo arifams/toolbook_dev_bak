@@ -267,10 +267,10 @@ namespace PI.Business
             try
             {
 
-                messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
+               messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
                
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;

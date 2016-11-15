@@ -1289,6 +1289,7 @@ namespace PI.Business
             response = sisManager.SendShipmentDetails(shipmentDto);
 
             shipment.Status = (short)ShipmentStatus.Processing;
+            result.Status = Status.Processing;
             //shipment.ShipmentCode = response.CodeShipment;
             //shipment.TrackingNumber = response.Awb;
             //result.AddShipmentXML = response.AddShipmentXML;
@@ -1403,8 +1404,17 @@ namespace PI.Business
                 addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
             }
             if (addShipmentResponse!=null)
-            {
-                return this.SaveCommunicatedShipment(addShipmentResponse, shipmentId);
+            {               
+                    
+              var shipment= this.SaveCommunicatedShipment(addShipmentResponse, shipmentId);
+                if (shipment.Status == (short)ShipmentStatus.Error)
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
                  
             }
             else
@@ -1415,18 +1425,14 @@ namespace PI.Business
         }
 
 
-        private bool SaveCommunicatedShipment(AddShipmentResponse response, long shipmentId)
+        private Shipment SaveCommunicatedShipment(AddShipmentResponse response, long shipmentId)
         {
 
             Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == shipmentId).FirstOrDefault();
             SendShipmentDetailsDto sendShipmentDetails = new SendShipmentDetailsDto();
             ShipmentOperationResult result = new ShipmentOperationResult();
 
-            if (shipment==null)
-            {
-                return false;
-            }
-
+            
             sendShipmentDetails.UserId = shipment.CreatedBy;
             shipment.ShipmentCode = response.CodeShipment;
             shipment.TrackingNumber = response.Awb;
@@ -1478,7 +1484,7 @@ namespace PI.Business
                 context.ShipmentErrors.Add(shipmentError);
 
             context.SaveChanges();
-            return true;
+            return shipment;
         }
 
 
