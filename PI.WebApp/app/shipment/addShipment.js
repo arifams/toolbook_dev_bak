@@ -2,8 +2,8 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', 'customBuilderFactory',
-                    function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope, customBuilderFactory) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', 'customBuilderFactory', '$timeout',
+                    function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope, customBuilderFactory, $timeout) {
 
                         var vm = this;
                         vm.user = {};
@@ -812,10 +812,15 @@
                             shipmentFactory.saveShipment(vm.shipment).success(
                                             function (response) {
                                                 vm.addingShipment = false;
-                                                GetAddShipmentResponse();
+                                                //debugger;
+                                                //console.log('shipment save');
+                                                //console.log(response);
+                                                
                                                 if (response.status == 2) {
-
+                                                    vm.shipment.generalInformation.shipmentId = response.shipmentId;
                                                 }
+                                                GetAddShipmentResponse(response.shipmentId);
+
                                             }).error(function (error) {
                                                 vm.loadingSymbole = false;
                                                 $('#panel-notif').noty({
@@ -983,24 +988,21 @@
                                         });
                         }
 
-                        var isReceived = false;
-
-                        function GetAddShipmentResponse() {
-
-                            shipmentFactory.GetAddShipmentResponse(paymentDto)
-                              .then(
-                              function (response) {
-                                  console.log('rec');
+                        function GetAddShipmentResponse(shipmentId) {
+                            //vm.loadingSymbole = false;
+                            shipmentFactory.GetAddShipmentResponse(shipmentId).then(function (response) {
+                                console.log('rec');
+                                console.log(response);
+                                console.log(response.data.hasShipmentAdded);
                                   debugger;
-                                  isReceived = true;
 
-                                  $setTimeout(function () {
+                                  if (response.data.hasShipmentAdded == false) {
+                                      $timeout(function () {
 
-                                      if (!isReceived) {
-                                          GetAddShipmentResponse();
-                                      }
+                                          GetAddShipmentResponse(shipmentId);
 
-                                  }, 5000);
+                                      }, 5000);
+                                  }
 
                               });
                         }
@@ -1149,7 +1151,7 @@
                                 debugger;
                                 if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
-
+                                    
                                     if (paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);

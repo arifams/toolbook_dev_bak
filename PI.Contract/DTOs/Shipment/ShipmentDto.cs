@@ -27,5 +27,6 @@ namespace PI.Contract.DTOs.Shipment
 
         public string InvoiceUrl { get; set; }
         public string LabelUrl { get; set; }
+        public bool HasShipmentAdded { get; set; }
     }
 }

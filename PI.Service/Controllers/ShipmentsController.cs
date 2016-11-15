@@ -1170,7 +1170,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetShipmentResult")]
-        public IHttpActionResult GetShipmentResult([FromBody]long shipmentId)
+        public IHttpActionResult GetShipmentResult(long shipmentId)
         {
             return Ok(shipmentManagement.GetShipmentResult(shipmentId));
         }

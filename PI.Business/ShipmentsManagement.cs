@@ -616,12 +616,25 @@ namespace PI.Business
             });
             context.SaveChanges();
 
-            if(!addShipment.isSaveAsDraft && (paymentResult.Status == Status.Success) )
+            if(!addShipment.isSaveAsDraft )
             {
-                var response = sisManager.SendShipmentDetails(addShipment);
+                // set shipment id, bcoz required in sendshipmentdetails method.
+                addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
 
-                newShipment.Status = (short)ShipmentStatus.Processing;
-                context.SaveChanges();
+                if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
+                {
+                    var response = sisManager.SendShipmentDetails(addShipment);
+
+                    newShipment.Status = (short)ShipmentStatus.Processing;
+                    context.SaveChanges();
+                }
+                else if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2 && (paymentResult.Status == Status.Success))
+                {
+                    var response = sisManager.SendShipmentDetails(addShipment);
+
+                    newShipment.Status = (short)ShipmentStatus.Processing;
+                    context.SaveChanges();
+                }
             }
 
             return result;
@@ -4141,9 +4154,11 @@ namespace PI.Business
 
             if(shipment.Status == (short)ShipmentStatus.Processing || shipment.Status == (short)ShipmentStatus.Draft)
             {
-                return null;
+                shipmentDto.HasShipmentAdded = false;
+                return shipmentDto;
             }
 
+            shipmentDto.HasShipmentAdded = true;
             shipmentDto.LabelUrl = sisManager.GetLabel(shipment.ShipmentCode);
             var invoice = context.Invoices.Where(s => s.Id == shipmentId).FirstOrDefault();
             shipmentDto.InvoiceUrl = invoice != null ? invoice.URL : "";
