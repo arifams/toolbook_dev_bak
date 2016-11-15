@@ -221,6 +221,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\Templates\ExceptionEmailTemplate.html" />
+    <Content Include="App_Data\Templates\OrderConfirmEmail.html" />
     <Content Include="App_Data\Tmp\FileUploads\USInvoiceTemplate.html" />
     <Content Include="ExternalLibries\SautinSoft.PdfFocus\SautinSoft.PdfFocus.dll" />
     <Content Include="Global.asax" />

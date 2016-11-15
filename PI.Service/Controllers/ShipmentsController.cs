@@ -788,17 +788,16 @@ namespace PI.Service.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
-        [Route("PaymentCharge")]
-        public async Task<IHttpActionResult> PaymentCharge(PaymentDto payment)
+        public async void ShipmentAddResponse(ShipmentOperationResult result)
         {
-            ShipmentOperationResult operationResult = shipmentManagement.PaymentCharge(payment);
+            ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("", result.ShipmentId);
 
-            if (operationResult.Status == Status.Success)
+            if (result.Status == Status.Success && shipmentDetails.GeneralInformation.ShipmentPaymentTypeId == 2)
             {
+                // This is online payment.
                 try
                 {
                     // call invoice generate               
-                    ShipmentDto shipmentDetails = shipmentManagement.GetshipmentById("", operationResult.ShipmentId);
                     string baseUrl = ConfigurationManager.AppSettings["PIBlobStorage"];
 
                     PaymentDto paymentDetails = shipmentManagement.GetPaymentbyReference(Convert.ToInt16(shipmentDetails.GeneralInformation.ShipmentId));
@@ -950,7 +949,7 @@ namespace PI.Service.Controllers
 
                     Paragraph shipline1 = new Paragraph(shipmentDetails.CarrierInformation.CarrierName, invoiceFont);
                     Paragraph shipline2 = new Paragraph("AWB#: " + shipmentDetails.GeneralInformation.TrackingNumber, invoiceFont);
-                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName+"/"+ shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
+                    Paragraph shipline3 = new Paragraph("Reference: " + shipmentDetails.GeneralInformation.ShipmentName + "/" + shipmentDetails.GeneralInformation.ShipmentId, invoiceFont);
                     Paragraph shipline4 = new Paragraph("Origin: " + shipmentDetails.AddressInformation.Consigner.City + " " + shipmentDetails.AddressInformation.Consigner.Country, invoiceFont);
                     Paragraph shipline5 = new Paragraph("Destination: " + shipmentDetails.AddressInformation.Consignee.City + " " + shipmentDetails.AddressInformation.Consignee.Country, invoiceFont);
                     Paragraph shipline6 = new Paragraph("Weight: " + shipmentDetails.PackageDetails.TotalWeight, invoiceFont);
@@ -1068,11 +1067,6 @@ namespace PI.Service.Controllers
                     var returnData = baseUrl + "TENANT_" + tenantId + "/" + Utility.GetEnumDescription(DocumentType.Invoice)
                                             + "/" + invoicename;
 
-                    operationResult.InvoiceURL = returnData;
-
-
-
-
                     //saving Invoice details
                     InvoiceDto invoice = new InvoiceDto()
                     {
@@ -1090,67 +1084,70 @@ namespace PI.Service.Controllers
 
                     var saveResult = invoiceManagement.SaveInvoiceDetails(invoice);
 
-
                     // Send mail
 
                     #region Send Booking Confirmaion Email to customer.
 
-                    if (operationResult.Status == Status.Success)
+                    string htmlTemplate = "";
+                    TemplateLoader templateLoader = new TemplateLoader();
+                    //get the email template for invoice
+                    HtmlDocument template = templateLoader.getHtmlTemplatebyName("OrderConfirmEmail");
+                    htmlTemplate = template.DocumentNode.InnerHtml;
+
+                    StringBuilder emailbody = new StringBuilder(htmlTemplate);
+
+                    emailbody
+                        .Replace("<OrderReference>", shipmentDetails.GeneralInformation.ShipmentName)
+                        .Replace("<PickupDate>", shipmentDetails.CarrierInformation.PickupDate != null ? Convert.ToDateTime(shipmentDetails.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
+                        .Replace("<ShipmentMode>", shipmentDetails.GeneralInformation.shipmentModeName)
+                        .Replace("<ShipmentType>", shipmentDetails.GeneralInformation.ShipmentServices)
+                        .Replace("<Carrier>", shipmentDetails.CarrierInformation.CarrierName)
+                        .Replace("<ShipmentPrice>", shipmentDetails.PackageDetails.ValueCurrencyString + " " + shipmentDetails.CarrierInformation.Price.ToString())
+                        .Replace("<PaymentType>", shipmentDetails.GeneralInformation.ShipmentPaymentTypeName);
+
+                    StringBuilder productList = new StringBuilder();
+                    decimal totalVol = 0;
+
+                    foreach (var product in shipmentDetails.PackageDetails.ProductIngredients)
                     {
-                        StringBuilder emailbody = new StringBuilder(payment.TemplateLink);
+                        productList.Append("<tr>");
 
-                        emailbody
-                            .Replace("<OrderReference>", operationResult.ShipmentDto.GeneralInformation.ShipmentName)
-                            .Replace("<PickupDate>", operationResult.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(operationResult.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
-                            .Replace("<ShipmentMode>", operationResult.ShipmentDto.GeneralInformation.shipmentModeName)
-                            .Replace("<ShipmentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentServices)
-                            .Replace("<Carrier>", operationResult.ShipmentDto.CarrierInformation.CarrierName)
-                            .Replace("<ShipmentPrice>", operationResult.ShipmentDto.PackageDetails.ValueCurrencyString + " " + operationResult.ShipmentDto.CarrierInformation.Price.ToString())
-                            .Replace("<PaymentType>", operationResult.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
+                        productList.Append(product.ProductType);
+                        productList.Append("</td>");
 
-                        StringBuilder productList = new StringBuilder();
-                        decimal totalVol = 0;
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(product.Quantity);
+                        productList.Append("</td>");
 
-                        foreach (var product in operationResult.ShipmentDto.PackageDetails.ProductIngredients)
-                        {
-                            productList.Append("<tr>");
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(product.Weight.ToString("n2"));
+                        productList.Append("</td>");
 
-                            productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
-                            productList.Append(product.ProductType);
-                            productList.Append("</td>");
+                        totalVol = product.Length * product.Width * product.Height * product.Quantity;
+                        productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                        productList.Append(totalVol.ToString("n2"));
+                        productList.Append("</td>");
 
-                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                            productList.Append(product.Quantity);
-                            productList.Append("</td>");
-
-                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                            productList.Append(product.Weight.ToString("n2"));
-                            productList.Append("</td>");
-
-                            totalVol = product.Length * product.Width * product.Height * product.Quantity;
-                            productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
-                            productList.Append(totalVol.ToString("n2"));
-                            productList.Append("</td>");
-
-                            productList.Append("</tr>");
-                        }
-
-                        emailbody
-                            .Replace("<tableRecords>", productList.ToString());
-
-                        AppUserManager.SendEmail(payment.UserId, "Order Confirmation", emailbody.ToString());
+                        productList.Append("</tr>");
                     }
+
+                    emailbody
+                        .Replace("<tableRecords>", productList.ToString());
+
+                    AppUserManager.SendEmail(shipmentDetails.UserId, "Order Confirmation", emailbody.ToString());
 
                     #endregion
                 }
                 catch (Exception ex)
                 {
-                    operationResult.Status = Status.Error;
-                    operationResult.Message = ex.ToString();
+
                 }
             }
-
-            return Ok(operationResult);
+            else if (result.Status == Status.SISError && (shipmentDetails.GeneralInformation.ShipmentPaymentTypeId == 2))
+            {
+                shipmentManagement.RefundCharge(result.ShipmentId);
+            }
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]

@@ -68,7 +68,18 @@ namespace PI.Business
                 context.Addresses.Remove(customerAddress);
 
             if (customer != null)
+            {
+                NotificationCriteria notification = context.NotificationCriterias.Where(n => n.CustomerId == customer.Id).FirstOrDefault();
+
+                if(notification != null)
+                {
+                    context.NotificationCriterias.Remove(notification);
+                    context.SaveChanges();
+                }
+
                 context.Customers.Remove(customer);
+            }
+                
 
             context.SaveChanges();
         }
