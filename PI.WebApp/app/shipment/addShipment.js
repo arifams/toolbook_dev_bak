@@ -1410,7 +1410,7 @@
                             if (vm.shipment.addressInformation.consigner.postalcode == null || vm.shipment.addressInformation.consigner.postalcode == '') {
                                 vm.errorCode = true;
                             } else {
-                                vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode);
+                                vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode + ' ' + vm.shipment.addressInformation.consigner.country);
                             }
 
                         }
@@ -1421,7 +1421,7 @@
                             if (vm.shipment.addressInformation.consignee.postalcode == null || vm.shipment.addressInformation.consignee.postalcode == '') {
                                 vm.errorCode = true;
                             } else {
-                                vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode);
+                                vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode + ' ' + vm.shipment.addressInformation.consignee.country);
                             }
                         }
 
