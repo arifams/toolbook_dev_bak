@@ -2,8 +2,8 @@
 
 (function (app) {
 
-    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', 'customBuilderFactory',
-                    function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope, customBuilderFactory) {
+    app.controller('addShipmentCtrl', ['$scope', '$location', '$window', 'shipmentFactory', 'ngDialog', '$controller', '$routeParams', '$rootScope', 'customBuilderFactory', '$timeout',
+                    function ($scope, $location, $window, shipmentFactory, ngDialog, $controller, $routeParams, $rootScope, customBuilderFactory, $timeout) {
 
                         var vm = this;
                         vm.user = {};
@@ -66,9 +66,9 @@
                         vm.shipmentReferenceName = '';
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
+
                         var paramSource = $window.localStorage.getItem('paramSource');
                         var paramSourceId = $window.localStorage.getItem('paramSourceId');
-
 
                         vm.closeWindow = function () {
                             ngDialog.close()
@@ -80,20 +80,20 @@
                                function (responce) {
                                    if (responce != null) {
 
-
+                                       debugger;
                                        if (responce.defaultVolumeMetricId == 1) {
 
-                                           vm.shipment.packageDetails.volumeCMM = "true";
+                                           vm.shipment.packageDetails.volumeUnit = "/(cm)";
                                        } else {
 
-                                           vm.shipment.packageDetails.volumeCMM = "false";
+                                           vm.shipment.packageDetails.volumeUnit = "/(inch)";
                                        }
 
                                        if (responce.defaultWeightMetricId == 1) {
 
-                                           vm.shipment.packageDetails.cmLBS == "true";
+                                           vm.shipment.packageDetails.weightUnit = "/(Kg)";
                                        } else {
-                                           vm.shipment.packageDetails.cmLBS == "false";
+                                           vm.shipment.packageDetails.weightUnit = "/(Lbs)";
                                        }
 
                                        if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
@@ -182,8 +182,8 @@
 
                         // Select default values.
                         vm.shipment.generalInformation.shipmentServices = "DD-DDU-PP";
-                        vm.shipment.packageDetails.cmLBS = "true";
-                        vm.shipment.packageDetails.volumeCMM = "true";
+                        //vm.shipment.packageDetails.weightUnit = true;
+                        //vm.shipment.packageDetails.volumeUnit = "true";
                         vm.shipment.packageDetails.isInsuared = "false";
                         vm.shipment.packageDetails.isDG = "false";
                         vm.shipment.packageDetails.valueCurrency = 1;
@@ -590,33 +590,37 @@
                                                    var body = $("html, body");
 
                                                    // Show payment page.
-                                                   var paymentDto = {
+                                                   vm.shipment.paymentDto = {
                                                        ChargeAmount: vm.shipment.carrierInformation.totalPrice,
                                                        CurrencyType: vm.shipment.carrierInformation.currency,
-                                                       CardNonce: nonce,
-                                                       shipmentId: $window.localStorage.getItem('shipmentId'),
-                                                       userId: $window.localStorage.getItem('userGuid'),
-                                                       templateLink: '<html><head><title></title></head><body style="margin-left:40px;margin-right:40px;margin-top:30px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000font-size:13px"><p style="font-style:italic;">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="font-family:verdana,geneva,sans-serif;font-size:14px;text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
+                                                       CardNonce: nonce//,
+                                                       //shipmentId: $window.localStorage.getItem('shipmentId'),
+                                                       //userId: $window.localStorage.getItem('userGuid'),
+                                                       //templateLink: '<html><head><title></title></head><body style="margin-left:40px;margin-right:40px;margin-top:30px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000font-size:13px"><p style="font-style:italic;">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#fff;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="font-family:verdana,geneva,sans-serif;font-size:14px;text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
                                                    };
 
-                                                   shipmentFactory.PaymentCharge(paymentDto).success(
-                                                                   function (response) {
+                                                   vm.shipment.generalInformation.shipmentPaymentTypeId = 2;
 
-                                                                       addShipmentResponse(response);
+                                                   saveShipment();
 
-                                                                   }).error(function (error) {
+                                                   //shipmentFactory.PaymentCharge(paymentDto).success(
+                                                   //                function (response) {
 
-                                                                       $('#panel-notif').noty({
-                                                                           text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while processing payment') + '!</p></div>',
-                                                                           layout: 'bottom-right',
-                                                                           theme: 'made',
-                                                                           animation: {
-                                                                               open: 'animated bounceInLeft',
-                                                                               close: 'animated bounceOutLeft'
-                                                                           },
-                                                                           timeout: 6000,
-                                                                       });
-                                                                   });
+                                                   //                    //addShipmentResponse(response);
+
+                                                   //                }).error(function (error) {
+
+                                                   //                    $('#panel-notif').noty({
+                                                   //                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while processing payment') + '!</p></div>',
+                                                   //                        layout: 'bottom-right',
+                                                   //                        theme: 'made',
+                                                   //                        animation: {
+                                                   //                            open: 'animated bounceInLeft',
+                                                   //                            close: 'animated bounceOutLeft'
+                                                   //                        },
+                                                   //                        timeout: 6000,
+                                                   //                    });
+                                                   //                });
                                                }
                                            },
 
@@ -784,10 +788,56 @@
                                 vm.isViaInvoicePayment = true;
                             }
 
+                            vm.shipment.templateLink = '<html><head><title></title></head><body style="margin-top:30px;margin-left:40px;margin-right:40px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:20px;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><p style="font-style:italic;font-size:16px">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;font-size:16px">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;font-size:16px">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;font-size:16px">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;font-size:16px">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;font-size:16px">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;font-size:16px">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>';
+                            vm.shipment.isSaveAsDraft = false;
                             saveShipment();
                         }
 
                         function saveShipment() {
+
+                            vm.loadingSymbole = true;
+
+                            vm.addingShipment = true;
+                            var body = $("html, body");
+
+                            //if (vm.shipment.generalInformation.shipmentPaymentTypeId == 1) {
+                            //    vm.loadingSymbole = false;
+                            //    vm.isShowPaymentForm = true;
+                            //    paymentForm.build();
+
+                            //    return;
+                            //}
+
+                            // Save and send shipment
+                            shipmentFactory.saveShipment(vm.shipment).success(
+                                            function (response) {
+                                                vm.addingShipment = false;
+                                                //debugger;
+                                                //console.log('shipment save');
+                                                //console.log(response);
+                                                
+                                                if (response.status == 2) {
+                                                    vm.shipment.generalInformation.shipmentId = response.shipmentId;
+                                                }
+                                                GetAddShipmentResponse(response.shipmentId);
+
+                                            }).error(function (error) {
+                                                vm.loadingSymbole = false;
+                                                $('#panel-notif').noty({
+                                                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
+                                                    layout: 'bottom-right',
+                                                    theme: 'made',
+                                                    animation: {
+                                                        open: 'animated bounceInLeft',
+                                                        close: 'animated bounceOutLeft'
+                                                    },
+                                                    timeout: 6000,
+                                                });
+                                            });
+                        }
+
+
+                        function saveShipmentOld() {
 
                             vm.loadingSymbole = true;
 
@@ -809,21 +859,7 @@
 
                                                 if (response.status == 2) {
 
-                                                    $window.localStorage.setItem('shipmentId', response.shipmentId);
-
-                                                    vm.savedShipmentId = response.shipmentId;
-
-
                                                     if (vm.shipment.generalInformation.shipmentPaymentTypeId == 1) {
-                                                        //window.location = webBaseUrl + "/app/index.html#/PaymentResult?status=0&amount=0&currency=USD&description=0&hash=0&id_sale=0";
-
-                                                        // Send shipment to SIS.
-
-                                                        var sendShipmentData = {
-                                                            shipmentId: $window.localStorage.getItem('shipmentId'),
-                                                            userId: $window.localStorage.getItem('userGuid'),
-                                                            templateLink: '<html><head><title></title></head><body style="margin-top:30px;margin-left:40px;margin-right:40px"><div style="margin-right:40px;margin-left:40px"><div style="margin-top:30px;background-color:#0af;font-size:24px;text-align:center;padding:10px;font-family:verdana,geneva,sans-serif;color:#fff">Order Confirmation - One2send</div></div><div style="margin-right:40px;margin-left:40px"><div style="float:left;"><img alt="" src="http://www.12send.com/template/logo_12send.png" style="width: 193px; height: 100px;" /></div><h3 style="margin-bottom:65px;margin-right:146px;margin-top:0;padding-top:62px;text-align:center;font-size:20px;font-family:verdana,geneva,sans-serif;color:#000">Thank you for using One2send </h3></div><div style="margin-right:40px;margin-left:40px"><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><p style="font-style:italic;font-size:16px">Order Reference  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<OrderReference></OrderReference></p><p style="font-style:italic;font-size:16px">Pickup Date  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <PickupDate></PickupDate></p><p style="font-style:italic;font-size:16px">Shipment Mode  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentMode></ShipmentMode></p><p style="font-style:italic;font-size:16px">Shipment Type  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <ShipmentType></ShipmentType></p><p style="font-style:italic;font-size:16px">Carrier   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<Carrier></Carrier></p><p style="font-style:italic;font-size:16px">Shipment Price   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<ShipmentPrice></ShipmentPrice></p><p style="font-style:italic;font-size:16px">Payment Type   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<PaymentType></PaymentType></p></div><br><div style="padding:10px;font-family:verdana,geneva,sans-serif;color:#000;font-size:13px"><table><thead><tr><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Product Type</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Quantity</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Weight</th><th style="width:290px;color:#000;font-size:13px;border-bottom:2px solid #000;">Volume</th></tr></thead><tbody><tableRecords></tbody></table></div><p style="text-align:center;">should you have any questions or concerns, please contact One2send helpdesk for support.</p></body></html>'
-                                                        };
 
                                                         shipmentFactory.sendShipmentDetails(sendShipmentData).success(
                                                                  function (response) {
@@ -893,7 +929,7 @@
                             } else {
                                 vm.shipment.userId = $window.localStorage.getItem('userGuid');
                             }
-
+                            vm.shipment.isSaveAsDraft = true;
                             // Save shipment in database.
                             shipmentFactory.saveShipment(vm.shipment).success(
                                         function (response) {
@@ -952,8 +988,28 @@
                                         });
                         }
 
-                        vm.isShowPaymentForm = false;
+                        function GetAddShipmentResponse(shipmentId) {
+                            //vm.loadingSymbole = false;
+                            shipmentFactory.GetAddShipmentResponse(shipmentId).then(function (response) {
+                                console.log('rec');
+                                console.log(response);
+                                console.log(response.data.hasShipmentAdded);
+                                  debugger;
 
+                                  if (response.data.hasShipmentAdded == false) {
+                                      $timeout(function () {
+
+                                          GetAddShipmentResponse(shipmentId);
+
+                                      }, 5000);
+                                  }
+
+                              });
+                        }
+
+                        
+
+                        vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
                             window.open(url);
                         }
@@ -1027,16 +1083,19 @@
                                             });
                         }
 
+
                         //change state required according to the country code
                         vm.changeConsignerCountry = function () {
                             vm.isRequiredConsignerState = vm.shipment.addressInformation.consigner.country == 'US' || vm.shipment.addressInformation.consigner.country == 'CA' || vm.shipment.addressInformation.consigner.country == 'PR' || vm.shipment.addressInformation.consigner.country == 'AU';
                             vm.consignorAdded = false;
                         };
 
+
                         vm.changeConsigneeCountry = function () {
                             vm.isRequiredConsigneeState = vm.shipment.addressInformation.consignee.country == 'US' || vm.shipment.addressInformation.consignee.country == 'CA' || vm.shipment.addressInformation.consignee.country == 'PR' || vm.shipment.addressInformation.consignee.country == 'AU';
                             vm.consigneeAdded = false;
                         };
+
 
                         vm.getCurrenyCode = function (key) {
                             for (var i = 0; i < vm.currencies.length; i++) {
@@ -1046,6 +1105,8 @@
                                 }
                             }
                         }
+
+
                         //clear carrier information if previous button clicked
                         vm.previousBtnClicked = function () {
                             vm.carrierselected = false;
@@ -1055,11 +1116,12 @@
                             vm.previousClicked = true;
                         }
 
+
                         vm.selectShipmentType = function () {
 
                             vm.shipmentChanged = true;
                         }
-                        
+
 
                         vm.loadConsignerInfo();
 
@@ -1070,12 +1132,28 @@
                                 debugger;
 
                                 vm.shipment = data;
+
+                                if (responce.defaultVolumeMetricId == 1) {
+
+                                    vm.shipment.packageDetails.volumeUnit = "/(cm)";
+                                } else {
+
+                                    vm.shipment.packageDetails.volumeUnit = "/(inch)";
+                                }
+
+                                if (responce.defaultWeightMetricId == 1) {
+
+                                    vm.shipment.packageDetails.weightUnit == "/(Kg)";
+                                } else {
+                                    vm.shipment.packageDetails.weightUnit == "/(Lbs)";
+                                }
+
                                 debugger;
                                 if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
-
+                                    
                                     if (paramSource == 'return-copy') {
-                                        var consigneeDetails =  angular.copy(vm.shipment.addressInformation.consignee);
+                                        var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);
 
                                         vm.shipment.addressInformation.consignee = consignerDetails;
@@ -1120,6 +1198,7 @@
 
 
                         vm.shipment.generalInformation.shipmentCode = "0";
+
                         debugger;
                         if ($routeParams.id != "0" || (paramSourceId != "" && paramSourceId != null)) {
                             vm.editShipmentCode = $routeParams.id;
@@ -1379,7 +1458,7 @@
                             if (vm.shipment.addressInformation.consigner.postalcode == null || vm.shipment.addressInformation.consigner.postalcode == '') {
                                 vm.errorCode = true;
                             } else {
-                                vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode);
+                                vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode + ' ' + vm.shipment.addressInformation.consigner.country);
                             }
 
                         }
@@ -1390,7 +1469,7 @@
                             if (vm.shipment.addressInformation.consignee.postalcode == null || vm.shipment.addressInformation.consignee.postalcode == '') {
                                 vm.errorCode = true;
                             } else {
-                                vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode);
+                                vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode + ' ' + vm.shipment.addressInformation.consignee.country);
                             }
                         }
 

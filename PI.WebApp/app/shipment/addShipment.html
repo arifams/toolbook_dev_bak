@@ -1278,6 +1278,7 @@
                             Package(s)
                         </div>
                     </div>
+
                     <div class="row m-0">
                         <div class="form-group m-l-0 m-r-0" style="overflow-x: auto;">
                             <table id="product_info" class="table table-hover">
@@ -1286,10 +1287,10 @@
                                         <th translate> Product Type *  </th>
                                         <th translate> Quantity * </th>
                                         <th translate> Description * </th>
-                                        <th translate> Weight *  <span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.cmLBS=='true'">/(Kg)</span> <span style="text-transform:lowercase" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> /(Lbs)</span> </th>
-                                        <th translate> Height * </th>
-                                        <th translate> Length * </th>
-                                        <th translate> Width  *<span style="text-transform:lowercase" ng-show="shipmentCtrl.shipment.packageDetails.volumeCMM=='true'">/(cm)</span> <span style="text-transform:lowercase" ng-hide="shipmentCtrl.shipment.packageDetails.cmLBS=='true'"> /(inch)</span>  </th>
+                                        <th translate> Weight *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.weightUnit}} </span>  </th>
+                                        <th translate> Height *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span> </th>
+                                        <th translate> Length *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span>  </th>
+                                        <th translate> Width  *  <span style="text-transform:lowercase" > {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span>  </th>
                                         <th style="text-align:center"></th>
                                         <th style="text-align:center"></th>
                                     </tr>

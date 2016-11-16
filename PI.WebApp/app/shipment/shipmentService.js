@@ -61,7 +61,8 @@
             loadAllShipmentsForAdminExcelExport: loadAllShipmentsForAdminExcelExport,
             GetAllShipmentCounts: GetAllShipmentCounts,
             saveAwbNo: saveAwbNo,
-            UpdateShipmentReference: UpdateShipmentReference
+            UpdateShipmentReference: UpdateShipmentReference,
+            GetAddShipmentResponse: GetAddShipmentResponse
         };
 
         function saveAwbNo(awbDto) {
@@ -404,6 +405,7 @@
             });
         }
 
+
         function GetAllShipmentCounts() {
             return $http.get(serverBaseUrl + '/api/shipments/GetShipmentStatusCounts', {
                 params: {
@@ -411,6 +413,34 @@
                 }
             })
         }
+
+
+        //function GetAddShipmentResponse() {
+
+        //    var worker = new Worker('doWork.js');
+        //    var defer = $q.defer();
+        //    worker.addEventListener('message', function(e) {
+        //        console.log('Worker said: ', e.data);
+        //        defer.resolve(e.data);
+        //    }, false);
+
+        //    return {
+        //        doWork : function(myData){
+        //            defer = $q.defer();
+        //            worker.postMessage(myData); // Send data to our worker. 
+        //            return defer.promise;
+        //        }
+        //    };
+        //}
+
+        function GetAddShipmentResponse(shipmentId) {
+            return $http.get(serverBaseUrl + '/api/shipments/GetShipmentResult', {
+                params: {
+                    shipmentId: shipmentId
+                }
+            })
+        }
+
 
     }]);
 

@@ -1,4 +1,5 @@
 ﻿using PI.Contract.DTOs.Division;
+using PI.Contract.DTOs.Payment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,5 +19,14 @@ namespace PI.Contract.DTOs.Shipment
         public string CreatedBy { get; set; }
         public string SISCompanyCode { get; set; }
         public DivisionDto Division { get; set; }
+
+        public string TemplateLink { get; set; }
+        public bool isSaveAsDraft { get; set; }
+
+        public PaymentDto PaymentDto { get; set; }
+
+        public string InvoiceUrl { get; set; }
+        public string LabelUrl { get; set; }
+        public bool HasShipmentAdded { get; set; }
     }
 }

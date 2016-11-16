@@ -133,8 +133,8 @@ namespace PI.Business
                     account.DefaultCurrencyId = context.Currencies.Where(cu => cu.CurrencyCode == "USD").First().Id;
                     account.DefaultLanguageId = context.Languages.Where(la => la.LanguageCode == "EN").First().Id;
                     account.DefaultTimeZoneId = context.TimeZones.Where(ti => ti.TimeZoneId == "Pacific Standard Time").First().Id;
-                    account.VolumeMetricId = context.VolumeMetrics.Where(v => v.Name == "kg").First().Id;
-                    account.WeightMetricId = context.WeightMetrics.Where(w => w.Name == "cm").First().Id;
+                    account.VolumeMetricId = context.VolumeMetrics.Where(v => v.Name == "inch").First().Id;
+                    account.WeightMetricId = context.WeightMetrics.Where(w => w.Name == "lbs").First().Id;
                     account.IsActive = true;
                     account.CreatedBy = "1";
                     account.CreatedDate = DateTime.UtcNow;
