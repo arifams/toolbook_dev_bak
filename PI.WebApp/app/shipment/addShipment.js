@@ -820,6 +820,9 @@
 
                                                 if (response.status == 2) {
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
+
+                                                    vm.savePayShipment = true;
+
                                                     GetAddShipmentResponse(response.shipmentId);
                                                 }
                                                 
