@@ -194,16 +194,8 @@ namespace PI.Service.Controllers
         [HttpPost]
         [Route("HandleSISRequest")]
         public IHttpActionResult HandleSISRequest([FromBody]SISShipmentCreateDto shipmentInfo)
-        {
-
-            if (shipmentManagement.HandleSISRequest(shipmentInfo.AddShipmentXml, shipmentInfo.ShipmentReference))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+        {           
+           return Ok(shipmentManagement.HandleSISRequest(shipmentInfo.AddShipmentXml, shipmentInfo.ShipmentReference));           
            
         }
 
