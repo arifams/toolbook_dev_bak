@@ -583,7 +583,7 @@ namespace PI.Business
                         paymentEntity.CurrencyType = CurrencyType.USD;
                     }
 
-                    if (result.Status == Status.PaymentError)
+                    if (paymentResult.Status == Status.PaymentError)
                     {
                         // If failed, due to payment gateway error, then record payment error code.
                         paymentEntity.StatusCode = result.FieldList["errorCode"];
@@ -594,7 +594,15 @@ namespace PI.Business
                 }
 
                 result.ShipmentId = newShipment.Id;
-                result.Status = Status.Success;
+
+                if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2 && (paymentResult.Status == Status.PaymentError))
+                {
+                    result.Status = Status.PaymentError;
+                }
+                else
+                {
+                    result.Status = Status.Success;
+                }
 
             }
             catch (Exception ex)
@@ -616,7 +624,7 @@ namespace PI.Business
             });
             context.SaveChanges();
 
-            if(!addShipment.isSaveAsDraft )
+            if(!addShipment.isSaveAsDraft && (result.Status == Status.Success))
             {
                 // set shipment id, bcoz required in sendshipmentdetails method.
                 addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
@@ -624,20 +632,10 @@ namespace PI.Business
                 // We required custom shipmentdto, so need to get it back. Later need to change this.
                 ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
 
-                if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
-                {
-                    var response = sisManager.SendShipmentDetails(shDto);
+                var response = sisManager.SendShipmentDetails(shDto);
 
-                    newShipment.Status = (short)ShipmentStatus.Processing;
-                    context.SaveChanges();
-                }
-                else if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2 && (paymentResult.Status == Status.Success))
-                {
-                    var response = sisManager.SendShipmentDetails(shDto);
-
-                    newShipment.Status = (short)ShipmentStatus.Processing;
-                    context.SaveChanges();
-                }
+                newShipment.Status = (short)ShipmentStatus.Processing;
+                context.SaveChanges();
             }
 
             return result;

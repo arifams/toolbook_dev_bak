@@ -570,6 +570,7 @@
                                            // nonce, even if the request failed because of an error.
                                            cardNonceResponseReceived: function (errors, nonce, cardData) {
 
+                                               vm.isViaInvoicePayment = false;
                                                if (errors) {
                                                    // This logs all errors encountered during nonce generation to the
                                                    // Javascript console.
@@ -819,14 +820,34 @@
                                                 vm.loadingSymbole = false;
 
                                                 if (response.status == 2) {
+                                                    // adding record in db, payment success
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
 
                                                     vm.savePayShipment = true;
 
-                                                    GetAddShipmentResponse(response.shipmentId);
-                                                }
-                                                
+                                                    $timeout(function () {
 
+                                                        GetAddShipmentResponse(response.shipmentId);
+
+                                                    }, 5000);
+
+                                                }
+                                                else if (response.status == 4) {
+                                                    // payment error
+                                                    vm.shipmentStatusMsg = "There is issue with the charge from credit card. Please try again";
+                                                }
+                                                else if (response.status == 1) {
+                                                    $('#panel-notif').noty({
+                                                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
+                                                        layout: 'bottom-right',
+                                                        theme: 'made',
+                                                        animation: {
+                                                            open: 'animated bounceInLeft',
+                                                            close: 'animated bounceOutLeft'
+                                                        },
+                                                        timeout: 6000,
+                                                    });
+                                                }
                                             }).error(function (error) {
                                                 vm.loadingSymbole = false;
                                                 $('#panel-notif').noty({
@@ -1007,18 +1028,23 @@
 
                                         GetAddShipmentResponse(shipmentId);
 
-                                    }, 15000);
+                                    }, 10000);
                                 }
-                                else if(response.data.hasShipmentAdded) {
-                                    vm.labelUrl = response.labelURL;
+                                else if (response.data.hasShipmentAdded) {
+
+                                    vm.isShowPaymentForm = false;
+                                    vm.isShowResponse = true;
+                                    vm.savePayShipment = false;
+                                    vm.payementProgress = false;
 
                                     vm.isShowLabel = true;
+                                    vm.labelUrl = response.data.labelUrl;
+
                                     if (response.invoiceURL != '') {
                                         vm.isShowInvoice = true;
-                                        vm.payementProgress = false;
-                                        vm.savePayShipment = false;
-                                        vm.invoiceUrl = response.invoiceURL;
+                                        vm.invoiceUrl = response.data.invoiceUrl;
                                     }
+
                                 }
 
                             });
