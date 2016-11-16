@@ -1420,11 +1420,11 @@ width:10px;
     font-size:27px;
 }
 .toggle-footer-apply {
-    bottom:-230px;
+    bottom:-208px;
     color:#fff;
 }
 .toggle-footer-reset {
-    bottom:-235px;
+    bottom:-208px;
     background-color:none;
 }
 .btn-hidden {
@@ -1767,7 +1767,7 @@ a.list-group-item:focus, a.list-group-item:hover {
 }
 .custom-dropdown {
     width:auto;
-    left:-53px;
+    left:-72px;
     top:0;
     overflow-y:auto
 }
