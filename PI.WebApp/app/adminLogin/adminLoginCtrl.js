@@ -90,7 +90,7 @@
                  vm.signInLodingSymbole = true;
 
                  if (returnedResult.data.result == "1") {
-                   
+                     vm.signInLodingSymbole = true;
                      // TODO: To be coverted to a token.
                      $window.localStorage.setItem('userGuid', returnedResult.data.id);
                      $window.localStorage.setItem('userRole', returnedResult.data.role);

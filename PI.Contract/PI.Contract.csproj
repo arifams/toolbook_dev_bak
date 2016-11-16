@@ -141,6 +141,9 @@
     <Compile Include="Enums\Enums.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProxyClasses\SwsimV55.cs">
+      <SubType>code</SubType>
+    </Compile>
     <Compile Include="TemplateLoader\TemplateLoader.cs" />
   </ItemGroup>
   <ItemGroup>

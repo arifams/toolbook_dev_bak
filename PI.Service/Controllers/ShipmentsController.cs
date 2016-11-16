@@ -194,16 +194,8 @@ namespace PI.Service.Controllers
         [HttpPost]
         [Route("HandleSISRequest")]
         public IHttpActionResult HandleSISRequest([FromBody]SISShipmentCreateDto shipmentInfo)
-        {
-
-            if (shipmentManagement.HandleSISRequest(shipmentInfo.AddShipmentXml, shipmentInfo.ShipmentReference))
-            {
-                return Ok();
-            }
-            else
-            {
-                return BadRequest();
-            }
+        {           
+           return Ok(shipmentManagement.HandleSISRequest(shipmentInfo.AddShipmentXml, shipmentInfo.ShipmentReference));           
            
         }
 
@@ -1170,7 +1162,7 @@ namespace PI.Service.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         [Route("GetShipmentResult")]
-        public IHttpActionResult GetShipmentResult(long shipmentId)
+        public IHttpActionResult GetShipmentResult([FromBody]long shipmentId)
         {
             return Ok(shipmentManagement.GetShipmentResult(shipmentId));
         }
