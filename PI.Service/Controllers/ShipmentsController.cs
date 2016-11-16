@@ -1166,6 +1166,15 @@ namespace PI.Service.Controllers
             return Ok(shipmentManagement.UpdateTrackingNo(awbDto));
         }
 
+
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        [Route("GetShipmentResult")]
+        public IHttpActionResult GetShipmentResult(long shipmentId)
+        {
+            return Ok(shipmentManagement.GetShipmentResult(shipmentId));
+        }
+
         #region Private methods
 
         private MultipartFormDataStreamProvider GetMultipartProvider()
