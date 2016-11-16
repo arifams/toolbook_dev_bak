@@ -195,7 +195,7 @@
                     </div>
                     <div class="col-sm-3"></div>
                 </div>-->
-                <div class="" style="overflow-y:scroll">
+                <div class="" style="overflow-y:scroll;overflow-x:hidden">
                     <!--<table st-table="shipmentList" st-safe-src="loadShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="loadShipCtrl.callServerSearch" st-table="loadShipCtrl.rowCollection" class="table table-hover">
                             <thead>
@@ -260,7 +260,7 @@
                                             </button>
                                             <span class="dropdown-arrow"></span>
                                             <ul class="dropdown-menu custom-dropdown m-0" role="menu">
-                                                <li><a href="javascript:;" ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
+                                                <li><a ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
                                                 <li ng-hide="row.generalInformation.shipmentCode == null"><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
                                                 <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
                                                 <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">Edit/Print Commercial invoice</a></li>

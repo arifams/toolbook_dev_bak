@@ -17,6 +17,10 @@
 
                            };
 
+                           vm.openLabel = function (url) {
+                               window.open(url);
+                           }
+
                            vm.status = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };

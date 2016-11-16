@@ -155,7 +155,7 @@
                                             </span>
                                         </label>
                                     </div>
-                                    <div class="col-md-12" style="padding-left:37px">
+                                    <div class="col-md-12" style="padding-left:37px" ng-hide="!userLog.isEnabled">
                                         <label ng-class="{'colored-radio-dis lbl col-md-6':!userLog.isEnabled,'colored-radio lbl col-md-6':userLog.isEnabled}">
                                             <input type="radio" name="radio1" ng-model="userLog.option" value="true" ng-disabled="!userLog.isEnabled">
                                             <span>

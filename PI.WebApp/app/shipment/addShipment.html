@@ -1720,7 +1720,7 @@
                         </div>
                     </div>
 
-                    <div class="CareeDetailsTable" collapse="!shipmentCtrl.searchRates||shipmentCtrl.previousClicked || shipmentCtrl.shipmentChanged" style="height:auto">
+                    <div class="CareeDetailsTable" collapse="!shipmentCtrl.searchRates||shipmentCtrl.previousClicked || shipmentCtrl.shipmentChanged" style="height:auto;overflow:hidden">
                         <table st-table="shipmentCtrl.displayedCollection" st-safe-src="rowCollection" class="table table-hover" id="selectRates">
                             <thead>
                                 <tr>
@@ -1874,7 +1874,7 @@
                         <div class="col-sm-12" ng-hide="shipmentCtrl.ratesNotAvailable||shipmentCtrl.hideSummary">
                             <fieldset>
                                 <legend translate>Rate Summary</legend>
-                                <div class="row">
+                                <div class="row" style="overflow:hidden">
                                     <!--<h3><i class="fa fa-table"></i> <strong>Rate Summary</strong></h3>-->
                                     <table class="table table-hover">
                                         <thead>

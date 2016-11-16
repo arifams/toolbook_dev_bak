@@ -796,7 +796,7 @@
                         function saveShipment() {
 
                             vm.loadingSymbole = true;
-
+                            vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
                             vm.addingShipment = true;
                             var body = $("html, body");
 
@@ -989,7 +989,7 @@
                         }
 
                         function GetAddShipmentResponse(shipmentId) {
-                            //vm.loadingSymbole = false;
+                            vm.loadingSymbole = false;
                             shipmentFactory.GetAddShipmentResponse(shipmentId).then(function (response) {
                                 console.log('rec');
                                 console.log(response);
@@ -1001,7 +1001,7 @@
 
                                           GetAddShipmentResponse(shipmentId);
 
-                                      }, 5000);
+                                      }, 15000);
                                   }
 
                               });
