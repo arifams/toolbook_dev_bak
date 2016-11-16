@@ -38,7 +38,7 @@ namespace WorkerRoleWithSBQueue2
         // rather than recreating it on every request
         QueueClient Client;
         
-        static HttpClient client = new HttpClient();
+        static HttpClient client = new HttpClient();        
         ManualResetEvent CompletedEvent = new ManualResetEvent(false);
       
 
@@ -53,12 +53,12 @@ namespace WorkerRoleWithSBQueue2
                    try
                    {
                         // Process the message
-                        Trace.WriteLine("Processing Service Bus message: " + receivedMessage.SequenceNumber.ToString());
-                       var type = receivedMessage.GetType();
-                       if (receivedMessage.Properties["messageContet"] != null && receivedMessage.Properties["messageContet"].ToString() == "addShipmentXML")
-                       {
+                       // Trace.WriteLine("Processing Service Bus message: " + receivedMessage.SequenceNumber.ToString());
+                       //var type = receivedMessage.GetType();
+                       //if (receivedMessage.Properties["messageContet"] != null && receivedMessage.Properties["messageContet"].ToString() == "addShipmentXML")
+                       //{
                            await HandleSISRequest(receivedMessage);
-                       }
+                     //  }
                    }
                    catch (Exception e)
                    {
@@ -102,7 +102,9 @@ namespace WorkerRoleWithSBQueue2
             ShipmentOperationResult operationResult = new ShipmentOperationResult();
 
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", createDto);
-            if (response.StatusCode==HttpStatusCode.BadRequest)
+            response.EnsureSuccessStatusCode();
+
+            if (response.StatusCode==HttpStatusCode.BadRequest || response.StatusCode == HttpStatusCode.InternalServerError)
             {
                 operationResult.Status = PI.Contract.Enums.Status.SISError;
                 operationResult.ShipmentId =Convert.ToInt16(createDto.ShipmentReference);
@@ -116,7 +118,7 @@ namespace WorkerRoleWithSBQueue2
                 HttpResponseMessage responsePaid = await client.PostAsJsonAsync($"api/shipments/ShipmentAddResponse", operationResult);
                 responsePaid.EnsureSuccessStatusCode();
             }
-            response.EnsureSuccessStatusCode();           
+                     
             // Deserialize the updated product from the response body.
             return response;
         }

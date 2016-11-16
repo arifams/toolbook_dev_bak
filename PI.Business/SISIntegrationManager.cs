@@ -497,21 +497,24 @@ namespace PI.Business
             //string referenceNo = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"); addShipment.GeneralInformation.ShipmentName + "-" + referenceNo
 
             string codeCurrenyString = "";
-            using (var context = new PIContext())
-            {
+            //using (var context = new PIContext())
+            //{
                 codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
-            }
+          //  }
 
             string costCenterNumber = string.Empty;
-            using (PIContext context = new PIContext())
-            {
+            //using (PIContext context = new PIContext())
+            //{
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
                 if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
                     costCenterNumber = SISCostCenterNL;
                 else
                     costCenterNumber = SISCostCenterUS;
-            }
+            // }
+
+            var customer = context.Customers.Where(c => c.UserId == addShipment.GeneralInformation.CreatedBy).SingleOrDefault();
+
 
             StringBuilder shipmentStr = new StringBuilder();
 
@@ -528,6 +531,12 @@ namespace PI.Business
             shipmentStr.AppendFormat("<date_pickup>{0}</date_pickup>", addShipment.PackageDetails.PreferredCollectionDate);   //"18-Mar-2016"
             shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
             shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
+            
+            if (customer != null)
+            {
+                shipmentStr.AppendFormat("<transaction_id>"+ customer.Id.ToString()+ "</transaction_id>");
+            }              
+
             shipmentStr.AppendFormat("<price>{0}</price>", (addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
             //shipmentStr.AppendFormat("<price_insurance>{0}</price_insurance>", ); // TODO: Comment this for now. - Will get clarification later.
 
