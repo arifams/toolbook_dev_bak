@@ -9,6 +9,7 @@ using PI.Contract.DTOs.Shipment;
 using System.Xml;
 using System.Configuration;
 
+
 namespace PI.Business
 {
     class StampsIntegrationManager : ICarrierIntegrationManager
@@ -145,27 +146,23 @@ namespace PI.Business
             
             addShipmentXml.Append("< CustomsLines >");
 
-            foreach (var item in addShipment.PackageDetails.ProductIngredients)
+            foreach (var lineItem in addShipment.PackageDetails.ProductIngredients)
             {
+
+                double weight = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(lineItem.Weight) * 2.20462 : Convert.ToDouble(lineItem.Weight);
+
                 addShipmentXml.Append(" <CustomsLine>");
-                addShipmentXml.Append(" <Description>string</Description>");
-                addShipmentXml.Append("<Quantity>double</Quantity>");
-                addShipmentXml.Append(" <Value>decimal</Value>");
-                addShipmentXml.Append("<WeightLb>double</WeightLb>");
-                addShipmentXml.Append("<HSTariffNumber>string</HSTariffNumber>");
-                addShipmentXml.Append(" <CountryOfOrigin>string</CountryOfOrigin>");
+                addShipmentXml.Append(" <Description>"+ lineItem.Description+ "</Description>");
+                addShipmentXml.Append("<Quantity>"+lineItem.Quantity+"</Quantity>");
+               // addShipmentXml.Append(" <Value></Value>");
+                addShipmentXml.Append("<WeightLb>"+ weight.ToString() + "</WeightLb>");
+                addShipmentXml.Append("<HSTariffNumber>"+addShipment.CarrierInformation.tariffText+"</HSTariffNumber>");              
                 addShipmentXml.Append(" </CustomsLine>");
-                addShipmentXml.Append(" <CountryOfOrigin>string</CountryOfOrigin>");
-
-
-
+             
             }
-            addShipmentXml.Append("<tns:Country>" + addShipment.AddressInformation.Consignee.City + "</tns:Country>");
-            addShipmentXml.Append("<tns:Country>" + addShipment.AddressInformation.Consignee.City + "</tns:Country>");
-            addShipmentXml.Append("<tns:Country>" + addShipment.AddressInformation.Consignee.City + "</tns:Country>");
-            addShipmentXml.Append("<tns:Country>" + addShipment.AddressInformation.Consignee.City + "</tns:Country>");
-
-
+            addShipmentXml.Append(" <CountryOfOrigin>"+addShipment.AddressInformation.Consigner.Country+"</CountryOfOrigin>");
+            addShipmentXml.Append("</CustomsLines>");
+            
             addShipmentXml.Append("</tns:CreateIndicium>");
             addShipmentXml.Append("</soap:Body>");
             addShipmentXml.Append("</soap:Envelope>");         
