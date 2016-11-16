@@ -1517,6 +1517,8 @@ namespace PI.Business
               var shipment= this.SaveCommunicatedShipment(addShipmentResponse, shipmentId);
                 if (shipment.Status == (short)ShipmentStatus.Error)
                 {
+                    RefundCharge(shipmentId);
+
                     return false;
                 }
                 else
@@ -4217,6 +4219,12 @@ namespace PI.Business
             dto.TransactionId = payment.TransactionId;
 
             OperationResult result = paymentManager.Refund(dto);
+            
+            if(result.Status == Status.Success)
+            {
+                payment.Status = Status.Refund;
+                context.SaveChanges();
+            }
 
             return result;
         }
