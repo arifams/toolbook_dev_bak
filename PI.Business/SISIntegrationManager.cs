@@ -293,8 +293,8 @@ namespace PI.Business
 
             //return myObject != null ? myObject.StatusShipment : "Error";
 
-            if (IsSendShipmentDebugData == "true")
-                addShipmentResponse.AddShipmentXML = addShipmentXML;
+            //if (IsSendShipmentDebugData == "true")
+            //    addShipmentResponse.AddShipmentXML = addShipmentXML;
 
             return addShipmentResponse;
         }

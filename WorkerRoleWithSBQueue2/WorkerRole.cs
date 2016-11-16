@@ -103,16 +103,17 @@ namespace WorkerRoleWithSBQueue2
 
             HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/HandleSISRequest", createDto);
             response.EnsureSuccessStatusCode();
-                       
-            //call payment 
-           operationResult.ShipmentId = Convert.ToInt16(createDto.ShipmentReference);
-           HttpResponseMessage responsePaid = await client.PostAsJsonAsync($"api/shipments/ShipmentAddResponse", operationResult);
-           responsePaid.EnsureSuccessStatusCode();
+
+            //operationResult.ShipmentId = Convert.ToInt16(createDto.ShipmentReference);
+            //HttpResponseMessage responsePaid = await client.PostAsJsonAsync($"api/shipments/ShipmentAddResponse", result);
+            //responsePaid.EnsureSuccessStatusCode();
             
-                     
+
             // Deserialize the updated product from the response body.
             return response;
         }
+
+     
 
         public override bool OnStart()
         {

@@ -98,9 +98,14 @@ namespace PI.Business
                     ToCountry=addShipment.AddressInformation.Consignee.Country,
                     ToState=addShipment.AddressInformation.Consignee.State,
                     ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
-                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,                 
+                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
+                    DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString())                   
+
                 };
-                
+                //Indiciumrequest.
+
+
+
               CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
                 
             }

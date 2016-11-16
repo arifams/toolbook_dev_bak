@@ -569,7 +569,8 @@
                                            // Called when the SqPaymentForm completes a request to generate a card
                                            // nonce, even if the request failed because of an error.
                                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-
+                                               debugger;
+                                               vm.isViaInvoicePayment = false;
                                                if (errors) {
                                                    // This logs all errors encountered during nonce generation to the
                                                    // Javascript console.
@@ -813,14 +814,40 @@
                                             function (response) {
                                                 vm.addingShipment = false;
                                                 //debugger;
-                                                //console.log('shipment save');
-                                                //console.log(response);
-                                                
-                                                if (response.status == 2) {
-                                                    vm.shipment.generalInformation.shipmentId = response.shipmentId;
-                                                }
-                                                GetAddShipmentResponse(response.shipmentId);
+                                                console.log('shipment save');
+                                                console.log(response);
 
+                                                vm.loadingSymbole = false;
+
+                                                if (response.status == 2) {
+                                                    // adding record in db, payment success
+                                                    vm.shipment.generalInformation.shipmentId = response.shipmentId;
+
+                                                    vm.savePayShipment = true;
+
+                                                    $timeout(function () {
+
+                                                        GetAddShipmentResponse(response.shipmentId);
+
+                                                    }, 5000);
+
+                                                }
+                                                else if (response.status == 4) {
+                                                    // payment error
+                                                    vm.shipmentStatusMsg = "There is issue with the charge from credit card. Please try again";
+                                                }
+                                                else if (response.status == 1) {
+                                                    $('#panel-notif').noty({
+                                                        text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
+                                                        layout: 'bottom-right',
+                                                        theme: 'made',
+                                                        animation: {
+                                                            open: 'animated bounceInLeft',
+                                                            close: 'animated bounceOutLeft'
+                                                        },
+                                                        timeout: 6000,
+                                                    });
+                                                }
                                             }).error(function (error) {
                                                 vm.loadingSymbole = false;
                                                 $('#panel-notif').noty({
@@ -994,20 +1021,36 @@
                                 console.log('rec');
                                 console.log(response);
                                 console.log(response.data.hasShipmentAdded);
-                                  debugger;
+                                debugger;
 
-                                  if (response.data.hasShipmentAdded == false) {
-                                      $timeout(function () {
+                                if (response.data.hasShipmentAdded == false && $location.path().includes("addShipment")) {
+                                    $timeout(function () {
 
-                                          GetAddShipmentResponse(shipmentId);
+                                        GetAddShipmentResponse(shipmentId);
 
-                                      }, 15000);
-                                  }
+                                    }, 10000);
+                                }
+                                else if (response.data.hasShipmentAdded) {
 
-                              });
+                                    vm.isShowPaymentForm = false;
+                                    vm.isShowResponse = true;
+                                    vm.savePayShipment = false;
+                                    vm.payementProgress = false;
+
+                                    vm.isShowLabel = true;
+                                    vm.labelUrl = response.data.labelUrl;
+
+                                    if (response.invoiceURL != '') {
+                                        vm.isShowInvoice = true;
+                                        vm.invoiceUrl = response.data.invoiceUrl;
+                                    }
+
+                                }
+
+                            });
                         }
 
-                        
+
 
                         vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
@@ -1020,10 +1063,10 @@
                             vm.carrierselected = false;
                             vm.isPrevDisabled = true;
                             vm.isBacktoRatesDisabled = true;
-                            saveShipment();
 
-                            //vm.isShowPaymentForm = true;
-                            //paymentForm.build();
+                            // Build form
+                            vm.isShowPaymentForm = true;
+                            paymentForm.build();
                         };
 
                         vm.saveAsDraft = function myfunction() {
@@ -1033,7 +1076,7 @@
 
                         vm.chargeFromCard = function () {
                             vm.hideSummary = true;
-                            vm.savePayShipment = true;
+                            //vm.savePayShipment = true;
                             vm.shipmentStatusMsg = '';
                             vm.payementProgress = true;
                             paymentForm.requestCardNonce();
@@ -1151,7 +1194,7 @@
                                 debugger;
                                 if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
-                                    
+
                                     if (paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);
