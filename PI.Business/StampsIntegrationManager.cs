@@ -99,11 +99,10 @@ namespace PI.Business
                     ToState=addShipment.AddressInformation.Consignee.State,
                     ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
                     FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
-                    
-                   
-                    
+                    DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString())                   
 
                 };
+                //Indiciumrequest.
 
 
 
