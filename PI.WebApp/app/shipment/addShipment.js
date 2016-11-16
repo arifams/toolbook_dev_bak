@@ -569,7 +569,7 @@
                                            // Called when the SqPaymentForm completes a request to generate a card
                                            // nonce, even if the request failed because of an error.
                                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-
+                                               debugger;
                                                vm.isViaInvoicePayment = false;
                                                if (errors) {
                                                    // This logs all errors encountered during nonce generation to the
@@ -1076,7 +1076,7 @@
 
                         vm.chargeFromCard = function () {
                             vm.hideSummary = true;
-                            vm.savePayShipment = true;
+                            //vm.savePayShipment = true;
                             vm.shipmentStatusMsg = '';
                             vm.payementProgress = true;
                             paymentForm.requestCardNonce();
