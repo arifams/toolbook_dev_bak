@@ -813,13 +813,14 @@
                                             function (response) {
                                                 vm.addingShipment = false;
                                                 //debugger;
-                                                //console.log('shipment save');
-                                                //console.log(response);
-                                                
+                                                console.log('shipment save');
+                                                console.log(response);
+
                                                 if (response.status == 2) {
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
+                                                    GetAddShipmentResponse(response.shipmentId);
                                                 }
-                                                GetAddShipmentResponse(response.shipmentId);
+                                                
 
                                             }).error(function (error) {
                                                 vm.loadingSymbole = false;
@@ -994,20 +995,20 @@
                                 console.log('rec');
                                 console.log(response);
                                 console.log(response.data.hasShipmentAdded);
-                                  debugger;
+                                debugger;
 
-                                  if (response.data.hasShipmentAdded == false) {
-                                      $timeout(function () {
+                                if (response.data.hasShipmentAdded == false && $location.path().includes("addShipment")) {
+                                    $timeout(function () {
 
-                                          GetAddShipmentResponse(shipmentId);
+                                        GetAddShipmentResponse(shipmentId);
 
-                                      }, 15000);
-                                  }
+                                    }, 15000);
+                                }
 
-                              });
+                            });
                         }
 
-                        
+
 
                         vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
@@ -1020,10 +1021,10 @@
                             vm.carrierselected = false;
                             vm.isPrevDisabled = true;
                             vm.isBacktoRatesDisabled = true;
-                            saveShipment();
 
-                            //vm.isShowPaymentForm = true;
-                            //paymentForm.build();
+                            // Build form
+                            vm.isShowPaymentForm = true;
+                            paymentForm.build();
                         };
 
                         vm.saveAsDraft = function myfunction() {
@@ -1151,7 +1152,7 @@
                                 debugger;
                                 if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
-                                    
+
                                     if (paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);
