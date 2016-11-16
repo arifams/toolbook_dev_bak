@@ -621,16 +621,19 @@ namespace PI.Business
                 // set shipment id, bcoz required in sendshipmentdetails method.
                 addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
 
+                // We required custom shipmentdto, so need to get it back. Later need to change this.
+                ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
+
                 if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 1)
                 {
-                    var response = sisManager.SendShipmentDetails(addShipment);
+                    var response = sisManager.SendShipmentDetails(shDto);
 
                     newShipment.Status = (short)ShipmentStatus.Processing;
                     context.SaveChanges();
                 }
                 else if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2 && (paymentResult.Status == Status.Success))
                 {
-                    var response = sisManager.SendShipmentDetails(addShipment);
+                    var response = sisManager.SendShipmentDetails(shDto);
 
                     newShipment.Status = (short)ShipmentStatus.Processing;
                     context.SaveChanges();
@@ -1205,6 +1208,98 @@ namespace PI.Business
             return ingrediantList;
         }
 
+        private ShipmentDto GetShipmentDtoForSIS(long shipmentId)
+        {
+            ShipmentDto shipmentDto;
+            AddShipmentResponse response;
+            ShipmentOperationResult result = new ShipmentOperationResult();
+
+            Data.Entity.Shipment shipment = context.Shipments.Where(sh => sh.Id == shipmentId).FirstOrDefault();
+
+            var shipmentProductIngredientsList = new List<ProductIngredientsDto>();
+
+            shipment.ShipmentPackage.PackageProducts.ToList().ForEach(p => shipmentProductIngredientsList.Add(new ProductIngredientsDto()
+            {
+                Description = p.Description,
+                Height = p.Height,
+                Length = p.Length,
+                Weight = p.Weight,
+                Width = p.Width,
+                Quantity = p.Quantity,
+                ProductType = Utility.GetEnumDescription((ProductType)p.ProductTypeId)
+            }));
+
+            shipmentDto = new ShipmentDto()
+            {
+                GeneralInformation = new GeneralInformationDto()
+                {
+                    ShipmentId = shipment.Id.ToString(),
+                    ShipmentName = shipment.ShipmentName,
+                    ShipmentReferenceName = shipment.ShipmentReferenceName,
+                    ShipmentServices = Utility.GetEnumDescription((ShipmentService)shipment.ShipmentService),
+                    shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode)//,
+                    //UserId = shipment.user
+                },
+                CarrierInformation = new CarrierInformationDto()
+                {
+                    CarrierName = shipment.Carrier.Name,
+                    serviceLevel = shipment.ServiceLevel,
+                    Price = shipment.ShipmentPackage.CarrierCost,
+                    Insurance = shipment.ShipmentPackage.InsuranceCost,
+                    tarriffType = shipment.TarriffType,
+                    tariffText = shipment.TariffText,
+                    description = shipment.CarrierDescription
+
+                },
+                AddressInformation = new ConsignerAndConsigneeInformationDto()
+                {
+                    Consignee = new ConsigneeDto()
+                    {
+                        FirstName = shipment.ConsigneeAddress.FirstName,
+                        LastName = shipment.ConsigneeAddress.LastName,
+                        Country = shipment.ConsigneeAddress.Country,
+                        Postalcode = shipment.ConsigneeAddress.ZipCode,
+                        Number = shipment.ConsigneeAddress.Number,
+                        Address1 = shipment.ConsigneeAddress.StreetAddress1,
+                        Address2 = shipment.ConsigneeAddress.StreetAddress2,
+                        City = shipment.ConsigneeAddress.City,
+                        State = shipment.ConsigneeAddress.State,
+                        Email = shipment.ConsigneeAddress.EmailAddress,
+                        ContactNumber = shipment.ConsigneeAddress.PhoneNumber,
+                        ContactName = shipment.ConsigneeAddress.ContactName
+                    },
+                    Consigner = new ConsignerDto()
+                    {
+                        FirstName = shipment.ConsignorAddress.FirstName,
+                        LastName = shipment.ConsignorAddress.LastName,
+                        Country = shipment.ConsignorAddress.Country,
+                        Postalcode = shipment.ConsignorAddress.ZipCode,
+                        Number = shipment.ConsignorAddress.Number,
+                        Address1 = shipment.ConsignorAddress.StreetAddress1,
+                        Address2 = shipment.ConsignorAddress.StreetAddress2,
+                        City = shipment.ConsignorAddress.City,
+                        State = shipment.ConsignorAddress.State,
+                        Email = shipment.ConsignorAddress.EmailAddress,
+                        ContactNumber = shipment.ConsignorAddress.PhoneNumber,
+                        ContactName = shipment.ConsignorAddress.ContactName
+                    }
+                },
+                PackageDetails = new PackageDetailsDto()
+                {
+                    IsInsuared = shipment.ShipmentPackage.IsInsured.ToString().ToLower(),
+                    ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
+                    ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
+                    PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
+                    CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
+                    VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
+                    ProductIngredients = shipmentProductIngredientsList,
+                    ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
+                    DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
+                }
+            };
+
+            return shipmentDto;
+        }
 
         public ShipmentOperationResult SendShipmentDetails(SendShipmentDetailsDto sendShipmentDetails)
         {
