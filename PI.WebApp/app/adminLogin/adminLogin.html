@@ -2,11 +2,13 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Parcel International-<translate>User Login</translate></title>
+    <title>One2send-User Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta content="" name="description" />
     <meta content="themes-lab" name="author" />
     <link rel="shortcut icon" href="../assets/global/images/favicon.png">
+    <link href="../../global/css/icons/font-awesome/font-awesome.min.css" rel="stylesheet" />
+    <link href="../../global/plugins/font-awesome-animation/font-awesome-animation.min.css" rel="stylesheet" />
     <link href="../../global/css/style.css" rel="stylesheet">
     <link href="../../global/css/ui.css" rel="stylesheet">
     <link href="../../global/plugins/bootstrap-loading/lada.min.css" rel="stylesheet">
@@ -30,7 +32,7 @@
                         <p class="pull-left m-t-20">{{adminLog.emailConfirmationMessage}}</p>
                     </div>
 
-                    <form class="form-signin" role="form" ng-submit="adminLog.login(user)" name="loginForm">
+                    <form class="form-signin" role="form" ng-submit="loginForm.$dirty&&adminLog.login(user)" name="loginForm" novalidate>
                         <div class="form-group">
                             <div class="prepend-icon">
                                 <input type="email" name="username" id="username" class="form-control form-ash" placeholder="{{'Email'|translate}}" required ng-model="user.username" ng-class="{ 'has-error' :loginForm.username.$error.required && loginForm.username.$dirty}">
