@@ -8,7 +8,8 @@ using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System.Xml;
 using System.Configuration;
-
+using PI.Contract.ProxyClasses;
+using PI.Contract.ProxyClasses.SwsimV55;
 
 namespace PI.Business
 {
@@ -68,19 +69,53 @@ namespace PI.Business
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
-            throw new NotImplementedException();
+            AddShipmentResponse shipmentResponse = new AddShipmentResponse();
+            AuthenticateUserRequest request = new AuthenticateUserRequest() {
+                Credentials = new Credentials()
+                {
+                    IntegrationID= Guid.Parse(StampsComIntegrationId),
+                    Username = StampsComUserName,
+                    Password=StampsComPassword
+                }
+            };
+            SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            DateTime LastLoginTime = DateTime.Now;
+            
+            AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+
+            if (AuthenticateResponse.Authenticator!= null)
+            {
+                CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
+                Indiciumrequest.Item = AuthenticateResponse.Authenticator;
+                Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
+                Indiciumrequest.Rate = new RateV20()
+                {
+                    Amount = addShipment.CarrierInformation.Price,
+                    DeclaredValue=addShipment.PackageDetails.DeclaredValue,
+                    InsuredValue=addShipment.CarrierInformation.Insurance,
+                    ServiceType=ServiceType.USPS,
+                    PackageType=PackageTypeV6.Package,
+                    ToCountry=addShipment.AddressInformation.Consignee.Country,
+                    ToState=addShipment.AddressInformation.Consignee.State,
+                    ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
+                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
+                    
+                   
+                    
+
+                };
+
+
+
+              CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
+
+
+            }
+
+
+            return shipmentResponse;
         }
-
-        private XmlDocument CreateAddShipmentSoapEnvilope()
-        {
-
-            XmlDocument soapEnvelop = new XmlDocument();
-            string x = "";
-          
-            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:xsi=""http://www.w3.org/1999/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/1999/XMLSchema""><SOAP-ENV:Body><HelloWorld xmlns=""http://tempuri.org/"" SOAP-ENV:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/""><int1 xsi:type=""xsd:integer"">12</int1><int2 xsi:type=""xsd:integer"">32</int2></HelloWorld></SOAP-ENV:Body></SOAP-ENV:Envelope>");
-            return soapEnvelop;
-        }
-
+        
 
         private string CreateAddShipmentSoapString(ShipmentDto addShipment)
         {
