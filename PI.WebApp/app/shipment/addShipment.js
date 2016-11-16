@@ -816,6 +816,8 @@
                                                 console.log('shipment save');
                                                 console.log(response);
 
+                                                vm.loadingSymbole = false;
+
                                                 if (response.status == 2) {
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
                                                     GetAddShipmentResponse(response.shipmentId);
@@ -1003,6 +1005,17 @@
                                         GetAddShipmentResponse(shipmentId);
 
                                     }, 15000);
+                                }
+                                else if(response.data.hasShipmentAdded) {
+                                    vm.labelUrl = response.labelURL;
+
+                                    vm.isShowLabel = true;
+                                    if (response.invoiceURL != '') {
+                                        vm.isShowInvoice = true;
+                                        vm.payementProgress = false;
+                                        vm.savePayShipment = false;
+                                        vm.invoiceUrl = response.invoiceURL;
+                                    }
                                 }
 
                             });

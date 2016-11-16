@@ -1517,7 +1517,10 @@ namespace PI.Business
               var shipment= this.SaveCommunicatedShipment(addShipmentResponse, shipmentId);
                 if (shipment.Status == (short)ShipmentStatus.Error)
                 {
-                    RefundCharge(shipmentId);
+                    if(shipment.ShipmentPaymentTypeId == 2)
+                    {
+                        RefundCharge(shipmentId);
+                    }
 
                     return false;
                 }
