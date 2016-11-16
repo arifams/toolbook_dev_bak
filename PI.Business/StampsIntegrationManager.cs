@@ -98,21 +98,13 @@ namespace PI.Business
                     ToCountry=addShipment.AddressInformation.Consignee.Country,
                     ToState=addShipment.AddressInformation.Consignee.State,
                     ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
-                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
-                    
-                   
-                    
-
+                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,                 
                 };
-
-
-
+                
               CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
-
-
+                
             }
-
-
+            
             return shipmentResponse;
         }
         
