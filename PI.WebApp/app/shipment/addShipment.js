@@ -569,7 +569,7 @@
                                            // Called when the SqPaymentForm completes a request to generate a card
                                            // nonce, even if the request failed because of an error.
                                            cardNonceResponseReceived: function (errors, nonce, cardData) {
-                                               
+
                                                vm.isViaInvoicePayment = false;
                                                if (errors) {
                                                    // This logs all errors encountered during nonce generation to the
@@ -670,7 +670,7 @@
 
                         //section to set the shipment mode
                         function addShipmentResponse(response) {
-
+                            debugger;
                             vm.loadingSymbole = false;
                             vm.shipmentStatusMsg = response.message;
                             vm.isShowResponse = true;
@@ -810,26 +810,53 @@
                             //}
 
                             // Save and send shipment
-                            shipmentFactory.saveShipment(vm.shipment).success(
+                            shipmentFactory.saveShipmentV1(vm.shipment).success(
                                             function (response) {
                                                 vm.addingShipment = false;
+                                                vm.loadingSymbole = false;
+
                                                 //debugger;
                                                 console.log('shipment save');
                                                 console.log(response);
 
-                                                vm.loadingSymbole = false;
-
                                                 if (response.status == 2) {
+
                                                     // adding record in db, payment success
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
-
                                                     vm.savePayShipment = true;
+                                                    vm.isShowPaymentForm = false;
 
-                                                    $timeout(function () {
+                                                    var sendShipmentDetails = {
+                                                        shipmentId: response.shipmentId
+                                                    };
 
-                                                        GetAddShipmentResponse(response.shipmentId);
+                                                    // save in SIS
+                                                    shipmentFactory.sendShipmentDetailsV1(sendShipmentDetails).success(
+                                                    function (response) {
+                                                        console.log('sendShipmentDetailsV1');
+                                                        console.log(response);
 
-                                                    }, 5000);
+                                                        addShipmentResponse(response);
+
+                                                    }).error(function (error) {
+                                                        //$('#panel-notif').noty({
+                                                        //    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while adding the Shipment') + '!</p></div>',
+                                                        //    layout: 'bottom-right',
+                                                        //    theme: 'made',
+                                                        //    animation: {
+                                                        //        open: 'animated bounceInLeft',
+                                                        //        close: 'animated bounceOutLeft'
+                                                        //    },
+                                                        //    timeout: 6000,
+                                                        //});
+                                                    });
+                                                    //vm.savePayShipment = true;
+
+                                                    //$timeout(function () {
+
+                                                    //    GetAddShipmentResponse(response.shipmentId);
+
+                                                    //}, 5000);
 
                                                 }
                                                 else if (response.status == 4) {
@@ -837,6 +864,7 @@
                                                     vm.shipmentStatusMsg = "There is issue with the charge from credit card. Please try again";
                                                 }
                                                 else if (response.status == 1) {
+                                                    
                                                     $('#panel-notif').noty({
                                                         text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while saving the Shipment') + '!</p></div>',
                                                         layout: 'bottom-right',
