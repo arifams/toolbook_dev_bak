@@ -47,7 +47,7 @@ namespace PI.Business
         ICompanyManagement companyManagment;
         private ILogger logger;
         IPaymentManager paymentManager;
-        StampsIntegrationManager stampsMenmanager;
+        StampsIntegrationManager stampsMenmanager=new StampsIntegrationManager();
 
 
         public string SISWebURLUS
