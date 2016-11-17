@@ -28,6 +28,6 @@ var SISUrlNL = 'http://www2.shipitsmarter.com/tale/';
 //var SISUrlUS = 'http://book.parcelinternational.nl/taleus/';
 //var SISUrlNL = 'http://book.parcelinternational.nl/tale/';
 
-var SISUser = 'info@parcelinternal.com';
+var SISUser = 'info@parcelinternational.com';
 
 var SISPassword = 'Shipper01';
