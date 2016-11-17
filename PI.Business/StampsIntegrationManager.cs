@@ -83,6 +83,8 @@ namespace PI.Business
             
             AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
 
+            //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel
+
             if (AuthenticateResponse.Authenticator!= null)
             {
                 CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
@@ -102,17 +104,92 @@ namespace PI.Business
                     DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString())                   
 
                 };
-                //Indiciumrequest.
+                Indiciumrequest.From = new Address
+                {
+                    FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                    LastName = addShipment.AddressInformation.Consigner.LastName,
+                    FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                    Company = addShipment.AddressInformation.Consigner.CompanyName,
+                    Address1 = addShipment.AddressInformation.Consigner.Address1,
+                    Address2 = addShipment.AddressInformation.Consigner.Address2,
+                    City = addShipment.AddressInformation.Consigner.City,
+                    State = addShipment.AddressInformation.Consigner.State,
+                    Country = addShipment.AddressInformation.Consigner.Country,
+                    PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
+                    PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber
+                };
+
+                Indiciumrequest.To = new Address
+                {
+                    FirstName =  addShipment.AddressInformation.Consignee.FirstName,
+                    LastName = addShipment.AddressInformation.Consignee.LastName,
+                    FullName =  addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                    Company = addShipment.AddressInformation.Consignee.CompanyName,
+                    Address1 = addShipment.AddressInformation.Consignee.Address1,
+                    Address2 = addShipment.AddressInformation.Consignee.Address2,
+                    City = addShipment.AddressInformation.Consignee.City,
+                    State = addShipment.AddressInformation.Consignee.State,
+                    Country = addShipment.AddressInformation.Consignee.Country,
+                    PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                    PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber
+                };
+
+                Indiciumrequest.Customs = new CustomsV4();
+                int arrayIndex = 0;
+
+                foreach (var item in addShipment.PackageDetails.ProductIngredients)
+                {                   
+                    Indiciumrequest.Customs.CustomsLines[arrayIndex] = new CustomsLine()
+                    {
+                        CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
+                        Description = item.Description,
+                        HSTariffNumber = addShipment.CarrierInformation.tariffText,
+                        Quantity = item.Quantity,
+                        WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(item.Weight)* 2.20462:Convert.ToDouble(item.Weight),
+                        Value=0,
+                       
+                    };
+                    arrayIndex++;
+                }
+               
+                CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
 
 
-
-              CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
-                
             }
             
             return shipmentResponse;
         }
+
+        private PackageTypeV6 GetPackageType(string packageType, long length, long width, long height, long weight)
+        {
+            if (packageType=="Document")
+            {
+                return PackageTypeV6.LargeEnvelopeorFlat;
+            }
+            else if (packageType == "Box" && length<12 && width<12 && height<12)
+            {
+                return PackageTypeV6.Package;
+            }
+            else if (packageType== "Box" && (length+ 2*(width+height)) <=108 &&  weight<70)
+            {
+                return PackageTypeV6.LargePackage;
+            }
+
+            else if (packageType == "Box" && (length + 2 * (width + height)) > 108 && weight < 70)
+            {
+                return PackageTypeV6.OversizedPackage;
+            }
+
+            return PackageTypeV6.Unknown;
+        }
         
+
+        //private ServiceType GetServiceType()
+        //{
+
+        //}
+
+          
 
         private string CreateAddShipmentSoapString(ShipmentDto addShipment)
         {

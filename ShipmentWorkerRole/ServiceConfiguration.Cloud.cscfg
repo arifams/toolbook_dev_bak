@@ -3,8 +3,9 @@
   <Role name="WorkerRoleWithSBQueue2">
     <Instances count="1" />
     <ConfigurationSettings>
-      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="UseDevelopmentStorage=true" />
+      <Setting name="Microsoft.WindowsAzure.Plugins.Diagnostics.ConnectionString" value="DefaultEndpointsProtocol=https;AccountName=piqacloudservicestorage;AccountKey=HU1DqoNhQyrgoEzMO1k3w50q3Xi2bwsjwsjnet7QeaD3m4Nnd4o8NLpPoWt8cXA/ThwsHHH9CX/UvTxD6/BQmg==" />
       <Setting name="Microsoft.ServiceBus.ConnectionString" value="Endpoint=sb://piqaservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=B4Kxym8vzy42jGzTOP+2Kcfly3uQov88g+r4DRapm0o=" />
+      <Setting name="APPINSIGHTS_INSTRUMENTATIONKEY" value="7e40937c-6ecf-4df1-89b4-b7246f01756c" />
     </ConfigurationSettings>
   </Role>
 </ServiceConfiguration>
