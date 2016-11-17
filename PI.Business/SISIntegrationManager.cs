@@ -247,16 +247,16 @@ namespace PI.Business
             {
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
-                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
-                { 
-                    sisUrl = SISWebURLNL;
-                    addShipment.SISCompanyCode = SISCompanyCodeNL;
-                }
-                else
-                { 
+                //if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                //{ 
+                //    sisUrl = SISWebURLNL;
+                //    addShipment.SISCompanyCode = SISCompanyCodeNL;
+                //}
+                //else
+                //{ 
                     sisUrl = SISWebURLUS;
                     addShipment.SISCompanyCode = SISCompanyCodeUS;
-                }
+               // }
             }
 
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
@@ -312,9 +312,9 @@ namespace PI.Business
                 var shipmentTarrifText = context.Shipments.Where(s => s.ShipmentCode == shipmentCode).Select(s => s.TariffText).First();
                 var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == shipmentTarrifText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
-                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
-                    sisUrl = SISWebURLNL;
-                else
+                //if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                //    sisUrl = SISWebURLNL;
+                //else
                     sisUrl = SISWebURLUS;
             }
 
