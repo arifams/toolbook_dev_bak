@@ -62,8 +62,20 @@
             GetAllShipmentCounts: GetAllShipmentCounts,
             saveAwbNo: saveAwbNo,
             UpdateShipmentReference: UpdateShipmentReference,
-            GetAddShipmentResponse: GetAddShipmentResponse
+            GetAddShipmentResponse: GetAddShipmentResponse,
+            saveShipmentV1: saveShipmentV1,
+            sendShipmentDetailsV1: sendShipmentDetailsV1
         };
+
+        function saveShipmentV1(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/saveShipmentV1', shipmentDetail);
+        }
+
+        function sendShipmentDetailsV1(shipmentDetail) {
+
+            return $http.post(serverBaseUrl + '/api/shipments/sendShipmentDetailsV1', shipmentDetail);
+        }
 
         function saveAwbNo(awbDto) {
             return $http.post(serverBaseUrl + '/api/shipments/UpdateTrackingNo', awbDto);

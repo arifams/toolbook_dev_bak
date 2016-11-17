@@ -62,5 +62,7 @@ namespace PI.Contract.DTOs.Shipment
 
         public string ErrorUrl { get; set; }
 
+        //public string UserId { get; set; }
+
     }
 }

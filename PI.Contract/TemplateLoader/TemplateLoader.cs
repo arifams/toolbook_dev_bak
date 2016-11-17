@@ -27,6 +27,14 @@ namespace PI.Contract.TemplateLoader
                 //var stream= System.Web.HttpContext.Current.Server.MapPath("~\\Templates\\USInvoiceTemplate.html");
                 template.Load(wanted_path);
             }
+            else if (name == "OrderConfirmEmail")
+            {
+
+                var uploadFolder = "~/App_Data/Templates/OrderConfirmEmail.html";
+                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+                //var stream= System.Web.HttpContext.Current.Server.MapPath("~\\Templates\\USInvoiceTemplate.html");
+                template.Load(wanted_path);
+            }
 
             return template;
         }
