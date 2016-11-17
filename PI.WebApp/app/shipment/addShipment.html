@@ -1507,7 +1507,7 @@
                             </div>
                             <div class="row m-0">
                                 <div class="col-md-12 m-l-0">
-                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;</p>
+                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;{{shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal}}</p>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -1517,7 +1517,7 @@
                             </div>
                             <div class="row m-0">
                                 <div class="col-md-12 m-l-0">
-                                    <p class="m-0" translate>Insuarance:&nbsp;</p>
+                                    <p class="m-0" translate>Insuarance:&nbsp; {{shipmentCtrl.shipment.packageDetails.isInsuared == "true" ? "Yes" : "No"}}</p>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -1804,7 +1804,7 @@
                             </div>
                             <div class="row m-0">
                                 <div class="col-md-12 m-l-0">
-                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;</p>
+                                    <p class="m-0" translate>Preferred pick-up date:&nbsp;{{shipmentCtrl.shipment.packageDetails.preferredCollectionDateLocal}}</p>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -1813,8 +1813,9 @@
                                 </div>
                             </div>
                             <div class="row m-0">
-                                <div class="col-md-12 m-l-0">
-                                    <p class="m-0" translate>Insuarance:&nbsp;</p>
+                                <div class="col-md-12 m-l-0"> 
+                                    <p class="m-0" translate>                             
+                                    Insuarance:&nbsp;{{shipmentCtrl.shipment.packageDetails.isInsuared == "true"? "Yes" : "No"}}</p>
                                 </div>
                             </div>
                             <div class="row m-0">
@@ -2009,9 +2010,9 @@
 
                                     <label> {{shipmentCtrl.shipmentStatusMsg}} </label>
 
-                                    <div class="row m-0">
+                                    <!--<div class="row m-0">
                                         <a href="#/ShipmentOverview/">View shipment</a>
-                                    </div>
+                                    </div>-->
                                     <div ng-show="shipmentCtrl.isShowLabel">
                                         <a  ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
                                     </div>

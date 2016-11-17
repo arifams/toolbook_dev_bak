@@ -489,6 +489,36 @@
                                $location.path('/addShipment/0');
                            }
 
+                           vm.openLabel = function (url) {
+                               debugger;
+                               window.open(url);
+                           }
+
+
+                           vm.OpenTab = function (row,source) {
+                               debugger;
+                               if (source == "Tracking")
+                               {
+
+                               }
+                               else if (source == "AWB") {
+
+                               }
+                               else if (source == "ComInvoice") {
+
+                               }
+                               else if (source == "Documents") {
+
+                               }
+                               $location.path('/ShipmentOverview').search({
+                                   SHIPMENT_CODE: row.generalInformation.shipmentCode,
+                                   TRACKING_NO: row.generalInformation.trackingNumber,
+                                   CARRIER: row.carrierInformation.carrierName,
+                                   CREATED_ON: row.generalInformation.createdDate,
+                                   SOURCE: jjjjjjiikkkk
+
+                               });
+                             }
 
                            vm.getShipmentStatusCounts();
 

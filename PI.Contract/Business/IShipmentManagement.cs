@@ -162,6 +162,12 @@ namespace PI.Contract.Business
 
         ShipmentDto GetShipmentResult(long shipmentId);
 
+        #region Temp solution
+
+        ShipmentOperationResult SaveShipmentV1(ShipmentDto addShipment);
+        ShipmentOperationResult SendShipmentDetailsV1(SendShipmentDetailsDto sendShipmentDetails);
+        #endregion
+
     }
 
 }

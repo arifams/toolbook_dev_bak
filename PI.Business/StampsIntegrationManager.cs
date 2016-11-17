@@ -8,7 +8,9 @@ using PI.Contract.DTOs.RateSheets;
 using PI.Contract.DTOs.Shipment;
 using System.Xml;
 using System.Configuration;
-
+using PI.Contract.ProxyClasses;
+using PI.Contract.ProxyClasses.SwsimV55;
+using PI.Contract.Enums;
 
 namespace PI.Business
 {
@@ -68,19 +70,173 @@ namespace PI.Business
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
-            throw new NotImplementedException();
+            AddShipmentResponse shipmentResponse = new AddShipmentResponse();
+            AuthenticateUserRequest request = new AuthenticateUserRequest() {
+                Credentials = new Credentials()
+                {
+                    IntegrationID= Guid.Parse(StampsComIntegrationId),
+                    Username = StampsComUserName,
+                    Password=StampsComPassword
+                }
+            };
+            SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            DateTime LastLoginTime = DateTime.Now;
+            
+            AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+
+            //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel
+
+            if (AuthenticateResponse.Authenticator!= null)
+            {
+                CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
+                Indiciumrequest.Item = AuthenticateResponse.Authenticator;
+                Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
+                Indiciumrequest.Rate = new RateV20()
+                {
+                    Amount = addShipment.CarrierInformation.Price,
+                    DeclaredValue=addShipment.PackageDetails.DeclaredValue,
+                    InsuredValue=addShipment.CarrierInformation.Insurance,
+                    ServiceType=this.GetServiceType(addShipment.CarrierInformation.serviceLevel),
+                    PackageType=PackageTypeV6.Package,
+                    ToCountry=addShipment.AddressInformation.Consignee.Country,
+                    ToState=addShipment.AddressInformation.Consignee.State,
+                    ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
+                    FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
+                    DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString())                   
+
+                };
+                Indiciumrequest.From = new Address
+                {
+                    FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                    LastName = addShipment.AddressInformation.Consigner.LastName,
+                    FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                    Company = addShipment.AddressInformation.Consigner.CompanyName,
+                    Address1 = addShipment.AddressInformation.Consigner.Address1,
+                    Address2 = addShipment.AddressInformation.Consigner.Address2,
+                    City = addShipment.AddressInformation.Consigner.City,
+                    State = addShipment.AddressInformation.Consigner.State,
+                    Country = addShipment.AddressInformation.Consigner.Country,
+                    PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
+                    PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber
+                };
+
+                Indiciumrequest.To = new Address
+                {
+                    FirstName =  addShipment.AddressInformation.Consignee.FirstName,
+                    LastName = addShipment.AddressInformation.Consignee.LastName,
+                    FullName =  addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                    Company = addShipment.AddressInformation.Consignee.CompanyName,
+                    Address1 = addShipment.AddressInformation.Consignee.Address1,
+                    Address2 = addShipment.AddressInformation.Consignee.Address2,
+                    City = addShipment.AddressInformation.Consignee.City,
+                    State = addShipment.AddressInformation.Consignee.State,
+                    Country = addShipment.AddressInformation.Consignee.Country,
+                    PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                    PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber
+                };
+
+                Indiciumrequest.Customs = new CustomsV4();
+                int arrayIndex = 0;
+
+                foreach (var item in addShipment.PackageDetails.ProductIngredients)
+                {                   
+                    Indiciumrequest.Customs.CustomsLines[arrayIndex] = new CustomsLine()
+                    {
+                        CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
+                        Description = item.Description,
+                        HSTariffNumber = addShipment.CarrierInformation.tariffText,
+                        Quantity = item.Quantity,
+                        WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(item.Weight)* 2.20462:Convert.ToDouble(item.Weight),
+                        Value=0,
+                       
+                    };
+                    arrayIndex++;
+                }
+               
+                CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
+
+                if (IndiciumResponse==null)
+                {
+                    return null;
+                }
+
+                if (IndiciumResponse.TrackingNumber!=null)
+                {
+                    shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
+                    shipmentResponse.PDF = IndiciumResponse.URL;
+                    shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
+                }
+               
+
+            }
+            
+            return shipmentResponse;
         }
 
-        private XmlDocument CreateAddShipmentSoapEnvilope()
+        private PackageTypeV6 GetPackageType(string packageType, long length, long width, long height, long weight)
         {
+            if (packageType=="Document")
+            {
+                return PackageTypeV6.LargeEnvelopeorFlat;
+            }
+            else if (packageType == "Box" && length<12 && width<12 && height<12)
+            {
+                return PackageTypeV6.Package;
+            }
+            else if (packageType== "Box" && (length+ 2*(width+height)) <=108 &&  weight<70)
+            {
+                return PackageTypeV6.LargePackage;
+            }
 
-            XmlDocument soapEnvelop = new XmlDocument();
-            string x = "";
-          
-            soapEnvelop.LoadXml(@"<SOAP-ENV:Envelope xmlns:SOAP-ENV=""http://schemas.xmlsoap.org/soap/envelope/"" xmlns:xsi=""http://www.w3.org/1999/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/1999/XMLSchema""><SOAP-ENV:Body><HelloWorld xmlns=""http://tempuri.org/"" SOAP-ENV:encodingStyle=""http://schemas.xmlsoap.org/soap/encoding/""><int1 xsi:type=""xsd:integer"">12</int1><int2 xsi:type=""xsd:integer"">32</int2></HelloWorld></SOAP-ENV:Body></SOAP-ENV:Envelope>");
-            return soapEnvelop;
+            else if (packageType == "Box" && (length + 2 * (width + height)) > 108 && weight < 70)
+            {
+                return PackageTypeV6.OversizedPackage;
+            }
+
+            return PackageTypeV6.Unknown;
+        }
+        
+
+        //get the stamps service types
+        private ServiceType GetServiceType(string serviceTypeString)
+        {
+            if (serviceTypeString== "First-Class Mail")
+            {
+                return ServiceType.USFC;
+            }
+            else if (serviceTypeString == "First-Class Package International")
+            {
+                return ServiceType.USFCI;
+            }
+            else if (serviceTypeString == "Priority Mail")
+            {
+                return ServiceType.USPM;
+            }
+            else if (serviceTypeString == "Priority Mail Express")
+            {
+                return ServiceType.USXM;
+            }
+            else if (serviceTypeString == "Priority Mail Express International")
+            {
+                return ServiceType.USEMI;
+            }
+            else if (serviceTypeString == "Priority Mail International")
+            {
+                return ServiceType.USPMI;
+            }
+            else if (serviceTypeString == "Parcel Select Ground")
+            {
+                return ServiceType.USPS;
+            }
+            else
+            {
+                return ServiceType.Unknown;
+            }
+           
+
         }
 
+          
 
         private string CreateAddShipmentSoapString(ShipmentDto addShipment)
         {
