@@ -47,7 +47,8 @@ namespace PI.Business
         ICompanyManagement companyManagment;
         private ILogger logger;
         IPaymentManager paymentManager;
-        PostmenIntegrationManager postMenmanager;
+        StampsIntegrationManager stampsMenmanager;
+
 
         public string SISWebURLUS
         {
@@ -68,7 +69,7 @@ namespace PI.Business
             //{
             //    sisManager = new MockSISIntegrationManager(_context);   // TODO : H - Remove this context. and pass mock context
             //}
-            this.postMenmanager = new PostmenIntegrationManager(logger);
+           // this.postMenmanager = new PostmenIntegrationManager(logger);
             this.sisManager = sisManager;
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
@@ -304,8 +305,8 @@ namespace PI.Business
             currentRateSheetDetails.print_button = "";
             currentRateSheetDetails.country_distance = "";
            // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
-          //  currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD";
+          // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD:USPARUSP";
 
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
@@ -1397,7 +1398,15 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-            response = sisManager.SendShipmentDetails(shipmentDto);
+            if (shipment.Carrier.Name=="USPS")
+            {
+                response = stampsMenmanager.SendShipmentDetails(shipmentDto);
+            }
+            else
+            {
+                response = sisManager.SendShipmentDetails(shipmentDto);
+            }
+                       
 
             shipment.Status = (short)ShipmentStatus.Processing;
             result.Status = Status.Processing;

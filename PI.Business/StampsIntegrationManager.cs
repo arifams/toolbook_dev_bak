@@ -10,6 +10,7 @@ using System.Xml;
 using System.Configuration;
 using PI.Contract.ProxyClasses;
 using PI.Contract.ProxyClasses.SwsimV55;
+using PI.Contract.Enums;
 
 namespace PI.Business
 {
@@ -95,7 +96,7 @@ namespace PI.Business
                     Amount = addShipment.CarrierInformation.Price,
                     DeclaredValue=addShipment.PackageDetails.DeclaredValue,
                     InsuredValue=addShipment.CarrierInformation.Insurance,
-                    ServiceType=ServiceType.USPS,
+                    ServiceType=this.GetServiceType(addShipment.CarrierInformation.serviceLevel),
                     PackageType=PackageTypeV6.Package,
                     ToCountry=addShipment.AddressInformation.Consignee.Country,
                     ToState=addShipment.AddressInformation.Consignee.State,
@@ -154,6 +155,18 @@ namespace PI.Business
                
                 CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
 
+                if (IndiciumResponse==null)
+                {
+                    return null;
+                }
+
+                if (IndiciumResponse.TrackingNumber!=null)
+                {
+                    shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
+                    shipmentResponse.PDF = IndiciumResponse.URL;
+                    shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
+                }
+               
 
             }
             
@@ -184,10 +197,44 @@ namespace PI.Business
         }
         
 
-        //private ServiceType GetServiceType()
-        //{
+        //get the stamps service types
+        private ServiceType GetServiceType(string serviceTypeString)
+        {
+            if (serviceTypeString== "First-Class Mail")
+            {
+                return ServiceType.USFC;
+            }
+            else if (serviceTypeString == "First-Class Package International")
+            {
+                return ServiceType.USFCI;
+            }
+            else if (serviceTypeString == "Priority Mail")
+            {
+                return ServiceType.USPM;
+            }
+            else if (serviceTypeString == "Priority Mail Express")
+            {
+                return ServiceType.USXM;
+            }
+            else if (serviceTypeString == "Priority Mail Express International")
+            {
+                return ServiceType.USEMI;
+            }
+            else if (serviceTypeString == "Priority Mail International")
+            {
+                return ServiceType.USPMI;
+            }
+            else if (serviceTypeString == "Parcel Select Ground")
+            {
+                return ServiceType.USPS;
+            }
+            else
+            {
+                return ServiceType.Unknown;
+            }
+           
 
-        //}
+        }
 
           
 
