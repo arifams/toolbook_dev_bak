@@ -92,17 +92,17 @@ namespace PI.Data.Migrations
                 );
 
             // Insert timezone
-            foreach (var info in TimeZoneInfo.GetSystemTimeZones())
-            {
-                context.TimeZones.AddOrUpdate(x => x.TimeZoneId, new Entity.TimeZone()
-                {
-                    TimeZoneId = info.Id,
-                    DisplayName = info.DisplayName,
-                    CreatedBy = "1",
-                    CreatedDate = DateTime.UtcNow,
-                    IsActive = true
-                });
-            }
+            //foreach (var info in TimeZoneInfo.GetSystemTimeZones())
+            //{
+            //    context.TimeZones.AddOrUpdate(x => x.TimeZoneId, new Entity.TimeZone()
+            //    {
+            //        TimeZoneId = info.Id,
+            //        DisplayName = info.DisplayName,
+            //        CreatedBy = "1",
+            //        CreatedDate = DateTime.UtcNow,
+            //        IsActive = true
+            //    });
+            //}
 
             var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new PIContext()));
             var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new PIContext()));
@@ -190,7 +190,7 @@ namespace PI.Data.Migrations
                 new Entity.Carrier() { Id = 1, Name = "TNT", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
                 new Entity.Carrier() { Id = 2, Name = "UPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
                 new Entity.Carrier() { Id = 3, Name = "FEDEX", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
-                new Entity.Carrier() { Id = 4, Name = "USPS", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.Carrier() { Id = 4, Name = "USP", CarrierNameLong = "USPS" ,IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
                 new Entity.Carrier() { Id = 5, Name = "FED", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow }
             );
 
