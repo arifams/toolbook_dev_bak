@@ -107,11 +107,9 @@ namespace PI.Business
 
 
               CreateIndiciumResponse IndiciumResponse= soapClient.CreateIndicium(Indiciumrequest);
-
-
+                
             }
-
-
+            
             return shipmentResponse;
         }
         
