@@ -681,19 +681,23 @@
 
                             if (response.status == 2) {
                                 // Success both payment and shipment.
+                                $window.localStorage.setItem('labelUrl', response.labelURL);
+                                $window.localStorage.setItem('invoiceURL', response.invoiceURL);
+                                $window.localStorage.setItem('sisErrorReferenceName', '');
+                                $location.path('/shipmentResult');
 
-                                vm.isShowPaymentForm = false;
-                                vm.payementProgress = false;
-                                vm.savePayShipment = false;
-                                vm.labelUrl = response.labelURL;
+                                //vm.isShowPaymentForm = false;
+                                //vm.payementProgress = false;
+                                //vm.savePayShipment = false;
+                                //vm.labelUrl = response.labelURL;
 
-                                vm.isShowLabel = true;
-                                if (response.invoiceURL != '') {
-                                    vm.isShowInvoice = true;
-                                    vm.payementProgress = false;
-                                    vm.savePayShipment = false;
-                                    vm.invoiceUrl = response.invoiceURL;
-                                }
+                                //vm.isShowLabel = true;
+                                //if (response.invoiceURL != '') {
+                                //    vm.isShowInvoice = true;
+                                //    vm.payementProgress = false;
+                                //    vm.savePayShipment = false;
+                                //    vm.invoiceUrl = response.invoiceURL;
+                                //}
                             }
                             else if (response.status == 4) {
                                 // PaymentError.
@@ -711,10 +715,15 @@
                             else if (response.status == 5 || response.status == 6) {
                                 // SISError.
 
-                                vm.shipmentReferenceName = response.shipmentReference;
-                                vm.isShowPaymentForm = false;
-                                vm.payementProgress = false;
-                                vm.savePayShipment = false;
+                                $window.localStorage.setItem('sisErrorReferenceName', response.shipmentReference);
+                                $window.localStorage.setItem('labelUrl', '');
+                                $window.localStorage.setItem('invoiceURL', '');
+                                $location.path('/shipmentResult');
+
+                                //vm.shipmentReferenceName = response.shipmentReference;
+                                //vm.isShowPaymentForm = false;
+                                //vm.payementProgress = false;
+                                //vm.savePayShipment = false;
                                 //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                                 //window.open(errorUrl);
                             }
@@ -1107,7 +1116,7 @@
                         }
 
                         vm.chargeFromCard = function () {
-                            vm.hideSummary = true;
+                            //vm.hideSummary = true;
                             //vm.savePayShipment = true;
                             vm.shipmentStatusMsg = '';
                             vm.payementProgress = true;
