@@ -4610,7 +4610,8 @@ namespace PI.Business
                     shipmentModeName = Utility.GetEnumDescription(shipment.ShipmentMode),
                     ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId,
                     CreatedUser = shipment.CreatedBy,
-                    CreatedBy = shipment.CreatedBy
+                    CreatedBy = shipment.CreatedBy,
+                    CreatedDate = shipment.CreatedDate.ToString("MM/dd/yyyy")
                 },
                 CarrierInformation = new CarrierInformationDto()
                 {
@@ -4666,7 +4667,10 @@ namespace PI.Business
                     VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
                     ProductIngredients = shipmentProductIngredientsList,
                     ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
-                    DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue
+                    DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue,
+                    CarrierCost = shipment.ShipmentPackage.CarrierCost.ToString(),
+                    Count = 1,
+                    TotalWeight = shipment.ShipmentPackage.TotalWeight,
                 }
             };
 
@@ -4729,6 +4733,7 @@ namespace PI.Business
                 result.Status = Status.Success;
                 result.Message = "Shipment added successfully";
                 result.ShipmentDto = shipmentDto;
+                result.ShipmentDto.GeneralInformation.TrackingNumber = shipment.TrackingNumber;
 
                 // If response.PDF is empty, get from following url.
                 if (string.IsNullOrWhiteSpace(response.PDF))
