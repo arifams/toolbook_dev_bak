@@ -1,0 +1,48 @@
+﻿<!--<div>
+
+    <label> {{resultCtrl.shipmentStatusMsg}} </label>
+
+    <div ng-show="resultCtrl.isShowLabel">
+        <a ng-click="resultCtrl.openLabel(resultCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
+    </div>
+    <div ng-hide="resultCtrl.isShowLabel">
+        <span> Something went wrong when creating shipment ( Ref : {{resultCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+
+    </div>
+    <div ng-show="resultCtrl.isShowInvoice">
+        <a href="{{resultCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
+    </div>
+    <br>
+    <div class="row m-0">
+        <div class="row m-0">
+            <div class="col-md-12">
+                <a href="#addShipment">Create another shipment</a>&nbsp;|&nbsp;<a href="#loadShipments">Go to manage shipment</a>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+<div class="panel">
+
+    <div class="panel-content panel-border">
+
+        <div ng-show="resultCtrl.labelUrl != ''">
+            <a ng-click="resultCtrl.openLabel(resultCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
+        </div>
+        <div ng-show="resultCtrl.labelUrl == ''">
+            <span> Something went wrong when creating shipment ( Ref : {{resultCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+
+        </div>
+        <div ng-show="resultCtrl.invoiceUrl != ''">
+            <a href="{{resultCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
+        </div>
+        <br>
+        <div class="row m-0">
+            <div class="row m-0">
+                <a href="#addShipment/0">Create another shipment</a>&nbsp;|&nbsp;<a href="#loadShipments">Go to manage shipment</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
