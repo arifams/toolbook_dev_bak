@@ -114,7 +114,7 @@ namespace PI.Business
         {
             string refundUuid = NewIdempotencyKey();
 
-            Money amount = NewMoney(Convert.ToInt32(paymentDto.ChargeAmount), paymentDto.CurrencyType);
+            Money amount = NewMoney(Convert.ToInt32(paymentDto.ChargeAmount * 100), paymentDto.CurrencyType);
 
             var refundBody = new CreateRefundRequest(refundUuid, paymentDto.TenderId, null, amount);
             CreateRefundResponse refundResponse = null;
