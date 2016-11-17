@@ -225,7 +225,7 @@
                                         </button>
                                         <span class="dropdown-arrow"></span>
                                         <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
-                                            <li><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads the label(s)</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads the label(s)</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/Print Air Waybill</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/Print Commercial invoice</a></li>

@@ -18,6 +18,7 @@
                            };
 
                            vm.openLabel = function (url) {
+                               debugger;
                                window.open(url);
                            }
 
@@ -50,7 +51,7 @@
                                shipmentFactory.loadAllShipments(pagedList)
                                     .success(
                                            function (responce) {
-                                                
+                                               debugger;
                                                vm.loadingSymbole = false;
                                                vm.rowCollection = responce.content;
 
@@ -278,8 +279,12 @@
                                                                                row.generalInformation.isEnableEdit = false;
                                                                                row.generalInformation.isEnableDelete = false;
 
+                                                                               debugger;
                                                                                if (source == 'delete-copy') {
-                                                                                   $location.path('/addShipment/0');
+                                                                                   $location.path('/addShipment/0').search({
+                                                                                       PARAM_SOURCE: source,
+                                                                                       PARAM_SOURCEID: row.generalInformation.shipmentId
+                                                                                   });
                                                                                }
                                                                            }
                                                                        }
@@ -291,7 +296,7 @@
                                                                    open: 'animated bounceInLeft',
                                                                    close: 'animated bounceOutLeft'
                                                                },
-                                                               timeout: 3000,
+                                                               timeout: 500,
                                                            });
 
 
@@ -436,35 +441,45 @@
 
                            vm.copyAsNewShipment = function (shipmentId) {
 
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipmentId);
-                               $location.path('/addShipment/0');
+                               $location.path('/addShipment/0').search({
+                                   PARAM_SOURCE: 'copy',
+                                   PARAM_SOURCEID: shipmentId
+                               })
                            }
 
                            vm.deleteAndCopyShipment = function (shipment) {
                                debugger;
                                // call delete shipment
-
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'delete-copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipment.generalInformation.shipmentId);
-
                                vm.deleteById(shipment, 'delete-copy');
                            }
 
                            vm.createReturnShipment = function (shipmentId) {
 
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'return-copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipmentId);
-
-                               $location.path('/addShipment/0');
+                                $location.path('/addShipment/0').search({
+                                   PARAM_SOURCE: 'return-copy',
+                                   PARAM_SOURCEID: shipmentId
+                               });
                            }
+                           
 
+                           vm.OpenTab = function (row, source) {
+                               debugger;
+                               if (row.generalInformation.status === 'Draft')
+                               {
+                                   row.generalInformation.shipmentCode = '';
+                                   row.generalInformation.trackingNumber = '';
+                                   row.generalInformation.trackingNumber = '';                                   
+                               }
+                               $location.path('/ShipmentOverview').search({
+                                   SHIPMENT_CODE: row.generalInformation.shipmentCode,
+                                   SHIPMENT_ID: row.generalInformation.shipmentId,
+                                   TRACKING_NO: row.generalInformation.trackingNumber,
+                                   CARRIER: row.carrierInformation.carrierName,
+                                   CREATED_ON: row.generalInformation.createdDate,
+                                   SOURCE: source
+
+                               });
+                           }
 
                            vm.callServerSearch = function (tableState) {
 

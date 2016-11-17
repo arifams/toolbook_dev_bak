@@ -67,8 +67,12 @@
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
 
-                        var paramSource = $window.localStorage.getItem('paramSource');
-                        var paramSourceId = $window.localStorage.getItem('paramSourceId');
+                        debugger;
+                        vm.paramSource = $location.search().PARAM_SOURCE;
+                        vm.paramSourceId = $location.search().PARAM_SOURCEID;
+
+                        //var paramSource = $window.localStorage.getItem('paramSource');
+                        //var paramSourceId = $window.localStorage.getItem('paramSourceId');
 
                         vm.closeWindow = function () {
                             ngDialog.close()
@@ -91,9 +95,9 @@
 
                                        if (responce.defaultWeightMetricId == 1) {
 
-                                           vm.shipment.packageDetails.weightUnit = "/(Kg)";
+                                           vm.shipment.packageDetails.weightUnit = "/(kg)";
                                        } else {
-                                           vm.shipment.packageDetails.weightUnit = "/(Lbs)";
+                                           vm.shipment.packageDetails.weightUnit = "/(lbs)";
                                        }
 
                                        if (responce.customerDetails != null && responce.customerDetails.customerAddress != null) {
@@ -1204,7 +1208,7 @@
 
                                 vm.shipment = data;
 
-                                if (responce.defaultVolumeMetricId == 1) {
+                                if (data.packageDetails.volumeMetricId == 1) {
 
                                     vm.shipment.packageDetails.volumeUnit = "/(cm)";
                                 } else {
@@ -1212,18 +1216,18 @@
                                     vm.shipment.packageDetails.volumeUnit = "/(inch)";
                                 }
 
-                                if (responce.defaultWeightMetricId == 1) {
+                                if (data.packageDetails.weightMetricId == 1) {
 
-                                    vm.shipment.packageDetails.weightUnit == "/(Kg)";
+                                    vm.shipment.packageDetails.weightUnit = "/(kg)";
                                 } else {
-                                    vm.shipment.packageDetails.weightUnit == "/(Lbs)";
+                                    vm.shipment.packageDetails.weightUnit = "/(lbs)";
                                 }
 
                                 debugger;
-                                if (paramSource == 'copy' || paramSource == 'delete-copy' || paramSource == 'return-copy') {
+                                if (vm.paramSource == 'copy' || vm.paramSource == 'delete-copy' || vm.paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
 
-                                    if (paramSource == 'return-copy') {
+                                    if (vm.paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);
 
@@ -1271,11 +1275,11 @@
                         vm.shipment.generalInformation.shipmentCode = "0";
 
                         debugger;
-                        if ($routeParams.id != "0" || (paramSourceId != "" && paramSourceId != null)) {
+                        if ($routeParams.id != "0" || (vm.paramSourceId != "" && vm.paramSourceId != null)) {
                             vm.editShipmentCode = $routeParams.id;
 
-                            if (paramSource != null && paramSource != '') {
-                                vm.editShipmentCode = paramSourceId;
+                            if (vm.paramSource != null && vm.paramSource != '') {
+                                vm.editShipmentCode = vm.paramSourceId;
                             }
                             // (ShipmentCode, ShipmentId)
                             debugger;
