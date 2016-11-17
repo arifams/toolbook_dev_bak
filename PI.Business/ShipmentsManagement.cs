@@ -4671,9 +4671,17 @@ namespace PI.Business
             };
 
             #endregion
-
+            AddShipmentResponse response = new AddShipmentResponse();
             // Call to SIS.
-            AddShipmentResponse response = sisManager.SendShipmentDetails(shipmentDto);
+            if (shipment.Carrier.Name=="USP")
+            {
+                response = stampsMenmanager.SendShipmentDetails(shipmentDto);
+            }
+            else
+            {
+                 response = sisManager.SendShipmentDetails(shipmentDto);
+            }
+           
 
             // Update the Shipment entity based on the result of SIS.
             shipment.ShipmentCode = response.CodeShipment;
