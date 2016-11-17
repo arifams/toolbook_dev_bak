@@ -1506,13 +1506,13 @@ namespace PI.Service.Controllers
             StringBuilder emailbody = new StringBuilder(htmlTemplate);
 
             emailbody
-                .Replace("<OrderReference>", result.ShipmentDto.GeneralInformation.ShipmentName)
-                .Replace("<PickupDate>", result.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(result.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
-                .Replace("<ShipmentMode>", result.ShipmentDto.GeneralInformation.shipmentModeName)
-                .Replace("<ShipmentType>", result.ShipmentDto.GeneralInformation.ShipmentServices)
-                .Replace("<Carrier>", result.ShipmentDto.CarrierInformation.CarrierName)
-                .Replace("<ShipmentPrice>", result.ShipmentDto.PackageDetails.ValueCurrencyString + " " + result.ShipmentDto.CarrierInformation.Price.ToString())
-                .Replace("<PaymentType>", result.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
+                .Replace("{OrderReference}", result.ShipmentDto.GeneralInformation.ShipmentName)
+                .Replace("{PickupDate}", result.ShipmentDto.CarrierInformation.PickupDate != null ? Convert.ToDateTime(result.ShipmentDto.CarrierInformation.PickupDate).ToShortDateString() : string.Empty)
+                .Replace("{ShipmentMode}", result.ShipmentDto.GeneralInformation.shipmentModeName)
+                .Replace("{ShipmentType}", result.ShipmentDto.GeneralInformation.ShipmentServices)
+                .Replace("{Carrier}", result.ShipmentDto.CarrierInformation.CarrierName)
+                .Replace("{ShipmentPrice}", result.ShipmentDto.PackageDetails.ValueCurrencyString + " " + result.ShipmentDto.CarrierInformation.Price.ToString())
+                .Replace("{PaymentType}", result.ShipmentDto.GeneralInformation.ShipmentPaymentTypeName);
 
             StringBuilder productList = new StringBuilder();
             decimal totalVol = 0;
@@ -1521,20 +1521,20 @@ namespace PI.Service.Controllers
             {
                 productList.Append("<tr>");
 
-                productList.Append("<td style='width:290px;text-align:center;color:#fff'>");
+                productList.Append("<td style='width:290px;text-align:center;color:#11110d'>");
                 productList.Append(product.ProductType);
                 productList.Append("</td>");
 
-                productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                productList.Append("<td style='width:290px;text-align:center;color:#11110d;'>");
                 productList.Append(product.Quantity);
                 productList.Append("</td>");
 
-                productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                productList.Append("<td style='width:290px;text-align:center;color:#11110d;'>");
                 productList.Append(product.Weight.ToString("n2"));
                 productList.Append("</td>");
 
                 totalVol = product.Length * product.Width * product.Height * product.Quantity;
-                productList.Append("<td style='width:290px;text-align:center;color:#fff;'>");
+                productList.Append("<td style='width:290px;text-align:center;color:#11110d;'>");
                 productList.Append(totalVol.ToString("n2"));
                 productList.Append("</td>");
 
@@ -1542,7 +1542,7 @@ namespace PI.Service.Controllers
             }
 
             emailbody
-                .Replace("<tableRecords>", productList.ToString());
+                .Replace("{tableRecords}", productList.ToString());
 
             AppUserManager.SendEmail(result.ShipmentDto.GeneralInformation.CreatedBy, "Order Confirmation", emailbody.ToString());
 
