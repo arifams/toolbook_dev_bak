@@ -45,7 +45,30 @@ namespace PI.Business
 
         public void DeleteShipment(string shipmentCode)
         {
-            throw new NotImplementedException();
+
+            AuthenticateUserRequest request = new AuthenticateUserRequest()
+            {
+                Credentials = new Credentials()
+                {
+                    IntegrationID = Guid.Parse(StampsComIntegrationId),
+                    Username = StampsComUserName,
+                    Password = StampsComPassword
+                }
+            };
+            SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            DateTime LastLoginTime = DateTime.Now;
+
+            AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+            CancelIndiciumRequest cancelRequest = new CancelIndiciumRequest();
+            CancelIndiciumResponse cancelResponse = new CancelIndiciumResponse();
+
+            if (AuthenticateResponse.Authenticator!=null)
+            {
+                cancelRequest.Item = AuthenticateResponse.Authenticator;
+                cancelRequest.Item1 = shipmentCode;
+                cancelResponse= soapClient.CancelIndicium(cancelRequest);
+            }
+
         }
 
         public string GetLabel(string shipmentCode)
@@ -84,10 +107,56 @@ namespace PI.Business
             
             AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
 
-            //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel
-
-            if (AuthenticateResponse.Authenticator!= null)
+            if (AuthenticateResponse.Authenticator != null)
             {
+
+             CleanseAddressRequest fromAddressRequest = new CleanseAddressRequest()
+             {
+                Address = new Address
+                {
+                    Address1=addShipment.AddressInformation.Consigner.Address1,
+                    Address2= addShipment.AddressInformation.Consigner.Address2,
+                    City= addShipment.AddressInformation.Consigner.City,
+                    State=addShipment.AddressInformation.Consigner.State,
+                    Country=addShipment.AddressInformation.Consigner.Country,
+                    PostalCode=addShipment.AddressInformation.Consigner.Postalcode
+                },              
+                Item= AuthenticateResponse.Authenticator
+                };
+
+
+                CleanseAddressRequest toAddressRequest = new CleanseAddressRequest()
+                {
+                    Address = new Address
+                    {
+                        Address1 = addShipment.AddressInformation.Consignee.Address1,
+                        Address2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        PostalCode = addShipment.AddressInformation.Consignee.Postalcode
+                    },                   
+                    Item = AuthenticateResponse.Authenticator
+                };
+
+
+                CleanseAddressResponse fromAddressResponse = soapClient.CleanseAddress(fromAddressRequest);
+                CleanseAddressResponse toAddressResponse = soapClient.CleanseAddress(toAddressRequest);
+
+
+               //add Adon to rate object to hide the rate amount from the label
+                AddOnV7 hiddenRateAddOn = new AddOnV7()
+                {
+                    Amount = addShipment.CarrierInformation.Price,
+                    AddOnType = AddOnTypeV7.SCAHP                    
+                };
+
+                AddOnV7[] rateAddonArray = null;
+                rateAddonArray[0] = hiddenRateAddOn;
+
+                //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel
+
+
                 CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
                 Indiciumrequest.Item = AuthenticateResponse.Authenticator;
                 Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
@@ -102,38 +171,92 @@ namespace PI.Business
                     ToState=addShipment.AddressInformation.Consignee.State,
                     ToZIPCode=addShipment.AddressInformation.Consignee.Postalcode,
                     FromZIPCode=addShipment.AddressInformation.Consigner.Postalcode,
-                    DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString())                   
+                    DeliveryDate= DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString()),
+                    AddOns= rateAddonArray
 
                 };
-                Indiciumrequest.From = new Address
-                {
-                    FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                    LastName = addShipment.AddressInformation.Consigner.LastName,
-                    FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                    Company = addShipment.AddressInformation.Consigner.CompanyName,
-                    Address1 = addShipment.AddressInformation.Consigner.Address1,
-                    Address2 = addShipment.AddressInformation.Consigner.Address2,
-                    City = addShipment.AddressInformation.Consigner.City,
-                    State = addShipment.AddressInformation.Consigner.State,
-                    Country = addShipment.AddressInformation.Consigner.Country,
-                    PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
-                    PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber
-                };
 
-                Indiciumrequest.To = new Address
+                if (fromAddressResponse.AddressMatch)
                 {
-                    FirstName =  addShipment.AddressInformation.Consignee.FirstName,
-                    LastName = addShipment.AddressInformation.Consignee.LastName,
-                    FullName =  addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                    Company = addShipment.AddressInformation.Consignee.CompanyName,
-                    Address1 = addShipment.AddressInformation.Consignee.Address1,
-                    Address2 = addShipment.AddressInformation.Consignee.Address2,
-                    City = addShipment.AddressInformation.Consignee.City,
-                    State = addShipment.AddressInformation.Consignee.State,
-                    Country = addShipment.AddressInformation.Consignee.Country,
-                    PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
-                    PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber
-                };
+                    //sending clensed address with cleanse hash
+                    Indiciumrequest.From = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consigner.CompanyName,
+                        Address1 = fromAddressResponse.Address.Address1,
+                        Address2 = fromAddressResponse.Address.Address2,
+                        City = fromAddressResponse.Address.City,
+                        State = fromAddressResponse.Address.State,
+                        Country = fromAddressResponse.Address.Country,
+                        PostalCode = fromAddressResponse.Address.PostalCode,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        CleanseHash= fromAddressResponse.Address.CleanseHash
+                    };
+
+                }
+                else
+                {
+                    //sending the normal address with overrided hash
+                    Indiciumrequest.From = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consigner.CompanyName,
+                        Address1 = addShipment.AddressInformation.Consigner.Address1,
+                        Address2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        CleanseHash = fromAddressResponse.Address.OverrideHash
+                    };
+
+                }
+
+                if (toAddressResponse.AddressMatch)
+                {
+                    Indiciumrequest.To = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consignee.CompanyName,
+                        Address1 = toAddressResponse.Address.Address1,
+                        Address2 = toAddressResponse.Address.Address2,
+                        City = toAddressResponse.Address.City,
+                        State = toAddressResponse.Address.State,
+                        Country = toAddressResponse.Address.Country,
+                        PostalCode = toAddressResponse.Address.PostalCode,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        CleanseHash=toAddressResponse.Address.CleanseHash
+                    };
+
+                }
+                else
+                {
+                    Indiciumrequest.To = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consignee.CompanyName,
+                        Address1 = addShipment.AddressInformation.Consignee.Address1,
+                        Address2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        OverrideHash=toAddressResponse.Address.CleanseHash
+                    };
+
+                }
+
+               
 
                 Indiciumrequest.Customs = new CustomsV4();
                 int arrayIndex = 0;
@@ -162,9 +285,11 @@ namespace PI.Business
 
                 if (IndiciumResponse.TrackingNumber!=null)
                 {
+
                     shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
                     shipmentResponse.PDF = IndiciumResponse.URL;
                     shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
+                    
                 }
                
 

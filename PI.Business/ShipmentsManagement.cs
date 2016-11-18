@@ -1398,7 +1398,7 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-            if (shipment.Carrier.Name=="USPS")
+            if (shipment.Carrier.Name=="USP")
             {
                 response = stampsMenmanager.SendShipmentDetails(shipmentDto);
             }
@@ -1431,7 +1431,7 @@ namespace PI.Business
                 result.ShipmentCode = response.CodeShipment;
                 result.ShipmentReference = shipment.ShipmentReferenceName;
                 shipment.Provider = "Ship It Smarter";
-
+                shipment.Status = (short)ShipmentStatus.Error;
             }
 
             else
@@ -1464,7 +1464,7 @@ namespace PI.Business
                 }
                 result.ShipmentId = shipment.Id;
                 shipment.Status = (short)ShipmentStatus.BookingConfirmation;
-
+                shipment.Provider = "Ship It Smarter";
                 //adding the shipment label to azure
                 // For now replace userid from created by
                 sendShipmentDetails.UserId = shipment.CreatedBy;
