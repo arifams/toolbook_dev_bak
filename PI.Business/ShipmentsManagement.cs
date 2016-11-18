@@ -4747,7 +4747,7 @@ namespace PI.Business
             {
                 // Update Shipment entity
                 shipment.Provider = "Ship It Smarter";
-                shipment.Status = (short)Status.SISError;
+                shipment.Status = (short)ShipmentStatus.Error;
                 context.SaveChanges();
 
                 // This is SIS error.

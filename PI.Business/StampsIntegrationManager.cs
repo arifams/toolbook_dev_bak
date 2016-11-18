@@ -286,6 +286,28 @@ namespace PI.Business
                 if (IndiciumResponse.TrackingNumber!=null)
                 {
 
+                    CarrierPickupRequest pickupRequest = new CarrierPickupRequest()
+                    {
+                        Item = AuthenticateResponse.Authenticator,
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Address = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.Address1 +" "+ fromAddressResponse.Address.Address2 : addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2,
+                        City= fromAddressResponse.AddressMatch == true ?fromAddressResponse.Address.City: addShipment.AddressInformation.Consigner.City,
+                        State = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.State : addShipment.AddressInformation.Consigner.State,
+                        ZIP= fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
+                        PhoneNumber=addShipment.AddressInformation.Consigner.ContactNumber,
+                        TotalWeightOfPackagesLbs=addShipment.PackageDetails.CmLBS==true?  Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight)* 2.20462) :  Convert.ToInt32(addShipment.PackageDetails.TotalWeight),
+                        NumberOfExpressMailPieces=1
+                    };
+
+                    //sending pickup request for the shipment
+                    CarrierPickupResponse pickupResponse = soapClient.CarrierPickup(pickupRequest);
+
+                    if (pickupResponse!=null)
+                    {
+                        shipmentResponse.DatePickup = pickupResponse.PickupDate;
+                    }
+
                     shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
                     shipmentResponse.PDF = IndiciumResponse.URL;
                     shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
