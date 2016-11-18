@@ -32,5 +32,8 @@ namespace PI.Contract.DTOs.Shipment
         public short PaymentTypeId { get; set; }
         public string ValueCurrencyString { get; set; }
 
+        public short VolumeMetricId { get; set; }
+        public short WeightMetricId { get; set; }
+
     }
 }

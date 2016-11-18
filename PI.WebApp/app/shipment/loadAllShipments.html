@@ -261,17 +261,20 @@
                                             </button>
                                             <span class="dropdown-arrow"></span>
                                             <ul class="dropdown-menu custom-dropdown m-0" role="menu">
-                                                <li><a ng-click="loadShipCtrl.openLabel(loadShipCtrl.shipmentLabel)">Downloads the label(s)</a></li>
-                                                <li ng-hide="row.generalInformation.shipmentCode == null"><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View Details & Tracking</a></li>
-                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>
-                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">Edit/Print Commercial invoice</a></li>
-                                                <li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Add Documents</a></li>
+                                              
+                                                <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Booking error')"><a ng-click="loadShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Download Shipment Label(s)</a></li>
+                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
+                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
+                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
+                                                <!--<li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>-->
+                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
                                                 <hr class="m-0">
-                                                <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit shipments</a></li>
-                                                <li><a href="javascript:;" ng-click="loadShipCtrl.deleteById(row)">Delete shipments</a></li>
-                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as new shipment</a></li>
-                                                <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="loadShipCtrl.deleteAndCopyShipment(row)"> Delete & copy as new shipment</a></li>
-                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create return shipment</a></li>
+                                                <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit Shipment</a></li>
+                                                <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="loadShipCtrl.deleteById(row)">Delete Shipment</a></li>
+                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as New Shipment</a></li>
+                                                <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="loadShipCtrl.deleteAndCopyShipment(row)"> Delete & Copy as New Shipment</a></li>
+                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create Return Shipment</a></li>
+
                                             </ul>
                                         </div>
                                     </td>

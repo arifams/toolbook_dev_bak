@@ -148,6 +148,8 @@
     <Content Include="app\shipment\shipmentManagement.js" />
     <Content Include="app\shipment\ShipmentOverview.html" />
     <Content Include="app\shipment\ShipmentOverview.js" />
+    <Content Include="app\shipment\shipmentResult.html" />
+    <Content Include="app\shipment\shipmentResult.js" />
     <Content Include="app\shipment\shipmentService.js" />
     <Content Include="app\shipment\shipmentError.html" />
     <Content Include="app\shipment\shipmentError.js" />

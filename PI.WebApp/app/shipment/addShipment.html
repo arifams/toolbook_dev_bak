@@ -1925,13 +1925,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-1 m-r-10">
-                                        <button ng-click="shipmentCtrl.backToRates()" class="btn btn-primary" translate>
+                                        <button ng-click="shipmentCtrl.backToRates()" class="btn btn-primary" ng-disabled="!shipmentCtrl.carrierselected" translate>
                                             Previous
                                         </button>
                                     </div>
 
                                     <div class="col-sm-2">
-                                        <button class="btn btn-primary no-margin pull-right" ng-click="shipmentCtrl.saveAsDraft()" translate>Save as Draft</button>
+                                        <button class="btn btn-primary no-margin pull-right" ng-click="shipmentCtrl.saveAsDraft()" ng-disabled="!shipmentCtrl.carrierselected" translate>Save as Draft</button>
                                     </div>
 
                                 <div class="col-sm-2" style="float:right;" 
@@ -2006,32 +2006,7 @@
 
                                 </div>
 
-                                <div class="col-sm-12" ng-hide="shipmentCtrl.isShowPaymentForm">
-
-                                    <label> {{shipmentCtrl.shipmentStatusMsg}} </label>
-
-                                    <!--<div class="row m-0">
-                                        <a href="#/ShipmentOverview/">View shipment</a>
-                                    </div>-->
-                                    <div ng-show="shipmentCtrl.isShowLabel">
-                                        <a  ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
-                                    </div>
-                                    <div ng-hide="shipmentCtrl.isShowLabel">
-                                        <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
-
-                                    </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice && !isViaInvoicePayment">
-                                        <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
-                                    </div>
-                                    <br>
-                                    <div class="row m-0">
-                                        <div class="row m-0">
-                                            <div class="col-md-12">
-                                                <a onclick="location.reload();">Create another shipment</a>&nbsp;|&nbsp;<a href="#loadShipments">Go to manage shipment</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <!-- shipment result div moved from here to shipmentResult page -->
 
                             </div>
 
