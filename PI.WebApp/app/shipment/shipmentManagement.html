@@ -168,7 +168,7 @@
             </div>
             
  
-            <div class="row m-0" style="overflow-x:auto">
+            <div class="row m-0" style="overflow-y:scroll;overflow-x:hidden">
                 <!--<table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
                         <thead>
@@ -182,7 +182,7 @@
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
                                 <th translate>Error</th>
-                                <th translate>Action</th>
+                                <th translate class="text-center" style="width:11%">Action</th>
                                 <!--<th translate>Edit</th>
                                 <th translate>Delete</th>-->
                             </tr>
@@ -217,14 +217,14 @@
                                 <td > <a href={{row.generalInformation.errorUrl}}   ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
                               
                                 
-                                <td>
+                                <td style="text-align:center;width:15%">
                                     <div class="btn-group m-r-0" dropdown="">
 
                                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                             Action <span class="caret"></span>
                                         </button>
                                         <span class="dropdown-arrow"></span>
-                                        <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
+                                        <ul class="dropdown-menu custom-dropdown m-0" role="menu">
                                             <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads Shipment Label(s)</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
