@@ -381,6 +381,11 @@ var MakeApp = angular
               controller: 'organizationUsersCtrl',
               controllerAs: 'orgMgtCtrl'
           })
+          .when('/shipmentResult', {
+              templateUrl: 'shipment/shipmentResult.html',
+              controller: 'shipmentResultCtrl',
+              controllerAs: 'resultCtrl'
+          })
         .otherwise({
             // redirectTo: '/loadShipments'
             resolve: {

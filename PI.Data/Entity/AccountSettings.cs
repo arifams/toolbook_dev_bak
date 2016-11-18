@@ -20,22 +20,22 @@ namespace PI.Data.Entity
         #region Navigation Property
 
         [ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
+        public virtual Customer Customer { get; set; }
 
         [ForeignKey("DefaultLanguageId")]
-        public Language DefaultLanguage { get; set; }
+        public virtual Language DefaultLanguage { get; set; }
 
         [ForeignKey("DefaultCurrencyId")]
-        public Currency DefaultCurrency { get; set; }
+        public virtual Currency DefaultCurrency { get; set; }
 
         [ForeignKey("DefaultTimeZoneId")]
-        public TimeZone DefaultTimeZone { get; set; }
+        public virtual TimeZone DefaultTimeZone { get; set; }
 
         [ForeignKey("WeightMetricId")]
-        public WeightMetric DefaultWeightMetric { get; set; }
+        public virtual WeightMetric DefaultWeightMetric { get; set; }
 
         [ForeignKey("VolumeMetricId")]
-        public VolumeMetric DefaultVolumeMetric { get; set; }
+        public virtual VolumeMetric DefaultVolumeMetric { get; set; }
 
 
         #endregion

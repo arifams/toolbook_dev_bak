@@ -279,17 +279,36 @@
                                                    .success(function (response) {
                                                        if (response == 1) {
 
-                                                           row.generalInformation.status = 'Deleted';
-                                                           row.generalInformation.isEnableEdit = false;
-                                                           row.generalInformation.isEnableDelete = false;
+                                                           $('#panel-notif').noty({
+                                                               text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully') + '!</p></div>',
+                                                               buttons: [
+                                                                       {
+                                                                           addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+       
+                                                                               $noty.close();
+                                                                               row.generalInformation.status = 'Deleted';
+                                                                               row.generalInformation.isEnableEdit = false;
+                                                                               row.generalInformation.isEnableDelete = false;
+                                                     
+                                                                               debugger;
+                                                                               if (source == 'delete-copy') {
+                                                                                   $location.path('/addShipment/0').search({
+                                                                                       PARAM_SOURCE: source,
+                                                                                       PARAM_SOURCEID: row.generalInformation.shipmentId
+                                                                                   });
+                                                                               }                                                                               
+                                                                           }
+                                                                       }
 
-                                                           if (source == 'delete-copy') {
-                                                               $location.path('/addShipment/0');
-                                                           }
-                                                           //var index = vm.rowCollection.indexOf(row);
-                                                           //if (index !== -1) {
-                                                           //    vm.rowCollection.splice(index, 1);
-                                                           //}
+                                                               ],
+                                                               layout: 'bottom-right',
+                                                               theme: 'made',
+                                                               animation: {
+                                                                   open: 'animated bounceInLeft',
+                                                                   close: 'animated bounceOutLeft'
+                                                               },
+                                                               timeout: 500,
+                                                           });
                                                        }
                                                    })
                                        .error(function () {
@@ -459,35 +478,44 @@
                            }
 
                            vm.copyAsNewShipment = function (shipmentId) {
-                               
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipmentId);
-                               $location.path('/addShipment/0');
+                               debugger;
+                               $location.path('/addShipment/0').search({
+                                   PARAM_SOURCE: 'copy',
+                                   PARAM_SOURCEID: shipmentId
+                               });
+
+                               //$window.localStorage.setItem('paramSource', null);
+                               //$window.localStorage.setItem('paramSource', 'copy');
+                               //$window.localStorage.setItem('paramSourceId', null);
+                               //$window.localStorage.setItem('paramSourceId', shipmentId);
+                               //$location.path('/addShipment/0');
                            }
 
                            vm.deleteAndCopyShipment = function (shipment) {
                                debugger;
                                // call delete shipment
-                      
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'delete-copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipment.generalInformation.shipmentId);
+
+                               //$window.localStorage.setItem('paramSource', null);
+                               //$window.localStorage.setItem('paramSource', 'delete-copy');
+                               //$window.localStorage.setItem('paramSourceId', null);
+                               //$window.localStorage.setItem('paramSourceId', shipment.generalInformation.shipmentId);
 
                                vm.deleteById(shipment, 'delete-copy');                      
                            }
                            
                            vm.createReturnShipment = function (shipmentId) {
 
-                               $window.localStorage.setItem('paramSource', null);
-                               $window.localStorage.setItem('paramSource', 'return-copy');
-                               $window.localStorage.setItem('paramSourceId', null);
-                               $window.localStorage.setItem('paramSourceId', shipmentId);
+                               //$window.localStorage.setItem('paramSource', null);
+                               //$window.localStorage.setItem('paramSource', 'return-copy');
+                               //$window.localStorage.setItem('paramSourceId', null);
+                               //$window.localStorage.setItem('paramSourceId', shipmentId);
 
-                               $location.path('/addShipment/0');
+                               $location.path('/addShipment/0').search({
+                                   PARAM_SOURCE: 'return-copy',
+                                   PARAM_SOURCEID: shipmentId
+                               });
                            }
+
 
                            vm.openLabel = function (url) {
                                debugger;
@@ -497,25 +525,13 @@
 
                            vm.OpenTab = function (row,source) {
                                debugger;
-                               if (source == "Tracking")
-                               {
-
-                               }
-                               else if (source == "AWB") {
-
-                               }
-                               else if (source == "ComInvoice") {
-
-                               }
-                               else if (source == "Documents") {
-
-                               }
+                            
                                $location.path('/ShipmentOverview').search({
                                    SHIPMENT_CODE: row.generalInformation.shipmentCode,
                                    TRACKING_NO: row.generalInformation.trackingNumber,
                                    CARRIER: row.carrierInformation.carrierName,
                                    CREATED_ON: row.generalInformation.createdDate,
-                                   SOURCE: jjjjjjiikkkk
+                                   SOURCE: source
 
                                });
                              }
