@@ -1123,6 +1123,8 @@ div.inside_content {
     margin-bottom:17px;
     border-radius:6px;
     width:11%;
+    min-width:124px;
+    margin-right:16px;
 }
 .widget-infobox .right .pull-left {
     margin-bottom: 10px;
@@ -1716,9 +1718,7 @@ a.list-group-item:focus, a.list-group-item:hover {
     background-color:#add8e1;
     color: #FFF;
 }
-.widget-infobox .infobox {
-    min-width:124px;
-}
+
 .dashboard-status {
     padding:10px;
     background-color:#fff;
@@ -1732,9 +1732,7 @@ a.list-group-item:focus, a.list-group-item:hover {
     padding: 8px;
     width: 35px;
 }
-.widget-infobox .infobox {
-    margin-right:14px;
-}
+
 #panel-footer2 {
     background-color:#B1DBFB;
     min-height:5px;
