@@ -96,7 +96,14 @@ namespace PI.Service.Controllers
 
                 ApplicationUser existingUser = AppUserManager.FindByName(createUserModel.Email);
 
-                bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.UtcNow;
+                if (existingUser != null && existingUser.EmailConfirmed)
+                {
+                    // User existing and already confirmed the email address.
+                    return BadRequest("Email address is already in use!");
+                }
+
+
+                bool isUserExistAndOldAccount = existingUser != null && existingUser.JoinDate.AddHours(24) < DateTime.UtcNow && !existingUser.EmailConfirmed;
 
                 if (!createUserModel.viaExternalLogin && isUserExistAndOldAccount)
                 {
@@ -142,12 +149,7 @@ namespace PI.Service.Controllers
                         // Save in customer table.
                         customerManagement.SaveCustomer(createUserModel);
                     }
-                    else
-                    {
-                        return BadRequest("Email address is already in use!");
-                    }
-
-
+                    
                     // Add Business Owner Role to user
                     AppUserManager.AddToRole(user.Id, "BusinessOwner");
 
@@ -168,6 +170,10 @@ namespace PI.Service.Controllers
 
                         #endregion
                     }
+                }
+                else
+                {
+                    return BadRequest("Email address is already in use!");
                 }
 
                 //Uri locationHeader = new Uri(Url.Link("GetUserById", new { id = user.Id }));

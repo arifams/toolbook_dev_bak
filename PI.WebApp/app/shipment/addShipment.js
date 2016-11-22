@@ -1438,12 +1438,18 @@
                                                     addr.country = results[0].address_components[ii].short_name;
                                                 }
                                             }
-                                            addr.success = true;
+                                            
                                             $scope.$apply(function () {
-                                                vm.shipment.addressInformation.consigner.city = addr.city;
-                                                vm.shipment.addressInformation.consigner.state = addr.state;
-                                                vm.shipment.addressInformation.consigner.country = addr.country;
-                                                vm.errorCodeConsignor = false;
+                                                if (addr.country == vm.shipment.addressInformation.consigner.country) {
+                                                    // Check search zip code return the selected country
+                                                    vm.shipment.addressInformation.consigner.city = addr.city;
+                                                    vm.shipment.addressInformation.consigner.state = addr.state;
+                                                    vm.errorCodeConsignor = false;
+                                                    addr.success = true;
+                                                }
+                                                else {
+                                                    vm.errorCodeConsignor = true;
+                                                }
                                             });
 
                                         } else {
@@ -1505,13 +1511,21 @@
                                                     addr.country = results[0].address_components[ii].short_name;
                                                 }
                                             }
-                                            addr.success = true;
+                                            
                                             //assign retrieved address details
                                             $scope.$apply(function () {
-                                                vm.shipment.addressInformation.consignee.city = addr.city;
-                                                vm.shipment.addressInformation.consignee.state = addr.state;
-                                                vm.shipment.addressInformation.consignee.country = addr.country;
-                                                vm.errorCodeConsignee = false;
+
+                                                if (  addr.country == vm.shipment.addressInformation.consignee.country) {
+                                                    // Check search zip code return the selected country
+                                                    vm.shipment.addressInformation.consignee.city = addr.city;
+                                                    vm.shipment.addressInformation.consignee.state = addr.state;
+                                                    vm.errorCodeConsignee = false;
+                                                    addr.success = true;
+                                                }
+                                                else {
+                                                    vm.errorCodeConsignee = true;
+                                                }
+                                                
                                             });
 
 
@@ -1536,23 +1550,38 @@
                             }
                         }
 
+                        vm.requiredConsignorCountry = false;
+
                         //get the address details via google API
                         vm.getAddressInformationConsignor = function () {
 
-                            if (vm.shipment.addressInformation.consigner.postalcode == null || vm.shipment.addressInformation.consigner.postalcode == '') {
+                            vm.requiredConsignorCountry = false;
+
+                            if (vm.shipment.addressInformation.consigner.country == undefined) {
                                 vm.errorCode = true;
-                            } else {
+                            }
+                            else if (vm.shipment.addressInformation.consigner.postalcode == null || vm.shipment.addressInformation.consigner.postalcode == '') {
+                                vm.errorCode = true;
+                            }
+                            else {
                                 vm.getAddressInfoByZipConsignor(vm.shipment.addressInformation.consigner.postalcode + ' ' + vm.shipment.addressInformation.consigner.country);
                             }
 
                         }
 
+                        vm.requiredConsigneeCountry = false;
                         //get the address details via google API
                         vm.getAddressInformationConsignee = function () {
 
-                            if (vm.shipment.addressInformation.consignee.postalcode == null || vm.shipment.addressInformation.consignee.postalcode == '') {
+                            vm.requiredConsigneeCountry = false;
+
+                            if (vm.shipment.addressInformation.consignee.country == undefined) {
+                                vm.requiredConsigneeCountry = true;
+                            }
+                            else if (vm.shipment.addressInformation.consignee.postalcode == null || vm.shipment.addressInformation.consignee.postalcode == '') {
                                 vm.errorCode = true;
-                            } else {
+                            }
+                            else {
                                 vm.getAddressInfoByZipConsignee(vm.shipment.addressInformation.consignee.postalcode + ' ' + vm.shipment.addressInformation.consignee.country);
                             }
                         }
