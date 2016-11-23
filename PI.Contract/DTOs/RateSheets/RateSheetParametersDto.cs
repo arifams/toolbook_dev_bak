@@ -78,8 +78,8 @@ namespace PI.Contract.DTOs.RateSheets
         public string account { get; set; }
         public string code_customer { get; set; }
         public string ind_delivery_inside { get; set; }
-        public string url { get; set; }      
-        
-       
+        public string url { get; set; }
+
+        public string UserIdForTimeConvert { get; set; }
     }
 }
