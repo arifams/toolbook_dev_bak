@@ -4713,7 +4713,8 @@ namespace PI.Business
                     DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue,
                     CarrierCost = shipment.ShipmentPackage.CarrierCost.ToString(),
                     Count = 1,
-                    TotalWeight = shipment.ShipmentPackage.TotalWeight,
+                    TotalVolume = shipment.ShipmentPackage.TotalVolume,
+                    TotalWeight = shipment.ShipmentPackage.TotalWeight
                 }
             };
 
