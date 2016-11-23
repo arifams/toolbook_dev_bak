@@ -128,15 +128,13 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consigner.City,
                             State = addShipment.AddressInformation.Consigner.State,
                             Country = addShipment.AddressInformation.Consigner.Country,
-                            PostalCode = addShipment.AddressInformation.Consigner.Postalcode
+                            ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
                         },
                         Item = AuthenticateResponse.Authenticator
                     };
 
                     CleanseAddressResponse fromAddressResponse = soapClient.CleanseAddress(fromAddressRequest);
-
-                    AuthenticateResponse = soapClient.AuthenticateUser(request);
-
+                     
                     CleanseAddressRequest toAddressRequest = new CleanseAddressRequest()
                     {
                         Address = new Address
@@ -148,9 +146,9 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consignee.City,
                             State = addShipment.AddressInformation.Consignee.State,
                             Country = addShipment.AddressInformation.Consignee.Country,
-                            PostalCode = addShipment.AddressInformation.Consignee.Postalcode
+                            ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         },
-                        Item = AuthenticateResponse.Authenticator
+                        Item = fromAddressResponse.Authenticator
                     };
                     CleanseAddressResponse toAddressResponse = soapClient.CleanseAddress(toAddressRequest);
 
@@ -166,11 +164,12 @@ namespace PI.Business
                     rateAddonArray = new AddOnV7[1];
                     rateAddonArray[0] = hiddenRateAddOn;
 
-                    //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel
-                    AuthenticateResponse = soapClient.AuthenticateUser(request);
+                    //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel                 
 
                     CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
-                    Indiciumrequest.Item = AuthenticateResponse.Authenticator;
+
+                    //set authenticator from to address response
+                    Indiciumrequest.Item = toAddressResponse.Authenticator;
                     Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
 
 
@@ -233,9 +232,10 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consigner.City,
                             State = addShipment.AddressInformation.Consigner.State,
                             Country = addShipment.AddressInformation.Consigner.Country,
-                            PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
+                            //PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            CleanseHash = fromAddressResponse.Address.OverrideHash
+                            OverrideHash = fromAddressResponse.Address.OverrideHash,
+                            ZIPCode= addShipment.AddressInformation.Consigner.Postalcode
                         };
 
                     }
@@ -253,7 +253,7 @@ namespace PI.Business
                             City = toAddressResponse.Address.City,
                             State = toAddressResponse.Address.State,
                             Country = toAddressResponse.Address.Country,
-                            PostalCode = toAddressResponse.Address.PostalCode,
+                          //  PostalCode = toAddressResponse.Address.PostalCode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
                             CleanseHash = toAddressResponse.Address.CleanseHash,
                             ZIPCode = toAddressResponse.Address.PostalCode
@@ -273,34 +273,38 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consignee.City,
                             State = addShipment.AddressInformation.Consignee.State,
                             Country = addShipment.AddressInformation.Consignee.Country,
-                            PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                          //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            OverrideHash = toAddressResponse.Address.CleanseHash,
+                         //   OverrideHash = toAddressResponse.Address.OverrideHash,
                             ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         };
                     }
-                    Indiciumrequest.Customs = new CustomsV4();
+                   
 
-                    Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
-                    Indiciumrequest.Customs.CustomsLines[0] = new CustomsLine()
+                    if (addShipment.AddressInformation.Consignee.Country!="US" && addShipment.AddressInformation.Consigner.Country != "US")
                     {
-                        CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
-                        Description = package.Description,
-                        //   HSTariffNumber = addShipment.CarrierInformation.tariffText,
-                        Quantity = package.Quantity,
-                        WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
+                        Indiciumrequest.Customs = new CustomsV4();
+                        Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
+                        Indiciumrequest.Customs.CustomsLines[0] = new CustomsLine()
+                        {
+                            CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
+                            Description = package.Description,
+                            //   HSTariffNumber = addShipment.CarrierInformation.tariffText,
+                            Quantity = package.Quantity,
+                            WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
 
-                        Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
-                        
-                    };
+                            Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
+
+                        };
+
+                    }
+                   
 
                     CreateIndiciumResponse IndiciumResponse = null;
                     try
-                    {
-                        CreateIndiciumRequest sample = this.getRequest();
-                        sample.Item = AuthenticateResponse.Authenticator;
-                        //IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
-                        IndiciumResponse = soapClient.CreateIndicium(sample);
+                    {                       
+                        IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
+                       // IndiciumResponse = soapClient.CreateIndicium(sample);
                     }
                     catch (Exception e)
                     {
@@ -318,7 +322,7 @@ namespace PI.Business
 
                         CarrierPickupRequest pickupRequest = new CarrierPickupRequest()
                         {
-                            Item = AuthenticateResponse.Authenticator,
+                            Item = IndiciumResponse.Authenticator,
                             FirstName = addShipment.AddressInformation.Consigner.FirstName,
                             LastName = addShipment.AddressInformation.Consigner.LastName,
                             Address = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.Address1 + " " + fromAddressResponse.Address.Address2 : addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2,
@@ -327,12 +331,38 @@ namespace PI.Business
                             ZIP = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                             TotalWeightOfPackagesLbs = addShipment.PackageDetails.CmLBS == true ? Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight),
-                            NumberOfExpressMailPieces = 1
+                            
                         };
 
+                        if (Indiciumrequest.Rate.ServiceType==ServiceType.USFC || Indiciumrequest.Rate.ServiceType == ServiceType.USFCI)
+                        {
+                            pickupRequest.NumberOfFirstClassPackagePieces = 1;
+                        }
+                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPM || Indiciumrequest.Rate.ServiceType == ServiceType.USXM)
+                        {
+                            pickupRequest.NumberOfPriorityMailPieces = 1;
+                        }
+                        else if (Indiciumrequest.Rate.ServiceType==ServiceType.USEMI || Indiciumrequest.Rate.ServiceType == ServiceType.USPMI)
+                        {
+                            pickupRequest.NumberOfInternationalPieces = 1;
+                        }
+                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPS)
+                        {
+                            pickupRequest.NumberOfParcelSelectPieces= 1;
+                        }
+
                         //sending pickup request for the shipment
-                        CarrierPickupResponse pickupResponse = soapClient.CarrierPickup(pickupRequest);
-                                                
+                        CarrierPickupResponse pickupResponse = null;
+
+                        try
+                        {
+                            pickupResponse = soapClient.CarrierPickup(pickupRequest);
+                        }
+                        catch (Exception e)
+                        {
+                            throw;
+                        }         
+                                       
                         if (pickupResponse != null)
                         {
                             shipmentResponse.DatePickup = pickupResponse.PickupDate;
@@ -421,13 +451,6 @@ namespace PI.Business
             return request;
 
         }
-
-
-
-
-
-
-
 
 
 
