@@ -212,6 +212,3 @@ _Pvt_Extensions/
 ModelManifest.xml
 /PI.Service/fonts
 /PI.Service/App_Data/Tmp/FileUploads
-/PI.Service/scripts
-/PI.Service/Service References/Application Insights
-/PI.Service/ApplicationInsights.config
