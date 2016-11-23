@@ -63,7 +63,7 @@ namespace PI.Contract.Enums
         [Description("Booking error")]
         Error = 1,
 
-        [Description("Booking error")]
+        [Description("Pending")]
         Pending,
 
         [Description("Booking confirmed")]

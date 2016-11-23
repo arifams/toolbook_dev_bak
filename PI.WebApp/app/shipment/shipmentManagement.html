@@ -168,7 +168,7 @@
             </div>
             
  
-            <div class="row m-0" style="overflow-x:auto">
+            <div class="row m-0" style="overflow-y:scroll;overflow-x:hidden">
                 <!--<table st-table="shipmentList" st-safe-src="manageShipCtrl.rowCollection" class="table table-hover">-->
                     <table st-pipe="manageShipCtrl.callServerSearch" st-table="manageShipCtrl.rowCollection" class="table table-hover">
                         <thead>
@@ -182,7 +182,7 @@
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
                                 <th translate>Error</th>
-                                <th translate>Action</th>
+                                <th translate class="text-center" style="width:11%">Action</th>
                                 <!--<th translate>Edit</th>
                                 <th translate>Delete</th>-->
                             </tr>
@@ -217,26 +217,26 @@
                                 <td > <a href={{row.generalInformation.errorUrl}}   ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
                               
                                 
-                                <td>
+                                <td style="text-align:center;width:15%">
                                     <div class="btn-group m-r-0" dropdown="">
 
                                         <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">
                                             Action <span class="caret"></span>
                                         </button>
                                         <span class="dropdown-arrow"></span>
-                                        <ul class="dropdown-menu custom-dropdown m-0" role="menu" style="left:0;top:0;">
-                                            <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads the label(s)</a></li>
+                                        <ul class="dropdown-menu custom-dropdown m-0" role="menu">
+                                            <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads Shipment Label(s)</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
-                                            <li><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/Print Air Waybill</a></li>
-                                            <li><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/Print Commercial invoice</a></li>
+                                            <li><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
+                                            <li><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
                                             <!--<li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>-->
-                                            <li><a  ng-click="manageShipCtrl.OpenTab( row,'Documents')">View/Add Documents</a></li>
+                                            <li><a  ng-click="manageShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
                                             <hr class="m-0">
-                                            <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit shipments</a></li>
-                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete shipments</a></li>
-                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as new shipment</a></li>
-                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="manageShipCtrl.deleteAndCopyShipment(row)"> Delete & copy as new shipment</a></li>
-                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create return shipment</a></li>
+                                            <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit Shipment</a></li>
+                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete Shipment</a></li>
+                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as New Shipment</a></li>
+                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="manageShipCtrl.deleteAndCopyShipment(row)"> Delete & Copy as New Shipment</a></li>
+                                            <li><a href="javascript:void(0)" ng-click="manageShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create Return Shipment</a></li>
                                         </ul>
                                     </div>
                                 </td>
