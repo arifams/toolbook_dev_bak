@@ -249,6 +249,7 @@
                                          ng-show="shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consigneestate" translate>Pickup country is required</label>
                                     </div>
+                                    <label class="error" for="countryConsigner" translate ng-show="shipmentCtrl.requiredConsignorCountry">Select country</label>
                                 </div>
 
                             </div>
@@ -485,6 +486,7 @@
                                          ng-show="shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consigneestate" translate>Delivery country is required</label>
                                     </div>
+                                    <label class="error" for="countryConsignee" translate ng-show="shipmentCtrl.requiredConsigneeCountry">Select country</label>
                                 </div>
                             </div>
 
