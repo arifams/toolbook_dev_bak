@@ -22,6 +22,8 @@ namespace PI.Data.Entity
         public long? CostCenterId { get; set; }
         public CarrierType ShipmentMode { get; set; }
         public short ShipmentService { get; set; }
+
+        public long MainShipment { get; set; }
         //public string ShipmentTypeCode { get; set; }        
         //public string ShipmentTermCode { get; set; }
 
@@ -87,6 +89,8 @@ namespace PI.Data.Entity
 
         public short CarrierId { get; set; }
         public virtual Carrier Carrier { get; set; }
+
+
 
         #endregion
     }   
