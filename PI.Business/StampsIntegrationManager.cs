@@ -65,7 +65,8 @@ namespace PI.Business
             if (AuthenticateResponse.Authenticator != null)
             {
                 cancelRequest.Item = AuthenticateResponse.Authenticator;
-                cancelRequest.Item1 = shipmentCode;
+                cancelRequest.Item1 = new Guid(shipmentCode);
+               
                 try
                 {
                     cancelResponse = soapClient.CancelIndicium(cancelRequest);
