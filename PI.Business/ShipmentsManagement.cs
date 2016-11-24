@@ -5176,6 +5176,7 @@ namespace PI.Business
                     // build response result
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
+                    shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
 

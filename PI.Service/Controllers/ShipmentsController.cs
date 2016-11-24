@@ -1392,7 +1392,7 @@ namespace PI.Service.Controllers
                     Paragraph countPara = new Paragraph(result.ShipmentDto.PackageDetails.Count.ToString(), invoiceFont);
                     Paragraph ratePara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString(), invoiceFont);
                     Paragraph amountPara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString(), invoiceFont);
-                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount) / 100)).ToString(), invoiceFont);
+                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount))).ToString(), invoiceFont);
 
                     Paragraph paymentLabelPara = new Paragraph("PAYMENT");
                     Paragraph balanceLabelPara = new Paragraph("BALANCE DUE");
