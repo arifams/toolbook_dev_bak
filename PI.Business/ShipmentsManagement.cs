@@ -168,6 +168,11 @@ namespace PI.Business
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
+                    item.Length = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Length, 2) : Math.Round((item.Length * (decimal)2.54), 2); // currentShipment.PackageDetails.VolumeCMM ? cm : inch;
+                    item.Width = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Width, 2) : Math.Round((item.Width * (decimal)2.54), 2); // currentShipment.PackageDetails.VolumeCMM ? cm : inch;
+                    item.Height = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Height, 2) : Math.Round((item.Height * (decimal)2.54), 2);
+
+
                     if (count == 0)
                     {
                         package = item.ProductType;
@@ -194,7 +199,6 @@ namespace PI.Business
                         maxWeight = item.Weight;
                     }
 
-
                     surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
                     volume = volume + item.Length * item.Width * item.Height * item.Quantity;
@@ -204,15 +208,15 @@ namespace PI.Business
                 maxdimension = maxLength + (maxWidth * 2) + (maxHeight * 2);
                 maxVolume = maxLength * maxWidth * maxHeight;
 
-                currentRateSheetDetails.length = maxLength.ToString();
+
+                currentRateSheetDetails.weight = currentShipment.PackageDetails.WeightUnit == "/(kg)" ? Math.Round(weight, 2).ToString() : Math.Round((weight / (decimal)2.20462), 2).ToString(); // addShipment.PackageDetails.CmLBS ? "kg" : "lbs" ;
                 currentRateSheetDetails.width = maxWidth.ToString();
                 currentRateSheetDetails.height = maxHeight.ToString();
                 currentRateSheetDetails.max_length = maxLength.ToString();
-                currentRateSheetDetails.max_actual_length = maxLength.ToString();
-                currentRateSheetDetails.max_width = maxWidth.ToString();
-                currentRateSheetDetails.max_height = maxHeight.ToString();
-                currentRateSheetDetails.max_weight = maxWeight.ToString();
-                currentRateSheetDetails.weight = weight.ToString();
+                currentRateSheetDetails.max_actual_length = currentRateSheetDetails.max_length;
+                currentRateSheetDetails.max_width = currentRateSheetDetails.width;
+                currentRateSheetDetails.max_height = currentRateSheetDetails.height;
+                currentRateSheetDetails.max_weight = currentShipment.PackageDetails.WeightUnit == "/(kg)" ? Math.Round(maxWeight, 2).ToString() : Math.Round((maxWeight / (decimal)2.20462), 2).ToString();
                 currentRateSheetDetails.pieces = pieces.ToString();
                 currentRateSheetDetails.surface = surface.ToString();
                 currentRateSheetDetails.max_dimension = maxdimension.ToString();
@@ -244,8 +248,13 @@ namespace PI.Business
                 }
 
 
-
+                // Pass local time to SIS. Later stage need to change this to pickup address local date.
                 currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
+                DateTime localDateTime = context.GetLocalTimeByUser(currentShipment.UserId, DateTime.UtcNow);
+                currentRateSheetDetails.time_pickup = localDateTime.AddHours(2).ToString("H:mm");   // Get local time add two hours.
+
+                currentRateSheetDetails.UserIdForTimeConvert = currentShipment.UserId;
+
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
                     currentRateSheetDetails.insurance_instruction = "Y";
@@ -268,23 +277,26 @@ namespace PI.Business
 
                 //}
 
-                if (currentShipment.PackageDetails.CmLBS)
-                {
-                    currentRateSheetDetails.weight_unit = "kg";
-                }
-                else
-                {
-                    currentRateSheetDetails.weight_unit = "lbs";
-                }
+                //if (currentShipment.PackageDetails.CmLBS)
+                //{
+                //    currentRateSheetDetails.weight_unit = "kg";
+                //}
+                //else
+                //{
+                //    currentRateSheetDetails.weight_unit = "lbs";
+                //}
 
-                if (currentShipment.PackageDetails.VolumeCMM)
-                {
-                    currentRateSheetDetails.volume_unit = "cm";
-                }
-                else
-                {
-                    currentRateSheetDetails.volume_unit = "inch";
-                }
+                //if (currentShipment.PackageDetails.VolumeCMM)
+                //{
+                //    currentRateSheetDetails.volume_unit = "cm";
+                //}
+                //else
+                //{
+                //    currentRateSheetDetails.volume_unit = "inch";
+                //}
+
+                currentRateSheetDetails.weight_unit = "kg";
+                currentRateSheetDetails.volume_unit = "cm";
 
             }
             //hardcoded values for now
@@ -966,7 +978,7 @@ namespace PI.Business
 
             foreach (var shipment in shipmentIdList)
             {
-                if (shipment.PickUpDate.HasValue && GetLocalTimeByUser(userId, shipment.PickUpDate.Value).Value.Date == pickupDate.Date)
+                if (shipment.PickUpDate.HasValue && shipment.PickUpDate.Value.Date == pickupDate.Date)
                 {
                     currentShipments.Add(context.Shipments.Where(sh => sh.Id == shipment.Id).First());
                 }
@@ -1150,10 +1162,8 @@ namespace PI.Business
                 },
                 PackageDetails = new PackageDetailsDto
                 {
-                    VolumeMetricId = (currentShipment.ShipmentPackage.VolumeMetricId == currentAccountSettings.VolumeMetricId) ?
-                                     currentShipment.ShipmentPackage.VolumeMetricId : currentAccountSettings.VolumeMetricId,
-                    WeightMetricId = (currentShipment.ShipmentPackage.WeightMetricId == currentAccountSettings.WeightMetricId) ?
-                                     currentShipment.ShipmentPackage.WeightMetricId : currentAccountSettings.WeightMetricId,
+                    VolumeMetricId = currentShipment.ShipmentPackage.VolumeMetricId,
+                    WeightMetricId = currentShipment.ShipmentPackage.WeightMetricId,
                     Count = currentShipment.ShipmentPackage.PackageProducts.Count,
                     DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
                     HsCode = currentShipment.ShipmentPackage.HSCode,
@@ -1201,57 +1211,48 @@ namespace PI.Business
                                                              ShipmentPackage shipmentPackage = null)
         {
             List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
-     
+
 
             foreach (var ingrediant in products)
             {
-                decimal height = 0; decimal length = 0; decimal width = 0; decimal weight = 0;
 
-
-                if (accountSettings != null && shipmentPackage != null)
+                if (shipmentPackage != null)
                 {
-                    if (shipmentPackage.VolumeMetricId == accountSettings.VolumeMetricId)
-                    {
-                        height = ingrediant.Height;
-                        length = ingrediant.Length;
-                        width = ingrediant.Width;
-                    }
-                    else
-                    {
-                        height = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Height * (decimal)2.54) : (ingrediant.Height / (decimal)2.54);
-                        length = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Length * (decimal)2.54) : (ingrediant.Length / (decimal)2.54);
-                        width = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Width * (decimal)2.54) : (ingrediant.Width / (decimal)2.54);
-                    }
+                    //if (shipmentPackage.VolumeMetricId == accountSettings.VolumeMetricId)
+                    //{
+                    //    height = ingrediant.Height;
+                    //    length = ingrediant.Length;
+                    //    width = ingrediant.Width;
+                    //}
+                    //else
+                    //{
+                    //    height = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Height * (decimal)2.54) : (ingrediant.Height / (decimal)2.54);
+                    //    length = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Length * (decimal)2.54) : (ingrediant.Length / (decimal)2.54);
+                    //    width = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Width * (decimal)2.54) : (ingrediant.Width / (decimal)2.54);
+                    //}
 
-                    if (shipmentPackage.WeightMetricId == accountSettings.WeightMetricId)
-                    {
-                        weight = ingrediant.Weight;
-                    }
-                    else
-                    {
-                        weight = accountSettings.DefaultWeightMetric.Name == "lbs" ? (ingrediant.Weight * (decimal)2.20462) : (ingrediant.Weight / (decimal)2.20462);
-                    }
+                    //if (shipmentPackage.WeightMetricId == accountSettings.WeightMetricId)
+                    //{
+                    //    weight = ingrediant.Weight;
+                    //}
+                    //else
+                    //{
+                    //    weight = accountSettings.DefaultWeightMetric.Name == "lbs" ? (ingrediant.Weight * (decimal)2.20462) : (ingrediant.Weight / (decimal)2.20462);
+                    //}
+
+                    ingrediantList.Add(
+                        new ProductIngredientsDto
+                        {
+                            Height = Math.Round(ingrediant.Height, 2),
+                            Length = Math.Round(ingrediant.Length, 2),
+                            ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
+                            Quantity = ingrediant.Quantity,
+                            Weight = Math.Round(ingrediant.Weight, 2),
+                            Width = Math.Round(ingrediant.Width, 2),
+                            Description = ingrediant.Description
+                        });
+
                 }
-                else
-                {
-                    height = ingrediant.Height;
-                    length = ingrediant.Length;
-                    width = ingrediant.Width;
-                    weight = ingrediant.Weight;
-                }
-
-                ingrediantList.Add(
-                    new ProductIngredientsDto
-                    {
-                        Height = Math.Round(height, 2),
-                        Length =  Math.Round(length, 2),
-                        ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
-                        Quantity = ingrediant.Quantity,
-                        Weight = Math.Round(weight, 2),
-                        Width =  Math.Round(width, 2),
-                        Description = ingrediant.Description
-                    });
-
             }
             return ingrediantList;
         }
@@ -1442,7 +1443,7 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-            if (shipment.Carrier.Name=="USP")
+            if (shipment.Carrier.Name == "USP")
             {
                 response = stampsMenmanager.SendShipmentDetails(shipmentDto);
             }
@@ -2430,6 +2431,7 @@ namespace PI.Business
             List<Data.Entity.Shipment> shipmentList = new List<Data.Entity.Shipment>();
             if (string.IsNullOrEmpty(reference))
             {
+                // Have saved pickup date in user time zone (local time). So no need to convert.
                 DateTime datetimeFromString = Convert.ToDateTime(date);
                 shipmentList = this.GetshipmentsByUserIdAndPickupdDate(userId, datetimeFromString, carreer);
             }

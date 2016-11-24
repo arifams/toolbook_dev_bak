@@ -93,7 +93,7 @@
     <!-- End Google Tag Manager (noscript) -->
 
 
-    <!--[if lt IE 7]>
+    <!--[if lt IE 6]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- BEGIN PAGE SPINNER -->
@@ -881,6 +881,18 @@
   ga('create', 'UA-20031220-5', 'auto');
   ga('send', 'pageview');
 
+    </script>
+
+    <script>
+
+        var $buoop = {vs:{i:11,f:-4,o:-4,s:7,c:-4},api:4};
+        function $buo_f(){
+         var e = document.createElement("script");
+         e.src = "//browser-update.org/update.min.js";
+         document.body.appendChild(e);
+        };
+        try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
+        catch(e){window.attachEvent("onload", $buo_f)}
     </script>
     <!--<script src="../plugins/angular/angular.min.js"></script>
     <script src="../plugins/json3/lib/json3.js"></script>
