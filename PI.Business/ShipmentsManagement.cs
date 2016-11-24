@@ -167,6 +167,11 @@ namespace PI.Business
 
                 foreach (var item in currentShipment.PackageDetails.ProductIngredients)
                 {
+                    item.Length = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Length, 2) : Math.Round((item.Length * (decimal)2.54), 2); // currentShipment.PackageDetails.VolumeCMM ? cm : inch;
+                    item.Width = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Width, 2) : Math.Round((item.Width * (decimal)2.54), 2); // currentShipment.PackageDetails.VolumeCMM ? cm : inch;
+                    item.Height = currentShipment.PackageDetails.VolumeUnit == "/(cm)" ? Math.Round(item.Height, 2) : Math.Round((item.Height * (decimal)2.54), 2);
+
+
                     if (count == 0)
                     {
                         package = item.ProductType;
@@ -193,7 +198,6 @@ namespace PI.Business
                         maxWeight = item.Weight;
                     }
 
-
                     surface = surface + (item.Length * item.Width * item.Quantity);
                     pieces = pieces + item.Quantity;
                     volume = volume + item.Length * item.Width * item.Height * item.Quantity;
@@ -203,15 +207,15 @@ namespace PI.Business
                 maxdimension = maxLength + (maxWidth * 2) + (maxHeight * 2);
                 maxVolume = maxLength * maxWidth * maxHeight;
 
-                currentRateSheetDetails.length = maxLength.ToString();
+
+                currentRateSheetDetails.weight = currentShipment.PackageDetails.WeightUnit == "/(kg)" ? Math.Round(weight, 2).ToString() : Math.Round((weight / (decimal)2.20462), 2).ToString(); // addShipment.PackageDetails.CmLBS ? "kg" : "lbs" ;
                 currentRateSheetDetails.width = maxWidth.ToString();
                 currentRateSheetDetails.height = maxHeight.ToString();
                 currentRateSheetDetails.max_length = maxLength.ToString();
-                currentRateSheetDetails.max_actual_length = maxLength.ToString();
-                currentRateSheetDetails.max_width = maxWidth.ToString();
-                currentRateSheetDetails.max_height = maxHeight.ToString();
-                currentRateSheetDetails.max_weight = maxWeight.ToString();
-                currentRateSheetDetails.weight = weight.ToString();
+                currentRateSheetDetails.max_actual_length = currentRateSheetDetails.max_length;
+                currentRateSheetDetails.max_width = currentRateSheetDetails.width;
+                currentRateSheetDetails.max_height = currentRateSheetDetails.height;
+                currentRateSheetDetails.max_weight = currentShipment.PackageDetails.WeightUnit == "/(kg)" ? Math.Round(maxWeight, 2).ToString() : Math.Round((maxWeight / (decimal)2.20462), 2).ToString();
                 currentRateSheetDetails.pieces = pieces.ToString();
                 currentRateSheetDetails.surface = surface.ToString();
                 currentRateSheetDetails.max_dimension = maxdimension.ToString();
@@ -267,23 +271,26 @@ namespace PI.Business
 
                 //}
 
-                if (currentShipment.PackageDetails.CmLBS)
-                {
-                    currentRateSheetDetails.weight_unit = "kg";
-                }
-                else
-                {
-                    currentRateSheetDetails.weight_unit = "lbs";
-                }
+                //if (currentShipment.PackageDetails.CmLBS)
+                //{
+                //    currentRateSheetDetails.weight_unit = "kg";
+                //}
+                //else
+                //{
+                //    currentRateSheetDetails.weight_unit = "lbs";
+                //}
 
-                if (currentShipment.PackageDetails.VolumeCMM)
-                {
-                    currentRateSheetDetails.volume_unit = "cm";
-                }
-                else
-                {
-                    currentRateSheetDetails.volume_unit = "inch";
-                }
+                //if (currentShipment.PackageDetails.VolumeCMM)
+                //{
+                //    currentRateSheetDetails.volume_unit = "cm";
+                //}
+                //else
+                //{
+                //    currentRateSheetDetails.volume_unit = "inch";
+                //}
+
+                currentRateSheetDetails.weight_unit = "kg";
+                currentRateSheetDetails.volume_unit = "cm";
 
             }
             //hardcoded values for now
@@ -1149,10 +1156,8 @@ namespace PI.Business
                 },
                 PackageDetails = new PackageDetailsDto
                 {
-                    VolumeMetricId = (currentShipment.ShipmentPackage.VolumeMetricId == currentAccountSettings.VolumeMetricId) ?
-                                     currentShipment.ShipmentPackage.VolumeMetricId : currentAccountSettings.VolumeMetricId,
-                    WeightMetricId = (currentShipment.ShipmentPackage.WeightMetricId == currentAccountSettings.WeightMetricId) ?
-                                     currentShipment.ShipmentPackage.WeightMetricId : currentAccountSettings.WeightMetricId,
+                    VolumeMetricId = currentShipment.ShipmentPackage.VolumeMetricId,
+                    WeightMetricId = currentShipment.ShipmentPackage.WeightMetricId,
                     Count = currentShipment.ShipmentPackage.PackageProducts.Count,
                     DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
                     HsCode = currentShipment.ShipmentPackage.HSCode,
@@ -1200,57 +1205,48 @@ namespace PI.Business
                                                              ShipmentPackage shipmentPackage = null)
         {
             List<ProductIngredientsDto> ingrediantList = new List<ProductIngredientsDto>();
-     
+
 
             foreach (var ingrediant in products)
             {
-                decimal height = 0; decimal length = 0; decimal width = 0; decimal weight = 0;
 
-
-                if (accountSettings != null && shipmentPackage != null)
+                if (shipmentPackage != null)
                 {
-                    if (shipmentPackage.VolumeMetricId == accountSettings.VolumeMetricId)
-                    {
-                        height = ingrediant.Height;
-                        length = ingrediant.Length;
-                        width = ingrediant.Width;
-                    }
-                    else
-                    {
-                        height = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Height * (decimal)2.54) : (ingrediant.Height / (decimal)2.54);
-                        length = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Length * (decimal)2.54) : (ingrediant.Length / (decimal)2.54);
-                        width = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Width * (decimal)2.54) : (ingrediant.Width / (decimal)2.54);
-                    }
+                    //if (shipmentPackage.VolumeMetricId == accountSettings.VolumeMetricId)
+                    //{
+                    //    height = ingrediant.Height;
+                    //    length = ingrediant.Length;
+                    //    width = ingrediant.Width;
+                    //}
+                    //else
+                    //{
+                    //    height = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Height * (decimal)2.54) : (ingrediant.Height / (decimal)2.54);
+                    //    length = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Length * (decimal)2.54) : (ingrediant.Length / (decimal)2.54);
+                    //    width = accountSettings.DefaultVolumeMetric.Name == "cm" ? (ingrediant.Width * (decimal)2.54) : (ingrediant.Width / (decimal)2.54);
+                    //}
 
-                    if (shipmentPackage.WeightMetricId == accountSettings.WeightMetricId)
-                    {
-                        weight = ingrediant.Weight;
-                    }
-                    else
-                    {
-                        weight = accountSettings.DefaultWeightMetric.Name == "lbs" ? (ingrediant.Weight * (decimal)2.20462) : (ingrediant.Weight / (decimal)2.20462);
-                    }
+                    //if (shipmentPackage.WeightMetricId == accountSettings.WeightMetricId)
+                    //{
+                    //    weight = ingrediant.Weight;
+                    //}
+                    //else
+                    //{
+                    //    weight = accountSettings.DefaultWeightMetric.Name == "lbs" ? (ingrediant.Weight * (decimal)2.20462) : (ingrediant.Weight / (decimal)2.20462);
+                    //}
+
+                    ingrediantList.Add(
+                        new ProductIngredientsDto
+                        {
+                            Height = Math.Round(ingrediant.Height, 2),
+                            Length = Math.Round(ingrediant.Length, 2),
+                            ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
+                            Quantity = ingrediant.Quantity,
+                            Weight = Math.Round(ingrediant.Weight, 2),
+                            Width = Math.Round(ingrediant.Width, 2),
+                            Description = ingrediant.Description
+                        });
+
                 }
-                else
-                {
-                    height = ingrediant.Height;
-                    length = ingrediant.Length;
-                    width = ingrediant.Width;
-                    weight = ingrediant.Weight;
-                }
-
-                ingrediantList.Add(
-                    new ProductIngredientsDto
-                    {
-                        Height = Math.Round(height, 2),
-                        Length =  Math.Round(length, 2),
-                        ProductType = Utility.GetEnumDescription((ProductType)ingrediant.ProductTypeId),
-                        Quantity = ingrediant.Quantity,
-                        Weight = Math.Round(weight, 2),
-                        Width =  Math.Round(width, 2),
-                        Description = ingrediant.Description
-                    });
-
             }
             return ingrediantList;
         }
@@ -1441,7 +1437,7 @@ namespace PI.Business
             AddShipmentResponsePM responsePM = new AddShipmentResponsePM();
             bool isPostmen = false;
 
-            if (shipment.Carrier.Name=="USP")
+            if (shipment.Carrier.Name == "USP")
             {
                 response = stampsMenmanager.SendShipmentDetails(shipmentDto);
             }
@@ -4489,8 +4485,10 @@ namespace PI.Business
                     PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
                     EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
                     EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
-                    WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
-                    VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
+                    //WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
+                    //VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
+                    WeightMetricId = addShipment.PackageDetails.WeightUnit == "/(kg)" ? (short)1 : (short)2,
+                    VolumeMetricId = addShipment.PackageDetails.VolumeUnit == "/(cm)" ? (short)1 : (short)2,
                     IsActive = true,
                     CreatedBy = addShipment.CreatedBy,
                     CreatedDate = DateTime.UtcNow,
@@ -4706,8 +4704,10 @@ namespace PI.Business
                     ValueCurrency = shipment.ShipmentPackage.InsuranceCurrencyType,
                     ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)shipment.ShipmentPackage.InsuranceCurrencyType),
                     PreferredCollectionDate = string.Format("{0}-{1}-{2}", shipment.ShipmentPackage.CollectionDate.Day, shipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
-                    CmLBS = shipment.ShipmentPackage.WeightMetricId == 1,
-                    VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,
+                    CmLBS = shipment.ShipmentPackage.WeightMetricId == 1, // true if kg
+                    VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,  // true if cm
+                    WeightMetricId = shipment.ShipmentPackage.WeightMetricId,
+                    VolumeMetricId = shipment.ShipmentPackage.VolumeMetricId,
                     ProductIngredients = shipmentProductIngredientsList,
                     ShipmentDescription = shipment.ShipmentPackage.PackageDescription,
                     DeclaredValue = shipment.ShipmentPackage.InsuranceDeclaredValue,
