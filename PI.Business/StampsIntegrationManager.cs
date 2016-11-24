@@ -367,7 +367,7 @@ namespace PI.Business
 
                         try
                         {
-                            pickupResponse = soapClient.CarrierPickup(pickupRequest);
+                           // pickupResponse = soapClient.CarrierPickup(pickupRequest);
                         }
                         catch (Exception e)
                         {
