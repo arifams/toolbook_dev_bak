@@ -243,10 +243,11 @@ namespace PI.Business
                 }
 
 
-                // This is from user end. So convert it to SIS time.
-                DateTime pickupdateinUTC = context.GetUTCTimeByUser(currentShipment.UserId, currentShipment.PackageDetails.PreferredCollectionDate);
-                
-                currentRateSheetDetails.date_pickup = pickupdateinUTC.ToString();
+                // Pass local time to SIS. Later stage need to change this to pickup address local date.
+                currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
+                DateTime localDateTime = context.GetLocalTimeByUser(currentShipment.UserId, DateTime.UtcNow);
+                currentRateSheetDetails.time_pickup = localDateTime.AddHours(2).ToString("H:mm");   // Get local time add two hours.
+
                 currentRateSheetDetails.UserIdForTimeConvert = currentShipment.UserId;
 
                 if (currentShipment.PackageDetails.IsInsuared == "true")
@@ -969,7 +970,7 @@ namespace PI.Business
 
             foreach (var shipment in shipmentIdList)
             {
-                if (shipment.PickUpDate.HasValue && GetLocalTimeByUser(userId, shipment.PickUpDate.Value).Value.Date == pickupDate.Date)
+                if (shipment.PickUpDate.HasValue && shipment.PickUpDate.Value.Date == pickupDate.Date)
                 {
                     currentShipments.Add(context.Shipments.Where(sh => sh.Id == shipment.Id).First());
                 }
@@ -2371,7 +2372,8 @@ namespace PI.Business
             List<Data.Entity.Shipment> shipmentList = new List<Data.Entity.Shipment>();
             if (string.IsNullOrEmpty(reference))
             {
-                DateTime datetimeFromString = context.GetUTCTimeByUser(userId,date);
+                // Have saved pickup date in user time zone (local time). So no need to convert.
+                DateTime datetimeFromString = Convert.ToDateTime(date);
                 shipmentList = this.GetshipmentsByUserIdAndPickupdDate(userId, datetimeFromString, carreer);
             }
             else
@@ -4434,7 +4436,7 @@ namespace PI.Business
                 CarrierDescription = addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)context.GetUTCTimeByUser(addShipment.UserId,addShipment.CarrierInformation.PickupDate.Value),
+                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value,
 
                 IsActive = true,
                 IsParent = false,
@@ -4740,13 +4742,13 @@ namespace PI.Business
             shipment.TrackingNumber = response.Awb;
 
             // SIS will return the pacific time zone. So need to convert it to user time zone
-            DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
-            shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(shipment.CreatedBy, utcPickupDate);
+            shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
 
             shipmentDto.GeneralInformation.ShipmentPaymentTypeId = shipment.ShipmentPaymentTypeId;
             shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)shipment.ShipmentPaymentTypeId);
 
             ShipmentOperationResult result = new ShipmentOperationResult();
+            result.ShipmentCode = response.CodeShipment;
 
             if (string.IsNullOrWhiteSpace(response.Awb))
             {
@@ -4766,7 +4768,6 @@ namespace PI.Business
                 result.Status = Status.SISError;
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
-                result.ShipmentCode = response.CodeShipment;
                 result.ShipmentReference = shipment.ShipmentReferenceName;
             }
             else
