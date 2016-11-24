@@ -16,6 +16,7 @@ namespace PI.Contract.DTOs.Shipment
         public string ShipmentCode { get; set; }
         public string ShipmentReference { get; set; }
         public ShipmentDto ShipmentDto { get; set; }
+        public List<ShipmentDto> ShipmentDtoList { get; set; }
         public string ErrorUrl { get; set; }
     }
 }
