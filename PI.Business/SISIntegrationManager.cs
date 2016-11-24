@@ -199,12 +199,12 @@ namespace PI.Business
                         Currency = result[i].Currency.ToString(),
 
                         Price = (result[i].RateZoneList.Count == 0 || rateZoneResult == null) ? null : rateZoneResult.Price.ToString(),
-                        Delivery_date = (DateTime.Parse(rateParameters.date_pickup)
+                        Delivery_date = (context.GetLocalTimeByUser(rateParameters.UserIdForTimeConvert, Convert.ToDateTime(rateParameters.date_pickup))
                                         .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MMM-yyyy"),
-                        Pickup_date = rateParameters.date_pickup,
-                        Price_detail = new Price_detail { Description = result[i].Carrier.Carrier.Name + ", " + result[i].Carrier.ServiceLevel },
-                        Transit_time = (transitTime != null) ? transitTime.Days.ToString() + " days" : null
-                    });
+                        Pickup_date = context.GetLocalTimeByUser(rateParameters.UserIdForTimeConvert, Convert.ToDateTime(rateParameters.date_pickup)).ToString("dd-MMM-yyyy"), // Convert to local time
+                      Price_detail = new Price_detail { Description = result[i].Carrier.Carrier.Name + ", " + result[i].Carrier.ServiceLevel },
+                      Transit_time = (transitTime != null) ? transitTime.Days.ToString() +" days" : null
+                  });
                 }
 
                 // Add rates from XRates for USPS
@@ -237,6 +237,12 @@ namespace PI.Business
 
             return myObject;
         }
+
+        //public DateTime GetUserLocalTimeFromSISTaleUS(DateTime datetime)
+        //{
+        //    DateTime utcTime = TimeZoneInfo.ConvertTime(datetime, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"), TimeZoneInfo.Utc);
+        //    return context.GetLocalTimeByUser()
+        //}
 
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {

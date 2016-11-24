@@ -247,8 +247,12 @@ namespace PI.Business
                 }
 
 
+                // This is from user end. So convert it to SIS time.
+                DateTime pickupdateinUTC = context.GetUTCTimeByUser(currentShipment.UserId, currentShipment.PackageDetails.PreferredCollectionDate);
+                
+                currentRateSheetDetails.date_pickup = pickupdateinUTC.ToString();
+                currentRateSheetDetails.UserIdForTimeConvert = currentShipment.UserId;
 
-                currentRateSheetDetails.date_pickup = currentShipment.PackageDetails.PreferredCollectionDate;
                 if (currentShipment.PackageDetails.IsInsuared == "true")
                 {
                     currentRateSheetDetails.insurance_instruction = "Y";
@@ -2363,7 +2367,7 @@ namespace PI.Business
             List<Data.Entity.Shipment> shipmentList = new List<Data.Entity.Shipment>();
             if (string.IsNullOrEmpty(reference))
             {
-                DateTime datetimeFromString = Convert.ToDateTime(date);
+                DateTime datetimeFromString = context.GetUTCTimeByUser(userId,date);
                 shipmentList = this.GetshipmentsByUserIdAndPickupdDate(userId, datetimeFromString, carreer);
             }
             else
@@ -4426,7 +4430,7 @@ namespace PI.Business
                 CarrierDescription = addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)context.GetUTCTimeByUser(addShipment.UserId,addShipment.CarrierInformation.PickupDate.Value),
 
                 IsActive = true,
                 IsParent = false,
