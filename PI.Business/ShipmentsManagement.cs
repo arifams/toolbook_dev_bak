@@ -5339,7 +5339,7 @@ namespace PI.Business
                 ShipmentOperationResult result = new ShipmentOperationResult();
 
 
-                if (string.IsNullOrWhiteSpace(response.Awb) && shipment.Carrier.Name != "USP")
+                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP")
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Ship It Smarter";
@@ -5360,7 +5360,7 @@ namespace PI.Business
                     result.ShipmentCode = response.CodeShipment;
                     result.ShipmentReference = currentShipment.ShipmentReferenceName;
                 }
-                else if (string.IsNullOrWhiteSpace(response.Awb) && shipment.Carrier.Name == "USP")
+                else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Stamps.com";
@@ -5400,13 +5400,13 @@ namespace PI.Business
                     // If response.PDF is empty, get from following url.
                     if (string.IsNullOrWhiteSpace(response.PDF))
                     {
-                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                        result.LabelURL = sisManager.GetLabel(currentShipment.ShipmentCode);
                     }
                     else
                     {
-                        if (shipment.Carrier.Name == "TNT")
+                        if (currentShipment.Carrier.Name == "TNT")
                         {
-                            result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                            result.LabelURL = sisManager.GetLabel(currentShipment.ShipmentCode);
                         }
                         else
                         {
@@ -5415,15 +5415,15 @@ namespace PI.Business
                     }
 
 
-                    result.ShipmentId = shipment.Id;
+                    result.ShipmentId = currentShipment.Id;
 
                     //adding the shipment label to azure
                     // For now replace userid from created by
-                    sendShipmentDetails.UserId = shipment.CreatedBy;
+                    sendShipmentDetails.UserId = currentShipment.CreatedBy;
                     AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
-                    var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
-                    var Url = getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+                    var tenantId = context.GetTenantIdByUserId(currentShipment.CreatedBy);
+                    var Url = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId);
                     result.LabelURL = Url;
                 }
 
