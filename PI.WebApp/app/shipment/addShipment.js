@@ -681,6 +681,7 @@
                             //vm.isShowResponse = true;
                             vm.isBooking = false;
                             var response = responseArray[0];
+
                             vm.isShowResponse = true;
                             debugger;
                             if (response.status == 2) {
@@ -695,7 +696,7 @@
                                 //vm.savePayShipment = false;
 
                                 vm.labelUrl = response.labelURL;
-                                vm.shipmentCode = response.shipmentCode;
+                                vm.shipmentCode = response.shipmentDto.generalInformation.shipmentCode;
                                 vm.trackingNumber = response.shipmentDto.generalInformation.trackingNumber;
                                 vm.carrierName = response.shipmentDto.carrierInformation.carrierName;
                                 vm.createdDate = response.shipmentDto.generalInformation.createdDate;
