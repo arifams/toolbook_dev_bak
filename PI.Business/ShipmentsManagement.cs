@@ -1711,23 +1711,10 @@ namespace PI.Business
                                    where shipment.Id == shipmentId
                                    select shipment).SingleOrDefault();
 
-            if (currentShipment.Carrier.Name!="USP")
+            if (currentShipment.Carrier.Name != "USP")
             {
-                 if (isAdmin)
-            {
-                if (!string.IsNullOrWhiteSpace(shipmentCode))
-                    sisManager.DeleteShipment(shipmentCode);
-
-                currentShipment.Status = (short)ShipmentStatus.Deleted;
-                context.SaveChanges();
-
-                return 1;
-            }
-            else
-            {
-                if (string.IsNullOrWhiteSpace(trackingNumber))
+                if (isAdmin)
                 {
-                    // Shipment hasn't tracking no. So no need to get update of status. Delete the shipment.
                     if (!string.IsNullOrWhiteSpace(shipmentCode))
                         sisManager.DeleteShipment(shipmentCode);
 
@@ -1736,22 +1723,41 @@ namespace PI.Business
 
                     return 1;
                 }
-                else if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
+                else
                 {
-                    string env = GetEnvironmentByTarrif(currentShipment.TariffText);
-
-                    UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, env, currentShipment.Id);
-
-                    var updatedShipment = (from shipment in context.Shipments
-                                           where shipment.ShipmentCode == shipmentCode
-                                           select shipment).SingleOrDefault();
-
-                    if (updatedShipment.Status != ((short)ShipmentStatus.Delivered))
+                    if (string.IsNullOrWhiteSpace(trackingNumber))
                     {
-                        sisManager.DeleteShipment(shipmentCode);
-                        updatedShipment.Status = (short)ShipmentStatus.Deleted;
+                        // Shipment hasn't tracking no. So no need to get update of status. Delete the shipment.
+                        if (!string.IsNullOrWhiteSpace(shipmentCode))
+                            sisManager.DeleteShipment(shipmentCode);
+
+                        currentShipment.Status = (short)ShipmentStatus.Deleted;
                         context.SaveChanges();
+
                         return 1;
+                    }
+                    else if (currentShipment.Status != ((short)ShipmentStatus.Delivered))
+                    {
+                        string env = GetEnvironmentByTarrif(currentShipment.TariffText);
+
+                        UpdateLocationHistory(currentShipment.Carrier.Name, currentShipment.TrackingNumber, currentShipment.ShipmentCode, env, currentShipment.Id);
+
+                        var updatedShipment = (from shipment in context.Shipments
+                                               where shipment.ShipmentCode == shipmentCode
+                                               select shipment).SingleOrDefault();
+
+                        if (updatedShipment.Status != ((short)ShipmentStatus.Delivered))
+                        {
+                            sisManager.DeleteShipment(shipmentCode);
+                            updatedShipment.Status = (short)ShipmentStatus.Deleted;
+                            context.SaveChanges();
+                            return 1;
+                        }
+                        else
+                        {
+                            return 2;
+                        }
+
                     }
                     else
                     {
@@ -1759,12 +1765,6 @@ namespace PI.Business
                     }
 
                 }
-                else
-                {
-                    return 2;
-                }
-
-            }
 
             }
             else
@@ -1824,7 +1824,7 @@ namespace PI.Business
 
             }
 
-           
+
             //}
 
         }
@@ -4405,12 +4405,18 @@ namespace PI.Business
             return shipmentDto;
         }
 
+
         #region Temp solution
 
         public ShipmentOperationResult SaveShipmentV1(ShipmentDto addShipment)
         {
+            long sysDivisionId = 0;
+            long sysCostCenterId = 0;
             ShipmentOperationResult result = new ShipmentOperationResult();
             OperationResult paymentResult = new OperationResult();
+
+            Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
+
 
             if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
             {
@@ -4427,14 +4433,34 @@ namespace PI.Business
                 }
             }
 
-
-            if (addShipment.CarrierInformation.CarrierName!="USP")
+            // If division and costcenter Ids are 0, then assign default costcenter and division.
+            if (addShipment.GeneralInformation.DivisionId == 0)
             {
+                var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+                                                       && d.Type == "SYSTEM").SingleOrDefault();
 
-                Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
-                long sysDivisionId = 0;
-                long sysCostCenterId = 0;
+                sysDivisionId = sysDivision.Id;
 
+            }
+            if (addShipment.GeneralInformation.CostCenterId == 0)
+            {
+                var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+                                                                            && c.Type == "SYSTEM").SingleOrDefault();
+                sysCostCenterId = defaultCostCntr.Id;
+            }
+
+            long oldShipmentId = 0;
+            if (addShipment.GeneralInformation.ShipmentCode != "0")
+            {
+                // If has parent shipment id, then add to previous shipment.
+                Data.Entity.Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
+                oldShipmentId = oldShipment.Id;
+                oldShipment.IsParent = true;
+                context.SaveChanges();
+            }
+
+            if (addShipment.CarrierInformation.CarrierName != "USP")
+            {
                 var packageProductList = new List<PackageProduct>();
                 addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
                 {
@@ -4450,177 +4476,22 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
-
-
-                // If division and costcenter Ids are 0, then assign default costcenter and division.
-                if (addShipment.GeneralInformation.DivisionId == 0)
-                {
-                    var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
-                                                           && d.Type == "SYSTEM").SingleOrDefault();
-
-                    sysDivisionId = sysDivision.Id;
-
-                }
-                if (addShipment.GeneralInformation.CostCenterId == 0)
-                {
-                    var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
-                                                                                && c.Type == "SYSTEM").SingleOrDefault();
-                    sysCostCenterId = defaultCostCntr.Id;
-                }
-
-                long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
-
-                if (addShipment.GeneralInformation.ShipmentCode != "0")
-                {
-                    // If has parent shipment id, then add to previous shipment.
-                    Data.Entity.Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
-                    oldShipmentId = oldShipment.Id;
-                    oldShipment.IsParent = true;
-                    context.SaveChanges();
-                }
+                
 
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
-                Shipment newShipment = new Shipment
-                {
-                    ShipmentName = addShipment.GeneralInformation.ShipmentName,
-                    ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"),
-                    ShipmentCode = null, //addShipmentResponse.CodeShipment,
-                    DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
-                    CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
-                    ShipmentMode = (Contract.Enums.CarrierType)Enum.Parse(typeof(Contract.Enums.CarrierType), addShipment.GeneralInformation.ShipmentMode, true),
-                    ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
-                    Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
-                    TrackingNumber = null, //addShipmentResponse.Awb,
-                    CreatedBy = addShipment.CreatedBy,
-                    CreatedDate = DateTime.UtcNow,
-                    ServiceLevel = addShipment.CarrierInformation.serviceLevel,
-                    TarriffType = addShipment.CarrierInformation.tarriffType,
-                    TariffText = addShipment.CarrierInformation.tariffText,
-                    CarrierDescription = addShipment.CarrierInformation.description,
-                    ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
-                    Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                    PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
-
-                    IsActive = true,
-                    IsParent = false,
-                    ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
-                    ConsigneeAddress = new ShipmentAddress
-                    {
-                        CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
-                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                        LastName = addShipment.AddressInformation.Consignee.LastName,
-                        Country = addShipment.AddressInformation.Consignee.Country,
-                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
-                        Number = addShipment.AddressInformation.Consignee.Number,
-                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
-                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
-                        City = addShipment.AddressInformation.Consignee.City,
-                        State = addShipment.AddressInformation.Consignee.State,
-                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
-                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
-                        IsActive = true,
-                        CreatedBy = addShipment.CreatedBy,
-                        CreatedDate = DateTime.UtcNow
-                    },
-                    ConsignorAddress = new ShipmentAddress
-                    {
-                        CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
-                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                        LastName = addShipment.AddressInformation.Consigner.LastName,
-                        Country = addShipment.AddressInformation.Consigner.Country,
-                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
-                        Number = addShipment.AddressInformation.Consigner.Number,
-                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
-                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
-                        City = addShipment.AddressInformation.Consigner.City,
-                        State = addShipment.AddressInformation.Consigner.State,
-                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
-                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                        ContactName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                        IsActive = true,
-                        CreatedBy = addShipment.CreatedBy,
-                        CreatedDate = DateTime.UtcNow
-                    },
-                    ShipmentPackage = new ShipmentPackage()
-                    {
-                        PackageDescription = addShipment.PackageDetails.ShipmentDescription,
-                        TotalVolume = addShipment.PackageDetails.TotalVolume,
-                        TotalWeight = addShipment.PackageDetails.TotalWeight,
-                        HSCode = addShipment.PackageDetails.HsCode,
-                        CollectionDate = DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
-                        CarrierInstruction = addShipment.PackageDetails.Instructions,
-                        IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
-                        InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
-                        InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
-                        CarrierCost = addShipment.CarrierInformation.Price,
-                        InsuranceCost = addShipment.CarrierInformation.Insurance,
-                        PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                        EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
-                        EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
-                        WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
-                        VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
-                        IsActive = true,
-                        CreatedBy = addShipment.CreatedBy,
-                        CreatedDate = DateTime.UtcNow,
-                        PackageProducts = packageProductList,
-                        IsDG = addShipment.PackageDetails.IsDG,
-                        Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
-                        DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
-
-                    }
-                };
+                Shipment newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId);
 
                 //save consigner details as new address book detail
                 if (addShipment.AddressInformation.Consigner.SaveNewAddress)
                 {
-                    AddressBook ConsignerAddressBook = new AddressBook
-                    {
-                        CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
-                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                        LastName = addShipment.AddressInformation.Consigner.LastName,
-                        Country = addShipment.AddressInformation.Consigner.Country,
-                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
-                        Number = addShipment.AddressInformation.Consigner.Number,
-                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
-                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
-                        City = addShipment.AddressInformation.Consigner.City,
-                        State = addShipment.AddressInformation.Consigner.State,
-                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
-                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                        IsActive = true,
-                        CreatedBy = addShipment.CreatedBy,
-                        UserId = addShipment.UserId,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    context.AddressBooks.Add(ConsignerAddressBook);
+                    AddNewConsignerAddress(addShipment);
 
                 }
 
                 //save consignee details as new address book detail
                 if (addShipment.AddressInformation.Consignee.SaveNewAddress)
                 {
-                    AddressBook ConsignerAddressBook = new AddressBook
-                    {
-                        CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
-                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                        LastName = addShipment.AddressInformation.Consignee.LastName,
-                        Country = addShipment.AddressInformation.Consignee.Country,
-                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
-                        Number = addShipment.AddressInformation.Consignee.Number,
-                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
-                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
-                        City = addShipment.AddressInformation.Consignee.City,
-                        State = addShipment.AddressInformation.Consignee.State,
-                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
-                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                        IsActive = true,
-                        CreatedBy = addShipment.CreatedBy,
-                        UserId = addShipment.UserId,
-                        CreatedDate = DateTime.UtcNow
-                    };
-                    context.AddressBooks.Add(ConsignerAddressBook);
-
+                    AddNewConsigneeAddress(addShipment);
                 }
 
                 // Save shipment
@@ -4630,355 +4501,701 @@ namespace PI.Business
                 // Save payment. If come so far, mean payment is success.
                 if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
                 {
-                    var paymentEntity = new Payment();
-                    paymentEntity.CreatedBy = addShipment.UserId;
-                    paymentEntity.CreatedDate = DateTime.UtcNow;
-                    paymentEntity.IsActive = true;
-                    paymentEntity.PaymentId = paymentResult.FieldList["PaymentKey"];
-                    paymentEntity.Status = paymentResult.Status;
-                    paymentEntity.PaymentType = PaymentType.Shipment;
-                    paymentEntity.ReferenceId = newShipment.Id;
-                    paymentEntity.Amount = addShipment.PaymentDto.ChargeAmount;
-                    paymentEntity.LocationId = paymentResult.FieldList["LocationId"];
-                    paymentEntity.TransactionId = paymentResult.FieldList["TransactionId"];
-                    paymentEntity.TenderId = paymentResult.FieldList["TenderId"];
-
-                    if (addShipment.PaymentDto.CurrencyType == "USD")
-                    {
-                        paymentEntity.CurrencyType = CurrencyType.USD;
-                    }
-
-                    context.Payments.Add(paymentEntity);
-                    context.SaveChanges();
+                    SaveNewPayment(addShipment, paymentResult, newShipment);
                 }
 
                 result.ShipmentId = newShipment.Id;
                 result.Status = Status.Success;
 
                 //Add Audit Trail Record
-                context.AuditTrail.Add(new AuditTrail
-                {
-                    ReferenceId = newShipment.Id.ToString(),
-                    AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ?
-                                        AppFunctionality.EditShipment : AppFunctionality.AddShipment,
-                    Result = result.Status.ToString(),
-                    CreatedBy = "1",
-                    CreatedDate = DateTime.UtcNow
-                });
-                context.SaveChanges();
-
-                //if (!addShipment.isSaveAsDraft && (result.Status == Status.Success))
-                //{
-                //    //// set shipment id, bcoz required in sendshipmentdetails method.
-                //    //addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
-
-                //    //// We required custom shipmentdto, so need to get it back. Later need to change this.
-                //    //ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
-
-                //    //var response = sisManager.SendShipmentDetails(shDto);
-
-                //    //newShipment.Status = (short)ShipmentStatus.Processing;
-                //    //context.SaveChanges();
-
-                //    SendShipmentDetails(new SendShipmentDetailsDto()
-                //    {
-                //        ShipmentId = newShipment.Id
-                //    });
-                //}
-
-                // Need to confirm user, if did payment if it is not success or if happen any issue when save in db. So return the status of those and if those success, 
-                // then browser will call service method auto without the interaction of user.
+                AddAuditTrailRecord(addShipment, result, newShipment);
                 return result;
 
             }
+            /////////// IF USPS ///////////////
             else
             {
-
-                Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
-                long sysDivisionId = 0;
-                long sysCostCenterId = 0;
-                List<PackageProduct> packageProductList = null;
                 long mainShipmentId = 0;
-
-
-                int packageCount = 0;
+                Shipment newShipment = null;
+                int packageCount = 1;
 
                 foreach (var package in addShipment.PackageDetails.ProductIngredients)
                 {
-                    packageProductList = new List<PackageProduct>();
-                    packageProductList.Add(new PackageProduct()
+                    var packageProductList = new List<PackageProduct>();
+
+                    // Add all the packages for the main shipment
+                    if (packageCount == 1)
                     {
-                        CreatedBy = addShipment.CreatedBy,
-                        CreatedDate = DateTime.UtcNow,
-                        IsActive = true,
-                        IsDelete = false,
-                        Description = package.Description,
-                        Height = package.Height,
-                        Length = package.Length,
-                        Weight = package.Weight,
-                        Width = package.Width,
-                        Quantity = package.Quantity,
-                        ProductTypeId = (short)Enum.Parse(typeof(ProductType), package.ProductType)
-                    });
-
-
-                    // If division and costcenter Ids are 0, then assign default costcenter and division.
-                    if (addShipment.GeneralInformation.DivisionId == 0)
-                    {
-                        var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
-                                                               && d.Type == "SYSTEM").SingleOrDefault();
-
-                        sysDivisionId = sysDivision.Id;
-
-                    }
-                    if (addShipment.GeneralInformation.CostCenterId == 0)
-                    {
-                        var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
-                                                                                    && c.Type == "SYSTEM").SingleOrDefault();
-                        sysCostCenterId = defaultCostCntr.Id;
-                    }
-
-                    long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
-
-                    if (addShipment.GeneralInformation.ShipmentCode != "0")
-                    {
-                        // If has parent shipment id, then add to previous shipment.
-                        Data.Entity.Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
-                        oldShipmentId = oldShipment.Id;
-                        oldShipment.IsParent = true;
-                        context.SaveChanges();
-                    }
-
-                    Shipment newShipment = new Shipment
-                    {
-                        ShipmentName = addShipment.GeneralInformation.ShipmentName,
-                        ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"),
-                        ShipmentCode = null, //addShipmentResponse.CodeShipment,
-                        DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
-                        CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
-                        ShipmentMode = (Contract.Enums.CarrierType)Enum.Parse(typeof(Contract.Enums.CarrierType), addShipment.GeneralInformation.ShipmentMode, true),
-                        ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
-                        Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
-                        TrackingNumber = null, //addShipmentResponse.Awb,
-                        CreatedBy = addShipment.CreatedBy,
-                        CreatedDate = DateTime.UtcNow,
-                        ServiceLevel = addShipment.CarrierInformation.serviceLevel,
-                        TarriffType = addShipment.CarrierInformation.tarriffType,
-                        TariffText = addShipment.CarrierInformation.tariffText,
-                        CarrierDescription = addShipment.CarrierInformation.description,
-                        ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
-                        Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                        PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
-                        MainShipment=mainShipmentId,
-                        IsActive = true,
-                        IsParent = false,
-                        ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
-                        ConsigneeAddress = new ShipmentAddress
+                        addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
                         {
-                            CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
-                            FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                            LastName = addShipment.AddressInformation.Consignee.LastName,
-                            Country = addShipment.AddressInformation.Consignee.Country,
-                            ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
-                            Number = addShipment.AddressInformation.Consignee.Number,
-                            StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
-                            StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
-                            City = addShipment.AddressInformation.Consignee.City,
-                            State = addShipment.AddressInformation.Consignee.State,
-                            EmailAddress = addShipment.AddressInformation.Consignee.Email,
-                            PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            ContactName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
-                            IsActive = true,
-                            CreatedBy = addShipment.CreatedBy,
-                            CreatedDate = DateTime.UtcNow
-                        },
-                        ConsignorAddress = new ShipmentAddress
-                        {
-                            CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            Country = addShipment.AddressInformation.Consigner.Country,
-                            ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
-                            Number = addShipment.AddressInformation.Consigner.Number,
-                            StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
-                            StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
-                            City = addShipment.AddressInformation.Consigner.City,
-                            State = addShipment.AddressInformation.Consigner.State,
-                            EmailAddress = addShipment.AddressInformation.Consigner.Email,
-                            PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            ContactName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                            IsActive = true,
-                            CreatedBy = addShipment.CreatedBy,
-                            CreatedDate = DateTime.UtcNow
-                        },
-                        ShipmentPackage = new ShipmentPackage()
-                        {
-                            PackageDescription = addShipment.PackageDetails.ShipmentDescription,
-                            TotalVolume = addShipment.PackageDetails.TotalVolume,
-                            TotalWeight = addShipment.PackageDetails.TotalWeight,
-                            HSCode = addShipment.PackageDetails.HsCode,
-                            CollectionDate = DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
-                            CarrierInstruction = addShipment.PackageDetails.Instructions,
-                            IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
-                            InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
-                            InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
-                            CarrierCost = addShipment.CarrierInformation.Price,
-                            InsuranceCost = addShipment.CarrierInformation.Insurance,
-                            PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                            EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
-                            EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
-                            WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
-                            VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
-                            IsActive = true,
                             CreatedBy = addShipment.CreatedBy,
                             CreatedDate = DateTime.UtcNow,
-                            PackageProducts = packageProductList,
-                            IsDG = addShipment.PackageDetails.IsDG,
-                            Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
-                            DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+                            IsActive = true,
+                            IsDelete = false,
+                            Description = p.Description,
+                            Height = p.Height,
+                            Length = p.Length,
+                            Weight = p.Weight,
+                            Width = p.Width,
+                            Quantity = p.Quantity,
+                            ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
+                        }));
+
+
+                        //save consigner details as new address book detail
+                        if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                        {
+                            AddNewConsignerAddress(addShipment);
 
                         }
-                    };
-                   
-                    context.Shipments.Add(newShipment);
-                    context.SaveChanges();
-                    //check the package count to track the first shipment to save as Main shipment     
-                    if (packageCount == 0)
-                 {
-                        
-                    if (addShipment.AddressInformation.Consigner.SaveNewAddress)
-                    {
-                        AddressBook ConsignerAddressBook = new AddressBook
+
+                        //save consignee details as new address book detail
+                        if (addShipment.AddressInformation.Consignee.SaveNewAddress)
                         {
-                            CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            Country = addShipment.AddressInformation.Consigner.Country,
-                            ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
-                            Number = addShipment.AddressInformation.Consigner.Number,
-                            StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
-                            StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
-                            City = addShipment.AddressInformation.Consigner.City,
-                            State = addShipment.AddressInformation.Consigner.State,
-                            EmailAddress = addShipment.AddressInformation.Consigner.Email,
-                            PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            IsActive = true,
+                            AddNewConsigneeAddress(addShipment);
+                        }
+                        context.SaveChanges();
+                    }
+                    else
+                    {
+                        packageProductList.Add(new PackageProduct()
+                        {
                             CreatedBy = addShipment.CreatedBy,
-                            UserId = addShipment.UserId,
-                            CreatedDate = DateTime.UtcNow
-                        };
-                        context.AddressBooks.Add(ConsignerAddressBook);
+                            CreatedDate = DateTime.UtcNow,
+                            IsActive = true,
+                            IsDelete = false,
+                            Description = package.Description,
+                            Height = package.Height,
+                            Length = package.Length,
+                            Weight = package.Weight,
+                            Width = package.Width,
+                            Quantity = package.Quantity,
+                            ProductTypeId = (short)Enum.Parse(typeof(ProductType), package.ProductType)
+                        });
 
                     }
 
-                    //save consignee details as new address book detail
-                    if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+                    //Mapper.CreateMap<GeneralInformationDto, Shipment>();
+                    newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId);
+                    context.SaveChanges();
+
+                    // Save payment. If come so far, mean payment is success.
+                    if (packageCount == 1)
                     {
-                        AddressBook ConsignerAddressBook = new AddressBook
-                        {
-                            CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
-                            FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                            LastName = addShipment.AddressInformation.Consignee.LastName,
-                            Country = addShipment.AddressInformation.Consignee.Country,
-                            ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
-                            Number = addShipment.AddressInformation.Consignee.Number,
-                            StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
-                            StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
-                            City = addShipment.AddressInformation.Consignee.City,
-                            State = addShipment.AddressInformation.Consignee.State,
-                            EmailAddress = addShipment.AddressInformation.Consignee.Email,
-                            PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            IsActive = true,
-                            CreatedBy = addShipment.CreatedBy,
-                            UserId = addShipment.UserId,
-                            CreatedDate = DateTime.UtcNow
-                        };
-                        context.AddressBooks.Add(ConsignerAddressBook);
-
-                    }                 
-
-                    
-                        // Save payment. If come so far, mean payment is success.
                         if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
                         {
-                            var paymentEntity = new Payment();
-                            paymentEntity.CreatedBy = addShipment.UserId;
-                            paymentEntity.CreatedDate = DateTime.UtcNow;
-                            paymentEntity.IsActive = true;
-                            paymentEntity.PaymentId = paymentResult.FieldList["PaymentKey"];
-                            paymentEntity.Status = paymentResult.Status;
-                            paymentEntity.PaymentType = PaymentType.Shipment;
-                            paymentEntity.ReferenceId = newShipment.Id;
-                            paymentEntity.Amount = addShipment.PaymentDto.ChargeAmount;
-                            paymentEntity.LocationId = paymentResult.FieldList["LocationId"];
-                            paymentEntity.TransactionId = paymentResult.FieldList["TransactionId"];
-                            paymentEntity.TenderId = paymentResult.FieldList["TenderId"];
-
-                            if (addShipment.PaymentDto.CurrencyType == "USD")
-                            {
-                                paymentEntity.CurrencyType = CurrencyType.USD;
-                            }
-
-                            context.Payments.Add(paymentEntity);
-                            context.SaveChanges();
+                            SaveNewPayment(addShipment, paymentResult, newShipment);
                         }
-                        context.SaveChanges(); // get shipment id.
-                        mainShipmentId =newShipment.Id;
+                        mainShipmentId = newShipment.Id;
                     }
 
-
-                    // result.ShipmentId = newShipment.Id;
-
-                    result.ShipmentId = mainShipmentId;
+                    result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
                     result.Status = Status.Success;
 
                     //Add Audit Trail Record
-                    context.AuditTrail.Add(new AuditTrail
-                    {
-                        ReferenceId = newShipment.Id.ToString(),
-                        AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ?
-                                            AppFunctionality.EditShipment : AppFunctionality.AddShipment,
-                        Result = result.Status.ToString(),
-                        CreatedBy = "1",
-                        CreatedDate = DateTime.UtcNow
-                    });
-                   // context.SaveChanges();
+                    AddAuditTrailRecord(addShipment, result, newShipment);
                     packageCount++;
-                    //end of USPS Add shipment
-                    context.SaveChanges();
                 }
-                context.SaveChanges();
 
-                //Mapper.CreateMap<GeneralInformationDto, Shipment>();
-
-
-                //save consigner details as new address book detail              
-
-                //if (!addShipment.isSaveAsDraft && (result.Status == Status.Success))
-                //{
-                //    //// set shipment id, bcoz required in sendshipmentdetails method.
-                //    //addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
-
-                //    //// We required custom shipmentdto, so need to get it back. Later need to change this.
-                //    //ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
-
-                //    //var response = sisManager.SendShipmentDetails(shDto);
-
-                //    //newShipment.Status = (short)ShipmentStatus.Processing;
-                //    //context.SaveChanges();
-
-                //    SendShipmentDetails(new SendShipmentDetailsDto()
-                //    {
-                //        ShipmentId = newShipment.Id
-                //    });
-                //}
-
-                // Need to confirm user, if did payment if it is not success or if happen any issue when save in db. So return the status of those and if those success, 
-                // then browser will call service method auto without the interaction of user.
                 return result;
-
             }
-            
+        }
+
+
+        //public ShipmentOperationResult SaveShipmentV1(ShipmentDto addShipment)
+        //{
+        //    long sysDivisionId = 0;
+        //    long sysCostCenterId = 0;
+        //    ShipmentOperationResult result = new ShipmentOperationResult();
+        //    OperationResult paymentResult = new OperationResult();
+
+        //    Company currentcompany = context.GetCompanyByUserId(addShipment.UserId);
+
+
+        //    if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
+        //    {
+        //        // Make online payment
+        //        paymentResult = paymentManager.Charge(addShipment.PaymentDto);
+
+        //        if (paymentResult.Status == Status.PaymentError)
+        //        {
+        //            // Payment failt. No need to save shipment details on db.
+        //            result.Status = Status.PaymentError;
+        //            result.Message = "Payment failed. " + result.FieldList["errorCode"];
+
+        //            return result;
+        //        }
+        //    }
+
+        //    // If division and costcenter Ids are 0, then assign default costcenter and division.
+        //    if (addShipment.GeneralInformation.DivisionId == 0)
+        //    {
+        //        var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+        //                                               && d.Type == "SYSTEM").SingleOrDefault();
+
+        //        sysDivisionId = sysDivision.Id;
+
+        //    }
+        //    if (addShipment.GeneralInformation.CostCenterId == 0)
+        //    {
+        //        var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+        //                                                                    && c.Type == "SYSTEM").SingleOrDefault();
+        //        sysCostCenterId = defaultCostCntr.Id;
+        //    }
+
+
+        //    if (addShipment.CarrierInformation.CarrierName != "USP")
+        //    {
+        //        var packageProductList = new List<PackageProduct>();
+        //        addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
+        //        {
+        //            CreatedBy = addShipment.CreatedBy,
+        //            CreatedDate = DateTime.UtcNow,
+        //            IsActive = true,
+        //            IsDelete = false,
+        //            Description = p.Description,
+        //            Height = p.Height,
+        //            Length = p.Length,
+        //            Weight = p.Weight,
+        //            Width = p.Width,
+        //            Quantity = p.Quantity,
+        //            ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
+        //        }));
+
+
+        //        long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+
+        //        if (addShipment.GeneralInformation.ShipmentCode != "0")
+        //        {
+        //            // If has parent shipment id, then add to previous shipment.
+        //            Data.Entity.Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
+        //            oldShipmentId = oldShipment.Id;
+        //            oldShipment.IsParent = true;
+        //            context.SaveChanges();
+        //        }
+
+        //        //Mapper.CreateMap<GeneralInformationDto, Shipment>();
+        //        Shipment newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId);
+
+        //        //save consigner details as new address book detail
+        //        if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+        //        {
+        //            AddNewConsignerAddress(addShipment);
+
+        //        }
+
+        //        //save consignee details as new address book detail
+        //        if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+        //        {
+        //            AddNewConsigneeAddress(addShipment);
+        //        }
+
+        //        // Save shipment
+        //        context.Shipments.Add(newShipment);
+        //        context.SaveChanges();
+
+        //        // Save payment. If come so far, mean payment is success.
+        //        if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
+        //        {
+        //            SaveNewPayment(addShipment, paymentResult, newShipment);
+        //        }
+
+        //        result.ShipmentId = newShipment.Id;
+        //        result.Status = Status.Success;
+
+        //        //Add Audit Trail Record
+        //        AddAuditTrailRecord(addShipment, result, newShipment);
+
+        //        //if (!addShipment.isSaveAsDraft && (result.Status == Status.Success))
+        //        //{
+        //        //    //// set shipment id, bcoz required in sendshipmentdetails method.
+        //        //    //addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
+
+        //        //    //// We required custom shipmentdto, so need to get it back. Later need to change this.
+        //        //    //ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
+
+        //        //    //var response = sisManager.SendShipmentDetails(shDto);
+
+        //        //    //newShipment.Status = (short)ShipmentStatus.Processing;
+        //        //    //context.SaveChanges();
+
+        //        //    SendShipmentDetails(new SendShipmentDetailsDto()
+        //        //    {
+        //        //        ShipmentId = newShipment.Id
+        //        //    });
+        //        //}
+
+        //        // Need to confirm user, if did payment if it is not success or if happen any issue when save in db. So return the status of those and if those success, 
+        //        // then browser will call service method auto without the interaction of user.
+        //        return result;
+
+        //    }
+        //    else
+        //    {
+        //        List<PackageProduct> packageProductList = null;
+        //        long mainShipmentId = 0;
+
+
+        //        int packageCount = 0;
+
+        //        foreach (var package in addShipment.PackageDetails.ProductIngredients)
+        //        {
+        //            packageProductList = new List<PackageProduct>();
+        //            packageProductList.Add(new PackageProduct()
+        //            {
+        //                CreatedBy = addShipment.CreatedBy,
+        //                CreatedDate = DateTime.UtcNow,
+        //                IsActive = true,
+        //                IsDelete = false,
+        //                Description = package.Description,
+        //                Height = package.Height,
+        //                Length = package.Length,
+        //                Weight = package.Weight,
+        //                Width = package.Width,
+        //                Quantity = package.Quantity,
+        //                ProductTypeId = (short)Enum.Parse(typeof(ProductType), package.ProductType)
+        //            });
+
+
+        //            // If division and costcenter Ids are 0, then assign default costcenter and division.
+        //            if (addShipment.GeneralInformation.DivisionId == 0)
+        //            {
+        //                var sysDivision = context.Divisions.Where(d => d.CompanyId == currentcompany.Id
+        //                                                       && d.Type == "SYSTEM").SingleOrDefault();
+
+        //                sysDivisionId = sysDivision.Id;
+
+        //            }
+        //            if (addShipment.GeneralInformation.CostCenterId == 0)
+        //            {
+        //                var defaultCostCntr = context.CostCenters.Where(c => c.CompanyId == currentcompany.Id
+        //                                                                            && c.Type == "SYSTEM").SingleOrDefault();
+        //                sysCostCenterId = defaultCostCntr.Id;
+        //            }
+
+        //            long oldShipmentId = 0;//= Int64.Parse(addShipment.GeneralInformation.ShipmentCode);
+
+        //            if (addShipment.GeneralInformation.ShipmentCode != "0")
+        //            {
+        //                // If has parent shipment id, then add to previous shipment.
+        //                Data.Entity.Shipment oldShipment = context.Shipments.Where(sh => sh.ShipmentCode == addShipment.GeneralInformation.ShipmentCode).FirstOrDefault();
+        //                oldShipmentId = oldShipment.Id;
+        //                oldShipment.IsParent = true;
+        //                context.SaveChanges();
+        //            }
+
+        //            Shipment newShipment = new Shipment
+        //            {
+        //                ShipmentName = addShipment.GeneralInformation.ShipmentName,
+        //                ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"),
+        //                ShipmentCode = null, //addShipmentResponse.CodeShipment,
+        //                DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
+        //                CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
+        //                ShipmentMode = (Contract.Enums.CarrierType)Enum.Parse(typeof(Contract.Enums.CarrierType), addShipment.GeneralInformation.ShipmentMode, true),
+        //                ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
+        //                Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
+        //                TrackingNumber = null, //addShipmentResponse.Awb,
+        //                CreatedBy = addShipment.CreatedBy,
+        //                CreatedDate = DateTime.UtcNow,
+        //                ServiceLevel = addShipment.CarrierInformation.serviceLevel,
+        //                TarriffType = addShipment.CarrierInformation.tarriffType,
+        //                TariffText = addShipment.CarrierInformation.tariffText,
+        //                CarrierDescription = addShipment.CarrierInformation.description,
+        //                ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
+        //                Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
+        //                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+        //                MainShipment = mainShipmentId,
+        //                IsActive = true,
+        //                IsParent = false,
+        //                ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
+        //                ConsigneeAddress = new ShipmentAddress
+        //                {
+        //                    CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
+        //                    FirstName = addShipment.AddressInformation.Consignee.FirstName,
+        //                    LastName = addShipment.AddressInformation.Consignee.LastName,
+        //                    Country = addShipment.AddressInformation.Consignee.Country,
+        //                    ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+        //                    Number = addShipment.AddressInformation.Consignee.Number,
+        //                    StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+        //                    StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+        //                    City = addShipment.AddressInformation.Consignee.City,
+        //                    State = addShipment.AddressInformation.Consignee.State,
+        //                    EmailAddress = addShipment.AddressInformation.Consignee.Email,
+        //                    PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+        //                    ContactName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
+        //                    IsActive = true,
+        //                    CreatedBy = addShipment.CreatedBy,
+        //                    CreatedDate = DateTime.UtcNow
+        //                },
+        //                ConsignorAddress = new ShipmentAddress
+        //                {
+        //                    CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
+        //                    FirstName = addShipment.AddressInformation.Consigner.FirstName,
+        //                    LastName = addShipment.AddressInformation.Consigner.LastName,
+        //                    Country = addShipment.AddressInformation.Consigner.Country,
+        //                    ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+        //                    Number = addShipment.AddressInformation.Consigner.Number,
+        //                    StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+        //                    StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+        //                    City = addShipment.AddressInformation.Consigner.City,
+        //                    State = addShipment.AddressInformation.Consigner.State,
+        //                    EmailAddress = addShipment.AddressInformation.Consigner.Email,
+        //                    PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+        //                    ContactName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+        //                    IsActive = true,
+        //                    CreatedBy = addShipment.CreatedBy,
+        //                    CreatedDate = DateTime.UtcNow
+        //                },
+        //                ShipmentPackage = new ShipmentPackage()
+        //                {
+        //                    PackageDescription = addShipment.PackageDetails.ShipmentDescription,
+        //                    TotalVolume = addShipment.PackageDetails.TotalVolume,
+        //                    TotalWeight = addShipment.PackageDetails.TotalWeight,
+        //                    HSCode = addShipment.PackageDetails.HsCode,
+        //                    CollectionDate = DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
+        //                    CarrierInstruction = addShipment.PackageDetails.Instructions,
+        //                    IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
+        //                    InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
+        //                    InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
+        //                    CarrierCost = addShipment.CarrierInformation.Price,
+        //                    InsuranceCost = addShipment.CarrierInformation.Insurance,
+        //                    PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
+        //                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+        //                    EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
+        //                    WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
+        //                    VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
+        //                    IsActive = true,
+        //                    CreatedBy = addShipment.CreatedBy,
+        //                    CreatedDate = DateTime.UtcNow,
+        //                    PackageProducts = packageProductList,
+        //                    IsDG = addShipment.PackageDetails.IsDG,
+        //                    Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+        //                    DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
+        //                }
+        //            };
+
+        //            context.Shipments.Add(newShipment);
+        //            context.SaveChanges();
+        //            //check the package count to track the first shipment to save as Main shipment     
+        //            if (packageCount == 0)
+        //            {
+
+        //                if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+        //                {
+        //                    AddressBook ConsignerAddressBook = new AddressBook
+        //                    {
+        //                        CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
+        //                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+        //                        LastName = addShipment.AddressInformation.Consigner.LastName,
+        //                        Country = addShipment.AddressInformation.Consigner.Country,
+        //                        ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+        //                        Number = addShipment.AddressInformation.Consigner.Number,
+        //                        StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+        //                        StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+        //                        City = addShipment.AddressInformation.Consigner.City,
+        //                        State = addShipment.AddressInformation.Consigner.State,
+        //                        EmailAddress = addShipment.AddressInformation.Consigner.Email,
+        //                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+        //                        IsActive = true,
+        //                        CreatedBy = addShipment.CreatedBy,
+        //                        UserId = addShipment.UserId,
+        //                        CreatedDate = DateTime.UtcNow
+        //                    };
+        //                    context.AddressBooks.Add(ConsignerAddressBook);
+
+        //                }
+
+        //                //save consignee details as new address book detail
+        //                if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+        //                {
+        //                    AddressBook ConsignerAddressBook = new AddressBook
+        //                    {
+        //                        CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
+        //                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+        //                        LastName = addShipment.AddressInformation.Consignee.LastName,
+        //                        Country = addShipment.AddressInformation.Consignee.Country,
+        //                        ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+        //                        Number = addShipment.AddressInformation.Consignee.Number,
+        //                        StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+        //                        StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+        //                        City = addShipment.AddressInformation.Consignee.City,
+        //                        State = addShipment.AddressInformation.Consignee.State,
+        //                        EmailAddress = addShipment.AddressInformation.Consignee.Email,
+        //                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+        //                        IsActive = true,
+        //                        CreatedBy = addShipment.CreatedBy,
+        //                        UserId = addShipment.UserId,
+        //                        CreatedDate = DateTime.UtcNow
+        //                    };
+        //                    context.AddressBooks.Add(ConsignerAddressBook);
+
+        //                }
+
+
+        //                // Save payment. If come so far, mean payment is success.
+        //                if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
+        //                {
+        //                    var paymentEntity = new Payment();
+        //                    paymentEntity.CreatedBy = addShipment.UserId;
+        //                    paymentEntity.CreatedDate = DateTime.UtcNow;
+        //                    paymentEntity.IsActive = true;
+        //                    paymentEntity.PaymentId = paymentResult.FieldList["PaymentKey"];
+        //                    paymentEntity.Status = paymentResult.Status;
+        //                    paymentEntity.PaymentType = PaymentType.Shipment;
+        //                    paymentEntity.ReferenceId = newShipment.Id;
+        //                    paymentEntity.Amount = addShipment.PaymentDto.ChargeAmount;
+        //                    paymentEntity.LocationId = paymentResult.FieldList["LocationId"];
+        //                    paymentEntity.TransactionId = paymentResult.FieldList["TransactionId"];
+        //                    paymentEntity.TenderId = paymentResult.FieldList["TenderId"];
+
+        //                    if (addShipment.PaymentDto.CurrencyType == "USD")
+        //                    {
+        //                        paymentEntity.CurrencyType = CurrencyType.USD;
+        //                    }
+
+        //                    context.Payments.Add(paymentEntity);
+        //                    context.SaveChanges();
+        //                }
+        //                context.SaveChanges(); // get shipment id.
+        //                mainShipmentId = newShipment.Id;
+        //            }
+
+
+        //            // result.ShipmentId = newShipment.Id;
+
+        //            result.ShipmentId = mainShipmentId;
+        //            result.Status = Status.Success;
+
+        //            //Add Audit Trail Record
+        //            context.AuditTrail.Add(new AuditTrail
+        //            {
+        //                ReferenceId = newShipment.Id.ToString(),
+        //                AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ?
+        //                                    AppFunctionality.EditShipment : AppFunctionality.AddShipment,
+        //                Result = result.Status.ToString(),
+        //                CreatedBy = "1",
+        //                CreatedDate = DateTime.UtcNow
+        //            });
+        //            // context.SaveChanges();
+        //            packageCount++;
+        //            //end of USPS Add shipment
+        //            context.SaveChanges();
+        //        }
+        //        context.SaveChanges();
+
+        //        //Mapper.CreateMap<GeneralInformationDto, Shipment>();
+
+
+        //        //save consigner details as new address book detail              
+
+        //        //if (!addShipment.isSaveAsDraft && (result.Status == Status.Success))
+        //        //{
+        //        //    //// set shipment id, bcoz required in sendshipmentdetails method.
+        //        //    //addShipment.GeneralInformation.ShipmentId = newShipment.Id.ToString();
+
+        //        //    //// We required custom shipmentdto, so need to get it back. Later need to change this.
+        //        //    //ShipmentDto shDto = GetShipmentDtoForSIS(newShipment.Id);
+
+        //        //    //var response = sisManager.SendShipmentDetails(shDto);
+
+        //        //    //newShipment.Status = (short)ShipmentStatus.Processing;
+        //        //    //context.SaveChanges();
+
+        //        //    SendShipmentDetails(new SendShipmentDetailsDto()
+        //        //    {
+        //        //        ShipmentId = newShipment.Id
+        //        //    });
+        //        //}
+
+        //        // Need to confirm user, if did payment if it is not success or if happen any issue when save in db. So return the status of those and if those success, 
+        //        // then browser will call service method auto without the interaction of user.
+        //        return result;
+
+        //    }
+
+        //}
+
+        private void AddAuditTrailRecord(ShipmentDto addShipment, ShipmentOperationResult result, Shipment newShipment)
+        {
+            context.AuditTrail.Add(new AuditTrail
+            {
+                ReferenceId = newShipment.Id.ToString(),
+                AppFunctionality = (addShipment.GeneralInformation.ShipmentCode != "0") ?
+                                    AppFunctionality.EditShipment : AppFunctionality.AddShipment,
+                Result = result.Status.ToString(),
+                CreatedBy = "1",
+                CreatedDate = DateTime.UtcNow
+            });
+            context.SaveChanges();
+        }
+
+        private void SaveNewPayment(ShipmentDto addShipment, OperationResult paymentResult, Shipment newShipment)
+        {
+            var paymentEntity = new Payment();
+            paymentEntity.CreatedBy = addShipment.UserId;
+            paymentEntity.CreatedDate = DateTime.UtcNow;
+            paymentEntity.IsActive = true;
+            paymentEntity.PaymentId = paymentResult.FieldList["PaymentKey"];
+            paymentEntity.Status = paymentResult.Status;
+            paymentEntity.PaymentType = PaymentType.Shipment;
+            paymentEntity.ReferenceId = newShipment.Id;
+            paymentEntity.Amount = addShipment.PaymentDto.ChargeAmount;
+            paymentEntity.LocationId = paymentResult.FieldList["LocationId"];
+            paymentEntity.TransactionId = paymentResult.FieldList["TransactionId"];
+            paymentEntity.TenderId = paymentResult.FieldList["TenderId"];
+
+            if (addShipment.PaymentDto.CurrencyType == "USD")
+            {
+                paymentEntity.CurrencyType = CurrencyType.USD;
+            }
+
+            context.Payments.Add(paymentEntity);
+            context.SaveChanges();
+        }
+
+        private void AddNewConsigneeAddress(ShipmentDto addShipment)
+        {
+            AddressBook ConsigneeAddressBook = new AddressBook
+            {
+                CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
+                FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                LastName = addShipment.AddressInformation.Consignee.LastName,
+                Country = addShipment.AddressInformation.Consignee.Country,
+                ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                Number = addShipment.AddressInformation.Consignee.Number,
+                StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                City = addShipment.AddressInformation.Consignee.City,
+                State = addShipment.AddressInformation.Consignee.State,
+                EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                IsActive = true,
+                CreatedBy = addShipment.CreatedBy,
+                UserId = addShipment.UserId,
+                CreatedDate = DateTime.UtcNow
+            };
+            context.AddressBooks.Add(ConsigneeAddressBook);
+        }
+
+        private void AddNewConsignerAddress(ShipmentDto addShipment)
+        {
+            AddressBook ConsignerAddressBook = new AddressBook
+            {
+                CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
+                FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                LastName = addShipment.AddressInformation.Consigner.LastName,
+                Country = addShipment.AddressInformation.Consigner.Country,
+                ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                Number = addShipment.AddressInformation.Consigner.Number,
+                StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                City = addShipment.AddressInformation.Consigner.City,
+                State = addShipment.AddressInformation.Consigner.State,
+                EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                IsActive = true,
+                CreatedBy = addShipment.CreatedBy,
+                UserId = addShipment.UserId,
+                CreatedDate = DateTime.UtcNow
+            };
+            context.AddressBooks.Add(ConsignerAddressBook);
+        }
+
+        private Shipment ConstructNewShipmentDetails(ShipmentDto addShipment, long sysDivisionId, long sysCostCenterId, List<PackageProduct> packageProductList, long oldShipmentId)
+        {
+            return new Shipment
+            {
+                ShipmentName = addShipment.GeneralInformation.ShipmentName,
+                ShipmentReferenceName = addShipment.GeneralInformation.ShipmentName + "-" + DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"),
+                ShipmentCode = null, //addShipmentResponse.CodeShipment,
+                DivisionId = addShipment.GeneralInformation.DivisionId == 0 ? sysDivisionId : (long?)addShipment.GeneralInformation.DivisionId,
+                CostCenterId = addShipment.GeneralInformation.CostCenterId == 0 ? sysCostCenterId : (long?)addShipment.GeneralInformation.CostCenterId,
+                ShipmentMode = (Contract.Enums.CarrierType)Enum.Parse(typeof(Contract.Enums.CarrierType), addShipment.GeneralInformation.ShipmentMode, true),
+                ShipmentService = (short)Utility.GetValueFromDescription<ShipmentService>(addShipment.GeneralInformation.ShipmentServices),
+                Carrier = context.Carrier.Where(c => c.Name == addShipment.CarrierInformation.CarrierName).FirstOrDefault(),
+                TrackingNumber = null, //addShipmentResponse.Awb,
+                CreatedBy = addShipment.CreatedBy,
+                CreatedDate = DateTime.UtcNow,
+                ServiceLevel = addShipment.CarrierInformation.serviceLevel,
+                TarriffType = addShipment.CarrierInformation.tarriffType,
+                TariffText = addShipment.CarrierInformation.tariffText,
+                CarrierDescription = addShipment.CarrierInformation.description,
+                ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
+                Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
+                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                IsActive = true,
+                IsParent = false,
+                ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
+
+                ConsigneeAddress = new ShipmentAddress
+                {
+                    CompanyName = addShipment.AddressInformation.Consignee.CompanyName,
+                    FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                    LastName = addShipment.AddressInformation.Consignee.LastName,
+                    Country = addShipment.AddressInformation.Consignee.Country,
+                    ZipCode = addShipment.AddressInformation.Consignee.Postalcode,
+                    Number = addShipment.AddressInformation.Consignee.Number,
+                    StreetAddress1 = addShipment.AddressInformation.Consignee.Address1,
+                    StreetAddress2 = addShipment.AddressInformation.Consignee.Address2,
+                    City = addShipment.AddressInformation.Consignee.City,
+                    State = addShipment.AddressInformation.Consignee.State,
+                    EmailAddress = addShipment.AddressInformation.Consignee.Email,
+                    PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                    ContactName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
+                    IsActive = true,
+                    CreatedBy = addShipment.CreatedBy,
+                    CreatedDate = DateTime.UtcNow
+                },
+                ConsignorAddress = new ShipmentAddress
+                {
+                    CompanyName = addShipment.AddressInformation.Consigner.CompanyName,
+                    FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                    LastName = addShipment.AddressInformation.Consigner.LastName,
+                    Country = addShipment.AddressInformation.Consigner.Country,
+                    ZipCode = addShipment.AddressInformation.Consigner.Postalcode,
+                    Number = addShipment.AddressInformation.Consigner.Number,
+                    StreetAddress1 = addShipment.AddressInformation.Consigner.Address1,
+                    StreetAddress2 = addShipment.AddressInformation.Consigner.Address2,
+                    City = addShipment.AddressInformation.Consigner.City,
+                    State = addShipment.AddressInformation.Consigner.State,
+                    EmailAddress = addShipment.AddressInformation.Consigner.Email,
+                    PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                    ContactName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                    IsActive = true,
+                    CreatedBy = addShipment.CreatedBy,
+                    CreatedDate = DateTime.UtcNow
+                },
+                ShipmentPackage = new ShipmentPackage()
+                {
+                    PackageDescription = addShipment.PackageDetails.ShipmentDescription,
+                    TotalVolume = addShipment.PackageDetails.TotalVolume,
+                    TotalWeight = addShipment.PackageDetails.TotalWeight,
+                    HSCode = addShipment.PackageDetails.HsCode,
+                    CollectionDate = DateTime.Parse(addShipment.PackageDetails.PreferredCollectionDate),
+                    CarrierInstruction = addShipment.PackageDetails.Instructions,
+                    IsInsured = Convert.ToBoolean(addShipment.PackageDetails.IsInsuared),
+                    InsuranceDeclaredValue = addShipment.PackageDetails.DeclaredValue,
+                    InsuranceCurrencyType = (short)addShipment.PackageDetails.ValueCurrency,
+                    CarrierCost = addShipment.CarrierInformation.Price,
+                    InsuranceCost = addShipment.CarrierInformation.Insurance,
+                    PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
+                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                    EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
+                    //WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
+                    //VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
+                    WeightMetricId = addShipment.PackageDetails.WeightUnit == "/(kg)" ? (short)1 : (short)2,
+                    VolumeMetricId = addShipment.PackageDetails.VolumeUnit == "/(cm)" ? (short)1 : (short)2,
+                    IsActive = true,
+                    CreatedBy = addShipment.CreatedBy,
+                    CreatedDate = DateTime.UtcNow,
+                    PackageProducts = packageProductList,
+                    IsDG = addShipment.PackageDetails.IsDG,
+                    Accessibility = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.Accessibility : false,
+                    DGType = addShipment.PackageDetails.IsDG == true ? addShipment.PackageDetails.DGType : null,
+
+                }
+            };
         }
 
         public List<ShipmentOperationResult> SendShipmentDetailsV1(SendShipmentDetailsDto sendShipmentDetails)
@@ -4993,11 +5210,11 @@ namespace PI.Business
 
             //adding sub shipments
             var subShipments = context.Shipments.Where(sb => sb.MainShipment == shipment.Id).ToList();
-            if (subShipments!=null)
+            if (subShipments != null)
             {
                 subShipmentList.AddRange(subShipments);
             }
-           
+
             foreach (var shipmentItem in subShipmentList)
             {
                 //get shipment again to avoid context update error
@@ -5122,7 +5339,7 @@ namespace PI.Business
                 ShipmentOperationResult result = new ShipmentOperationResult();
 
 
-                if (string.IsNullOrWhiteSpace(response.Awb) && shipment.Carrier.Name != "USP")
+                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP")
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Ship It Smarter";
@@ -5143,7 +5360,7 @@ namespace PI.Business
                     result.ShipmentCode = response.CodeShipment;
                     result.ShipmentReference = currentShipment.ShipmentReferenceName;
                 }
-                else if (string.IsNullOrWhiteSpace(response.Awb) && shipment.Carrier.Name == "USP")
+                else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Stamps.com";
@@ -5176,19 +5393,20 @@ namespace PI.Business
                     // build response result
                     result.Status = Status.Success;
                     result.Message = "Shipment added successfully";
+                    shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
 
                     // If response.PDF is empty, get from following url.
                     if (string.IsNullOrWhiteSpace(response.PDF))
                     {
-                        result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                        result.LabelURL = sisManager.GetLabel(currentShipment.ShipmentCode);
                     }
                     else
                     {
-                        if (shipment.Carrier.Name == "TNT")
+                        if (currentShipment.Carrier.Name == "TNT")
                         {
-                            result.LabelURL = sisManager.GetLabel(shipment.ShipmentCode);
+                            result.LabelURL = sisManager.GetLabel(currentShipment.ShipmentCode);
                         }
                         else
                         {
@@ -5197,15 +5415,15 @@ namespace PI.Business
                     }
 
 
-                    result.ShipmentId = shipment.Id;
+                    result.ShipmentId = currentShipment.Id;
 
                     //adding the shipment label to azure
                     // For now replace userid from created by
-                    sendShipmentDetails.UserId = shipment.CreatedBy;
+                    sendShipmentDetails.UserId = currentShipment.CreatedBy;
                     AddShipmentLabeltoAzure(result, sendShipmentDetails);
 
-                    var tenantId = context.GetTenantIdByUserId(shipment.CreatedBy);
-                    var Url = getLabelforShipmentFromBlobStorage(shipment.Id, tenantId);
+                    var tenantId = context.GetTenantIdByUserId(currentShipment.CreatedBy);
+                    var Url = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId);
                     result.LabelURL = Url;
                 }
 

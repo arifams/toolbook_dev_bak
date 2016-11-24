@@ -212,7 +212,7 @@
                             <translate> Please check your inbox to reset the password</translate>
                         </div>
                         <div class="alert alert-danger" ng-show="userLog.passwordResetError">
-                            {{userLog.passwordResetErrorMsg}}
+                            <strong>{{userLog.passwordResetErrorMsg}}</strong>
                         </div>
 
                         <div class="clearfix" ng-hide="userLog.isSentPasswordResetMail">

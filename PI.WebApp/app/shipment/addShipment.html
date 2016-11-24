@@ -1962,7 +1962,7 @@
             <div class="row m-0" ng-show="shipmentCtrl.isBooking">
                 <div class="row m-0">
                     <div class="col-md-3">
-                        <label>Shipment booking in progress</label>
+                        <span style="font-size:15px;">Shipment booking in progress</span><br /><br />
                     </div>
                     <div class="col-sm-1">
                         <div class="font-animation p-0">
@@ -2027,16 +2027,16 @@
                                     <label> {{shipmentCtrl.shipmentStatusMsg}} </label>
 
                                     <div ng-show="shipmentCtrl.isShowLabel">
-                                        <span>Shipment booking confirmed</span> <br />
-                                        <a href="#ShipmentOverview?SHIPMENT_ID={{shipmentCtrl.shipment.generalInformation.shipmentId}}&SHIPMENT_CODE={{shipmentCtrl.shipmentCode}}&TRACKING_NO={{shipmentCtrl.trackingNumber}}&CARRIER={{shipmentCtrl.carrierName}}&CREATED_ON={{shipmentCtrl.createdDate}}">View shipment</a>
-                                        <br />
+                                        <span style="font-size:15px;">Shipment booking confirmed</span> <br /><br />
+                                        <!--<a href="#ShipmentOverview?SHIPMENT_ID={{shipmentCtrl.shipment.generalInformation.shipmentId}}&SHIPMENT_CODE={{shipmentCtrl.shipmentCode}}&TRACKING_NO={{shipmentCtrl.trackingNumber}}&CARRIER={{shipmentCtrl.carrierName}}&CREATED_ON={{shipmentCtrl.createdDate}}">View shipment</a>-->
+                                        <!--<br />-->
                                         <a ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelUrl)" target="_blank" translate>Download the Label</a>
                                     </div>
                                     <div ng-hide="shipmentCtrl.isShowLabel">
                                         <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice && !isViaInvoicePayment">
+                                    <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
                                         <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
                                     </div>
                                     <br>

@@ -674,18 +674,19 @@
 
                         vm.addingShipment = false;
                         //section to set the shipment mode
-                        function addShipmentResponse(response) {
+                        function addShipmentResponse(responseArray) {
                             
                             //vm.loadingSymbole = false;
                             //vm.shipmentStatusMsg = response.message;
                             //vm.isShowResponse = true;
                             vm.isBooking = false;
-                            
-                            vm.isShowResponse = true;
+                            var response = responseArray[0];
 
+                            vm.isShowResponse = true;
+                            debugger;
                             if (response.status == 2) {
                                 // Success both payment and shipment.
-
+                                debugger;
                                 //vm.isBookingInCarrier = true;
 
                                 //vm.addingShipment = true;
@@ -695,7 +696,7 @@
                                 //vm.savePayShipment = false;
 
                                 vm.labelUrl = response.labelURL;
-                                vm.shipmentCode = response.shipmentCode;
+                                vm.shipmentCode = response.shipmentDto.generalInformation.shipmentCode;
                                 vm.trackingNumber = response.shipmentDto.generalInformation.trackingNumber;
                                 vm.carrierName = response.shipmentDto.carrierInformation.carrierName;
                                 vm.createdDate = response.shipmentDto.generalInformation.createdDate;
