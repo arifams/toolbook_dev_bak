@@ -127,8 +127,7 @@ namespace PI.Business
 
 
 
-
-
+        
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
             // Set SIS credentials.
@@ -268,19 +267,19 @@ namespace PI.Business
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
-            QueueMessageSender messageSender = new QueueMessageSender();
+            //QueueMessageSender messageSender = new QueueMessageSender();
 
-            try
-            {
+            //try
+            //{
 
-                //messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
+            //    //messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
 
-            }
-            catch (Exception e)
-            {
+            //}
+            //catch (Exception e)
+            //{
 
-                throw;
-            }
+            //    throw;
+            //}
 
 
             using (var wb = new WebClient())
