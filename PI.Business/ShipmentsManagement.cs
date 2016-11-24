@@ -4476,10 +4476,10 @@ namespace PI.Business
                     Quantity = p.Quantity,
                     ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
                 }));
-                
 
+                long mainShipmentId = 0;
                 //Mapper.CreateMap<GeneralInformationDto, Shipment>();
-                Shipment newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId);
+                Shipment newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId, mainShipmentId);
 
                 //save consigner details as new address book detail
                 if (addShipment.AddressInformation.Consigner.SaveNewAddress)
@@ -4576,7 +4576,8 @@ namespace PI.Business
                     }
 
                     //Mapper.CreateMap<GeneralInformationDto, Shipment>();
-                    newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId);
+                    newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId, mainShipmentId);
+                    context.Shipments.Add(newShipment);
                     context.SaveChanges();
 
                     // Save payment. If come so far, mean payment is success.
@@ -5102,7 +5103,7 @@ namespace PI.Business
             context.AddressBooks.Add(ConsignerAddressBook);
         }
 
-        private Shipment ConstructNewShipmentDetails(ShipmentDto addShipment, long sysDivisionId, long sysCostCenterId, List<PackageProduct> packageProductList, long oldShipmentId)
+        private Shipment ConstructNewShipmentDetails(ShipmentDto addShipment, long sysDivisionId, long sysCostCenterId, List<PackageProduct> packageProductList, long oldShipmentId, long mainShipmentId)
         {
             return new Shipment
             {
@@ -5127,6 +5128,7 @@ namespace PI.Business
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
+                MainShipment=mainShipmentId,
 
                 ConsigneeAddress = new ShipmentAddress
                 {
@@ -5209,7 +5211,7 @@ namespace PI.Business
             allShipmentList.Add(shipment);
 
             //adding sub shipments
-            var subShipments = context.Shipments.Where(sb => sb.MainShipment == shipment.Id).ToList();
+            List<Shipment> subShipments = context.Shipments.Where(sb => sb.MainShipment == shipment.Id).ToList();
             if (subShipments != null)
             {
                 allShipmentList.AddRange(subShipments);
