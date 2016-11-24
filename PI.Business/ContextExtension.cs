@@ -98,5 +98,53 @@ namespace PI.Business
 
             return localTime;
         }
+
+        /// <summary>
+        /// Get UTC time when datetime in string format
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="loggedUserId"></param>
+        /// <param name="localDatetime"></param>
+        /// <returns></returns>
+        public static DateTime GetUTCTimeByUser(this PIContext context, string loggedUserId, string localDatetime)
+        {
+            if (string.IsNullOrWhiteSpace(loggedUserId))
+                return Convert.ToDateTime(localDatetime).ToUniversalTime();
+
+            var account = context.AccountSettings.Where(ac => ac.Customer.UserId == loggedUserId).FirstOrDefault();
+
+            if (account == null)
+                return Convert.ToDateTime(localDatetime).ToUniversalTime();
+
+            var timeZone = context.TimeZones.Where(t => t.Id == account.DefaultTimeZoneId).First();
+
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById(timeZone.TimeZoneId);
+
+            return TimeZoneInfo.ConvertTimeToUtc(Convert.ToDateTime(localDatetime), cstZone);
+        }
+
+        /// <summary>
+        /// Get UTC time when datetime in unknown format
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="loggedUserId"></param>
+        /// <param name="localDatetime"></param>
+        /// <returns></returns>
+        public static DateTime GetUTCTimeByUser(this PIContext context, string loggedUserId, DateTime localDatetime)
+        {
+            if (string.IsNullOrWhiteSpace(loggedUserId))
+                return localDatetime;
+
+            var account = context.AccountSettings.Where(ac => ac.Customer.UserId == loggedUserId).FirstOrDefault();
+
+            if (account == null)
+                return localDatetime;
+
+            var timeZone = context.TimeZones.Where(t => t.Id == account.DefaultTimeZoneId).First();
+
+            TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById(timeZone.TimeZoneId);
+
+            return TimeZoneInfo.ConvertTimeToUtc(localDatetime, cstZone);
+        }
     }
 }
