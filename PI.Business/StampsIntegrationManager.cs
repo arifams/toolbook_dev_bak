@@ -190,7 +190,7 @@ namespace PI.Business
                         DeclaredValue = addShipment.PackageDetails.DeclaredValue,
                         InsuredValue = addShipment.CarrierInformation.Insurance,
                         ServiceType = this.GetServiceType(addShipment.CarrierInformation.serviceLevel),
-                        PackageType = this.GetPackageType(package.ProductType, package.Length, package.Width, package.Height, package.Weight),
+                        PackageType = this.GetPackageType(package.ProductType, package.Length, package.Width, package.Height, package.Weight, addShipment.CarrierInformation.serviceLevel),
                         ToCountry = addShipment.AddressInformation.Consignee.Country,
                         ToState = addShipment.AddressInformation.Consignee.State,
                         ToZIPCode = addShipment.AddressInformation.Consignee.Postalcode,
@@ -391,27 +391,104 @@ namespace PI.Business
             return shipmentResponse;
         }
 
-        private PackageTypeV6 GetPackageType(string packageType, decimal length, decimal width, decimal height, decimal weight)
+        private PackageTypeV6 GetPackageType(string packageType, double length, double width, double height, double weight, string serviceType)
         {
+            var weightinoz = weight * 16;
 
+            if (serviceType=="First-Class Mail")
+            {
+                if (length<15 && width<12 && height < 0.75 && weightinoz <13)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if (length < 22 && width < 18 && height < 15 && weightinoz < 15.999 && height>0.75)
+                {
+                    return PackageTypeV6.Package;
+                }
 
-            if (packageType == "Document")
-            {
-                return PackageTypeV6.LargeEnvelopeorFlat;
             }
-            else if (packageType == "Box" && length < 12 && width < 12 && height < 12)
+            else if (serviceType== "Priority Mail")
             {
-                return PackageTypeV6.Package;
-            }
-            else if (packageType == "Box" && (length + 2 * (width + height)) <= 108 && weight < 70)
-            {
-                return PackageTypeV6.LargePackage;
-            }
+                if ((length+(2*(width+height))<=84)&& weight<70)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length + (2 * (width + height)) <= 84) && weight < 70)
+                {
+                    return PackageTypeV6.Package;
+                }
+                else if ((length + (2 * (width + height)) >84)&& (length + (2 * (width + height)) < 108) && weight < 70)
+                {
+                    return PackageTypeV6.LargePackage;
+                }
 
-            else if (packageType == "Box" && (length + 2 * (width + height)) > 108 && weight < 70)
-            {
-                return PackageTypeV6.OversizedPackage;
             }
+            else if (serviceType == "Priority Mail Express")
+            {
+                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.Package;
+                }
+
+            }
+            else if (serviceType == "Parcel Select Ground")
+            {
+                if ((length + (2 * (width + height)) <= 84) && weight < 70)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length + (2 * (width + height)) <= 84) && weight < 70)
+                {
+                    return PackageTypeV6.Package;
+                }
+                else if ((length + (2 * (width + height)) > 84)&& (length + (2 * (width + height)) < 108) && weight < 70)
+                {
+                    return PackageTypeV6.LargePackage;
+                }
+                else if ((length + (2 * (width + height)) > 108) && (length + (2 * (width + height)) < 130) && weight < 70)
+                {
+                    return PackageTypeV6.OversizedPackage;
+                }
+
+            }
+            else if (serviceType == "First-Class Package International" || serviceType == "First Class International")
+            {
+                if (length < 15 && width < 12 && height < 0.75 && weight < 4)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length +  width + height) < 36 && weight < 4 && length<24)
+                {
+                    return PackageTypeV6.Package;
+                }
+            }
+            else if(serviceType== "Priority Mail International")
+            {
+                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.Package;
+                }
+            }
+            else if (serviceType == "Priority Mail Express International")
+            {
+                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.LargeEnvelopeorFlat;
+                }
+                else if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                {
+                    return PackageTypeV6.Package;
+                }
+            }
+            
 
             return PackageTypeV6.Unknown;
         }
