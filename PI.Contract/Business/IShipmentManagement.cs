@@ -165,7 +165,7 @@ namespace PI.Contract.Business
         #region Temp solution
 
         ShipmentOperationResult SaveShipmentV1(ShipmentDto addShipment);
-        ShipmentOperationResult SendShipmentDetailsV1(SendShipmentDetailsDto sendShipmentDetails);
+       List<ShipmentOperationResult> SendShipmentDetailsV1(SendShipmentDetailsDto sendShipmentDetails);
         #endregion
 
     }

@@ -35,5 +35,10 @@ namespace PI.Contract.DTOs.Shipment
         public short VolumeMetricId { get; set; }
         public short WeightMetricId { get; set; }
 
+        public string WeightUnit { get; set; }
+        public string VolumeUnit { get; set; }
+
+        
+
     }
 }

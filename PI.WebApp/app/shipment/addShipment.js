@@ -62,7 +62,7 @@
                         vm.isBacktoRatesDisabled = false;
                         vm.savePayShipment = false;
                         vm.payementProgress = false;
-                        vm.hideSummary = false;
+                        vm.hideRateSummary = false;
                         vm.shipmentReferenceName = '';
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
@@ -672,32 +672,41 @@
 
                         }
 
+                        vm.addingShipment = false;
                         //section to set the shipment mode
-                        function addShipmentResponse(response) {
-                            debugger;
-                            vm.loadingSymbole = false;
-                            vm.shipmentStatusMsg = response.message;
+                        function addShipmentResponse(responseArray) {
+                            
+                            //vm.loadingSymbole = false;
+                            //vm.shipmentStatusMsg = response.message;
+                            //vm.isShowResponse = true;
+                            vm.isBooking = false;
+                            var response = responseArray[0];
                             vm.isShowResponse = true;
-
+                            debugger;
                             if (response.status == 2) {
                                 // Success both payment and shipment.
-                                $window.localStorage.setItem('labelUrl', response.labelURL);
-                                $window.localStorage.setItem('invoiceURL', response.invoiceURL);
-                                $window.localStorage.setItem('sisErrorReferenceName', '');
-                                $location.path('/shipmentResult');
+                                debugger;
+                                //vm.isBookingInCarrier = true;
 
-                                //vm.isShowPaymentForm = false;
+                                //vm.addingShipment = true;
+                                vm.isShowPaymentForm = false;
+                                vm.hideRateSummary = true;
                                 //vm.payementProgress = false;
                                 //vm.savePayShipment = false;
-                                //vm.labelUrl = response.labelURL;
 
-                                //vm.isShowLabel = true;
-                                //if (response.invoiceURL != '') {
-                                //    vm.isShowInvoice = true;
-                                //    vm.payementProgress = false;
-                                //    vm.savePayShipment = false;
-                                //    vm.invoiceUrl = response.invoiceURL;
-                                //}
+                                vm.labelUrl = response.labelURL;
+                                vm.shipmentCode = response.shipmentCode;
+                                vm.trackingNumber = response.shipmentDto.generalInformation.trackingNumber;
+                                vm.carrierName = response.shipmentDto.carrierInformation.carrierName;
+                                vm.createdDate = response.shipmentDto.generalInformation.createdDate;
+                                debugger;
+                                vm.isShowLabel = true;
+                                if (response.invoiceURL != '') {
+                                    vm.isShowInvoice = true;
+                                    vm.payementProgress = false;
+                                    vm.savePayShipment = false;
+                                    vm.invoiceUrl = response.invoiceURL;
+                                }
                             }
                             else if (response.status == 4) {
                                 // PaymentError.
@@ -715,16 +724,18 @@
                             else if (response.status == 5 || response.status == 6) {
                                 // SISError.
 
-                                $window.localStorage.setItem('sisErrorReferenceName', response.shipmentReference);
-                                $window.localStorage.setItem('labelUrl', '');
-                                $window.localStorage.setItem('invoiceURL', '');
-                                $location.path('/shipmentResult');
-
-                                //vm.shipmentReferenceName = response.shipmentReference;
-                                //vm.isShowPaymentForm = false;
-                                //vm.payementProgress = false;
+                                //$window.localStorage.setItem('sisErrorReferenceName', response.shipmentReference);
+                                //$window.localStorage.setItem('labelUrl', '');
+                                //$window.localStorage.setItem('invoiceURL', '');
+                                //$location.path('/shipmentResult');
+                                
+                                vm.addingShipment = true;
+                                vm.shipmentReferenceName = response.shipmentReference;
+                                vm.isShowPaymentForm = false;
+                                vm.payementProgress = false;
                                 //vm.savePayShipment = false;
-                                //    vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                vm.hideRateSummary = true;
                                 //window.open(errorUrl);
                             }
                         }
@@ -809,9 +820,10 @@
 
                         function saveShipment() {
 
+                            // Freeze screen
                             vm.loadingSymbole = true;
                             vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
-                            vm.addingShipment = true;
+                            
                             var body = $("html, body");
 
                             //if (vm.shipment.generalInformation.shipmentPaymentTypeId == 1) {
@@ -825,18 +837,22 @@
                             // Save and send shipment
                             shipmentFactory.saveShipmentV1(vm.shipment).success(
                                             function (response) {
-                                                vm.addingShipment = false;
-                                                vm.loadingSymbole = false;
 
-                                                //debugger;
-                                                console.log('shipment save');
-                                                console.log(response);
+                                                //vm.addingShipment = false;
+                                                vm.loadingSymbole = false;
+                                                
+                                                //vm.savePayShipment = true;
 
                                                 if (response.status == 2) {
-
-                                                    // adding record in db, payment success
+                                                    debugger;
+                                                    // Save record in db Or payment + db save is Success
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
-                                                    vm.savePayShipment = true;
+                                                    //vm.savePayShipment = true;
+                                                    //vm.isShowPaymentForm = false;
+                                                    //vm.isShowResponse = true;
+
+                                                    vm.isBooking = true;
+                                                    vm.hideRateSummary = true;
                                                     vm.isShowPaymentForm = false;
 
                                                     var sendShipmentDetails = {
@@ -846,9 +862,7 @@
                                                     // save in SIS
                                                     shipmentFactory.sendShipmentDetailsV1(sendShipmentDetails).success(
                                                     function (response) {
-                                                        console.log('sendShipmentDetailsV1');
-                                                        console.log(response);
-
+                                                       
                                                         addShipmentResponse(response);
 
                                                     }).error(function (error) {
@@ -909,7 +923,7 @@
 
                             vm.loadingSymbole = true;
 
-                            vm.addingShipment = true;
+                            //vm.addingShipment = true;
                             var body = $("html, body");
 
                             vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
@@ -1104,6 +1118,7 @@
                             vm.carrierselected = false;
                             vm.isPrevDisabled = true;
                             vm.isBacktoRatesDisabled = true;
+                            vm.hideRateSummary = true;
 
                             // Build form
                             vm.isShowPaymentForm = true;

@@ -53,8 +53,9 @@ namespace PI.Business
             // This amount is in cents.
             // Currently this will support for only USD.
             // Convert to cents representation.
+            decimal chargeAmountInCent = 0;
             if (paymentDto.CurrencyType == "USD")
-                paymentDto.ChargeAmount = paymentDto.ChargeAmount * 100;
+                chargeAmountInCent = paymentDto.ChargeAmount * 100;
             else
             {
                 result.Message = "Currency format is not supporting";
@@ -62,7 +63,7 @@ namespace PI.Business
                 return result;
             }
                 
-            Money amount = NewMoney(Convert.ToInt32(paymentDto.ChargeAmount), paymentDto.CurrencyType);
+            Money amount = NewMoney(Convert.ToInt32(chargeAmountInCent), paymentDto.CurrencyType);
 
             ChargeRequest body = new ChargeRequest(AmountMoney: amount, IdempotencyKey: uuid, CardNonce: paymentDto.CardNonce);
 
@@ -114,7 +115,8 @@ namespace PI.Business
         {
             string refundUuid = NewIdempotencyKey();
 
-            Money amount = NewMoney(Convert.ToInt32(paymentDto.ChargeAmount * 100), paymentDto.CurrencyType);
+            decimal chargeAmountInCent = paymentDto.ChargeAmount * 100;
+            Money amount = NewMoney(Convert.ToInt32(chargeAmountInCent), paymentDto.CurrencyType);
 
             var refundBody = new CreateRefundRequest(refundUuid, paymentDto.TenderId, null, amount);
             CreateRefundResponse refundResponse = null;

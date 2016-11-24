@@ -33,7 +33,7 @@ namespace PI.Business
             this.logger = logger;
         }
 
-      
+
 
         public string ServiceBusConnectionString
         {
@@ -127,8 +127,7 @@ namespace PI.Business
 
 
 
-
-
+        
         public ShipmentcostList GetRateSheetForShipment(RateSheetParametersDto rateParameters)
         {
             // Set SIS credentials.
@@ -159,8 +158,8 @@ namespace PI.Business
                 var maxLength = decimal.Parse(rateParameters.max_length);
                 var sellOrBuy = RatesSell.Sell;
                 var max_dimension = decimal.Parse(rateParameters.max_dimension);
-               // var volume = int.Parse(rateParameters.volume);
-              //  var volumeFactor = (rateParameters.volume_unit == "cm" ? volume / 5000 : (volume * 2.54) / 5000);
+                // var volume = int.Parse(rateParameters.volume);
+                //  var volumeFactor = (rateParameters.volume_unit == "cm" ? volume / 5000 : (volume * 2.54) / 5000);
 
                 var result = context.Rate.Where(x => x.CountryFrom == rateParameters.country_from
                                                     && x.IsInbound == (rateParameters.inbound == "N" ? false : true)
@@ -170,9 +169,9 @@ namespace PI.Business
 
 
 
-                    // && x.VolumeFactor == volumeFactor
+                                                    // && x.VolumeFactor == volumeFactor
                                                     && x.MaxLength >= maxLength
-                    ////x.MaxWeightPerPiece > rateParameters.we
+                                                    ////x.MaxWeightPerPiece > rateParameters.we
                                                     && x.SellOrBuy >= sellOrBuy
                                                     && x.MaxDimension >= max_dimension
                                                     ).Distinct().ToList();
@@ -199,9 +198,11 @@ namespace PI.Business
                         Currency = result[i].Currency.ToString(),
 
                         Price = (result[i].RateZoneList.Count == 0 || rateZoneResult == null) ? null : rateZoneResult.Price.ToString(),
-                        Delivery_date = (context.GetLocalTimeByUser(rateParameters.UserIdForTimeConvert, Convert.ToDateTime(rateParameters.date_pickup))
-                                        .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MMM-yyyy"),
-                        Pickup_date = context.GetLocalTimeByUser(rateParameters.UserIdForTimeConvert, Convert.ToDateTime(rateParameters.date_pickup)).ToString("dd-MMM-yyyy"), // Convert to local time
+
+                        Delivery_date = (DateTime.Parse(rateParameters.date_pickup)
+                                      .AddDays((transitTime != null) ? transitTime.Days : 0)).ToString("dd-MMM-yyyy"),
+                        Pickup_date = rateParameters.date_pickup,
+
                       Price_detail = new Price_detail { Description = result[i].Carrier.Carrier.Name + ", " + result[i].Carrier.ServiceLevel },
                       Transit_time = (transitTime != null) ? transitTime.Days.ToString() +" days" : null
                   });
@@ -238,12 +239,6 @@ namespace PI.Business
             return myObject;
         }
 
-        //public DateTime GetUserLocalTimeFromSISTaleUS(DateTime datetime)
-        //{
-        //    DateTime utcTime = TimeZoneInfo.ConvertTime(datetime, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"), TimeZoneInfo.Utc);
-        //    return context.GetLocalTimeByUser()
-        //}
-
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
             // Working sample xml data
@@ -260,27 +255,27 @@ namespace PI.Business
                 //}
                 //else
                 //{ 
-                    sisUrl = SISWebURLUS;
-                    addShipment.SISCompanyCode = SISCompanyCodeUS;
-               // }
+                sisUrl = SISWebURLUS;
+                addShipment.SISCompanyCode = SISCompanyCodeUS;
+                // }
             }
 
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
-            QueueMessageSender messageSender = new QueueMessageSender();
+            //QueueMessageSender messageSender = new QueueMessageSender();
 
-            try
-            {
+            //try
+            //{
 
-               //messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
-               
-            }
-            catch (Exception e)
-            {
+            //    //messageSender.SendQueueMessage<string>(addShipmentXML,AddShipmentQueueName, "addShipmentXML", addShipment.GeneralInformation.ShipmentId.ToString());
 
-                throw;
-            }
+            //}
+            //catch (Exception e)
+            //{
+
+            //    throw;
+            //}
 
 
             using (var wb = new WebClient())
@@ -305,7 +300,7 @@ namespace PI.Business
             return addShipmentResponse;
         }
 
-        
+
 
         public void DeleteShipment(string shipmentCode)
         {
@@ -321,7 +316,7 @@ namespace PI.Business
                 //if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
                 //    sisUrl = SISWebURLNL;
                 //else
-                    sisUrl = SISWebURLUS;
+                sisUrl = SISWebURLUS;
             }
 
             string deleteURL = string.Format("{0}/admin-shipment.asp?userid={1}&password={2}&action=delete&code_shipment={3}", sisUrl, SISUserName, SISPassword, shipmentCode);
@@ -365,7 +360,7 @@ namespace PI.Business
             using (var wb = new WebClient())
             {
                 var data = new NameValueCollection();
-                if (carrier!="USP")
+                if (carrier != "USP")
                 {
                     data["codeshipment"] = codeShipment;
                     data["userid"] = userID;
@@ -375,8 +370,8 @@ namespace PI.Business
                 else
                 {
 
-                    Data.Entity.Shipment currentShipment = context.Shipments.Where(s=>s.TrackingNumber== trackingNumber).SingleOrDefault();
-                    if (currentShipment==null)
+                    Data.Entity.Shipment currentShipment = context.Shipments.Where(s => s.TrackingNumber == trackingNumber).SingleOrDefault();
+                    if (currentShipment == null)
                     {
                         return null;
                     }
@@ -389,7 +384,7 @@ namespace PI.Business
                     data["password"] = password;
                     data["environment"] = environment;
                 }
-               
+
 
                 var response = wb.UploadValues(URL, "POST", data);
                 var responseString = Encoding.Default.GetString(response);
@@ -503,26 +498,31 @@ namespace PI.Business
             //string referenceNo = DateTime.UtcNow.ToString("yyyyMMddHHmmssfff"); addShipment.GeneralInformation.ShipmentName + "-" + referenceNo
 
             string codeCurrenyString = "";
-            //using (var context = new PIContext())
-            //{
-                codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
-          //  }
-
             string costCenterNumber = string.Empty;
-            //using (PIContext context = new PIContext())
-            //{
-                var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+            StringBuilder shipmentStr = new StringBuilder();
 
-                if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
-                    costCenterNumber = SISCostCenterNL;
-                else
-                    costCenterNumber = SISCostCenterUS;
-            // }
+            codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
+
+            var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+
+            if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+                costCenterNumber = SISCostCenterNL;
+            else
+                costCenterNumber = SISCostCenterUS;
 
             var customer = context.Customers.Where(c => c.UserId == addShipment.GeneralInformation.CreatedBy).SingleOrDefault();
 
+            var maxWeight = addShipment.PackageDetails.ProductIngredients.Max(p => p.Weight);
+            var maxHeight = addShipment.PackageDetails.ProductIngredients.Max(p => p.Height);
+            var maxLength = addShipment.PackageDetails.ProductIngredients.Max(p => p.Length);
+            var maxWidth = addShipment.PackageDetails.ProductIngredients.Max(p => p.Width);
 
-            StringBuilder shipmentStr = new StringBuilder();
+
+            //Convert height,length,width to cm and wieght to kg
+            maxWeight = addShipment.PackageDetails.WeightMetricId == 1 ? Math.Round(maxWeight, 2) : Math.Round((maxWeight / (decimal)2.20462), 2); // addShipment.PackageDetails.CmLBS ? "kg" : "lbs"
+            maxHeight = addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(maxHeight, 2) : Math.Round((maxHeight * (decimal)2.54), 2);
+            maxLength = addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(maxLength, 2) : Math.Round((maxLength * (decimal)2.54), 2);
+            maxWidth = addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(maxWidth, 2) : Math.Round((maxWidth * (decimal)2.54), 2);
 
             shipmentStr.AppendFormat("<insert_shipment password='{0}' userid='{1}' code_company='{2}' version='1.0'>", SISPassword, SISUserName, addShipment.SISCompanyCode);
             shipmentStr.AppendFormat("<output_type>XML</output_type>");
@@ -537,21 +537,24 @@ namespace PI.Business
             shipmentStr.AppendFormat("<date_pickup>{0}</date_pickup>", addShipment.PackageDetails.PreferredCollectionDate);   //"18-Mar-2016"
             shipmentStr.AppendFormat("<tariff_type>{0}</tariff_type>", addShipment.CarrierInformation.tarriffType);
             shipmentStr.AppendFormat("<tariff_text>{0}</tariff_text>", addShipment.CarrierInformation.tariffText);
-            
+
             if (customer != null)
             {
-                shipmentStr.AppendFormat("<transaction_id>"+ customer.Id.ToString()+ "</transaction_id>");
-            }              
+                shipmentStr.AppendFormat("<transaction_id>" + customer.Id.ToString() + "</transaction_id>");
+            }
 
             shipmentStr.AppendFormat("<price>{0}</price>", (addShipment.CarrierInformation.Price + addShipment.CarrierInformation.Insurance));    // TODO: Get price from summary total
             //shipmentStr.AppendFormat("<price_insurance>{0}</price_insurance>", ); // TODO: Comment this for now. - Will get clarification later.
 
-            shipmentStr.AppendFormat("<weight>{0}</weight>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Weight));
-            shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>", addShipment.PackageDetails.CmLBS ? "KG" : "LBS");    // TODO: Is LBS word correct?
-            shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Length));
-            shipmentStr.AppendFormat("<height>0</height>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Height));
-            shipmentStr.AppendFormat("<width>0</width>", addShipment.PackageDetails.ProductIngredients.Max(p => p.Width));
-            shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>", addShipment.PackageDetails.VolumeCMM ? "CM" : "M");
+            shipmentStr.AppendFormat("<weight>{0}</weight>", maxWeight);
+            /*        shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>", addShipment.PackageDetails.CmLBS ? "KG" : "LBS"); */   // TODO: Is LBS word correct?
+            shipmentStr.AppendFormat("<weight_unit>{0}</weight_unit>", "kg");
+            shipmentStr.AppendFormat("<length>{0}</length>", maxLength);
+            shipmentStr.AppendFormat("<height>0</height>", maxHeight);
+            shipmentStr.AppendFormat("<width>0</width>", maxWidth);
+            //shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>", addShipment.PackageDetails.VolumeCMM ? "CM" : "M");
+            shipmentStr.AppendFormat("<volume_unit>{0}</volume_unit>", "cm");
+
 
             shipmentStr.AppendFormat("<package>{0}</package>", ProductType(addShipment.PackageDetails.ProductIngredients));    // This represent summary of package. So has different package types, use DIVERSE
 
@@ -598,11 +601,11 @@ namespace PI.Business
             {
                 shipmentStr.AppendFormat("<shipment_line id='" + lineCount + "'>");
                 shipmentStr.AppendFormat("<package>{0}</package>", lineItem.ProductType);
-                shipmentStr.AppendFormat("<weight>{0}</weight>", lineItem.Weight);
+                shipmentStr.AppendFormat("<weight>{0}</weight>", addShipment.PackageDetails.WeightMetricId == 1 ? Math.Round(lineItem.Weight, 2) : Math.Round((lineItem.Weight / (decimal)2.20462), 2));
                 shipmentStr.AppendFormat("<quantity>{0}</quantity>", lineItem.Quantity);
-                shipmentStr.AppendFormat("<width>{0}</width>", lineItem.Width);
-                shipmentStr.AppendFormat("<length>{0}</length>", lineItem.Length);
-                shipmentStr.AppendFormat("<height>{0}</height>", lineItem.Height);
+                shipmentStr.AppendFormat("<width>{0}</width>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Width, 2) : Math.Round((lineItem.Width * (decimal)2.54), 2));
+                shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Length, 2) : Math.Round((lineItem.Length * (decimal)2.54), 2));
+                shipmentStr.AppendFormat("<height>{0}</height>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Height, 2) : Math.Round((lineItem.Height * (decimal)2.54), 2));
                 shipmentStr.AppendFormat("<description>{0}</description>", lineItem.Description);
                 shipmentStr.AppendFormat("</shipment_line>");
                 lineCount++;

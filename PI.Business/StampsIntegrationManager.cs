@@ -66,7 +66,15 @@ namespace PI.Business
             {
                 cancelRequest.Item = AuthenticateResponse.Authenticator;
                 cancelRequest.Item1 = shipmentCode;
-                cancelResponse = soapClient.CancelIndicium(cancelRequest);
+                try
+                {
+                    cancelResponse = soapClient.CancelIndicium(cancelRequest);
+                }
+                catch (Exception e)
+                {
+                    throw;
+                }
+                
             }
 
         }
@@ -91,14 +99,15 @@ namespace PI.Business
             throw new NotImplementedException();
         }
 
+
+        //sending multiple shipments to Stamps at once
         public AddShipmentResponse SendShipmentDetails(ShipmentDto addShipment)
         {
-            IList<AddShipmentResponse> addShipmentResponseList = new List<AddShipmentResponse>();
+            List<AddShipmentResponse> addShipmentResponseList = new List<AddShipmentResponse>();
             AddShipmentResponse shipmentResponse = new AddShipmentResponse();
 
-            foreach (var package in addShipment.PackageDetails.ProductIngredients)
-            {
-
+            //get the single package
+            var package = addShipment.PackageDetails.ProductIngredients.FirstOrDefault();
 
                 AuthenticateUserRequest request = new AuthenticateUserRequest()
                 {
@@ -109,6 +118,7 @@ namespace PI.Business
                         Password = StampsComPassword
                     }
                 };
+
                 SwsimV55Soap soapClient = new SwsimV55SoapClient();
                 DateTime LastLoginTime = DateTime.Now;
 
@@ -134,7 +144,7 @@ namespace PI.Business
                     };
 
                     CleanseAddressResponse fromAddressResponse = soapClient.CleanseAddress(fromAddressRequest);
-                     
+
                     CleanseAddressRequest toAddressRequest = new CleanseAddressRequest()
                     {
                         Address = new Address
@@ -235,7 +245,7 @@ namespace PI.Business
                             //PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                             OverrideHash = fromAddressResponse.Address.OverrideHash,
-                            ZIPCode= addShipment.AddressInformation.Consigner.Postalcode
+                            ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
                         };
 
                     }
@@ -253,7 +263,7 @@ namespace PI.Business
                             City = toAddressResponse.Address.City,
                             State = toAddressResponse.Address.State,
                             Country = toAddressResponse.Address.Country,
-                          //  PostalCode = toAddressResponse.Address.PostalCode,
+                            //  PostalCode = toAddressResponse.Address.PostalCode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
                             CleanseHash = toAddressResponse.Address.CleanseHash,
                             ZIPCode = toAddressResponse.Address.PostalCode
@@ -273,15 +283,15 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consignee.City,
                             State = addShipment.AddressInformation.Consignee.State,
                             Country = addShipment.AddressInformation.Consignee.Country,
-                          //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                            //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                         //   OverrideHash = toAddressResponse.Address.OverrideHash,
+                            //   OverrideHash = toAddressResponse.Address.OverrideHash,
                             ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         };
                     }
-                   
 
-                    if (addShipment.AddressInformation.Consignee.Country!="US" && addShipment.AddressInformation.Consigner.Country != "US")
+
+                    if (addShipment.AddressInformation.Consignee.Country != "US" && addShipment.AddressInformation.Consigner.Country != "US")
                     {
                         Indiciumrequest.Customs = new CustomsV4();
                         Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
@@ -289,7 +299,7 @@ namespace PI.Business
                         {
                             CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
                             Description = package.Description,
-                            //   HSTariffNumber = addShipment.CarrierInformation.tariffText,
+                            //HSTariffNumber = addShipment.PackageDetails.HsCode,
                             Quantity = package.Quantity,
                             WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
 
@@ -298,13 +308,13 @@ namespace PI.Business
                         };
 
                     }
-                   
+
 
                     CreateIndiciumResponse IndiciumResponse = null;
                     try
-                    {                       
+                    {
                         IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
-                       // IndiciumResponse = soapClient.CreateIndicium(sample);
+                        // IndiciumResponse = soapClient.CreateIndicium(sample);
                     }
                     catch (Exception e)
                     {
@@ -334,7 +344,7 @@ namespace PI.Business
                             
                         };
 
-                        if (Indiciumrequest.Rate.ServiceType==ServiceType.USFC || Indiciumrequest.Rate.ServiceType == ServiceType.USFCI)
+                        if (Indiciumrequest.Rate.ServiceType == ServiceType.USFC || Indiciumrequest.Rate.ServiceType == ServiceType.USFCI)
                         {
                             pickupRequest.NumberOfFirstClassPackagePieces = 1;
                         }
@@ -342,13 +352,13 @@ namespace PI.Business
                         {
                             pickupRequest.NumberOfPriorityMailPieces = 1;
                         }
-                        else if (Indiciumrequest.Rate.ServiceType==ServiceType.USEMI || Indiciumrequest.Rate.ServiceType == ServiceType.USPMI)
+                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USEMI || Indiciumrequest.Rate.ServiceType == ServiceType.USPMI)
                         {
                             pickupRequest.NumberOfInternationalPieces = 1;
                         }
                         else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPS)
                         {
-                            pickupRequest.NumberOfParcelSelectPieces= 1;
+                            pickupRequest.NumberOfParcelSelectPieces = 1;
                         }
 
                         //sending pickup request for the shipment
@@ -361,8 +371,8 @@ namespace PI.Business
                         catch (Exception e)
                         {
                             throw;
-                        }         
-                                       
+                        }
+
                         if (pickupResponse != null)
                         {
                             shipmentResponse.DatePickup = pickupResponse.PickupDate;
@@ -370,11 +380,12 @@ namespace PI.Business
                         shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
                         shipmentResponse.PDF = IndiciumResponse.URL;
                         shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
-
+                      
                     }
                 }
 
-            }
+            //}
+           // addShipmentResponseList.Add(shipmentResponse);
 
             return shipmentResponse;
         }
