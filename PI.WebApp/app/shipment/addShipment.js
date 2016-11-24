@@ -674,18 +674,18 @@
 
                         vm.addingShipment = false;
                         //section to set the shipment mode
-                        function addShipmentResponse(response) {
+                        function addShipmentResponse(responseArray) {
                             
                             //vm.loadingSymbole = false;
                             //vm.shipmentStatusMsg = response.message;
                             //vm.isShowResponse = true;
                             vm.isBooking = false;
-                            
+                            var response = responseArray[0];
                             vm.isShowResponse = true;
-
+                            debugger;
                             if (response.status == 2) {
                                 // Success both payment and shipment.
-
+                                debugger;
                                 //vm.isBookingInCarrier = true;
 
                                 //vm.addingShipment = true;
