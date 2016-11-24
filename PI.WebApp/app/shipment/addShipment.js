@@ -696,10 +696,10 @@
                                 //vm.savePayShipment = false;
 
                                 vm.labelUrl = response.labelURL;
-                                vm.shipmentCode = response.shipmentDto.generalInformation.shipmentCode;
-                                vm.trackingNumber = response.shipmentDto.generalInformation.trackingNumber;
-                                vm.carrierName = response.shipmentDto.carrierInformation.carrierName;
-                                vm.createdDate = response.shipmentDto.generalInformation.createdDate;
+                                vm.shipmentCode = response[0].shipmentDto.generalInformation.shipmentCode;
+                                vm.trackingNumber = response[0].shipmentDto.generalInformation.trackingNumber;
+                                vm.carrierName = response[0].shipmentDto.carrierInformation.carrierName;
+                                vm.createdDate = response[0].shipmentDto.generalInformation.createdDate;
                                 debugger;
                                 vm.isShowLabel = true;
                                 if (response.invoiceURL != '') {

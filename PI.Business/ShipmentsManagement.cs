@@ -5203,19 +5203,19 @@ namespace PI.Business
             // Get data from database.
             List<ShipmentOperationResult> operationList = new List<ShipmentOperationResult>();
             Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
-            List<Shipment> subShipmentList = new List<Shipment>();
+            List<Shipment> allShipmentList = new List<Shipment>();
 
             //adding main shipment to the list
-            subShipmentList.Add(shipment);
+            allShipmentList.Add(shipment);
 
             //adding sub shipments
             var subShipments = context.Shipments.Where(sb => sb.MainShipment == shipment.Id).ToList();
             if (subShipments != null)
             {
-                subShipmentList.AddRange(subShipments);
+                allShipmentList.AddRange(subShipments);
             }
 
-            foreach (var shipmentItem in subShipmentList)
+            foreach (var shipmentItem in allShipmentList)
             {
                 //get shipment again to avoid context update error
                 Shipment currentShipment = context.Shipments.Where(sh => sh.Id == shipmentItem.Id).SingleOrDefault();
@@ -5300,15 +5300,19 @@ namespace PI.Business
                         ValueCurrency = currentShipment.ShipmentPackage.InsuranceCurrencyType,
                         ValueCurrencyString = Utility.GetEnumDescription((CurrencyType)currentShipment.ShipmentPackage.InsuranceCurrencyType),
                         PreferredCollectionDate = string.Format("{0}-{1}-{2}", currentShipment.ShipmentPackage.CollectionDate.Day, currentShipment.ShipmentPackage.CollectionDate.ToString("MMM", CultureInfo.InvariantCulture), shipment.ShipmentPackage.CollectionDate.Year), //"18-Mar-2016"
-                        CmLBS = currentShipment.ShipmentPackage.WeightMetricId == 1,
-                        VolumeCMM = currentShipment.ShipmentPackage.VolumeMetricId == 1,
+                        CmLBS = shipment.ShipmentPackage.WeightMetricId == 1, // true if kg
+                        VolumeCMM = shipment.ShipmentPackage.VolumeMetricId == 1,  // true if cm
+                        WeightMetricId = shipment.ShipmentPackage.WeightMetricId,
+                        VolumeMetricId = shipment.ShipmentPackage.VolumeMetricId,
                         ProductIngredients = shipmentProductIngredientsList,
                         ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                         DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
                         CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                         Count = 1,
                         TotalWeight = currentShipment.ShipmentPackage.TotalWeight,
+                        TotalVolume = shipment.ShipmentPackage.TotalVolume
                     }
+
                 };
 
                 #endregion
