@@ -181,6 +181,7 @@
                                 <th translate>Status</th>
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
+                                <th translate>Parent Tracking #</th>
                                 <th translate>Error</th>
                                 <th translate class="text-center" style="width:11%">Action</th>
                                 <!--<th translate>Edit</th>
@@ -214,6 +215,7 @@
                                 </td>
                                 <td>{{row.carrierInformation.provider}}</td>
                                 <td>{{row.generalInformation.shipmentCode}}</td>
+                                <td>{{row.generalInformation.mainShipmentTrackingNumber}}</td>
                                 <td > <a href={{row.generalInformation.errorUrl}}   ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
                               
                                 

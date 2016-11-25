@@ -3381,6 +3381,8 @@ namespace PI.Business
 
                 item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
 
+                Shipment mainShipment = context.Shipments.Where(i => i.Id == item.MainShipment).SingleOrDefault();
+
 
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -3436,8 +3438,8 @@ namespace PI.Business
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
                         ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
+                        MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
                         CreatedBy = item.CreatedBy
-
                     },
                     PackageDetails = new PackageDetailsDto
                     {
