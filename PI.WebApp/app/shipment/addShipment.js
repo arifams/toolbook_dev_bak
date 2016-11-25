@@ -66,6 +66,7 @@
                         vm.shipmentReferenceName = '';
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
+                        vm.labelArray = [];
 
                         debugger;
                         vm.paramSource = $location.search().PARAM_SOURCE;
@@ -695,11 +696,16 @@
                                 //vm.payementProgress = false;
                                 //vm.savePayShipment = false;
 
-                                vm.labelUrl = response.labelURL;
-                                vm.shipmentCode = response[0].shipmentDto.generalInformation.shipmentCode;
-                                vm.trackingNumber = response[0].shipmentDto.generalInformation.trackingNumber;
-                                vm.carrierName = response[0].shipmentDto.carrierInformation.carrierName;
-                                vm.createdDate = response[0].shipmentDto.generalInformation.createdDate;
+                               // vm.labelUrl = response.labelURL;
+                                for (var i = 0; i < responseArray.length; i++) {
+
+                                    vm.labelArray.push(responseArray[i].labelURL);
+                                }
+
+                                vm.shipmentCode = response.shipmentDto.generalInformation.shipmentCode;
+                                vm.trackingNumber = response.shipmentDto.generalInformation.trackingNumber;
+                                vm.carrierName = response.shipmentDto.carrierInformation.carrierName;
+                                vm.createdDate = response.shipmentDto.generalInformation.createdDate;
                                 debugger;
                                 vm.isShowLabel = true;
                                 if (response.invoiceURL != '') {
