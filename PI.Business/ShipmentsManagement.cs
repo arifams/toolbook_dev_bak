@@ -5401,9 +5401,25 @@ namespace PI.Business
                     result.ShipmentCode = response.CodeShipment;
                     result.ShipmentReference = currentShipment.ShipmentReferenceName;
 
+                    //adding error message
+                    ShipmentError shipmentError = new ShipmentError();
+                    shipmentError.ShipmentId = currentShipment.Id;
+                    //add error message to following field in stamps.com
+                    shipmentError.ErrorMessage = response.AddShipmentXML;
+                    shipmentError.CreatedDate = DateTime.UtcNow;
+
                 }
                 else
                 {
+
+                    if (currentShipment.Carrier.Name == "USP")
+                    {
+                        currentShipment.Provider = "Stamps.com";
+                    }
+                    else
+                    {
+                        currentShipment.Provider = "Ship It Smarter";
+                    }
                     // Update Shipment entity
                     currentShipment.Status = (short)ShipmentStatus.BookingConfirmation;
                     context.SaveChanges();
