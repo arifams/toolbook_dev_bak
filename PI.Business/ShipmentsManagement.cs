@@ -968,7 +968,8 @@ namespace PI.Business
             // Need to convert saved times on shipment entity back to user specific time zone.
             var shipmentIdList = context.Shipments.Where(x =>
                                                          x.CreatedBy == userId &&
-                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber))
+                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber) &&
+                                                         x.MainShipment == 0 )                                                         
                                                          .Select(s => new
                                                          {
                                                              Id = s.Id,
