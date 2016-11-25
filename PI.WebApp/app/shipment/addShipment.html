@@ -2030,8 +2030,8 @@
                                         <span style="font-size:15px;">Shipment booking confirmed</span> <br /><br />
                                         <!--<a href="#ShipmentOverview?SHIPMENT_ID={{shipmentCtrl.shipment.generalInformation.shipmentId}}&SHIPMENT_CODE={{shipmentCtrl.shipmentCode}}&TRACKING_NO={{shipmentCtrl.trackingNumber}}&CARRIER={{shipmentCtrl.carrierName}}&CREATED_ON={{shipmentCtrl.createdDate}}">View shipment</a>-->
                                         <!--<br />-->
-                                        <div ng-repeat="labelUrl in shipmentCtrl.labelArray">
-                                            <a ng-click="shipmentCtrl.openLabel(labelUrl)" target="_blank" translate>Download the Label</a>
+                                        <div>
+                                            <a ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelArray)" target="_blank" translate>Download the Label</a>
                                         </div>
                                         
                                     </div>

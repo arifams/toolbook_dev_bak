@@ -1116,7 +1116,10 @@
 
                         vm.isShowPaymentForm = false;
                         vm.openLabel = function (url) {
-                            window.open(url);
+                            //window.open(url);
+                            for (var i = 0; i < url.length; i++) {
+                                window.open(url[i]);
+                            }
                         }
 
                         vm.payOnline = function () {
