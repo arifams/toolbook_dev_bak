@@ -25,6 +25,12 @@
                    window.open(url);
                }
 
+               vm.openLabelList = function (url) {
+                   for (var i = 0; i < url.length; i++) {
+                       window.open(url[i]);
+                   }
+               }
+
                vm.shipmentCode = $location.search().SHIPMENT_CODE; 
                vm.sourceShipmentId = $location.search().SHIPMENT_ID;
                vm.trakingNo = $location.search().TRACKING_NO;
@@ -131,7 +137,7 @@
 
                        vm.shipment = data;
                        shipmentId = vm.shipment.generalInformation.shipmentId;
-                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
+                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURLList;
 
                        vm.Consigneremail = vm.shipment.addressInformation.consigner.email;
 
@@ -148,7 +154,6 @@
 
                        vm.awb_URL = sisUrl + "print_awb.asp?code_shipment=" + vm.shipmentCode + "&email=" + vm.Consigneremail;
                        vm.cmr_URL = sisUrl + "print_cmr.asp?code_shipment=" + vm.shipmentCode + "&userid=" + SISUser + "&password=" + SISPassword;
-                       vm.shipmentLabel = data.generalInformation.shipmentLabelBLOBURL;
 
 
                        $('<iframe src="' + vm.awb_URL + '" frameborder="0" scrolling="no" id="myFrame" height="' + totalLenght + '" width="700"></iframe>').appendTo('.awb');
