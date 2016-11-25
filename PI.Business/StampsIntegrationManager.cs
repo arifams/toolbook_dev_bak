@@ -183,29 +183,52 @@ namespace PI.Business
                     Indiciumrequest.Item = toAddressResponse.Authenticator;
                     Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
 
+                    double weightLbs = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
 
-                    Indiciumrequest.Rate = new RateV20()
+                    double lengthInches = 0;
+                    double widthInches = 0;
+                    double heightInches = 0;
+
+                    if (addShipment.PackageDetails.VolumeCMM)
                     {
-                        Amount = addShipment.CarrierInformation.Price,
-                        DeclaredValue = addShipment.PackageDetails.DeclaredValue,
-                        InsuredValue = addShipment.CarrierInformation.Insurance,
-                        ServiceType = this.GetServiceType(addShipment.CarrierInformation.description),
-                        PackageType = this.GetPackageType(package.ProductType,Convert.ToDouble(package.Length), Convert.ToDouble(package.Width), Convert.ToDouble(package.Height), Convert.ToDouble(package.Weight), addShipment.CarrierInformation.description),
-                        ToCountry = addShipment.AddressInformation.Consignee.Country,
-                        ToState = addShipment.AddressInformation.Consignee.State,
-                        ToZIPCode = addShipment.AddressInformation.Consignee.Postalcode,
-                        FromZIPCode = addShipment.AddressInformation.Consigner.Postalcode,
-                        DeliveryDate = addShipment.CarrierInformation.DeliveryTime != null ? DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString()) : DateTime.Now,
-                        AddOns = rateAddonArray,
-                        Length = Convert.ToDouble(package.Length),
-                        Width = Convert.ToDouble(package.Width),
-                        Height = Convert.ToDouble(package.Height),
-                        WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
-                        MaxAmount = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
-                        // MaxDimensions = package.Length + (package.Width * 2) + (package.Height * 2).ToString(),
-                        MaxDimensions = (package.Length + package.Width + package.Height).ToString(),
-                        ShipDate = DateTime.Now.AddDays(3),
-                        WeightOz = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 * 16 : Convert.ToDouble(package.Weight) * 16
+                       lengthInches = Convert.ToDouble(package.Length) * 0.393701;
+                       widthInches = Convert.ToDouble(package.Width) * 0.393701;
+                       heightInches = Convert.ToDouble(package.Height) * 0.393701;
+
+                    }
+                    else
+                    {
+                       lengthInches = Convert.ToDouble(package.Length);
+                       widthInches = Convert.ToDouble(package.Length);
+                       heightInches = Convert.ToDouble(package.Length);
+
+                    }
+
+
+
+
+                Indiciumrequest.Rate = new RateV20()
+                {
+                    Amount = addShipment.CarrierInformation.Price,
+                    DeclaredValue = addShipment.PackageDetails.DeclaredValue,
+                    InsuredValue = addShipment.CarrierInformation.Insurance,
+                    ServiceType = this.GetServiceType(addShipment.CarrierInformation.description),
+                    PackageType = this.GetPackageType(package.ProductType, lengthInches, widthInches, heightInches, weightLbs, addShipment.CarrierInformation.description),
+                    ToCountry = addShipment.AddressInformation.Consignee.Country,
+                    ToState = addShipment.AddressInformation.Consignee.State,
+                    ToZIPCode = addShipment.AddressInformation.Consignee.Postalcode,
+                    FromZIPCode = addShipment.AddressInformation.Consigner.Postalcode,
+                    DeliveryDate = addShipment.CarrierInformation.DeliveryTime != null ? DateTime.Parse(addShipment.CarrierInformation.DeliveryTime.ToString()) : DateTime.Now,
+                    AddOns = rateAddonArray,
+                    Length = lengthInches,
+                    Width = widthInches,
+                    Height = heightInches,
+                    WeightLb = weightLbs,
+                    MaxAmount = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
+                    // MaxDimensions = package.Length + (package.Width * 2) + (package.Height * 2).ToString(),
+                    MaxDimensions = (lengthInches +widthInches +heightInches).ToString(),
+                    ShipDate = DateTime.Now.AddDays(3),
+                    WeightOz =weightLbs *16,
 
                     };
 
@@ -319,8 +342,7 @@ namespace PI.Business
                     }
                     catch (Exception e)
                     {
-
-                        throw;
+                        shipmentResponse.AddShipmentXML = e.Message;
                     }
 
                     if (IndiciumResponse == null)

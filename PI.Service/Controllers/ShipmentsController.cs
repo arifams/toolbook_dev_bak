@@ -1198,11 +1198,7 @@ namespace PI.Service.Controllers
             {
                 return Ok(results);
             }            
-
-             if (result.Status != Status.Success)
-                {
-                    return Ok(result);
-                }
+            
                 // Below code will execute only if shipment is success.
 
                 result.InvoiceURL = "";
