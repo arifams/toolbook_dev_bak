@@ -5397,6 +5397,15 @@ namespace PI.Business
                 }
                 else
                 {
+
+                    if (currentShipment.Carrier.Name == "USP")
+                    {
+                        currentShipment.Provider = "Stamps.com";
+                    }
+                    else
+                    {
+                        currentShipment.Provider = "Ship It Smarter";
+                    }
                     // Update Shipment entity
                     currentShipment.Status = (short)ShipmentStatus.BookingConfirmation;
                     context.SaveChanges();
