@@ -1159,7 +1159,8 @@ namespace PI.Business
                     TrackingNumber = currentShipment.TrackingNumber,
                     CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd MMM yyyy"),
                     Status = currentShipment.Status.ToString(),
-                    ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
+                    //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
+                    ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(currentShipment.Id, tenantId)
                 },
                 PackageDetails = new PackageDetailsDto
                 {
