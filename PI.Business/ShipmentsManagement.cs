@@ -886,7 +886,7 @@ namespace PI.Business
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
@@ -2524,9 +2524,11 @@ namespace PI.Business
             return shipments;
         }
 
-        private IList<string> GetChildShipmentLabelFromBlobStorage(long shipmentId, long tenantId)
+        private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId)
         {
-            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == shipmentId).Select(s=>s.Id).ToList();
+            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s=>s.Id).ToList();
+            // Add mainshipmentid label url also.
+            shipmentIdList.Add(mainShipmentId);
 
             IList<string> list = new List<string>();
 
