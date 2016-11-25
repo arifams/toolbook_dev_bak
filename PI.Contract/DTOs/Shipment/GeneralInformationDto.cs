@@ -46,6 +46,8 @@ namespace PI.Contract.DTOs.Shipment
 
         public string ShipmentLabelBLOBURL { get; set; }
 
+        public IList<string> ShipmentLabelBLOBURLList { get; set; }
+
         public bool IsEnableEdit { get; set; }
 
         public bool IsEnableDelete { get; set; }

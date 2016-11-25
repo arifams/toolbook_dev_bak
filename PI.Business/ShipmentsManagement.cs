@@ -823,7 +823,8 @@ namespace PI.Business
                                             (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.Country.Contains(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.City.Contains(shipmentSerach.DynamicContent.destination.ToString()))
                                           )
                                         ) &&
-                                        !shipment.IsParent
+                                        !shipment.IsParent &&
+                                        shipment.MainShipment == 0
                                         select shipment);
 
             var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
@@ -885,8 +886,8 @@ namespace PI.Business
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
-
+                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -2523,6 +2524,19 @@ namespace PI.Business
             return shipments;
         }
 
+        private IList<string> GetChildShipmentLabelFromBlobStorage(long shipmentId, long tenantId)
+        {
+            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == shipmentId).Select(s=>s.Id).ToList();
+
+            IList<string> list = new List<string>();
+
+            foreach (var id in shipmentIdList)
+            {
+                list.Add(getLabelforShipmentFromBlobStorage(id, tenantId));
+            }
+
+            return list;
+        }
 
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
