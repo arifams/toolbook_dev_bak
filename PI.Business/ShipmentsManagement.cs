@@ -3436,7 +3436,8 @@ namespace PI.Business
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
                         MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
                         CreatedBy = item.CreatedBy
