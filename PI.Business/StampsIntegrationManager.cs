@@ -183,28 +183,15 @@ namespace PI.Business
                     Indiciumrequest.Item = toAddressResponse.Authenticator;
                     Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
 
-                    double weightLbs = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
+                // Convert weight to lbs and w/l/h to inches
+                //double weightLbs = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
 
-                    double lengthInches = 0;
-                    double widthInches = 0;
-                    double heightInches = 0;
+                double weightLbs = 0; double lengthInches = 0; double widthInches = 0; double heightInches = 0;
 
-                    if (addShipment.PackageDetails.VolumeCMM)
-                    {
-                       lengthInches = Convert.ToDouble(package.Length) * 0.393701;
-                       widthInches = Convert.ToDouble(package.Width) * 0.393701;
-                       heightInches = Convert.ToDouble(package.Height) * 0.393701;
-
-                    }
-                    else
-                    {
-                       lengthInches = Convert.ToDouble(package.Length);
-                       widthInches = Convert.ToDouble(package.Length);
-                       heightInches = Convert.ToDouble(package.Length);
-
-                    }
-
-
+                weightLbs = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
+                lengthInches = addShipment.PackageDetails.VolumeMetricId == 1 ? Convert.ToDouble(package.Length) / 2.54 : Convert.ToDouble(package.Length);
+                widthInches = addShipment.PackageDetails.VolumeMetricId == 1 ? Convert.ToDouble(package.Width) / 2.54 : Convert.ToDouble(package.Width);
+                heightInches = addShipment.PackageDetails.VolumeMetricId == 1 ? Convert.ToDouble(package.Height) / 2.54 : Convert.ToDouble(package.Height);
 
 
                 Indiciumrequest.Rate = new RateV20()
@@ -325,8 +312,7 @@ namespace PI.Business
                             Description = package.Description,
                             //HSTariffNumber = addShipment.PackageDetails.HsCode,
                             Quantity = package.Quantity,
-                            WeightLb = addShipment.PackageDetails.CmLBS == true ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
-
+                            WeightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
                             Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
 
                         };
@@ -363,7 +349,8 @@ namespace PI.Business
                             State = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.State : addShipment.AddressInformation.Consigner.State,
                             ZIP = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            TotalWeightOfPackagesLbs = addShipment.PackageDetails.CmLBS == true ? Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight),
+                            TotalWeightOfPackagesLbs = addShipment.PackageDetails.WeightMetricId == 1 ? 
+                            Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight),
                             
                         };
 
