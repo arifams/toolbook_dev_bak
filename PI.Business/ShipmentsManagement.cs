@@ -823,7 +823,8 @@ namespace PI.Business
                                             (string.IsNullOrWhiteSpace(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.Country.Contains(shipmentSerach.DynamicContent.destination.ToString()) || shipment.ConsigneeAddress.City.Contains(shipmentSerach.DynamicContent.destination.ToString()))
                                           )
                                         ) &&
-                                        !shipment.IsParent
+                                        !shipment.IsParent &&
+                                        shipment.MainShipment == 0
                                         select shipment);
 
             var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
@@ -885,8 +886,8 @@ namespace PI.Business
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId)
-
+                        //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId)
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -967,7 +968,8 @@ namespace PI.Business
             // Need to convert saved times on shipment entity back to user specific time zone.
             var shipmentIdList = context.Shipments.Where(x =>
                                                          x.CreatedBy == userId &&
-                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber))
+                                                         x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber) &&
+                                                         x.MainShipment == 0 )                                                         
                                                          .Select(s => new
                                                          {
                                                              Id = s.Id,
@@ -1158,7 +1160,8 @@ namespace PI.Business
                     TrackingNumber = currentShipment.TrackingNumber,
                     CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd MMM yyyy"),
                     Status = currentShipment.Status.ToString(),
-                    ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
+                    //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId)
+                    ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(currentShipment.Id, tenantId)
                 },
                 PackageDetails = new PackageDetailsDto
                 {
@@ -2523,6 +2526,21 @@ namespace PI.Business
             return shipments;
         }
 
+        private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId)
+        {
+            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s=>s.Id).ToList();
+            // Add mainshipmentid label url also.
+            shipmentIdList.Add(mainShipmentId);
+
+            IList<string> list = new List<string>();
+
+            foreach (var id in shipmentIdList)
+            {
+                list.Add(getLabelforShipmentFromBlobStorage(id, tenantId));
+            }
+
+            return list;
+        }
 
         private string getLabelforShipmentFromBlobStorage(long shipmentId, long tenantId)
         {
@@ -3365,6 +3383,8 @@ namespace PI.Business
 
                 item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
 
+                Shipment mainShipment = context.Shipments.Where(i => i.Id == item.MainShipment).SingleOrDefault();
+
 
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -3418,10 +3438,11 @@ namespace PI.Business
                         Status = ((ShipmentStatus)item.Status).ToString(),
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
-                        ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
+                        MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
                         CreatedBy = item.CreatedBy
-
                     },
                     PackageDetails = new PackageDetailsDto
                     {

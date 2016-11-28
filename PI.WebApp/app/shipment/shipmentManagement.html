@@ -181,6 +181,7 @@
                                 <th translate>Status</th>
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
+                                <th translate>Parent Tracking #</th>
                                 <th translate>Error</th>
                                 <th translate class="text-center" style="width:11%">Action</th>
                                 <!--<th translate>Edit</th>
@@ -214,6 +215,7 @@
                                 </td>
                                 <td>{{row.carrierInformation.provider}}</td>
                                 <td>{{row.generalInformation.shipmentCode}}</td>
+                                <td>{{row.generalInformation.mainShipmentTrackingNumber}}</td>
                                 <td > <a href={{row.generalInformation.errorUrl}}   ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
                               
                                 
@@ -225,7 +227,7 @@
                                         </button>
                                         <span class="dropdown-arrow"></span>
                                         <ul class="dropdown-menu custom-dropdown m-0" role="menu">
-                                            <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Downloads Shipment Label(s)</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabelList(row.generalInformation.shipmentLabelBLOBURLList)">Downloads Shipment Label(s)</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
                                             <li><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>

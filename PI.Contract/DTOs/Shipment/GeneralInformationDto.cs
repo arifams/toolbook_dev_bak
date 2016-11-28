@@ -46,6 +46,8 @@ namespace PI.Contract.DTOs.Shipment
 
         public string ShipmentLabelBLOBURL { get; set; }
 
+        public IList<string> ShipmentLabelBLOBURLList { get; set; }
+
         public bool IsEnableEdit { get; set; }
 
         public bool IsEnableDelete { get; set; }
@@ -61,6 +63,8 @@ namespace PI.Contract.DTOs.Shipment
         public string Owner { get; set; }
 
         public string ErrorUrl { get; set; }
+
+        public string MainShipmentTrackingNumber { get; set; }
 
         //public string UserId { get; set; }
 

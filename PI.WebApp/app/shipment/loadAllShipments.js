@@ -22,6 +22,13 @@
                                window.open(url);
                            }
 
+                           vm.openLabelList = function (url) {
+                               debugger;
+                               for (var i = 0; i < url.length; i++) {
+                                   window.open(url[i]);
+                               }
+                           }
+
                            vm.status = 'All';
                            vm.datePicker = {};
                            vm.datePicker.date = { startDate: null, endDate: null };

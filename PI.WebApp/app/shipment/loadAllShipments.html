@@ -262,7 +262,7 @@
                                             <span class="dropdown-arrow"></span>
                                             <ul class="dropdown-menu custom-dropdown m-0" role="menu">
                                               
-                                                <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Booking error')"><a ng-click="loadShipCtrl.openLabel(row.generalInformation.shipmentLabelBLOBURL)">Download Shipment Label(s)</a></li>
+                                                <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Booking error')"><a ng-click="loadShipCtrl.openLabelList(row.generalInformation.shipmentLabelBLOBURLList)">Download Shipment Label(s)</a></li>
                                                 <li><a ng-click="loadShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
                                                 <li><a ng-click="loadShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
                                                 <li><a ng-click="loadShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>

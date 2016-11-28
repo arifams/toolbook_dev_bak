@@ -517,11 +517,17 @@
                            }
 
 
-                           vm.openLabel = function (url) {
-                               debugger;
-                               window.open(url);
-                           }
+                           //vm.openLabel = function (url) {
+                           //    debugger;
+                           //    window.open(url);
+                           //}
 
+                           vm.openLabelList = function (url) {
+                               debugger;
+                               for (var i = 0; i < url.length; i++) {
+                                   window.open(url[i]);
+                               }
+                           }
 
                            vm.OpenTab = function (row,source) {
                                debugger;
