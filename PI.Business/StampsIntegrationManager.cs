@@ -122,8 +122,18 @@ namespace PI.Business
 
                 SwsimV55Soap soapClient = new SwsimV55SoapClient();
                 DateTime LastLoginTime = DateTime.Now;
-
-                AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+            AuthenticateUserResponse AuthenticateResponse;
+                
+            try
+            {
+                AuthenticateResponse = soapClient.AuthenticateUser(request);
+            }
+            catch (Exception e)
+            {
+                var x = e.Message;
+                throw;
+            }
+              
 
                 if (AuthenticateResponse.Authenticator != null)
                 {
@@ -406,7 +416,7 @@ namespace PI.Business
 
             if (serviceType=="First-Class Mail")
             {
-                if (length<15 && width<12 && height < 0.75 && weightinoz <13)
+                if (length<15 && width<12 && height < 0.75 && weightinoz <13 && packageType=="Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -418,7 +428,7 @@ namespace PI.Business
             }
             else if (serviceType== "Priority Mail")
             {
-                if ((length+(2*(width+height))<=84)&& weight<70)
+                if ((length+(2*(width+height))<=84)&& weight<70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -434,7 +444,7 @@ namespace PI.Business
             }
             else if (serviceType == "Priority Mail Express")
             {
-                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -446,7 +456,7 @@ namespace PI.Business
             }
             else if (serviceType == "Parcel Select Ground")
             {
-                if ((length + (2 * (width + height)) <= 84) && weight < 70)
+                if ((length + (2 * (width + height)) <= 84) && weight < 70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -466,7 +476,7 @@ namespace PI.Business
             }
             else if (serviceType == "First-Class Package International" || serviceType == "First Class International")
             {
-                if (length < 15 && width < 12 && height < 0.75 && weight < 4)
+                if (length < 15 && width < 12 && height < 0.75 && weight < 4 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -477,7 +487,7 @@ namespace PI.Business
             }
             else if(serviceType== "Priority Mail International")
             {
-                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -488,7 +498,7 @@ namespace PI.Business
             }
             else if (serviceType == "Priority Mail Express International")
             {
-                if ((length + (2 * (width + height)) <= 108) && weight < 70)
+                if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
