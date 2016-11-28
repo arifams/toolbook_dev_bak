@@ -10,6 +10,9 @@ namespace PI.Contract.TemplateLoader
   public class TemplateLoader
     {
 
+        string uploadFolder = null;
+        string correctPath = null;
+
         public HtmlDocument getHtmlTemplatebyName(string name)
         {
             HtmlDocument template = new HtmlDocument();
@@ -21,19 +24,22 @@ namespace PI.Contract.TemplateLoader
             }
            else if (name == "exceptionEmail")
             {
-
-                var uploadFolder = "~/App_Data/Templates/ExceptionEmailTemplate.html";
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
-                //var stream= System.Web.HttpContext.Current.Server.MapPath("~\\Templates\\USInvoiceTemplate.html");
-                template.Load(wanted_path);
+                uploadFolder = "~/App_Data/Templates/ExceptionEmailTemplate.html";
             }
             else if (name == "OrderConfirmEmail")
             {
+                uploadFolder = "~/App_Data/Templates/OrderConfirmEmail.html";
+            }
+            else if (name == "RegistrationEmailTemplate")
+            {
+                uploadFolder = "~/App_Data/Templates/RegistrationEmailTemplate.html";             
+            }
 
-                var uploadFolder = "~/App_Data/Templates/OrderConfirmEmail.html";
-                string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
-                //var stream= System.Web.HttpContext.Current.Server.MapPath("~\\Templates\\USInvoiceTemplate.html");
-                template.Load(wanted_path);
+
+            if (uploadFolder != null)
+            {
+                correctPath = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+                template.Load(correctPath);
             }
 
             return template;
