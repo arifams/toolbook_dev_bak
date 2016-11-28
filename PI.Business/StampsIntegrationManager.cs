@@ -167,7 +167,7 @@ namespace PI.Business
                             City = addShipment.AddressInformation.Consignee.City,
                             State = addShipment.AddressInformation.Consignee.State,
                             Country = addShipment.AddressInformation.Consignee.Country,
-                            ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
+                          //  ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         },
                         Item = fromAddressResponse.Authenticator
                     };
@@ -312,7 +312,7 @@ namespace PI.Business
                     }
 
 
-                    if (addShipment.AddressInformation.Consignee.Country != "US" && addShipment.AddressInformation.Consigner.Country != "US")
+                    if (addShipment.AddressInformation.Consignee.Country != "US" || addShipment.AddressInformation.Consigner.Country != "US")
                     {
                         Indiciumrequest.Customs = new CustomsV4();
                         Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
@@ -320,7 +320,7 @@ namespace PI.Business
                         {
                             CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
                             Description = package.Description,
-                            //HSTariffNumber = addShipment.PackageDetails.HsCode,
+                          //  HSTariffNumber = addShipment.PackageDetails.HsCode,
                             Quantity = package.Quantity,
                             WeightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
                             Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
