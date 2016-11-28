@@ -24,6 +24,8 @@ using System.Web.Http.Cors;
 using PI.Service.Results;
 using Twilio;
 using System.Data.Entity.Validation;
+using PI.Contract.TemplateLoader;
+using HtmlAgilityPack;
 
 namespace PI.Service.Controllers
 {
@@ -34,6 +36,8 @@ namespace PI.Service.Controllers
         readonly ICustomerManagement customerManagement;
         private AuthRepository authRepo = null;
         private ProfileManagement profileManagement;    // TODO : H - Change this to interface
+        TemplateLoader templateLoader = new TemplateLoader();
+
 
         public AccountsController(ICompanyManagement companymanagement, ICustomerManagement customermanagement, ILogger logger, ProfileManagement profileManagement)
         {
@@ -162,13 +166,18 @@ namespace PI.Service.Controllers
                         string code = AppUserManager.GenerateEmailConfirmationToken(user.Id);
                         var callbackUrl = new Uri(Url.Content(ConfigurationManager.AppSettings["BaseWebURL"] + @"app/userLogin/userlogin.html?userId=" + user.Id + "&code=" + code));
 
-                        StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
-                        emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
+                        //get the email template for invoice
+                        HtmlDocument template = templateLoader.getHtmlTemplatebyName("RegistrationEmailTemplate");
+                        string emailbody =  template.DocumentNode.InnerHtml;
+
+                        //StringBuilder emailbody = new StringBuilder(createUserModel.TemplateLink);
+                        var updatedString = emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
                                            .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
-                        AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", emailbody.ToString());
+                        AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", updatedString);
 
                         #endregion
+
                     }
                 }
                 else
