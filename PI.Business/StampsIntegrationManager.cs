@@ -314,23 +314,27 @@ namespace PI.Business
 
                     if (addShipment.AddressInformation.Consignee.Country != "US" || addShipment.AddressInformation.Consigner.Country != "US")
                     {
+                       var weightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
                         Indiciumrequest.Customs = new CustomsV4();
+                        Indiciumrequest.Customs.Comments = package.Description;
+                    
                         Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
                         Indiciumrequest.Customs.CustomsLines[0] = new CustomsLine()
                         {
                             CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
                             Description = package.Description,
-                          //  HSTariffNumber = addShipment.PackageDetails.HsCode,
+                            HSTariffNumber = addShipment.PackageDetails.HsCode,
                             Quantity = package.Quantity,
-                            WeightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight),
+                            WeightLb = weightLb,
                             Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
-
+                            WeightOz= weightLb*16
                         };
 
                     }
+                    //setting the label format
+                 Indiciumrequest.ImageType = ImageType.Pdf;
 
-
-                    CreateIndiciumResponse IndiciumResponse = null;
+                CreateIndiciumResponse IndiciumResponse = null;
                     try
                     {
                         IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
