@@ -390,17 +390,18 @@ namespace PI.Business
 
                         try
                         {
-                           // pickupResponse = soapClient.CarrierPickup(pickupRequest);
+                            pickupResponse = soapClient.CarrierPickup(pickupRequest);
                         }
                         catch (Exception e)
                         {
-                            throw;
+                            shipmentResponse.AddShipmentXML=e.Message;
                         }
 
                         if (pickupResponse != null)
                         {
                             shipmentResponse.DatePickup = pickupResponse.PickupDate;
                         }
+
                         shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
                         shipmentResponse.PDF = IndiciumResponse.URL;
                         shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
