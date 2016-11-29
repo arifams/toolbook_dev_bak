@@ -347,7 +347,7 @@ namespace PI.Business
 
                     if (IndiciumResponse == null)
                     {
-                        return null;
+                        return shipmentResponse;
                     }
 
                     if (IndiciumResponse.TrackingNumber != null)
