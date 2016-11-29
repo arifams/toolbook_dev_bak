@@ -390,6 +390,7 @@ namespace PI.Business
 
                         try
                         {
+                        //adding pickup request for created shipment
                             pickupResponse = soapClient.CarrierPickup(pickupRequest);
                         }
                         catch (Exception e)
