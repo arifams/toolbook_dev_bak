@@ -151,7 +151,7 @@ namespace PI.Service.Controllers
                         createUserModel.UserId = user.Id;
 
                         // Save in customer table.
-                        customerManagement.SaveCustomer(createUserModel);
+                        customerManagement.SaveCustomer(createUserModel,true);
                     }
                     
                     // Add Business Owner Role to user

@@ -5340,6 +5340,10 @@ namespace PI.Business
 
                 #endregion
 
+
+                currentShipment.Status = (short)ShipmentStatus.Processing;
+                context.SaveChanges();
+
                 AddShipmentResponse response = new AddShipmentResponse();
 
                 // Call to SIS.
@@ -5352,7 +5356,9 @@ namespace PI.Business
                     response = sisManager.SendShipmentDetails(shipmentDto);
                 }
 
+
                 // Update the Shipment entity based on the result of SIS.
+
                 currentShipment.ShipmentCode = response.CodeShipment;
                 currentShipment.TrackingNumber = response.Awb;
 
