@@ -5345,7 +5345,15 @@ namespace PI.Business
                 // Call to SIS.
                 if (shipment.Carrier.Name == "USP")
                 {
-                    response = stampsMenmanager.SendShipmentDetails(shipmentDto);
+                    try
+                    {
+                        response = stampsMenmanager.SendShipmentDetails(shipmentDto);
+                    }
+                    catch (Exception e)
+                    {
+                        response.AddShipmentXML=e.Message;
+                    }
+                   
                 }
                 else
                 {
