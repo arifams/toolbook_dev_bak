@@ -5431,8 +5431,43 @@ namespace PI.Business
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
                 }
-                else
+                else if (!string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP" && string.IsNullOrWhiteSpace(response.AddShipmentXML))
                 {
+                    // Update Shipment entity
+                    currentShipment.Provider = "Stamps.com";
+                    currentShipment.Status = (short)ShipmentStatus.Error;
+                    context.SaveChanges();
+
+                    //adding error message
+                    ShipmentError shipmentError = new ShipmentError();
+                    shipmentError.ShipmentId = currentShipment.Id;
+                    //add error message to following field in stamps.com
+                    shipmentError.ErrorMessage = response.AddShipmentXML;
+                    shipmentError.CreatedDate = DateTime.UtcNow;
+                    context.ShipmentErrors.Add(shipmentError);
+                    context.SaveChanges();
+
+
+                    result.Status = Status.SISError;
+                    result.Message = "Error occured when adding shipment";
+                    result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
+                    result.ShipmentId = currentShipment.Id;
+                    shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
+                    result.ShipmentDto = shipmentDto;
+                    result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
+
+                    //adding the shipment label to azure
+                    // For now replace userid from created by
+                    sendShipmentDetails.UserId = currentShipment.CreatedBy;
+                    AddShipmentLabeltoAzure(result, sendShipmentDetails);
+
+                    var tenantId = context.GetTenantIdByUserId(currentShipment.CreatedBy);
+                    var Url = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId);
+                    result.LabelURL = Url;
+
+                }
+                else
+                {                    
 
                     if (currentShipment.Carrier.Name == "USP")
                     {
