@@ -174,7 +174,7 @@ namespace PI.Service.Controllers
                         var updatedString = emailbody.Replace("FirstName", user.FirstName).Replace("LastName", user.LastName).Replace("Salutation", createUserModel.Salutation)
                                            .Replace("ActivationURL", "<a style=\"color:#80d4ff\" href=\"" + callbackUrl + "\">here</a>");
 
-                        AppUserManager.SendEmail(user.Id, "Parcel International – Activate your account", updatedString);
+                        AppUserManager.SendEmail(user.Id, "12Send - Activate Your Account", updatedString);
 
                         #endregion
 
