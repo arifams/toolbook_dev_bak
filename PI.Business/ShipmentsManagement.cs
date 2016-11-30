@@ -5455,7 +5455,8 @@ namespace PI.Business
                     shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
-
+                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.LabelURL = response.PDF;
                     //adding the shipment label to azure
                     // For now replace userid from created by
                     sendShipmentDetails.UserId = currentShipment.CreatedBy;
