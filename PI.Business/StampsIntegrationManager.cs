@@ -129,9 +129,9 @@ namespace PI.Business
                 AuthenticateResponse = soapClient.AuthenticateUser(request);
             }
             catch (Exception e)
-            {
-                var x = e.Message;
-                throw;
+            {              
+                shipmentResponse.AddShipmentXML= e.Message;
+                return shipmentResponse;
             }
               
 
@@ -395,7 +395,11 @@ namespace PI.Business
                         }
                         catch (Exception e)
                         {
-                            shipmentResponse.AddShipmentXML=e.Message;
+                             //this.DeleteShipment(IndiciumResponse.StampsTxID.ToString());
+                             //shipmentResponse.Awb = string.Empty;
+                             //shipmentResponse.PDF = string.Empty;
+                             //shipmentResponse.CodeShipment = string.Empty;
+                             shipmentResponse.AddShipmentXML=e.Message;
                         }
 
                         if (pickupResponse != null)
