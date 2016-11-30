@@ -399,7 +399,7 @@ namespace PI.Business
                              //shipmentResponse.Awb = string.Empty;
                              //shipmentResponse.PDF = string.Empty;
                              //shipmentResponse.CodeShipment = string.Empty;
-                             shipmentResponse.AddShipmentXML=e.Message;
+                             shipmentResponse.AddShipmentXML=e.Message+"(Pickup Request Error)";
                         }
 
                         if (pickupResponse != null)
