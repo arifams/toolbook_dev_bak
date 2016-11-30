@@ -23,7 +23,7 @@ namespace PI.Service.Services
             var myMessage = new SendGridMessage();
 
             myMessage.AddTo(message.Destination);
-            myMessage.From = new System.Net.Mail.MailAddress("sriparcel@outlook.com", "Parcel International");
+            myMessage.From = new System.Net.Mail.MailAddress("support@12send.com", "12Send");
             myMessage.Subject = message.Subject;
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
