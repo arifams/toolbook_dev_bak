@@ -5431,7 +5431,7 @@ namespace PI.Business
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
                 }
-                else if (!string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP" && string.IsNullOrWhiteSpace(response.AddShipmentXML))
+                else if (!string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP" && !string.IsNullOrWhiteSpace(response.AddShipmentXML))
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Stamps.com";
