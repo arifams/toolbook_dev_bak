@@ -5422,7 +5422,8 @@ namespace PI.Business
                     //add error message to following field in stamps.com
                     shipmentError.ErrorMessage = response.AddShipmentXML;
                     shipmentError.CreatedDate = DateTime.UtcNow;
-
+                    context.ShipmentErrors.Add(shipmentError);
+                    context.SaveChanges();
                 }
                 else
                 {
