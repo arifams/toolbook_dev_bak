@@ -3365,7 +3365,7 @@ namespace PI.Business
                 var owner = context.Users.Where(u => u.Id == item.CreatedBy).SingleOrDefault();
 
                 //if shipment is in pending status get the error message
-                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending)
+                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.Error)
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
