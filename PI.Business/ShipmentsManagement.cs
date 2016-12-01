@@ -94,7 +94,7 @@ namespace PI.Business
                 // currentRateSheetDetails.
                 if (currentShipment.GeneralInformation.ShipmentMode == "Express")
                 {
-                    currentRateSheetDetails.courier = "UPSDHLFEDTNT";
+                    currentRateSheetDetails.courier = "UPSDHLFEDTNTUSP";
                 }
                 else if (currentShipment.GeneralInformation.ShipmentMode == "AirFreight")
                 {
@@ -111,7 +111,7 @@ namespace PI.Business
                 else
                 {
                     //select all shipment modes
-                    currentRateSheetDetails.courier = "UPSDHLFEDTNT";
+                    currentRateSheetDetails.courier = "UPSDHLFEDTNTUSP";
                     currentRateSheetDetails.courier_air = "EME";
                     currentRateSheetDetails.courier_sea = "EME";
                     currentRateSheetDetails.courier_road = "EME";
@@ -319,8 +319,9 @@ namespace PI.Business
             currentRateSheetDetails.country_distance = "";
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD:USPARUSP";
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
-            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD:USPARUSP";
-
+            // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD:USPARUSP";
+            currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USUSPS";
+          //  currentRateSheetDetails.courier_tariff_type = "USUSPS";
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
             // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
@@ -3365,7 +3366,7 @@ namespace PI.Business
                 var owner = context.Users.Where(u => u.Id == item.CreatedBy).SingleOrDefault();
 
                 //if shipment is in pending status get the error message
-                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending)
+                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.Error)
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
@@ -5455,7 +5456,8 @@ namespace PI.Business
                     shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
-
+                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.LabelURL = response.PDF;
                     //adding the shipment label to azure
                     // For now replace userid from created by
                     sendShipmentDetails.UserId = currentShipment.CreatedBy;
