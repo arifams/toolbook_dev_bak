@@ -388,9 +388,22 @@ namespace PI.Business
                         //sending pickup request for the shipment
                         CarrierPickupResponse pickupResponse = null;
 
+                        //purchasing postage for staging environment(uncomment and use this in QA environment if Postage Limit Exceeded)
+                        //AuthenticateUserResponse AuthenticateResponsePostage;                   
+                        //AuthenticateResponsePostage = soapClient.AuthenticateUser(request);
+                        //PurchasePostageRequest purchaserequest = new PurchasePostageRequest
+                        //{
+                        //        Item= AuthenticateResponsePostage.Authenticator,
+                        //        PurchaseAmount=1000,
+                        //        ControlTotal=1000                                
+                        //};
+                        //soapClient.PurchasePostage(purchaserequest);
+                    
+
+
                         try
                         {
-                        //adding pickup request for created shipment
+                           //adding pickup request for created shipment
                             pickupResponse = soapClient.CarrierPickup(pickupRequest);
                         }
                         catch (Exception e)
