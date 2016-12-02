@@ -15,6 +15,10 @@
                         email: email //$localStorage.userGuid
                     }
                 });
+            },
+            stampHealthCheck: function () {
+
+                return $http.get(serverBaseUrl + '/api/accounts/stampHealthCheck');
             }
         };
 
@@ -84,6 +88,22 @@ registerExternalUser, ngAuthSettings) {
         }
 
         // $auth.authenticate('facebook');
+
+        vm.stampHealthCheck = function () {
+            debugger;
+            userManager.stampHealthCheck().then(function (response) {
+
+                console.log('stampHealthCheck success');
+                console.log(response);
+
+            }, function (error) {
+
+                console.log('stampHealthCheck error');
+                console.log(error);
+
+            });
+
+        };
 
         vm.isConfirmEmail = function () {
 
