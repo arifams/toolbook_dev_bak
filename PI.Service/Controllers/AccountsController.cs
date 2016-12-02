@@ -26,6 +26,7 @@ using Twilio;
 using System.Data.Entity.Validation;
 using PI.Contract.TemplateLoader;
 using HtmlAgilityPack;
+using System.Net;
 
 namespace PI.Service.Controllers
 {
@@ -842,6 +843,26 @@ namespace PI.Service.Controllers
             return Ok(companyManagement.GetLoggedInUserName(loggedInUserId));
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [AllowAnonymous]
+        [HttpGet]
+        public IHttpActionResult StampHealthCheck()
+        {
+            string message = "";
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    message = client.DownloadString("https://swsim.testing.stamps.com/label/health.aspx");
+                }
+            }
+            catch (Exception ex)
+            {
+                message = ex.ToString();
+            }
+
+            return Ok(message);
+        }
 
         #region TFA
         [AllowAnonymous]
