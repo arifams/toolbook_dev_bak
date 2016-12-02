@@ -144,20 +144,210 @@
     <Compile Include="ProxyClasses\SwsimV55.cs">
       <SubType>code</SubType>
     </Compile>
+    <Compile Include="Service References\StampServiceReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
     <Compile Include="TemplateLoader\TemplateLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.AccountInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.Address.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.AuthenticateUserResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CancelIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CarrierPickupResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.ChangePasswordResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.ChangePlanResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CleanseAddressResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.Codeword.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.cost_code_info_v1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CountryInfo.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateEnvelopeIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateMailingLabelIndiciaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateNetStampsIndiciaResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateScanFormResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.CreateUnfundedIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.EnumCodeWordTypesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.EnumCostCodesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.EnumNetStampsLayoutsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.FundUnfundedIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetAccountInfoResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetBalanceHistoryByTokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetBalanceHistoryResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetChangePlanStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetCodewordQuestionsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetNetStampsImagesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetPurchaseStatusResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetRatesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetShipmentListByTokenResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetShipmentListResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetSupportedCountriesResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.GetURLResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.IndiciumData.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.NetStampsImage.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.NetStampsLayout.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.NetstampsStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PlaceOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PostageBalance.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PriceOrderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PurchasePostageResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PurchaseRejectionCode.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.PurchaseStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.RateV20.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.RegisterAccountResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.RegistrationStatus.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.ResidentialDeliveryIndicatorType.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.ResubmitPurchaseResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.SetAutoBuyResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.SetCodeWordsResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.ShipmentV10.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.StatusCodes.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.StoreShippingMethodOption.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.TrackingEvent.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.TrackShipmentResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.Transaction.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\PI.Contract.StampServiceReference.VoidUnfundedIndiciumResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\StampServiceReference\swsimv55.wsdl" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\StampServiceReference\configuration91.svcinfo" />
+    <None Include="Service References\StampServiceReference\configuration.svcinfo" />
+    <None Include="Service References\StampServiceReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
     <Content Include="Templates\USInvoiceTemplate.html">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\StampServiceReference\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\OctoPack.3.0.53\tools\OctoPack.targets" Condition="Exists('..\packages\OctoPack.3.0.53\tools\OctoPack.targets')" />
