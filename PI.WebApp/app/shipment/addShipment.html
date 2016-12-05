@@ -371,22 +371,24 @@
                             <div class="form-group">
 
                                 <div class="col-sm-6 p-0">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.firstName" type="text" name="consignerFirstName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()"
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.firstName" type="text" name="consignerFirstName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consignorEdited()" ng-pattern="/^(\D)+$/"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerFirstName.$invalid &&
                                                                         ((consignerConsigneeInfoForm.consignerFirstName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'First Name*'|translate}}" ng-focus="consignerFirstNameFocus = true" ng-blur="consignerFirstNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consignerFirstName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignerFirstName.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerFirstNameFocus)|| shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consignerFirstName" translate>Pickup first name is required</label>
                                         <label ng-message="maxlength" class="error" for="consignerFirstName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="pattern" class="error" for="consignerFirstName" translate>First Name should not contain Digits</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 p-1">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.lastName" type="text" name="consignerLastName" class="form-control" ng-change="shipmentCtrl.consignorEdited()"
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consigner.lastName" type="text" name="consignerLastName" class="form-control" ng-change="shipmentCtrl.consignorEdited()" ng-pattern="/^(\D)+$/"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consignerLastName.$invalid &&
                                                                         ((consignerConsigneeInfoForm.consignerLastName.$dirty  ) || shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Last Name'|translate}}" ng-focus="consignerLastNameFocus = true" ng-blur="consignerLastNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consignerLastName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignerLastName.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerLastNameFocus)|| shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="maxlength" class="error" for="consignerLastName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="pattern" class="error" for="consignerLirstName" translate>Last Name should not contain Digits</label>
                                     </div>
                                 </div>
 
@@ -592,22 +594,24 @@
 
 
                                 <div class="col-sm-6 p-0">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.firstName" type="text" name="consigneeFirstName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()"
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.firstName" type="text" name="consigneeFirstName" class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()" ng-pattern="/^(\D)+$/"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeFirstName.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeFirstName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'First Name*'|translate}}" ng-focus="consigneeFirstNameFocus = true" ng-blur="consigneeFirstNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consigneeFirstName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneeFirstName.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneeFirstNameFocus) || shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consigneeFirstName" translate>Delivery first name is required</label>
                                         <label ng-message="maxlength" class="error" for="consigneeFirstName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="pattern" class="error" for="consigneeFirstName" translate>First Name should not contain Digits</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 p-r-0 p-l-1">
-                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.lastName" type="text" name="consigneeLastName" class="form-control float-side" ng-change="shipmentCtrl.consigneeEdited()"
+                                    <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.lastName" type="text" name="consigneeLastName" class="form-control float-side" ng-change="shipmentCtrl.consigneeEdited()" ng-pattern="/^(\D)+$/"
                                            ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneeLastName.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneeLastName.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Last Name'|translate}}" ng-focus="consigneeLastNameFocus = true" ng-blur="consigneeLastNameFocus = false" />
                                     <div ng-messages="consignerConsigneeInfoForm.consigneeLastName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneeLastName.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneeLastNameFocus) || shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="maxlength" class="error" for="consigneeLastName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="pattern" class="error" for="consigneeLastName" translate>Last Name should not contain Digits</label>
                                     </div>
                                 </div>
                             </div>

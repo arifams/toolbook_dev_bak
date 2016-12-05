@@ -46,21 +46,22 @@ namespace PI.Business
         public void DeleteShipment(string shipmentCode)
         {
 
-            AuthenticateUserRequest request = new AuthenticateUserRequest()
+            Contract.StampServiceReference.AuthenticateUserRequest request = new Contract.StampServiceReference.AuthenticateUserRequest()
             {
-                Credentials = new Credentials()
+                Credentials = new Contract.StampServiceReference.Credentials()
                 {
                     IntegrationID = Guid.Parse(StampsComIntegrationId),
                     Username = StampsComUserName,
                     Password = StampsComPassword
                 }
             };
-            SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            // SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            Contract.StampServiceReference.SwsimV55Soap soapClient = new Contract.StampServiceReference.SwsimV55SoapClient();
             DateTime LastLoginTime = DateTime.Now;
 
-            AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
-            CancelIndiciumRequest cancelRequest = new CancelIndiciumRequest();
-            CancelIndiciumResponse cancelResponse = new CancelIndiciumResponse();
+            Contract.StampServiceReference.AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+            Contract.StampServiceReference.CancelIndiciumRequest cancelRequest = new Contract.StampServiceReference.CancelIndiciumRequest();
+            Contract.StampServiceReference.CancelIndiciumResponse cancelResponse = new Contract.StampServiceReference.CancelIndiciumResponse();
 
             if (AuthenticateResponse.Authenticator != null)
             {
@@ -258,8 +259,9 @@ namespace PI.Business
                             City = fromAddressResponse.Address.City,
                             State = fromAddressResponse.Address.State,
                             Country = fromAddressResponse.Address.Country,
-                            PostalCode = fromAddressResponse.Address.PostalCode,
+                          //  PostalCode = fromAddressResponse.Address.PostalCode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                            ZIPCode= fromAddressResponse.Address.ZIPCode,
                             CleanseHash = fromAddressResponse.Address.CleanseHash
                         };
 
@@ -321,7 +323,7 @@ namespace PI.Business
                             Country = addShipment.AddressInformation.Consignee.Country,
                             //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            //   OverrideHash = toAddressResponse.Address.OverrideHash,
+                           // OverrideHash = toAddressResponse.Address.OverrideHash,
                             ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         };
                     }
@@ -352,7 +354,7 @@ namespace PI.Business
                 Contract.StampServiceReference.CreateIndiciumResponse IndiciumResponse = null;
                     try
                     {
-                        IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
+                          IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
                         // IndiciumResponse = soapClient.CreateIndicium(sample);
                     }
                     catch (Exception e)
@@ -379,7 +381,7 @@ namespace PI.Business
                             ZIP = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
                             TotalWeightOfPackagesLbs = addShipment.PackageDetails.WeightMetricId == 1 ? 
-                            Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight),
+                            Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight)                            
                             
                         };
 
@@ -452,7 +454,7 @@ namespace PI.Business
         {
             var weightinoz = weight * 16;
 
-            if (serviceType=="First-Class Mail")
+            if (string.Equals(serviceType, "First-Class Mail", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (length<15 && width<12 && height < 0.75 && weightinoz <13 && packageType=="Document")
                 {
@@ -464,7 +466,7 @@ namespace PI.Business
                 }
 
             }
-            else if (serviceType== "Priority Mail")
+            else if (string.Equals(serviceType,"Priority Mail", StringComparison.InvariantCultureIgnoreCase)|| string.Equals(serviceType, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length+(2*(width+height))<=84)&& weight<70 && packageType == "Document")
                 {
@@ -480,7 +482,7 @@ namespace PI.Business
                 }
 
             }
-            else if (serviceType == "Priority Mail Express")
+            else if (string.Equals(serviceType, "Priority Mail Express", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
@@ -492,7 +494,7 @@ namespace PI.Business
                 }
 
             }
-            else if (serviceType == "Parcel Select Ground")
+            else if (string.Equals(serviceType , "Parcel Select Ground", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 84) && weight < 70 && packageType == "Document")
                 {
@@ -512,7 +514,7 @@ namespace PI.Business
                 }
 
             }
-            else if (serviceType == "First-Class Package International" || serviceType == "First Class International")
+            else if (string.Equals(serviceType,"First-Class Package International", StringComparison.InvariantCultureIgnoreCase) || string.Equals(serviceType , "First Class International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (length < 15 && width < 12 && height < 0.75 && weight < 4 && packageType == "Document")
                 {
@@ -523,7 +525,7 @@ namespace PI.Business
                     return Contract.StampServiceReference.PackageTypeV6.Package;
                 }
             }
-            else if(serviceType== "Priority Mail International")
+            else if(string.Equals(serviceType , "Priority Mail International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
@@ -534,7 +536,7 @@ namespace PI.Business
                     return Contract.StampServiceReference.PackageTypeV6.Package;
                 }
             }
-            else if (serviceType == "Priority Mail Express International")
+            else if (string.Equals(serviceType,"Priority Mail Express International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
@@ -605,31 +607,31 @@ namespace PI.Business
         //get the stamps service types
         private Contract.StampServiceReference.ServiceType GetServiceType(string serviceTypeString)
         {
-            if (serviceTypeString == "First-Class Mail")
+            if (string.Equals(serviceTypeString ,"First-Class Mail", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USFC;
             }
-            else if (serviceTypeString == "First-Class Package International")
+            else if (string.Equals(serviceTypeString ,"First-Class Package International" , StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USFCI;
             }
-            else if (serviceTypeString == "Priority Mail")
+            else if (string.Equals(serviceTypeString , "Priority Mail", StringComparison.InvariantCultureIgnoreCase)|| string.Equals(serviceTypeString, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USPM;
             }
-            else if (serviceTypeString == "Priority Mail Express")
+            else if (string.Equals(serviceTypeString , "Priority Mail Express", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USXM;
             }
-            else if (serviceTypeString == "Priority Mail Express International")
+            else if (string.Equals(serviceTypeString, "Priority Mail Express International", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USEMI;
             }
-            else if (serviceTypeString == "Priority Mail International")
+            else if (string.Equals(serviceTypeString, "Priority Mail International", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USPMI;
             }
-            else if (serviceTypeString == "Parcel Select Ground")
+            else if (string.Equals(serviceTypeString, "Parcel Select Ground", StringComparison.InvariantCultureIgnoreCase))
             {
                 return Contract.StampServiceReference.ServiceType.USPS;
             }
