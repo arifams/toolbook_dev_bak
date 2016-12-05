@@ -46,21 +46,22 @@ namespace PI.Business
         public void DeleteShipment(string shipmentCode)
         {
 
-            AuthenticateUserRequest request = new AuthenticateUserRequest()
+            Contract.StampServiceReference.AuthenticateUserRequest request = new Contract.StampServiceReference.AuthenticateUserRequest()
             {
-                Credentials = new Credentials()
+                Credentials = new Contract.StampServiceReference.Credentials()
                 {
                     IntegrationID = Guid.Parse(StampsComIntegrationId),
                     Username = StampsComUserName,
                     Password = StampsComPassword
                 }
             };
-            SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            // SwsimV55Soap soapClient = new SwsimV55SoapClient();
+            Contract.StampServiceReference.SwsimV55Soap soapClient = new Contract.StampServiceReference.SwsimV55SoapClient();
             DateTime LastLoginTime = DateTime.Now;
 
-            AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
-            CancelIndiciumRequest cancelRequest = new CancelIndiciumRequest();
-            CancelIndiciumResponse cancelResponse = new CancelIndiciumResponse();
+            Contract.StampServiceReference.AuthenticateUserResponse AuthenticateResponse = soapClient.AuthenticateUser(request);
+            Contract.StampServiceReference.CancelIndiciumRequest cancelRequest = new Contract.StampServiceReference.CancelIndiciumRequest();
+            Contract.StampServiceReference.CancelIndiciumResponse cancelResponse = new Contract.StampServiceReference.CancelIndiciumResponse();
 
             if (AuthenticateResponse.Authenticator != null)
             {
@@ -258,8 +259,9 @@ namespace PI.Business
                             City = fromAddressResponse.Address.City,
                             State = fromAddressResponse.Address.State,
                             Country = fromAddressResponse.Address.Country,
-                            PostalCode = fromAddressResponse.Address.PostalCode,
+                          //  PostalCode = fromAddressResponse.Address.PostalCode,
                             PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                            ZIPCode= fromAddressResponse.Address.ZIPCode,
                             CleanseHash = fromAddressResponse.Address.CleanseHash
                         };
 
@@ -321,7 +323,7 @@ namespace PI.Business
                             Country = addShipment.AddressInformation.Consignee.Country,
                             //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
                             PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            //   OverrideHash = toAddressResponse.Address.OverrideHash,
+                           // OverrideHash = toAddressResponse.Address.OverrideHash,
                             ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
                         };
                     }
@@ -352,7 +354,7 @@ namespace PI.Business
                 Contract.StampServiceReference.CreateIndiciumResponse IndiciumResponse = null;
                     try
                     {
-                        IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
+                          IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
                         // IndiciumResponse = soapClient.CreateIndicium(sample);
                     }
                     catch (Exception e)
