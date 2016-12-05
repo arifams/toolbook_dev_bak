@@ -369,6 +369,7 @@ namespace PI.Business
                         URL = item.Invoice.URL,
                         BusinessOwner = item.User.FirstName + " " + item.User.LastName,
                         CompanyName = item.Company.Name,
+                        CompanyId = item.Company.Id.ToString("00000"),
                         InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
                         CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
                                         item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL,
@@ -434,6 +435,7 @@ namespace PI.Business
                         URL = item.Invoice.URL,
                         BusinessOwner = item.User.FirstName + " " + item.User.LastName,
                         CompanyName = item.Company.Name,
+                        CompanyId = item.Company.Id.ToString("00000"),
                         InvoiceDate = item.Invoice.CreatedDate.ToString("dd/MM/yyyy"),
                         CreditNoteURL = item.Invoice.creditNoteList.Count == 0 ? null :
                                         item.Invoice.creditNoteList.OrderByDescending(x => x.CreatedDate).FirstOrDefault().URL,
@@ -579,8 +581,9 @@ namespace PI.Business
 
                 ws.Cells["I6"].Value = isAdmin ? "BUSINESS OWNER" : null;
                 ws.Cells["J6"].Value = isAdmin ? "CORPORATE NAME" : null;
+                ws.Cells["K6"].Value = isAdmin ? "Company Id" : null;
 
-                string endingCell = isAdmin ? "J6" : "H6";
+                string endingCell = isAdmin ? "K6" : "H6";
 
                 //Format the header for columns.
                 using (ExcelRange rng = ws.Cells["A6:" + endingCell])
@@ -633,6 +636,9 @@ namespace PI.Business
 
                         cell = ws.Cells[rowIndex, 10];
                         cell.Value = invoice.CompanyName;
+
+                        cell = ws.Cells[rowIndex, 11];
+                        cell.Value = invoice.CompanyId;
 
                         ws.Row(rowIndex).Height = 25;
                     }

@@ -47,6 +47,8 @@ namespace PI.Contract.DTOs.Invoice
         public string Sum { get; set; }
 
         public string CreditedValue { get; set; }
+
+        public string CompanyId { get; set; }
     }
 
 }
