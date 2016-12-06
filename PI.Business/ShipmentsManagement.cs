@@ -5519,7 +5519,7 @@ namespace PI.Business
 
                     var tenantId = context.GetTenantIdByUserId(currentShipment.CreatedBy);
                     var Url = getLabelforShipmentFromBlobStorage(currentShipment.Id, tenantId);
-                    result.LabelURL = Url;
+                    //result.LabelURL = Url;
                 }
 
                 operationList.Add(result);
