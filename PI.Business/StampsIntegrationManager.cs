@@ -66,7 +66,7 @@ namespace PI.Business
             {
                 cancelRequest.Item = AuthenticateResponse.Authenticator;
                 cancelRequest.Item1 = new Guid(shipmentCode);
-               
+
                 try
                 {
                     cancelResponse = soapClient.CancelIndicium(cancelRequest);
@@ -75,7 +75,7 @@ namespace PI.Business
                 {
                     throw;
                 }
-                
+
             }
 
         }
@@ -111,14 +111,14 @@ namespace PI.Business
             var package = addShipment.PackageDetails.ProductIngredients.FirstOrDefault();
 
             AuthenticateUserRequest request = new AuthenticateUserRequest()
+            {
+                Credentials = new Credentials()
                 {
-                    Credentials = new Credentials()
-                    {
-                        IntegrationID = Guid.Parse(StampsComIntegrationId),
-                        Username = StampsComUserName,
-                        Password = StampsComPassword
-                    }
-                };
+                    IntegrationID = Guid.Parse(StampsComIntegrationId),
+                    Username = StampsComUserName,
+                    Password = StampsComPassword
+                }
+            };
 
 
 
@@ -144,69 +144,69 @@ namespace PI.Business
                 AuthenticateResponse = soapClient.AuthenticateUser(request);
             }
             catch (Exception e)
-            {              
-                shipmentResponse.AddShipmentXML= e.Message;
+            {
+                shipmentResponse.AddShipmentXML = e.Message;
                 return shipmentResponse;
             }
-              
 
-                if (AuthenticateResponse.Authenticator != null)
-                {
+
+            if (AuthenticateResponse.Authenticator != null)
+            {
 
                 CleanseAddressRequest fromAddressRequest = new CleanseAddressRequest()
+                {
+                    Address = new Address
                     {
-                        Address = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            Address1 = addShipment.AddressInformation.Consigner.Address1,
-                            Address2 = addShipment.AddressInformation.Consigner.Address2,
-                            City = addShipment.AddressInformation.Consigner.City,
-                            State = addShipment.AddressInformation.Consigner.State,
-                            Country = addShipment.AddressInformation.Consigner.Country,
-                            ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
-                        },
-                        Item = AuthenticateResponse.Authenticator
-                    };
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Address1 = addShipment.AddressInformation.Consigner.Address1,
+                        Address2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
+                    },
+                    Item = AuthenticateResponse.Authenticator
+                };
 
                 CleanseAddressResponse fromAddressResponse = soapClient.CleanseAddress(fromAddressRequest);
 
                 CleanseAddressRequest toAddressRequest = new CleanseAddressRequest()
+                {
+                    Address = new Address
                     {
-                        Address = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                            LastName = addShipment.AddressInformation.Consignee.LastName,
-                            Address1 = addShipment.AddressInformation.Consignee.Address1,
-                            Address2 = addShipment.AddressInformation.Consignee.Address2,
-                            City = addShipment.AddressInformation.Consignee.City,
-                            State = addShipment.AddressInformation.Consignee.State,
-                            Country = addShipment.AddressInformation.Consignee.Country,
-                            ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
-                        },
-                        Item = fromAddressResponse.Authenticator
-                    };
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        Address1 = addShipment.AddressInformation.Consignee.Address1,
+                        Address2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
+                    },
+                    Item = fromAddressResponse.Authenticator
+                };
                 CleanseAddressResponse toAddressResponse = soapClient.CleanseAddress(toAddressRequest);
 
 
                 //add Adon to rate object to hide the rate amount from the label
                 AddOnV7 hiddenRateAddOn = new AddOnV7()
-                    {
-                        Amount = addShipment.CarrierInformation.Price,
-                        AddOnType = AddOnTypeV7.SCAHP
-                    };
+                {
+                    Amount = addShipment.CarrierInformation.Price,
+                    AddOnType = AddOnTypeV7.SCAHP
+                };
 
                 AddOnV7[] rateAddonArray;
-                    rateAddonArray = new AddOnV7[1];
-                    rateAddonArray[0] = hiddenRateAddOn;
+                rateAddonArray = new AddOnV7[1];
+                rateAddonArray[0] = hiddenRateAddOn;
 
                 //ServiceType servicetype= addShipment.CarrierInformation.serviceLevel                 
 
                 CreateIndiciumRequest Indiciumrequest = new CreateIndiciumRequest();
 
-                    //set authenticator from to address response
-                    Indiciumrequest.Item = toAddressResponse.Authenticator;
-                    Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
+                //set authenticator from to address response
+                Indiciumrequest.Item = toAddressResponse.Authenticator;
+                Indiciumrequest.IntegratorTxID = addShipment.GeneralInformation.ShipmentReferenceName;
 
                 // Convert weight to lbs and w/l/h to inches
                 //double weightLbs = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
@@ -238,213 +238,223 @@ namespace PI.Business
                     WeightLb = weightLbs,
                     MaxAmount = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
                     // MaxDimensions = package.Length + (package.Width * 2) + (package.Height * 2).ToString(),
-                    MaxDimensions = (lengthInches +widthInches +heightInches).ToString(),
+                    MaxDimensions = (lengthInches + widthInches + heightInches).ToString(),
                     ShipDate = DateTime.Now.AddDays(3),
-                    WeightOz =weightLbs *16,
+                    WeightOz = weightLbs * 16,
+
+                };
+
+                if (fromAddressResponse.AddressMatch)
+                {
+                    //sending clensed address with cleanse hash
+                    Indiciumrequest.From = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consigner.CompanyName,
+                        Address1 = fromAddressResponse.Address.Address1,
+                        Address2 = fromAddressResponse.Address.Address2,
+                        City = fromAddressResponse.Address.City,
+                        State = fromAddressResponse.Address.State,
+                        Country = fromAddressResponse.Address.Country,
+                        //  PostalCode = fromAddressResponse.Address.PostalCode,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        ZIPCode = fromAddressResponse.Address.ZIPCode,
+                        CleanseHash = fromAddressResponse.Address.CleanseHash
+                    };
+
+                }
+                else
+                {
+                    //sending the normal address with overrided hash
+                    Indiciumrequest.From = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consigner.CompanyName,
+                        Address1 = addShipment.AddressInformation.Consigner.Address1,
+                        Address2 = addShipment.AddressInformation.Consigner.Address2,
+                        City = addShipment.AddressInformation.Consigner.City,
+                        State = addShipment.AddressInformation.Consigner.State,
+                        Country = addShipment.AddressInformation.Consigner.Country,
+                        //PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        OverrideHash = fromAddressResponse.Address.OverrideHash,
+                        ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
+                    };
+
+                }
+
+                //if (toAddressResponse.AddressMatch)
+                //{
+                //    Indiciumrequest.To = new Address
+                //    {
+                //        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                //        LastName = addShipment.AddressInformation.Consignee.LastName,
+                //        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                //        Company = addShipment.AddressInformation.Consignee.CompanyName,
+                //        Address1 = toAddressResponse.Address.Address1,
+                //        Address2 = toAddressResponse.Address.Address2,
+                //        City = toAddressResponse.Address.City,
+                //        State = toAddressResponse.Address.State,
+                //        Country = toAddressResponse.Address.Country,
+                //        //  PostalCode = toAddressResponse.Address.PostalCode,
+                //        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                //        ZIPCode = toAddressResponse.Address.ZIPCode,
+                //        CleanseHash = toAddressResponse.Address.CleanseHash
+                //    };
+
+                //}
+                //else
+                //{
+                    Indiciumrequest.To = new Address
+                    {
+                        FirstName = addShipment.AddressInformation.Consignee.FirstName,
+                        LastName = addShipment.AddressInformation.Consignee.LastName,
+                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        Company = addShipment.AddressInformation.Consignee.CompanyName,
+                        Address1 = addShipment.AddressInformation.Consignee.Address1,
+                        Address2 = addShipment.AddressInformation.Consignee.Address2,
+                        City = addShipment.AddressInformation.Consignee.City,
+                        State = addShipment.AddressInformation.Consignee.State,
+                        Country = addShipment.AddressInformation.Consignee.Country,
+                        //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
+                        PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
+                        OverrideHash = toAddressResponse.Address.OverrideHash,
+                        ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
+                    };
+                //}
+
+
+                if (addShipment.AddressInformation.Consignee.Country != "US" || addShipment.AddressInformation.Consigner.Country != "US")
+                {
+                    var weightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
+                    Indiciumrequest.Customs = new CustomsV4();
+                    Indiciumrequest.Customs.Comments = package.Description;
+
+                    Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
+                    Indiciumrequest.Customs.CustomsLines[0] = new CustomsLine()
+                    {
+                        CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
+                        Description = package.Description,
+                        HSTariffNumber = addShipment.PackageDetails.HsCode,
+                        Quantity = package.Quantity,
+                        WeightLb = weightLb,
+                        Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
+                        WeightOz = weightLb * 16
+                    };
+
+                }
+                //setting the label format
+                Indiciumrequest.ImageType = ImageType.Pdf;
+
+                CreateIndiciumResponse IndiciumResponse = null;
+                try
+                {
+                    IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
+                    // IndiciumResponse = soapClient.CreateIndicium(sample);
+                }
+                catch (Exception e)
+                {
+                    shipmentResponse.AddShipmentXML = e.Message;
+                }
+
+                if (IndiciumResponse == null)
+                {
+                    return shipmentResponse;
+                }
+
+                if (IndiciumResponse.TrackingNumber != null)
+                {
+
+                    CarrierPickupRequest pickupRequest = new CarrierPickupRequest()
+                    {
+                        Item = IndiciumResponse.Authenticator,
+                        FirstName = addShipment.AddressInformation.Consigner.FirstName,
+                        LastName = addShipment.AddressInformation.Consigner.LastName,
+                        Address = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.Address1 + "" + fromAddressResponse.Address.Address2 : addShipment.AddressInformation.Consigner.Address1 + "" + addShipment.AddressInformation.Consigner.Address2,
+                        City = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.City : addShipment.AddressInformation.Consigner.City,
+                        State = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.State : addShipment.AddressInformation.Consigner.State,
+                        ZIP = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
+                        PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
+                        TotalWeightOfPackagesLbs = addShipment.PackageDetails.WeightMetricId == 1 ?
+                            Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight)
 
                     };
 
-                    if (fromAddressResponse.AddressMatch)
+                    if (Indiciumrequest.Rate.ServiceType == ServiceType.USFC || Indiciumrequest.Rate.ServiceType == ServiceType.USFCI)
                     {
-                        //sending clensed address with cleanse hash
-                        Indiciumrequest.From = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                            Company = addShipment.AddressInformation.Consigner.CompanyName,
-                            Address1 = fromAddressResponse.Address.Address1,
-                            Address2 = fromAddressResponse.Address.Address2,
-                            City = fromAddressResponse.Address.City,
-                            State = fromAddressResponse.Address.State,
-                            Country = fromAddressResponse.Address.Country,
-                          //  PostalCode = fromAddressResponse.Address.PostalCode,
-                            PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            ZIPCode= fromAddressResponse.Address.ZIPCode,
-                            CleanseHash = fromAddressResponse.Address.CleanseHash
-                        };
-
+                        pickupRequest.NumberOfFirstClassPackagePieces = 1;
                     }
-                    else
+                    else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPM || Indiciumrequest.Rate.ServiceType == ServiceType.USXM)
                     {
-                        //sending the normal address with overrided hash
-                        Indiciumrequest.From = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            FullName = addShipment.AddressInformation.Consigner.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                            Company = addShipment.AddressInformation.Consigner.CompanyName,
-                            Address1 = addShipment.AddressInformation.Consigner.Address1,
-                            Address2 = addShipment.AddressInformation.Consigner.Address2,
-                            City = addShipment.AddressInformation.Consigner.City,
-                            State = addShipment.AddressInformation.Consigner.State,
-                            Country = addShipment.AddressInformation.Consigner.Country,
-                            //PostalCode = addShipment.AddressInformation.Consigner.Postalcode,
-                            PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            OverrideHash = fromAddressResponse.Address.OverrideHash,
-                            ZIPCode = addShipment.AddressInformation.Consigner.Postalcode
-                        };
-
+                        pickupRequest.NumberOfPriorityMailPieces = 1;
                     }
-
-                    if (toAddressResponse.AddressMatch)
+                    else if (Indiciumrequest.Rate.ServiceType == ServiceType.USEMI || Indiciumrequest.Rate.ServiceType == ServiceType.USPMI)
                     {
-                        Indiciumrequest.To = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                            LastName = addShipment.AddressInformation.Consignee.LastName,
-                            FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                            Company = addShipment.AddressInformation.Consignee.CompanyName,
-                            Address1 = toAddressResponse.Address.Address1,
-                            Address2 = toAddressResponse.Address.Address2,
-                            City = toAddressResponse.Address.City,
-                            State = toAddressResponse.Address.State,
-                            Country = toAddressResponse.Address.Country,
-                            //  PostalCode = toAddressResponse.Address.PostalCode,
-                            PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            CleanseHash = toAddressResponse.Address.CleanseHash,
-                            ZIPCode = toAddressResponse.Address.PostalCode
-                        };
-
+                        pickupRequest.NumberOfInternationalPieces = 1;
                     }
-                    else
+                    else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPS)
                     {
-                        Indiciumrequest.To = new Address
-                        {
-                            FirstName = addShipment.AddressInformation.Consignee.FirstName,
-                            LastName = addShipment.AddressInformation.Consignee.LastName,
-                            FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
-                            Company = addShipment.AddressInformation.Consignee.CompanyName,
-                            Address1 = addShipment.AddressInformation.Consignee.Address1,
-                            Address2 = addShipment.AddressInformation.Consignee.Address2,
-                            City = addShipment.AddressInformation.Consignee.City,
-                            State = addShipment.AddressInformation.Consignee.State,
-                            Country = addShipment.AddressInformation.Consignee.Country,
-                            //  PostalCode = addShipment.AddressInformation.Consignee.Postalcode,
-                            PhoneNumber = addShipment.AddressInformation.Consignee.ContactNumber,
-                            OverrideHash = toAddressResponse.Address.OverrideHash,
-                            ZIPCode = addShipment.AddressInformation.Consignee.Postalcode
-                        };
+                        pickupRequest.NumberOfParcelSelectPieces = 1;
                     }
-
-
-                    if (addShipment.AddressInformation.Consignee.Country != "US" || addShipment.AddressInformation.Consigner.Country != "US")
-                    {
-                       var weightLb = addShipment.PackageDetails.WeightMetricId == 1 ? Convert.ToDouble(package.Weight) * 2.20462 : Convert.ToDouble(package.Weight);
-                        Indiciumrequest.Customs = new CustomsV4();
-                        Indiciumrequest.Customs.Comments = package.Description;
-                    
-                        Indiciumrequest.Customs.CustomsLines = new CustomsLine[1];
-                        Indiciumrequest.Customs.CustomsLines[0] = new CustomsLine()
-                        {
-                            CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
-                            Description = package.Description,
-                            HSTariffNumber = addShipment.PackageDetails.HsCode,
-                            Quantity = package.Quantity,
-                            WeightLb = weightLb,
-                            Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
-                            WeightOz= weightLb*16
-                        };
-
-                    }
-                    //setting the label format
-                 Indiciumrequest.ImageType = ImageType.Pdf;
-
-                CreateIndiciumResponse IndiciumResponse = null;
-                    try
-                    {
-                          IndiciumResponse = soapClient.CreateIndicium(Indiciumrequest);
-                        // IndiciumResponse = soapClient.CreateIndicium(sample);
-                    }
-                    catch (Exception e)
-                    {
-                        shipmentResponse.AddShipmentXML = e.Message;
-                    }
-
-                    if (IndiciumResponse == null)
-                    {
-                        return shipmentResponse;
-                    }
-
-                    if (IndiciumResponse.TrackingNumber != null)
-                    {
-
-                    CarrierPickupRequest pickupRequest = new CarrierPickupRequest()
-                        {
-                            Item = IndiciumResponse.Authenticator,
-                            FirstName = addShipment.AddressInformation.Consigner.FirstName,
-                            LastName = addShipment.AddressInformation.Consigner.LastName,
-                            Address = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.Address1 + "" + fromAddressResponse.Address.Address2 : addShipment.AddressInformation.Consigner.Address1 + "" + addShipment.AddressInformation.Consigner.Address2,
-                            City = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.City : addShipment.AddressInformation.Consigner.City,
-                            State = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.State : addShipment.AddressInformation.Consigner.State,
-                            ZIP = fromAddressResponse.AddressMatch == true ? fromAddressResponse.Address.ZIPCode : addShipment.AddressInformation.Consigner.Postalcode,
-                            PhoneNumber = addShipment.AddressInformation.Consigner.ContactNumber,
-                            TotalWeightOfPackagesLbs = addShipment.PackageDetails.WeightMetricId == 1 ? 
-                            Convert.ToInt32(Convert.ToDouble(addShipment.PackageDetails.TotalWeight) * 2.20462) : Convert.ToInt32(addShipment.PackageDetails.TotalWeight)                            
-                            
-                        };
-
-                        if (Indiciumrequest.Rate.ServiceType == ServiceType.USFC || Indiciumrequest.Rate.ServiceType == ServiceType.USFCI)
-                        {
-                            pickupRequest.NumberOfFirstClassPackagePieces = 1;
-                        }
-                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPM || Indiciumrequest.Rate.ServiceType == ServiceType.USXM)
-                        {
-                            pickupRequest.NumberOfPriorityMailPieces = 1;
-                        }
-                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USEMI || Indiciumrequest.Rate.ServiceType == ServiceType.USPMI)
-                        {
-                            pickupRequest.NumberOfInternationalPieces = 1;
-                        }
-                        else if (Indiciumrequest.Rate.ServiceType == ServiceType.USPS)
-                        {
-                            pickupRequest.NumberOfParcelSelectPieces = 1;
-                        }
 
                     //sending pickup request for the shipment
                     CarrierPickupResponse pickupResponse = null;
 
-                        //purchasing postage for staging environment(uncomment and use this in QA environment if Postage Limit Exceeded)
-                        //AuthenticateUserResponse AuthenticateResponsePostage;                   
-                        //AuthenticateResponsePostage = soapClient.AuthenticateUser(request);
-                        //PurchasePostageRequest purchaserequest = new PurchasePostageRequest
-                        //{
-                        //        Item= AuthenticateResponsePostage.Authenticator,
-                        //        PurchaseAmount=1000,
-                        //        ControlTotal=1000                                
-                        //};
-                        //soapClient.PurchasePostage(purchaserequest);
-                    
+                    //purchasing postage for staging environment(uncomment and use this in QA environment if Postage Limit Exceeded)
+                    //AuthenticateUserResponse AuthenticateResponsePostage;                   
+                    //AuthenticateResponsePostage = soapClient.AuthenticateUser(request);
+                    //PurchasePostageRequest purchaserequest = new PurchasePostageRequest
+                    //{
+                    //        Item= AuthenticateResponsePostage.Authenticator,
+                    //        PurchaseAmount=1000,
+                    //        ControlTotal=1000                                
+                    //};
+                    //soapClient.PurchasePostage(purchaserequest);
 
 
-                        try
-                        {
-                           //adding pickup request for created shipment
-                            pickupResponse = soapClient.CarrierPickup(pickupRequest);
-                        }
-                        catch (Exception e)
-                        {
-                             //this.DeleteShipment(IndiciumResponse.StampsTxID.ToString());
-                             //shipmentResponse.Awb = string.Empty;
-                             //shipmentResponse.PDF = string.Empty;
-                             //shipmentResponse.CodeShipment = string.Empty;
-                             shipmentResponse.AddShipmentXML=e.Message+"(Pickup Request Error)";
-                        }
-
-                        if (pickupResponse != null)
-                        {
-                            shipmentResponse.DatePickup = pickupResponse.PickupDate;
-                        }
-
-                        shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
-                        shipmentResponse.PDF = IndiciumResponse.URL;
-                        shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
-                      
+                    try
+                    {
+                        AuthenticateResponse = soapClient.AuthenticateUser(request);
                     }
+                    catch (Exception e)
+                    {
+                        shipmentResponse.AddShipmentXML = e.Message;
+                        return shipmentResponse;
+                    }
+
+                    try
+                    {
+                        pickupRequest.Item = AuthenticateResponse.Authenticator;
+                        //adding pickup request for created shipment
+                        pickupResponse = soapClient.CarrierPickup(pickupRequest);
+                    }
+                    catch (Exception e)
+                    {
+                        //this.DeleteShipment(IndiciumResponse.StampsTxID.ToString());
+                        //shipmentResponse.Awb = string.Empty;
+                        //shipmentResponse.PDF = string.Empty;
+                        //shipmentResponse.CodeShipment = string.Empty;
+                        shipmentResponse.AddShipmentXML = e.Message + "(Pickup Request Error)";
+                    }
+
+                    if (pickupResponse != null)
+                    {
+                        shipmentResponse.DatePickup = pickupResponse.PickupDate;
+                    }
+
+                    shipmentResponse.Awb = IndiciumResponse.TrackingNumber;
+                    shipmentResponse.PDF = IndiciumResponse.URL;
+                    shipmentResponse.CodeShipment = IndiciumResponse.StampsTxID.ToString();
+
                 }
+            }
 
             //}
-           // addShipmentResponseList.Add(shipmentResponse);
+            // addShipmentResponseList.Add(shipmentResponse);
 
             return shipmentResponse;
         }
@@ -455,19 +465,19 @@ namespace PI.Business
 
             if (string.Equals(serviceType, "First-Class Mail", StringComparison.InvariantCultureIgnoreCase))
             {
-                if (length<15 && width<12 && height < 0.75 && weightinoz <13 && packageType=="Document")
+                if (length < 15 && width < 12 && height < 0.75 && weightinoz < 13 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
-                else if (length < 22 && width < 18 && height < 15 && weightinoz < 15.999 && height>0.75)
+                else if (length < 22 && width < 18 && height < 15 && weightinoz < 15.999 && height > 0.75)
                 {
                     return PackageTypeV6.Package;
                 }
 
             }
-            else if (string.Equals(serviceType,"Priority Mail", StringComparison.InvariantCultureIgnoreCase)|| string.Equals(serviceType, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceType, "Priority Mail", StringComparison.InvariantCultureIgnoreCase) || string.Equals(serviceType, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
             {
-                if ((length+(2*(width+height))<=84)&& weight<70 && packageType == "Document")
+                if ((length + (2 * (width + height)) <= 84) && weight < 70 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
@@ -475,7 +485,7 @@ namespace PI.Business
                 {
                     return PackageTypeV6.Package;
                 }
-                else if ((length + (2 * (width + height)) >84)&& (length + (2 * (width + height)) < 108) && weight < 70)
+                else if ((length + (2 * (width + height)) > 84) && (length + (2 * (width + height)) < 108) && weight < 70)
                 {
                     return PackageTypeV6.LargePackage;
                 }
@@ -493,7 +503,7 @@ namespace PI.Business
                 }
 
             }
-            else if (string.Equals(serviceType , "Parcel Select Ground", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceType, "Parcel Select Ground", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 84) && weight < 70 && packageType == "Document")
                 {
@@ -503,7 +513,7 @@ namespace PI.Business
                 {
                     return PackageTypeV6.Package;
                 }
-                else if ((length + (2 * (width + height)) > 84)&& (length + (2 * (width + height)) < 108) && weight < 70)
+                else if ((length + (2 * (width + height)) > 84) && (length + (2 * (width + height)) < 108) && weight < 70)
                 {
                     return PackageTypeV6.LargePackage;
                 }
@@ -513,18 +523,18 @@ namespace PI.Business
                 }
 
             }
-            else if (string.Equals(serviceType,"First-Class Package International", StringComparison.InvariantCultureIgnoreCase) || string.Equals(serviceType , "First Class International", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceType, "First-Class Package International", StringComparison.InvariantCultureIgnoreCase) || string.Equals(serviceType, "First Class International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if (length < 15 && width < 12 && height < 0.75 && weight < 4 && packageType == "Document")
                 {
                     return PackageTypeV6.LargeEnvelopeorFlat;
                 }
-                else if ((length +  width + height) < 36 && weight < 4 && length<24)
+                else if ((length + width + height) < 36 && weight < 4 && length < 24)
                 {
                     return PackageTypeV6.Package;
                 }
             }
-            else if(string.Equals(serviceType , "Priority Mail International", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceType, "Priority Mail International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
@@ -535,7 +545,7 @@ namespace PI.Business
                     return PackageTypeV6.Package;
                 }
             }
-            else if (string.Equals(serviceType,"Priority Mail Express International", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceType, "Priority Mail Express International", StringComparison.InvariantCultureIgnoreCase))
             {
                 if ((length + (2 * (width + height)) <= 108) && weight < 70 && packageType == "Document")
                 {
@@ -546,7 +556,7 @@ namespace PI.Business
                     return PackageTypeV6.Package;
                 }
             }
-            
+
 
             return PackageTypeV6.Unknown;
         }
@@ -606,19 +616,19 @@ namespace PI.Business
         //get the stamps service types
         private ServiceType GetServiceType(string serviceTypeString)
         {
-            if (string.Equals(serviceTypeString ,"First-Class Mail", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(serviceTypeString, "First-Class Mail", StringComparison.InvariantCultureIgnoreCase))
             {
                 return ServiceType.USFC;
             }
-            else if (string.Equals(serviceTypeString ,"First-Class Package International" , StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceTypeString, "First-Class Package International", StringComparison.InvariantCultureIgnoreCase))
             {
                 return ServiceType.USFCI;
             }
-            else if (string.Equals(serviceTypeString , "Priority Mail", StringComparison.InvariantCultureIgnoreCase)|| string.Equals(serviceTypeString, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceTypeString, "Priority Mail", StringComparison.InvariantCultureIgnoreCase) || string.Equals(serviceTypeString, "Priority Mail Domestic", StringComparison.InvariantCultureIgnoreCase))
             {
                 return ServiceType.USPM;
             }
-            else if (string.Equals(serviceTypeString , "Priority Mail Express", StringComparison.InvariantCultureIgnoreCase))
+            else if (string.Equals(serviceTypeString, "Priority Mail Express", StringComparison.InvariantCultureIgnoreCase))
             {
                 return ServiceType.USXM;
             }
