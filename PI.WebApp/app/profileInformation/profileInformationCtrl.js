@@ -304,7 +304,8 @@
                     vm.loading = false;
 
                     if (response.customerDetails != null) {
-                        //setting the account type                        
+                        //setting the account type    
+
                         vm.model.customerDetails = response.customerDetails;
                         vm.model.companyDetails = response.companyDetails;
                         vm.emailCopy = response.customerDetails.email;

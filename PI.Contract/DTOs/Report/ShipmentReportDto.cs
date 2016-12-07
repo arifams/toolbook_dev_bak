@@ -12,6 +12,8 @@ namespace PI.Contract.DTOs.Report
        
         public string UserId { get; set; }
 
+        public string FormatedCustomerId { get; set; }
+
         // General
         #region General
 

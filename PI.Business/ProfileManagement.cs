@@ -60,6 +60,7 @@ namespace PI.Business
 
             //assigning basic customer details to Dto
             currentProfile.CustomerDetails.Id = currentCustomer.Id;
+            currentProfile.CustomerDetails.FormatedId = currentCustomer.Id.ToString("00000");
             currentProfile.CustomerDetails.UserId = currentCustomer.UserId;
             currentProfile.CustomerDetails.Salutation = currentCustomer.Salutation;
             currentProfile.CustomerDetails.FirstName = currentCustomer.FirstName;

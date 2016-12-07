@@ -10,6 +10,7 @@ namespace PI.Contract.DTOs.Customer
     public class CustomerDto
     {
         public long Id { get; set; }
+        public string FormatedId { get; set; }
         public string Salutation { get; set; } /// TODO: Convert to Enum.
         public string FirstName { get; set; }
         public string LastName { get; set; }
