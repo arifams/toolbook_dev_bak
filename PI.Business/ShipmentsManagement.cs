@@ -4543,83 +4543,86 @@ namespace PI.Business
 
                 foreach (var package in addShipment.PackageDetails.ProductIngredients)
                 {
-                    var packageProductList = new List<PackageProduct>();
-
-                    // Add all the packages for the main shipment
-                    if (packageCount == 1)
+                    for (int i = 0; i < package.Quantity; i++)
                     {
-                        addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
+
+                        var packageProductList = new List<PackageProduct>();
+
+                        // Add all the packages for the main shipment
+                        if (packageCount == 1)
                         {
-                            CreatedBy = addShipment.CreatedBy,
-                            CreatedDate = DateTime.UtcNow,
-                            IsActive = true,
-                            IsDelete = false,
-                            Description = p.Description,
-                            Height = p.Height,
-                            Length = p.Length,
-                            Weight = p.Weight,
-                            Width = p.Width,
-                            Quantity = p.Quantity,
-                            ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
-                        }));
+                            addShipment.PackageDetails.ProductIngredients.ForEach(p => packageProductList.Add(new PackageProduct()
+                            {
+                                CreatedBy = addShipment.CreatedBy,
+                                CreatedDate = DateTime.UtcNow,
+                                IsActive = true,
+                                IsDelete = false,
+                                Description = p.Description,
+                                Height = p.Height,
+                                Length = p.Length,
+                                Weight = p.Weight,
+                                Width = p.Width,
+                                Quantity = p.Quantity,
+                                ProductTypeId = (short)Enum.Parse(typeof(ProductType), p.ProductType)
+                            }));
 
 
-                        //save consigner details as new address book detail
-                        if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                            //save consigner details as new address book detail
+                            if (addShipment.AddressInformation.Consigner.SaveNewAddress)
+                            {
+                                AddNewConsignerAddress(addShipment);
+
+                            }
+
+                            //save consignee details as new address book detail
+                            if (addShipment.AddressInformation.Consignee.SaveNewAddress)
+                            {
+                                AddNewConsigneeAddress(addShipment);
+                            }
+                            context.SaveChanges();
+                        }
+                        else
                         {
-                            AddNewConsignerAddress(addShipment);
+                            packageProductList.Add(new PackageProduct()
+                            {
+                                CreatedBy = addShipment.CreatedBy,
+                                CreatedDate = DateTime.UtcNow,
+                                IsActive = true,
+                                IsDelete = false,
+                                Description = package.Description,
+                                Height = package.Height,
+                                Length = package.Length,
+                                Weight = package.Weight,
+                                Width = package.Width,
+                                Quantity = package.Quantity,
+                                ProductTypeId = (short)Enum.Parse(typeof(ProductType), package.ProductType)
+                            });
 
                         }
 
-                        //save consignee details as new address book detail
-                        if (addShipment.AddressInformation.Consignee.SaveNewAddress)
-                        {
-                            AddNewConsigneeAddress(addShipment);
-                        }
+                        //Mapper.CreateMap<GeneralInformationDto, Shipment>();
+                        newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId, mainShipmentId);
+                        context.Shipments.Add(newShipment);
                         context.SaveChanges();
-                    }
-                    else
-                    {
-                        packageProductList.Add(new PackageProduct()
+
+                        // Save payment. If come so far, mean payment is success.
+                        if (packageCount == 1)
                         {
-                            CreatedBy = addShipment.CreatedBy,
-                            CreatedDate = DateTime.UtcNow,
-                            IsActive = true,
-                            IsDelete = false,
-                            Description = package.Description,
-                            Height = package.Height,
-                            Length = package.Length,
-                            Weight = package.Weight,
-                            Width = package.Width,
-                            Quantity = package.Quantity,
-                            ProductTypeId = (short)Enum.Parse(typeof(ProductType), package.ProductType)
-                        });
-
-                    }
-
-                    //Mapper.CreateMap<GeneralInformationDto, Shipment>();
-                    newShipment = ConstructNewShipmentDetails(addShipment, sysDivisionId, sysCostCenterId, packageProductList, oldShipmentId, mainShipmentId);
-                    context.Shipments.Add(newShipment);
-                    context.SaveChanges();
-
-                    // Save payment. If come so far, mean payment is success.
-                    if (packageCount == 1)
-                    {
-                        if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
-                        {
-                            SaveNewPayment(addShipment, paymentResult, newShipment);
+                            if (addShipment.GeneralInformation.ShipmentPaymentTypeId == 2)
+                            {
+                                SaveNewPayment(addShipment, paymentResult, newShipment);
+                            }
+                            mainShipmentId = newShipment.Id;
                         }
-                        mainShipmentId = newShipment.Id;
+
+                        result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
+                        result.Status = Status.Success;
+
+                        //Add Audit Trail Record
+                        AddAuditTrailRecord(addShipment, result, newShipment);
+                        packageCount++;
                     }
-
-                    result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
-                    result.Status = Status.Success;
-
-                    //Add Audit Trail Record
-                    AddAuditTrailRecord(addShipment, result, newShipment);
-                    packageCount++;
                 }
-
                 return result;
             }
         }
