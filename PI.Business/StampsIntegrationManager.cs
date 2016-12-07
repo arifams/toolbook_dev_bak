@@ -340,7 +340,8 @@ namespace PI.Business
                         CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
                         Description = package.Description,
                         HSTariffNumber = addShipment.PackageDetails.HsCode,
-                        Quantity = package.Quantity,
+                       // Quantity = package.Quantity,
+                        Quantity = 1,
                         WeightLb = weightLb,
                         Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
                         WeightOz = weightLb * 16
