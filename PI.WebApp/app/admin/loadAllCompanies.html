@@ -82,9 +82,9 @@
     </div>
 
     <div class="row m-0">
-        <div class="col-sm-5 col-md-5 col-xs-12 input-group pull-left">
+        <div class="col-sm-6 col-md-6 col-xs-12 input-group pull-left">
             <input ng-model="vm.searchText" name="searchText" type="text" class="form-control form-white custom-search2"
-                   placeholder= "{{'Search by First Name, Last Name or Company Name'| translate}}" />
+                   placeholder= "{{'Search by First Name, Last Name, Company Name or Customer Id'| translate}}" />
 
             <span class="input-group-btn p-0">
                 <button type="button" class="btn btn-primary" ng-click="vm.searchComapnies()"
@@ -93,7 +93,7 @@
                 </button>
             </span>
         </div>
-        <div class="col-sm-7 col-md-7 col-xs-12 p-0 btn-wrapper">
+        <div class="col-sm-6 col-md-6 col-xs-12 p-0 btn-wrapper">
             <button type="button" style="width:auto;" class="btn btn-primary m-r-0" ng-click="vm.manageUsers(null)" translate>
                 <i class="fa fa-plus-circle m-r-5 m-t-5 f-16"></i>New customer
             </button>
@@ -156,6 +156,7 @@
                                         <tr>
                                             <th translate>Date</th>
                                             <th st-sort="name" translate>Name</th>
+                                            <th translate>Customer Id`</th>
                                             <th translate>Company</th>
                                             <th translate>Shipments</th>
                                             <th style="text-align:center" translate>View</th>
@@ -169,6 +170,7 @@
                                         <tr ng-repeat="row in vm.rowCollection">
                                             <td>{{row.createdDate}}</td>
                                             <td>{{row.firstName}} {{row.lastName}}</td>
+                                            <td>{{row.formatedId}}</td>
                                             <td>{{row.corporateName}}</td>
                                             <td>{{row.activeShipments}}</td>
                                             <td style="text-align:center">

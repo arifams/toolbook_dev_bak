@@ -3748,27 +3748,28 @@ namespace PI.Business
                 ws.Cells[2, 1, 2, 8].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
 
                 // Set headings.
-                ws.Cells["A6"].Value = "Shipment Code";
-                ws.Cells["B6"].Value = "Shipment Mode";
-                ws.Cells["C6"].Value = "Consignor FirstName";
-                ws.Cells["D6"].Value = "Consignor LastName";
-                ws.Cells["E6"].Value = "Consignor Postalcode";
-                ws.Cells["F6"].Value = "Consignor Country";
-                ws.Cells["G6"].Value = "Created Date";
-                ws.Cells["H6"].Value = "Pickup Date";
-                ws.Cells["I6"].Value = "Delivery Date";
-                ws.Cells["J6"].Value = "Shipment Description";
-                ws.Cells["K6"].Value = "Status";
-                ws.Cells["L6"].Value = "Tracking Number";
-                ws.Cells["M6"].Value = "CarrierName";
-                ws.Cells["N6"].Value = "Consignee Country";
-                ws.Cells["O6"].Value = "Consignee Postalcode";
-                ws.Cells["P6"].Value = "Price";
-                ws.Cells["Q6"].Value = "Currency";
-                ws.Cells["R6"].Value = "Total Weight";
-                ws.Cells["S6"].Value = "Total Volume";
-                ws.Cells["T6"].Value = "Shipment TermCode";
-                ws.Cells["U6"].Value = "Package Count";
+                ws.Cells["A6"].Value = "Customer Id";
+                ws.Cells["B6"].Value = "Shipment Code";
+                ws.Cells["C6"].Value = "Shipment Mode";
+                ws.Cells["D6"].Value = "Consignor FirstName";
+                ws.Cells["E6"].Value = "Consignor LastName";
+                ws.Cells["F6"].Value = "Consignor Postalcode";
+                ws.Cells["G6"].Value = "Consignor Country";
+                ws.Cells["H6"].Value = "Created Date";
+                ws.Cells["I6"].Value = "Pickup Date";
+                ws.Cells["J6"].Value = "Delivery Date";
+                ws.Cells["K6"].Value = "Shipment Description";
+                ws.Cells["L6"].Value = "Status";
+                ws.Cells["M6"].Value = "Tracking Number";
+                ws.Cells["N6"].Value = "CarrierName";
+                ws.Cells["O6"].Value = "Consignee Country";
+                ws.Cells["P6"].Value = "Consignee Postalcode";
+                ws.Cells["Q6"].Value = "Price";
+                ws.Cells["R6"].Value = "Currency";
+                ws.Cells["S6"].Value = "Total Weight";
+                ws.Cells["T6"].Value = "Total Volume";
+                ws.Cells["U6"].Value = "Shipment TermCode";
+                ws.Cells["V6"].Value = "Package Count";
 
                 //Format the header for columns.
                 using (ExcelRange rng = ws.Cells["A6:Z6"])
@@ -3788,66 +3789,69 @@ namespace PI.Business
                     rowIndex++;
 
                     var cell = ws.Cells[rowIndex, 1];
-                    cell.Value = shipment.ShipmentCode;
+                    cell.Value = shipment.FormatedCustomerId;
 
                     cell = ws.Cells[rowIndex, 2];
-                    cell.Value = shipment.ShipmentMode;
+                    cell.Value = shipment.ShipmentCode;
 
                     cell = ws.Cells[rowIndex, 3];
-                    cell.Value = shipment.ConsignorFirstName;
+                    cell.Value = shipment.ShipmentMode;
 
                     cell = ws.Cells[rowIndex, 4];
-                    cell.Value = shipment.ConsignorLastName;
+                    cell.Value = shipment.ConsignorFirstName;
 
                     cell = ws.Cells[rowIndex, 5];
-                    cell.Value = shipment.ConsignorPostalcode;
+                    cell.Value = shipment.ConsignorLastName;
 
                     cell = ws.Cells[rowIndex, 6];
-                    cell.Value = shipment.ConsignorCountry;
+                    cell.Value = shipment.ConsignorPostalcode;
 
                     cell = ws.Cells[rowIndex, 7];
-                    cell.Value = shipment.CreatedDate;
+                    cell.Value = shipment.ConsignorCountry;
 
                     cell = ws.Cells[rowIndex, 8];
-                    cell.Value = context.GetLocalTimeByUser(shipment.UserId, Convert.ToDateTime(shipment.PickupDate));
+                    cell.Value = shipment.CreatedDate;
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = shipment.DeliveryTime;
+                    cell.Value = context.GetLocalTimeByUser(shipment.UserId, Convert.ToDateTime(shipment.PickupDate));
 
                     cell = ws.Cells[rowIndex, 10];
-                    cell.Value = shipment.ShipmentDescription;
+                    cell.Value = shipment.DeliveryTime;
 
                     cell = ws.Cells[rowIndex, 11];
-                    cell.Value = shipment.Status;
+                    cell.Value = shipment.ShipmentDescription;
 
                     cell = ws.Cells[rowIndex, 12];
-                    cell.Value = shipment.TrackingNumber;
+                    cell.Value = shipment.Status;
 
                     cell = ws.Cells[rowIndex, 13];
-                    cell.Value = shipment.CarrierName;
+                    cell.Value = shipment.TrackingNumber;
 
                     cell = ws.Cells[rowIndex, 14];
-                    cell.Value = shipment.ConsigneeCountry;
+                    cell.Value = shipment.CarrierName;
 
                     cell = ws.Cells[rowIndex, 15];
-                    cell.Value = shipment.ConsigneePostalcode;
+                    cell.Value = shipment.ConsigneeCountry;
 
                     cell = ws.Cells[rowIndex, 16];
-                    cell.Value = shipment.Price;
+                    cell.Value = shipment.ConsigneePostalcode;
 
                     cell = ws.Cells[rowIndex, 17];
-                    cell.Value = shipment.ValueCurrency;
+                    cell.Value = shipment.Price;
 
                     cell = ws.Cells[rowIndex, 18];
-                    cell.Value = shipment.TotalVolume;
+                    cell.Value = shipment.ValueCurrency;
 
                     cell = ws.Cells[rowIndex, 19];
-                    cell.Value = shipment.TotalWeight;
+                    cell.Value = shipment.TotalVolume;
 
                     cell = ws.Cells[rowIndex, 20];
-                    cell.Value = shipment.ShipmentTermCode;
+                    cell.Value = shipment.TotalWeight;
 
                     cell = ws.Cells[rowIndex, 21];
+                    cell.Value = shipment.ShipmentTermCode;
+
+                    cell = ws.Cells[rowIndex, 22];
                     cell.Value = shipment.Count;
 
                     ws.Row(rowIndex).Height = 25;
@@ -3940,14 +3944,14 @@ namespace PI.Business
                                     ).ToList();
 
             // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
-
+            Customer customerOfShipment = null;
             foreach (var item in UpdatedShipmentList)
             {
+                customerOfShipment = context.Customers.Where(c => c.User.TenantId == item.Division.Company.TenantId).First();
+
                 reportList.Add(new ShipmentReportDto
                 {
-
-
-                    ConsignorAddress1 = item.ConsignorAddress.StreetAddress1,
+                    FormatedCustomerId = customerOfShipment.Id.ToString("00000"),
                     ConsignorAddress2 = item.ConsignorAddress.StreetAddress2,
                     ConsignorPostalcode = item.ConsignorAddress.ZipCode,
                     ConsignorCity = item.ConsignorAddress.City,

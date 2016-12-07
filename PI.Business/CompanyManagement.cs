@@ -1517,6 +1517,8 @@ namespace PI.Business
 
             string status = pageList.DynamicContent.status.ToString();
             string searchtext = pageList.DynamicContent.searchText.ToString();
+            long searchtextForIdSearch = 0;
+            Int64.TryParse(searchtext, out searchtextForIdSearch);
 
             var querableContent = (from customer in context.Customers
                            join comapny in context.Companies on customer.User.TenantId equals comapny.TenantId
@@ -1524,7 +1526,7 @@ namespace PI.Business
                            customer.IsDelete == false &&
                            (string.IsNullOrEmpty(status) || comapny.IsActive.ToString() == status) &&
                            (string.IsNullOrEmpty(searchtext) || customer.FirstName.Contains(searchtext) || customer.LastName.Contains(searchtext)
-                             || comapny.Name.Contains(searchtext))
+                             || comapny.Name.Contains(searchtext) || (searchtextForIdSearch != 0 && customer.Id == searchtextForIdSearch))
                            select new
                            {
                                Customer = customer,
@@ -1545,6 +1547,7 @@ namespace PI.Business
                 pagedRecord.Content.Add(new CustomerListDto
                 {
                     Id = item.Company.Id,
+                    FormatedId = item.Customer.Id.ToString("00000"),
                     FirstName = item.Customer.FirstName,
                     LastName = item.Customer.LastName,
                     CorporateName = item.Company.Name,
@@ -1608,6 +1611,7 @@ namespace PI.Business
                     Id = item.Company.Id,
                     FirstName = item.Customer.FirstName,
                     LastName = item.Customer.LastName,
+                    FormatedId = item.Customer.Id.ToString("00000"),
                     CorporateName = item.Company.Name,
                     City = item.Customer.CustomerAddress.City,
                     Status = item.Company.IsActive,
