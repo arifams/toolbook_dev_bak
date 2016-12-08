@@ -14,6 +14,11 @@
         })(window, document, 'script', 'dataLayer', 'GTM-W4QFN3');</script>-->
     <!-- End Google Tag Manager -->
 
+    <!-- Azure Application Insights -->
+    <script type="text/javascript">
+        var appInsights = window.appInsights || function (config) { function i(config) { t[config] = function () { var i = arguments; t.queue.push(function () { t[config].apply(t, i) }) } } var t = { config: config }, u = document, e = window, o = "script", s = "AuthenticatedUserContext", h = "start", c = "stop", l = "Track", a = l + "Event", v = l + "Page", y = u.createElement(o), r, f; y.src = config.url || "https://az416426.vo.msecnd.net/scripts/a/ai.0.js"; u.getElementsByTagName(o)[0].parentNode.appendChild(y); try { t.cookie = u.cookie } catch (p) { } for (t.queue = [], t.version = "1.0", r = ["Event", "Exception", "Metric", "PageView", "Trace", "Dependency"]; r.length;) i("track" + r.pop()); return i("set" + s), i("clear" + s), i(h + a), i(c + a), i(h + v), i(c + v), i("flush"), config.disableExceptionTracking || (r = "onerror", i("_" + r), f = e[r], e[r] = function (config, i, u, e, o) { var s = f && f(config, i, u, e, o); return s !== !0 && t["_" + r](config, i, u, e, o), s }), t }({ instrumentationKey: "6194f261-af65-4002-9056-43ba4710a695" }); window.appInsights = appInsights; appInsights.trackPageView();
+    </script>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="admin-themes-lab">
@@ -83,6 +88,8 @@
     </style>
 
 </head>
+
+
 <body ng-app="newApp" class="fixed-topbar fixed-sidebar theme-sdtl color-default" ng-controller="mainCtrl">
 
     <!-- Google Tag Manager (noscript) -->
@@ -91,8 +98,6 @@
                 height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>-->
     <!-- End Google Tag Manager (noscript) -->
-
-
     <!--[if lt IE 6]>
     <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -118,8 +123,6 @@
                     <!--<li class="nav-parent-single" ng-class="{ active  : isActive('/AdminMangement')}" ng-show="currentRole == 'Admin'">
                         <a href="#AdminMangement"><span translate>RATE MANAGEMENT</span></a>
                     </li>-->
-
-            
                     <!--<li class="nav-parent" ng-show="currentRole == 'Admin'">
                         <a href="#"><i class="icon-users" aria-hidden="true"></i><span translate>MANAGE CUSTOMER </span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
@@ -127,7 +130,7 @@
 
                         </ul>
                     </li>-->
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-hide="currentRole == 'Admin' || currentRole == '1st Line Support' 
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/dashboard')}" ng-hide="currentRole == 'Admin' || currentRole == '1st Line Support'
                         || currentRole == '2nd Line Support'">
                         <a href="#dashboard"><i class="icon-home"></i><span>DASHBOARD</span> </a>
                     </li>
@@ -144,7 +147,7 @@
                         </ul>
                     </li>
 
-                    <li class="nav-parent-single" ng-class="{ active  : isActive('/shipmentManagement')}" 
+                    <li class="nav-parent-single" ng-class="{ active  : isActive('/shipmentManagement')}"
                         ng-show="currentRole == 'Admin' || currentRole == '1st Line Support'  || currentRole == '2nd Line Support' ">
                         <a href="#shipmentManagement"><i class="icon-screen-desktop"></i><span translate>SHIPMENT CONTROL CENTER</span></a>
                     </li>
@@ -152,12 +155,12 @@
                     <li class="nav-parent-single" ng-class="{ active  : isActive('/adminManageUser')}" ng-show="currentRole == 'Admin'">
                         <a href="#adminManageUser"><i class="icon-user"></i><span translate>MANAGE USERS</span></a>
                     </li>
-                 
-                    <li class="nav-parent" ng-show="currentRole == 'Admin' || currentRole == '1st Line Support' || currentRole == '2nd Line Support'" >
+
+                    <li class="nav-parent" ng-show="currentRole == 'Admin' || currentRole == '1st Line Support' || currentRole == '2nd Line Support'">
                         <a href="#"><i class="icon-note"></i><span translate>FINANCE</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
                             <li ng-class="{ active  : isActive('/InvoiceandBillingAdmin')}"><a href="#InvoiceandBillingAdmin" translate>INVOICES</a></li>
-                            
+
                         </ul>
                     </li>
 
@@ -175,8 +178,8 @@
                             <li ng-show="(isCorporate == 'true' && (currentRole == 'BusinessOwner' || currentRole == 'Manager' ))" ng-class="{ active  : isActive('/OrganizationManagement')}"><a href="#OrganizationManagement" translate> ORGANIZATION MANAGEMENT</a></li>
                             <!--<li ng-class="{ active  : isActive('/OrganizationStructure')}"><a href="#OrganizationStructure" translate> ORGANIZATION</a></li>-->
                             <!--<li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadUserManagement')}"><a href="#loadUserManagement" translate> USER MANAGEMENT</a></li>
-            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
-            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
+                            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadDivisions')}"><a href="#loadDivisions" translate> DIVISION MANAGEMENT</a></li>
+                            <li ng-show="(isCorporate == 'true') && currentRole != 'Operator'" ng-class="{ active  : isActive('/loadCostcenters')}"><a href="#loadCostcenters" translate> COST CENTER MANAGEMENT</a></li>-->
                             <li ng-class="{ active  : isActive('/loadAddresses')}"><a href="#loadAddresses" translate> ADDRESS BOOK</a></li>
                             <li ng-class="{ active  : isActive('/profileInformation/0')}"><a href="#profileInformation/0" translate> PROFILE INFORMATION</a></li>
                         </ul>
@@ -190,7 +193,7 @@
                             </li>
                         </ul>
                     </li>
-                    
+
                     <li class="nav-parent" ng-show="currentRole == 'Admin' ||  currentRole == '1st Line Support' || currentRole == '2nd Line Support'">
                         <a href="#"><i class="icon-user"></i><span translate>CUSTOMER</span> <span class="fa arrow"></span></a>
                         <ul class="children collapse">
@@ -243,7 +246,7 @@
 
                         <li class="dropdown" id="user-header">
                             <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-                                
+
                                 <span>{{userName}}</span>
                             </a>
                             <ul class="dropdown-menu">
@@ -866,34 +869,41 @@
 
     <div ng-if="currentRole != 'Admin'">
         <!-- script for Freshdesk chat client -->
-        <script  type='text/javascript'>var fc_CSS = document.createElement('link'); fc_CSS.setAttribute('rel', 'stylesheet'); var fc_isSecured = (window.location && window.location.protocol == 'https:'); var fc_lang = document.getElementsByTagName('html')[0].getAttribute('lang'); var fc_rtlLanguages = ['ar', 'he']; var fc_rtlSuffix = (fc_rtlLanguages.indexOf(fc_lang) >= 0) ? '-rtl' : ''; fc_CSS.setAttribute('type', 'text/css'); fc_CSS.setAttribute('href', ((fc_isSecured) ? 'https://d36mpcpuzc4ztk.cloudfront.net' : 'http://assets1.chat.freshdesk.com') + '/css/visitor' + fc_rtlSuffix + '.css'); document.getElementsByTagName('head')[0].appendChild(fc_CSS); var fc_JS = document.createElement('script'); fc_JS.type = 'text/javascript'; fc_JS.defer = true; fc_JS.src = ((fc_isSecured) ? 'https://d36mpcpuzc4ztk.cloudfront.net' : 'http://assets.chat.freshdesk.com') + '/js/visitor.js'; (document.body ? document.body : document.getElementsByTagName('head')[0]).appendChild(fc_JS); window.livechat_setting = 'eyJ3aWRnZXRfc2l0ZV91cmwiOiJqbnMuZnJlc2hkZXNrLmNvbSIsInByb2R1Y3RfaWQiOm51bGwsIm5hbWUiOiJKblMiLCJ3aWRnZXRfZXh0ZXJuYWxfaWQiOm51bGwsIndpZGdldF9pZCI6IjQ4NGQ1NzQ5LTU2YzItNGYzOS04NDFjLTJiNGFjZjcxYTVkZCIsInNob3dfb25fcG9ydGFsIjpmYWxzZSwicG9ydGFsX2xvZ2luX3JlcXVpcmVkIjpmYWxzZSwibGFuZ3VhZ2UiOiJlbiIsInRpbWV6b25lIjoiRWFzdGVybiBUaW1lIChVUyAmIENhbmFkYSkiLCJpZCI6MTkwMDAwMzU2MDgsIm1haW5fd2lkZ2V0IjoxLCJmY19pZCI6Ijk2NzFkMWVhZGU5NGMzYTBmYmYzZmFmYmQ2MDFiNWZmIiwic2hvdyI6MSwicmVxdWlyZWQiOjIsImhlbHBkZXNrbmFtZSI6IkpuUyIsIm5hbWVfbGFiZWwiOiJOYW1lIiwibWVzc2FnZV9sYWJlbCI6Ik1lc3NhZ2UiLCJwaG9uZV9sYWJlbCI6IlBob25lIiwidGV4dGZpZWxkX2xhYmVsIjoiVGV4dGZpZWxkIiwiZHJvcGRvd25fbGFiZWwiOiJEcm9wZG93biIsIndlYnVybCI6Impucy5mcmVzaGRlc2suY29tIiwibm9kZXVybCI6ImNoYXQuZnJlc2hkZXNrLmNvbSIsImRlYnVnIjoxLCJtZSI6Ik1lIiwiZXhwaXJ5IjoxNDc5MDA1MTYwMDAwLCJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJlbmRfY2hhdF90aGFua19tc2ciOiJUaGFuayB5b3UhISEiLCJlbmRfY2hhdF9lbmRfdGl0bGUiOiJFbmQiLCJlbmRfY2hhdF9jYW5jZWxfdGl0bGUiOiJDYW5jZWwiLCJzaXRlX2lkIjoiOTY3MWQxZWFkZTk0YzNhMGZiZjNmYWZiZDYwMWI1ZmYiLCJhY3RpdmUiOjEsInJvdXRpbmciOm51bGwsInByZWNoYXRfZm9ybSI6MSwiYnVzaW5lc3NfY2FsZW5kYXIiOm51bGwsInByb2FjdGl2ZV9jaGF0IjowLCJwcm9hY3RpdmVfdGltZSI6bnVsbCwic2l0ZV91cmwiOiJqbnMuZnJlc2hkZXNrLmNvbSIsImV4dGVybmFsX2lkIjpudWxsLCJkZWxldGVkIjowLCJtb2JpbGUiOjEsImFjY291bnRfaWQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDE2LTEwLTEzVDAyOjQ5OjQ1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAxNi0xMC0xM1QwMjo1MToxMy4wMDBaIiwiY2JEZWZhdWx0TWVzc2FnZXMiOnsiY29icm93c2luZ19zdGFydF9tc2ciOiJZb3VyIHNjcmVlbnNoYXJlIHNlc3Npb24gaGFzIHN0YXJ0ZWQiLCJjb2Jyb3dzaW5nX3N0b3BfbXNnIjoiWW91ciBzY3JlZW5zaGFyaW5nIHNlc3Npb24gaGFzIGVuZGVkIiwiY29icm93c2luZ19kZW55X21zZyI6IllvdXIgcmVxdWVzdCB3YXMgZGVjbGluZWQiLCJjb2Jyb3dzaW5nX2FnZW50X2J1c3kiOiJBZ2VudCBpcyBpbiBzY3JlZW4gc2hhcmUgc2Vzc2lvbiB3aXRoIGN1c3RvbWVyIiwiY29icm93c2luZ192aWV3aW5nX3NjcmVlbiI6IllvdSBhcmUgdmlld2luZyB0aGUgdmlzaXRvcuKAmXMgc2NyZWVuIiwiY29icm93c2luZ19jb250cm9sbGluZ19zY3JlZW4iOiJZb3UgYXJlIGNvbnRyb2xsaW5nIHRoZSB2aXNpdG9y4oCZcyBzY3JlZW4iLCJjb2Jyb3dzaW5nX3JlcXVlc3RfY29udHJvbCI6IlJlcXVlc3QgdmlzaXRvciBmb3IgY29udHJvbCIsImNvYnJvd3NpbmdfZ2l2ZV92aXNpdG9yX2NvbnRyb2wiOiJHaXZlIGNvbnRyb2wgdG8gdmlzaXRvciIsImNvYnJvd3Npbmdfc3RvcF9yZXF1ZXN0IjoiRW5kIHlvdXIgc2NyZWVuc2hhcmluZyBzZXNzaW9uIiwiY29icm93c2luZ19yZXF1ZXN0X2NvbnRyb2xfcmVqZWN0ZWQiOiJZb3VyIHJlcXVlc3Qgd2FzIGRlY2xpbmVkIiwiY29icm93c2luZ19jYW5jZWxfdmlzaXRvcl9tc2ciOiJTY3JlZW5zaGFyaW5nIGlzIGN1cnJlbnRseSB1bmF2YWlsYWJsZSIsImNiX3ZpZXdpbmdfc2NyZWVuX3ZpIjoiQWdlbnQgY2FuIHZpZXcgeW91ciBzY3JlZW4gIiwiY2JfY29udHJvbGxpbmdfc2NyZWVuX3ZpIjoiQWdlbnQgaXMgY29udHJvbGxpbmcgeW91ciBzY3JlZW4gIiwiY2Jfdmlld19tb2RlX3N1YnRleHQiOiJZb3UgYXJlIG5vdCBjb250cm9sbGluZyB5b3VyIHNjcmVlbiIsImNiX2dpdmVfY29udHJvbF92aSI6IkFsbG93IGFnZW50IHRvIGNvbnRyb2wgeW91ciBzY3JlZW4iLCJjYl92aXNpdG9yX3Nlc3Npb25fcmVxdWVzdCI6IkNhbiBhZ2VudCBjb250cm9sIHlvdXIgY3VycmVudCBzY3JlZW4/In19';</script>
+        <script type='text/javascript'>var fc_CSS = document.createElement('link'); fc_CSS.setAttribute('rel', 'stylesheet'); var fc_isSecured = (window.location && window.location.protocol == 'https:'); var fc_lang = document.getElementsByTagName('html')[0].getAttribute('lang'); var fc_rtlLanguages = ['ar', 'he']; var fc_rtlSuffix = (fc_rtlLanguages.indexOf(fc_lang) >= 0) ? '-rtl' : ''; fc_CSS.setAttribute('type', 'text/css'); fc_CSS.setAttribute('href', ((fc_isSecured) ? 'https://d36mpcpuzc4ztk.cloudfront.net' : 'http://assets1.chat.freshdesk.com') + '/css/visitor' + fc_rtlSuffix + '.css'); document.getElementsByTagName('head')[0].appendChild(fc_CSS); var fc_JS = document.createElement('script'); fc_JS.type = 'text/javascript'; fc_JS.defer = true; fc_JS.src = ((fc_isSecured) ? 'https://d36mpcpuzc4ztk.cloudfront.net' : 'http://assets.chat.freshdesk.com') + '/js/visitor.js'; (document.body ? document.body : document.getElementsByTagName('head')[0]).appendChild(fc_JS); window.livechat_setting = 'eyJ3aWRnZXRfc2l0ZV91cmwiOiJqbnMuZnJlc2hkZXNrLmNvbSIsInByb2R1Y3RfaWQiOm51bGwsIm5hbWUiOiJKblMiLCJ3aWRnZXRfZXh0ZXJuYWxfaWQiOm51bGwsIndpZGdldF9pZCI6IjQ4NGQ1NzQ5LTU2YzItNGYzOS04NDFjLTJiNGFjZjcxYTVkZCIsInNob3dfb25fcG9ydGFsIjpmYWxzZSwicG9ydGFsX2xvZ2luX3JlcXVpcmVkIjpmYWxzZSwibGFuZ3VhZ2UiOiJlbiIsInRpbWV6b25lIjoiRWFzdGVybiBUaW1lIChVUyAmIENhbmFkYSkiLCJpZCI6MTkwMDAwMzU2MDgsIm1haW5fd2lkZ2V0IjoxLCJmY19pZCI6Ijk2NzFkMWVhZGU5NGMzYTBmYmYzZmFmYmQ2MDFiNWZmIiwic2hvdyI6MSwicmVxdWlyZWQiOjIsImhlbHBkZXNrbmFtZSI6IkpuUyIsIm5hbWVfbGFiZWwiOiJOYW1lIiwibWVzc2FnZV9sYWJlbCI6Ik1lc3NhZ2UiLCJwaG9uZV9sYWJlbCI6IlBob25lIiwidGV4dGZpZWxkX2xhYmVsIjoiVGV4dGZpZWxkIiwiZHJvcGRvd25fbGFiZWwiOiJEcm9wZG93biIsIndlYnVybCI6Impucy5mcmVzaGRlc2suY29tIiwibm9kZXVybCI6ImNoYXQuZnJlc2hkZXNrLmNvbSIsImRlYnVnIjoxLCJtZSI6Ik1lIiwiZXhwaXJ5IjoxNDc5MDA1MTYwMDAwLCJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJlbmRfY2hhdF90aGFua19tc2ciOiJUaGFuayB5b3UhISEiLCJlbmRfY2hhdF9lbmRfdGl0bGUiOiJFbmQiLCJlbmRfY2hhdF9jYW5jZWxfdGl0bGUiOiJDYW5jZWwiLCJzaXRlX2lkIjoiOTY3MWQxZWFkZTk0YzNhMGZiZjNmYWZiZDYwMWI1ZmYiLCJhY3RpdmUiOjEsInJvdXRpbmciOm51bGwsInByZWNoYXRfZm9ybSI6MSwiYnVzaW5lc3NfY2FsZW5kYXIiOm51bGwsInByb2FjdGl2ZV9jaGF0IjowLCJwcm9hY3RpdmVfdGltZSI6bnVsbCwic2l0ZV91cmwiOiJqbnMuZnJlc2hkZXNrLmNvbSIsImV4dGVybmFsX2lkIjpudWxsLCJkZWxldGVkIjowLCJtb2JpbGUiOjEsImFjY291bnRfaWQiOm51bGwsImNyZWF0ZWRfYXQiOiIyMDE2LTEwLTEzVDAyOjQ5OjQ1LjAwMFoiLCJ1cGRhdGVkX2F0IjoiMjAxNi0xMC0xM1QwMjo1MToxMy4wMDBaIiwiY2JEZWZhdWx0TWVzc2FnZXMiOnsiY29icm93c2luZ19zdGFydF9tc2ciOiJZb3VyIHNjcmVlbnNoYXJlIHNlc3Npb24gaGFzIHN0YXJ0ZWQiLCJjb2Jyb3dzaW5nX3N0b3BfbXNnIjoiWW91ciBzY3JlZW5zaGFyaW5nIHNlc3Npb24gaGFzIGVuZGVkIiwiY29icm93c2luZ19kZW55X21zZyI6IllvdXIgcmVxdWVzdCB3YXMgZGVjbGluZWQiLCJjb2Jyb3dzaW5nX2FnZW50X2J1c3kiOiJBZ2VudCBpcyBpbiBzY3JlZW4gc2hhcmUgc2Vzc2lvbiB3aXRoIGN1c3RvbWVyIiwiY29icm93c2luZ192aWV3aW5nX3NjcmVlbiI6IllvdSBhcmUgdmlld2luZyB0aGUgdmlzaXRvcuKAmXMgc2NyZWVuIiwiY29icm93c2luZ19jb250cm9sbGluZ19zY3JlZW4iOiJZb3UgYXJlIGNvbnRyb2xsaW5nIHRoZSB2aXNpdG9y4oCZcyBzY3JlZW4iLCJjb2Jyb3dzaW5nX3JlcXVlc3RfY29udHJvbCI6IlJlcXVlc3QgdmlzaXRvciBmb3IgY29udHJvbCIsImNvYnJvd3NpbmdfZ2l2ZV92aXNpdG9yX2NvbnRyb2wiOiJHaXZlIGNvbnRyb2wgdG8gdmlzaXRvciIsImNvYnJvd3Npbmdfc3RvcF9yZXF1ZXN0IjoiRW5kIHlvdXIgc2NyZWVuc2hhcmluZyBzZXNzaW9uIiwiY29icm93c2luZ19yZXF1ZXN0X2NvbnRyb2xfcmVqZWN0ZWQiOiJZb3VyIHJlcXVlc3Qgd2FzIGRlY2xpbmVkIiwiY29icm93c2luZ19jYW5jZWxfdmlzaXRvcl9tc2ciOiJTY3JlZW5zaGFyaW5nIGlzIGN1cnJlbnRseSB1bmF2YWlsYWJsZSIsImNiX3ZpZXdpbmdfc2NyZWVuX3ZpIjoiQWdlbnQgY2FuIHZpZXcgeW91ciBzY3JlZW4gIiwiY2JfY29udHJvbGxpbmdfc2NyZWVuX3ZpIjoiQWdlbnQgaXMgY29udHJvbGxpbmcgeW91ciBzY3JlZW4gIiwiY2Jfdmlld19tb2RlX3N1YnRleHQiOiJZb3UgYXJlIG5vdCBjb250cm9sbGluZyB5b3VyIHNjcmVlbiIsImNiX2dpdmVfY29udHJvbF92aSI6IkFsbG93IGFnZW50IHRvIGNvbnRyb2wgeW91ciBzY3JlZW4iLCJjYl92aXNpdG9yX3Nlc3Npb25fcmVxdWVzdCI6IkNhbiBhZ2VudCBjb250cm9sIHlvdXIgY3VycmVudCBzY3JlZW4/In19';</script>
     </div>
 
     <!-- BEGIN ANGULARJS SCRIPTS -->
     <script src="../js/sec_1.js"></script>
 
     <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-20031220-5', 'auto');
-  ga('send', 'pageview');
+        ga('create', 'UA-20031220-5', 'auto');
+        ga('send', 'pageview');
 
     </script>
 
     <script>
 
-        var $buoop = {vs:{i:11,f:-4,o:-4,s:7,c:-4},api:4};
-        function $buo_f(){
-         var e = document.createElement("script");
-         e.src = "//browser-update.org/update.min.js";
-         document.body.appendChild(e);
+        var $buoop = { vs: { i: 11, f: -4, o: -4, s: 7, c: -4 }, api: 4 };
+        function $buo_f() {
+            var e = document.createElement("script");
+            e.src = "//browser-update.org/update.min.js";
+            document.body.appendChild(e);
         };
-        try {document.addEventListener("DOMContentLoaded", $buo_f,false)}
-        catch(e){window.attachEvent("onload", $buo_f)}
+        try { document.addEventListener("DOMContentLoaded", $buo_f, false) }
+        catch (e) { window.attachEvent("onload", $buo_f) }
     </script>
+
+
+
+
+
     <!--<script src="../plugins/angular/angular.min.js"></script>
     <script src="../plugins/json3/lib/json3.js"></script>
     <script src="../plugins/angular-resource/angular-resource.min.js"></script>
@@ -998,7 +1008,6 @@
     <!--<script src="../global/plugins/charts-highstock/js/highcharts.js"></script>
     <script src="../global/plugins/charts-highstock/js/highcharts-more.min.js"></script>
     <script src="../global/plugins/charts-highstock/js/solid-guage.js"></script>-->
-
     <!--<script src="../global/plugins/charts-highstock/js/modules/exporting.min.js"></script>-->
     <!--<script src="../global/plugins/autosize/autosize.min.js"></script>-->
     <!--<script src="../global/js/widgets/widget_weather.js"></script>-->
