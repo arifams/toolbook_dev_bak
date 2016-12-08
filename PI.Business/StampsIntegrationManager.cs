@@ -313,7 +313,7 @@ namespace PI.Business
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
                         LastName = addShipment.AddressInformation.Consignee.LastName,
-                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
                         Company = addShipment.AddressInformation.Consignee.CompanyName,
                         Address1 = addShipment.AddressInformation.Consignee.Address1,
                         Address2 = addShipment.AddressInformation.Consignee.Address2,
