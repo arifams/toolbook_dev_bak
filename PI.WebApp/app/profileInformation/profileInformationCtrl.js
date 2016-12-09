@@ -162,7 +162,7 @@
 
 
         vm.isImage = function (ext) {
-
+            debugger;
             if (ext == "image/jpg" || ext == "image/jpeg" || ext == "image/gif" || ext == "image/png") {
 
                 return vm.isImagetype = true;
