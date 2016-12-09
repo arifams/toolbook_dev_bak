@@ -737,11 +737,11 @@
                                 //$location.path('/shipmentResult');
                                 
                                 vm.addingShipment = true;
-                                vm.shipmentReferenceName = response.shipmentReference;
+                                vm.shipmentReferenceName = shipmentReferenceName; //response.shipmentReference;
                                 vm.isShowPaymentForm = false;
                                 vm.payementProgress = false;
                                 //vm.savePayShipment = false;
-                                vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                //vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                                 vm.hideRateSummary = true;
                                 //window.open(errorUrl);
                             }
@@ -825,6 +825,8 @@
                             saveShipment();
                         }
 
+                        vm.shipmentReferenceName = '';
+
                         function saveShipment() {
 
                             // Freeze screen
@@ -854,6 +856,7 @@
                                                     debugger;
                                                     // Save record in db Or payment + db save is Success
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
+                                                    vm.shipmentReferenceName = response.shipmentReferenceName;
                                                     //vm.savePayShipment = true;
                                                     //vm.isShowPaymentForm = false;
                                                     //vm.isShowResponse = true;
@@ -873,22 +876,17 @@
                                                         addShipmentResponse(response);
 
                                                     }).error(function (error) {
-                                                        //$('#panel-notif').noty({
-                                                        //    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while adding the Shipment') + '!</p></div>',
-                                                        //    layout: 'bottom-right',
-                                                        //    theme: 'made',
-                                                        //    animation: {
-                                                        //        open: 'animated bounceInLeft',
-                                                        //        close: 'animated bounceOutLeft'
-                                                        //    },
-                                                        //    timeout: 6000,
-                                                        //});
+                                                        var response = {
+                                                            status: 2
+                                                        };
+                                                        addShipmentResponse(response);
                                                     });
                                                     //vm.savePayShipment = true;
 
                                                     //$timeout(function () {
 
-                                                    //    GetAddShipmentResponse(response.shipmentId);
+                                                    //    if(vm.isBooking)
+                                                    //        GetAddShipmentResponseV1(response.shipmentId);
 
                                                     //}, 5000);
 
@@ -1112,6 +1110,39 @@
                             });
                         }
 
+                        function GetAddShipmentResponseV1(shipmentId) {
+                            
+                            shipmentFactory.GetAddShipmentResponse(shipmentId).then(function (response) {
+                                console.log('rec');
+                                console.log(response);
+                                console.log(response.data.hasShipmentAdded);
+                                debugger;
+
+                                if (response.data.hasShipmentAdded == false) {
+
+                                    response.status == 5;
+
+                                    addShipmentResponse(response);
+                                }
+                                else if (response.data.hasShipmentAdded) {
+
+                                    vm.isShowPaymentForm = false;
+                                    vm.isShowResponse = true;
+                                    vm.savePayShipment = false;
+                                    vm.payementProgress = false;
+
+                                    vm.isShowLabel = true;
+                                    vm.labelUrl = response.data.labelUrl;
+
+                                    if (response.data.invoiceUrl != '') {
+                                        vm.isShowInvoice = true;
+                                        vm.invoiceUrl = response.data.invoiceUrl;
+                                    }
+
+                                }
+
+                            });
+                        }
 
 
                         vm.isShowPaymentForm = false;
