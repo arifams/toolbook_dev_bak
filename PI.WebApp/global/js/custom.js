@@ -9,7 +9,7 @@
 //var serverBaseUrl = 'http://piserviceuat.azurewebsites.net';
 
 var serverBaseUrl = 'https://transportal-qa-service.azurewebsites.net';
-//var serverBaseUrl = 'http://transportal-prod-service.azurewebsites.net';
+//var serverBaseUrl = 'https://transportal-prod-service.azurewebsites.net';
 
 
 // Web base url
@@ -20,14 +20,5 @@ var serverBaseUrl = 'https://transportal-qa-service.azurewebsites.net';
 //var webBaseUrl = 'http://piwebuat.azurewebsites.net';
 
 var webBaseUrl = 'https://transportal-qa-web.azurewebsites.net';
-//var webBaseUrl = 'http://transportal-prod-web.azurewebsites.net';
+//var webBaseUrl = 'https://transportal-prod-web.azurewebsites.net';
 
-var SISUrlUS = 'http://www2.shipitsmarter.com/taleus/';
-var SISUrlNL = 'http://www2.shipitsmarter.com/tale/';
-
-//var SISUrlUS = 'http://book.parcelinternational.nl/taleus/';
-//var SISUrlNL = 'http://book.parcelinternational.nl/tale/';
-
-var SISUser = 'info@parcelinternational.com';
-
-var SISPassword = 'Shipper01';

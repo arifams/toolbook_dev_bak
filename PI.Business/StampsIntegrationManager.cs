@@ -313,7 +313,7 @@ namespace PI.Business
                     {
                         FirstName = addShipment.AddressInformation.Consignee.FirstName,
                         LastName = addShipment.AddressInformation.Consignee.LastName,
-                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consigner.LastName,
+                        FullName = addShipment.AddressInformation.Consignee.FirstName + " " + addShipment.AddressInformation.Consignee.LastName,
                         Company = addShipment.AddressInformation.Consignee.CompanyName,
                         Address1 = addShipment.AddressInformation.Consignee.Address1,
                         Address2 = addShipment.AddressInformation.Consignee.Address2,
@@ -340,7 +340,8 @@ namespace PI.Business
                         CountryOfOrigin = addShipment.AddressInformation.Consigner.Country,
                         Description = package.Description,
                         HSTariffNumber = addShipment.PackageDetails.HsCode,
-                        Quantity = package.Quantity,
+                       // Quantity = package.Quantity,
+                        Quantity = 1,
                         WeightLb = weightLb,
                         Value = Convert.ToDecimal(addShipment.PackageDetails.CarrierCost),
                         WeightOz = weightLb * 16
