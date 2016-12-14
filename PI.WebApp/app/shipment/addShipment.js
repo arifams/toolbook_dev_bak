@@ -737,11 +737,11 @@
                                 //$location.path('/shipmentResult');
                                 
                                 vm.addingShipment = true;
-                                vm.shipmentReferenceName = response.shipmentReference;
+                                vm.shipmentReferenceName = shipmentReferenceName; //response.shipmentReference;
                                 vm.isShowPaymentForm = false;
                                 vm.payementProgress = false;
                                 //vm.savePayShipment = false;
-                                vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                //vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
                                 vm.hideRateSummary = true;
                                 //window.open(errorUrl);
                             }
@@ -825,6 +825,8 @@
                             saveShipment();
                         }
 
+                        vm.shipmentReferenceName = '';
+
                         function saveShipment() {
 
                             // Freeze screen
@@ -854,6 +856,7 @@
                                                     debugger;
                                                     // Save record in db Or payment + db save is Success
                                                     vm.shipment.generalInformation.shipmentId = response.shipmentId;
+                                                    vm.shipmentReferenceName = response.shipmentReferenceName;
                                                     //vm.savePayShipment = true;
                                                     //vm.isShowPaymentForm = false;
                                                     //vm.isShowResponse = true;
@@ -873,22 +876,17 @@
                                                         addShipmentResponse(response);
 
                                                     }).error(function (error) {
-                                                        //$('#panel-notif').noty({
-                                                        //    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Error occured while adding the Shipment') + '!</p></div>',
-                                                        //    layout: 'bottom-right',
-                                                        //    theme: 'made',
-                                                        //    animation: {
-                                                        //        open: 'animated bounceInLeft',
-                                                        //        close: 'animated bounceOutLeft'
-                                                        //    },
-                                                        //    timeout: 6000,
-                                                        //});
+                                                        var response = {
+                                                            status: 2
+                                                        };
+                                                        addShipmentResponse(response);
                                                     });
                                                     //vm.savePayShipment = true;
 
                                                     //$timeout(function () {
 
-                                                    //    GetAddShipmentResponse(response.shipmentId);
+                                                    //    if(vm.isBooking)
+                                                    //        GetAddShipmentResponseV1(response.shipmentId);
 
                                                     //}, 5000);
 
@@ -1112,6 +1110,39 @@
                             });
                         }
 
+                        function GetAddShipmentResponseV1(shipmentId) {
+                            
+                            shipmentFactory.GetAddShipmentResponse(shipmentId).then(function (response) {
+                                console.log('rec');
+                                console.log(response);
+                                console.log(response.data.hasShipmentAdded);
+                                debugger;
+
+                                if (response.data.hasShipmentAdded == false) {
+
+                                    response.status == 5;
+
+                                    addShipmentResponse(response);
+                                }
+                                else if (response.data.hasShipmentAdded) {
+
+                                    vm.isShowPaymentForm = false;
+                                    vm.isShowResponse = true;
+                                    vm.savePayShipment = false;
+                                    vm.payementProgress = false;
+
+                                    vm.isShowLabel = true;
+                                    vm.labelUrl = response.data.labelUrl;
+
+                                    if (response.data.invoiceUrl != '') {
+                                        vm.isShowInvoice = true;
+                                        vm.invoiceUrl = response.data.invoiceUrl;
+                                    }
+
+                                }
+
+                            });
+                        }
 
 
                         vm.isShowPaymentForm = false;
@@ -1328,32 +1359,32 @@
 
                                 vm.shipment.addressInformation.consigner = {};
                                 vm.shipment.generalInformation.shipmentName = 'code123';
-                                vm.shipment.addressInformation.consigner.firstName = 'Comp1';
-                                vm.shipment.addressInformation.consigner.lastName = 'Comp11';
+                                vm.shipment.addressInformation.consigner.firstName = 'CNerFName';
+                                vm.shipment.addressInformation.consigner.lastName = 'CNerLName';
                                 vm.shipment.addressInformation.consigner.country = 'US';
-                                vm.shipment.addressInformation.consigner.postalcode = '94404';
+                                vm.shipment.addressInformation.consigner.postalcode = '91803';
                                 vm.shipment.addressInformation.consigner.number = '901';
-                                vm.shipment.addressInformation.consigner.address1 = 'Mariners Island Boulevard';
+                                vm.shipment.addressInformation.consigner.address1 = '500 S Marengo Avenue';
                                 vm.shipment.addressInformation.consigner.address2 = '';
-                                vm.shipment.addressInformation.consigner.city = 'San Mateo';
+                                vm.shipment.addressInformation.consigner.city = 'Alhambra';
                                 vm.shipment.addressInformation.consigner.state = 'CA';
                                 vm.shipment.addressInformation.consigner.email = 'test1@yopmail.com';
-                                vm.shipment.addressInformation.consigner.contactNumber = '1111111111';
-                                vm.shipment.addressInformation.consigner.contactName = "contact name A";
+                                vm.shipment.addressInformation.consigner.contactNumber = '6264589800';
+                                vm.shipment.addressInformation.consigner.contactName = "CNer contact name";
 
                                 vm.shipment.addressInformation.consignee = {};
-                                vm.shipment.addressInformation.consignee.firstName = 'Comp2';
-                                vm.shipment.addressInformation.consignee.lastName = 'Comp22';
+                                vm.shipment.addressInformation.consignee.firstName = 'CNeeFName';
+                                vm.shipment.addressInformation.consignee.lastName = 'CNeeLName';
                                 vm.shipment.addressInformation.consignee.country = 'US';
-                                vm.shipment.addressInformation.consignee.postalcode = '94405';
+                                vm.shipment.addressInformation.consignee.postalcode = '90241';
                                 vm.shipment.addressInformation.consignee.number = '902';
-                                vm.shipment.addressInformation.consignee.address1 = 'Mariners Island Boulevard';
+                                vm.shipment.addressInformation.consignee.address1 = '7121 Firestone Blvd';
                                 vm.shipment.addressInformation.consignee.address2 = '';
-                                vm.shipment.addressInformation.consignee.city = 'San Mateo';
+                                vm.shipment.addressInformation.consignee.city = 'Downey';
                                 vm.shipment.addressInformation.consignee.state = 'CA';
                                 vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
-                                vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
-                                vm.shipment.addressInformation.consignee.contactName = "contact name B";
+                                vm.shipment.addressInformation.consignee.contactNumber = '5627762200';
+                                vm.shipment.addressInformation.consignee.contactName = "CNee contact name";
 
                                 vm.shipment.packageDetails.productIngredients = [{ productType: 'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
 

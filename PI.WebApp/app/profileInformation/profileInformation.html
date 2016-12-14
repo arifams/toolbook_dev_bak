@@ -956,11 +956,14 @@
                                         <div ng-messages="formCustomize.file.$error" ng-show="formCustomize.file.$dirty || profileCtrl.isSubmit5">
                                             <label ng-message="required" class="error" for="file" translate>Please select an image.</label>
                                         </div>
-
+                                        
+                                        <div ng-hide="profileCtrl.isImagetype || profileCtrl.logo ==null">
+                                            <label class="error" for="file" translate>Invalid image</label>
+                                        </div>
                                     </div>
                                     <div class="col-sm-4">
                                         <button ng-click="formCustomize.$valid ? profileCtrl.uploadLogo(profileCtrl.logo) : profileCtrl.isSubmit5 = true"
-                                                class="btn btn-primary">
+                                                class="btn btn-primary" ng-disabled="!profileCtrl.isImagetype">
                                             <i class="fa fa-upload f-18"></i><translate> Upload </translate>
                                         </button>
                                         {{errorMsg}}

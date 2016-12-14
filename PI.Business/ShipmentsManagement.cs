@@ -4533,6 +4533,8 @@ namespace PI.Business
 
                 result.ShipmentId = newShipment.Id;
                 result.Status = Status.Success;
+                // set shipment reference name. This will be use, if any error occured during the shipment add process.
+                result.ShipmentReference = newShipment.ShipmentReferenceName;
 
                 //Add Audit Trail Record
                 AddAuditTrailRecord(addShipment, result, newShipment);
@@ -4620,8 +4622,10 @@ namespace PI.Business
                             mainShipmentId = newShipment.Id;
                         }
 
-                        result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
-                        result.Status = Status.Success;
+                    result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
+                    result.Status = Status.Success;
+                    // set shipment reference name. This will be use, if any error occured during the shipment add process.
+                    result.ShipmentReference = newShipment.ShipmentReferenceName;
 
                         //Add Audit Trail Record
                         AddAuditTrailRecord(addShipment, result, newShipment);
