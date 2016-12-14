@@ -1359,32 +1359,32 @@
 
                                 vm.shipment.addressInformation.consigner = {};
                                 vm.shipment.generalInformation.shipmentName = 'code123';
-                                vm.shipment.addressInformation.consigner.firstName = 'Comp1';
-                                vm.shipment.addressInformation.consigner.lastName = 'Comp11';
+                                vm.shipment.addressInformation.consigner.firstName = 'CNerFName';
+                                vm.shipment.addressInformation.consigner.lastName = 'CNerLName';
                                 vm.shipment.addressInformation.consigner.country = 'US';
-                                vm.shipment.addressInformation.consigner.postalcode = '94404';
+                                vm.shipment.addressInformation.consigner.postalcode = '91803';
                                 vm.shipment.addressInformation.consigner.number = '901';
-                                vm.shipment.addressInformation.consigner.address1 = 'Mariners Island Boulevard';
+                                vm.shipment.addressInformation.consigner.address1 = '500 S Marengo Avenue';
                                 vm.shipment.addressInformation.consigner.address2 = '';
-                                vm.shipment.addressInformation.consigner.city = 'San Mateo';
+                                vm.shipment.addressInformation.consigner.city = 'Alhambra';
                                 vm.shipment.addressInformation.consigner.state = 'CA';
                                 vm.shipment.addressInformation.consigner.email = 'test1@yopmail.com';
-                                vm.shipment.addressInformation.consigner.contactNumber = '1111111111';
-                                vm.shipment.addressInformation.consigner.contactName = "contact name A";
+                                vm.shipment.addressInformation.consigner.contactNumber = '6264589800';
+                                vm.shipment.addressInformation.consigner.contactName = "CNer contact name";
 
                                 vm.shipment.addressInformation.consignee = {};
-                                vm.shipment.addressInformation.consignee.firstName = 'Comp2';
-                                vm.shipment.addressInformation.consignee.lastName = 'Comp22';
+                                vm.shipment.addressInformation.consignee.firstName = 'CNeeFName';
+                                vm.shipment.addressInformation.consignee.lastName = 'CNeeLName';
                                 vm.shipment.addressInformation.consignee.country = 'US';
-                                vm.shipment.addressInformation.consignee.postalcode = '94405';
+                                vm.shipment.addressInformation.consignee.postalcode = '90241';
                                 vm.shipment.addressInformation.consignee.number = '902';
-                                vm.shipment.addressInformation.consignee.address1 = 'Mariners Island Boulevard';
+                                vm.shipment.addressInformation.consignee.address1 = '7121 Firestone Blvd';
                                 vm.shipment.addressInformation.consignee.address2 = '';
-                                vm.shipment.addressInformation.consignee.city = 'San Mateo';
+                                vm.shipment.addressInformation.consignee.city = 'Downey';
                                 vm.shipment.addressInformation.consignee.state = 'CA';
                                 vm.shipment.addressInformation.consignee.email = 'test2@yopmail.com';
-                                vm.shipment.addressInformation.consignee.contactNumber = '2111111111';
-                                vm.shipment.addressInformation.consignee.contactName = "contact name B";
+                                vm.shipment.addressInformation.consignee.contactNumber = '5627762200';
+                                vm.shipment.addressInformation.consignee.contactName = "CNee contact name";
 
                                 vm.shipment.packageDetails.productIngredients = [{ productType: 'Box', quantity: 1, description: 'desc', weight: 1, height: 1, length: 1 }];
 
