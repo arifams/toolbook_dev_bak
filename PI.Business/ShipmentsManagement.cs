@@ -3467,7 +3467,8 @@ namespace PI.Business
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate.HasValue ? ((DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value)) : null,
-                        Provider = item.Provider
+                        Provider = item.Provider,
+                        pickupConfirmationNumber=item.PickupConfirmationNumber
                     }
 
                 });
@@ -5481,6 +5482,10 @@ namespace PI.Business
                     if (currentShipment.Carrier.Name == "USP")
                     {
                         currentShipment.Provider = "Stamps.com";
+                        //using delivery condition variable to get pickup confirmation number from stamps
+                        //and saving the pickup date
+                        currentShipment.PickupConfirmationNumber = response.DeliveryCondition;
+                        currentShipment.PickUpDate = shipmentDto.CarrierInformation.PickupDate;
                     }
                     else
                     {
