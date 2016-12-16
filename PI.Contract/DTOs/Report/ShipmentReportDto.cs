@@ -112,12 +112,12 @@ namespace PI.Contract.DTOs.Report
         public string Instructions { get; set; }
         public string IsInsuared { get; set; }
         public int ValueCurrency { get; set; }
+        public string StringValueCurrency { get; set; }
         public decimal DeclaredValue { get; set; }
         public long Count { get; set; }
         public bool IsDG { get; set; }
         public string DGType { get; set; }
         public bool Accessibility { get; set; }
-
         public short PaymentTypeId { get; set; }
         #endregion
 

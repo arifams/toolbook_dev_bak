@@ -798,10 +798,10 @@ namespace PI.Business
             {
                 // Convert to utc
                 startDate = Convert.ToDateTime(shipmentSerach.DynamicContent.startDate.ToString());
-                startDate = startDate.Value.ToUniversalTime();
+                //startDate = startDate.Value.ToUniversalTime();
 
                 endDate = Convert.ToDateTime(shipmentSerach.DynamicContent.endDate.ToString());
-                endDate = endDate.Value.ToUniversalTime();
+                //endDate = endDate.Value.ToUniversalTime();
             }
 
             pagedRecord.Content = new List<ShipmentDto>();
@@ -911,7 +911,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipmentSerach.UserId, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -966,6 +966,8 @@ namespace PI.Business
         //get shipments by user ID and created date
         private List<Shipment> GetshipmentsByUserIdAndPickupdDate(string userId, DateTime pickupDate, string carreer)
         {
+            //pickupDate = pickupDate.ToUniversalTime();
+
             // Need to convert saved times on shipment entity back to user specific time zone.
             var shipmentIdList = context.Shipments.Where(x =>
                                                          x.CreatedBy == userId &&
@@ -1188,7 +1190,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = currentShipment.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.PickUpDate.Value) : null,
+                    PickupDate = currentShipment.PickUpDate,
                     CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
             };
@@ -2019,7 +2021,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = context.GetLocalTimeByUser(currentShipment.CreatedBy, Convert.ToDateTime(currentShipment.PickUpDate).ToUniversalTime()),
+                    PickupDate = Convert.ToDateTime(currentShipment.PickUpDate),
                     //CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
 
@@ -2323,10 +2325,10 @@ namespace PI.Business
             {
                 // Convert to utc
                 startDate = Convert.ToDateTime(pageList.DynamicContent.startDate.ToString());
-                startDate = startDate.Value.ToUniversalTime();
+                //startDate = startDate.Value.ToUniversalTime();
 
                 endDate = Convert.ToDateTime(pageList.DynamicContent.endDate.ToString());
-                endDate = endDate.Value.ToUniversalTime();
+                //endDate = endDate.Value.ToUniversalTime();
             }
 
             string number = pageList.DynamicContent.shipmentNumber.ToString();
@@ -2416,7 +2418,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -2518,7 +2520,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -2916,9 +2918,9 @@ namespace PI.Business
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                     EarliestPickupDate = currentShipment.ShipmentPackage.EarliestPickupDate.HasValue ?
-                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
                     EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.HasValue ?
-                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
                 },
 
                 VatNo = currentShipment.Division.Company.VATNumber
@@ -3203,7 +3205,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -3310,7 +3312,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -3334,10 +3336,10 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
+            //if (startDate.HasValue)
+            //    startDate = startDate.Value.ToUniversalTime();
+            //if (endDate.HasValue)
+            //    endDate = endDate.Value.ToUniversalTime();
 
             var querableContent = (from shipment in context.Shipments
                                    where shipment.IsDelete == false &&
@@ -3466,7 +3468,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? ((DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value)) : null,
+                        PickupDate = item.PickUpDate,
                         Provider = item.Provider
                     }
 
@@ -3677,7 +3679,7 @@ namespace PI.Business
 
                     cell = ws.Cells[rowIndex, 22];
                     cell.Style.Numberformat.Format = "dd MMM yyyy";
-                    cell.Value = shipment.CarrierInformation.PickupDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipment.CreatedBy, shipment.CarrierInformation.PickupDate.Value) : null;
+                    cell.Value = shipment.CarrierInformation.PickupDate;
 
                     cell = ws.Cells[rowIndex, 23];
                     cell.Style.Numberformat.Format = "dd MMM yyyy";
@@ -3813,7 +3815,7 @@ namespace PI.Business
                     cell.Value = shipment.CreatedDate;
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = context.GetLocalTimeByUser(shipment.UserId, Convert.ToDateTime(shipment.PickupDate));
+                    cell.Value = shipment.PickupDate;
 
                     cell = ws.Cells[rowIndex, 10];
                     cell.Value = shipment.DeliveryTime;
@@ -3837,10 +3839,10 @@ namespace PI.Business
                     cell.Value = shipment.ConsigneePostalcode;
 
                     cell = ws.Cells[rowIndex, 17];
-                    cell.Value = shipment.Price;
+                    cell.Value = shipment.Price + shipment.Insurance;
 
                     cell = ws.Cells[rowIndex, 18];
-                    cell.Value = shipment.ValueCurrency;
+                    cell.Value = shipment.StringValueCurrency;
 
                     cell = ws.Cells[rowIndex, 19];
                     cell.Value = shipment.TotalVolume;
@@ -3882,10 +3884,10 @@ namespace PI.Business
 
             IList<Data.Entity.Shipment> shipmentList = null;
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
+            //if (startDate.HasValue)
+            //    startDate = startDate.Value.ToUniversalTime();
+            //if (endDate.HasValue)
+            //    endDate = endDate.Value.ToUniversalTime();
 
             if (roleName == "Admin" || roleName == "BusinessOwner")
             {
@@ -3999,6 +4001,9 @@ namespace PI.Business
                     TotalVolume = item.ShipmentPackage.TotalVolume,
                     TotalWeight = item.ShipmentPackage.TotalWeight,
                     ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                    StringValueCurrency = item.ShipmentPackage.Currency == null ? "USD" : item.ShipmentPackage.Currency.CurrencyCode,
+                    Price = item.ShipmentPackage.CarrierCost,
+                    Insurance = item.ShipmentPackage.InsuranceCost,
                     PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                     ShipmentDescription = item.ShipmentPackage.PackageDescription,
@@ -4006,7 +4011,7 @@ namespace PI.Business
                     //CarrierInformation                       
                     CarrierName = item.Carrier.Name,
                     serviceLevel = item.ServiceLevel,
-                    PickupDate = item.PickUpDate.HasValue ? context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value).ToString("dd MMM yyyy") : string.Empty,
+                    PickupDate = item.PickUpDate.HasValue ? item.PickUpDate.Value.ToString("dd MMM yyyy") : string.Empty,
                     DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy")
 
                 });
@@ -4242,7 +4247,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -5157,7 +5162,7 @@ namespace PI.Business
                 CarrierDescription = addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                PickUpDate = addShipment.CarrierInformation.PickupDate,
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
@@ -5215,7 +5220,7 @@ namespace PI.Business
                     CarrierCost = addShipment.CarrierInformation.Price,
                     InsuranceCost = addShipment.CarrierInformation.Insurance,
                     PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate,
                     EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
                     //WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                     //VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
@@ -5383,8 +5388,8 @@ namespace PI.Business
                 currentShipment.TrackingNumber = response.Awb;
 
                 // SIS will return the pacific time zone. So need to convert it to user time zone
-                DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
-                shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(currentShipment.CreatedBy, utcPickupDate);
+                //DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
+                shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
 
                 shipmentDto.GeneralInformation.ShipmentPaymentTypeId = currentShipment.ShipmentPaymentTypeId;
                 shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)currentShipment.ShipmentPaymentTypeId);
