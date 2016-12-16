@@ -3470,6 +3470,7 @@ namespace PI.Business
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate,
                         Provider = item.Provider
+                        pickupConfirmationNumber = item.PickupConfirmationNumber
                     }
 
                 });
@@ -5490,6 +5491,10 @@ namespace PI.Business
                     if (currentShipment.Carrier.Name == "USP")
                     {
                         currentShipment.Provider = "Stamps.com";
+                        //using delivery condition variable to get pickup confirmation number from stamps
+                        //and saving the pickup date
+                        currentShipment.PickupConfirmationNumber = response.DeliveryCondition;
+                        currentShipment.PickUpDate = shipmentDto.CarrierInformation.PickupDate;
                     }
                     else
                     {

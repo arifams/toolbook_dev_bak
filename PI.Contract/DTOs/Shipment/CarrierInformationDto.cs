@@ -20,6 +20,7 @@ namespace PI.Contract.DTOs.Shipment
         public string CountryCodeByTarrifText { get; set; }
         public string Provider { get; set; }
         public string description { get; set; }
+        public string pickupConfirmationNumber { get; set; }
 
     }
 }

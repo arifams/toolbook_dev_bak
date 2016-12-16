@@ -445,6 +445,8 @@ namespace PI.Business
                     if (pickupResponse != null)
                     {
                         shipmentResponse.DatePickup = pickupResponse.PickupDate;
+                        //using this variable to communicate confirmation number
+                        shipmentResponse.DeliveryCondition = pickupResponse.ConfirmationNumber;
                     }
 
                     shipmentResponse.Awb = IndiciumResponse.TrackingNumber;

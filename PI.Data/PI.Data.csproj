@@ -225,6 +225,10 @@
     <Compile Include="Migrations\201611220859404_introducenewParentShipmentColumn.Designer.cs">
       <DependentUpon>201611220859404_introducenewParentShipmentColumn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201612081050155_addpickupconfirmationNumber.cs" />
+    <Compile Include="Migrations\201612081050155_addpickupconfirmationNumber.Designer.cs">
+      <DependentUpon>201612081050155_addpickupconfirmationNumber.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="PIContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -305,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611220859404_introducenewParentShipmentColumn.resx">
       <DependentUpon>201611220859404_introducenewParentShipmentColumn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612081050155_addpickupconfirmationNumber.resx">
+      <DependentUpon>201612081050155_addpickupconfirmationNumber.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

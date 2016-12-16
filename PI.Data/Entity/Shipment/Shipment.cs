@@ -46,6 +46,9 @@ namespace PI.Data.Entity
         [MaxLength(50)]
         public string Provider { get; set; }
 
+        [MaxLength(100)]
+        public string PickupConfirmationNumber { get; set; }
+
         // Consignor and Consignee Information
         public long ConsignorId { get; set; }
         public long ConsigneeId { get; set; }
