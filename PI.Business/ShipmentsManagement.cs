@@ -3469,7 +3469,7 @@ namespace PI.Business
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
                         PickupDate = item.PickUpDate,
-                        Provider = item.Provider
+                        Provider = item.Provider,
                         pickupConfirmationNumber = item.PickupConfirmationNumber
                     }
 
