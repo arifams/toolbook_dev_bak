@@ -828,7 +828,11 @@ namespace PI.Business
                                         shipment.MainShipment == 0
                                         select shipment);
 
-            var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            IList<Shipment> shipmentList = null;
+            if (shipmentSerach.PageSize != 0)
+                shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            else
+                shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).ToList();
 
             foreach (var item in shipmentList)
             {
@@ -888,7 +892,8 @@ namespace PI.Business
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId)
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -904,8 +909,8 @@ namespace PI.Business
                         ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
-                        ShipmentDescription = item.ShipmentPackage.PackageDescription
-
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription,
+                        CarrierCost = item.ShipmentPackage.CarrierCost.ToString()
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
@@ -919,7 +924,11 @@ namespace PI.Business
 
             pagedRecord.TotalRecords = querableShipmentList.Count();
             pagedRecord.PageSize = shipmentSerach.PageSize;
-            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            if (pagedRecord.PageSize != 0)
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+            else
+                pagedRecord.TotalPages = 0;
 
             return pagedRecord;
         }
@@ -3358,8 +3367,11 @@ namespace PI.Business
                                    (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
                                    select shipment);
 
-            var content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
-
+            IList<Shipment> content = null;
+            if(pageSize != 0)
+                content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+            else
+                content = querableContent.OrderByDescending(d => d.CreatedDate).ToList();
 
             foreach (var item in content)
             {
@@ -3445,7 +3457,8 @@ namespace PI.Business
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
                         MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
-                        CreatedBy = item.CreatedBy
+                        CreatedBy = item.CreatedBy,
+                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -3491,7 +3504,7 @@ namespace PI.Business
             var pagedRecord = new PagedList();
             pagedRecord.Content = new List<ShipmentDto>();
 
-            pagedRecord.Content = loadAllShipmentsForAdmin().Content;
+            pagedRecord.Content = loadAllShipmentsForAdmin(status,startDate,endDate,null,0,0).Content;
 
             return this.GenerateExcelSheetForShipmentExportFunction((List<ShipmentDto>)pagedRecord.Content);
 
@@ -3629,7 +3642,7 @@ namespace PI.Business
 
                     cell = ws.Cells[rowIndex, 6];
                     cell.Style.Numberformat.Format = "$0.00";
-                    cell.Value = shipment.CarrierInformation.Price;
+                    cell.Value = shipment.GeneralInformation.TotalPrice;
 
                     cell = ws.Cells[rowIndex, 7];
                     cell.Style.Numberformat.Format = "0.00";
@@ -3911,6 +3924,29 @@ namespace PI.Business
             }
         }
 
+        public AddressDto GetBillingAddressByUserId(string userId)
+        {
+            ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == userId);
+            Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
+            Company curentCompany = this.context.Companies.SingleOrDefault(n => n.TenantId == currentTenant.Id);
+            CostCenter currentCostCenter = (from c in context.CostCenters
+                                            where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
+                                            select c).FirstOrDefault();
+
+            // Billing address
+            AddressDto address = new AddressDto()
+            {
+                StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
+                StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
+                City = currentCostCenter.BillingAddress.City,
+                Country = currentCostCenter.BillingAddress.Country,
+                ZipCode = currentCostCenter.BillingAddress.ZipCode,
+                State = currentCostCenter.BillingAddress.State,
+                
+            };
+
+            return address;
+        }
 
         public List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
                                                       DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)

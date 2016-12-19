@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using PI.Contract.DTOs;
 using PI.Contract.DTOs.Payment;
 using Microsoft.ServiceBus.Messaging;
+using PI.Contract.DTOs.Address;
 
 namespace PI.Contract.Business
 {
@@ -161,6 +162,8 @@ namespace PI.Contract.Business
 
 
         ShipmentDto GetShipmentResult(long shipmentId);
+
+        AddressDto GetBillingAddressByUserId(string userId);
 
         #region Temp solution
 
