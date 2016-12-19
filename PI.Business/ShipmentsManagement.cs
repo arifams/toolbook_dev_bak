@@ -321,7 +321,7 @@ namespace PI.Business
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD:USPARUSP";
             currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USUSPS";
-          //  currentRateSheetDetails.courier_tariff_type = "USUSPS";
+            //  currentRateSheetDetails.courier_tariff_type = "USUSPS";
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
             // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
@@ -972,7 +972,7 @@ namespace PI.Business
             var shipmentIdList = context.Shipments.Where(x =>
                                                          x.CreatedBy == userId &&
                                                          x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber) &&
-                                                         x.MainShipment == 0 )                                                         
+                                                         x.MainShipment == 0)
                                                          .Select(s => new
                                                          {
                                                              Id = s.Id,
@@ -2531,7 +2531,7 @@ namespace PI.Business
 
         private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId)
         {
-            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s=>s.Id).ToList();
+            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s => s.Id).ToList();
             // Add mainshipmentid label url also.
             shipmentIdList.Add(mainShipmentId);
 
@@ -3774,8 +3774,19 @@ namespace PI.Business
                 ws.Cells["U6"].Value = "Shipment TermCode";
                 ws.Cells["V6"].Value = "Package Count";
 
+                ws.Cells["W6"].Value = "Billing - Country";
+                ws.Cells["X6"].Value = "Billing - Postal Code";
+                ws.Cells["Y6"].Value = "Billing - Line One";
+                ws.Cells["Z6"].Value = "Billing - Line Two";
+                ws.Cells["AA6"].Value = "Billing - City";
+                ws.Cells["AB6"].Value = "Billing - State";
+                ws.Cells["AC6"].Value = "Billing - Email Address";
+                ws.Cells["AD6"].Value = "Email Address";
+                ws.Cells["AE6"].Value = "Sender Company Name";
+                ws.Cells["AF6"].Value = "Payment Type";
+
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:Z6"])
+                using (ExcelRange rng = ws.Cells["A6:AF6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -3857,11 +3868,41 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 22];
                     cell.Value = shipment.Count;
 
+                    cell = ws.Cells[rowIndex, 23];
+                    cell.Value = shipment.BillingCountry;
+
+                    cell = ws.Cells[rowIndex, 24];
+                    cell.Value = shipment.BillingPostalcode;
+
+                    cell = ws.Cells[rowIndex, 25];
+                    cell.Value = shipment.BillingAddress1;
+
+                    cell = ws.Cells[rowIndex, 26];
+                    cell.Value = shipment.BillingAddress2;
+
+                    cell = ws.Cells[rowIndex, 27];
+                    cell.Value = shipment.BillingCity;
+
+                    cell = ws.Cells[rowIndex, 28];
+                    cell.Value = shipment.BillingState;
+
+                    cell = ws.Cells[rowIndex, 29];
+                    cell.Value = shipment.BillingEmail;
+
+                    cell = ws.Cells[rowIndex, 30];
+                    cell.Value = shipment.CustomerEmailAddress;
+
+                    cell = ws.Cells[rowIndex, 31];
+                    cell.Value = shipment.SenderCompanyName;
+
+                    cell = ws.Cells[rowIndex, 32];
+                    cell.Value = shipment.ShipmentPaymentType;
+
                     ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width
-                for (int i = 1; i < 22; i++)
+                for (int i = 1; i < 33; i++)
                 {
                     ws.Column(i).Width = 25;
                 }
@@ -3906,7 +3947,8 @@ namespace PI.Business
                     (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
-                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
+                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
+                    s.MainShipment == 0 
                 ).ToList();
             }
             else if (roleName == "Manager")
@@ -3919,7 +3961,8 @@ namespace PI.Business
                     (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
-                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
+                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
+                    s.MainShipment == 0
                 ).ToList();
             }
 
@@ -3927,17 +3970,17 @@ namespace PI.Business
             if (shipmentList == null || shipmentList.Count == 0)
                 return reportList;
 
-            // Update retrieved shipment list status from SIS.
-            string environment = "";
-            foreach (var shipment in shipmentList)
-            {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-                {
-                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+            // Update retrieved shipment list status from SIS. -- This is commented, bcoz status update job is updating the shipment status.
+            //string environment = "";
+            //foreach (var shipment in shipmentList)
+            //{
+            //    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
+            //    {
+            //        environment = GetEnvironmentByTarrif(shipment.TariffText);
 
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-                }
-            }
+            //        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
+            //    }
+            //}
 
             var selectedShipmentId = shipmentList.Select(s => s.Id).ToList();
             // Get updated list again with filter status.
@@ -3951,6 +3994,15 @@ namespace PI.Business
             foreach (var item in UpdatedShipmentList)
             {
                 customerOfShipment = context.Customers.Where(c => c.User.TenantId == item.Division.Company.TenantId).First();
+
+                // Billing details
+                ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == customerOfShipment.UserId);
+                Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
+                Company curentCompany = this.context.Companies.SingleOrDefault(n => n.TenantId == currentTenant.Id);
+                CostCenter currentCostCenter = (from c in context.CostCenters
+                                                where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
+                                                select c).FirstOrDefault();
+                // end of billing address
 
                 reportList.Add(new ShipmentReportDto
                 {
@@ -4013,8 +4065,23 @@ namespace PI.Business
                     CarrierName = item.Carrier.Name,
                     serviceLevel = item.ServiceLevel,
                     PickupDate = item.PickUpDate.HasValue ? item.PickUpDate.Value.ToString("dd MMM yyyy") : string.Empty,
-                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy")
+                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy"),
 
+                    // Billing address
+                    BillingAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
+                    BillingAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
+                    BillingCity = currentCostCenter.BillingAddress.City,
+                    BillingCountry = currentCostCenter.BillingAddress.Country,
+                    //BillingNumber = currentCostCenter.BillingAddress.Number,
+                    BillingPostalcode = currentCostCenter.BillingAddress.ZipCode,
+                    BillingState = currentCostCenter.BillingAddress.State,
+                    BillingEmail = customerOfShipment.SecondaryEmail,
+
+                    CustomerEmailAddress = customerOfShipment.Email,
+
+                    SenderCompanyName = curentCompany.Name,
+
+                    ShipmentPaymentType = item.ShipmentPaymentTypeId == 1 ? "Invoice Payment" : "Online Payment"
                 });
             }
 
@@ -4627,10 +4694,10 @@ namespace PI.Business
                             mainShipmentId = newShipment.Id;
                         }
 
-                    result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
-                    result.Status = Status.Success;
-                    // set shipment reference name. This will be use, if any error occured during the shipment add process.
-                    result.ShipmentReference = newShipment.ShipmentReferenceName;
+                        result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
+                        result.Status = Status.Success;
+                        // set shipment reference name. This will be use, if any error occured during the shipment add process.
+                        result.ShipmentReference = newShipment.ShipmentReferenceName;
 
                         //Add Audit Trail Record
                         AddAuditTrailRecord(addShipment, result, newShipment);
@@ -5167,7 +5234,7 @@ namespace PI.Business
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
-                MainShipment=mainShipmentId,
+                MainShipment = mainShipmentId,
 
                 ConsigneeAddress = new ShipmentAddress
                 {
@@ -5373,9 +5440,9 @@ namespace PI.Business
                     }
                     catch (Exception e)
                     {
-                        response.AddShipmentXML=e.Message;
+                        response.AddShipmentXML = e.Message;
                     }
-                   
+
                 }
                 else
                 {
@@ -5486,7 +5553,7 @@ namespace PI.Business
 
                 }
                 else
-                {                    
+                {
 
                     if (currentShipment.Carrier.Name == "USP")
                     {
