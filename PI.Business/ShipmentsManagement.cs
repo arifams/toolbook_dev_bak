@@ -3491,7 +3491,11 @@ namespace PI.Business
 
             pagedRecord.TotalRecords = querableContent.Count();
             pagedRecord.PageSize = pageSize;
-            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            if(pagedRecord.PageSize != 0)
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+            else
+                pagedRecord.TotalPages = 0;
 
             return pagedRecord;
         }
