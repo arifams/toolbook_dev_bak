@@ -1291,6 +1291,7 @@
                                 debugger;
                                 if (vm.paramSource == 'copy' || vm.paramSource == 'delete-copy' || vm.paramSource == 'return-copy') {
                                     vm.shipment.generalInformation.shipmentId = "0";
+                                    vm.shipment.generalInformation.shipmentCode = "0";
 
                                     if (vm.paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);

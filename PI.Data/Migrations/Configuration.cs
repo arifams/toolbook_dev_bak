@@ -175,14 +175,14 @@ namespace PI.Data.Migrations
             
             context.VolumeMetrics.AddOrUpdate(
                 x => x.Id,
-                new Entity.VolumeMetric() { Id = 1, Name = "kg",IsActive = true,IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
-                new Entity.VolumeMetric() { Id = 2, Name = "lbs", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
+                new Entity.VolumeMetric() { Id = 1, Name = "cm",IsActive = true,IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.VolumeMetric() { Id = 2, Name = "inch", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
                 );
 
             context.WeightMetrics.AddOrUpdate(
                 x => x.Id,
-                new Entity.WeightMetric() { Id = 1, Name = "cm", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
-                new Entity.WeightMetric() { Id = 2, Name = "m", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
+                new Entity.WeightMetric() { Id = 1, Name = "kg", IsActive = true, IsDelete = false, CreatedBy = "1", CreatedDate = DateTime.UtcNow },
+                new Entity.WeightMetric() { Id = 2, Name = "lbs", IsActive = true, IsDelete = false , CreatedBy = "1", CreatedDate = DateTime.UtcNow }
                 );
 
             context.Carrier.AddOrUpdate(
