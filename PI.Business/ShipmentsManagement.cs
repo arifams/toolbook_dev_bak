@@ -2742,8 +2742,8 @@ namespace PI.Business
                     },
                     CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd-MMM-yyyy"),
                     InvoiceTo = string.Format("{0} {1} \n {2} {3} \n {4} {5} {6} \n {7}",
-                        currentShipment.ConsigneeAddress.FirstName, currentShipment.ConsigneeAddress.LastName, currentShipment.ConsigneeAddress.StreetAddress1, currentShipment.ConsigneeAddress.Number,
-                        currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
+                        currentShipment.ConsignorAddress.FirstName, currentShipment.ConsignorAddress.LastName, currentShipment.ConsignorAddress.StreetAddress1, currentShipment.ConsignorAddress.Number,
+                        currentShipment.ConsignorAddress.ZipCode, currentShipment.ConsignorAddress.City, currentShipment.ConsignorAddress.State, currentShipment.ConsignorAddress.Country),
 
                     InvoiceNo = currentShipment.ShipmentCode,
 
