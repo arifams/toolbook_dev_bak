@@ -3992,7 +3992,8 @@ namespace PI.Business
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
                     (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
-                    s.MainShipment == 0 
+                    s.MainShipment == 0 &&
+                    (status == 0 || s.Status == status)
                 ).ToList();
             }
             else if (roleName == "Manager")
@@ -4006,7 +4007,8 @@ namespace PI.Business
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
                     (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
-                    s.MainShipment == 0
+                    s.MainShipment == 0 &&
+                    (status == 0 || s.Status == status)
                 ).ToList();
             }
 
@@ -4014,28 +4016,16 @@ namespace PI.Business
             if (shipmentList == null || shipmentList.Count == 0)
                 return reportList;
 
-            // Update retrieved shipment list status from SIS. -- This is commented, bcoz status update job is updating the shipment status.
-            //string environment = "";
-            //foreach (var shipment in shipmentList)
-            //{
-            //    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-            //    {
-            //        environment = GetEnvironmentByTarrif(shipment.TariffText);
-
-            //        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-            //    }
-            //}
-
-            var selectedShipmentId = shipmentList.Select(s => s.Id).ToList();
-            // Get updated list again with filter status.
-            var UpdatedShipmentList = context.Shipments.Where(x =>
-                                    selectedShipmentId.Any(s => s == x.Id) &&
-                                    (status == 0 || x.Status == status)
-                                    ).ToList();
+            //var selectedShipmentId = shipmentList.Select(s => s.Id).ToList();
+            //// Get updated list again with filter status.
+            //var UpdatedShipmentList = context.Shipments.Where(x =>
+            //                        selectedShipmentId.Any(s => s == x.Id) &&
+            //                        (status == 0 || x.Status == status)
+            //                        ).ToList();
 
             // Get shipment data, delivery date, carrier details, customer data, address details, cost center details and division details.
             Customer customerOfShipment = null;
-            foreach (var item in UpdatedShipmentList)
+            foreach (var item in shipmentList)
             {
                 customerOfShipment = context.Customers.Where(c => c.User.TenantId == item.Division.Company.TenantId).First();
 
@@ -4047,6 +4037,9 @@ namespace PI.Business
                                                 where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
                                                 select c).FirstOrDefault();
                 // end of billing address
+
+                short packageCount = 0;
+                item.ShipmentPackage.PackageProducts.ToList().ForEach(p => packageCount += p.Quantity);
 
                 reportList.Add(new ShipmentReportDto
                 {
@@ -4090,7 +4083,7 @@ namespace PI.Business
                     //Package Details
                     CmLBS = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
                     VolumeCMM = Convert.ToBoolean(item.ShipmentPackage.VolumeMetricId),
-                    Count = item.ShipmentPackage.PackageProducts.Count,
+                    Count = packageCount,
                     DeclaredValue = item.ShipmentPackage.InsuranceDeclaredValue,
                     HsCode = item.ShipmentPackage.HSCode,
                     Instructions = item.ShipmentPackage.CarrierInstruction,
