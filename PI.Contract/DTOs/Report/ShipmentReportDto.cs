@@ -59,6 +59,8 @@ namespace PI.Contract.DTOs.Report
 
         public string ManualStatusUpdatedDate { get; set; }
 
+        public string CustomerEmailAddress { get; set; }
+
         #endregion
 
 
@@ -112,12 +114,12 @@ namespace PI.Contract.DTOs.Report
         public string Instructions { get; set; }
         public string IsInsuared { get; set; }
         public int ValueCurrency { get; set; }
+        public string StringValueCurrency { get; set; }
         public decimal DeclaredValue { get; set; }
         public long Count { get; set; }
         public bool IsDG { get; set; }
         public string DGType { get; set; }
         public bool Accessibility { get; set; }
-
         public short PaymentTypeId { get; set; }
         #endregion
 
@@ -136,8 +138,21 @@ namespace PI.Contract.DTOs.Report
 
         #endregion
 
+        #region Billing Address
 
+        public string BillingCountry { get; set; }
+        public string BillingPostalcode { get; set; }
+        public string BillingNumber { get; set; }
+        public string BillingAddress1 { get; set; }
+        public string BillingAddress2 { get; set; }
+        public string BillingCity { get; set; }
+        public string BillingState { get; set; }
+        public string BillingEmail { get; set; }
 
+        #endregion
 
+        public string SenderCompanyName { get; set; }
+
+        public string ShipmentPaymentType { get; set; }
     }
 }

@@ -337,7 +337,16 @@ namespace PI.Service.Controllers
         [Route("LoginUser")]
         public IHttpActionResult LoginUser(CustomerDto customer)
         {
+            if (string.IsNullOrEmpty(customer.UserName)|| string.IsNullOrEmpty(customer.Password))
+            {
+                return Ok(new
+                {
+                    Id = "",
+                    Message = "Username or Password cannot be empty",
+                    Result = -1
+                });
 
+            }
             var user = (!customer.viaExternalLogin) ? AppUserManager.Find(customer.UserName, customer.Password) :
                                                       AppUserManager.FindByName(customer.UserName);
 
@@ -482,6 +491,18 @@ namespace PI.Service.Controllers
         [Route("LoginAdmin")]
         public IHttpActionResult LoginAdmin(CustomerDto customer)
         {
+
+            if (string.IsNullOrEmpty(customer.UserName) || string.IsNullOrEmpty(customer.Password))
+            {
+                return Ok(new
+                {
+                    Id = "",
+                    Message = "Username or Password cannot be empty",
+                    Result = -1
+                });
+
+            }
+
             var user = AppUserManager.Find(customer.UserName, customer.Password);
 
             string roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);

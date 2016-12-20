@@ -63,7 +63,7 @@
         vm.emptySearch = false;
 
         vm.isAdmin = ($window.localStorage.getItem('userRole') == "Admin") ? true : false;
-
+        vm.loadingSymbole = false;
 
         var loadAllCarriers = function () {
             CarrierFactory.loadAllCarriers().success(
@@ -165,8 +165,12 @@
             var startDate = vm.dateFrom;
             var endDate = vm.dateTo;
 
+            vm.loadingSymbole = true;
+
             ShipmentReportFactory.exportShipmentReport(carrierId, companyId, startDate, endDate, vm.status, vm.countryOfOrigin, vm.countryOfDestination, vm.product, vm.packageType)
             .success(function (data, status, headers) {
+
+                vm.loadingSymbole = false;
 
                 var octetStreamMime = 'application/octet-stream';
                 var success = false;
@@ -257,8 +261,11 @@
                 }
             })
           .error(function (data, status) {
-              console.log("Request failed with status: " + status);
 
+              vm.loadingSymbole = false;
+
+              console.log("Request failed with status: " + status);
+              
               // Optionally write the error out to scope
               $scope.errorDetails = "Request failed with status: " + status;
           });

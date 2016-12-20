@@ -344,6 +344,7 @@ namespace PI.Service.Controllers
         {
             HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
             shipmentSerach.DynamicContent = shipmentSerach.filterContent;
+            shipmentSerach.PageSize = 0;    // this tells to load all records.
 
             result.Content = new ByteArrayContent(shipmentManagement.loadAllShipmentsForExcel(shipmentSerach));
             result.Content.Headers.Add("x-filename", "ShipmentDetails.xlsx");
@@ -1258,14 +1259,14 @@ namespace PI.Service.Controllers
                 var invoicePdf = new Document(PageSize.B5);
                 //getting the server path to create temp pdf file
                 var uploadFolder = "~/App_Data/Tmp/FileUploads/invoice.pdf";
+                var logoImageUrl = "~/App_Data/Tmp/FileUploads/12SendLogo-lg.png";
                 string wanted_path = System.Web.HttpContext.Current.Server.MapPath(uploadFolder);
+                string wanted_logo_path = System.Web.HttpContext.Current.Server.MapPath(logoImageUrl);
                 // string wanted_path = System.Web.HttpContext.Current.Server.MapPath("\\Pdf\\invoice.pdf");
-
                 PdfWriter writer = PdfWriter.GetInstance(invoicePdf, new FileStream(wanted_path, FileMode.Create));
-
-
-                Uri imageUrl = new Uri("http://www.12send.com/template/logo_12send.png");
-                iTextSharp.text.Image LOGO = iTextSharp.text.Image.GetInstance(imageUrl);
+                
+                //Uri imageUrl = new Uri("http://www.12send.com/template/logo_12send.png");
+                iTextSharp.text.Image LOGO = iTextSharp.text.Image.GetInstance(wanted_logo_path);
                 LOGO.ScalePercent(25f);
                 invoicePdf.Open();
 
@@ -1318,11 +1319,18 @@ namespace PI.Service.Controllers
 
                 //add billing address and invoice details
                 Paragraph billingline1 = new Paragraph("BILL TO", invoiceFont);
+
+                Contract.DTOs.Address.AddressDto addressDto = shipmentManagement.GetBillingAddressByUserId(result.ShipmentDto.GeneralInformation.CreatedUser);
+
                 Paragraph billingline5 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.FirstName + " " + result.ShipmentDto.AddressInformation.Consigner.LastName, invoiceFont);
-                Paragraph billingline2 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Address1, invoiceFont);
-                Paragraph billingline3 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Address2, invoiceFont);
-                Paragraph billingline4 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.City + "," + result.ShipmentDto.AddressInformation.Consigner.State + "," + result.ShipmentDto.AddressInformation.Consigner.Postalcode, invoiceFont);
-                Paragraph billingline6 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Country, invoiceFont);
+                //Paragraph billingline2 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Address1, invoiceFont);
+                //Paragraph billingline3 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Address2, invoiceFont);
+                //Paragraph billingline4 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.City + "," + result.ShipmentDto.AddressInformation.Consigner.State + "," + result.ShipmentDto.AddressInformation.Consigner.Postalcode, invoiceFont);
+                //Paragraph billingline6 = new Paragraph(result.ShipmentDto.AddressInformation.Consigner.Country, invoiceFont);
+                Paragraph billingline2 = new Paragraph(addressDto.StreetAddress1, invoiceFont);
+                Paragraph billingline3 = new Paragraph(addressDto.StreetAddress2, invoiceFont);
+                Paragraph billingline4 = new Paragraph(addressDto.City + "," + addressDto.State + "," + addressDto.ZipCode, invoiceFont);
+                Paragraph billingline6 = new Paragraph(addressDto.Country, invoiceFont);
 
                 DateTime localDateTimeofUser = shipmentManagement.GetLocalTimeByUser(result.ShipmentDto.GeneralInformation.CreatedUser, DateTime.UtcNow).Value;
                 Paragraph billingDetailsline1 = new Paragraph("INVOICE # " + invoiceNumber, invoiceFont);

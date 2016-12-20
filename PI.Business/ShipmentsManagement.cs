@@ -321,7 +321,7 @@ namespace PI.Business
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USPAREME:USPARPAE:NLPARTNT2:NLPARDPD";
             // currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:NLPARTNT2:NLPARDPD:USPARUSP";
             currentRateSheetDetails.courier_tariff_type = "NLPARUPS:NLPARFED:USPARDHL2:USPARTNT:USPARUPS:USPARFED2:USUPSTNT:USUSPS";
-          //  currentRateSheetDetails.courier_tariff_type = "USUSPS";
+            //  currentRateSheetDetails.courier_tariff_type = "USUSPS";
             // currentRateSheetDetails.date_pickup = "10-Mar-2016 00:00";//preferredCollectionDate
             // currentRateSheetDetails.time_pickup = "12:51";
             // currentRateSheetDetails.date_delivery_request = "25-Mar-2016 00:00";
@@ -798,10 +798,10 @@ namespace PI.Business
             {
                 // Convert to utc
                 startDate = Convert.ToDateTime(shipmentSerach.DynamicContent.startDate.ToString());
-                startDate = startDate.Value.ToUniversalTime();
+                //startDate = startDate.Value.ToUniversalTime();
 
                 endDate = Convert.ToDateTime(shipmentSerach.DynamicContent.endDate.ToString());
-                endDate = endDate.Value.ToUniversalTime();
+                //endDate = endDate.Value.ToUniversalTime();
             }
 
             pagedRecord.Content = new List<ShipmentDto>();
@@ -828,7 +828,11 @@ namespace PI.Business
                                         shipment.MainShipment == 0
                                         select shipment);
 
-            var shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            IList<Shipment> shipmentList = null;
+            if (shipmentSerach.PageSize != 0)
+                shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).Skip(shipmentSerach.CurrentPage).Take(shipmentSerach.PageSize).ToList();
+            else
+                shipmentList = querableShipmentList.OrderByDescending(d => d.CreatedDate).ToList();
 
             foreach (var item in shipmentList)
             {
@@ -888,7 +892,8 @@ namespace PI.Business
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId)
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -904,14 +909,14 @@ namespace PI.Business
                         ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
                         PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                         ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
-                        ShipmentDescription = item.ShipmentPackage.PackageDescription
-
+                        ShipmentDescription = item.ShipmentPackage.PackageDescription,
+                        CarrierCost = item.ShipmentPackage.CarrierCost.ToString()
                     },
                     CarrierInformation = new CarrierInformationDto
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipmentSerach.UserId, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -919,7 +924,11 @@ namespace PI.Business
 
             pagedRecord.TotalRecords = querableShipmentList.Count();
             pagedRecord.PageSize = shipmentSerach.PageSize;
-            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            if (pagedRecord.PageSize != 0)
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+            else
+                pagedRecord.TotalPages = 0;
 
             return pagedRecord;
         }
@@ -966,11 +975,13 @@ namespace PI.Business
         //get shipments by user ID and created date
         private List<Shipment> GetshipmentsByUserIdAndPickupdDate(string userId, DateTime pickupDate, string carreer)
         {
+            //pickupDate = pickupDate.ToUniversalTime();
+
             // Need to convert saved times on shipment entity back to user specific time zone.
             var shipmentIdList = context.Shipments.Where(x =>
                                                          x.CreatedBy == userId &&
                                                          x.Carrier.Name == carreer && !string.IsNullOrEmpty(x.TrackingNumber) &&
-                                                         x.MainShipment == 0 )                                                         
+                                                         x.MainShipment == 0)
                                                          .Select(s => new
                                                          {
                                                              Id = s.Id,
@@ -1188,7 +1199,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = currentShipment.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.PickUpDate.Value) : null,
+                    PickupDate = currentShipment.PickUpDate,
                     CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
             };
@@ -2023,7 +2034,7 @@ namespace PI.Business
                 {
                     CarrierName = currentShipment.Carrier.Name,
                     serviceLevel = currentShipment.ServiceLevel,
-                    PickupDate = context.GetLocalTimeByUser(currentShipment.CreatedBy, Convert.ToDateTime(currentShipment.PickUpDate).ToUniversalTime()),
+                    PickupDate = Convert.ToDateTime(currentShipment.PickUpDate),
                     //CountryCodeByTarrifText = countryCodeFromTarrifText
                 }
 
@@ -2327,10 +2338,10 @@ namespace PI.Business
             {
                 // Convert to utc
                 startDate = Convert.ToDateTime(pageList.DynamicContent.startDate.ToString());
-                startDate = startDate.Value.ToUniversalTime();
+                //startDate = startDate.Value.ToUniversalTime();
 
                 endDate = Convert.ToDateTime(pageList.DynamicContent.endDate.ToString());
-                endDate = endDate.Value.ToUniversalTime();
+                //endDate = endDate.Value.ToUniversalTime();
             }
 
             string number = pageList.DynamicContent.shipmentNumber.ToString();
@@ -2420,7 +2431,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -2522,7 +2533,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -2533,7 +2544,7 @@ namespace PI.Business
 
         private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId)
         {
-            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s=>s.Id).ToList();
+            var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s => s.Id).ToList();
             // Add mainshipmentid label url also.
             shipmentIdList.Add(mainShipmentId);
 
@@ -2744,8 +2755,8 @@ namespace PI.Business
                     },
                     CreatedDate = GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.CreatedDate).Value.ToString("dd-MMM-yyyy"),
                     InvoiceTo = string.Format("{0} {1} \n {2} {3} \n {4} {5} {6} \n {7}",
-                        currentShipment.ConsigneeAddress.FirstName, currentShipment.ConsigneeAddress.LastName, currentShipment.ConsigneeAddress.StreetAddress1, currentShipment.ConsigneeAddress.Number,
-                        currentShipment.ConsigneeAddress.ZipCode, currentShipment.ConsigneeAddress.City, currentShipment.ConsigneeAddress.State, currentShipment.ConsigneeAddress.Country),
+                        currentShipment.ConsignorAddress.FirstName, currentShipment.ConsignorAddress.LastName, currentShipment.ConsignorAddress.StreetAddress1, currentShipment.ConsignorAddress.Number,
+                        currentShipment.ConsignorAddress.ZipCode, currentShipment.ConsignorAddress.City, currentShipment.ConsignorAddress.State, currentShipment.ConsignorAddress.Country),
 
                     InvoiceNo = currentShipment.ShipmentCode,
 
@@ -2920,9 +2931,9 @@ namespace PI.Business
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                     EarliestPickupDate = currentShipment.ShipmentPackage.EarliestPickupDate.HasValue ?
-                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
                     EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.HasValue ?
-                                                context.GetLocalTimeByUser(currentShipment.CreatedBy, currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
                 },
 
                 VatNo = currentShipment.Division.Company.VATNumber
@@ -3207,7 +3218,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -3314,7 +3325,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -3338,10 +3349,10 @@ namespace PI.Business
 
             pagedRecord.Content = new List<ShipmentDto>();
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
+            //if (startDate.HasValue)
+            //    startDate = startDate.Value.ToUniversalTime();
+            //if (endDate.HasValue)
+            //    endDate = endDate.Value.ToUniversalTime();
 
             var querableContent = (from shipment in context.Shipments
                                    where shipment.IsDelete == false &&
@@ -3360,8 +3371,11 @@ namespace PI.Business
                                    (shipment.ConsigneeAddress.Country.Contains(searchValue) || shipment.ConsigneeAddress.City.Contains(searchValue)))
                                    select shipment);
 
-            var content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
-
+            IList<Shipment> content = null;
+            if(pageSize != 0)
+                content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
+            else
+                content = querableContent.OrderByDescending(d => d.CreatedDate).ToList();
 
             foreach (var item in content)
             {
@@ -3447,7 +3461,8 @@ namespace PI.Business
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ErrorUrl = errorUrl,
                         MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
-                        CreatedBy = item.CreatedBy
+                        CreatedBy = item.CreatedBy,
+                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -3470,8 +3485,9 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? ((DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value)) : null,
-                        Provider = item.Provider
+                        PickupDate = item.PickUpDate,
+                        Provider = item.Provider,
+                        pickupConfirmationNumber = item.PickupConfirmationNumber
                     }
 
                 });
@@ -3479,7 +3495,11 @@ namespace PI.Business
 
             pagedRecord.TotalRecords = querableContent.Count();
             pagedRecord.PageSize = pageSize;
-            pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+
+            if(pagedRecord.PageSize != 0)
+                pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
+            else
+                pagedRecord.TotalPages = 0;
 
             return pagedRecord;
         }
@@ -3492,7 +3512,7 @@ namespace PI.Business
             var pagedRecord = new PagedList();
             pagedRecord.Content = new List<ShipmentDto>();
 
-            pagedRecord.Content = loadAllShipmentsForAdmin().Content;
+            pagedRecord.Content = loadAllShipmentsForAdmin(status,startDate,endDate,null,0,0).Content;
 
             return this.GenerateExcelSheetForShipmentExportFunction((List<ShipmentDto>)pagedRecord.Content);
 
@@ -3630,7 +3650,7 @@ namespace PI.Business
 
                     cell = ws.Cells[rowIndex, 6];
                     cell.Style.Numberformat.Format = "$0.00";
-                    cell.Value = shipment.CarrierInformation.Price;
+                    cell.Value = shipment.GeneralInformation.TotalPrice;
 
                     cell = ws.Cells[rowIndex, 7];
                     cell.Style.Numberformat.Format = "0.00";
@@ -3681,7 +3701,7 @@ namespace PI.Business
 
                     cell = ws.Cells[rowIndex, 22];
                     cell.Style.Numberformat.Format = "dd MMM yyyy";
-                    cell.Value = shipment.CarrierInformation.PickupDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(shipment.CreatedBy, shipment.CarrierInformation.PickupDate.Value) : null;
+                    cell.Value = shipment.CarrierInformation.PickupDate;
 
                     cell = ws.Cells[rowIndex, 23];
                     cell.Style.Numberformat.Format = "dd MMM yyyy";
@@ -3775,8 +3795,19 @@ namespace PI.Business
                 ws.Cells["U6"].Value = "Shipment TermCode";
                 ws.Cells["V6"].Value = "Package Count";
 
+                ws.Cells["W6"].Value = "Billing - Country";
+                ws.Cells["X6"].Value = "Billing - Postal Code";
+                ws.Cells["Y6"].Value = "Billing - Line One";
+                ws.Cells["Z6"].Value = "Billing - Line Two";
+                ws.Cells["AA6"].Value = "Billing - City";
+                ws.Cells["AB6"].Value = "Billing - State";
+                ws.Cells["AC6"].Value = "Billing - Email Address";
+                ws.Cells["AD6"].Value = "Email Address";
+                ws.Cells["AE6"].Value = "Sender Company Name";
+                ws.Cells["AF6"].Value = "Payment Type";
+
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:Z6"])
+                using (ExcelRange rng = ws.Cells["A6:AF6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -3817,7 +3848,7 @@ namespace PI.Business
                     cell.Value = shipment.CreatedDate;
 
                     cell = ws.Cells[rowIndex, 9];
-                    cell.Value = context.GetLocalTimeByUser(shipment.UserId, Convert.ToDateTime(shipment.PickupDate));
+                    cell.Value = shipment.PickupDate;
 
                     cell = ws.Cells[rowIndex, 10];
                     cell.Value = shipment.DeliveryTime;
@@ -3841,10 +3872,10 @@ namespace PI.Business
                     cell.Value = shipment.ConsigneePostalcode;
 
                     cell = ws.Cells[rowIndex, 17];
-                    cell.Value = shipment.Price;
+                    cell.Value = shipment.Price + shipment.Insurance;
 
                     cell = ws.Cells[rowIndex, 18];
-                    cell.Value = shipment.ValueCurrency;
+                    cell.Value = shipment.StringValueCurrency;
 
                     cell = ws.Cells[rowIndex, 19];
                     cell.Value = shipment.TotalVolume;
@@ -3858,11 +3889,41 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 22];
                     cell.Value = shipment.Count;
 
+                    cell = ws.Cells[rowIndex, 23];
+                    cell.Value = shipment.BillingCountry;
+
+                    cell = ws.Cells[rowIndex, 24];
+                    cell.Value = shipment.BillingPostalcode;
+
+                    cell = ws.Cells[rowIndex, 25];
+                    cell.Value = shipment.BillingAddress1;
+
+                    cell = ws.Cells[rowIndex, 26];
+                    cell.Value = shipment.BillingAddress2;
+
+                    cell = ws.Cells[rowIndex, 27];
+                    cell.Value = shipment.BillingCity;
+
+                    cell = ws.Cells[rowIndex, 28];
+                    cell.Value = shipment.BillingState;
+
+                    cell = ws.Cells[rowIndex, 29];
+                    cell.Value = shipment.BillingEmail;
+
+                    cell = ws.Cells[rowIndex, 30];
+                    cell.Value = shipment.CustomerEmailAddress;
+
+                    cell = ws.Cells[rowIndex, 31];
+                    cell.Value = shipment.SenderCompanyName;
+
+                    cell = ws.Cells[rowIndex, 32];
+                    cell.Value = shipment.ShipmentPaymentType;
+
                     ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width
-                for (int i = 1; i < 22; i++)
+                for (int i = 1; i < 33; i++)
                 {
                     ws.Column(i).Width = 25;
                 }
@@ -3871,6 +3932,29 @@ namespace PI.Business
             }
         }
 
+        public AddressDto GetBillingAddressByUserId(string userId)
+        {
+            ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == userId);
+            Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
+            Company curentCompany = this.context.Companies.SingleOrDefault(n => n.TenantId == currentTenant.Id);
+            CostCenter currentCostCenter = (from c in context.CostCenters
+                                            where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
+                                            select c).FirstOrDefault();
+
+            // Billing address
+            AddressDto address = new AddressDto()
+            {
+                StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
+                StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
+                City = currentCostCenter.BillingAddress.City,
+                Country = currentCostCenter.BillingAddress.Country,
+                ZipCode = currentCostCenter.BillingAddress.ZipCode,
+                State = currentCostCenter.BillingAddress.State,
+                
+            };
+
+            return address;
+        }
 
         public List<ShipmentReportDto> ShipmentReport(string userId, short carrierId = 0, long companyId = 0, DateTime? startDate = null,
                                                       DateTime? endDate = null, short status = 0, string countryOfOrigin = null, string countryOfDestination = null, short product = 0, short packageType = 0)
@@ -3886,10 +3970,10 @@ namespace PI.Business
 
             IList<Data.Entity.Shipment> shipmentList = null;
 
-            if (startDate.HasValue)
-                startDate = startDate.Value.ToUniversalTime();
-            if (endDate.HasValue)
-                endDate = endDate.Value.ToUniversalTime();
+            //if (startDate.HasValue)
+            //    startDate = startDate.Value.ToUniversalTime();
+            //if (endDate.HasValue)
+            //    endDate = endDate.Value.ToUniversalTime();
 
             if (roleName == "Admin" || roleName == "BusinessOwner")
             {
@@ -3907,7 +3991,8 @@ namespace PI.Business
                     (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
-                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
+                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
+                    s.MainShipment == 0 
                 ).ToList();
             }
             else if (roleName == "Manager")
@@ -3920,7 +4005,8 @@ namespace PI.Business
                     (countryOfOrigin == null || s.ConsignorAddress.Country == countryOfOrigin) &&
                     (countryOfDestination == null || s.ConsigneeAddress.Country == countryOfDestination) &&
                     (product == 0 || s.ShipmentMode == (Contract.Enums.CarrierType)product) &&
-                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType))
+                    (packageType == 0 || s.ShipmentPackage.PackageProducts.Any(p => p.ProductTypeId == packageType)) &&
+                    s.MainShipment == 0
                 ).ToList();
             }
 
@@ -3928,17 +4014,17 @@ namespace PI.Business
             if (shipmentList == null || shipmentList.Count == 0)
                 return reportList;
 
-            // Update retrieved shipment list status from SIS.
-            string environment = "";
-            foreach (var shipment in shipmentList)
-            {
-                if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
-                {
-                    environment = GetEnvironmentByTarrif(shipment.TariffText);
+            // Update retrieved shipment list status from SIS. -- This is commented, bcoz status update job is updating the shipment status.
+            //string environment = "";
+            //foreach (var shipment in shipmentList)
+            //{
+            //    if (shipment.Status != ((short)ShipmentStatus.Delivered) && !string.IsNullOrWhiteSpace(shipment.TrackingNumber))
+            //    {
+            //        environment = GetEnvironmentByTarrif(shipment.TariffText);
 
-                    UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
-                }
-            }
+            //        UpdateLocationHistory(shipment.Carrier.Name, shipment.TrackingNumber, shipment.ShipmentCode, environment, shipment.Id);
+            //    }
+            //}
 
             var selectedShipmentId = shipmentList.Select(s => s.Id).ToList();
             // Get updated list again with filter status.
@@ -3952,6 +4038,15 @@ namespace PI.Business
             foreach (var item in UpdatedShipmentList)
             {
                 customerOfShipment = context.Customers.Where(c => c.User.TenantId == item.Division.Company.TenantId).First();
+
+                // Billing details
+                ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == customerOfShipment.UserId);
+                Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
+                Company curentCompany = this.context.Companies.SingleOrDefault(n => n.TenantId == currentTenant.Id);
+                CostCenter currentCostCenter = (from c in context.CostCenters
+                                                where c.CompanyId == curentCompany.Id && !c.IsDelete && c.Type == "SYSTEM"
+                                                select c).FirstOrDefault();
+                // end of billing address
 
                 reportList.Add(new ShipmentReportDto
                 {
@@ -4003,6 +4098,9 @@ namespace PI.Business
                     TotalVolume = item.ShipmentPackage.TotalVolume,
                     TotalWeight = item.ShipmentPackage.TotalWeight,
                     ValueCurrency = item.ShipmentPackage.Currency == null ? 1 : Convert.ToInt32(item.ShipmentPackage.Currency.Id),
+                    StringValueCurrency = item.ShipmentPackage.Currency == null ? "USD" : item.ShipmentPackage.Currency.CurrencyCode,
+                    Price = item.ShipmentPackage.CarrierCost,
+                    Insurance = item.ShipmentPackage.InsuranceCost,
                     PreferredCollectionDate = item.ShipmentPackage.CollectionDate.ToString(),
                     ProductIngredients = this.getPackageDetails(item.ShipmentPackage.PackageProducts),
                     ShipmentDescription = item.ShipmentPackage.PackageDescription,
@@ -4010,9 +4108,24 @@ namespace PI.Business
                     //CarrierInformation                       
                     CarrierName = item.Carrier.Name,
                     serviceLevel = item.ServiceLevel,
-                    PickupDate = item.PickUpDate.HasValue ? context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value).ToString("dd MMM yyyy") : string.Empty,
-                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy")
+                    PickupDate = item.PickUpDate.HasValue ? item.PickUpDate.Value.ToString("dd MMM yyyy") : string.Empty,
+                    DeliveryTime = item.ShipmentPackage.EstDeliveryDate == null ? null : DateTime.Parse(item.ShipmentPackage.EstDeliveryDate.ToString()).ToString("dd MMM yyyy"),
 
+                    // Billing address
+                    BillingAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
+                    BillingAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
+                    BillingCity = currentCostCenter.BillingAddress.City,
+                    BillingCountry = currentCostCenter.BillingAddress.Country,
+                    //BillingNumber = currentCostCenter.BillingAddress.Number,
+                    BillingPostalcode = currentCostCenter.BillingAddress.ZipCode,
+                    BillingState = currentCostCenter.BillingAddress.State,
+                    BillingEmail = customerOfShipment.SecondaryEmail,
+
+                    CustomerEmailAddress = customerOfShipment.Email,
+
+                    SenderCompanyName = curentCompany.Name,
+
+                    ShipmentPaymentType = item.ShipmentPaymentTypeId == 1 ? "Invoice Payment" : "Online Payment"
                 });
             }
 
@@ -4246,7 +4359,7 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate.HasValue ? (DateTime?)context.GetLocalTimeByUser(item.CreatedBy, item.PickUpDate.Value) : null
+                        PickupDate = item.PickUpDate
                     }
 
                 });
@@ -4536,6 +4649,8 @@ namespace PI.Business
 
                 result.ShipmentId = newShipment.Id;
                 result.Status = Status.Success;
+                // set shipment reference name. This will be use, if any error occured during the shipment add process.
+                result.ShipmentReference = newShipment.ShipmentReferenceName;
 
                 //Add Audit Trail Record
                 AddAuditTrailRecord(addShipment, result, newShipment);
@@ -4625,6 +4740,8 @@ namespace PI.Business
 
                         result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
                         result.Status = Status.Success;
+                        // set shipment reference name. This will be use, if any error occured during the shipment add process.
+                        result.ShipmentReference = newShipment.ShipmentReferenceName;
 
                         //Add Audit Trail Record
                         AddAuditTrailRecord(addShipment, result, newShipment);
@@ -5157,11 +5274,11 @@ namespace PI.Business
                 CarrierDescription = addShipment.CarrierInformation.description,
                 ShipmentPaymentTypeId = addShipment.GeneralInformation.ShipmentPaymentTypeId,
                 Status = (short)ShipmentStatus.Draft,   // When initial save, set Draft.If user close the browser, shipment will remain as Draft mode.
-                PickUpDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                PickUpDate = addShipment.CarrierInformation.PickupDate,
                 IsActive = true,
                 IsParent = false,
                 ParentShipmentId = oldShipmentId == 0 ? null : (long?)oldShipmentId,
-                MainShipment=mainShipmentId,
+                MainShipment = mainShipmentId,
 
                 ConsigneeAddress = new ShipmentAddress
                 {
@@ -5215,7 +5332,7 @@ namespace PI.Business
                     CarrierCost = addShipment.CarrierInformation.Price,
                     InsuranceCost = addShipment.CarrierInformation.Insurance,
                     PaymentTypeId = addShipment.PackageDetails.PaymentTypeId,
-                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate == null ? null : (DateTime?)addShipment.CarrierInformation.PickupDate.Value.ToUniversalTime(),
+                    EarliestPickupDate = addShipment.CarrierInformation.PickupDate,
                     EstDeliveryDate = addShipment.CarrierInformation.DeliveryTime ?? null,
                     //WeightMetricId = addShipment.PackageDetails.CmLBS ? (short)1 : (short)2,
                     //VolumeMetricId = addShipment.PackageDetails.VolumeCMM ? (short)1 : (short)2,
@@ -5367,9 +5484,9 @@ namespace PI.Business
                     }
                     catch (Exception e)
                     {
-                        response.AddShipmentXML=e.Message;
+                        response.AddShipmentXML = e.Message;
                     }
-                   
+
                 }
                 else
                 {
@@ -5383,8 +5500,8 @@ namespace PI.Business
                 currentShipment.TrackingNumber = response.Awb;
 
                 // SIS will return the pacific time zone. So need to convert it to user time zone
-                DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
-                shipmentDto.CarrierInformation.PickupDate = context.GetLocalTimeByUser(currentShipment.CreatedBy, utcPickupDate);
+                //DateTime utcPickupDate = GetUTCTimeFromSISTaleUS(Convert.ToDateTime(response.DatePickup));
+                shipmentDto.CarrierInformation.PickupDate = Convert.ToDateTime(response.DatePickup);
 
                 shipmentDto.GeneralInformation.ShipmentPaymentTypeId = currentShipment.ShipmentPaymentTypeId;
                 shipmentDto.GeneralInformation.ShipmentPaymentTypeName = Utility.GetEnumDescription((ShipmentPaymentType)currentShipment.ShipmentPaymentTypeId);
@@ -5480,11 +5597,15 @@ namespace PI.Business
 
                 }
                 else
-                {                    
+                {
 
                     if (currentShipment.Carrier.Name == "USP")
                     {
                         currentShipment.Provider = "Stamps.com";
+                        //using delivery condition variable to get pickup confirmation number from stamps
+                        //and saving the pickup date
+                        currentShipment.PickupConfirmationNumber = response.DeliveryCondition;
+                        currentShipment.PickUpDate = shipmentDto.CarrierInformation.PickupDate;
                     }
                     else
                     {

@@ -67,6 +67,6 @@ namespace PI.Contract.DTOs.Shipment
         public string MainShipmentTrackingNumber { get; set; }
 
         //public string UserId { get; set; }
-
+        public decimal TotalPrice { get; set; }
     }
 }

@@ -1,0 +1,141 @@
+<document>
+  <page>
+    <table rows="25" cols="8">
+      <row>
+        <cell colspan="2" />
+        <cell colspan="3">Parcel International</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="3">1900 Addison St.</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell>STE. 200</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell>Berkeley, CA</cell>
+        <cell colspan="2">94704</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="3">(510)281-7554</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="3">support@parcelinternational.com</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="2" />
+        <cell colspan="3">www.parcelinternational.com</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">INVOICE</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="3">BILL TO</cell>
+        <cell colspan="2" />
+        <cell>INVOICE #</cell>
+        <cell colspan="2">2016-254</cell>
+      </row>
+      <row>
+        <cell colspan="3">Ahmad Ahmad</cell>
+        <cell colspan="2" />
+        <cell>DATE</cell>
+        <cell colspan="2">09/07/2016</cell>
+      </row>
+      <row>
+        <cell colspan="3">Lemkor Electronics</cell>
+        <cell colspan="2" />
+        <cell>DUE DATE</cell>
+        <cell colspan="2">09/17/2016</cell>
+      </row>
+      <row>
+        <cell colspan="3">6586 W. Atlantic Ave. Suite#</cell>
+        <cell colspan="2" />
+        <cell>TERMS</cell>
+        <cell>Net 10</cell>
+        <cell />
+      </row>
+      <row>
+        <cell colspan="3">4875</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell>Delray Beach</cell>
+        <cell colspan="2">33446</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="3">United States</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="3">ACTIVITY</cell>
+        <cell colspan="2">QTY</cell>
+        <cell colspan="2">RATE</cell>
+        <cell>AMOUNT</cell>
+      </row>
+      <row>
+        <cell colspan="4">FedEx AWB#: 783768567038 Reference: PO NO. 9717 Destination: Quest Exploration Drilling Philippines , Inc., Philippines 2 x BOX</cell>
+        <cell>1</cell>
+        <cell colspan="2">163.63</cell>
+        <cell>163.63</cell>
+      </row>
+      <row>
+        <cell colspan="3">Services Paypal fee</cell>
+        <cell colspan="2">1</cell>
+        <cell colspan="2">7.36</cell>
+        <cell>7.36</cell>
+      </row>
+      <row>
+        <cell colspan="3">Bank Account number: 1660838259</cell>
+        <cell rowspan="2" colspan="2">BALANCE DUE</cell>
+        <cell colspan="2" />
+        <cell rowspan="2">$170.99</cell>
+      </row>
+      <row>
+        <cell colspan="3">Wire Transfers:</cell>
+        <cell colspan="2" />
+        <cell colspan="2" />
+        <cell />
+      </row>
+      <row>
+        <cell colspan="3">- Domestic wires: 121000248</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="3">- International wires: WFBIUS6S</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="5">To pay this invoice online: click the link in this email or send us a</cell>
+        <cell colspan="3" />
+      </row>
+      <row>
+        <cell colspan="3">request to use Paypal.</cell>
+        <cell colspan="5" />
+      </row>
+      <row>
+        <cell colspan="3">Checks can be mailed to our office address.</cell>
+        <cell colspan="5" />
+      </row>
+    </table>
+  </page>
+  <page>
+    <cell>The trial version converts only 3 pages. Evaluation only.</cell>
+    <cell>Converted by PDF Focus .Net 6.0.9.14.</cell>
+    <cell>(Licensed version doesn't display this notice and converts the whole PDF document!)</cell>
+    <cell>Click to get the license for PDF Focus .Net.</cell>
+    <cell>http://www.sautinsoft.com/products/pdf-focus/order.php</cell>
+  </page>
+</document>
