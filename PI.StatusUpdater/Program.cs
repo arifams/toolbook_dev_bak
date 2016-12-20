@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Configuration;
 using PI.Contract.DTOs.User;
+using PI.Contract.DTOs.Shipment;
+using Newtonsoft.Json;
 
 namespace PI.StatusUpdater
 {
@@ -52,12 +54,25 @@ namespace PI.StatusUpdater
 
         static async Task<HttpResponseMessage> UpdateShipmentStatusAsync()
         {
+    
+            HttpResponseMessage response = null;
+
             var userDto = new UserDto { UserName = ConfigurationManager.AppSettings["UserName"].ToString(),
                                         Password = ConfigurationManager.AppSettings["Password"].ToString()
             };
-            HttpResponseMessage response = await client.PostAsJsonAsync($"api/shipments/UpdateAllShipmentsFromWebJob", userDto);
-            response.EnsureSuccessStatusCode();
 
+            var shipmentResponse = await client.PostAsJsonAsync($"api/shipments/GetAllShipmentsForWebJob", userDto);
+
+            var returnValue = await shipmentResponse.Content.ReadAsAsync<List<ShipmentDto>>();
+            
+            foreach (var item in returnValue.ToList())
+            {
+                item.InvokingUserDetails = new UserDto { UserName = userDto.UserName, Password = userDto.Password };
+                response = await client.PostAsJsonAsync($"api/shipments/UpdateAllShipmentsFromWebJob", item);
+                response.EnsureSuccessStatusCode();
+            }
+
+            response.EnsureSuccessStatusCode();
             // Deserialize the updated product from the response body.
             return response;
         }

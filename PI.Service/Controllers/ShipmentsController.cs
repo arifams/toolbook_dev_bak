@@ -91,11 +91,12 @@ namespace PI.Service.Controllers
 
         }
 
+
         [AllowAnonymous]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
-        [Route("UpdateAllShipmentsFromWebJob")]
-        public IHttpActionResult UpdateAllShipmentsFromWebJob([FromBody] UserDto userDetails)
+        [Route("GetAllShipmentsForWebJob")]
+        public IHttpActionResult GetAllShipmentsForWebJob([FromBody] UserDto userDetails)
         {
             string roleName = null;
             if (string.IsNullOrEmpty(userDetails.UserName) && string.IsNullOrEmpty(userDetails.Password))
@@ -120,46 +121,80 @@ namespace PI.Service.Controllers
 
             var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
 
-            foreach (var shipment in allShipmentList)
+            return Ok(allShipmentList);
+
+        }
+
+
+        [AllowAnonymous]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
+        [Route("UpdateAllShipmentsFromWebJob")]
+        public IHttpActionResult UpdateAllShipmentsFromWebJob([FromBody] ShipmentDto shipment)
+
+        {
+            var userDetails = shipment.InvokingUserDetails;
+            string roleName = null;
+
+            if (string.IsNullOrEmpty(userDetails.UserName) && string.IsNullOrEmpty(userDetails.Password))
             {
-                string carrier = shipment.CarrierInformation.CarrierName;
-                string trackingNumber = shipment.GeneralInformation.TrackingNumber;
-                string codeShipment = shipment.GeneralInformation.ShipmentCode;
-                string environment = "taleus";
+                return Unauthorized();
+            }
 
-                // update all shipment details
-                var shipmentTracking = shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+            var user = AppUserManager.Find(userDetails.UserName, userDetails.Password);
 
-                if (shipmentTracking.info.status == Utility.GetEnumDescription(ShipmentStatus.Exception))
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            roleName = companyManagement.GetRoleName(user.Roles.FirstOrDefault().RoleId);
+
+            if (roleName != "Admin")
+            {
+                var response = Request.CreateResponse(HttpStatusCode.Forbidden);
+                return (IHttpActionResult)response;
+            }
+
+            //var allShipmentList = shipmentManagement.GetAllShipmentsForAdmins();
+
+            //foreach (var shipment in allShipmentList)
+            //{
+            string carrier = shipment.CarrierInformation.CarrierName;
+            string trackingNumber = shipment.GeneralInformation.TrackingNumber;
+            string codeShipment = shipment.GeneralInformation.ShipmentCode;
+            string environment = "taleus";
+
+            // update all shipment details
+            var shipmentTracking = shipmentManagement.GetLocationHistoryInfoForShipment(carrier, trackingNumber, codeShipment, environment);
+
+            if (shipmentTracking.info.status == Utility.GetEnumDescription(ShipmentStatus.Exception))
+            {
+                var profile = profileManagement.getProfileByUserName(shipment.GeneralInformation.CreatedBy);
+
+                var notifications = profileManagement.GetNotificationCriteriaByCustomerId(profile.CustomerDetails.Id);
+
+                if (notifications.ShipmentException == true)
                 {
-                    var profile = profileManagement.getProfileByUserName(shipment.GeneralInformation.CreatedBy);
+                    string htmlTemplate = "";
+                    TemplateLoader templateLoader = new TemplateLoader();
 
-                    var notifications = profileManagement.GetNotificationCriteriaByCustomerId(profile.CustomerDetails.Id);
+                    //get the email template for invoice
+                    HtmlDocument template = templateLoader.getHtmlTemplatebyName("exceptionEmail");
+                    htmlTemplate = template.DocumentNode.InnerHtml;
 
-                    if (notifications.ShipmentException == true)
-                    {
-                        string htmlTemplate = "";
-                        TemplateLoader templateLoader = new TemplateLoader();
+                    //replace strings in Html                       
 
-                        //get the email template for invoice
-                        HtmlDocument template = templateLoader.getHtmlTemplatebyName("exceptionEmail");
-                        htmlTemplate = template.DocumentNode.InnerHtml;
+                    var updatedString = htmlTemplate.Replace("{firstname}", profile.CustomerDetails.FirstName).Replace("{lastname}", profile.CustomerDetails.LastName).Replace("{shipmentCode}", shipment.GeneralInformation.ShipmentCode).Replace("{shipmentreference}", shipment.GeneralInformation.ShipmentReferenceName).Replace("\r", "").Replace("\n", "");
 
-                        //replace strings in Html                       
+                    ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
 
-                        var updatedString = htmlTemplate.Replace("{firstname}", profile.CustomerDetails.FirstName).Replace("{lastname}", profile.CustomerDetails.LastName).Replace("{shipmentCode}", shipment.GeneralInformation.ShipmentCode).Replace("{shipmentreference}", shipment.GeneralInformation.ShipmentReferenceName).Replace("\r", "").Replace("\n", "");
-
-                        ApplicationUser existingUser = AppUserManager.FindByName(profile.CustomerDetails.Email);
-
-                        //sending email
-                        AppUserManager.SendEmail(existingUser.Id, "Exception occured in shipment - " + trackingNumber, updatedString);
-
-                    }
-
+                    //sending email
+                    AppUserManager.SendEmail(existingUser.Id, "Exception occured in shipment - " + trackingNumber, updatedString);
                 }
 
-
             }
+
             return Ok();
 
         }
