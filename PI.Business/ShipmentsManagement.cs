@@ -3662,8 +3662,11 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 9];
                     cell.Value = shipment.GeneralInformation.ShipmentServices;
 
+                    short packageCount = 0;
+                    shipment.PackageDetails.ProductIngredients.ForEach(p => packageCount += p.Quantity);
+
                     cell = ws.Cells[rowIndex, 10];
-                    cell.Value = shipment.PackageDetails.Count;
+                    cell.Value = packageCount;
 
                     cell = ws.Cells[rowIndex, 11];
                     cell.Value = shipment.AddressInformation.Consigner.CompanyName;
