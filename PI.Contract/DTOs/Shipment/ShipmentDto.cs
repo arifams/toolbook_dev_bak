@@ -1,5 +1,6 @@
 ﻿using PI.Contract.DTOs.Division;
 using PI.Contract.DTOs.Payment;
+using PI.Contract.DTOs.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,5 +29,7 @@ namespace PI.Contract.DTOs.Shipment
         public string InvoiceUrl { get; set; }
         public string LabelUrl { get; set; }
         public bool HasShipmentAdded { get; set; }
+
+        public UserDto InvokingUserDetails { get; set; }
     }
 }

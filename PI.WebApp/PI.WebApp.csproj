@@ -218,7 +218,6 @@
     <Content Include="global\images\logo\12SendLogo-sm.png" />
     <Content Include="global\images\logo\12SendLogo-lg.png" />
     <Content Include="global\images\logo\logo_12send-new.png" />
-    <Content Include="global\images\logo\logo_12send.png" />
     <Content Include="global\images\logo\PI-logo-login-sm.png" />
     <Content Include="global\images\logo\PI-logo-login.png" />
     <Content Include="global\images\preloader\1.gif" />

@@ -1834,7 +1834,8 @@ namespace PI.Business
         }
 
         //get the location history list 
-        public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, string codeShipment, string environment)
+        public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, 
+                                                                       string codeShipment, string environment)
         {
             StatusHistoryResponce locationHistory = new StatusHistoryResponce();
             ShipmentDto currentShipmet = this.GetshipmentById(codeShipment);
@@ -1845,7 +1846,6 @@ namespace PI.Business
                 // locationHistory = this.getUpdatedShipmentHistoryFromDB(codeShipment);
                 Data.Entity.Shipment currentShipment = GetShipmentByShipmentCode(codeShipment);
                 info.status = currentShipment.Status.ToString();
-
             }
             else
             {
@@ -1868,6 +1868,10 @@ namespace PI.Business
             {
                 if (!string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
+                    if(currentSisLocationHistory.info.status == "Booking confirmation")
+                    {
+                        currentSisLocationHistory.info.status = "BookingConfirmation";
+                    }
                     short status = (short)Enum.Parse(typeof(ShipmentStatus), currentSisLocationHistory.info.status);
                     this.UpdateShipmentStatus(trackingNumber, status);
                 }
