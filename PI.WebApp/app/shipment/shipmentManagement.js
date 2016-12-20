@@ -145,15 +145,13 @@
                                shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue, startRecord, pageRecord)
                                .then(function (responce) {
 
-
+                                   debugger;
                                    vm.loadingSymbole = false;
                                    if (responce.data.content != null) {
                                        vm.rowCollection = responce.data.content;
-
                                        tableState.pagination.numberOfPages = responce.data.totalPages;
 
                                        vm.noShipments = false;
-
 
                                        vm.setCSVData(responce);
 
@@ -294,7 +292,8 @@
                                                                                if (source == 'delete-copy') {
                                                                                    $location.path('/addShipment/0').search({
                                                                                        PARAM_SOURCE: source,
-                                                                                       PARAM_SOURCEID: row.generalInformation.shipmentId
+                                                                                       PARAM_SOURCEID: row.generalInformation.shipmentId,
+                                                                                       PARAM_OWNERID: shipment.generalInformation.createdBy
                                                                                    });
                                                                                }                                                                               
                                                                            }
@@ -477,11 +476,12 @@
                                vm.loadShipmentsBySearch(vm.status, start, number, tableState);
                            }
 
-                           vm.copyAsNewShipment = function (shipmentId) {
+                           vm.copyAsNewShipment = function (shipment) {
                                debugger;
                                $location.path('/addShipment/0').search({
                                    PARAM_SOURCE: 'copy',
-                                   PARAM_SOURCEID: shipmentId
+                                   PARAM_SOURCEID: shipment.generalInformation.shipmentId,
+                                   PARAM_OWNERID: shipment.generalInformation.createdBy
                                });
 
                                //$window.localStorage.setItem('paramSource', null);
@@ -503,7 +503,7 @@
                                vm.deleteById(shipment, 'delete-copy');                      
                            }
                            
-                           vm.createReturnShipment = function (shipmentId) {
+                           vm.createReturnShipment = function (shipment) {
 
                                //$window.localStorage.setItem('paramSource', null);
                                //$window.localStorage.setItem('paramSource', 'return-copy');
@@ -512,7 +512,8 @@
 
                                $location.path('/addShipment/0').search({
                                    PARAM_SOURCE: 'return-copy',
-                                   PARAM_SOURCEID: shipmentId
+                                   PARAM_SOURCEID: shipment.generalInformation.shipmentId,
+                                   PARAM_OWNERID: shipment.generalInformation.createdBy
                                });
                            }
 

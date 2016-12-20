@@ -67,9 +67,12 @@ namespace PI.StatusUpdater
             
             foreach (var item in returnValue.ToList())
             {
-                item.InvokingUserDetails = new UserDto { UserName = userDto.UserName, Password = userDto.Password };
-                response = await client.PostAsJsonAsync($"api/shipments/UpdateAllShipmentsFromWebJob", item);
-                response.EnsureSuccessStatusCode();
+                if (item.GeneralInformation.TrackingNumber != "")
+                {
+                    item.InvokingUserDetails = new UserDto { UserName = userDto.UserName, Password = userDto.Password };
+                    response = await client.PostAsJsonAsync($"api/shipments/UpdateAllShipmentsFromWebJob", item);
+                    response.EnsureSuccessStatusCode();
+                }
             }
 
             response.EnsureSuccessStatusCode();

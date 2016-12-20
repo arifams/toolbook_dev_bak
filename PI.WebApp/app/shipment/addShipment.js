@@ -71,6 +71,7 @@
                         debugger;
                         vm.paramSource = $location.search().PARAM_SOURCE;
                         vm.paramSourceId = $location.search().PARAM_SOURCEID;
+                        vm.paramOwnerId = $location.search().PARAM_OWNERID;
 
                         //var paramSource = $window.localStorage.getItem('paramSource');
                         //var paramSourceId = $window.localStorage.getItem('paramSourceId');
@@ -81,8 +82,9 @@
 
                         vm.loadConsignerInfo = function () {
                             debugger;
-                            shipmentFactory.getProfileInfo().success(
+                            shipmentFactory.getProfileInfo(vm.paramOwnerId).success(
                                function (responce) {
+                                   debugger;
                                    if (responce != null) {
 
                                        debugger;
@@ -1293,6 +1295,7 @@
                                     vm.shipment.generalInformation.shipmentId = "0";
                                     vm.shipment.generalInformation.shipmentCode = "0";
 
+                                    debugger;
                                     if (vm.paramSource == 'return-copy') {
                                         var consigneeDetails = angular.copy(vm.shipment.addressInformation.consignee);
                                         var consignerDetails = angular.copy(vm.shipment.addressInformation.consigner);

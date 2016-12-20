@@ -9,7 +9,7 @@
 
 
         function setLoginUserID() {
-            
+            debugger;
             if ($window.localStorage.getItem('userRole') == 'Admin') {
 
                 createdBy = $window.localStorage.getItem('userGuid');
@@ -85,13 +85,13 @@
             return $http.post(serverBaseUrl + '/api/shipments/PaymentCharge', paymentDto);
         }
 
-        function getProfileInfo() {
+        function getProfileInfo(ownerId) {
 
             setLoginUserID();
             return $http.get(serverBaseUrl + '/api/profile/GetProfileForShipment', {
                 params: {
                     // userId: $window.localStorage.getItem('userGuid'),
-                    userId: userId,
+                    userId: userId == null ? ownerId : userId
                 }
             });
         }

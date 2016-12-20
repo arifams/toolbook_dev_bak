@@ -22,17 +22,17 @@
 
 
 
-
 <div>
     <div ng-show="shipmentCtrl.currentRole == 'Admin' &&
                   shipmentCtrl.editShipmentCode != null &&
                   shipmentCtrl.editShipmentCode != '' &&
-                  shipmentCtrl.editShipmentCode != undefined"
+                  shipmentCtrl.editShipmentCode != undefined &&
+                  shipmentCtrl.shipment.generalInformation.shipmentCode != '0' "
          class="angular-alert alert alert-info alert-dismissible fade in m-b-0 p-5">
         <a href="" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 
         <strong style="font-style:italic">
-            <translate> Viewing shipment information of</translate>  "
+            <translate> Viewing shipment information of</translate>  &nbsp "
             <span style="text-transform:uppercase">
                 {{shipmentCtrl.customerFirstName}} &nbsp
                 {{shipmentCtrl.customerLastName}}
