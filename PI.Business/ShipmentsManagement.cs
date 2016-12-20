@@ -1231,7 +1231,7 @@ namespace PI.Business
             foreach (var ingrediant in products)
             {
 
-                if (shipmentPackage != null)
+                if (ingrediant != null)
                 {
                     //if (shipmentPackage.VolumeMetricId == accountSettings.VolumeMetricId)
                     //{
