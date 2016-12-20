@@ -1538,7 +1538,7 @@ namespace PI.Service.Controllers
                     CreatedBy = result.ShipmentDto.GeneralInformation.CreatedUser,
                     UserId = result.ShipmentDto.GeneralInformation.CreatedBy,
                     DueDate = DateTime.UtcNow.AddDays(10).ToString("MM/dd/yyyy"),
-                    InvoiceValue = Convert.ToDecimal(paymentDetails.Amount) / 100,
+                    InvoiceValue = Convert.ToDecimal(paymentDetails.Amount),
                     InvoiceStatus = InvoiceStatus.Paid.ToString(),
                     InvoiceDate = DateTime.UtcNow.ToString()
                 };
