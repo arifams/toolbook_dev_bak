@@ -1392,8 +1392,9 @@ namespace PI.Service.Controllers
 
                 //packageDetails.Append("<td>" + shipmentDetails.PackageDetails.Count + "</td>");
                 //packageDetails.Append("<td>$" + Convert.ToDecimal(paymentDetails.Amount)/100 + "</td>");
-
-                Paragraph countPara = new Paragraph(result.ShipmentDto.PackageDetails.Count.ToString(), invoiceFont);
+                int packageCount = 0;
+                result.ShipmentDto.PackageDetails.ProductIngredients.ForEach(p => packageCount += p.Quantity);
+                Paragraph countPara = new Paragraph(packageCount.ToString(), invoiceFont);
                 Paragraph ratePara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString(), invoiceFont);
                 Paragraph amountPara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString(), invoiceFont);
                 Paragraph balancePara = new Paragraph(((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount))).ToString(), invoiceFont);
