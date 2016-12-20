@@ -141,8 +141,8 @@ namespace PI.Business
                 currentRateSheetDetails.country_to = currentShipment.AddressInformation.Consignee.Country;
                 currentRateSheetDetails.code_country_to = currentShipment.AddressInformation.Consignee.Country;
 
-                //  currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
-                currentRateSheetDetails.inbound = "N";
+                currentRateSheetDetails.inbound = this.GetInboundoutBoundStatus(currentShipment.UserId, currentShipment.AddressInformation.Consigner.Country, currentShipment.AddressInformation.Consignee.Country);
+                //currentRateSheetDetails.inbound = "N";
 
             }
             if (currentShipment.PackageDetails != null)
@@ -345,25 +345,27 @@ namespace PI.Business
         public string GetInboundoutBoundStatus(string userId, string fromCode, string toCode)
         {
             string status = "N";
-
-            //using (PIContext context = PIContext.Get())
-            //{
             var countryCode = string.Empty;
+
             var addressId = context.Customers.Where(c => c.UserId == userId).Select(c => c.AddressId).SingleOrDefault();
             if (addressId != 0)
             {
                 countryCode = context.Addresses.Where(c => c.Id == addressId).Select(c => c.Country).SingleOrDefault();
             }
-            if (countryCode != null && countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
+
+            //if (countryCode != null && countryCode.Equals(toCode) && !countryCode.Equals(fromCode))
+            //{
+            //    status = "Y";
+            //}
+            //else
+            //{
+            //    status = "N";
+            //}
+
+            if(!string.IsNullOrEmpty(countryCode) && !countryCode.Equals(fromCode))
             {
                 status = "Y";
             }
-            else
-            {
-                status = "N";
-            }
-
-            // }
 
             return status;
         }
