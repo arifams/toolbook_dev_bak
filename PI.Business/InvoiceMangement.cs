@@ -334,7 +334,7 @@ namespace PI.Business
             var querableContent = (from invoice in context.Invoices
                            join company in context.Companies on invoice.Shipment.Division.CompanyId equals company.Id
                            join user in context.Users on company.TenantId equals user.TenantId
-                           where user.Roles.Any(r => r.RoleId == BusinessOwnerRoleId) &&
+                           where  //user.Roles.Any(r => r.RoleId == BusinessOwnerRoleId) &&
                            company.IsDelete == false &&
                            (status == "" || invoice.InvoiceStatus.ToString() == status) &&
                            (string.IsNullOrEmpty(searchValue) ||
