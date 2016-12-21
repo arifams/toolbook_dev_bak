@@ -1008,7 +1008,7 @@ namespace PI.Service.Controllers
                     Paragraph countPara = new Paragraph(shipmentDetails.PackageDetails.Count.ToString(), invoiceFont);
                     Paragraph ratePara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
                     Paragraph amountPara = new Paragraph((Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost)).ToString(), invoiceFont);
-
+                   // -------------------------------------------------
                     Paragraph insurancePara = new Paragraph((Convert.ToDecimal(shipmentDetails.CarrierInformation.Insurance)).ToString(), invoiceFont);
                     var invoiceFullAmount = Convert.ToDecimal(shipmentDetails.PackageDetails.CarrierCost) + Convert.ToDecimal(shipmentDetails.CarrierInformation.Insurance);
                     Paragraph totalPara = new Paragraph(Convert.ToDecimal(invoiceFullAmount).ToString() , invoiceFont);
@@ -1017,6 +1017,7 @@ namespace PI.Service.Controllers
                     
                     Paragraph totalLabelPara = new Paragraph("TOTAL");
                     Paragraph insuranceLabelPara = new Paragraph("INSURANCE");
+                    //------------------------------------
                     Paragraph paymentLabelPara = new Paragraph("PAYMENT");
                     Paragraph balanceLabelPara = new Paragraph("BALANCE DUE");
 
@@ -1034,7 +1035,7 @@ namespace PI.Service.Controllers
                     shipmentTable.AddCell(countCell);
                     shipmentTable.AddCell(ratesCell);
                     shipmentTable.AddCell(amountsCell);
-
+                    //---------------------------------
                     PdfPCell insuranceLabelCell = new PdfPCell(insuranceLabelPara);
                     insuranceLabelCell.Border = 0;
                     PdfPCell insuranceCell = new PdfPCell(insurancePara);
@@ -1045,7 +1046,7 @@ namespace PI.Service.Controllers
                     totalLabelCell.Border = 0;
                     PdfPCell totalCell = new PdfPCell(totalPara);
                     totalCell.Border = 0;
-
+                    //-----------------------------------------
 
                     PdfPCell paymentLabelCell = new PdfPCell(paymentLabelPara);
                     paymentLabelCell.Border = 0;
@@ -1056,7 +1057,7 @@ namespace PI.Service.Controllers
                     balanceLabelCell.Border = 0;
                     PdfPCell balanceCell = new PdfPCell(balancePara);
                     balanceCell.Border = 0;
-
+                    //--------------------------------
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(insuranceLabelCell);
@@ -1066,7 +1067,7 @@ namespace PI.Service.Controllers
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(totalLabelCell);
                     shipmentTable.AddCell(totalCell);
-
+                    //----------------------
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(paymentLabelCell);
