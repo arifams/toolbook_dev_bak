@@ -362,7 +362,7 @@ namespace PI.Business
             //    status = "N";
             //}
 
-            if(!string.IsNullOrEmpty(countryCode) && !countryCode.Equals(fromCode))
+            if (!string.IsNullOrEmpty(countryCode) && !countryCode.Equals(fromCode))
             {
                 status = "Y";
             }
@@ -1847,7 +1847,7 @@ namespace PI.Business
         }
 
         //get the location history list 
-        public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber, 
+        public StatusHistoryResponce GetLocationHistoryInfoForShipment(string carrier, string trackingNumber,
                                                                        string codeShipment, string environment)
         {
             StatusHistoryResponce locationHistory = new StatusHistoryResponce();
@@ -1881,7 +1881,7 @@ namespace PI.Business
             {
                 if (!string.IsNullOrWhiteSpace(currentSisLocationHistory.info.status))
                 {
-                    if(currentSisLocationHistory.info.status == "Booking confirmation")
+                    if (currentSisLocationHistory.info.status == "Booking confirmation")
                     {
                         currentSisLocationHistory.info.status = "BookingConfirmation";
                     }
@@ -3374,7 +3374,7 @@ namespace PI.Business
                                    select shipment);
 
             IList<Shipment> content = null;
-            if(pageSize != 0)
+            if (pageSize != 0)
                 content = querableContent.OrderByDescending(d => d.CreatedDate).Skip(currentPage).Take(pageSize).ToList();
             else
                 content = querableContent.OrderByDescending(d => d.CreatedDate).ToList();
@@ -3498,7 +3498,7 @@ namespace PI.Business
             pagedRecord.TotalRecords = querableContent.Count();
             pagedRecord.PageSize = pageSize;
 
-            if(pagedRecord.PageSize != 0)
+            if (pagedRecord.PageSize != 0)
                 pagedRecord.TotalPages = (int)Math.Ceiling((decimal)pagedRecord.TotalRecords / pagedRecord.PageSize);
             else
                 pagedRecord.TotalPages = 0;
@@ -3514,7 +3514,7 @@ namespace PI.Business
             var pagedRecord = new PagedList();
             pagedRecord.Content = new List<ShipmentDto>();
 
-            pagedRecord.Content = loadAllShipmentsForAdmin(status,startDate,endDate,null,0,0).Content;
+            pagedRecord.Content = loadAllShipmentsForAdmin(status, startDate, endDate, null, 0, 0).Content;
 
             return this.GenerateExcelSheetForShipmentExportFunction((List<ShipmentDto>)pagedRecord.Content);
 
@@ -3810,9 +3810,10 @@ namespace PI.Business
                 ws.Cells["AD6"].Value = "Email Address";
                 ws.Cells["AE6"].Value = "Sender Company Name";
                 ws.Cells["AF6"].Value = "Payment Type";
+                ws.Cells["AG6"].Value = "Insurance Amount";
 
                 //Format the header for columns.
-                using (ExcelRange rng = ws.Cells["A6:AF6"])
+                using (ExcelRange rng = ws.Cells["A6:AG6"])
                 {
                     rng.Style.Font.Bold = true;
                     rng.Style.Fill.PatternType = ExcelFillStyle.Solid;                      //Set Pattern for the background to Solid
@@ -3924,11 +3925,14 @@ namespace PI.Business
                     cell = ws.Cells[rowIndex, 32];
                     cell.Value = shipment.ShipmentPaymentType;
 
+                    cell = ws.Cells[rowIndex, 33];
+                    cell.Value = shipment.Insurance;
+
                     ws.Row(rowIndex).Height = 25;
                 }
 
                 // Set width
-                for (int i = 1; i < 33; i++)
+                for (int i = 1; i < 34; i++)
                 {
                     ws.Column(i).Width = 25;
                 }

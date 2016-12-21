@@ -263,7 +263,7 @@
                            };
 
                            //delete shipment
-                           vm.deleteById = function (row) {
+                           vm.deleteById = function (row, source) {
 
                                $('#panel-notif').noty({
                                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to delete') + '?</p></div>',
