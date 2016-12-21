@@ -561,8 +561,8 @@ namespace PI.Business
             // Consignor details.
             shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
             shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
-            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1);
-            shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
+            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2);
+            //shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
             shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
             shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
