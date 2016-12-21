@@ -3941,7 +3941,7 @@ namespace PI.Business
             }
         }
 
-        public AddressDto GetBillingAddressByUserId(string userId)
+        public AddressDto GetBillingAddressByUserId(string userId, ConsignerDto consigner)
         {
             ApplicationUser currentUser = context.Users.SingleOrDefault(c => c.Id == userId);
             Tenant currentTenant = context.Tenants.SingleOrDefault(n => n.Id == currentUser.TenantId);
@@ -3951,17 +3951,53 @@ namespace PI.Business
                                             select c).FirstOrDefault();
 
             // Billing address
-            AddressDto address = new AddressDto()
+            AddressDto address = null;
+
+            if(currentCostCenter.BillingAddress != null && currentCostCenter.BillingAddress.StreetAddress1 != null)
             {
-                StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
-                StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
-                City = currentCostCenter.BillingAddress.City,
-                Country = currentCostCenter.BillingAddress.Country,
-                ZipCode = currentCostCenter.BillingAddress.ZipCode,
-                State = currentCostCenter.BillingAddress.State,
+                address = new AddressDto()
+                {
+                    StreetAddress1 = currentCostCenter.BillingAddress.StreetAddress1,
+                    StreetAddress2 = currentCostCenter.BillingAddress.StreetAddress2,
+                    City = currentCostCenter.BillingAddress.City,
+                    Country = currentCostCenter.BillingAddress.Country,
+                    ZipCode = currentCostCenter.BillingAddress.ZipCode,
+                    State = currentCostCenter.BillingAddress.State,
 
-            };
+                };
+            }
+            else
+            {
+                Customer customer = context.Customers.Where(c => c.UserId == userId).FirstOrDefault();
 
+                if(customer.CustomerAddress.StreetAddress1 != null)
+                {
+                    address = new AddressDto()
+                    {
+                        StreetAddress1 = customer.CustomerAddress.StreetAddress1,
+                        StreetAddress2 = customer.CustomerAddress.StreetAddress2,
+                        City = customer.CustomerAddress.City,
+                        Country = customer.CustomerAddress.Country,
+                        ZipCode = customer.CustomerAddress.ZipCode,
+                        State = customer.CustomerAddress.State,
+
+                    };
+                }
+                else
+                {
+                    address = new AddressDto()
+                    {
+                        StreetAddress1 = consigner.Address1,
+                        StreetAddress2 = consigner.Address2,
+                        City = consigner.City,
+                        Country = consigner.Country,
+                        ZipCode = consigner.Postalcode,
+                        State = consigner.State,
+
+                    };
+                }
+            }
+            
             return address;
         }
 
