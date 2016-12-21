@@ -1466,10 +1466,18 @@ namespace PI.Service.Controllers
                     Paragraph countPara = new Paragraph(packageCount.ToString(), invoiceFont);
                     Paragraph ratePara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString() + " " + result.ShipmentDto.PackageDetails.ValueCurrencyString, invoiceFont);
                     Paragraph amountPara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)).ToString() + " " + result.ShipmentDto.PackageDetails.ValueCurrencyString, invoiceFont);
-                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost)) - (Convert.ToDecimal(paymentDetails.Amount))).ToString() + " " + result.ShipmentDto.PackageDetails.ValueCurrencyString, invoiceFont);
+                    // -------------------------------------------------
+                    Paragraph insurancePara = new Paragraph((Convert.ToDecimal(result.ShipmentDto.CarrierInformation.Insurance)).ToString(), invoiceFont);
+                    var invoiceFullAmount = Convert.ToDecimal(result.ShipmentDto.PackageDetails.CarrierCost) + Convert.ToDecimal(result.ShipmentDto.CarrierInformation.Insurance);
+                    Paragraph totalPara = new Paragraph(Convert.ToDecimal(invoiceFullAmount).ToString(), invoiceFont);
+                    Paragraph paidamountPara = new Paragraph((Convert.ToDecimal(paymentDetails.Amount)).ToString() + " " + result.ShipmentDto.PackageDetails.ValueCurrencyString, invoiceFont);
 
-                    Paragraph paymentLabelPara = new Paragraph("PAYMENT");
-                    Paragraph balanceLabelPara = new Paragraph("BALANCE DUE");
+                    Paragraph balancePara = new Paragraph(((Convert.ToDecimal(invoiceFullAmount)) - (Convert.ToDecimal(paymentDetails.Amount))).ToString(), invoiceFont);
+
+                    Paragraph totalLabelPara = new Paragraph("TOTAL:");
+                    Paragraph insuranceLabelPara = new Paragraph("INSURANCE:");
+                    Paragraph paymentLabelPara = new Paragraph("PAYMENT:");
+                    Paragraph balanceLabelPara = new Paragraph("BALANCE DUE:");
 
                     PdfPCell countCell = new PdfPCell(countPara);
                     countCell.Border = 0;
@@ -1479,6 +1487,7 @@ namespace PI.Service.Controllers
 
                     PdfPCell amountsCell = new PdfPCell(amountPara);
                     amountsCell.Border = 0;
+                   
 
                     shipmentTable.AddCell(shipmentDetailsCell);
 
@@ -1486,9 +1495,22 @@ namespace PI.Service.Controllers
                     shipmentTable.AddCell(ratesCell);
                     shipmentTable.AddCell(amountsCell);
 
+                 
+                    PdfPCell insuranceLabelCell = new PdfPCell(insuranceLabelPara);
+                    insuranceLabelCell.Border = 0;
+
+                    PdfPCell insuranceCell = new PdfPCell(insurancePara);
+                    insuranceCell.Border = 0;
+
+
+                    PdfPCell totalLabelCell = new PdfPCell(totalLabelPara);
+                    totalLabelCell.Border = 0;
+                    PdfPCell totalCell = new PdfPCell(totalPara);
+                    totalCell.Border = 0;
+
                     PdfPCell paymentLabelCell = new PdfPCell(paymentLabelPara);
                     paymentLabelCell.Border = 0;
-                    PdfPCell amountLabelCell = new PdfPCell(amountPara);
+                    PdfPCell amountLabelCell = new PdfPCell(paidamountPara);
                     amountLabelCell.Border = 0;
 
                     PdfPCell balanceLabelCell = new PdfPCell(balanceLabelPara);
@@ -1496,6 +1518,18 @@ namespace PI.Service.Controllers
                     PdfPCell balanceCell = new PdfPCell(balancePara);
                     balanceCell.Border = 0;
 
+
+                    //--------------------------------
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(insuranceLabelCell);
+                    shipmentTable.AddCell(insuranceCell);
+
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(emptyCell);
+                    shipmentTable.AddCell(totalLabelCell);
+                    shipmentTable.AddCell(totalCell);
+                    //----------------------
 
                     shipmentTable.AddCell(emptyCell);
                     shipmentTable.AddCell(emptyCell);
