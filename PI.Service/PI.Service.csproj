@@ -250,6 +250,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Images\12SendLogo-sm.png" />
     <Content Include="App_Data\Templates\ExceptionEmailTemplate.html" />
     <Content Include="App_Data\Templates\OrderConfirmEmail.html" />
     <Content Include="App_Data\Tmp\FileUploads\12SendLogo-lg.png" />

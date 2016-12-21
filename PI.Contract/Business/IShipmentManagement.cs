@@ -163,7 +163,7 @@ namespace PI.Contract.Business
 
         ShipmentDto GetShipmentResult(long shipmentId);
 
-        AddressDto GetBillingAddressByUserId(string userId);
+        AddressDto GetBillingAddressByUserId(string userId,ConsignerDto consigner);
 
         #region Temp solution
 
