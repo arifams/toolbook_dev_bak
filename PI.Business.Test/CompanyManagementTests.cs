@@ -761,8 +761,8 @@ namespace PI.Business.Tests
         public void UpdateCompanyLogoTest()
         {
             string URL="test";
-            string userId="1";
-            bool response = companyManagement.UpdateCompanyLogo(URL, userId);
+            long customerId = 1;
+            bool response = companyManagement.UpdateCompanyLogo(URL, customerId);
             Assert.AreEqual(response, true);
 
         }

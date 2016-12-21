@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.EntityFramework;
 using PI.Contract;
 using PI.Contract.Business;
+using PI.Contract.DTOs;
 using PI.Contract.DTOs.Admin;
 using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
@@ -1711,12 +1712,21 @@ namespace PI.Business
         /// <param name="URL"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public bool UpdateCompanyLogo(string URL, string userId)
+        public bool UpdateCompanyLogo(string URL, long customerId)
         {
-            var currentuser = context.Users.SingleOrDefault(u => u.Id == userId);
+            var customer = context.Customers.Where(c => c.Id == customerId).FirstOrDefault();
+            var currentuser = context.Users.SingleOrDefault(u => u.Id == customer.UserId);
             var currentCompany = context.Companies.SingleOrDefault(n => n.TenantId == currentuser.TenantId);
+
             currentCompany.LogoUrl = URL;
             context.SaveChanges();
+
+            //string currentLoggedUserRole = context.GetUserRoleById(customer.UserId);
+
+            //OperationResult result = new OperationResult();
+            //result.Message = currentLoggedUserRole;
+            //result.Status = Status.Success;
+            //return result;
 
             return true;
         }
