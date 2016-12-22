@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Configuration;
 using AzureMediaManager;
 using PI.Contract.DTOs.AddressBook;
+using PI.Contract.DTOs;
 
 namespace PI.Service.Controllers
 {
@@ -270,7 +271,7 @@ namespace PI.Service.Controllers
 
                 var provider = GetMultipartProvider();
                 var result = await Request.Content.ReadAsMultipartAsync(provider);
-                var fileDetails = GetFormData<FileUploadDto>(result);
+                var fileDetails = GetFormDataForUploadLogo<FileUploadDto>(result);
 
                 uploadResult = await this.Upload(result);
 
@@ -279,9 +280,10 @@ namespace PI.Service.Controllers
                 Result deSelizalizedObject = null;
                 deSelizalizedObject = JsonConvert.DeserializeObject<Result>(urlJson);
 
+                
                 if (uploadResult.Content != null)
                 {
-                    logoUpdated = companyManagement.UpdateCompanyLogo(deSelizalizedObject.returnData, fileDetails.UserId);
+                    logoUpdated = companyManagement.UpdateCompanyLogo(deSelizalizedObject.returnData, fileDetails.CustomerId);
 
                 }
 
@@ -383,6 +385,27 @@ namespace PI.Service.Controllers
             var root = HttpContext.Current.Server.MapPath(uploadFolder);
             Directory.CreateDirectory(root);
             return new MultipartFormDataStreamProvider(root);
+        }
+
+
+        private FileUploadDto GetFormDataForUploadLogo<T>(MultipartFormDataStreamProvider result)
+        {
+            FileUploadDto fileUploadDto = new FileUploadDto();
+
+            if (result.FormData.HasKeys())
+            {
+                fileUploadDto.UserId = Uri.UnescapeDataString(result.FormData.GetValues(0).FirstOrDefault());
+                var docType = Uri.UnescapeDataString(result.FormData.GetValues(1).FirstOrDefault());
+                fileUploadDto.CustomerId = Convert.ToInt64(Uri.UnescapeDataString(result.FormData.GetValues(2).FirstOrDefault()));
+                fileUploadDto.DocumentType = Utility.GetValueFromDescription<DocumentType>(docType);
+
+                if (fileUploadDto.DocumentType != DocumentType.AddressBook && fileUploadDto.DocumentType != DocumentType.RateSheet && fileUploadDto.DocumentType != DocumentType.Logo)
+                {
+                    fileUploadDto.CodeReference = Uri.UnescapeDataString(result.FormData.GetValues(2).FirstOrDefault());
+                }
+            }
+
+            return fileUploadDto;
         }
 
 

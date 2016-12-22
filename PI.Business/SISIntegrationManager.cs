@@ -560,8 +560,10 @@ namespace PI.Business
 
             // Consignor details.
             shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
-            shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
-            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2);
+           // shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
+            shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.CompanyName, addShipment.AddressInformation.Consigner.Address1));
+            //  shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2);
+            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address2);
             //shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
             shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
@@ -573,9 +575,11 @@ namespace PI.Business
 
             // Consignee details.
             shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
-            shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.FirstName, addShipment.AddressInformation.Consignee.LastName));
-            shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);
-            shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
+          //shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.FirstName, addShipment.AddressInformation.Consignee.LastName));
+            shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.CompanyName, addShipment.AddressInformation.Consignee.Address1));
+         // shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);
+            shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address2);
+         // shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
             shipmentStr.AppendFormat("<address14>{0}</address14>", addShipment.AddressInformation.Consignee.City);
             shipmentStr.AppendFormat("<postcode_delivery>{0}</postcode_delivery>", addShipment.AddressInformation.Consignee.Postalcode);
             shipmentStr.AppendFormat("<street_number_delivery>{0}</street_number_delivery>", addShipment.AddressInformation.Consignee.Number);
@@ -585,9 +589,13 @@ namespace PI.Business
             shipmentStr.AppendFormat("<deliver_email>{0}</deliver_email>", addShipment.AddressInformation.Consignee.Email);
 
             // Summary of packages.
-            shipmentStr.AppendFormat("<description>{0}</description>", addShipment.PackageDetails.ShipmentDescription);
+                                       
+           
+           // shipmentStr.AppendFormat("<description>{0}</description>", "");
             shipmentStr.AppendFormat("<delivery_condition>{0}</delivery_condition>", addShipment.GeneralInformation.ShipmentServices);
             shipmentStr.AppendFormat("<value>{0}</value>", addShipment.PackageDetails.DeclaredValue);
+            shipmentStr.AppendFormat("<carrier_instruction>{0}</carrier_instruction>", addShipment.PackageDetails.Instructions);
+            
             shipmentStr.AppendFormat("<code_currency_value>{0}</code_currency_value>", codeCurrenyString);
 
             double totalCountOfPackages = 0;
@@ -597,6 +605,8 @@ namespace PI.Business
             shipmentStr.AppendFormat("<shipment_lines>{0}</shipment_lines>", addShipment.PackageDetails.ProductIngredients.Count);
 
             short lineCount = 1;
+
+            StringBuilder descriptionText = new StringBuilder();
             foreach (var lineItem in addShipment.PackageDetails.ProductIngredients)
             {
                 shipmentStr.AppendFormat("<shipment_line id='" + lineCount + "'>");
@@ -606,10 +616,12 @@ namespace PI.Business
                 shipmentStr.AppendFormat("<width>{0}</width>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Width, 2) : Math.Round((lineItem.Width * (decimal)2.54), 2));
                 shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Length, 2) : Math.Round((lineItem.Length * (decimal)2.54), 2));
                 shipmentStr.AppendFormat("<height>{0}</height>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Height, 2) : Math.Round((lineItem.Height * (decimal)2.54), 2));
-                shipmentStr.AppendFormat("<description>{0}</description>", lineItem.Description);
+                shipmentStr.AppendFormat("<content>{0}</content>", lineItem.Description);
                 shipmentStr.AppendFormat("</shipment_line>");
+                descriptionText.Append(lineItem.Description + ",");
                 lineCount++;
             }
+            shipmentStr.AppendFormat("<description>{0}</description>", descriptionText);
             shipmentStr.AppendFormat("</insert_shipment>");
 
             return shipmentStr.ToString();

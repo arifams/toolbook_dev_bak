@@ -1,4 +1,5 @@
-﻿using PI.Contract.DTOs.Common;
+﻿using PI.Contract.DTOs;
+using PI.Contract.DTOs.Common;
 using PI.Contract.DTOs.Company;
 using PI.Contract.DTOs.CostCenter;
 using PI.Contract.DTOs.Customer;
@@ -46,7 +47,7 @@ namespace PI.Contract.Business
         PagedList GetAllComapniesForAdminSearch(string searchtext);
         string GetBusinessOwneridbyCompanyId(string companyId);
         CompanyDto GetCompanyByUserID(string userID);
-        bool UpdateCompanyLogo(string URL, string userId);
+        bool UpdateCompanyLogo(string URL, long customerId);
         NodeDto GetOrganizationStructure(string userId);
         long GetTenantIdByUserId(string userid);
         void SaveUserPhoneCode(UserDto userDto);

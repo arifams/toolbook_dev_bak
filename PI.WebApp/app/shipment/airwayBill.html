@@ -142,7 +142,7 @@
                                         <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
                                             <label style="color:#fff" translate>Requested pickup date</label><br />
                                         </div>
-                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.earliestPickupDate}}</div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.earliestPickupDate.split(' ')[0]}}</div>
                                     </td>
                                     <td style="padding:0;width:33.33%;vertical-align: top;">
                                         <div style="background-color:#009BCB;width:12%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">
@@ -151,7 +151,7 @@
                                         <div style="background-color:#009BCB;width:88%;padding-left:10px;padding-top:3px;float:right">
                                             <label style="color:#fff" translate>Planned delivery date</label><br />
                                         </div>
-                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.estDeliveryDate}}</div>
+                                        <div style="padding:10px;clear:both">{{awbCtrl.shipment.packageDetails.estDeliveryDate.split(' ')[0]}}</div>
                                     </td>
                                     <td style="padding:0;width:33.33%;vertical-align: top;">
                                         <div style="background-color:#009BCB;width:12%;padding-left:10px;padding-top:3px;float:left;border-right: 2px solid #fff;">

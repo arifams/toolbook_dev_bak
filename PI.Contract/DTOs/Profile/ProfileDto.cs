@@ -41,6 +41,7 @@ namespace PI.Contract.DTOs.Profile
         public CompanyDto CompanyDetails { get; set; }
 
         public AccountSettingsDto AccountSettings { get; set; }
-       
+
+        public string LoggedUserId { get; set; }
     }
 }

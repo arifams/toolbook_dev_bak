@@ -5498,6 +5498,7 @@ namespace PI.Business
                         VolumeMetricId = shipment.ShipmentPackage.VolumeMetricId,
                         ProductIngredients = shipmentProductIngredientsList,
                         ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                        Instructions=currentShipment.ShipmentPackage.CarrierInstruction,
                         DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
                         CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                         Count = 1,
