@@ -29,6 +29,8 @@ namespace PI.Contract.DTOs.FileUpload
 
         public string UserId { get; set; }
 
-        public DocumentType DocumentType { get; set; } 
+        public DocumentType DocumentType { get; set; }
+
+        public long CustomerId { get; set; }
     }
 }

@@ -425,7 +425,8 @@
 
         vm.updateProfileGeneral = function () {
 
-            vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+            //vm.model.customerDetails.userId = $window.localStorage.getItem('userGuid');
+            vm.model.loggedUserId = $window.localStorage.getItem('userGuid');
 
             var body = $("html, body");
 
@@ -744,15 +745,14 @@
         }
 
         vm.uploadLogo = function (file) {
-
-
+            
             file.upload = Upload.upload({
                 url: serverBaseUrl + '/api/Company/UploadLogo',
                 data: {
                     file: file,
                     userId: $window.localStorage.getItem('userGuid'),
-                    documentType: "LOGO"
-
+                    documentType: "LOGO",
+                    customerId: vm.model.customerDetails.id
                 },
             });
 
@@ -763,28 +763,32 @@
                     body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
                     });
 
-                    $('#panel-notif').noty({
-                        text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company logo updated, click ok to reload the page') + '?</p></div>',
-                        buttons: [
-                                {
-                                    addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-                                        $noty.close();
-                                        $window.location.reload();
+                    if (vm.showCustomerName) {
+                        // mean admin change data behalf of user.
+                        getSuccessMessage(body, response);
+                    }
+                    else {
+                        $('#panel-notif').noty({
+                            text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Company logo updated, click ok to reload the page') + '?</p></div>',
+                            buttons: [
+                                    {
+                                        addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
+                                            $noty.close();
+                                            $window.location.reload();
 
+                                        }
                                     }
-                                }
 
-                        ],
-                        layout: 'bottom-right',
-                        theme: 'made',
-                        animation: {
-                            open: 'animated bounceInLeft',
-                            close: 'animated bounceOutLeft'
-                        },
-                        timeout: 3000,
-                    });
-
-                    //  $window.location.reload();
+                            ],
+                            layout: 'bottom-right',
+                            theme: 'made',
+                            animation: {
+                                open: 'animated bounceInLeft',
+                                close: 'animated bounceOutLeft'
+                            },
+                            timeout: 3000,
+                        });
+                    }
 
                 }
                 //$timeout(function () {
