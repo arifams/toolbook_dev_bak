@@ -60,7 +60,7 @@
                                                required autofocus ng-model="profileCtrl.model.customerDetails.firstName" ng-minlength="2" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileGeneral.firstname.$invalid && (formUpdateProfileGeneral.firstname.$dirty|| profileCtrl.isSubmit) }" ng-focus="firstnameFocus = true" ng-blur="firstnameFocus = false" />
                                         <div ng-messages="formUpdateProfileGeneral.firstname.$error" ng-show="(formUpdateProfileGeneral.firstname.$dirty && !firstnameFocus) || profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="firstname" translate>Enter your first name</label>
-                                            <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 3 characters or more</label>
+                                            <label ng-message="minlength" class="error" for="firstname" translate>Enter at least 2 characters or more</label>
                                             <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
                                         </div>
                                     </div>
@@ -78,7 +78,7 @@
                                                ng-model="profileCtrl.model.customerDetails.lastName" ng-minlength="2" ng-maxlength="100" ng-class="{ 'error': formUpdateProfileBillingAddress.lastname.$invalid && (formUpdateProfileBillingAddress.lastname.$dirty|| profileCtrl.isSubmit) }" ng-focus="lastNameFocus = true" ng-blur="lastNameFocus = false">
                                         <div ng-messages="formUpdateProfileGeneral.lastname.$error" ng-show="(formUpdateProfileGeneral.lastname.$dirty && !lastNameFocus) ||profileCtrl.isSubmit">
                                             <label ng-message="required" class="error" for="lastname" translate>Enter your last name</label>
-                                            <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 3 characters or more</label>
+                                            <label ng-message="minlength" class="error" for="lastname" translate>Enter at least 2 characters or more</label>
                                             <label ng-message="maxlength" class="error" for="lastname" translate>Enter less than 100 characters</label>
                                         </div>
                                     </div>
