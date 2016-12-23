@@ -81,6 +81,8 @@
                         deleteFile();
                     });
                 }, function (response) {
+
+                    $scope.invoiceCtrl.closeWindow();
                     console.log('Response of rate sheet: ');
                     console.log(response);
                     if (response.status > 0) {
