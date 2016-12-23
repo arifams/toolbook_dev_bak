@@ -560,11 +560,18 @@ namespace PI.Business
 
             // Consignor details.
             shipmentStr.AppendFormat("<code_country_from>{0}</code_country_from>", addShipment.AddressInformation.Consigner.Country);
-           // shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
-            shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.CompanyName, addShipment.AddressInformation.Consigner.Address1));
-            //  shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1 + " " + addShipment.AddressInformation.Consigner.Address2);
-            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address2);
-            //shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
+         
+            if (!string.IsNullOrEmpty(addShipment.AddressInformation.Consigner.CompanyName))
+            {
+                shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0}", addShipment.AddressInformation.Consigner.CompanyName));
+            }
+            else
+            {
+                shipmentStr.AppendFormat("<address1>{0}</address1>", string.Format("{0} {1}", addShipment.AddressInformation.Consigner.FirstName, addShipment.AddressInformation.Consigner.LastName));
+            }
+            
+            shipmentStr.AppendFormat("<address2>{0}</address2>", addShipment.AddressInformation.Consigner.Address1);
+            shipmentStr.AppendFormat("<address3>{0}</address3>", addShipment.AddressInformation.Consigner.Address2);
             shipmentStr.AppendFormat("<address4>{0}</address4>", addShipment.AddressInformation.Consigner.City);
             shipmentStr.AppendFormat("<postcode>{0}</postcode>", addShipment.AddressInformation.Consigner.Postalcode);
             shipmentStr.AppendFormat("<street_number>{0}</street_number>", addShipment.AddressInformation.Consigner.Number);
@@ -574,12 +581,18 @@ namespace PI.Business
             shipmentStr.AppendFormat("<notify_email>{0}</notify_email>", addShipment.AddressInformation.Consigner.Email);
 
             // Consignee details.
-            shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);
-          //shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.FirstName, addShipment.AddressInformation.Consignee.LastName));
-            shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.CompanyName, addShipment.AddressInformation.Consignee.Address1));
-         // shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);
-            shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address2);
-         // shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
+            shipmentStr.AppendFormat("<code_country_to>{0}</code_country_to>", addShipment.AddressInformation.Consignee.Country);        
+            if (!string.IsNullOrEmpty(addShipment.AddressInformation.Consignee.CompanyName))
+            {
+                shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0}", addShipment.AddressInformation.Consignee.CompanyName));
+            }
+            else
+            {
+                shipmentStr.AppendFormat("<address11>{0}</address11>", string.Format("{0} {1}", addShipment.AddressInformation.Consignee.FirstName, addShipment.AddressInformation.Consignee.LastName));
+            }
+
+            shipmentStr.AppendFormat("<address12>{0}</address12>", addShipment.AddressInformation.Consignee.Address1);          
+            shipmentStr.AppendFormat("<address13>{0}</address13>", addShipment.AddressInformation.Consignee.Address2);
             shipmentStr.AppendFormat("<address14>{0}</address14>", addShipment.AddressInformation.Consignee.City);
             shipmentStr.AppendFormat("<postcode_delivery>{0}</postcode_delivery>", addShipment.AddressInformation.Consignee.Postalcode);
             shipmentStr.AppendFormat("<street_number_delivery>{0}</street_number_delivery>", addShipment.AddressInformation.Consignee.Number);
