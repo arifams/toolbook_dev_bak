@@ -87,15 +87,33 @@
                         </div>
                         <div class="row m-0">
                             <div class="col-md-2">
+                                <label class="control-label" translate>Company Name</label>
+                            </div>
+                            <div class="col-md-10">
+                                <div class="form-group">
+                                    <div class="append-icon">
+                                        <input type="text" name="companyName" class="form-control" ng-minlength="3" ng-maxlength="100" placeholder="Company Name"
+                                               ng-model="profileCtrl.model.companyDetails.name"
+                                                ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit) }" />
+                                        <div ng-messages="formUpdateProfileGeneral.companyName.$error" ng-show="formUpdateProfileGeneral.companyName.$dirty || profileCtrl.isSubmit">
+                                            <label ng-message="maxlength" class="error" for="companyName" translate>Enter less than 100 characters</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row m-0">
+                            <div class="col-md-2">
                                 <label class="control-label" translate>Job title</label>
                             </div>
                             <div class="col-md-10">
                                 <div class="form-group">
                                     <div class="append-icon">
-                                        <input type="text" name="jobcapacity" class="form-control" ng-minlength="3" ng-maxlength="100" placeholder="Job title"
-                                               ng-model="profileCtrl.model.customerDetails.jobCapacity" ng-class="{ 'error': formUpdateProfileGeneral.companyname.$invalid && (formUpdateProfileGeneral.companyname.$dirty||profileCtrl.isSubmit) }" />
-                                        <div ng-messages="formUpdateProfileGeneral.jobcapacity.$error" ng-show="formUpdateProfileGeneral.jobcapacity.$dirty || profileCtrl.isSubmit">
-                                            <label ng-message="maxlength" class="error" for="firstname" translate>Enter less than 100 characters</label>
+                                        <input type="text" name="jobTitle" class="form-control" ng-minlength="3" ng-maxlength="100" placeholder="Job Title"
+                                               ng-model="profileCtrl.model.customerDetails.jobCapacity" 
+                                               ng-class="{ 'error': formUpdateProfileGeneral.jobTitle.$invalid && (formUpdateProfileGeneral.jobTitle.$dirty||profileCtrl.isSubmit) }" />
+                                        <div ng-messages="formUpdateProfileGeneral.jobTitle.$error" ng-show="formUpdateProfileGeneral.jobTitle.$dirty || profileCtrl.isSubmit">
+                                            <label ng-message="maxlength" class="error" for="jobTitle" translate>Enter less than 100 characters</label>
                                         </div>
                                     </div>
                                 </div>
