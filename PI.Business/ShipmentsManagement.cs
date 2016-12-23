@@ -1052,10 +1052,15 @@ namespace PI.Business
             var shipment = (from shipmentinfo in context.Shipments
                             where shipmentinfo.TrackingNumber == trackingNo
                             select shipmentinfo).FirstOrDefault();
-            if (shipment != null)
-            {
-                shipment.Status = status;
+
+
+            if (shipment != null && ((shipment.Carrier.Name == "USP" && status != (short)ShipmentStatus.Pending) || shipment.Carrier.Name != "USP"))
+            {                
+                 shipment.Status = status;                     
+             
             }
+          
+           
             context.SaveChanges();
             // }
         }
