@@ -2841,6 +2841,22 @@ namespace PI.Business
 
             // Load invoice from Shipment
 
+            // Get created user, timezone
+            string timeZone = "";
+
+            if (!string.IsNullOrWhiteSpace(currentShipment.CreatedBy))
+            {
+                var account = context.AccountSettings.Where(ac => ac.Customer.UserId == currentShipment.CreatedBy).FirstOrDefault();
+
+                if (account != null)
+                {
+                    var timeZoneEntity = context.TimeZones.Where(t => t.Id == account.DefaultTimeZoneId).First();
+                    TimeZoneInfo cstZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneEntity.TimeZoneId);
+                    timeZone = cstZone.DisplayName;
+                }
+
+            }
+
             awbill = new AirwayBillDto()
             {
                 ShipmentId = currentShipment.Id,
@@ -2935,9 +2951,9 @@ namespace PI.Business
                     ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
                     CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                     EarliestPickupDate = currentShipment.ShipmentPackage.EarliestPickupDate.HasValue ?
-                                                (currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EarliestPickupDate.Value).ToString("dd MMM yyyy") + " + " + timeZone : null,
                     EstDeliveryDate = currentShipment.ShipmentPackage.EstDeliveryDate.HasValue ?
-                                                (currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString() : null,
+                                                (currentShipment.ShipmentPackage.EstDeliveryDate.Value).ToString("dd MMM yyyy") + " + " + timeZone : null,
                 },
 
                 VatNo = currentShipment.Division.Company.VATNumber
@@ -3999,7 +4015,7 @@ namespace PI.Business
                     };
                 }
             }
-            
+
             return address;
         }
 
