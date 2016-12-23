@@ -1141,7 +1141,8 @@ namespace PI.Business
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
                         ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
-                        Number = currentShipment.ConsigneeAddress.Number
+                        Number = currentShipment.ConsigneeAddress.Number,
+                        CompanyName = currentShipment.ConsigneeAddress.CompanyName
                     },
                     Consigner = new ConsignerDto
                     {
@@ -1156,7 +1157,8 @@ namespace PI.Business
                         ContactName = currentShipment.ConsignorAddress.ContactName,
                         ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
-                        Number = currentShipment.ConsignorAddress.Number
+                        Number = currentShipment.ConsignorAddress.Number,
+                        CompanyName = currentShipment.ConsignorAddress.CompanyName
                     }
                 },
                 GeneralInformation = new GeneralInformationDto

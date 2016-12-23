@@ -406,7 +406,7 @@ namespace PI.Service.Controllers
                         return Ok(new
                         {
                             Id = "",
-                            Message = "Unfortunately your account is inactive, please contact Parcel International",
+                            Message = "You cannot login from this account as it is currently inactive!",
                             Result = -1
                         });
                     }

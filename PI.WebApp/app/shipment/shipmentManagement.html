@@ -239,7 +239,7 @@
                                             <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit Shipment</a></li>
                                             <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete Shipment</a></li>
                                             <li><a href="javascript:void(0)" ng-click="manageShipCtrl.copyAsNewShipment(row)"> Copy as New Shipment</a></li>
-                                            <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="manageShipCtrl.deleteAndCopyShipment(row)"> Delete & Copy as New Shipment</a></li>
+                                            <!--<li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="manageShipCtrl.deleteAndCopyShipment(row)"> Delete & Copy as New Shipment</a></li>-->
                                             <li><a href="javascript:void(0)" ng-click="manageShipCtrl.createReturnShipment(row)">  Create Return Shipment</a></li>
                                         </ul>
                                     </div>
