@@ -1141,7 +1141,8 @@ namespace PI.Business
                         ContactName = currentShipment.ConsigneeAddress.ContactName,
                         ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
                         Email = currentShipment.ConsigneeAddress.EmailAddress,
-                        Number = currentShipment.ConsigneeAddress.Number
+                        Number = currentShipment.ConsigneeAddress.Number,
+                        CompanyName = currentShipment.ConsigneeAddress.CompanyName
                     },
                     Consigner = new ConsignerDto
                     {
@@ -1156,7 +1157,8 @@ namespace PI.Business
                         ContactName = currentShipment.ConsignorAddress.ContactName,
                         ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
                         Email = currentShipment.ConsignorAddress.EmailAddress,
-                        Number = currentShipment.ConsignorAddress.Number
+                        Number = currentShipment.ConsignorAddress.Number,
+                        CompanyName = currentShipment.ConsignorAddress.CompanyName
                     }
                 },
                 GeneralInformation = new GeneralInformationDto
@@ -5466,7 +5468,8 @@ namespace PI.Business
                             State = currentShipment.ConsigneeAddress.State,
                             Email = currentShipment.ConsigneeAddress.EmailAddress,
                             ContactNumber = currentShipment.ConsigneeAddress.PhoneNumber,
-                            ContactName = currentShipment.ConsigneeAddress.ContactName
+                            ContactName = currentShipment.ConsigneeAddress.ContactName,
+                            CompanyName=currentShipment.ConsigneeAddress.CompanyName
                         },
                         Consigner = new ConsignerDto()
                         {
@@ -5481,7 +5484,8 @@ namespace PI.Business
                             State = currentShipment.ConsignorAddress.State,
                             Email = currentShipment.ConsignorAddress.EmailAddress,
                             ContactNumber = currentShipment.ConsignorAddress.PhoneNumber,
-                            ContactName = currentShipment.ConsignorAddress.ContactName
+                            ContactName = currentShipment.ConsignorAddress.ContactName,
+                            CompanyName=currentShipment.ConsignorAddress.CompanyName
                         }
                     },
                     PackageDetails = new PackageDetailsDto()
@@ -5496,6 +5500,7 @@ namespace PI.Business
                         VolumeMetricId = shipment.ShipmentPackage.VolumeMetricId,
                         ProductIngredients = shipmentProductIngredientsList,
                         ShipmentDescription = currentShipment.ShipmentPackage.PackageDescription,
+                        Instructions=currentShipment.ShipmentPackage.CarrierInstruction,
                         DeclaredValue = currentShipment.ShipmentPackage.InsuranceDeclaredValue,
                         CarrierCost = currentShipment.ShipmentPackage.CarrierCost.ToString(),
                         Count = 1,

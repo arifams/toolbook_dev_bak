@@ -834,6 +834,12 @@
                             // Freeze screen
                             vm.loadingSymbole = true;
                             vm.shipment.createdBy = $window.localStorage.getItem('userGuid');
+
+                            if ($window.localStorage.getItem('userRole') == 'Admin') {
+                                vm.shipment.userId = $window.localStorage.getItem('businessOwnerId');
+                            } else {
+                                vm.shipment.userId = $window.localStorage.getItem('userGuid');
+                            }
                             
                             var body = $("html, body");
 

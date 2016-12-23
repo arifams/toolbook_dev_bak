@@ -13,8 +13,8 @@
 
         $scope.GetBusinessOwnerid = function (company) {
             shipmentFactory.GetBusinessOwneridbyCompanyId(company.id)
-                .success(
-                                       function (responce) {
+                .success(function (responce) {
+                                           debugger;
                                            $window.localStorage.setItem('businessOwnerId', responce);
 
                                        }).error(
