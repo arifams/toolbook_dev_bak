@@ -20,7 +20,11 @@
 
 <!-- End of Square form css style. -->
 
-
+<style>
+    .border-error {
+        border: 1px solid red !important;
+    }
+</style>
 
 <div>
     <div ng-show="shipmentCtrl.currentRole == 'Admin' &&
@@ -388,7 +392,7 @@
                                     <div ng-messages="consignerConsigneeInfoForm.consignerLastName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consignerLastName.$dirty && !consignerConsigneeInfoForm.$pristine && !consignerLastNameFocus)|| shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consignerLastName" translate>Pickup last name is required</label>
-                                         <label ng-message="maxlength" class="error" for="consignerLastName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="maxlength" class="error" for="consignerLastName" translate>Max length should be 200 characters</label>
                                         <label ng-message="pattern" class="error" for="consignerLirstName" translate>Last Name should not contain Digits</label>
                                     </div>
                                 </div>
@@ -612,7 +616,7 @@
                                     <div ng-messages="consignerConsigneeInfoForm.consigneeLastName.$error"
                                          ng-show="(consignerConsigneeInfoForm.consigneeLastName.$dirty  && !consignerConsigneeInfoForm.$pristine && !consigneeLastNameFocus) || shipmentCtrl.consignInfoisSubmit">
                                         <label ng-message="required" class="error" for="consigneeLastName" translate>Delivery last name is required</label>
-                                          <label ng-message="maxlength" class="error" for="consigneeLastName" translate>Max length should be 200 characters</label>
+                                        <label ng-message="maxlength" class="error" for="consigneeLastName" translate>Max length should be 200 characters</label>
                                         <label ng-message="pattern" class="error" for="consigneeLastName" translate>Last Name should not contain Digits</label>
                                     </div>
                                 </div>
@@ -1299,22 +1303,25 @@
                                         <th translate> Height *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span> </th>
                                         <th translate> Length *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span>  </th>
                                         <th translate> Width  *  <span style="text-transform:lowercase"> {{shipmentCtrl.shipment.packageDetails.volumeUnit}} </span>  </th>
+                                        <th></th>
                                         <th style="text-align:center"></th>
                                         <th style="text-align:center"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index">
+                                    <tr ng-repeat="package in shipmentCtrl.shipment.packageDetails.productIngredients track by $index" ng-form="packageFrm">
+
                                         <td ng-init="package.productType = 'Box'" width="17%">
                                             <select class="form-control form-white" ng-model="package.productType"
                                                     convert-to-number ng-options="pro.Id as translate(pro.Name) for pro in shipmentCtrl.productTypes" ng-required="true"></select>
                                         </td>
-                                        <td width="13%"><input type="text" valid-number class="form-control form-white" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                        <td width="17%"><input type="text" class="form-control form-white" ng-model="package.description" contenteditable="true" ng-required="true" /></td>
-                                        <td width="12%"><input type="text" valid-decimal class="form-control form-white" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                        <td width="12%"><input type="text" valid-decimal class="form-control form-white" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                        <td width="12%"><input type="text" valid-decimal class="form-control form-white" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
-                                        <td width="12%"><input type="text" valid-decimal class="form-control form-white" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="13%"><input type="text" name="quantity" valid-number ng-class="{'border-error':packageFrm.quantity.$invalid}" class="form-control form-white" min="1" ng-model="package.quantity" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="17%"><input type="text" name="description" ng-class="{'border-error':packageFrm.description.$invalid}" class="form-control form-white error" ng-model="package.description" contenteditable="true" ng-required="true" /></td>
+                                        <td width="12%"><input type="text" name="weight" valid-decimal ng-class="{'border-error':packageFrm.weight.$invalid}" class="form-control form-white" min="0" step="0.01" ng-model="package.weight" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="text" name="height" valid-decimal ng-class="{'border-error':packageFrm.height.$invalid}" class="form-control form-white" min="0" step="0.01" ng-model="package.height" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="text" name="length" valid-decimal ng-class="{'border-error':packageFrm.length.$invalid}" class="form-control form-white" min="0" step="0.01" ng-model="package.length" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td width="12%"><input type="text" name="width" valid-decimal ng-class="{'border-error':packageFrm.width.$invalid}" class="form-control form-white" min="0" step="0.01" ng-model="package.width" contenteditable="true" ng-change="shipmentCtrl.CalctotalWeightVolume()" ng-required="true" /></td>
+                                        <td ng-show="packageFrm.$invalid" style="color:red;">Require values</td>
                                         <td style="text-align:center" width="2%" class="prod_ops_rm">
                                             <a href="javascript:void(0)" ng-confirm-click="Are you Sure?" ng-click="shipmentCtrl.removePackage({{$index}})">
                                                 <i class="fa fa-remove" style="color:red">
@@ -2042,27 +2049,27 @@
                                         <!--<br />-->
                                         <div>
                                             <a ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelArray)" target="_blank" translate>Download the Label</a>
+                                            </div>
+
                                         </div>
-                                        
-                                    </div>
-                                    <div ng-hide="shipmentCtrl.isShowLabel">
-                                        <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+                                        <div ng-hide="shipmentCtrl.isShowLabel">
+                                            <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
 
+                                        </div>
+                                        <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
+                                            <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
+                                        </div>
+                                        <br>
+                                        <div>
+                                            <a onclick="location.reload();">Add another shipment</a>
+                                        </div>
+                                        <div>
+                                            <a href="#loadShipments">Manage shipment</a>
+                                        </div>
                                     </div>
-                                    <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
-                                        <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
-                                    </div>
-                                    <br>
-                                    <div>
-                                        <a onclick="location.reload();">Add another shipment</a>
-                                    </div>
-                                    <div>
-                                        <a href="#loadShipments">Manage shipment</a>
-                                    </div>
+
+                                    <!-- / Shipment result -->
                                 </div>
-
-                                <!-- / Shipment result -->
-                            </div>
 
                         </fieldset>
                     </div>
