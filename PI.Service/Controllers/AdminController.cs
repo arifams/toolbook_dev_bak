@@ -304,6 +304,7 @@ namespace PI.Service.Controllers
         [Route("UploadInvoice")]
         public async Task<HttpResponseMessage> UploadInvoice()
         {
+            bool isSuccess = false;
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
@@ -371,10 +372,19 @@ namespace PI.Service.Controllers
                 var returnData = baseUrl + "TENANT_" + 0 + "/" + "Invoice_Temp"
                                  + "/" + imageFileNameInFull;
 
-                await invoiceMangement.FetchInvoiceDetailsfromPdf(returnData);
+                isSuccess = await invoiceMangement.FetchInvoiceDetailsfromPdf(returnData);
             }
 
-            return this.Request.CreateResponse(HttpStatusCode.OK);
+            if (isSuccess)
+            {
+                return this.Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+            {
+                return this.Request.CreateResponse(HttpStatusCode.InternalServerError);
+            }
+
+          
         }
 
 
