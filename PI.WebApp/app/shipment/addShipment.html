@@ -1398,10 +1398,13 @@
                                     <div ng-show="formPackage.datetimepicker.$error['future-only']==true">
                                         <label class="error" for="shipmentName" translate>Prefered date should be a future date</label>
                                     </div>
+                                    <div ng-show="formPackage.datetimepicker.$error['required']">
+                                        <label class="error" translate>Prefered date is required</label>
+                                    </div>
 
-                                </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -1421,8 +1424,13 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group m-0">
-                                    <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" type="text" name="declaredValue" placeholder="{{'Declared value'|translate}}" required
+                                    <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" valid-decimal type="text" name="declaredValue" placeholder="{{'Declared value'|translate}}" required
                                            class="form-control" />
+                                    
+                                    <div ng-show="formPackage.declaredValue.$error['required']">
+                                        <label class="error" translate>Declared value is required</label>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="col-sm-2 set-margin">
