@@ -208,6 +208,7 @@
                                     <th translate>Destination</th>
                                     <th translate class="text-center">Status</th>
                                     <th translate class="text-center">Favorites</th>
+                                    <th translate=" class="text-center">Error</th>
                                     <th translate class="text-center" style="width:11%">Action</th>
                                     <!--<th translate class="text-center">Edit</th>
                                     <th translate class="text-center">Delete</th>-->
@@ -253,7 +254,7 @@
                                            ng-class="row.generalInformation.isFavourite == true? 'fa-star icon-favorite' : 'fa-star-o'">
                                         </a>
                                     </td>
-
+                                    <td> <a href={{row.generalInformation.errorUrl}} ng-show="row.generalInformation.errorUrl!=''"> Go to Error</a> </td>
                                     <td style="text-align:center;width:15%">
                                         <div class="btn-group m-r-0" dropdown="">
                                             <button type="button" class="btn btn-white dropdown-toggle" data-toggle="dropdown">

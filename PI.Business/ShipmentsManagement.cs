@@ -769,6 +769,7 @@ namespace PI.Business
             IList<int> divisionList = new List<int>();
             List<Data.Entity.Shipment> Shipments = new List<Data.Entity.Shipment>();
             var pagedRecord = new PagedList();
+            string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
 
             if (shipmentSerach.UserId == null)
             {
@@ -840,6 +841,32 @@ namespace PI.Business
             {
                 item.Status = (item.Status == (short)ShipmentStatus.Pending) ? (short)ShipmentStatus.Error : item.Status;
 
+
+                string errorUrl = "";               
+
+                //if shipment is in pending status get the error message
+                if ((ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.Error)
+                {
+                    ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
+
+                    if (error == null && item.Carrier.Name != "USP")
+                    {
+                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                        errorUrl = error.ErrorMessage;
+                    }
+                    else
+                    {
+                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                    }
+
+                }
+
+
+
+
+
+
                 pagedRecord.Content.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -895,7 +922,8 @@ namespace PI.Business
                         IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost
+                        TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost,
+                        ErrorUrl=errorUrl
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -3413,9 +3441,10 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error == null)
+                    if (error == null && item.Carrier.Name!="USP")
                     {
-                        errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                        errorUrl = error.ErrorMessage;
                     }
                     else
                     {
@@ -5417,7 +5446,7 @@ namespace PI.Business
             List<ShipmentOperationResult> operationList = new List<ShipmentOperationResult>();
             Shipment shipment = context.Shipments.Where(sh => sh.Id == sendShipmentDetails.ShipmentId).FirstOrDefault();
             List<Shipment> allShipmentList = new List<Shipment>();
-
+            string baseWebUrl = ConfigurationManager.AppSettings["BaseWebURL"];
             //adding main shipment to the list
             allShipmentList.Add(shipment);
 
@@ -5593,6 +5622,19 @@ namespace PI.Business
                     result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                     result.ShipmentCode = response.CodeShipment;
                     result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                   
+
+                    string errorUrl = "http://parcelinternational.pro/errors/" + result.CarrierName + "/" + result.ShipmentCode;
+                    //adding error message
+                    ShipmentError shipmentError = new ShipmentError();
+                    shipmentError.ShipmentId = currentShipment.Id;
+                    //add error message to following field in stamps.com
+                    shipmentError.ErrorMessage = errorUrl;
+                    shipmentError.CreatedDate = DateTime.UtcNow;
+                    context.ShipmentErrors.Add(shipmentError);
+                    context.SaveChanges();
+                    result.errorUrl = errorUrl;
+
                 }
                 else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
                 {
@@ -5623,6 +5665,8 @@ namespace PI.Business
                     shipmentError.CreatedDate = DateTime.UtcNow;
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
+
+                    result.errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
                 }
                 else if (!string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP" && !string.IsNullOrWhiteSpace(response.AddShipmentXML))
                 {
@@ -5640,6 +5684,7 @@ namespace PI.Business
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
 
+                    result.errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
 
                     result.Status = Status.SISError;
                     result.Message = "Error occured when adding shipment";

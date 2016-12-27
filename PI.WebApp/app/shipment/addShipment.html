@@ -2062,7 +2062,7 @@
                                         </div>
                                         <div ng-hide="shipmentCtrl.isShowLabel">
                                             <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
-
+                                            <a href={{shipmentCtrl.errorUrl}}> Go to error</a>
                                         </div>
                                         <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
                                             <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
