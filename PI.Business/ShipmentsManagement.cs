@@ -849,7 +849,7 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error == null && item.Carrier.Name != "USP")
+                    if (error != null && item.Carrier.Name != "USP")
                     {
                         // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
                         errorUrl = error.ErrorMessage;
@@ -5633,7 +5633,7 @@ namespace PI.Business
                     shipmentError.CreatedDate = DateTime.UtcNow;
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
-                    result.errorUrl = errorUrl;
+                    result.ErrorUrl = errorUrl;
 
                 }
                 else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
@@ -5666,7 +5666,7 @@ namespace PI.Business
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
 
-                    result.errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
+                    result.ErrorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
                 }
                 else if (!string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP" && !string.IsNullOrWhiteSpace(response.AddShipmentXML))
                 {
@@ -5684,7 +5684,7 @@ namespace PI.Business
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
 
-                    result.errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
+                    result.ErrorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + shipmentError.ErrorMessage;
 
                     result.Status = Status.SISError;
                     result.Message = "Error occured when adding shipment";
