@@ -624,14 +624,15 @@
 
                             <div class="form-group">
                                 <input ng-model="shipmentCtrl.shipment.addressInformation.consignee.contactNumber" type="text" name="consigneecontactNumber"
-                                       class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()"
-                                       ng-maxlength="200" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
+                                       class="form-control" ng-required="true" ng-change="shipmentCtrl.consigneeEdited()" ng-minlength="10"
+                                       ng-maxlength="10" ng-class="{ 'error': consignerConsigneeInfoForm.consigneecontactNumber.$invalid &&
                                                                         (consignerConsigneeInfoForm.consigneecontactNumber.$dirty|| shipmentCtrl.consignInfoisSubmit) }" placeholder="{{'Phone number*'|translate}}"
                                        valid-phone-no ng-focus="consigneecontactNumberFocus = true" ng-blur="consigneecontactNumberFocus = false" />
                                 <div ng-messages="consignerConsigneeInfoForm.consigneecontactNumber.$error"
                                      ng-show="(consignerConsigneeInfoForm.consigneecontactNumber.$dirty && !consignerConsigneeInfoForm.$pristine && !consigneecontactNumberFocus) || shipmentCtrl.consignInfoisSubmit">
                                     <label ng-message="required" class="error" for="consigneecontactNumber" translate>Delivery phone number is required</label>
-                                    <label ng-message="maxlength" class="error" for="consigneecontactNumber" translate>Maximum length should be 200 characters</label>
+                                    <label ng-message="minlength" class="error" for="consigneecontactNumber" translate>Minimum length should be 10 characters</label>
+                                    <label ng-message="maxlength" class="error" for="consigneecontactNumber" translate>Maximum length is 10 characters</label>
                                     <label ng-message="notValidPhoneNo" class="error" for="consigneecontactNumber" translate>Enter valid Phone number</label>
                                 </div>
                             </div>
@@ -1402,9 +1403,9 @@
                                         <label class="error" translate>Prefered date is required</label>
                                     </div>
 
+                                </div>
                             </div>
                         </div>
-                    </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-12">
@@ -1426,7 +1427,7 @@
                                 <div class="form-group m-0">
                                     <input ng-model="shipmentCtrl.shipment.packageDetails.declaredValue" valid-decimal type="text" name="declaredValue" placeholder="{{'Declared value'|translate}}" required
                                            class="form-control" />
-                                    
+
                                     <div ng-show="formPackage.declaredValue.$error['required']">
                                         <label class="error" translate>Declared value is required</label>
                                     </div>
@@ -2054,30 +2055,35 @@
                                     <div ng-show="shipmentCtrl.isShowLabel">
                                         <span style="font-size:15px;">Shipment booking confirmed</span> <br /><br />
                                         <!--<a href="#ShipmentOverview?SHIPMENT_ID={{shipmentCtrl.shipment.generalInformation.shipmentId}}&SHIPMENT_CODE={{shipmentCtrl.shipmentCode}}&TRACKING_NO={{shipmentCtrl.trackingNumber}}&CARRIER={{shipmentCtrl.carrierName}}&CREATED_ON={{shipmentCtrl.createdDate}}">View shipment</a>-->
-                                        <!--<br />-->
+                                        <
+                                        !--<br />-->
+                                        <d
+iv>
                                         <div>
+                                            <d
+                                            <a ng-click="shi
                                             <a ng-click="shipmentCtrl.openLabel(shipmentCtrl.labelArray)" target="_blank" translate>Download the Label</a>
-                                            </div>
+                                        </div>
 
-                                        </div>
-                                        <div ng-hide="shipmentCtrl.isShowLabel">
-                                            <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
-                                            <a href={{shipmentCtrl.errorUrl}}> Go to error</a>
-                                        </div>
-                                        <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
-                                            <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
-                                        </div>
-                                        <br>
-                                        <div>
-                                            <a onclick="location.reload();">Add another shipment</a>
-                                        </div>
-                                        <div>
-                                            <a href="#loadShipments">Manage shipment</a>
-                                        </div>
                                     </div>
-
-                                    <!-- / Shipment result -->
+                                    <div ng-hide="shipmentCtrl.isShowLabel">
+                                        <span> Something went wrong when creating shipment ( Ref : {{shipmentCtrl.shipmentReferenceName}})please contact customer service for assistance</span>
+                                        <a href={{shipmentCtrl.errorUrl}}> Go to error</a>
+                                    </div>
+                                    <div ng-show="shipmentCtrl.isShowInvoice && !isVsiaInvoicePayment">
+                                        <a href="{{shipmentCtrl.invoiceUrl}}" target="_blank" translate>Download the Invoice</a>
+                                    </div>
+                                    <br>
+                                    <div>
+                                        <a onclick="location.reload();">Add another shipment</a>
+                                    </div>
+                                    <div>
+                                        <a href="#loadShipments">Manage shipment</a>
+                                    </div>
                                 </div>
+
+                                <!-- / Shipment result -->
+                            </div>
 
                         </fieldset>
                     </div>
