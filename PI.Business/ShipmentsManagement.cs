@@ -854,7 +854,7 @@ namespace PI.Business
                         // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
                         errorUrl = error.ErrorMessage;
                     }
-                    else
+                    else if(error != null)
                     {
                         errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
 

@@ -200,7 +200,7 @@
                     <table st-pipe="loadShipCtrl.callServerSearch" st-table="loadShipCtrl.rowCollection" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th st-sort="name" translate>Order date</th>
+                                    <th st-sort="name" translate>Pickup date</th>
                                     <th translate>Tracking #</th>
                                     <th translate>Shipment Reference</th>
                                     <th translate>Carrier</th>
@@ -218,7 +218,7 @@
                             </thead>
                             <tbody>
                                 <tr ng-repeat="row in loadShipCtrl.rowCollection">
-                                    <td class="p-r-0 p-l-0">{{row.generalInformation.createdDate}}</td>
+                                    <td class="p-r-0 p-l-0">{{row.carrierInformation.pickupDate}}</td>
                                     <td>{{row.generalInformation.trackingNumber}}</td>
                                     <td>{{row.generalInformation.shipmentName}}
                                      <!--<div class="form-group input-group">
