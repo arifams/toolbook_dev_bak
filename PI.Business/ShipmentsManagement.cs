@@ -862,11 +862,6 @@ namespace PI.Business
 
                 }
 
-
-
-
-
-
                 pagedRecord.Content.Add(new ShipmentDto
                 {
                     AddressInformation = new ConsignerAndConsigneeInformationDto
@@ -919,7 +914,7 @@ namespace PI.Business
                         //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
-                        IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
+                        IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft || (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation,
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost,
