@@ -849,23 +849,23 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error != null && item.Carrier.Name != "USP")
+                    if (error!=null)
                     {
-                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
-                        errorUrl = error.ErrorMessage;
-                    }
-                    else if(error != null)
-                    {
-                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                        if (item.Carrier.Name != "USP")
+                        {
+                            // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                            errorUrl = error.ErrorMessage;
+                        }
+                        else
+                        {
+                            errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                        }
 
                     }
+                   
 
                 }
-
-
-
-
-
 
                 pagedRecord.Content.Add(new ShipmentDto
                 {
@@ -919,7 +919,7 @@ namespace PI.Business
                         //IsEnableEdit = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending),
                         IsEnableEdit = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
                         //IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.Pending || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation)
-                        IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft,
+                        IsEnableDelete = (ShipmentStatus)item.Status == ShipmentStatus.Draft || (ShipmentStatus)item.Status == ShipmentStatus.Error || (ShipmentStatus)item.Status == ShipmentStatus.BookingConfirmation,
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost,
