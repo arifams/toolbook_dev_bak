@@ -923,7 +923,7 @@ namespace PI.Business
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
                         TotalPrice = item.ShipmentPackage.CarrierCost + item.ShipmentPackage.InsuranceCost,
-                        ErrorUrl=errorUrl
+                        ErrorUrl = errorUrl
                     },
                     PackageDetails = new PackageDetailsDto
                     {
@@ -946,7 +946,8 @@ namespace PI.Business
                     {
                         CarrierName = item.Carrier.Name,
                         serviceLevel = item.ServiceLevel,
-                        PickupDate = item.PickUpDate
+                        PickupDate = item.PickUpDate,
+                        PickupDateString = item.PickUpDate.HasValue ? item.PickUpDate.Value.ToString("dd MMM yyyy") : ""
                     }
 
                 });
