@@ -849,16 +849,21 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error != null && item.Carrier.Name != "USP")
+                    if (error!=null)
                     {
-                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
-                        errorUrl = error.ErrorMessage;
-                    }
-                    else
-                    {
-                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                        if (item.Carrier.Name != "USP")
+                        {
+                            // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                            errorUrl = error.ErrorMessage;
+                        }
+                        else
+                        {
+                            errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                        }
 
                     }
+                   
 
                 }
 
@@ -2574,7 +2579,7 @@ namespace PI.Business
             return shipments;
         }
 
-        private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId)
+        private IList<string> GetChildShipmentLabelFromBlobStorage(long mainShipmentId, long tenantId, string carrierName = "", string shipmentCode = "")
         {
             var shipmentIdList = context.Shipments.Where(s => s.MainShipment == mainShipmentId).Select(s => s.Id).ToList();
             // Add mainshipmentid label url also.
@@ -2585,6 +2590,12 @@ namespace PI.Business
             foreach (var id in shipmentIdList)
             {
                 list.Add(getLabelforShipmentFromBlobStorage(id, tenantId));
+            }
+
+            // if carrier tnt , then add manifest too.
+            if(carrierName == "TNT")
+            {
+                list.Add("http://parcelinternational.pro/manifestsis/" + shipmentCode);
             }
 
             return list;
@@ -3507,7 +3518,7 @@ namespace PI.Business
                         IsEnableEdit = true, // Any status is ediitable for admins/support staff
                         IsEnableDelete = ((ShipmentStatus)item.Status == ShipmentStatus.Deleted || (ShipmentStatus)item.Status == ShipmentStatus.Processing) ? false : true, // Any status is deletable for admins/support staff
                         //ShipmentLabelBLOBURL = getLabelforShipmentFromBlobStorage(item.Id, item.Division.Company.TenantId),
-                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId),
+                        ShipmentLabelBLOBURLList = GetChildShipmentLabelFromBlobStorage(item.Id, item.Division.Company.TenantId, item.Carrier.Name,item.ShipmentCode),
                         ErrorUrl = errorUrl,
                         MainShipmentTrackingNumber = mainShipment != null ? mainShipment.TrackingNumber : null,
                         CreatedBy = item.CreatedBy,
@@ -5738,6 +5749,7 @@ namespace PI.Business
                         if (currentShipment.Carrier.Name == "TNT")
                         {
                             result.LabelURL = sisManager.GetLabel(currentShipment.ShipmentCode);
+                            result.TNTManifest = "http://parcelinternational.pro/manifestsis/" + currentShipment.ShipmentCode;
                         }
                         else
                         {
