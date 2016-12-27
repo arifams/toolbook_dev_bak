@@ -1527,7 +1527,7 @@ namespace PI.Business
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
-                result.ShipmentReference = shipment.ShipmentReferenceName;
+                result.ShipmentReferenceName = shipment.ShipmentReferenceName;
                 shipment.Provider = "Ship It Smarter";
                 shipment.Status = (short)ShipmentStatus.Error;
             }
@@ -4747,7 +4747,7 @@ namespace PI.Business
                 result.ShipmentId = newShipment.Id;
                 result.Status = Status.Success;
                 // set shipment reference name. This will be use, if any error occured during the shipment add process.
-                result.ShipmentReference = newShipment.ShipmentReferenceName;
+                result.ShipmentReferenceName = newShipment.ShipmentReferenceName;
 
                 //Add Audit Trail Record
                 AddAuditTrailRecord(addShipment, result, newShipment);
@@ -4838,7 +4838,7 @@ namespace PI.Business
                         result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
                         result.Status = Status.Success;
                         // set shipment reference name. This will be use, if any error occured during the shipment add process.
-                        result.ShipmentReference = newShipment.ShipmentReferenceName;
+                        result.ShipmentReferenceName = newShipment.ShipmentReferenceName;
 
                         //Add Audit Trail Record
                         AddAuditTrailRecord(addShipment, result, newShipment);
@@ -5628,10 +5628,11 @@ namespace PI.Business
                     result.Message = "Error occured when adding shipment";
                     result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                     result.ShipmentCode = response.CodeShipment;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
                    
 
                     string errorUrl = "http://parcelinternational.pro/errors/" + result.CarrierName + "/" + result.ShipmentCode;
+                    result.ErrorUrl = errorUrl;
                     //adding error message
                     ShipmentError shipmentError = new ShipmentError();
                     shipmentError.ShipmentId = currentShipment.Id;
@@ -5640,7 +5641,7 @@ namespace PI.Business
                     shipmentError.CreatedDate = DateTime.UtcNow;
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
-                    result.ErrorUrl = errorUrl;
+                  
 
                 }
                 else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
@@ -5662,7 +5663,7 @@ namespace PI.Business
                     result.Message = "Error occured when adding shipment";
                     result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                     result.ShipmentCode = response.CodeShipment;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
 
                     //adding error message
                     ShipmentError shipmentError = new ShipmentError();
@@ -5700,7 +5701,7 @@ namespace PI.Business
                     shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
                     result.LabelURL = response.PDF;
                     //adding the shipment label to azure
                     // For now replace userid from created by
