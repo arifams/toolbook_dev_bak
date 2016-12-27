@@ -122,6 +122,8 @@
                                            vm.shipment.addressInformation.consigner.state = responce.customerDetails.customerAddress.state;
                                            vm.shipment.addressInformation.consigner.email = responce.customerDetails.email;
                                            vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;
+
+                                           vm.shipment.addressInformation.consignee.country = responce.customerDetails.customerAddress.country;
                                            vm.isInvoicePaymentEnabled = responce.isInvoicePaymentEnabled;
                                        }
                                    }
