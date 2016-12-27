@@ -849,16 +849,21 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error != null && item.Carrier.Name != "USP")
+                    if (error!=null)
                     {
-                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
-                        errorUrl = error.ErrorMessage;
-                    }
-                    else
-                    {
-                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                        if (item.Carrier.Name != "USP")
+                        {
+                            // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                            errorUrl = error.ErrorMessage;
+                        }
+                        else
+                        {
+                            errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                        }
 
                     }
+                   
 
                 }
 
