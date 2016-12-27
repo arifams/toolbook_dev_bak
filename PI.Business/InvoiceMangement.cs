@@ -737,12 +737,64 @@ namespace PI.Business
                 }
                 else
                 {
+
+                   
                     trackingNo = this.GetBetween(doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText, "AWB#:", "Reference").Replace(" ", "");
-                    invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
-                    createdDate = doc.SelectSingleNode("document/page/table/row/cell[text()='DATE']").NextSibling.InnerText;
-                    duedate = doc.SelectSingleNode("document/page/table/row/cell[text()='DUE DATE']").NextSibling.InnerText;
-                    terms = doc.SelectSingleNode("document/page/table/row/cell[text()='TERMS']").NextSibling.InnerText;
-                    invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[text()='BALANCE DUE']").NextSibling.NextSibling.InnerText.Replace("$", "");
+                    if (string.IsNullOrEmpty(trackingNo)&& doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText!=null)
+                    {
+                        trackingNo = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText.Replace("AWB#:", "").Replace(" ", "");
+                    }
+                 
+                   // invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
+                    invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'INVOICE #')]").InnerText.Replace(" ", "");
+                    invoiceNumber = invoiceNumber.Replace("INVOICE#", "");
+
+                    if (doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DATE')]").NextSibling==null)
+                    {
+                        createdDate = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DATE')]").InnerText.Replace(" ", "");
+                        createdDate = createdDate.Replace("DATE", "");
+                    }
+                    else
+                    {
+                        createdDate = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DATE')]").NextSibling.InnerText.Replace(" ", "");
+                    }
+
+
+                    if (doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DUE DATE')]").NextSibling==null)
+                    {
+                        duedate = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DUE DATE')]").InnerText.Replace(" ", "");
+                        duedate = duedate.Replace("DUEDATE", "");
+                    }
+                    else
+                    {
+                        duedate = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'DUE DATE')]").NextSibling.InnerText.Replace(" ", "");
+                    }
+
+                    if (doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'TERMS')]").NextSibling==null)
+                    {
+                        terms = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'TERMS')]").InnerText.Replace(" ", "");
+                        terms = terms.Replace("TERMS", "");
+                    }
+                    else
+                    {
+                        terms = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'TERMS')]").NextSibling.InnerText.Replace(" ", "");
+                    }
+
+                    if (doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'BALANCE DUE')]").NextSibling==null)
+                    {
+                        invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'BALANCE DUE')]").InnerText.Replace("$", "").Replace(" ", "");
+                        invoiceAmount = invoiceAmount.Replace("BALANCE DUE", "");
+                    }
+                    else if (doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'BALANCE DUE')]").NextSibling.NextSibling == null)
+                    {
+                        doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'BALANCE DUE')]").NextSibling.InnerText.Replace("$", "").Replace(" ", "");
+                    }
+                    else
+                    {
+                        invoiceAmount = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'BALANCE DUE')]").NextSibling.NextSibling.InnerText.Replace("$", "").Replace(" ", "");
+                    }
+                   
+                    
 
                 }
                 
