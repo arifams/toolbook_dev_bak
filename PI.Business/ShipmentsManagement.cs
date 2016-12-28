@@ -1527,7 +1527,7 @@ namespace PI.Business
                 result.Message = "Error occured when adding shipment";
                 result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                 result.ShipmentCode = response.CodeShipment;
-                result.ShipmentReference = shipment.ShipmentReferenceName;
+                result.ShipmentReferenceName = shipment.ShipmentReferenceName;
                 shipment.Provider = "Ship It Smarter";
                 shipment.Status = (short)ShipmentStatus.Error;
             }
@@ -3448,16 +3448,22 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error == null && item.Carrier.Name!="USP")
+                    if (error!=null)
                     {
-                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
-                        errorUrl = error.ErrorMessage;
-                    }
-                    else
-                    {
-                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                        if (error == null && item.Carrier.Name != "USP")
+                        {
+                            // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                            errorUrl = error.ErrorMessage;
+                        }
+                        else
+                        {
+                            errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                        }
 
                     }
+
+                   
 
                 }
 
@@ -4328,7 +4334,7 @@ namespace PI.Business
             shipmentCounts.PickeduptatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pickup).Count();
             shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
             shipmentCounts.OutForDeliveryStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.OutForDelivery).Count();
-            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception || x.Status == (short)ShipmentStatus.Claim).Count();
             shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
             shipmentCounts.ErrorStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
             shipmentCounts.DeletedStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Deleted).Count();
@@ -4747,7 +4753,7 @@ namespace PI.Business
                 result.ShipmentId = newShipment.Id;
                 result.Status = Status.Success;
                 // set shipment reference name. This will be use, if any error occured during the shipment add process.
-                result.ShipmentReference = newShipment.ShipmentReferenceName;
+                result.ShipmentReferenceName = newShipment.ShipmentReferenceName;
 
                 //Add Audit Trail Record
                 AddAuditTrailRecord(addShipment, result, newShipment);
@@ -4838,7 +4844,7 @@ namespace PI.Business
                         result.ShipmentId = mainShipmentId > 0 ? mainShipmentId : newShipment.Id;
                         result.Status = Status.Success;
                         // set shipment reference name. This will be use, if any error occured during the shipment add process.
-                        result.ShipmentReference = newShipment.ShipmentReferenceName;
+                        result.ShipmentReferenceName = newShipment.ShipmentReferenceName;
 
                         //Add Audit Trail Record
                         AddAuditTrailRecord(addShipment, result, newShipment);
@@ -5628,10 +5634,11 @@ namespace PI.Business
                     result.Message = "Error occured when adding shipment";
                     result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                     result.ShipmentCode = response.CodeShipment;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
                    
 
                     string errorUrl = "http://parcelinternational.pro/errors/" + result.CarrierName + "/" + result.ShipmentCode;
+                    result.ErrorUrl = errorUrl;
                     //adding error message
                     ShipmentError shipmentError = new ShipmentError();
                     shipmentError.ShipmentId = currentShipment.Id;
@@ -5640,7 +5647,7 @@ namespace PI.Business
                     shipmentError.CreatedDate = DateTime.UtcNow;
                     context.ShipmentErrors.Add(shipmentError);
                     context.SaveChanges();
-                    result.ErrorUrl = errorUrl;
+                  
 
                 }
                 else if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name == "USP")
@@ -5662,7 +5669,7 @@ namespace PI.Business
                     result.Message = "Error occured when adding shipment";
                     result.CarrierName = shipmentDto.CarrierInformation.CarrierName;
                     result.ShipmentCode = response.CodeShipment;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
 
                     //adding error message
                     ShipmentError shipmentError = new ShipmentError();
@@ -5700,7 +5707,7 @@ namespace PI.Business
                     shipmentDto.GeneralInformation.ShipmentCode = currentShipment.ShipmentCode;
                     result.ShipmentDto = shipmentDto;
                     result.ShipmentDto.GeneralInformation.TrackingNumber = currentShipment.TrackingNumber;
-                    result.ShipmentReference = currentShipment.ShipmentReferenceName;
+                    result.ShipmentReferenceName = currentShipment.ShipmentReferenceName;
                     result.LabelURL = response.PDF;
                     //adding the shipment label to azure
                     // For now replace userid from created by

@@ -62,8 +62,8 @@
                         vm.isBacktoRatesDisabled = false;
                         vm.savePayShipment = false;
                         vm.payementProgress = false;
-                        vm.hideRateSummary = false;
                         vm.shipmentReferenceName = '';
+                        vm.hideRateSummary = false;                        
                         vm.shipmentChanged = false;
                         vm.shipmentStatusMsg = '';
                         vm.labelArray = [];
@@ -122,6 +122,8 @@
                                            vm.shipment.addressInformation.consigner.state = responce.customerDetails.customerAddress.state;
                                            vm.shipment.addressInformation.consigner.email = responce.customerDetails.email;
                                            vm.shipment.addressInformation.consigner.contactNumber = responce.customerDetails.phoneNumber;
+
+                                           vm.shipment.addressInformation.consignee.country = responce.customerDetails.customerAddress.country;
                                            vm.isInvoicePaymentEnabled = responce.isInvoicePaymentEnabled;
                                        }
                                    }
@@ -738,18 +740,19 @@
                             }
                             else if (response.status == 5 || response.status == 6) {
                                 // SISError.
-
+                                debugger;
                                 //$window.localStorage.setItem('sisErrorReferenceName', response.shipmentReference);
                                 //$window.localStorage.setItem('labelUrl', '');
                                 //$window.localStorage.setItem('invoiceURL', '');
                                 //$location.path('/shipmentResult');
                                 
                                 vm.addingShipment = true;
-                                vm.shipmentReferenceName = shipmentReferenceName; //response.shipmentReference;
+                                vm.shipmentReferenceName = response.shipmentReferenceName; //response.shipmentReference;
                                 vm.isShowPaymentForm = false;
                                 vm.payementProgress = false;
                                 //vm.savePayShipment = false;
-                                //vm.errorUrl = 'http://parcelinternational.pro/errors/' + response.carrierName + '/' + response.shipmentCode;
+                                vm.isShowLabel = false;
+                                vm.errorUrl = response.errorUrl;
                                 vm.hideRateSummary = true;
                                 //window.open(errorUrl);
                             }
