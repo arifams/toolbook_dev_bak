@@ -8,11 +8,11 @@
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>First name *</label>
                 <input type="text" name="firstname" class="form-control form-white"
-                      required autofocus ng-model="vm.user.firstName" ng-minlength="3" ng-maxlength="100"
+                      required autofocus ng-model="vm.user.firstName" ng-minlength="2" ng-maxlength="100"
                            ng-class="{ 'error': formSaveCustomer.firstname.$invalid && (formSaveCustomer.firstname.$dirty||vm.isSubmit) }" />
                 <div ng-messages="formSaveCustomer.firstname.$error" ng-show="formSaveCustomer.firstname.$dirty || vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
+                    <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 2 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
                 </div>
             </div>
@@ -23,11 +23,11 @@
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Last name *</label>
                 <input type="text" name="lastname" class="form-control form-white" required
-                       minlength="4"  ng-model="vm.user.lastName" ng-minlength="3" ng-maxlength="100"
+                       minlength="4"  ng-model="vm.user.lastName" ng-minlength="2" ng-maxlength="100"
                            ng-class="{ 'error': formSaveCustomer.lastname.$invalid && (formSaveCustomer.lastname.$dirty||vm.isSubmit) }"/>
                 <div ng-messages="formSaveCustomer.lastname.$error" ng-show="formSaveCustomer.lastname.$dirty ||vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
+                    <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 2 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
                 </div>
                
@@ -121,7 +121,7 @@
                         class="btn btn-primary">
                     <translate>Save</translate>
                 </button>
-                <button ng-click="vm.close()"
+                <button ng-click="vm.close(); vm.isSubmit = false; formSaveCustomer.$setPristine();"
                         class="btn btn-primary">
                     <translate>Cancel</translate>
                 </button>
