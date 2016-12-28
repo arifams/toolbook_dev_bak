@@ -62,10 +62,9 @@ namespace PI.Business
         public void DeleteCustomer(string userId)
         {
             Customer customer = context.Customers.Where(cu => cu.UserId == userId).FirstOrDefault();
-            Address customerAddress = customer != null ? customer.CustomerAddress : null;
 
-            if (customerAddress != null)
-                context.Addresses.Remove(customerAddress);
+            Company company = context.GetCompanyByUserId(userId);
+            DeleteCompanyDetails(company.TenantId, userId);
 
             if (customer != null)
             {
@@ -80,6 +79,33 @@ namespace PI.Business
                 context.Customers.Remove(customer);
             }
                 
+
+            context.SaveChanges();
+        }
+
+        private void DeleteCompanyDetails(long tenantId, string userId)
+        {
+            // When initialy create a user, records will enter to below entities.
+
+            Tenant tenant = context.Tenants.Where(t => t.Id == tenantId).FirstOrDefault();
+            Company company = context.Companies.Where(c => c.TenantId == tenantId).FirstOrDefault();
+            CostCenter costCenter = context.CostCenters.Where(cos => cos.CompanyId == company.Id).FirstOrDefault();
+            Address costCenterAddress = costCenter != null ? costCenter.BillingAddress : null;
+            Division division = context.Divisions.Where(div => div.CompanyId == company.Id).FirstOrDefault();
+
+
+            if (costCenter != null)
+                context.CostCenters.Remove(costCenter);
+            if (division != null)
+                context.Divisions.Remove(division);
+            if (company != null)
+                context.Companies.Remove(company);
+
+            if (costCenterAddress != null)
+                context.Addresses.Remove(costCenterAddress);
+
+            if (tenant != null)
+                context.Tenants.Remove(tenant);
 
             context.SaveChanges();
         }
