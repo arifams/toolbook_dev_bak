@@ -566,8 +566,16 @@ namespace PI.Business
 
             }
 
-            context.AddressBooks.AddRange(addressList);
-            context.SaveChanges();
+            try
+            {
+
+                context.AddressBooks.AddRange(addressList);
+                context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                
+            }
 
             return true;
         }
