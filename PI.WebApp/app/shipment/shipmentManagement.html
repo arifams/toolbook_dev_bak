@@ -178,7 +178,7 @@
                                 <th translate>Owner</th>
                                 <th translate>company</th>
                                 <th translate>Origin</th>
-                                <th translate>Status</th>
+                                <th translate style="width:20px">Status</th>
                                 <th translate>Provider</th>
                                 <th translate>ShipmentCode</th>
                                 <th translate>Pickup Confirmation No</th>
@@ -198,14 +198,15 @@
                                 <td>{{row.carrierInformation.companyName}}</td>
                                 <td>{{row.addressInformation.consigner.city}}</td>
 
-                                <td>
-                                    <div class="option-group">
+                                <td >
+                                    <div class="option-group" style="width:150px">
                                         <select id="status" name="status" class="form-control form-white" ng-model="row.generalInformation.status" ng-change="manageShipCtrl.updateShipmentStatus(row)">
                                             <option value='BookingConfirmation' translate>Booking confirmed</option>
                                             <option value='Error' translate>Booking error</option>
                                             <option value='Delivered' translate>Delivered</option>
                                             <option value='Draft' translate>Draft</option>
                                             <option value='Exception' translate>Exception</option>
+                                            <option value='Claim' translate>Claim</option>
                                             <option value='Transit' translate>In transit</option>
                                             <option value='Pickup' translate>Picked up</option>
                                             <option value='OutForDelivery' translate>Out for delivery</option> 
