@@ -51,9 +51,9 @@
     });
 
 
-    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce', 'shipmentFactory',
+    app.controller('shipReportCtrl', ['$scope', '$location', 'ShipmentReportFactory', '$window', '$sce', 'shipmentFactory','$rootScope',
                                      'ngDialog', '$controller', 'ShipmentReportCSVFactory', 'CarrierFactory',
-    function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, ngDialog, $controller,
+    function ($scope, $location, ShipmentReportFactory, $window, $sce, shipmentFactory, $rootScope, ngDialog, $controller,
         ShipmentReportCSVFactory, CarrierFactory) {
 
         var vm = this;
@@ -100,6 +100,19 @@
 
                    } else {
                        vm.emptySearch = true;
+
+                       
+                       $('#panel-notif').noty({
+                           text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Customers not found for this search') + '!</p></div>',
+                           layout: 'bottom-right',
+                           theme: 'made',
+                           animation: {
+                               open: 'animated bounceInLeft',
+                               close: 'animated bounceOutLeft'
+                           },
+                           timeout: 2000,
+                       });
+
                    }
                }).error(function (error) {
 

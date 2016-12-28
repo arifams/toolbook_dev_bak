@@ -25,11 +25,11 @@
         }
 
         //set selected address details
-        $scope.selectCompany = function (company) {
-
+        $scope.selectCompany = function (company) {           
             
             if (from == 'shipReportCtrl') {
                 $scope.vm.selectedCompanyId = company.id;
+                $scope.vm.searchText = company.firstName + ' ' + company.lastName;
                 $scope.vm.isNeedSearchCustomer = false;
                 $scope.vm.closeWindow();
             }
