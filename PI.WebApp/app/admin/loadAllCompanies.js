@@ -100,6 +100,7 @@
 
                       vm.callServerSearch = function (tableState) {
 
+                          vm.loadingSymbole = true;
 
                           if (tableState != undefined) {
                               tableStateCopy = tableState;
