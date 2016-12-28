@@ -52,12 +52,11 @@
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Password *</label>
                 <input type="password" name="password" class="form-control form-white"
-                       minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100"
+                       minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100" customer-valid-password 
                            ng-class="{ 'error': formSaveCustomer.password.$invalid && (formSaveCustomer.password.$dirty||vm.isSubmit) }" />
-                <div ng-messages="formSaveCustomer.password.$error" ng-show="formSaveCustomer.password.$dirty ||vm.isSubmit">
-                    <label ng-message="required" class="error error-label-marginleft" for="password" translate>Enter password</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="password" translate>Should contain a min of 8 characters including an upper case</label>
-                    <label ng-message="noValidPassword" class="error error-label-marginleft" for="password" translate>Should contain a min of 8 characters including an upper case</label>
+                <div ng-messages="formSaveCustomer.password.$error" ng-show="formSaveCustomer.password.$dirty || vm.isSubmit">
+                    <label ng-message="required" class="error" for="password" translate>Enter your password</label>
+                    <label ng-message="noValidPassword" class="error" for="password" translate>Should contain a min of 8 characters including an upper case</label>
                 </div>
             </div>
 
@@ -66,13 +65,12 @@
         <div class="row m-0">
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Confirm password *</label>
-                <input type="password" name="password" class="form-control form-white"
-                       minlength="8" required ng-model="vm.user.passwordConf" ng-minlength="3" ng-maxlength="100"
+                <input type="password" name="passwordConf" class="form-control form-white"
+                       minlength="8" required ng-model="vm.user.passwordConf" ng-minlength="3" ng-maxlength="100" customer-valid-password-c 
                        ng-class="{ 'error': formSaveCustomer.passwordConf.$invalid && (formSaveCustomer.passwordConf.$dirty||vm.isSubmit) }"/>
-                <div ng-messages="formSaveCustomer.passwordConf.$error" ng-show="formSaveCustomer.passwordConf.$dirty ||vm.isSubmit">
-                    <label ng-message="required" class="error error-label-marginleft" for="passwordConf" translate>Enter password</label>
-                    <label ng-message="minlength" class="error error-label-marginleft" for="passwordConf" translate>Should contain a min of 8 characters including an upper case</label>
-                    <label ng-message="noValidPassword" class="error error-label-marginleft" for="passwordConf" translate>Should contain a min of 8 characters including an upper case</label>
+                <div ng-messages="formSaveCustomer.passwordConf.$error" ng-show="formSaveCustomer.passwordConf.$dirty || vm.isSubmit">
+                    <label ng-message="required" class="error" for="passwordConf" translate>Reenter your password</label>
+                    <label ng-message="noMatch" class="error" for="password_c" translate>Passwords must match</label>
                 </div>
             </div>
 
