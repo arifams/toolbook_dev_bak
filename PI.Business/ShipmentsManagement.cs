@@ -3450,7 +3450,7 @@ namespace PI.Business
 
                     if (error!=null)
                     {
-                        if (error == null && item.Carrier.Name != "USP")
+                        if ( item.Carrier.Name != "USP")
                         {
                             // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
                             errorUrl = error.ErrorMessage;
