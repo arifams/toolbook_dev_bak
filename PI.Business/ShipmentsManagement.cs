@@ -3448,16 +3448,22 @@ namespace PI.Business
                 {
                     ShipmentError error = context.ShipmentErrors.Where(i => i.ShipmentId == item.Id).FirstOrDefault();
 
-                    if (error == null && item.Carrier.Name!="USP")
+                    if (error!=null)
                     {
-                        // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
-                        errorUrl = error.ErrorMessage;
-                    }
-                    else
-                    {
-                        errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+                        if (error == null && item.Carrier.Name != "USP")
+                        {
+                            // errorUrl = "http://parcelinternational.pro/errors/" + item.Carrier.Name + "/" + item.ShipmentCode;
+                            errorUrl = error.ErrorMessage;
+                        }
+                        else
+                        {
+                            errorUrl = baseWebUrl + "app/shipment/shipmenterror.html?message=" + error.ErrorMessage;
+
+                        }
 
                     }
+
+                   
 
                 }
 
@@ -4328,7 +4334,7 @@ namespace PI.Business
             shipmentCounts.PickeduptatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pickup).Count();
             shipmentCounts.InTransitStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Transit).Count();
             shipmentCounts.OutForDeliveryStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.OutForDelivery).Count();
-            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception).Count();
+            shipmentCounts.ExceptionStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Exception || x.Status == (short)ShipmentStatus.Claim).Count();
             shipmentCounts.DeliveredStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Delivered).Count();
             shipmentCounts.ErrorStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Pending || x.Status == (short)ShipmentStatus.Error).Count();
             shipmentCounts.DeletedStatusCount = allShipments.Where(x => x.Status == (short)ShipmentStatus.Deleted).Count();
