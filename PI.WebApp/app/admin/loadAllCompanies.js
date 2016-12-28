@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 (function (app) {
-    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory', '$rootScope', 'ngDialog', '$controller', 'customBuilderFactory','userManagementFactory',
-                  function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller, customBuilderFactory, userManagementFactory) {
+    app.controller('loadCompaniesCtrl', ['$scope', '$location', '$window', 'adminFactory', '$rootScope', 'ngDialog', '$controller', 'customBuilderFactory','userManagementFactory','$routeParams',
+                  function ($scope, $location, $window, adminFactory, $rootScope, ngDialog, $controller, customBuilderFactory, userManagementFactory, $routeParams) {
                       var vm = this;
                       vm.status = 'All';
                       vm.itemsByPage = 10;
@@ -97,19 +97,53 @@
                               });
                       };
 
-                      
                       vm.callServerSearch = function (tableState) {
-                          vm.loadingSymbole = true;
 
-                          tableStateCopy = tableState;
+
+                          if (tableState != undefined) {
+                              tableStateCopy = tableState;
+                          }
+                          else {
+                              tableState = tableStateCopy;
+                          }
 
                           var start = tableState.pagination.start;
                           var number = tableState.pagination.number;
                           var numberOfPages = tableState.pagination.numberOfPages;
-                           
-                          vm.searchComapnies("",start, number, tableState);
+
+                          if ($routeParams.status != undefined && $routeParams.status != null) {
+                              vm.searchComapnies($routeParams.status, start, number, tableState);
+                          }
+                          else {
+                              console.log(vm.status);
+                              vm.searchComapnies(vm.status, start, number, tableState);
+                          }
                       };
 
+                      //vm.callServerSearch = function (tableState) {
+                      //    vm.loadingSymbole = true;
+
+                      //    tableStateCopy = tableState;
+
+                      //    var start = tableState.pagination.start;
+                      //    var number = tableState.pagination.number;
+                      //    var numberOfPages = tableState.pagination.numberOfPages;
+                           
+                      //    vm.searchComapnies("",start, number, tableState);
+                      //};
+
+                      vm.resetSearch = function (tableState) {
+
+                          var pagination = 0;//tableState.pagination;
+
+                          var start = pagination.start || 0;     // This is NOT the page number, but the index of item in the list that you want to use to display the table.
+                          var number = pagination.number || 10;  // Number of entries showed per page.
+
+                          vm.status = 'All';
+
+                          vm.searchComapnies(vm.status, start, number, tableState);
+
+                      }
 
                       vm.loadCompanyByStatus = function (status) {
                            
