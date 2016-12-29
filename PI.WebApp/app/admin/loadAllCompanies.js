@@ -10,6 +10,7 @@
                       vm.editUserBtnClick = false; // used for edit btn click function
                       vm.rightPaneLoad = false; // used for change table width
                       vm.loadingSymbole = true;
+                      $scope.cont = {};
 
                       vm.closeWindow = function () {
                           ngDialog.close()
@@ -321,6 +322,8 @@
                           .then(function (result) {
                                
                               if (result.status == 200) {
+                                  debugger;
+                                  $scope.cont.formSaveCustomer.$setPristine();
                                   vm.close();
 
                                   body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () { });
@@ -338,6 +341,7 @@
                                   $timeout(function () {
                                       $route.reload();
                                   }, 2000);
+                                  //$route.reload();
                               }
                           },
                           function (error) {
