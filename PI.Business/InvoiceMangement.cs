@@ -744,6 +744,10 @@ namespace PI.Business
                     {
                         trackingNo = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").InnerText.Replace("AWB#:", "").Replace(" ", "");
                     }
+                    if (string.IsNullOrEmpty(trackingNo))
+                    {
+                        trackingNo = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'AWB#')]").NextSibling.InnerText.Replace(" ", "");
+                    }
                  
                    // invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[text()='INVOICE #']").NextSibling.InnerText;
                     invoiceNumber = doc.SelectSingleNode("document/page/table/row/cell[contains(text(),'INVOICE #')]").InnerText.Replace(" ", "");
