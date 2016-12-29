@@ -1,15 +1,15 @@
 ﻿<div>
     <h2 class="box-title m-t-0" ng-hide="vm.user.id != 0"> <translate> Add Customer </translate></h2>
     <div class="form-control col-sm-12 p-0">
-    <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
+        <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
     </div>
     <ng-form class="form-horizontal" name="cont.formSaveCustomer">
         <div class="row m-0">
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>First name *</label>
                 <input type="text" name="firstname" class="form-control form-white"
-                      required autofocus ng-model="vm.user.firstName" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': cont.formSaveCustomer.firstname.$invalid && (cont.formSaveCustomer.firstname.$dirty||vm.isSubmit) }" />
+                       required autofocus ng-model="vm.user.firstName" ng-minlength="2" ng-maxlength="100"
+                       ng-class="{ 'error': cont.formSaveCustomer.firstname.$invalid && (cont.formSaveCustomer.firstname.$dirty||vm.isSubmit) }" />
                 <div ng-messages="cont.formSaveCustomer.firstname.$error" ng-show="cont.formSaveCustomer.firstname.$dirty || vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 2 characters or more</label>
@@ -18,19 +18,19 @@
             </div>
 
         </div>
-            
+
         <div class="row m-0">
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Last name *</label>
-                <input type="text" name="lastname" class="form-control form-white"
-                       minlength="4" required ng-model="vm.user.lastName" ng-minlength="3" ng-maxlength="100"
-                           ng-class="{ 'error': cont.formSaveCustomer.lastname.$invalid && (cont.formSaveCustomer.lastname.$dirty||vm.isSubmit) }"/>
+                <input type="text" name="lastname" class="form-control form-white" required
+                       minlength="4" ng-model="vm.user.lastName" ng-minlength="2" ng-maxlength="100"
+                       ng-class="{ 'error': cont.formSaveCustomer.lastname.$invalid && (cont.formSaveCustomer.lastname.$dirty||vm.isSubmit) }" />
                 <div ng-messages="cont.formSaveCustomer.lastname.$error" ng-show="cont.formSaveCustomer.lastname.$dirty ||vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
                     <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 2 characters or more</label>
                     <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
                 </div>
-               
+
             </div>
 
         </div>
@@ -38,24 +38,24 @@
         <div class="row m-0">
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Email address *</label>
-                <input type="text" name="email" class="form-control form-white"
-                      ng-model="vm.user.email" required ng-maxlength="100"
-                      ng-class="{ 'error': cont.formSaveCustomer.email.$invalid && (cont.formSaveCustomer.email.$dirty||vm.isSubmit) }"/>
-                <div ng-messages="cont.formSaveCustomer.email.$error" ng-show="cont.formSaveCustomer.email.$dirty || vm.isSubmit">
+                <input type="email" name="email" class="form-control form-white"
+                       ng-model="vm.user.email" required ng-maxlength="100" ng-focus="emailFocus = true" ng-blur="emailFocus = false"
+                       ng-class="{ 'error': cont.formSaveCustomer.email.$invalid && (cont.formSaveCustomer.email.$dirty||vm.isSubmit) }" />
+                <div ng-messages="cont.formSaveCustomer.email.$error" ng-show="(cont.formSaveCustomer.email.$dirty && !emailFocus)|| vm.isSubmit">
                     <label ng-message="required" class="error error-label-marginleft" for="email" translate>Enter your email address</label>
                     <label ng-message="email" class="error error-label-marginleft" for="email" translate>Enter valid email address</label>
                 </div>
             </div>
-         
-           
+
+
         </div>
 
         <div class="row m-0">
             <div class="form-group m-l-0 m-r-0">
                 <label class="control-label" translate>Password *</label>
                 <input type="password" name="password" class="form-control form-white"
-                       minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100" valid-customer-password  ng-focus="passwordFocus = true" ng-blur="passwordFocus = false"  
-                           ng-class="{ 'error': cont.formSaveCustomer.password.$invalid && (cont.formSaveCustomer.password.$dirty||vm.isSubmit) }" />
+                       minlength="8" required ng-model="vm.user.password" ng-minlength="3" ng-maxlength="100" valid-customer-password ng-focus="passwordFocus = true" ng-blur="passwordFocus = false"
+                       ng-class="{ 'error': cont.formSaveCustomer.password.$invalid && (cont.formSaveCustomer.password.$dirty||vm.isSubmit) }" />
                 <div ng-messages="cont.formSaveCustomer.password.$error" ng-show="(cont.formSaveCustomer.password.$dirty && !passwordFocus)||vm.isSubmit">
                     <label ng-message="required" class="error" for="password" translate><span style="padding-left:13px">Enter your password</span></label>
                     <label ng-message="noValidPassword" class="error" for="password" translate><span style="padding-left:13px">Should contain a min of 8 characters including an upper case</span></label>
@@ -69,7 +69,7 @@
                 <label class="control-label" translate>Confirm password *</label>
                 <input type="password" name="passwordConf" class="form-control form-white"
                        minlength="8" required ng-model="vm.user.passwordConf" ng-minlength="3" ng-maxlength="100" valid-customer-password-c ng-focus="password_cFocus = true" ng-blur="password_cFocus = false"
-                       ng-class="{ 'error': cont.formSaveCustomer.passwordConf.$invalid && (cont.formSaveCustomer.passwordConf.$dirty||vm.isSubmit) }"/>
+                       ng-class="{ 'error': cont.formSaveCustomer.passwordConf.$invalid && (cont.formSaveCustomer.passwordConf.$dirty||vm.isSubmit) }" />
                 <div ng-messages="cont.formSaveCustomer.passwordConf.$error" ng-show="(cont.formSaveCustomer.passwordConf.$dirty && !password_cFocus) ||vm.isSubmit">
                     <label ng-message="required" class="error" for="password_c" translate><span style="padding-left:13px">Reenter your password</span></label>
                     <label ng-message="noMatch" class="error" for="password_c" translate><span style="padding-left:13px">Passwords must match</span></label>
@@ -121,7 +121,7 @@
                         class="btn btn-primary">
                     <translate>Save</translate>
                 </button>
-                <button ng-click="vm.close();"
+                <button ng-click="vm.close(); vm.isSubmit = false; cont.formSaveCustomer.$setPristine();"
                         class="btn btn-primary">
                     <translate>Cancel</translate>
                 </button>
