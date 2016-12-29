@@ -5614,8 +5614,7 @@ namespace PI.Business
 
                 ShipmentOperationResult result = new ShipmentOperationResult();
 
-
-                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP")
+                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP" && currentShipment.Carrier.Name != "TNT" && string.IsNullOrWhiteSpace(response.CodeShipment))
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Ship It Smarter";
