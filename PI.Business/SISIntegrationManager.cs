@@ -629,7 +629,7 @@ namespace PI.Business
                 shipmentStr.AppendFormat("<width>{0}</width>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Width, 2) : Math.Round((lineItem.Width * (decimal)2.54), 2));
                 shipmentStr.AppendFormat("<length>{0}</length>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Length, 2) : Math.Round((lineItem.Length * (decimal)2.54), 2));
                 shipmentStr.AppendFormat("<height>{0}</height>", addShipment.PackageDetails.VolumeMetricId == 1 ? Math.Round(lineItem.Height, 2) : Math.Round((lineItem.Height * (decimal)2.54), 2));
-                shipmentStr.AppendFormat("<content>{0}</content>", lineItem.Description);
+                shipmentStr.AppendFormat("<description>{0}</description>", lineItem.Description);
                 shipmentStr.AppendFormat("</shipment_line>");
                 descriptionText.Append(lineItem.Description + ",");
                 lineCount++;
