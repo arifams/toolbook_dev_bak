@@ -65,8 +65,14 @@ namespace PI.Business
 
             if (customer != null)
             {
-                NotificationCriteria notification = context.NotificationCriterias.Where(n => n.CustomerId == customer.Id).FirstOrDefault();
+                AccountSettings accountSetting = context.AccountSettings.Where(a => a.CustomerId == customer.Id).FirstOrDefault();
+                if (accountSetting != null)
+                {
+                    context.AccountSettings.Remove(accountSetting);
+                    context.SaveChanges();
+                }
 
+                NotificationCriteria notification = context.NotificationCriterias.Where(n => n.CustomerId == customer.Id).FirstOrDefault();
                 if (notification != null)
                 {
                     context.NotificationCriterias.Remove(notification);
