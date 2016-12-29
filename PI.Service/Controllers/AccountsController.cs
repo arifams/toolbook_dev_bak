@@ -117,7 +117,12 @@ namespace PI.Service.Controllers
                     customerManagement.DeleteCustomer(existingUser.Id);
                     AppUserManager.Delete(existingUser);
                     companyManagement.DeleteCompanyDetails(existingUser.TenantId, existingUser.Id);
+
+                    // Set existing user to null, by re test again. This testing will prevent un identified issues, rather than directly set null the existing user
+                    existingUser = AppUserManager.FindByName(createUserModel.Email);
                 }
+
+                
 
                 if (existingUser == null)
                 {
