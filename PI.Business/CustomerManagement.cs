@@ -27,7 +27,7 @@ namespace PI.Business
         private ILogger logger;
 
         public CustomerManagement(ILogger logger, PIContext _context = null)
-        {          
+        {
             context = _context ?? PIContext.Get();
             this.logger = logger;
         }
@@ -63,14 +63,11 @@ namespace PI.Business
         {
             Customer customer = context.Customers.Where(cu => cu.UserId == userId).FirstOrDefault();
 
-            Company company = context.GetCompanyByUserId(userId);
-            DeleteCompanyDetails(company.TenantId, userId);
-
             if (customer != null)
             {
                 NotificationCriteria notification = context.NotificationCriterias.Where(n => n.CustomerId == customer.Id).FirstOrDefault();
 
-                if(notification != null)
+                if (notification != null)
                 {
                     context.NotificationCriterias.Remove(notification);
                     context.SaveChanges();
@@ -78,7 +75,7 @@ namespace PI.Business
 
                 context.Customers.Remove(customer);
             }
-                
+
 
             context.SaveChanges();
         }
@@ -94,20 +91,45 @@ namespace PI.Business
             Division division = context.Divisions.Where(div => div.CompanyId == company.Id).FirstOrDefault();
 
 
-            if (costCenter != null)
-                context.CostCenters.Remove(costCenter);
+
             if (division != null)
+            {
+                DivisionCostCenter divCos = context.DivisionCostCenters.Where(d => d.DivisionId == division.Id).FirstOrDefault();
+
+                if (divCos != null)
+                {
+                    context.DivisionCostCenters.Remove(divCos);
+                }
+
                 context.Divisions.Remove(division);
+                context.SaveChanges();
+            }
+
+            if (costCenter != null)
+            {
+                context.CostCenters.Remove(costCenter);
+                context.SaveChanges();
+            }
+
+
+
             if (company != null)
+            {
                 context.Companies.Remove(company);
+                context.SaveChanges();
+            }
 
             if (costCenterAddress != null)
+            {
                 context.Addresses.Remove(costCenterAddress);
+                context.SaveChanges();
+            }
 
             if (tenant != null)
+            {
                 context.Tenants.Remove(tenant);
-
-            context.SaveChanges();
+                context.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -169,14 +191,14 @@ namespace PI.Business
 
                     NotificationCriteria notification = new NotificationCriteria()
                     {
-                      CreatedBy = "1",
-                      CreatedDate = DateTime.UtcNow,
-                      CustomerId = newCustomer.Id,
-                      IsActive = true,
-                      ShipmentException = true
+                        CreatedBy = "1",
+                        CreatedDate = DateTime.UtcNow,
+                        CustomerId = newCustomer.Id,
+                        IsActive = true,
+                        ShipmentException = true
                     };
                     context.NotificationCriterias.Add(notification);
-                    context.SaveChanges();  
+                    context.SaveChanges();
                 }
                 else
                 {
@@ -279,7 +301,7 @@ namespace PI.Business
             catch (Exception)
             {
                 //handle if there is an error in decoding
-                
+
             }
 
             if (claimsPrincipal==null)
@@ -299,7 +321,7 @@ namespace PI.Business
                 SigningCredentials = signingCredentials,
                 Lifetime = life
             };
-         
+
             var plainToken = tokenHandler.CreateToken(securityTokenDescriptor);
             var signedAndEncodedToken = tokenHandler.WriteToken(plainToken);
             return signedAndEncodedToken;
