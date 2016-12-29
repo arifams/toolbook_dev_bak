@@ -2,7 +2,9 @@
 
 (function (app) {
 
-    app.directive('customerValidPasswordC', function () {
+
+
+    app.directive('validCustomerPasswordC', function () {
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
@@ -15,7 +17,7 @@
         }
     });
 
-    app.directive('customerValidPassword', function () {
+    app.directive('validCustomerPassword', function () {
         return {
             require: 'ngModel',
             link: function (scope, elm, attrs, ctrl) {
@@ -41,6 +43,7 @@
         function (customBuilderFactory) {
 
             var vm = this;
+          
             vm.editUserBtnClick = false; // used for edit btn click function
             vm.rightPaneLoad = false; // used for change table width
 
