@@ -4,7 +4,7 @@
                 <div class="form-group form-control col-sm-12 p-0">
                     <span style="font-style:italic" translate>  * Indicates mandatory fields.</span>
                 </div>
-            <form class="form-horizontal" name="formSaveUser">
+            <form class="form-horizontal" name="cont.formSaveUser">
                 <!--<div class="row m-0">
                     <div class="form-group m-0">
                         <label style="color: rgba(102, 102, 102,.7);" translate>Salutation</label>
@@ -24,8 +24,8 @@
                             <label class="control-label" translate>First name *</label>
                             <input type="text" name="firstname" class="form-control form-white"
                                    required autofocus ng-model="userCtrl.user.firstName" ng-minlength="3" ng-maxlength="100"
-                                   ng-class="{ 'error': formSaveUser.firstname.$invalid && (formSaveUser.firstname.$dirty||userCtrl.isSubmit) }" />
-                            <div ng-messages="formSaveUser.firstname.$error" ng-show="formSaveUser.firstname.$dirty || userCtrl.isSubmit">
+                                   ng-class="{ 'error': cont.formSaveUser.firstname.$invalid && (cont.formSaveUser.firstname.$dirty||userCtrl.isSubmit) }" />
+                            <div ng-messages="cont.formSaveUser.firstname.$error" ng-show="cont.formSaveUser.firstname.$dirty || userCtrl.isSubmit">
                                 <label ng-message="required" class="error error-label-marginleft" for="firstname" translate>Enter your first name</label>
                                 <label ng-message="minlength" class="error error-label-marginleft" for="firstname" translate>Enter at least 3 characters or more</label>
                                 <label ng-message="maxlength" class="error error-label-marginleft" for="firstname" translate>Enter less than 100 characters</label>
@@ -38,8 +38,8 @@
                         <label class="control-label" translate>Last Name *</label>
                         <input type="text" name="lastname" class="form-control form-white"
                                minlength="4" required ng-model="userCtrl.user.lastName" ng-minlength="3" ng-maxlength="100"
-                               ng-class="{ 'error': formSaveUser.lastname.$invalid && (formSaveUser.lastname.$dirty||userCtrl.isSubmit) }" />
-                        <div ng-messages="formSaveUser.lastname.$error" ng-show="formSaveUser.lastname.$dirty ||userCtrl.isSubmit">
+                               ng-class="{ 'error': cont.formSaveUser.lastname.$invalid && (cont.formSaveUser.lastname.$dirty||userCtrl.isSubmit) }" />
+                        <div ng-messages="cont.formSaveUser.lastname.$error" ng-show="cont.formSaveUser.lastname.$dirty ||userCtrl.isSubmit">
                             <label ng-message="required" class="error error-label-marginleft" for="lastname" translate>Enter your last name</label>
                             <label ng-message="minlength" class="error error-label-marginleft" for="lastname" translate>Enter at least 3 characters or more</label>
                             <label ng-message="maxlength" class="error error-label-marginleft" for="lastname" translate>Enter less than 100 characters</label>
@@ -51,10 +51,10 @@
                 <div class="row m-0">
                     <div class="form-group m-l-0 m-r-0">
                         <label class="control-label" translate>Email address *</label>
-                        <input type="text" name="email" class="form-control form-white"
+                        <input type="email" name="email" class="form-control form-white"
                                ng-model="userCtrl.user.email" required ng-maxlength="100"
-                               ng-class="{ 'error': formSaveUser.email.$invalid && (formSaveUser.email.$dirty||userCtrl.isSubmit) }" />
-                        <div ng-messages="formSaveUser.email.$error" ng-show="formSaveUser.email.$dirty || userCtrl.isSubmit">
+                               ng-class="{ 'error': cont.formSaveUser.email.$invalid && (cont.formSaveUser.email.$dirty||userCtrl.isSubmit) }" />
+                        <div ng-messages="cont.formSaveUser.email.$error" ng-show="cont.formSaveUser.email.$dirty || userCtrl.isSubmit">
                             <label ng-message="required" class="error error-label-marginleft" for="email" translate>Enter your email address</label>
                             <label ng-message="email" class="error error-label-marginleft" for="email" translate>Enter valid email address</label>
                         </div>
@@ -106,7 +106,7 @@
                         <label class="control-label" translate>Password *</label>
                         <div class="append-icon">
                             <input type="password" name="password" id="password" class="form-control form-white" placeholder="{{ 'Password *' | translate }}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
-                                   ng-model="userCtrl.user.password" ng-class="{ 'error': formSaveUser.password.$invalid && (formSaveUser.password.$dirty||userCtrl.isSubmit) }" valid-password-save />
+                                   ng-model="userCtrl.user.password" ng-class="{ 'error': cont.formSaveUser.password.$invalid && (cont.formSaveUser.password.$dirty||userCtrl.isSubmit) }" valid-password-save />
                             <i translate class="icon-info" rel="popover" data-container="body" data-toggle="popover"
                                data-placement="top"
                                data-html="true"
@@ -119,7 +119,7 @@
                                data-original-title="{{'Your Password should be'|translate}}:"></i>
                         </div>
                         
-                        <div ng-messages="formSaveUser.password.$error" ng-show="formSaveUser.password.$dirty || userCtrl.isSubmit">
+                        <div ng-messages="cont.formSaveUser.password.$error" ng-show="cont.formSaveUser.password.$dirty || userCtrl.isSubmit">
                             <label ng-message="required" class="error" for="password" translate>Enter your password</label>
                             <label ng-message="noValidPassword" class="error" for="password" translate>Enter valid password</label>
                         </div>
@@ -132,9 +132,9 @@
                         <label class="control-label" translate>Confirm Password *</label>
                             <div class="append-icon">
                                 <input type="password" name="password_c" id="password_c" class="form-control form-white" placeholder="{{'Confirm Password *' | translate}}" ng-required="userCtrl.user.id == 0 || userCtrl.user.id == null"
-                                       ng-model="userCtrl.user.password_c" ng-class="{ 'error': formSaveUser.password_c.$invalid && (formSaveUser.password_c.$dirty||userCtrl.isSubmit) }" valid-password-c-save />
+                                       ng-model="userCtrl.user.password_c" ng-class="{ 'error': cont.formSaveUser.password_c.$invalid && (cont.formSaveUser.password_c.$dirty||userCtrl.isSubmit) }" valid-password-c-save />
                                 <i class="icon-lock"></i>
-                                <div ng-messages="formSaveUser.password_c.$error" ng-show="formSaveUser.password_c.$dirty || userCtrl.isSubmit">
+                                <div ng-messages="cont.formSaveUser.password_c.$error" ng-show="cont.formSaveUser.password_c.$dirty || userCtrl.isSubmit">
                                     <label ng-message="required" class="error" for="password_c" translate>ReEnter your password</label>
                                     <label ng-message="noMatch" class="error" for="password_c" translate>2 passwords must be the same</label>
                                 </div>
@@ -174,17 +174,17 @@
               
                 <div class="row m-0">
                     <div class="form-group m-l-0 m-r-0 m-t-10">
-                       <button type="submit" ng-click="(formSaveUser.$valid ? userCtrl.saveUser() : userCtrl.isSubmit = true)"
+                       <button type="submit" ng-click="(cont.formSaveUser.$valid ? userCtrl.saveUser() : userCtrl.isSubmit = true)"
                                 class="btn btn-primary">
                             <translate>Save</translate>
                         </button>
-                        <button ng-click="userCtrl.close()"
+                        <button ng-click="userCtrl.close(); userCtrl.isSubmit = false; cont.formSaveUser.$setPristine();"
                                 class="btn btn-primary">
                             <translate>Cancel</translate>
                         </button>
                     </div>
                 </div>
-           
+         
             </form>
 
       
