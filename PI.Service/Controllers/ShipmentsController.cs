@@ -554,6 +554,7 @@ namespace PI.Service.Controllers
         [HttpPost] // This is from System.Web.Http, and not from System.Web.Mvc
         public async Task<HttpResponseMessage> Upload()
         {
+            string fileFormat = "";
             if (!Request.Content.IsMimeMultipartContent())
             {
                 this.Request.CreateResponse(HttpStatusCode.UnsupportedMediaType);
@@ -624,6 +625,7 @@ namespace PI.Service.Controllers
             {
                 imageFileNameInFull = string.Format("{0}_{1}", System.Guid.NewGuid().ToString(), originalFileName);
                 fileDetails.ClientFileName = originalFileName;
+                fileFormat = originalFileName.Split('.')[1];
                 fileDetails.UploadedFileName = imageFileNameInFull;
             }
 
@@ -639,7 +641,7 @@ namespace PI.Service.Controllers
                 //Delete the temporary saved file.
                 if (File.Exists(uploadedFileInfo.FullName))
                 {
-                    System.IO.File.Delete(uploadedFileInfo.FullName);
+                    System.IO.File.Delete(uploadedFileInfo.FullName+ "."+fileFormat);
                 }
             }
 
