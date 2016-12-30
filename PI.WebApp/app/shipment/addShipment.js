@@ -709,7 +709,7 @@
                                 if (response.shipmentDto.carrierInformation.carrierName == 'TNT') {
                                     debugger;
                                     // If carrier tnt, then add manifest to label to download by user.
-                                    vm.labelArray.push(response.tNTManifest);
+                                    vm.labelArray.push(response.tntManifest);
                                 }
 
                                 vm.shipmentCode = response.shipmentDto.generalInformation.shipmentCode;
