@@ -17,6 +17,7 @@
         }
     });
 
+
     app.directive('validCustomerPassword', function () {
         return {
             require: 'ngModel',

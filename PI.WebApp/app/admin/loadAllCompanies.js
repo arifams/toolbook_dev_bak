@@ -320,6 +320,7 @@
 
                           userManagementFactory.createUser(vm.user)
                           .then(function (result) {
+
                                
                               if (result.status == 200) {
                                   
