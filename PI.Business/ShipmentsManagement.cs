@@ -5614,6 +5614,15 @@ namespace PI.Business
 
                 ShipmentOperationResult result = new ShipmentOperationResult();
 
+                // Add log
+
+                Contract.ILogger logger = new Log4NetLogger();
+                logger.SetType(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+                logger.Error("Add Shipment response: " + "Awb: " + response.Awb + " Carrier: " 
+                    + shipmentDto.CarrierInformation.CarrierName + " Shipment Code: " + response.CodeShipment);
+
+                // End log
+
                 if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP")
                 {
                     // Update Shipment entity
