@@ -135,7 +135,7 @@ namespace PI.Service.Controllers
                         LastName = createUserModel.LastName,
                         Level = 3,
                         JoinDate = DateTime.UtcNow,
-                        IsActive = true
+                        IsActive = createUserModel.IsActive
                     };
 
                     if (existingUser == null || isUserExistAndOldAccount)

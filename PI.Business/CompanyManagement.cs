@@ -77,7 +77,7 @@ namespace PI.Business
                 // TenancyName = customerCompany.CompanyCode,
                 CreatedBy = "1",
                 CreatedDate = DateTime.UtcNow,
-                IsActive = true,
+                IsActive = customerCompany.IsActive,
                 IsDelete = false,
                 IsCorporateAccount = customerCompany.IsCorporateAccount
             };
@@ -89,7 +89,7 @@ namespace PI.Business
             {
                 Name = customerCompany.CompanyName,
                 TenantId = tenant.Id,
-                IsActive = true,
+                IsActive = customerCompany.IsActive,
                 IsDelete = false,
                 CreatedBy = "1",
                 CreatedDate = DateTime.UtcNow,
