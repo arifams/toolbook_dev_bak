@@ -320,9 +320,10 @@
 
                           userManagementFactory.createUser(vm.user)
                           .then(function (result) {
+
                                
                               if (result.status == 200) {
-                                  debugger;
+                                  
                                   $scope.cont.formSaveCustomer.$setPristine();
                                   vm.close();
 

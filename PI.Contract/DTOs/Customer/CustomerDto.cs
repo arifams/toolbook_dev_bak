@@ -19,6 +19,7 @@ namespace PI.Contract.DTOs.Customer
         public string SecondaryEmail { get; set; }
         public string PhoneNumber { get; set; }
         public string MobileNumber { get; set; }
+        public bool IsActive { get; set; }
         public bool IsCorporateAccount { get; set; }
         public AddressDto CustomerAddress { get; set; }
         public string CompanyName { get; set; }

@@ -19,6 +19,7 @@
                     </div>
                 </div>
                 <hr>
+                
                 <div class="row m-0">
                     <label class="form-label" translate>Status</label>
                     <div class="form-group">
@@ -49,6 +50,7 @@
 
     <div class="row m-l-0 m-r-0 m-b-10">
         <h2 class="m-t-0 custom-page-header" ng-hide="loadShipCtrl.viaDashboard"> All shipments</h2>
+        
     </div>
 
     <div class="row m-0 m-r-0 m-b-10" ng-hide="loadShipCtrl.viaDashboard">
@@ -264,17 +266,17 @@
                                             <ul class="dropdown-menu custom-dropdown m-0" role="menu">
                                               
                                                 <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Booking error')"><a ng-click="loadShipCtrl.openLabelList(row.generalInformation.shipmentLabelBLOBURLList)">Download Shipment Label(s)</a></li>
-                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
-                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
-                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
+                                                <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="loadShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
+                                                <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="loadShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
+                                                <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="loadShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
                                                 <!--<li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>-->
-                                                <li><a ng-click="loadShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
+                                                <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="loadShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
                                                 <hr class="m-0">
                                                 <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit Shipment</a></li>
                                                 <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="loadShipCtrl.deleteById(row)">Delete Shipment</a></li>
-                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as New Shipment</a></li>
+                                                <li ng-show="currentRole=='Admin'"><a href="javascript:void(0)" ng-click="loadShipCtrl.copyAsNewShipment(row.generalInformation.shipmentId)"> Copy as New Shipment</a></li>
                                                 <!--<li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:void(0)" ng-click="loadShipCtrl.deleteAndCopyShipment(row)"> Delete & Copy as New Shipment</a></li>-->
-                                                <li><a href="javascript:void(0)" ng-click="loadShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create Return Shipment</a></li>
+                                                <li ng-show="currentRole=='Admin'"><a href="javascript:void(0)" ng-click="loadShipCtrl.createReturnShipment(row.generalInformation.shipmentId)">  Create Return Shipment</a></li>
 
                                             </ul>
                                         </div>

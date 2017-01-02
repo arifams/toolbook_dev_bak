@@ -74,7 +74,10 @@ namespace PI.Business
             this.sisManager = sisManager;
             context = _context ?? PIContext.Get();
             this.companyManagment = companyManagment;
+
             this.logger = logger;
+            logger.SetType(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
             this.paymentManager = paymentManager;
         }
 
@@ -1822,12 +1825,20 @@ namespace PI.Business
             }
             else
             {
+                // Get child shipment.                
+                var childShipment = (from shipment in context.Shipments
+                                     where shipment.MainShipment == currentShipment.Id
+                                     select shipment).ToList();
+
                 if (isAdmin)
                 {
                     if (!string.IsNullOrWhiteSpace(shipmentCode))
                         stampsManager.DeleteShipment(shipmentCode);
 
                     currentShipment.Status = (short)ShipmentStatus.Deleted;
+
+                    childShipment.ForEach(c => c.Status = (short)ShipmentStatus.Deleted);
+
                     context.SaveChanges();
 
                     return 1;
@@ -1841,6 +1852,8 @@ namespace PI.Business
                             stampsManager.DeleteShipment(shipmentCode);
 
                         currentShipment.Status = (short)ShipmentStatus.Deleted;
+                        childShipment.ForEach(c => c.Status = (short)ShipmentStatus.Deleted);
+
                         context.SaveChanges();
 
                         return 1;
@@ -1859,6 +1872,8 @@ namespace PI.Business
                         {
                             sisManager.DeleteShipment(shipmentCode);
                             updatedShipment.Status = (short)ShipmentStatus.Deleted;
+                            childShipment.ForEach(c => c.Status = (short)ShipmentStatus.Deleted);
+
                             context.SaveChanges();
                             return 1;
                         }
@@ -5614,7 +5629,15 @@ namespace PI.Business
 
                 ShipmentOperationResult result = new ShipmentOperationResult();
 
-                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP" && currentShipment.Carrier.Name != "TNT" && string.IsNullOrWhiteSpace(response.CodeShipment))
+                // Add log
+
+                //Contract.ILogger logger = new Log4NetLogger();
+                logger.Info("Add Shipment response: " + "Awb: " + response.Awb + " Carrier: " 
+                    + shipmentDto.CarrierInformation.CarrierName + " Shipment Code: " + response.CodeShipment);
+
+                // End log
+
+                if (string.IsNullOrWhiteSpace(response.Awb) && currentShipment.Carrier.Name != "USP")
                 {
                     // Update Shipment entity
                     currentShipment.Provider = "Ship It Smarter";
