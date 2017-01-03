@@ -266,6 +266,7 @@ namespace PI.Business
                 // }
            // }
 
+
             string addShipmentXML = string.Format("{0}", BuildAddShipmentXMLString(addShipment));
             AddShipmentResponse addShipmentResponse = null;
 
