@@ -285,18 +285,28 @@ namespace PI.Business
             //}
 
 
-            using (var wb = new WebClient())
+            try
             {
-                var data = new NameValueCollection();
-                data["data_xml"] = addShipmentXML;
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection();
+                    data["data_xml"] = addShipmentXML;
 
-                var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
-                var responseString = Encoding.Default.GetString(response);
+                    var response = wb.UploadValues(sisUrl + "insert_shipment.asp", "POST", data);
+                    var responseString = Encoding.Default.GetString(response);
 
-                XDocument doc = XDocument.Parse(responseString);
+                    XDocument doc = XDocument.Parse(responseString);
 
-                XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
-                addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+                    XmlSerializer mySerializer = new XmlSerializer(typeof(AddShipmentResponse));
+                    addShipmentResponse = (AddShipmentResponse)mySerializer.Deserialize(new StringReader(responseString));
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("SIS Error: Add Shipment");
+                logger.Info("SIS Add shipment string: " + addShipmentXML);
+                addShipmentResponse.Awb = string.Empty;
+                addShipmentResponse.CodeShipment = string.Empty;
             }
 
             //return myObject != null ? myObject.StatusShipment : "Error";
