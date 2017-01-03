@@ -40,7 +40,7 @@
         };
 
         vm.saveAddressDetail = function () {
-            debugger;
+            
             vm.model.userId = $window.localStorage.getItem('userGuid');
             vm.model.id = $routeParams.id;
             var body = $("html, body");

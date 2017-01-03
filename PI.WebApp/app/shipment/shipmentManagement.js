@@ -145,7 +145,7 @@
                                shipmentFactory.loadAllShipmentsForAdmin(status, startDate, endDate, vm.searchValue, startRecord, pageRecord)
                                .then(function (responce) {
 
-                                   debugger;
+                                   
                                    vm.loadingSymbole = false;
                                    if (responce.data.content != null) {
                                        vm.rowCollection = responce.data.content;
@@ -267,28 +267,33 @@
 
                            vm.deleteById = function (row, source) {
 
+                               var body = $("html, body");
+                               body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+                               });
+
                                $('#panel-notif').noty({
                                    text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Are you sure you want to delete') + '?</p></div>',
                                    buttons: [
                                            {
-                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-
+                                               addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {                                                  
+                                                   vm.loadingSymbole = true;
                                                    shipmentFactory.deleteShipmentbyAdmin(row)
                                                    .success(function (response) {
                                                        if (response == 1) {
-
+                                                           vm.loadingSymbole = false;
                                                            $('#panel-notif').noty({
                                                                text: '<div class="alert alert-success media fade in"><p>' + $rootScope.translate('Shipment Deleted Successfully') + '!</p></div>',
                                                                buttons: [
                                                                        {
                                                                            addClass: 'btn btn-primary', text: $rootScope.translate('Ok'), onClick: function ($noty) {
-       
+                                                                               
                                                                                $noty.close();
+                                                                               $route.reload();
                                                                                row.generalInformation.status = 'Deleted';
                                                                                row.generalInformation.isEnableEdit = false;
                                                                                row.generalInformation.isEnableDelete = false;
                                                      
-                                                                               debugger;
+                                                                              
                                                                                if (source == 'delete-copy') {
                                                                                    $location.path('/addShipment/0').search({
                                                                                        PARAM_SOURCE: source,
@@ -311,10 +316,11 @@
                                                        }
                                                    })
                                        .error(function () {
+                                           vm.loadingSymbole = false;
                                        })
 
                                                    $noty.close();
-
+                                                  // vm.loadingSymbole = false;
 
                                                }
                                            },
@@ -477,7 +483,7 @@
                            }
 
                            vm.copyAsNewShipment = function (shipment) {
-                               debugger;
+                              
                                $location.path('/addShipment/0').search({
                                    PARAM_SOURCE: 'copy',
                                    PARAM_SOURCEID: shipment.generalInformation.shipmentId,
@@ -492,7 +498,7 @@
                            }
 
                            vm.deleteAndCopyShipment = function (shipment) {
-                               debugger;
+                               
                                // call delete shipment
 
                                //$window.localStorage.setItem('paramSource', null);
@@ -524,14 +530,14 @@
                            //}
 
                            vm.openLabelList = function (url) {
-                               debugger;
+                             
                                for (var i = 0; i < url.length; i++) {
                                    window.open(url[i]);
                                }
                            }
 
                            vm.OpenTab = function (row,source) {
-                               debugger;
+                              
                             
                                $location.path('/ShipmentOverview').search({
                                    SHIPMENT_CODE: row.generalInformation.shipmentCode,
