@@ -131,7 +131,7 @@ function (registerUserService, $window, $rootScope, authService, $scope, ngAuthS
     vm.register = function () {
         
         vm.alreadySubmitted = true;
-
+        vm.user.isActive = true;
         registerUserService.createUser(vm.user)
         .then(function (result) {
              
