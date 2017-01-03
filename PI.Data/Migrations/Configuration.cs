@@ -132,9 +132,9 @@ namespace PI.Data.Migrations
             {
                 roleManager.Create(new IdentityRole { Name = "Admin" });
                 roleManager.Create(new IdentityRole { Name = "BusinessOwner" });
+                roleManager.Create(new IdentityRole { Name = "1st Line Support" });
                 roleManager.Create(new IdentityRole { Name = "Manager" });
-                roleManager.Create(new IdentityRole { Name = "Supervisor" });
-                roleManager.Create(new IdentityRole { Name = "Operator" });
+                roleManager.Create(new IdentityRole { Name = "2nd Line Support" });
             }
 
             // Set Roles Hierarchies - Add Id column to maintain the order list.
