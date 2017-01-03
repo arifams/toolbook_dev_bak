@@ -1190,7 +1190,7 @@
                                            ng-maxlength="200" ng-class="{ 'error': formPackage.shipmentname.$invalid &&
                                                                         (formPackage.shipmentname.$dirty|| shipmentCtrl.generalInfoisSubmit) }" placeholder="{{'Purchase order/description of the shipment'|translate}}" ng-focus="shipmentnameFocus = true" ng-blur="shipmentnameFocus = false" />
                                     <div ng-messages="formPackage.shipmentname.$error"
-                                         ng-show="(formPackage.shipmentname.$dirty && !shipmentnameFocus) || shipmentCtrl.generalInfoisSubmit">
+                                         ng-show="(formPackage.shipmentname.$dirty && !shipmentnameFocus) || shipmentCtrl.generalInfoisSubmit || formPackage.shipmentname.$error['required']">
                                         <label ng-message="required" class="error" for="divisionName" translate>Reference is required</label>
                                         <label ng-message="maxlength" class="error" for="divisionName" translate>Max length should be 200 characters</label>
                                     </div>
