@@ -65,6 +65,9 @@
         vm.isAdmin = ($window.localStorage.getItem('userRole') == "Admin") ? true : false;
         vm.loadingSymbole = false;
 
+
+       
+
         var loadAllCarriers = function () {
             CarrierFactory.loadAllCarriers().success(
             function (response) {
@@ -156,6 +159,27 @@
         vm.packageType = 0;
 
         vm.exportExcel = function () {
+
+            debugger;
+            var from = Date.parse(vm.dateFrom);
+            var to = Date.parse(vm.dateTo);
+
+
+            if (from > to) {
+
+                $('#panel-notif').noty({
+                    text: '<div class="alert alert-danger media fade in"><p>' + $rootScope.translate('Invalid Date Range') + '!</p></div>',
+                    layout: 'bottom-right',
+                    theme: 'made',
+                    animation: {
+                        open: 'animated bounceInLeft',
+                        close: 'animated bounceOutLeft'
+                    },
+                    timeout: 2000,
+                });
+
+                return;
+            }
             
             if (vm.isNeedSearchCustomer) {
                 var n = noty({

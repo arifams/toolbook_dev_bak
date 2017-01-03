@@ -231,11 +231,11 @@
                                         <span class="dropdown-arrow"></span>
                                         <ul class="dropdown-menu custom-dropdown m-0" role="menu">
                                             <li ng-hide="(row.generalInformation.status === 'Draft' || row.generalInformation.status === 'Error')"><a ng-click="manageShipCtrl.openLabelList(row.generalInformation.shipmentLabelBLOBURLList)">Downloads Shipment Label(s)</a></li>
-                                            <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
-                                            <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
-                                            <li ng-hide="(row.generalInformation.status === 'Draft')"><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft'|| row.generalInformation.shipmentCode===''|| row.generalInformation.shipmentCode===null)"><a ng-click="manageShipCtrl.OpenTab( row,'Tracking')">View Details & Tracking</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft'|| row.generalInformation.shipmentCode===''|| row.generalInformation.shipmentCode===null)"><a ng-click="manageShipCtrl.OpenTab( row,'AWB')">View/print Air Waybill</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft'|| row.generalInformation.shipmentCode===''|| row.generalInformation.shipmentCode===null)"><a ng-click="manageShipCtrl.OpenTab( row,'ComInvoice')">Edit/print Commercial Invoice</a></li>
                                             <!--<li><a href="#/ShipmentOverview/?SHIPMENT_CODE={{row.generalInformation.shipmentCode}}&TRACKING_NO={{row.generalInformation.trackingNumber}}&CARRIER={{row.carrierInformation.carrierName}}&CREATED_ON={{row.generalInformation.createdDate}}">View/Print Air Waybill</a></li>-->
-                                            <li ng-hide="(row.generalInformation.status === 'Draft')"><a  ng-click="manageShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
+                                            <li ng-hide="(row.generalInformation.status === 'Draft'|| row.generalInformation.shipmentCode===''|| row.generalInformation.shipmentCode===null)"><a  ng-click="manageShipCtrl.OpenTab( row,'Documents')">View/add Documents</a></li>
                                             <hr class="m-0">
                                             <li ng-show="row.generalInformation.isEnableEdit"><a href="#/addShipment/{{row.generalInformation.shipmentId}}">Edit Shipment</a></li>
                                             <li ng-show="row.generalInformation.isEnableDelete"><a href="javascript:;" ng-click="manageShipCtrl.deleteById(row)">Delete Shipment</a></li>

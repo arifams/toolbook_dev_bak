@@ -178,6 +178,10 @@ namespace PI.Service.Controllers
             if (fileDetails.DocumentType != DocumentType.AddressBook && fileDetails.DocumentType != DocumentType.RateSheet && fileDetails.DocumentType != DocumentType.Logo)
             {
                 // Insert document record to DB.
+                if (string.IsNullOrEmpty(fileDetails.CodeReference))
+                {
+                    return this.Request.CreateResponse(HttpStatusCode.BadRequest);
+                }
                 shipmentManagement.InsertShipmentDocument(fileDetails);
 
                 //Delete the temporary saved file.
