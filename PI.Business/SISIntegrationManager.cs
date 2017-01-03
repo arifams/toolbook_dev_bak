@@ -510,12 +510,13 @@ namespace PI.Business
 
             codeCurrenyString = context.Currencies.Where(c => c.Id == addShipment.PackageDetails.ValueCurrency).Select(c => c.CurrencyCode).ToList().First();
 
-            var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
+            //var tarrifTextCode = context.TarrifTextCodes.Where(t => t.TarrifText == addShipment.CarrierInformation.tariffText && t.IsActive && !t.IsDelete).FirstOrDefault();
 
-            if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
-                costCenterNumber = SISCostCenterNL;
-            else
-                costCenterNumber = SISCostCenterUS;
+            //if (tarrifTextCode != null && tarrifTextCode.CountryCode == "NL")
+            //    costCenterNumber = SISCostCenterNL;
+            //else
+
+            costCenterNumber = SISCostCenterUS;
 
             var customer = context.Customers.Where(c => c.UserId == addShipment.GeneralInformation.CreatedBy).SingleOrDefault();
 
