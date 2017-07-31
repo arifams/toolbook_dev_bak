@@ -1,0 +1,20 @@
+{
+  "name": "booking_tool_dev",
+  "version": "1.0.0",
+  "description": "booking tool dev arif",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://arifpackage@bitbucket.org/arifpackage/booking_tool_dev.git"
+  },
+  "author": "pi",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/arifpackage/booking_tool_dev#readme"
+}
